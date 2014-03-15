@@ -1,0 +1,48 @@
+User-agent: googlebot
+Disallow: /likes/add
+Disallow: /addToBasket/*
+
+User-agent: Yandex
+Disallow: /likes/add
+Disallow: /addToBasket/*
+Host: www.evna.by
+
+User-agent: Mail.ru
+Disallow: /likes/add
+Disallow: /addToBasket/*
+Crawl-delay: 0
+
+User-agent: StackRambler
+Disallow: /likes/add
+Disallow: /addToBasket/*
+
+Crawl-delay: 0
+
+Sitemap: http://www.evna.by/sitemap/sitemap.xml
+
+User-agent: msnbot
+Disallow: /
+
+User-agent: psbot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: twiceler
+Disallow: /
+
+User-agent: Aport
+Disallow: /
+
+User-Agent: Yahoo! Slurp
+Disallow: /
+
+User-agent: Webalta
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+User-agent: baiduspider
+Disallow: /

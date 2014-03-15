@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * LoginForm class.
+ * LoginForm is the data structure for keeping
+ * user login form data. It is used by the 'login' action of 'SiteController'.
+ */
+class Form_Activation_File extends CFormModel
+{
+	
+	protected $user_id;
+	
+	public $file_type;
+	public $description;
+
+	private $_identity;
+
+	/**
+	 * Declares the validation rules.
+	 * The rules state that username and password are required,
+	 * and password needs to be authenticated.
+	 */
+	public function rules()
+	{
+		return array(
+			array('file_type', 'required', 'message' => Yii::t('Front', 'File Type is incorrect')),
+			array('description', 'required', 'message' => Yii::t('Front', 'File Type is incorrect')),
+			
+			// password needs to be authenticated
+		);
+	}
+	
+	public function setUserId($id){
+		$this->user_id = $id;
+		return $this;
+	}
+
+	/**
+	 * Declares attribute labels.
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'file_type' => Yii::t('Front', 'File Type'),
+			'description' => Yii::t('Front', 'Description'),
+		);
+	}
+	
+	public function authenticatePhone($attribute,$params)
+	{
+		//if(!$this->hasErrors())
+		//{
+			$this->phone = trim($this->phone, '+');
+			$user = Users::model()->find('phone = :phone AND id != :user_id', array(':phone' => $this->phone, ':user_id' => $this->user_id));
+			if($user){
+				$this->addError('phone', Yii::t('Front', 'This Mobile Phone is already registered'));
+			}
+		//}
+	}
+
+	private function _setAttributes(&$to, $attributes)
+	{
+		$aProfileLabels = array_flip($to->attributeLabels());
+					
+		foreach($attributes as $key => $attr){
+			if(in_array($key, $aProfileLabels)){
+				$to->$key = $attr;
+			}
+		}
+	}
+	
+	public function firstStep($activation){
+		$user = Users::model()->findByPk(Yii::app()->user->id);
+		$activation->attributes = $this->attributes;
+		$activation->user_id = $user->id;
+		$activation->phone = $user->phone;
+		$activation->email = $user->email;
+		$activation->step = 2;
+		
+		return true;
+		//return $uActivation->save();
+	}
+}
