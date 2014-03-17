@@ -74,6 +74,13 @@ $(function(){
         submitButton: '.submit-button'
     });*/
 
+	$('#steps').on('click', '.remove-file.on-success', function(){
+		block = $(this).parents('.file-row')
+		$.post(window.location.href, {deleteFile: $(this).parents('.file-row').find('input').val()}, function(){
+			block.remove()
+		})
+		
+	})
 
     $("[name=phone]").on('focus', function(){
         !$(this).val() && $(this).val('+');
@@ -86,4 +93,16 @@ $(function(){
     // progressbar styling
 
     $('.xabina-progress-bar .current').prev().addClass('previous');
+	
+	/**
+	* Потсветка левого меню
+	*/
+	$('.sidebar-menu.list-unstyled li').each(function(i, e) {
+		var my_href;
+		my_href = $(e).find('a').attr('href');
+		if(my_href == window.location.href){
+			$(e).addClass('active');
+			return;
+		}
+	});
 });

@@ -77,7 +77,7 @@
 		<tbody>
 		<tr class="header-tr">
 			<td colspan="2">
-				<?= Yii::t('Front', 'Passport'); ?>
+				<?= Yii::t('Front', 'Identity Document'); ?>
 			</td>
 		</tr>
 		<tr class="form-tr">
@@ -86,12 +86,12 @@
 					<div class="field-row">
 						<div class="field-lbl">
 							<?= $model->getAttributeLabel('file_type') ?> 
-							<span class="tooltip-icon " title="<?= Yii::t('Front', 'File type'); ?>"></span>
+							<span class="tooltip-icon " title="<?= Yii::t('Front', 'Choose document type'); ?>"></span>
 						</div>
 						<div class="field-input">
 							<div class="select-custom">
 								<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
-								<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'PDF'), 2 => Yii::t('Front', 'JPG'), 3 => Yii::t('Front', 'PNG'), 4 => Yii::t('Front', 'GIF')), array('class' => 'country-select select-invisible')); ?>
+								<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'Passport'), 2 => Yii::t('Front', 'Residence permit'), 3 => Yii::t('Front', 'Driving license'), 4 => Yii::t('Front', 'Other official document')), array('class' => 'country-select select-invisible')); ?>
 								<span class="validation-icon"></span>
 							</div>
 							<?= $form->error($model, 'file_type', array()); ?>
@@ -172,7 +172,34 @@
 		</tbody>
 	</table>
 	<div class="form-submit">
-		<div class="submit-button button-back" onclick="js:back('<?= Yii::app()->createUrl('/banking/accountsactivationback').'/' ?>')">Back</div>
-		<div class="submit-button button-next" onclick="next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)">Далее</div>
+		<div class="submit-button button-back">Back</div>
+		<?= CHtml::ajaxSubmitButton(
+			Yii::t('Front', 'Next'), 
+			Yii::app()->createUrl('/banking/accountsactivation').'/', 
+			array(
+				'type' => 'POST',
+				'success' => 'js: function(data) {
+					var response= jQuery.parseJSON (data);
+					if(response.success){
+						$("#activation-from-two").find("input").parent().addClass("valid")
+						$("#activation-from-two").find("input").next(".validation-icon").fadeIn();
+						$("#steps").html(response.html)
+					} else {
+						$("#activation-from-two").find("input").parent().addClass("valid")
+						$("#activation-from-two").find("input").next(".validation-icon").fadeIn();
+						$.each(response, function(key, value) {
+							$("#"+key).removeClass("valid");
+							$("#"+key).parent().removeClass("valid");
+							$("#"+key).addClass("input-error");
+							$("#"+key).parent().addClass("input-error");
+							$("#"+key).next(".validation-icon").fadeIn();
+							$("#"+key+"_em_").slideDown();
+							$("#"+key+"_em_").html(\'\'+value);                            
+						});
+					}
+				}'
+			),
+			array('class' => 'submit-button button-next')
+		); ?>
 	</div>
 <?php $this->endWidget(); ?>

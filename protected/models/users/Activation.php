@@ -39,7 +39,7 @@ class Users_Activation extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, step, first_name, last_name, address_line_1, address_line_2, zip_code, town, country, moderator_id, description', 'required'),
+			array('user_id, step, first_name, last_name, address_line_1, zip_code, town, country', 'required'),
 			array('user_id, step, zip_code, created_at, updated_at, moderator_id, country', 'numerical', 'integerOnly'=>true),
 			array('first_name, last_name', 'length', 'max'=>30),
 			array('address_line_1, address_line_2, town', 'length', 'max'=>255),

@@ -35,7 +35,7 @@ class Form_Activation extends CFormModel
 			array('address_line_1', 'required', 'message' => Yii::t('Front', 'Address Line 1 is incorrect')),
 			array('town', 'required', 'message' => Yii::t('Front', 'Town is incorrect')),
 			array('first_name', 'required', 'message' => Yii::t('Front', 'First Name is incorrect')),
-			array('first_name, last_name, address_line_1, address_line_2, town', 'match', 'pattern' => '/^[a-zA-Z\- ]{1,}$/', 'message' => Yii::t('Front', 'Add Your name using latin alphabet')),
+			array('first_name, last_name, address_line_1, address_line_2, town', 'match', 'pattern' => '/[0-9a-zA-Z\- ]{1,}$/', 'message' => Yii::t('Front', 'Add Your name using latin alphabet')),
 			array('last_name', 'required', 'message' => Yii::t('Front', 'Last Name is incorrect')),
 			//array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			//array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..')),
@@ -107,8 +107,7 @@ class Form_Activation extends CFormModel
 		$activation->phone = $user->phone;
 		$activation->email = $user->email;
 		$activation->step = 2;
-		
-		return true;
-		//return $uActivation->save();
+
+		return $activation->save();
 	}
 }

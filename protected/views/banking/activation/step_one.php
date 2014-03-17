@@ -186,34 +186,7 @@
 			</div>
 		</div>
 		<div class="form-submit">
-			<?= CHtml::ajaxSubmitButton(
-				Yii::t('Front', 'Next'), 
-				Yii::app()->createUrl('/banking/accountsactivation').'/', 
-				array(
-					'type' => 'POST',
-					'success' => 'js: function(data) {
-						var response= jQuery.parseJSON (data);
-						if(response.success){
-							$("#activation-from-first-step").find("input").parent().addClass("valid")
-							$("#activation-from-first-step").find("input").next(".validation-icon").fadeIn();
-							$("#steps").html(response.html)
-						} else {
-							$("#activation-from-first-step").find("input").parent().addClass("valid")
-							$("#activation-from-first-step").find("input").next(".validation-icon").fadeIn();
-							$.each(response, function(key, value) {
-								$("#"+key).removeClass("valid");
-								$("#"+key).parent().removeClass("valid");
-								$("#"+key).addClass("input-error");
-								$("#"+key).parent().addClass("input-error");
-								$("#"+key).next(".validation-icon").fadeIn();
-								$("#"+key+"_em_").slideDown();
-								$("#"+key+"_em_").html(\'\'+value);                            
-							});
-						}
-                    }'
-				),
-				array('class' => 'submit-button button-next')
-			); ?>
+			<div class="submit-button button-next" onclick="next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)">Далее</div>
 		</div>
 	</div>
 	<?php $this->endWidget(); ?>

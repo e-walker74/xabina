@@ -63,10 +63,6 @@ RewriteBase /
 RewriteCond %{REQUEST_URI} (.*/[^/.]+)($|\?)
 RewriteRule .* %1/ [R,L,QSA]
 
-#RewriteCond %{REQUEST_METHOD} ^(GET)
-#RewriteCond %{HTTP_HOST} ^evna.by$ [NC]
-#RewriteRule ^(.*)$ http://www.evna.by/$1 [R=301] // определить основное зеркало
-
 # otherwise forward it to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php

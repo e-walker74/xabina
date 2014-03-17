@@ -1,6 +1,6 @@
 <?php
 
-class BankingController extends Controller
+class VerificationController extends Controller
 {
 
     public $layout = 'banking';
@@ -41,12 +41,13 @@ class BankingController extends Controller
      */
     public function actionIndex()
     {
-		$accounts = Accounts::model();
-		$accounts->user_id = Yii::app()->user->id;
-		
-		$transactions = Transactions::model();
-		$transactions->user_id = Yii::app()->user->id;
-		$this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
+		if(Users::USER_IS_ACTIVATED !== 2) {
+			throw new CHttpException(404, Yii::t('Front', 'This page not found'));
+		}
+		$this->render('index', array(
+			//'accounts' => $accounts, 
+			//'transactions' => $transactions
+		));
     }
 
 	public function actionAccountsActivation(){

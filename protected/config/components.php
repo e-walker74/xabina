@@ -63,6 +63,7 @@ return array(
 			'/registrationsuccess' => 'site/registrationSuccess',
 			'/emailconfirm/<hash:\w+>' => 'user/emailconfirm',
 			'/banking' => 'banking/index',
+			'/banking/verification' => 'verification/index',
 			'/banking/accountsactivation' => '/banking/accountsactivation',
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
@@ -70,12 +71,13 @@ return array(
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
 			'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+			
         ),
     ),
     'request' => array(
         'class' => 'QHttpRequest',
 		'enableCsrfValidation' => true,
-		/*'noCsrfValidationRoutes'=>array('api/*'),*/
+		'noCsrfValidationRoutes'=>array('banking/uploadactivationfile', 'banking/accountsactivation'),
     ),
     'errorHandler' => array(
         // use 'site/error' action to display errors
