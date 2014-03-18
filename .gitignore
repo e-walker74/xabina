@@ -1,5 +1,7 @@
 assets/
 protected/runtime/
 themes/classic/views/
+protected/config/components
+protected/config/local.php
 index.php
 .htaccess
