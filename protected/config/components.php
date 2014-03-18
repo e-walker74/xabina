@@ -62,6 +62,7 @@ return array(
 			'/remind' => 'site/remind',
 			'/registrationsuccess' => 'site/registrationSuccess',
 			'/emailconfirm/<hash:\w+>' => 'user/emailconfirm',
+			'/remove/notification/<code:\w+>' => 'user/deletenotification',
 			'/banking' => 'banking/index',
 			'/banking/accountsactivation' => '/banking/accountsactivation',
 			'/account/' => 'site/registration',
@@ -75,7 +76,7 @@ return array(
     'request' => array(
         'class' => 'QHttpRequest',
 		'enableCsrfValidation' => true,
-		/*'noCsrfValidationRoutes'=>array('api/*'),*/
+		'noCsrfValidationRoutes'=>array('banking/uploadactivationfile', 'banking/accountsactivation'),
     ),
     'errorHandler' => array(
         // use 'site/error' action to display errors

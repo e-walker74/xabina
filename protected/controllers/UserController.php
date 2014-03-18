@@ -66,4 +66,8 @@ class UserController extends Controller
 			throw new CHttpException(404, Yii::t('Error', 'Page not found. This is disposable link.'));
 		}
 	}
+	
+	public function actionDeleteNotification($code){
+		Yii::app()->user->removeNotification($code);
+	}
 }

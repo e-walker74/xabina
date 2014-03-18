@@ -74,6 +74,13 @@ $(function(){
         submitButton: '.submit-button'
     });*/
 
+	$('#steps').on('click', '.remove-file.on-success', function(){
+		block = $(this).parents('.file-row')
+		$.post(window.location.href, {deleteFile: $(this).parents('.file-row').find('input').val()}, function(){
+			block.remove()
+		})
+		
+	})
 
     $("[name=phone]").on('focus', function(){
         !$(this).val() && $(this).val('+');

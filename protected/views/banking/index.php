@@ -6,7 +6,7 @@
 		</div>
 	<?php endforeach; ?>
 
-	<div class="activate-account-button"><?= Yii::t('Front', 'Activate account'); ?></div>
+	<a href="<?= Yii::app()->createUrl('/banking/accountsactivation/') ?>" class="activate-account-button"><?= Yii::t('Front', 'Activate account'); ?></a>
 	<div class="subheader"><?= Yii::t('Front', 'Accounts'); ?></div>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 		'id'=>'accounts-grid',

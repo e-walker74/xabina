@@ -31,11 +31,21 @@ class WebUser extends CWebUser {
             return $this->_notifications;
 	}
 	
-	public function addNotification($code, $message, $type = 'close', $style = 'green'){
+	public function addNotification($code, $message, $type = 'close', $style = 'green', $user_id){
+		if(!$user_id){
+			$user_id = Yii::app()->user->id;
+		}
 		if($this->getId() !== null ){
+			$notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
+				'code' => $code,
+				':uid' => $user_id,
+			));
+			if($notify){
+				return false;
+			}
 			$this->_model = $this->_getModel();
 			$notify = new Users_Notification();
-			$notify->user_id = $this->_model->id;
+			$notify->user_id = $user_id;
 			$notify->code = $code;
 			$notify->message = $message;
 			$notify->type = $type;
@@ -53,13 +63,14 @@ class WebUser extends CWebUser {
 	public function removeNotification($code){
 		if($this->getId() !== null ){
 			$this->_model = $this->_getModel();
-			$notify = Users_Notification::model()->find('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $this->_model->id));
-			$notify->closed = 1;
-			if($notify->save()){
-				$this->_notifications = false;
-				return true;
+			$notifies = Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $this->_model->id));
+			foreach($notifies as $notify){
+				$notify->closed = 1;
+				if($notify->save()){
+					$this->_notifications = false;
+				}
 			}
-			return false;
+			return true;
 		}
         else
             return false;

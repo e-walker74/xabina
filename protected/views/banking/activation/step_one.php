@@ -16,6 +16,7 @@
 	</div>
 	<?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'activation-from-first-step',
+			'action' => Yii::app()->createUrl('/banking/accountsactivation').'/',
             'enableAjaxValidation'=>true,
             'enableClientValidation'=>false,
 			'errorMessageCssClass' => 'error-message',
@@ -171,7 +172,13 @@
 				</div>
 				<div class="field-input">
 					<div class="select-custom">
-						<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
+						<span class="select-custom-label">
+							<?php if($model->country): ?>
+								<?= $model->country; ?> 
+							<?php else: ?>
+								<?= Yii::t('Front', 'Select'); ?> 
+							<?php endif; ?>
+						</span>
 						<?= $form->dropDownList($model, 'country', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'USA'), 2 => Yii::t('Front', 'Belgium'), 3 => Yii::t('Front', 'Netherlands'), 4 => Yii::t('Front', 'Luxembourg')), array('class' => 'country-select select-invisible')); ?>
 						<span class="validation-icon"></span>
 					</div>
@@ -186,34 +193,7 @@
 			</div>
 		</div>
 		<div class="form-submit">
-			<?= CHtml::ajaxSubmitButton(
-				Yii::t('Front', 'Next'), 
-				Yii::app()->createUrl('/banking/accountsactivation').'/', 
-				array(
-					'type' => 'POST',
-					'success' => 'js: function(data) {
-						var response= jQuery.parseJSON (data);
-						if(response.success){
-							$("#activation-from-first-step").find("input").parent().addClass("valid")
-							$("#activation-from-first-step").find("input").next(".validation-icon").fadeIn();
-							$("#steps").html(response.html)
-						} else {
-							$("#activation-from-first-step").find("input").parent().addClass("valid")
-							$("#activation-from-first-step").find("input").next(".validation-icon").fadeIn();
-							$.each(response, function(key, value) {
-								$("#"+key).removeClass("valid");
-								$("#"+key).parent().removeClass("valid");
-								$("#"+key).addClass("input-error");
-								$("#"+key).parent().addClass("input-error");
-								$("#"+key).next(".validation-icon").fadeIn();
-								$("#"+key+"_em_").slideDown();
-								$("#"+key+"_em_").html(\'\'+value);                            
-							});
-						}
-                    }'
-				),
-				array('class' => 'submit-button button-next')
-			); ?>
+			<div class="submit-button button-next" onclick="js:next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)">Далее</div>
 		</div>
 	</div>
 	<?php $this->endWidget(); ?>
