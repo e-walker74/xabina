@@ -64,6 +64,7 @@ return array(
 			'/emailconfirm/<hash:\w+>' => 'user/emailconfirm',
 			'/remove/notification/<code:\w+>' => 'user/deletenotification',
 			'/banking' => 'banking/index',
+			'/banking/verification' => 'verification/index',
 			'/banking/accountsactivation' => '/banking/accountsactivation',
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
@@ -71,6 +72,7 @@ return array(
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
 			'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+			
         ),
     ),
     'request' => array(

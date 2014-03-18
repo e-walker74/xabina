@@ -45,6 +45,7 @@ $(function(){
 		});
 	}
 	
+<<<<<<< HEAD
 	uploadFile = function(button){
 		var form = jQuery(button).parents('form')
 		$.ajax({
@@ -108,4 +109,6 @@ $(function(){
 		}
 	}
 	
+=======
+>>>>>>> c87decce52e46a22ed2326f296a4cf1766eb4114
 });

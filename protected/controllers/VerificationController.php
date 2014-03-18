@@ -1,6 +1,6 @@
 <?php
 
-class BankingController extends Controller
+class VerificationController extends Controller
 {
 
     public $layout = 'banking';
@@ -26,7 +26,7 @@ class BankingController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'accountsactivation','uploadactivationfile','accountsactivationback', 'savefiles'),
+                'actions' => array('index', 'accountsactivation','uploadactivationfile','accountsactivationback'),
                 'roles' => array('administrator')
             ),
             array('deny', // deny everybody else
@@ -41,12 +41,13 @@ class BankingController extends Controller
      */
     public function actionIndex()
     {
-		$accounts = Accounts::model();
-		$accounts->user_id = Yii::app()->user->id;
-		
-		$transactions = Transactions::model();
-		$transactions->user_id = Yii::app()->user->id;
-		$this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
+		if(Users::USER_IS_ACTIVATED !== 2) {
+			throw new CHttpException(404, Yii::t('Front', 'This page not found'));
+		}
+		$this->render('index', array(
+			//'accounts' => $accounts, 
+			//'transactions' => $transactions
+		));
     }
 
 	public function actionAccountsActivation(){
@@ -79,9 +80,11 @@ class BankingController extends Controller
 			Yii::app()->end();
 		} elseif($activation->step == 3){
 			$this->activationStepThree($activation);
-		}else{
-			throw new CHttpException(404, Yii::t('Page not found'));
 		}
+		
+		
+
+		
 	}
 	
 	protected function activationStepOne($activation, $partial = false){
@@ -127,47 +130,42 @@ class BankingController extends Controller
 	}
 	
 	protected function activationStepTwo($activation, $partial = false){
-		if($activation->step != 2 || $activation->user_id != Yii::app()->user->id){
-			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-		}
-		$files1 = Users_Files::model()->findAll('form = "activation" AND document = 1 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
-		$files2 = Users_Files::model()->findAll('form = "activation" AND document = 2 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
+		$files = Users_Files::model()->findAll('form = "activation" AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
 		$model = new Form_Activation_File;
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'activation-from-two') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
 		
-		if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('success') == 'true'){
-			$success = true;
-			if(empty($files1) || empty($files1)){
-				$success = false;
+		if(isset($_POST['Form_Activation_File']) && Yii::app()->request->isAjaxRequest){
+			if(CActiveForm::validate($model) != '[]'){
+				echo CActiveForm::validate($model);
 			} else {
-				foreach($files1 as $file){
-					if(!$file->document_type){
-						$success = false;
+				foreach($_POST['Form_Activation_File']['files'] as $file){
+					$fileModel = Users_Files::model()->find('user_id = :uid AND name = :name', array(':uid' => Yii::app()->user->id, ':name' => $file));
+					if($fileModel){
+						$fileModel->description = $model->description;
+						$fileModel->document_type = $model->file_type;
+						$fileModel->save();
 					}
+					
 				}
-				foreach($files2 as $file){
-					if(!$file->document_type){
-						$success = false;
-					}
-				}
-			}
-			if($success){
 				$activation->step = 3;
 				$activation->save();
-				Yii::app()->user->removeNotification('activate_your_account');
-				Yii::log('User was loging and confirm email. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
 				$this->activationStepThree($activation, true);
 			}
 			Yii::app()->end();
 		}
-
+	
 		if($partial){
-			$html = $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model), true, true);
+			$html = $this->renderPartial('activation/step_two', array('files' => $files, 'activation' => $activation, 'model' => $model), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();
 		}
 		
-		$this->render('activation', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model));
+		$this->render('activation', array('files' => $files, 'activation' => $activation, 'model' => $model));
+		
 	}
 	
 	public function activationStepThree($activation, $partial = false){
@@ -182,8 +180,7 @@ class BankingController extends Controller
 	
 	public function actionUploadActivationFile(){
 		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
-		$documentNum = Yii::app()->request->getParam('doc','int');
-		$countFiles = Users_Files::model()->count('form = "activation" AND document = :docNumb AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id, ':docNumb' => $documentNum));
+		$countFiles = Users_Files::model()->count('form = "activation" AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
 		if($countFiles >= 2){
 			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Many files')));
 			Yii::app()->end();
@@ -212,47 +209,11 @@ class BankingController extends Controller
 			$file->ext = $uploader->getFileExt();
 			$file->form = 'activation';
 			$file->user_file_name = $uploader->getUserFileName();
-			$file->document = $documentNum;
-			if(!$file->save()){
-				dd($file->getErrors());
-			}
+			$file->save();
 		}
 
 		echo $return;// it's array
 		Yii::app()->end();
-	}
-	
-	public function actionSaveFiles(){
-		$model = new Form_Activation_File;
-		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'activation-from-two') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-		
-		$result = array();
-		
-		$activation = Users_Activation::model()->findByPk(Yii::app()->user->id);
-		if($activation->step != 2){
-			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-		}
-		
-		if(isset($_POST['Form_Activation_File']) && Yii::app()->request->isAjaxRequest){
-			if(CActiveForm::validate($model) != '[]'){
-				echo CActiveForm::validate($model);
-			} else {
-				foreach($_POST['Form_Activation_File']['files'] as $file){
-					$fileModel = Users_Files::model()->find('user_id = :uid AND name = :name', array(':uid' => Yii::app()->user->id, ':name' => $file));
-					if($fileModel){
-						$fileModel->description = $model->description;
-						$fileModel->document_type = $model->file_type;
-						$fileModel->document = $model->document;
-						$fileModel->save();
-					}
-				}
-				echo CJSON::encode(array('success' => true));
-			}
-			Yii::app()->end();
-		}
 	}
 	
 	public function actionAccountsActivationBack(){

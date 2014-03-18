@@ -7,7 +7,7 @@ return array(
         'password' => 'pass',
         // If removed, Gii defaults to localhost only. Edit carefully to taste.
         'ipFilters' => array(
-            '178.124.104.222',
+            '91.187.3.193',
 			'86.57.147.222',
 			'93.84.11.20',
 			'91.187.24.230',

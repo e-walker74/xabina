@@ -1,10 +1,7 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
 	<div class="h1-header"><?= Yii::t('Front', 'My accounts'); ?></div>
-	<?php foreach(Yii::app()->user->getNotifications() as $notify): ?>
-		<div class="xabina-alert">
-			<?= Yii::t('Front', $notify->message, array(':userName' => Yii::app()->user->name)); ?>
-		</div>
-	<?php endforeach; ?>
+	
+	<?php $this->widget('XabinaAlert'); ?>
 
 	<a href="<?= Yii::app()->createUrl('/banking/accountsactivation/') ?>" class="activate-account-button"><?= Yii::t('Front', 'Activate account'); ?></a>
 	<div class="subheader"><?= Yii::t('Front', 'Accounts'); ?></div>
