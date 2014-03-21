@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property UsersEmails[] $usersEmails
  */
-class Users_EmailTypes extends ActiveRecord
+class Users_Emailtypes extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

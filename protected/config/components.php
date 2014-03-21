@@ -65,28 +65,18 @@ return array(
 			'/remove/notification/<code:\w+>' => 'user/deletenotification',
 			'/banking' => 'banking/index',
 			'/banking/verification' => 'verification/index',
-
-
             '/banking/personal' => 'personal/index',
-
             '/banking/personal/saveemails' => 'personal/saveemails',
             '/banking/personal/editemails' => 'personal/editemails',
-
             '/banking/personal/savephones' => 'personal/savephones',
             '/banking/personal/editphones' => 'personal/editphones',
-
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
-
-
             '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
-
-
 			'/banking/verification/notary' => 'verification/notary',
 			'/banking/verification/creditcard' => '/verification/creditcard',
 			'/banking/verification/getnotaryfile' => 'verification/getnotaryfile',
 			'/banking/verification/uploadfile' => 'verification/uploadfile',
-
 			'/banking/accountsactivation' => '/banking/accountsactivation',
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
