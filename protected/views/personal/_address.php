@@ -34,7 +34,7 @@
             <?= $users_addr->address_optional ?><br>
             <?= $users_addr->indx?><br>
             <?= $users_addr->city?><br>
-            <?= $users_addr->country_id?>
+            <?= $users_addr->country->name?>
             </td>
             <td>
                 <div class="relative">
@@ -62,7 +62,7 @@
     <tr style="display:none; background:#CEFFCE" class="line-template">
         <td class="item">address,address_optional,indx,city,country_id</td>
         <td class="item">type_id</td>
-        <td><?= Yii::t('Front', 'Recent address'); ?></td>
+        <td><?= Yii::t('Front', 'Resend address'); ?></td>
         <td class="remove-td">
             <div class="remove-btn"></div>
         </td>
@@ -96,11 +96,11 @@
                 </div>
             </div>
             
-            <div class="field-lbl"> Страна <span class="tooltip-icon" title="You can upload a file to one of the formats: PDF, JPG, PNG, GIF"></span> </div>
+            <div class="field-lbl"> <?= Yii::t('Front', 'Сountry'); ?><span class="tooltip-icon" title="You can upload a file to one of the formats: PDF, JPG, PNG, GIF"></span> </div>
             <div class="field-input ">
               <div class="select-custom"> <span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
                 <?=
-				$form->dropDownList($model_address, 'country_id', Users_Address::all(), array(
+				$form->dropDownList($model_address, 'country_id', Countries::all(), array(
 					'class' => 'country-select select-invisible', 'data-v' => 'country_id'
 
 				)); ?>
@@ -158,7 +158,7 @@
     </tr>
 </table>
 <div class="form-submit">
-	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back">Back</div></a> 
+	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a> 
     <div class="submit-button button-next save"
          onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/saveaddress') . '/' ?>', this)">
         <?= Yii::t('Front', 'Save'); ?>

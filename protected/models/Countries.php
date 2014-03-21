@@ -95,4 +95,17 @@ class Countries extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    /**
+     * Все cnhfys
+     * @return array
+     */
+    public static function all(){
+        $models = self::model()->findAll();
+        $array = array( '' => 'choose');
+        foreach ($models as $v) {
+            $array[$v->id] = $v->name;
+        }
+        return $array;
+    }
 }

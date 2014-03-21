@@ -36,12 +36,13 @@ class Users_Phones extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('email_type_id, phone', 'required', 'on'=>'editephones'),
-            array('phone', 'match', 'pattern' => '/^(\+?\d+)?\s*(\(\d+\))?[\s-]*([\d-]*)$/'),
-			array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
+			array('email_type_id', 'required', 'on'=>'editephones'),
+            array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'),'on'=>'editephones'),
+            array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..')),
+            array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
+            array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
-			array('phone', 'length', 'max'=>12),
-            array('phone', 'length', 'min'=>6),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, email_type_id, hash, status, is_master, phone', 'safe', 'on'=>'search'),

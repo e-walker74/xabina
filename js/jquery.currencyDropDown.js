@@ -1,64 +1,83 @@
 (function($){
-    jQuery.fn.currencyDropDown = function(options){
+    jQuery.fn.dropDown = function(options){
 
         options = $.extend({
-            currencies: {}   //object with currencies in dropdown menu;
+            list: {},   //object with elements to be in dropdown menu;
+            toChange: true  //change layout
         }, options);
+
 
         var $dropDown;
 
-        function createDropDown(){
-            var dropDown = '<ul class="currency-dropdown list-unstyled">';
-            for ( var prop in options.currencies )
-                dropDown += '<li><a href="#">'+  options.currencies[prop] +'</a></li>';
+       function createDropDown(){
+		   console.log(options.list);
+		  	
+            var dropDown = '<ul class="dropdown_list list-unstyled ' + options.listClass + '">';
+            for ( var prop in options.list ){
+                dropDown += '<li><a href="#" data-id=' + options.list[prop].id +'>'+  options.list[prop].name +'</a></li>';
+			}
+		
             dropDown += '</ul>';
+			
+			
+			
             return dropDown;
         }
 
+
         function removeDropDown(){
-            $('.currency-dropdown').remove();
+            $('.dropdown_list').remove();
         }
 
-        $(document).click(function(e){
-            if($(e.target).hasClass('currency_button')) return;
-            if(!$(e.target).hasClass('currency-dropdown'))
+        var init = function (){
+
+            var self = $(this);
+
+
+            $('body').click({self: self}, function(e){
+                //debugger;
+                if($(e.target).hasClass('dropdown_button') || $(e.target).parents('.dropdown_button').length ) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
+
+                if(!$(e.target).hasClass('dropdown_list'))
+                    removeDropDown();
+            });
+
+            self.on('click', onElemClick);
+
+
+            function onElemClick(){		
                 removeDropDown();
-        });
+                showDropDown();
+            }
+            function onListElemClick(e){
+                e.stopPropagation();
+                e.preventDefault();
+                if(options.toChange){
+                    self.html($(this).text()+' <span class="currency_drdn_arr"></span>');
+
+                }
+				var id = $(this).data('id');
+				self.parents('tr').find('input:hidden.type').val(id);
+				
+				
+                removeDropDown();
+            }
 
 
-         var init = function (){
-
-             var self = $(this);
-
-
-
-             self.on('click', onElemClick);
-
-
-             function onElemClick(){
-                 removeDropDown();
-                 showDropDown();
-             }
-             function onListElemClick(e){
-                 e.stopPropagation();
-                 e.preventDefault();
-                 self.text($(this).text());
-                 removeDropDown();
-				 changeSum($(this).text());
-             }
-
-			 function changeSum(currency){
-				$('.total_currencies span').hide();
-				$('.total_currencies .'+currency).show();
-			 }
-
-             function showDropDown(){
-                 $dropDown = $(createDropDown());
-                 $dropDown.on('click', 'a', onListElemClick);
-                 self.after($dropDown);
-             }
-         };
-
+            function showDropDown(){
+                $dropDown = $(createDropDown());
+                $dropDown.on('click', 'a', onListElemClick);
+                self.after($dropDown);
+				
+            }
+        };
+		
+		
+		
         return this.each(init);
     }
 })(jQuery);

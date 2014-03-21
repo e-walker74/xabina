@@ -94,6 +94,7 @@ class PersonalController extends Controller
 
                 self::saveUsersEmails($_POST['email'], $_POST['type']);
                 self::removeUsersItems($_POST['delete'], $model_emails);
+                self::editTypeItems($_POST['type'], $model_emails);
 
                 $html = $this->renderPartial('_emails', array(
                         'users_emails' => self::getUsersItems($model_emails),
@@ -238,15 +239,15 @@ class PersonalController extends Controller
      */
     private static function getUsersItems($model, array $fields = array('*'))
     {
-        //$model = Users::model()->with('email')->findByPk(Yii::app()->user->id);
+        //return Users::model()->with('emails')->findByPk(Yii::app()->user->id);
         //$model->emails;
 
-        return $model->findAll(array(
+       return $model->findAll(array(
             'select' => implode(',', $fields),
             'condition' => 'user_id=:user_id',
             'params' => array(':user_id' => Yii::app()->user->id),
             'order' => 'id',
-        ));
+       ));
     }
 
     /**
@@ -262,6 +263,24 @@ class PersonalController extends Controller
                 if ($res) {
                     $res->delete();
                 }
+            }
+        }
+        return true;
+    }
+
+
+
+    private static function editTypeItems(array $arr_post_type, $model)
+    {
+       //print_r($arr_post_type); die;
+       foreach ($arr_post_type as $k => $v) {
+            if (!empty($v) && !empty($k)) {
+                $res = $model->findByPk($k);
+                if ($res) {
+                    $res->email_type_id = (int)$v;
+                    $res->save();
+                }
+
             }
         }
         return true;
@@ -303,7 +322,6 @@ class PersonalController extends Controller
 
     private static function saveUsersPhones(array $arr_post_phone, array $arr_post_type)
     {
-
         foreach ($arr_post_phone as $k => $phone) {
             if (!empty($phone)) {
                 $model_phones = new Users_Phones;
@@ -323,6 +341,7 @@ class PersonalController extends Controller
      */
     private static function saveUsersAddress(array $post)
     {
+        // добавить иссеты
         $adress = $post['address'];
         $address_optional = $post['address_optional'];
         $indx = $post['indx'];

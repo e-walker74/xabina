@@ -40,7 +40,7 @@
             <td>
             	<span class="primary">
                 <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-                	<?= Yii::t('Front', 'Recent email'); ?>
+                	<?= Yii::t('Front', 'Resend email'); ?>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
                 	<?= Yii::t('Front', 'Make primary'); ?>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
@@ -51,12 +51,13 @@
                 <div class="remove-btn"></div>
             </td>
             <input type="hidden" name="delete[<?= $users_email->id ?>]" class="delete" value="0"/>
+            <input type="hidden" name="type[<?= $users_email->id ?>]" class="type" value="0"/>
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
         <td class="item">email</td>
         <td class="item">type_id</td>
-        <td><?= Yii::t('Front', 'Recent email'); ?></td>
+        <td><?= Yii::t('Front', 'Resend email'); ?></td>
         <td class="remove-td">
             <div class="remove-btn"></div>
         </td>
@@ -103,10 +104,22 @@
     </tr>
 </table>
 <div class="form-submit">
-	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back">Back</div></a>   
+	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a>   
     <div class="submit-button button-next save"
          onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/saveemails') . '/' ?>', this)">
         <?= Yii::t('Front', 'Save'); ?>
     </div>
 </div>
 <?php $this->endWidget(); ?>
+<script>
+$('.types_dropdown').dropDown({
+	list: {
+		<? foreach(Users_EmailTypes::all() as $k => $v):?>
+		<? if(!empty($k) && !empty($v)):?>
+	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
+		<? endif; ?>
+		<? endforeach;?>
+	},
+	listClass: 'type_dropdown'
+});
+</script>

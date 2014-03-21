@@ -36,16 +36,28 @@ class Users_Emails extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email, email_type_id', 'required', 'on'=>'editemails'),
-            array('email', 'filter', 'filter' => 'trim'),
             array('email', 'email'),
 			array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
 			array('email', 'length', 'max'=>200),
+            array('email', 'checkEmailUnique', 'on'=>'editemails'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, email_type_id, hash, status, is_master, email', 'safe', 'on'=>'search'),
 		);
 	}
+
+    public function checkEmailUnique($attribute, $params){
+        $this->email = trim($this->email);
+        if($this->isNewRecord){
+            $email = Users_Emails::model()->find('email = :email', array(':email' => $this->email));
+        } else {
+            $email = Users_Emails::model()->find('email = :email AND id != :id', array(':phone' => $this->email, ':id' => $this->id));
+        }
+        if($email){
+            $this->addError('email', Yii::t('Front', 'This E-mail is already registered'));
+        }
+    }
 
 	/**
 	 * @return array relational rules.
