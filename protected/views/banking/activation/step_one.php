@@ -16,6 +16,7 @@
 	</div>
 	<?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'activation-from-first-step',
+			'action' => Yii::app()->createUrl('/banking/accountsactivation').'/',
             'enableAjaxValidation'=>true,
             'enableClientValidation'=>false,
 			'errorMessageCssClass' => 'error-message',
@@ -166,16 +167,22 @@
 		<div class="form-row clearfix">
 			<div class="col-lg-5 col-md-5 col-sm-5">
 				<div class="field-lbl">
-					<?= $model->getAttributeLabel('country') ?> 
+					<?= $model->getAttributeLabel('country_id') ?> 
 					<span class="tooltip-icon " title="<?= Yii::t('Front', 'Country: (Choose the country from the drop-down menu)'); ?>"></span>
 				</div>
 				<div class="field-input">
 					<div class="select-custom">
-						<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
-						<?= $form->dropDownList($model, 'country', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'USA'), 2 => Yii::t('Front', 'Belgium'), 3 => Yii::t('Front', 'Netherlands'), 4 => Yii::t('Front', 'Luxembourg')), array('class' => 'country-select select-invisible')); ?>
+						<span class="select-custom-label">
+							<?php if($model->country_id): ?>
+								<?= $model->country_id; ?> 
+							<?php else: ?>
+								<?= Yii::t('Front', 'Select'); ?> 
+							<?php endif; ?>
+						</span>
+						<?= $form->dropDownList($model, 'country_id', $countries, array('class' => 'country-select select-invisible')); ?>
 						<span class="validation-icon"></span>
 					</div>
-					<?= $form->error($model, 'country', array()); ?>
+					<?= $form->error($model, 'country_id', array()); ?>
 				</div>
 			</div>
 			<div class="col-lg-5 col-md-5 col-sm-5">
@@ -186,7 +193,7 @@
 			</div>
 		</div>
 		<div class="form-submit">
-			<div class="submit-button button-next" onclick="next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)">Далее</div>
+			<div class="submit-button button-next" onclick="js:next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)">Далее</div>
 		</div>
 	</div>
 	<?php $this->endWidget(); ?>

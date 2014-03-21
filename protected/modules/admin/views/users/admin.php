@@ -37,8 +37,8 @@
 									'template' => '{update}',
 									'buttons' => array(
 										'update' => array(
-											'label' => '',
-											'imageUrl'=>false,  // make sure you have an image
+											//'label' => '',
+											//'imageUrl'=>false,  // make sure you have an image
 										),
 									),
 								),

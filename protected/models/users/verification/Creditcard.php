@@ -1,23 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "users_files".
+ * This is the model class for table "users_verification_creditcard".
  *
- * The followings are the available columns in table 'users_files':
+ * The followings are the available columns in table 'users_verification_creditcard':
+ * @property integer $id
  * @property integer $user_id
- * @property string $name
- * @property string $ext
- * @property string $form
- * @property string $type
+ * @property integer $country_id
+ * @property string $swift
+ * @property string $account_number
+ * @property integer $created_at
+ * @property integer $updated_at
  */
-class Users_Files extends CActiveRecord
+class Users_Verification_Creditcard extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_files';
+		return 'users_verification_creditcard';
 	}
 
 	/**
@@ -28,16 +30,23 @@ class Users_Files extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, name, ext', 'required'),
-			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('name, form, document_type, document', 'length', 'max'=>30),
-			array('user_file_name', 'length', 'max'=>255),
-			array('ext', 'length', 'max'=>11),
-			array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			array('country_id, swift, account_number', 'required'),
+			array('user_id, country_id', 'numerical', 'integerOnly'=>true),
+			array('swift', 'length', 'max'=>255),
+			array('account_number', 'length', 'min' => 14, 'max'=>19, 'message' => Yii::t('Front', 'card id not valid')),
+			array('account_number', 'match', 'pattern'=>'/^((34)|(35)|(4)|(62[0-5]0)|(5[0-6])|(67))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
+			array('account_number', 'checkCard'),
+			array('verification_code', 'numerical', 'on' => 'update'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, name, ext, user_file_name, type', 'safe', 'on'=>'search'),
+			array('id, user_id, country_id, swift, account_number, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	public function checkCard(){
+		if(!AccountService::checkNumber($this->account_number, 16)){
+			$this->addError('account_number', Yii::t('Front', 'Card id not valid'));
+		}
 	}
 
 	/**
@@ -48,6 +57,8 @@ class Users_Files extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'verification' => array(self::HAS_ONE, 'Users_Verification', 'rel_id'),
 		);
 	}
 
@@ -57,11 +68,13 @@ class Users_Files extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'id' => 'ID',
 			'user_id' => 'User',
-			'name' => 'Name',
-			'ext' => 'Ext',
-			'user_file_name' => 'user_file_name',
-			'type' => 'Type',
+			'country_id' => 'Country',
+			'swift' => 'Swift',
+			'account_number' => 'Account Number',
+			'created_at' => 'Created At',
+			'updated_at' => 'Updated At',
 		);
 	}
 
@@ -83,11 +96,13 @@ class Users_Files extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('ext',$this->ext,true);
-		$criteria->compare('user_file_name',$this->user_file_name,true);
-		$criteria->compare('type',$this->type,true);
+		$criteria->compare('country_id',$this->country_id);
+		$criteria->compare('swift',$this->swift,true);
+		$criteria->compare('account_number',$this->account_number,true);
+		$criteria->compare('created_at',$this->created_at);
+		$criteria->compare('updated_at',$this->updated_at);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,7 +113,7 @@ class Users_Files extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersFiles the static model class
+	 * @return UsersVerificationCreditcard the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

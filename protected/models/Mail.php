@@ -20,7 +20,7 @@ class Mail extends CModel{
 		}
 		$params['{:userFullName}'] = $user->fullName;
 		$params['{:userEmail}'] = $user->email;
-		$params['{:userLogin}'] = $user->login;
+		$params['{:userLogin}'] = ($user->login) ? $user->login : $user->email;
 		$params['{:xabinaBaseUrl}'] = Yii::app()->getBaseUrl(true);
 	
 		$mailer = Yii::app()->mailer;

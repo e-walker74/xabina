@@ -21,6 +21,8 @@
 		</ul>
 	</li>
 	<li><a href="<?= Yii::app()->createUrl('/admin/accounts/index/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Accounts', 'Accounts'); ?></span></a></li>
+	<li><a href="<?= Yii::app()->createUrl('/admin/accounts/activations/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Accounts', 'Activations'); ?></span><span class="badge badge-danger"><?= $activations ?></span></a></li>
+	<li><a href="<?= Yii::app()->createUrl('/admin/accounts/verifications/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Accounts', 'Verifications'); ?></span><span class="badge badge-danger"><?= $verifications ?></span></a></li>
 	<li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Logs', 'Logs'); ?></span></a>
 		<ul class="acc-menu">
 			<li><a href="<?= Yii::app()->createUrl('/admin/logs/mail/') ?>/"><?= Yii::t('Logs', 'Mail'); ?></a></li>

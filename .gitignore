@@ -6,3 +6,5 @@ protected/config/local.php
 index.php
 .idea
 .htaccess
+protected/config/local.php
+protected/config/components/

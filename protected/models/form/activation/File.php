@@ -13,6 +13,7 @@ class Form_Activation_File extends CFormModel
 	public $file_type;
 	public $description;
 	public $files;
+	public $document;
 
 	private $_identity;
 
@@ -24,7 +25,7 @@ class Form_Activation_File extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('file_type', 'required', 'message' => Yii::t('Front', 'File Type is incorrect')),
+			array('file_type, document', 'required', 'message' => Yii::t('Front', 'File Type is incorrect')),
 			array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
 			array('files', 'required', 'message' => Yii::t('Front', 'You dont uploaded any files'))
 			

@@ -18,7 +18,7 @@ class Form_Activation extends CFormModel
 	public $address_line_2;
 	public $zip_code;
 	public $town;
-	public $country;
+	public $country_id;
 
 	private $_identity;
 
@@ -31,7 +31,7 @@ class Form_Activation extends CFormModel
 	{
 		return array(
 			array('zip_code', 'required', 'message' => Yii::t('Front', 'Zip Code is incorrect')),
-			array('country', 'required', 'message' => Yii::t('Front', 'Country is incorrect')),
+			array('country_id', 'required', 'message' => Yii::t('Front', 'Country is incorrect')),
 			array('address_line_1', 'required', 'message' => Yii::t('Front', 'Address Line 1 is incorrect')),
 			array('town', 'required', 'message' => Yii::t('Front', 'Town is incorrect')),
 			array('first_name', 'required', 'message' => Yii::t('Front', 'First Name is incorrect')),
@@ -42,7 +42,7 @@ class Form_Activation extends CFormModel
 			//array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			//array('phone', 'authenticatePhone'),
 			array('zip_code', 'length', 'min' => 2, 'max' => 9, 'tooShort' => Yii::t('Front', 'Zip Code is too short'), 'tooLong' => Yii::t('Front', 'Zip Code is too long')),
-			array('zip_code, country', 'match', 'pattern' => '/^[a-zA-Z\d+\-]{1,}$/'),
+			array('zip_code, country_id', 'match', 'pattern' => '/^[a-zA-Z\d+\- ]{1,}$/'),
 			array('address_line_1, address_line_2, town', 'length', 'max'=>255),
 			array('email, phone','safe'),
 			
@@ -73,7 +73,7 @@ class Form_Activation extends CFormModel
 			'address_line_2' => Yii::t('Front', 'Address Line 2'),
 			'zip_code' => Yii::t('Front', 'Zip code'),
 			'town' => Yii::t('Front', 'Town'),
-			'country' => Yii::t('Front', 'Country'),
+			'country_id' => Yii::t('Front', 'Country'),
 		);
 	}
 	

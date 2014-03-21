@@ -3,7 +3,11 @@
 	
 	<?php $this->widget('XabinaAlert'); ?>
 
-	<div class="activate-account-button"><?= Yii::t('Front', 'Activate account'); ?></div>
+	<?php if(Yii::app()->user->status == Users::USER_EMAIL_IS_ACTIVE): ?>
+		<a href="<?= Yii::app()->createUrl('/banking/accountsactivation/') ?>" class="activate-account-button"><?= Yii::t('Front', 'Activate account'); ?></a>
+	<?php elseif(Yii::app()->user->status == Users::USER_IS_ACTIVATED): ?>
+		<a href="<?= Yii::app()->createUrl('verification/index') ?>" class="activate-account-button"><?= Yii::t('Front', 'Verificate account'); ?></a>
+	<?php endif;?>
 	<div class="subheader"><?= Yii::t('Front', 'Accounts'); ?></div>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 		'id'=>'accounts-grid',

@@ -1,23 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "users_files".
+ * This is the model class for table "users_verification_notary".
  *
- * The followings are the available columns in table 'users_files':
- * @property integer $user_id
- * @property string $name
- * @property string $ext
- * @property string $form
- * @property string $type
+ * The followings are the available columns in table 'users_verification_notary':
+ * @property integer $id
+ * @property string $description
+ *
+ * The followings are the available model relations:
+ * @property UsersVerification $id0
  */
-class Users_Files extends CActiveRecord
+class Users_Verification_Notary extends CActiveRecord
 {
+	
+	public $file;
+
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_files';
+		return 'users_verification_notary';
 	}
 
 	/**
@@ -28,15 +31,10 @@ class Users_Files extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, name, ext', 'required'),
-			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('name, form, document_type, document', 'length', 'max'=>30),
-			array('user_file_name', 'length', 'max'=>255),
-			array('ext', 'length', 'max'=>11),
-			array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, name, ext, user_file_name, type', 'safe', 'on'=>'search'),
+			array('id, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,6 +46,7 @@ class Users_Files extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			//'files' => array(self::HAS_MANY, 'Users_Filse', 'id'),
 		);
 	}
 
@@ -57,11 +56,8 @@ class Users_Files extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'user_id' => 'User',
-			'name' => 'Name',
-			'ext' => 'Ext',
-			'user_file_name' => 'user_file_name',
-			'type' => 'Type',
+			'id' => 'ID',
+			'description' => 'Description',
 		);
 	}
 
@@ -83,11 +79,8 @@ class Users_Files extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('ext',$this->ext,true);
-		$criteria->compare('user_file_name',$this->user_file_name,true);
-		$criteria->compare('type',$this->type,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,7 +91,7 @@ class Users_Files extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersFiles the static model class
+	 * @return UsersVerificationNotary the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
