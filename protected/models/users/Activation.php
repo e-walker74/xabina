@@ -12,7 +12,7 @@
  * @property string $address_line_2
  * @property integer $zip_code
  * @property string $town
- * @property string $country
+ * @property string $country_id
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $moderator_id
@@ -39,13 +39,13 @@ class Users_Activation extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, step, first_name, last_name, address_line_1, zip_code, town, country', 'required'),
-			array('user_id, step, created_at, updated_at, moderator_id, country', 'numerical', 'integerOnly'=>true),
+			array('user_id, step, first_name, last_name, address_line_1, zip_code, town, country_id', 'required'),
+			array('user_id, step, created_at, updated_at, moderator_id, country_id', 'numerical', 'integerOnly'=>true),
 			array('zip_code', 'length', 'min' => 2, 'max' => 9, 'tooShort' => Yii::t('Front', 'Zip Code is too short'), 'tooLong' => Yii::t('Front', 'Zip Code is too long')),
 			array('address_line_1, address_line_2, town, first_name, last_name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, step, first_name, last_name, address_line_1, address_line_2, zip_code, town, country, created_at, updated_at, moderator_id, description', 'safe', 'on'=>'search'),
+			array('user_id, step, first_name, last_name, address_line_1, address_line_2, zip_code, town, country_id, created_at, updated_at, moderator_id, description', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,7 +58,8 @@ class Users_Activation extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'files' => array(self::HAS_MANY, 'Users_Files', 'user_id', 'condition' => 'form = "activation" AND deleted = 0')
+			'files' => array(self::HAS_MANY, 'Users_Files', 'user_id', 'condition' => 'form = "activation" AND deleted = 0'),
+			'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
 		);
 	}
 
@@ -76,7 +77,7 @@ class Users_Activation extends ActiveRecord
 			'address_line_2' => 'Address Line 2',
 			'zip_code' => 'Zip Code',
 			'town' => 'Town',
-			'country' => 'Country',
+			'country_id' => 'Country',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 			'moderator_id' => 'Moderator',
@@ -110,7 +111,7 @@ class Users_Activation extends ActiveRecord
 		$criteria->compare('address_line_2',$this->address_line_2,true);
 		$criteria->compare('zip_code',$this->zip_code);
 		$criteria->compare('town',$this->town,true);
-		$criteria->compare('country',$this->country,true);
+		$criteria->compare('country_id',$this->country_id,true);
 		$criteria->compare('moderator_id',$this->moderator_id);
 		$criteria->compare('description',$this->description,true);
 		

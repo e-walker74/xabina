@@ -105,4 +105,21 @@ $(function(){
 			return;
 		}
 	});
+	
+	$('.main-container').on('click', '.xabina-alert .close-button', function(){
+		var url = $(this).attr('data-del-alert')
+		var element = $(this).parents('.xabina-alert')
+		$.ajax({
+			url: url,
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					element.remove()
+				}
+			},
+			cache:false,
+			data: {success: true},
+			type: 'GET'
+		});
+	})
 });

@@ -8,8 +8,14 @@
  * @property string $type
  * @property integer $rel_id
  */
-class UsersVerification extends CActiveRecord
+class Users_Verification extends ActiveRecord
 {
+	
+	const NOT_SEND_VERIFICATION = 0;
+	const REQUIRES_MODERATION = 1;
+	const REQUIRES_USER_CODE = 2;
+	const VERIFICATION_COMPLETED = 3;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -28,7 +34,7 @@ class UsersVerification extends CActiveRecord
 		return array(
 			array('user_id, rel_id', 'required'),
 			array('user_id, rel_id', 'numerical', 'integerOnly'=>true),
-			array('type', 'length', 'max'=>6),
+			array('type', 'length', 'max'=>18),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('user_id, type, rel_id', 'safe', 'on'=>'search'),
@@ -43,6 +49,9 @@ class UsersVerification extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'notary' => array(self::BELONGS_TO, 'Users_Verification_Notary', 'rel_id'),
+			'creditcard' => array(self::BELONGS_TO, 'Users_Verification_Creditcard', 'rel_id', 'condition' => 'canceled = 0'),
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 

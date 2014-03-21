@@ -27,10 +27,10 @@ class AccountService {
 		return $number;
 	}
 	
-	public static function checkNumber($number){
+	public static function checkNumber($number, $len = 12){
 		$sum = 0;
 		$number = str_split($number);
-		if(count($number) != 12){
+		if(count($number) != $len){
 			return false;
 		}
 		foreach($number as $key => $value){
@@ -49,4 +49,31 @@ class AccountService {
 		}
 	}
 
+	public static function checkNumberCard($number){
+		$sum = 0;
+		$number = str_split($number);
+		if(count($number) != 16){
+			return false;
+		}
+		$chekSumm = array_pop($number);
+		$number = array_reverse($number);
+		foreach($number as $key => $value){
+			if($key%2 == 0){
+				$value = $value*2;
+				if($value >= 10){
+					$value = $value-9;
+				}
+			}
+			$sum = $value + $sum;
+		}
+		d($number);
+		d($sum);
+		die;
+		
+		if($sum%10){
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

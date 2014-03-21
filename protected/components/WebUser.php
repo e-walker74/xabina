@@ -31,7 +31,7 @@ class WebUser extends CWebUser {
             return $this->_notifications;
 	}
 	
-	public function addNotification($code, $message, $type = 'close', $style = 'green', $user_id){
+	public function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false){
 		if(!$user_id){
 			$user_id = Yii::app()->user->id;
 		}

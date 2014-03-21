@@ -95,7 +95,7 @@
 						<div class="field-input">
 							<div class="select-custom">
 								<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
-								<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'PDF'), 2 => Yii::t('Front', 'JPG'), 3 => Yii::t('Front', 'PNG'), 4 => Yii::t('Front', 'GIF')), array('class' => 'country-select select-invisible')); ?>
+								<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 'passport' => Yii::t('Front', 'Passport'), 'residence permit' => Yii::t('Front', 'Residence permit'), 'driving license' => Yii::t('Front', 'Driving license'), 'other official document' => Yii::t('Front', 'Other official document')), array('class' => 'country-select select-invisible')); ?>
 								<span class="validation-icon"></span>
 							</div>
 							<?= $form->error($model, 'file_type', array()); ?>
@@ -121,7 +121,7 @@
 					</div>
 					<?php $template = '<div class="upload-list passport">';?>
 					<?php foreach($files1 as $file): ?>
-						<?php $template .= '<div class="file-row qq-upload-success">'.Yii::t('Front','Uploaded').': <span class="file-name qq-upload-file">'.$file->user_file_name.'.'.$file->ext.'</span>
+						<?php $template .= '<div class="file-row doc1 qq-upload-success">'.Yii::t('Front','Uploaded').': <span class="file-name qq-upload-file">'.$file->user_file_name.'.'.$file->ext.'</span>
 									<span class="remove-file on-success"></span>
 									<input type="hidden" name="Form_Activation_File[files][]" value="'.$file->name.'" />
 									</div>'; ?>
@@ -144,11 +144,11 @@
 								}',
 								'onComplete'=>"js:function(id, fileName, responseJSON){ 
 									if(responseJSON.success){
-										$('.uploaded'+id).find('input').val(responseJSON.filename)
+										$('.doc1.uploaded'+id).find('input').val(responseJSON.filename)
 									}
 								}",
 								'template' => $template,
-								'fileTemplate' => '<div class="file-row">
+								'fileTemplate' => '<div class="file-row doc1">
 									<span class="qq-upload-spinner"></span>
 									'.Yii::t('Front','Uploaded').': <span class="file-name qq-upload-file"></span>
 									<span class="qq-upload-size"></span>
@@ -256,7 +256,7 @@
 						<div class="field-input">
 							<div class="select-custom">
 								<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
-								<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'PDF'), 2 => Yii::t('Front', 'JPG'), 3 => Yii::t('Front', 'PNG'), 4 => Yii::t('Front', 'GIF')), array('class' => 'country-select select-invisible')); ?>
+								<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 'passport' => Yii::t('Front', 'Passport'), 'residence permit' => Yii::t('Front', 'Residence permit'), 'driving license' => Yii::t('Front', 'Driving license'), 'other official document' => Yii::t('Front', 'Other official document')), array('class' => 'country-select select-invisible')); ?>
 								<span class="validation-icon"></span>
 							</div>
 							<?= $form->error($model, 'file_type', array()); ?>
@@ -282,7 +282,7 @@
 					</div>
 					<?php $template = '<div class="upload-list passport">';?>
 					<?php foreach($files2 as $file): ?>
-						<?php $template .= '<div class="file-row qq-upload-success">'.Yii::t('Front','Uploaded').': <span class="file-name qq-upload-file">'.$file->user_file_name.'.'.$file->ext.'</span>
+						<?php $template .= '<div class="file-row doc2 qq-upload-success">'.Yii::t('Front','Uploaded').': <span class="file-name qq-upload-file">'.$file->user_file_name.'.'.$file->ext.'</span>
 									<span class="remove-file on-success"></span>
 									<input type="hidden" name="Form_Activation_File[files][]" value="'.$file->name.'" />
 									</div>'; ?>
@@ -305,11 +305,11 @@
 								}',
 								'onComplete'=>"js:function(id, fileName, responseJSON){ 
 									if(responseJSON.success){
-										$('.uploaded'+id).find('input').val(responseJSON.filename)
+										$('.doc2.uploaded'+id).find('input').val(responseJSON.filename)
 									}
 								}",
 								'template' => $template,
-								'fileTemplate' => '<div class="file-row">
+								'fileTemplate' => '<div class="file-row doc2">
 									<span class="qq-upload-spinner"></span>
 									'.Yii::t('Front','Uploaded').': <span class="file-name qq-upload-file"></span>
 									<span class="qq-upload-size"></span>

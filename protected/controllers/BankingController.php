@@ -63,7 +63,7 @@ class BankingController extends Controller
 		}
 		
 		if(Yii::app()->user->status != Users::USER_EMAIL_IS_ACTIVE){
-			throw new CHttpException(404, Yii::t('Front', 'This page not found'));
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		
 		$activation = Users_Activation::model()->findByPk(Yii::app()->user->id);
@@ -80,7 +80,9 @@ class BankingController extends Controller
 		} elseif($activation->step == 3){
 			$this->activationStepThree($activation);
 		}else{
-			throw new CHttpException(404, Yii::t('Page not found'));
+			$this->redirect(array('/banking'));
+			Yii::app()->end();
+			throw new CHttpException(404, Yii::t('Font', 'Page not found'));
 		}
 	}
 	
@@ -89,6 +91,10 @@ class BankingController extends Controller
 		$activationForm->attributes = $activation->attributes;
 		$activationForm->setUserId(Yii::app()->user->id);
 		$activationForm->setPhone(Yii::app()->user->phone);
+		
+		$countries = Countries::model()->findAll();
+		$countries = CHtml::listData($countries, 'id', 'name');
+		$countries = array_merge(array('' => Yii::t('Front', 'Choose')), $countries);
 		
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'activation-from-first-step') {
             echo CActiveForm::validate($activationForm);
@@ -112,7 +118,7 @@ class BankingController extends Controller
 		}
 		
 		if($partial){
-			$html = $this->renderPartial('activation/step_one', array('model' => $activationForm, 'activation' => $activation), true, true);
+			$html = $this->renderPartial('activation/step_one', array('model' => $activationForm, 'activation' => $activation, 'countries' => $countries), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();
@@ -121,7 +127,7 @@ class BankingController extends Controller
 		$user = Users::model()->findByPk(Yii::app()->user->id);
 		$activationForm->attributes = $user->attributes;
 		
-		$this->render('activation', array('model' => $activationForm, 'activation' => $activation));
+		$this->render('activation', array('model' => $activationForm, 'activation' => $activation, 'countries' => $countries));
 		
 		
 	}
@@ -150,6 +156,7 @@ class BankingController extends Controller
 					}
 				}
 			}
+
 			if($success){
 				$activation->step = 3;
 				$activation->save();
@@ -161,7 +168,7 @@ class BankingController extends Controller
 		}
 
 		if($partial){
-			$html = $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model), true, true);
+			$html = $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model), true, false);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();
@@ -241,7 +248,8 @@ class BankingController extends Controller
 				echo CActiveForm::validate($model);
 			} else {
 				foreach($_POST['Form_Activation_File']['files'] as $file){
-					$fileModel = Users_Files::model()->find('user_id = :uid AND name = :name', array(':uid' => Yii::app()->user->id, ':name' => $file));
+					$document = $_POST['Form_Activation_File']['document'];
+					$fileModel = Users_Files::model()->find('user_id = :uid AND name = :name AND document = :document', array(':uid' => Yii::app()->user->id, ':name' => $file, ':document' => $document));
 					if($fileModel){
 						$fileModel->description = $model->description;
 						$fileModel->document_type = $model->file_type;

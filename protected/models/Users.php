@@ -54,9 +54,9 @@ class Users extends ActiveRecord
             array('password, email, status, created_at, updated_at, role', 'required', 'except' => 'adminCreate'),
 			//array('password', 'required', 'on' => array('general_update')),
             array('email, reemail', 'email'),
-			array('login', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			//array('login', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify'), 'on' => 'update'),
             //array('reemail', 'compareEmail', 'on' => 'general_update'),
-            array('email', 'unique', 'message' => Yii::t('Front', 'E-Mail is incorrect')),
+            array('email, login', 'unique', 'message' => Yii::t('Front', 'E-Mail is incorrect')),
             array('status, created_at, updated_at, gift', 'numerical', 'integerOnly' => true),
 			//array('phone', 'phone', 'length' => 9),
 			array('login, email', 'length', 'max' => 255),
@@ -72,7 +72,6 @@ class Users extends ActiveRecord
             // Please remove those attributes that should not be searched.
             //array('first_name, last_name, phone', 'safe', 'on' => 'insert'),
 			array('first_name, last_name, phone, email', 'safe', 'on' => 'update'),
-            array('login, email', 'safe', 'on' => 'regByApi'),
             array('password, email, reemail, repassword, newpassword, phone', 'safe', 'on' => 'general_update'),
 			array('login, email, phone, role', 'safe', 'on' => 'admin'),
         );

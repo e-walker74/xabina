@@ -90,15 +90,15 @@ class Form_Registration extends CFormModel
 		$result = false;
 		$user = new Users;
 		$user->attributes = $this->attributes;
-		$user->login = $this->email;
-		$pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+		//$user->login = '';
+		$pass = substr(md5(time() . 'xabina_pass' . $user->email), 2, 8);
 		$user->password = md5($pass);
 		$user->created_at = time();
 		$user->updated_at = $user->created_at;
 		$user->role = 1;
 		$user->status = Users::USER_IS_NOT_ACTIVE;
 		$user->createHash();
-
+		$user->lang = Yii::app()->language;
 		if($user->save()){
 			$mail = new Mail();
 			if($mail->send(

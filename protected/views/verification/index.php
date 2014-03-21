@@ -5,30 +5,30 @@
 
 	<div class="xabina-progress-bar verification-page">
 		<div class="step step1 current" >
-			<div class="step-name">Verification Method</div>
+			<div class="step-name"><?= Yii::t('Front', 'Verification Method') ?></div>
 			<div class="step-arr"></div>
 		</div>
 		<div class="step step2">
-			<div class="step-name">Verification Steps</div>
+			<div class="step-name"><?= Yii::t('Front', 'Verification Steps') ?></div>
 			<div class="step-arr"></div>
 		</div>
 		<div class="step step3 ">
-			<div class="step-name">Verification</div>
+			<div class="step-name"><?= Yii::t('Front', 'Verification') ?></div>
 			<div class="step-arr"></div>
 		</div>
 	</div>
 
 	<ul class="list-unstyled list-with-icos">
-		<li>We are required to verify your identity before you can send or receive over EUR 2500/00 or equivalent.</li>
-		<li>Verifying your identity increases transactin limits and gives you access to the full wallet functionality.</li>
-		<li>Verification is quick, easy and free.</li>
+		<li><?= Yii::t('Front', 'We are required to verify your identity before you can send or receive over EUR 2500/00 or equivalent.') ?></li>
+		<li><?= Yii::t('Front', 'Verifying your identity increases transactin limits and gives you access to the full wallet functionality.') ?></li>
+		<li><?= Yii::t('Front', 'Verification is quick, easy and free.') ?></li>
 	</ul>
-	<div class="subheader">Choose verification method</div>
-	<div class="subheader-comment">Выберите один из способов верификации и следуйте инструкции.</div>
+	<div class="subheader"><?= Yii::t('Front', 'Choose verification method') ?></div>
+	<div class="subheader-comment"><?= Yii::t('Front', 'Choose one of the methods of verification and follow the instructions.') ?></div>
 	<table class=" xabina-table-choose">
 
 		<tr class="tr-header">
-			<td>Credit/debit card</td>
+			<td><?= Yii::t('Front', 'Credit/debit card') ?></td>
 		</tr>
 
 		<tr class="list-tr">
@@ -81,14 +81,14 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<div class="violet-button">Verify credit/debit card</div>
+				<a class="violet-button" href="<?= Yii::app()->createUrl('/verification/creditcard') ?>"><?= Yii::t('Front', 'Verify credit/debit card') ?></a>
 			</td>
 		</tr>
 	</table>
 	<table class=" xabina-table-choose">
 
 		<tr class="tr-header">
-			<td>Bank account</td>
+			<td><?= Yii::t('Front', 'Bank account') ?></td>
 		</tr>
 
 		<tr class="list-tr">
@@ -141,14 +141,14 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<div class="violet-button">Verify bank account</div>
+				<div class="violet-button"><?= Yii::t('Front', 'Verify bank account') ?></div>
 			</td>
 		</tr>
 	</table>
 	<table class=" xabina-table-choose">
 
 		<tr class="tr-header">
-			<td>Your e-wallet</td>
+			<td><?= Yii::t('Front', 'Your e-wallet') ?></td>
 		</tr>
 
 		<tr class="list-tr">
@@ -208,14 +208,14 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<div class="violet-button">Verify your e-wallet</div>
+				<div class="violet-button"><?= Yii::t('Front', 'Verify your e-wallet') ?></div>
 			</td>
 		</tr>
 	</table>
 	<table class=" xabina-table-choose">
 
 		<tr class="tr-header">
-			<td>Notary</td>
+			<td><?= Yii::t('Front', 'Notary') ?></td>
 		</tr>
 
 		<tr class="list-tr">
@@ -224,28 +224,7 @@
 					<li>
 						<label>
 							<input type="radio"/>
-							<img src="/images/notary_ico.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
 							<img src="/images/notary_ico2.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/notary_ico3.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/notary_ico4.png" alt=""/>
 						</label>
 
 					</li>
@@ -254,7 +233,7 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<div class="violet-button">Verify through a notary</div>
+				<a href="<?= Yii::app()->createUrl('/verification/notary') ?>" class="violet-button"><?= Yii::t('Front', 'Verify through a notary') ?></a>
 			</td>
 		</tr>
 	</table>

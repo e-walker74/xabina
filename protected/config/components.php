@@ -65,6 +65,10 @@ return array(
 			'/remove/notification/<code:\w+>' => 'user/deletenotification',
 			'/banking' => 'banking/index',
 			'/banking/verification' => 'verification/index',
+			'/banking/verification/notary' => 'verification/notary',
+			'/banking/verification/creditcard' => '/verification/creditcard',
+			'/banking/verification/getnotaryfile' => 'verification/getnotaryfile',
+			'/banking/verification/uploadfile' => 'verification/uploadfile',
 			'/banking/accountsactivation' => '/banking/accountsactivation',
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
@@ -78,7 +82,7 @@ return array(
     'request' => array(
         'class' => 'QHttpRequest',
 		'enableCsrfValidation' => true,
-		'noCsrfValidationRoutes'=>array('banking/uploadactivationfile', 'banking/accountsactivation'),
+		'noCsrfValidationRoutes'=>array('banking/uploadactivationfile', 'banking/accountsactivation', 'banking/verification/uploadfile', 'verification/notary'),
     ),
     'errorHandler' => array(
         // use 'site/error' action to display errors

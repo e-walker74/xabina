@@ -16,6 +16,7 @@ $(function(){
 	}
 	
 	next = function(url, button){
+		$("#steps").animate({opacity: 0.5}, 500);
 		var form = jQuery(button).parents('form')
 		$.ajax({
 			url: url,
@@ -38,6 +39,7 @@ $(function(){
 						$("#"+key+"_em_").html(''+value);                            
 					});
 				}
+				$("#steps").animate({opacity: 1}, 500);
 			},
 			cache:false,
 			data: form.serialize(),
@@ -45,7 +47,6 @@ $(function(){
 		});
 	}
 	
-<<<<<<< HEAD
 	uploadFile = function(button){
 		var form = jQuery(button).parents('form')
 		$.ajax({
@@ -108,7 +109,4 @@ $(function(){
 			});
 		}
 	}
-	
-=======
->>>>>>> c87decce52e46a22ed2326f296a4cf1766eb4114
 });

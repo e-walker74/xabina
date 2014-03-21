@@ -45,17 +45,16 @@ class UserController extends Controller
 		if($user){
 			$user->status = Users::USER_EMAIL_IS_ACTIVE;
 			$user->hash = '';
-			$user->lang = Yii::app()->language;
 			
 			if($user->save()){
-				
 				$account = new Accounts();
 				$account->user_id = $user->id;
 				$account->balance = $user->gift;
 				$account->save();
 			
 				$model = new Form_Login;
-				$model->attributes = $user->attributes;
+				$model->login = $user->email;
+				$model->password = $user->password;
 				if ($model->login()){
 					Yii::app()->user->addNotification('activate_your_account', 'Welcome, <span>:userName!</span></br> Activate your account', 'critical', 'yellow');
 					Yii::log('User was loging and confirm email. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
@@ -68,6 +67,10 @@ class UserController extends Controller
 	}
 	
 	public function actionDeleteNotification($code){
-		Yii::app()->user->removeNotification($code);
+		if(Yii::app()->user->removeNotification($code)){
+			echo CJSON::encode(array('success' => true));
+		} else {
+			echo CJSON::encode(array('success' => false));
+		}
 	}
 }

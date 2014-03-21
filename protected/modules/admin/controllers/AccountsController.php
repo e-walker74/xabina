@@ -90,4 +90,50 @@ class AccountsController extends Controller
 			exit;
 		}
 	}
+	
+	public function actionVerifications(){
+		$verifications = new Users_Verification();
+		$verifications->unsetAttributes();  // clear any default values
+		if(isset($_GET['Users_Verification'])){
+			$verifications->attributes=$_GET['Users_Verification'];
+		}
+		$this->render('verifications', array('verifications' => $verifications));
+	}
+	
+	public function actionVerificationUpdate($id, $type){
+		$model = Users_Verification::model()->find('user_id = :uid AND type = :type', array(':uid' => $id, ':type' => $type));
+		
+		$files = Users_Files::model()->findAll('deleted = 0 AND form = :type AND user_id = :uid', array(':uid' => $id, ':type' => $type));
+		
+		if(isset($_POST['Users_Verification'])){
+			$model->moderator_description = $_POST['Users_Verification']['moderator_description'];
+			$model->moderator_id = Yii::app()->user->id;
+			$model->status = Users_Verification::VERIFICATION_COMPLETED;
+
+			if($model->save()){
+				if($model->user->status == Users::USER_IS_ACTIVATED){
+					$model->user->status = Users::USER_IS_VERIFICATED;
+					$model->user->save();
+				}
+				Yii::app()->user->addNotification(
+					'verification_completed', //код
+					'Your account has been successfully verificated.', 
+					'close', // возможность закрыть
+					'yellow', //желтая рамка
+					$model->user_id
+				);
+				$mail = new Mail();
+				$mail->send(
+					$model->user, // this user
+					'verification', // sys mail code
+					array(	// params
+						'{:date}' => date('Y m d', time()),
+					)
+				);
+				$this->redirect(array('/admin/accounts/verifications'));
+			}
+		}
+		
+		$this->render('verifications/update', array('model' => $model, 'files' => $files));
+	}
 }

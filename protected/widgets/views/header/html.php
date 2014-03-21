@@ -34,7 +34,7 @@
 </div>
 <div class="header-bottom clearfix">
 	<ul class="top-menu pull-left list-unstyled">
-		<li class="current"><a href="#"><?= Yii::t('Front', 'Home') ?></a></li>
+		<li class="current"><a href="<?= Yii::app()->createUrl('/banking/index') ?>"><?= Yii::t('Front', 'Home') ?></a></li>
 		<li><a href="#"><?= Yii::t('Front', 'About') ?></a></li>
 		<li><a href="#"><?= Yii::t('Front', 'Services') ?></a></li>
 		<li><a href="#"><?= Yii::t('Front', 'Credits') ?></a></li>
