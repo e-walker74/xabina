@@ -106,7 +106,6 @@ $(function(){
 		}
 	});
 	
-
 	
 	/**
 	* Заполнение емейлов
@@ -212,10 +211,15 @@ $(function(){
 					//console.log(form_values);
 					
 					
-					$('#user_datas input.item:hidden').each(function(index, element) {
-                        var v = $(element).data('v');
-					    $(element).val(form_values[v]);
-                    });
+					//$('#user_datas input.item:hidden').each(function(index, element) {
+                       // var v = $(element).data('v');
+					    //$(element).val(form_values[v]);
+					    //alert(v);
+                   // });
+				   line_template.find('input.item:hidden').each(function(index, element) {
+                       var v = $(element).data('v');
+					   $(element).val(form_values[v]);
+                   });
 					
 					
 					
@@ -329,24 +333,6 @@ $(function(){
 		}
 		
 	});
-
-	$('.main-container').on('click', '.xabina-alert .close-button', function(){
-		var url = $(this).attr('data-del-alert')
-		var element = $(this).parents('.xabina-alert')
-		$.ajax({
-			url: url,
-			success: function(data) {
-				var response= jQuery.parseJSON (data);
-				if(response.success){
-					element.remove()
-				}
-			},
-			cache:false,
-			data: {success: true},
-			type: 'GET'
-		});
-	})
-
 });
 
 
