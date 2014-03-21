@@ -104,6 +104,7 @@
     </tr>
 </table>
 <div class="form-submit">
+	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back">Back</div></a> 
     <div class="submit-button button-next save"
          onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/savephones') . '/' ?>', this)">
         <?= Yii::t('Front', 'Save'); ?>
