@@ -60,9 +60,7 @@
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
-        <td class="item">
-			address,indx,country_id,address_optional,city
-        </td>
+        <td class="item">address,address_optional,indx,city,country_id</td>
         <td class="item">type_id</td>
         <td><?= Yii::t('Front', 'Recent address'); ?></td>
         <td class="remove-td">
@@ -160,6 +158,7 @@
     </tr>
 </table>
 <div class="form-submit">
+	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back">Back</div></a> 
     <div class="submit-button button-next save"
          onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/saveaddress') . '/' ?>', this)">
         <?= Yii::t('Front', 'Save'); ?>
