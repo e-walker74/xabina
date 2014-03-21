@@ -95,7 +95,7 @@ $(function(){
     $('.xabina-progress-bar .current').prev().addClass('previous');
 	
 	/**
-	* Потсветка левого меню
+	* Потсветка левого меню в виджете
 	*/
 	$('.sidebar-menu.list-unstyled li').each(function(i, e) {
 		var my_href;
@@ -105,4 +105,229 @@ $(function(){
 			return;
 		}
 	});
+	
+	
+	/**
+	* Заполнение емейлов
+	*/
+	save_datas = function(url, button){
+		// удаляем  клонированные tr если на них есть класс remove
+	    $('.line-template.remove').remove();
+		var form = $(button).parents('form');
+		$.ajax({
+			url: url,
+			success: function(data) {
+				//alert(data);
+				var response = $.parseJSON (data);
+				if(response.success){
+					//alert(response.html);
+					$("#user_datas").html(response.html);			
+					reset_values();
+				}
+				else {
+						//form.find("input").parent().addClass("valid")
+						//form.find("input").next(".validation-icon").fadeIn();
+						$.each(response, function(k, val) {
+							$("#user_datas #"+k+"_em_").text(val);
+							$("#user_datas #"+k+"_em_").show();                          
+						});
+					}
+			},
+			cache:false,
+			data: form.serialize(),
+			type: 'POST'
+		});
+  } 
+  
+  /**
+  * Контроллер Personal
+  * Временное заполенение таблицы данными о юзере
+  */
+  add_temp_user_datas = function(url, button){
+	  
+		var form = jQuery(button).parents('form')
+		$.ajax({
+			url: url,
+			success: function(data) {
+				
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					
+					var form_values = [];
+				    var select_texts = [];
+					
+					$('#user_datas input:not(:hidden)').each(function(index, element) {
+						var v = $(element).data('v');						
+                        form_values[v] = $(element).val();
+						
+                    });
+					
+				
+					$('#user_datas select').each(function(index, element) {
+						var v = $(element).data('v');
+                        form_values[v] = $(element).val();
+                    });
+										
+					$('#user_datas select option:selected').each(function(index, element) {
+						var v = $(element).parent('select').data('v');
+                        select_texts[v] = $(element).text();
+                    });
+					
+					
+																		
+					var line_template = $(".line-template:hidden").clone(line_template);
+					line_template.show().addClass('cloned');
+					
+					line_template.find("td.item").each(function(index, element) {
+						
+						var td_item_text = $.trim($(element).html());
+
+						var arr_td_item_text = td_item_text.split(',');
+						
+						//console.log(arr_td_item_text);
+
+						for(var i = 0 ; i < arr_td_item_text.length; i++){
+
+							if( select_texts[arr_td_item_text[i]] != undefined){
+								arr_td_item_text[i] = select_texts[arr_td_item_text[i]];
+								//alert('select');
+							}
+							else{
+								arr_td_item_text[i] = form_values[arr_td_item_text[i]];
+								//alert('val');
+							}
+
+							if( form_values[arr_td_item_text[i]] != undefined){
+								arr_td_item_text[i] = form_values[arr_td_item_text[i]];
+							}						
+						}
+						
+						td_item_text = $.trim(arr_td_item_text.join('<br>'));
+						$(element).html(td_item_text)
+						
+					});
+					
+					
+					//console.log(form_values);
+					
+					
+					$('#user_datas input.item:hidden').each(function(index, element) {
+                        var v = $(element).data('v');
+					    $(element).val(form_values[v]);
+                    });
+					
+					
+					
+					$(".line-template:last").after(line_template);					
+					reset_values();	
+																	
+				} else {
+					form.find("input").parent().addClass("valid")
+					form.find("input").next(".validation-icon").fadeIn();
+					$.each(response, function(key, value) {
+						$("#"+key).removeClass("valid");
+						$("#"+key).parent().removeClass("valid");
+						$("#"+key).addClass("input-error");
+						$("#"+key).parent().addClass("input-error");
+						$("#"+key).next(".validation-icon").fadeIn();
+						$("#"+key+"_em_").slideDown();
+						$("#"+key+"_em_").html(''+value);                            
+					});
+				}
+			},
+			cache:false,
+			data: form.serialize(),
+			type: 'POST'
+		});
+	}
+  	 
+	/**
+	* Контроллер Personal
+	* Сброс значений полей формы
+	*/ 
+	function reset_values(){
+		
+		$('#user_datas input.input-text:not(:hidden)').each(function(index, element) {
+			$(element).val('');
+		});
+		
+		$('#user_datas select').each(function(index, element) {
+			$(element).val('');
+		});
+		$("span.select-custom-label").text($("#user_datas select option:first").text());					
+		
+					
+		
+		//$("input.input-text.item0").val('');
+		//$("select.item1 :first").attr("selected", "selected");
+		//$("span.select-custom-label").text($("select.item1 option:first").text());
+		return true;
+	}
+	
+	
+	 add_temp_user_address = function(url, button){
+	  
+		var form = jQuery(button).parents('form')
+		$.ajax({
+			url: url,
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					var input_text_val = $("input.input-text.item0").val();									
+					var select_option_val = $("select.item1").val();
+					var select_option_txt = $("select.item1 option:selected").text();
+							
+																		
+					var line_template = $(".line-template:hidden").clone(line_template);
+					line_template.show();
+					
+					line_template.find("td.item0").html(input_text_val);
+					line_template.find("td.item1").html(select_option_txt);
+										
+					line_template.find("input.hidden.item0").val(input_text_val);
+					line_template.find("input.hidden.item1").val(select_option_val);
+					
+					$(".line-template:last").after(line_template);					
+					reset_values();	
+																	
+				} else {
+					form.find("input").parent().addClass("valid")
+					form.find("input").next(".validation-icon").fadeIn();
+					$.each(response, function(key, value) {
+						$("#"+key).removeClass("valid");
+						$("#"+key).parent().removeClass("valid");
+						$("#"+key).addClass("input-error");
+						$("#"+key).parent().addClass("input-error");
+						$("#"+key).next(".validation-icon").fadeIn();
+						$("#"+key+"_em_").slideDown();
+						$("#"+key+"_em_").html(''+value);                            
+					});
+				}
+			},
+			cache:false,
+			data: form.serialize(),
+			type: 'POST'
+		});
+	}
+  	 
+	
+	/**
+	* Контроллер Personal
+	* Помечаем как удаленные данные во временной таблицы
+	*/
+	$('td.remove-td').live('click', function(){
+		if($(this).parents('tr').find('input.delete').val() == '0'){
+			$(this).parents('tr').find('input.delete').val('1');
+			$(this).parent('tr').css('background-color', '#FFCACA');
+			$(this).parent('tr').addClass('remove');
+		}
+		else{
+			$(this).parents('tr').find('input.delete').val('0');
+			$(this).parent('tr').css('background-color', '#FFF');
+			$(this).parent('tr').removeClass('remove');
+		}
+		
+	});
 });
+
+

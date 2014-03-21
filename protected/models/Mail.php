@@ -12,7 +12,7 @@ class Mail extends CModel{
         return array('template', 'params');
     }
     
-    public function send(Users $user, $template, $params = array())
+    public function send(Users $user, $template, $params = array(), $anotherEmail = false)
 	{
 		$mailTemplate = MailTemplates::model()->find('code = :template', array(':template' => $template));
 		if(!$mailTemplate){
@@ -26,7 +26,7 @@ class Mail extends CModel{
 		$mailer = Yii::app()->mailer;
 		$mailer->IsSMTP();
 		$mailer->ClearAddresses();
-		$mailer->AddAddress($user->email);
+		$mailer->AddAddress(($anotherEmail) ? $anotherEmail : $user->email);
         $mailer->FromName = $mailTemplate->fromName;
         $mailer->CharSet = 'UTF-8';
         $mailer->Subject = $mailTemplate->subject;

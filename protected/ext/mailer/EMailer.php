@@ -33,7 +33,7 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'phpmailer'.DIRECTORY_SEPARAT
 
 /**
  * EMailer is a simple wrapper for the PHPMailer library.
- * @see http://phpmailer.codeworxtech.com/index.php?pg=phpmailer
+ * @see http://phpmailer.codeworxtech.com/_index.php?pg=phpmailer
  *
  * @author MetaYii
  * @package application.extensions.emailer 
