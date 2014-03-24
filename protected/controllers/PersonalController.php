@@ -29,7 +29,8 @@ class PersonalController extends Controller
                     'editphones',
                     'savephones',
                     'editaddress',
-                    'saveaddress'
+                    'saveaddress',
+                    'activate'
                 ),
                 'roles' => array('administrator')
             ),
@@ -39,20 +40,13 @@ class PersonalController extends Controller
         );
     }
 
-    /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
-     */
+
     public function actionIndex()
     {
-        $model_emails = new Users_Emails();
-        $model_phones = new Users_Phones();
-        $model_address = new Users_Address();
-
         $this->render('index', array(
-            'users_emails' => self::getUsersItems($model_emails),
-            'users_phones' => self::getUsersItems($model_phones),
-            'users_address' => self::getUsersItems($model_address),
+            'users_emails' => self::getUsersItems(new Users_Emails),
+            'users_phones' => self::getUsersItems(new Users_Phones),
+            'users_address' => self::getUsersItems(new Users_Address),
         ));
     }
 
@@ -94,6 +88,7 @@ class PersonalController extends Controller
 
                 self::saveUsersEmails($_POST['email'], $_POST['type']);
                 self::removeUsersItems($_POST['delete'], $model_emails);
+
                 if(isset($_POST['type_edit'])){
                     self::editTypeItems($_POST['type_edit'], $model_emails);
                 }
@@ -118,7 +113,7 @@ class PersonalController extends Controller
     public function actionEditphones()
     {
 
-        $model_phones = new Users_Phones('editephones');
+        $model_phones = new Users_Phones('editphones');
 
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
             echo CActiveForm::validate($model_phones);
@@ -153,6 +148,10 @@ class PersonalController extends Controller
 
                 self::saveUsersPhones($_POST['phone'], $_POST['type']);
                 self::removeUsersItems($_POST['delete'], $model_phones);
+
+                if(isset($_POST['type_edit'])){
+                    self::editTypeItems($_POST['type_edit'], $model_phones);
+                }
 
                 $html = $this->renderPartial('_phones', array(
                         'users_phones' => self::getUsersItems($model_phones),
@@ -210,6 +209,10 @@ class PersonalController extends Controller
                 self::saveUsersAddress($_POST);
                 self::removeUsersItems($_POST['delete'], $model_address);
 
+                if(isset($_POST['type_edit'])){
+                    self::editTypeItems($_POST['type_edit'], $model_address);
+                }
+
                 $html = $this->renderPartial('_address', array(
                         'users_address' => self::getUsersItems($model_address),
                         'model_address' => $model_address,
@@ -230,7 +233,22 @@ class PersonalController extends Controller
     public function actionActivate()
     {
         $hash = Yii::app()->getRequest()->getQuery('hash');
-        die;
+
+        $res = Users_Emails::model()->find(array(
+            'select'=>'id',
+            'condition'=>'hash=:hash AND user_id=:user_id',
+            'params'=>array(':hash'=>$hash, 'user_id'=> Yii::app()->user->id),
+        ));
+        if($res ){
+            $post= Users_Emails::model()->findByPk($res->id);
+            $post->status = 1;
+            $post->save();
+            $this->redirect(array('/banking/personal/editemails'));
+            Yii::app()->end();
+        }
+        else{
+            throw new CHttpException(404, Yii::t('Font', 'Page not found'));
+        }
     }
 
 
@@ -274,15 +292,17 @@ class PersonalController extends Controller
 
     private static function editTypeItems(array $arr_post_type, $model)
     {
-       //print_r($arr_post_type); die;
        foreach ($arr_post_type as $k => $v) {
             if (!empty($v) && !empty($k)) {
                 $res = $model->findByPk($k);
                 if ($res) {
-                    $res->email_type_id = (int)$v;
+                    $res->email_type_id = $v;
                     $res->save();
+                   /*if(!$res->save()){
+                       print_r( $res->getErrors());
+                       die;
+                   }*/
                 }
-
             }
         }
         return true;
@@ -343,27 +363,29 @@ class PersonalController extends Controller
      */
     private static function saveUsersAddress(array $post)
     {
-        // добавить иссеты
-        $adress = $post['address'];
-        $address_optional = $post['address_optional'];
-        $indx = $post['indx'];
-        $city = $post['city'];
-        $country_id = $post['country_id'];
-        $type = $post['type'];
-
-        foreach ($adress as $k => $adr) {
+        foreach ($post['address'] as $k => $adr) {
             if (!empty($adr)) {
                 $model_address = new Users_Address;
+
                 $model_address->address = $adr;
-                if (!empty($address_optional[$k])) {
-                    $model_address->address_optional = $address_optional[$k];
+
+                if (!empty($post['address_optional'][$k])) {
+                    $model_address->address_optional = $post['address_optional'][$k];
                 }
-                $model_address->indx = $indx[$k];
-                $model_address->city = $city[$k];
-                $model_address->country_id = $country_id[$k];
+                if (!empty($post['indx'][$k])) {
+                    $model_address->indx = $post['indx'][$k];
+                }
+                if (!empty($post['city'][$k])) {
+                    $model_address->city = $post['city'][$k];
+                }
+                if (!empty($post['country_id'][$k])) {
+                    $model_address->country_id = (int)$post['country_id'][$k];
+                }
+                if (!empty($post['type'][$k])) {
+                    $model_address->email_type_id = (int)$post['type'][$k];
+                }
 
                 $model_address->user_id = Yii::app()->user->id;
-                $model_address->email_type_id = (int)$type[$k];
 
                 $model_address->save();
             }

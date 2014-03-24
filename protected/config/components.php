@@ -73,6 +73,8 @@ return array(
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
             '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
+            '/message/save/<type:(save|send)>/<id:\d+>' => 'message/save',
+            '/message/cancel/<id:\d+>' => 'message/cancel',
 			'/banking/verification/notary' => 'verification/notary',
 			'/banking/verification/creditcard' => '/verification/creditcard',
 			'/banking/verification/getnotaryfile' => 'verification/getnotaryfile',

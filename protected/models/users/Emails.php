@@ -47,14 +47,23 @@ class Users_Emails extends ActiveRecord
 		);
 	}
 
+    /**
+     * Проверка на уникальность емейла
+     * @param $attribute
+     * @param $params
+     */
     public function checkEmailUnique($attribute, $params){
         $this->email = trim($this->email);
+        $email1 = false;
+        $email2 = false;
         if($this->isNewRecord){
-            $email = Users_Emails::model()->find('email = :email', array(':email' => $this->email));
+            $email1 = Users_Emails::model()->find('email = :email AND status=1', array(':email' => $this->email));
+            $email2 = Users_Emails::model()->find('email = :email AND user_id=:user_id', array(':email' => $this->email, ':user_id' =>  Yii::app()->user->id));
         } else {
-            $email = Users_Emails::model()->find('email = :email AND id != :id', array(':phone' => $this->email, ':id' => $this->id));
+            $email1 = Users_Emails::model()->find('email = :email AND id != :id AND status=1', array(':email' => $this->email, ':id' => $this->id));
+            $email2 = Users_Emails::model()->find('email = :email AND id != :id AND user_id=:user_id', array(':email' => $this->email, ':id' => $this->id, ':user_id' =>  Yii::app()->user->id));
         }
-        if($email){
+        if($email1 || $email2){
             $this->addError('email', Yii::t('Front', 'This E-mail is already registered'));
         }
     }
@@ -64,8 +73,6 @@ class Users_Emails extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
             'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
@@ -90,18 +97,7 @@ class Users_Emails extends ActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -123,21 +119,12 @@ class Users_Emails extends ActiveRecord
 		));
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return UsersEmails the static model class
-	 */
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    /*public function addTempNewEmail(){
-        $this->user_id = Yii::app()->user->id;
-        $this->save();
-    }*/
 
     public function beforeSave(){
         if($this->isNewRecord){

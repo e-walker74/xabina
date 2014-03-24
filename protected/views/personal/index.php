@@ -24,7 +24,7 @@
             </span> </div></td>
         <td><span class="primary">
           <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-          <?= Yii::t('Front', 'Resend email'); ?>
+          <?= Yii::t('Front', 'Pending activation'); ?>
           <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
           <?= Yii::t('Front', 'Make primary'); ?>
           <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
@@ -52,13 +52,13 @@
       </tr>
       <? foreach ($users_phones as $users_phone): ?>
       <tr>
-        <td><?= $users_phone->phone ?></td>
+        <td>+<?= $users_phone->phone ?></td>
         <td><div class="relative"> <span class="dropdown_button types_dropdown">
             <?= $users_phone->emailType->type_name ?>
             </span> </div></td>
         <td><span class="primary">
           <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
-          <?= Yii::t('Front', 'Resend email'); ?>
+          <?= Yii::t('Front', 'Pending activation'); ?>
           <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
           <?= Yii::t('Front', 'Make primary'); ?>
           <? elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>

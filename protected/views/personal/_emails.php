@@ -2,7 +2,7 @@
     'id' => 'user_datas',
     'enableAjaxValidation' => false,
     'enableClientValidation' => true,
-    'action' => $this->createUrl('personal/editemails'),
+    //'action' => $this->createUrl('personal/editemails'),
     'errorMessageCssClass' => 'error-message',
     'htmlOptions' => array(
         'class' => 'form-validable',
@@ -11,7 +11,7 @@
     ),
     //'focus'=>array($model,'first_name'),
     'clientOptions' => array(
-        'validateOnSubmit' => false,
+        'validateOnSubmit' => true,
         'validateOnChange' => true,
         'errorCssClass' => 'input-error',
         'successCssClass' => 'valid'
@@ -40,7 +40,7 @@
             <td>
             	<span class="primary">
                 <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-                	<?= Yii::t('Front', 'Resend email'); ?>
+                	<?= Yii::t('Front', 'Pending activation'); ?>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
                 	<?= Yii::t('Front', 'Make primary'); ?>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
@@ -51,13 +51,13 @@
                 <div class="remove-btn"></div>
             </td>
             <input type="hidden" name="delete[<?= $users_email->id ?>]" class="delete" value="0"/>
-            <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type" value="0"/>
+            <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
         <td class="item">email</td>
         <td class="item">type_id</td>
-        <td><?= Yii::t('Front', 'Resend email'); ?></td>
+        <td><?= Yii::t('Front', 'Pending activation'); ?></td>
         <td class="remove-td">
             <div class="remove-btn"></div>
         </td>
@@ -121,6 +121,5 @@ $('.types_dropdown').dropDown({
 		<? endforeach;?>
 	},
 	listClass: 'type_dropdown',
-	bgEdit: '#FFCACA'
 });
 </script>

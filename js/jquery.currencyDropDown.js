@@ -3,6 +3,7 @@
 
         options = $.extend({
             list: {},   //object with elements to be in dropdown menu;
+			bgEdit: '#FFE173', // bg color after change
             toChange: true  //change layout
         }, options);
 
@@ -10,17 +11,14 @@
         var $dropDown;
 
        function createDropDown(){
-		   console.log(options.list);
+		   //console.log(options.list);
 		  	
             var dropDown = '<ul class="dropdown_list list-unstyled ' + options.listClass + '">';
             for ( var prop in options.list ){
                 dropDown += '<li><a href="#" data-id=' + options.list[prop].id +'>'+  options.list[prop].name +'</a></li>';
 			}
 		
-            dropDown += '</ul>';
-			
-			
-			
+            dropDown += '</ul>';			
             return dropDown;
         }
 
@@ -32,7 +30,6 @@
         var init = function (){
 
             var self = $(this);
-
 
             $('body').click({self: self}, function(e){
                 //debugger;
@@ -58,10 +55,11 @@
                 e.preventDefault();
                 if(options.toChange){
                     self.html($(this).text()+' <span class="currency_drdn_arr"></span>');
-
                 }
+				// получаем id type из ссылки на выбранный элемент
 				var id = $(this).data('id');
-				self.parents('tr').find('input:hidden.type').val(id);
+				// меняем value поля type_edit
+				self.parents('tr').find('input:hidden.type_edit').val(id);
 				self.parents('tr').css('background-color',options.bgEdit);
 				
                 removeDropDown();
@@ -75,9 +73,7 @@
 				
             }
         };
-		
-		
-		
+						
         return this.each(init);
     }
 })(jQuery);

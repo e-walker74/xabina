@@ -33,12 +33,11 @@ class Users_Phones extends ActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('email_type_id', 'required', 'on'=>'editephones'),
-            array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'),'on'=>'editephones'),
-            array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..')),
+			array('email_type_id', 'required', 'on'=>'editphones'),
+            array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'),'on'=>'editphones'),
+            array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..'),'on'=>'editphones'),
+            array('phone', 'checkPhoneUnique', 'on'=>'editphones'),
             array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
             array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
@@ -49,13 +48,34 @@ class Users_Phones extends ActiveRecord
 		);
 	}
 
+    /**
+     * Проверка на повторяемость телефона
+     * @param $attribute
+     * @param $params
+     */
+    public function checkPhoneUnique($attribute, $params){
+        // сверяем телефоны без +
+        $this->phone = trim($this->phone,'+');
+        $phone1 = false;
+        $phone2 = false;
+        if($this->isNewRecord){
+            $phone1 = Users_Phones::model()->find('phone = :phone AND status=1', array(':phone' => $this->phone));
+            $phone2 = Users_Phones::model()->find('phone = :phone AND user_id=:user_id', array(':phone' => $this->phone, ':user_id' =>  Yii::app()->user->id));
+
+        } else {
+            $phone1 = Users_Phones::model()->find('phone = :phone AND id != :id AND status=1', array(':phone' => $this->phone, ':id' => $this->id));
+            $phone2 = Users_Phones::model()->find('phone = :phone AND id != :id AND user_id=:user_id', array(':phone' => $this->phone, ':id' => $this->id, ':user_id' =>  Yii::app()->user->id));
+        }
+        if($phone1 || $phone2){
+            $this->addError('phone', Yii::t('Front', 'This Phone is already registered'));
+        }
+    }
+
 	/**
 	 * @return array relational rules.
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
@@ -80,18 +100,7 @@ class Users_Phones extends ActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -113,12 +122,6 @@ class Users_Phones extends ActiveRecord
 		));
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return UsersPhones the static model class
-	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -128,6 +131,8 @@ class Users_Phones extends ActiveRecord
         if($this->isNewRecord){
             $this->hash = md5($this->phone . 'xabina hash' . time());
         }
+        // телефон должен попадать в базу без +
+        $this->phone = trim($this->phone, '+');
         return parent::beforeSave();
     }
 }

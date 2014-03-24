@@ -57,12 +57,13 @@
                 <div class="remove-btn"></div>
             </td>
             <input type="hidden" name="delete[<?= $users_addr->id ?>]" class="delete" value="0"/>
+            <input type="hidden" name="type_edit[<?= $users_addr->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
         <td class="item">address,address_optional,indx,city,country_id</td>
         <td class="item">type_id</td>
-        <td><?= Yii::t('Front', 'Resend address'); ?></td>
+        <td><?= Yii::t('Front', 'Pending activation'); ?></td>
         <td class="remove-td">
             <div class="remove-btn"></div>
         </td>
@@ -165,3 +166,15 @@
     </div>
 </div>
 <?php $this->endWidget(); ?>
+<script>
+$('.types_dropdown').dropDown({
+	list: {
+		<? foreach(Users_EmailTypes::all() as $k => $v):?>
+		<? if(!empty($k) && !empty($v)):?>
+	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
+		<? endif; ?>
+		<? endforeach;?>
+	},
+	listClass: 'type_dropdown',
+});
+</script>

@@ -33,11 +33,10 @@ class Users_Address extends ActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
+
 		return array(
 			array('email_type_id, address, indx, city, country_id', 'required','on'=>'editaddress'),
-            array('indx', 'match', 'pattern' => '/^\+\d+$/'),
+            //array('indx', 'match', 'pattern' => '/*\d+*/'),
 			array('user_id, email_type_id, status, is_master, country_id', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
             array('address, address_optional, city, indx', 'length', 'max'=>255),
@@ -52,8 +51,7 @@ class Users_Address extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
+
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
@@ -83,18 +81,7 @@ class Users_Address extends ActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
