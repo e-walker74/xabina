@@ -94,7 +94,9 @@ class PersonalController extends Controller
 
                 self::saveUsersEmails($_POST['email'], $_POST['type']);
                 self::removeUsersItems($_POST['delete'], $model_emails);
-                self::editTypeItems($_POST['type'], $model_emails);
+                if(isset($_POST['type_edit'])){
+                    self::editTypeItems($_POST['type_edit'], $model_emails);
+                }
 
                 $html = $this->renderPartial('_emails', array(
                         'users_emails' => self::getUsersItems($model_emails),

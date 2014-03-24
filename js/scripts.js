@@ -22,14 +22,14 @@ $(function(){
     });
 
 
-    $('.types_dropdown').dropDown({
+    /*$('.types_dropdown').dropDown({
         list: {
            '1': {id:1, name:'Business'},
            '3': {id:3, name:'Personal'}
         },
 
         listClass: 'type_dropdown'
-    });
+    });*/
 
     $('.select-invisible').live('change', onCustomSelectChange);
     function onCustomSelectChange(){
@@ -248,6 +248,7 @@ $(function(){
 	*/ 
 	function reset_values(form){	
 		$(form)[0].reset();
+		$(form).val('');
 		form.find("span.select-custom-label").text(form.find("select option:first").text());					
 		return true;
 	}

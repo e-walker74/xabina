@@ -62,7 +62,7 @@
                 }
 				var id = $(this).data('id');
 				self.parents('tr').find('input:hidden.type').val(id);
-				
+				self.parents('tr').css('background-color',options.bgEdit);
 				
                 removeDropDown();
             }

@@ -51,7 +51,7 @@
                 <div class="remove-btn"></div>
             </td>
             <input type="hidden" name="delete[<?= $users_email->id ?>]" class="delete" value="0"/>
-            <input type="hidden" name="type[<?= $users_email->id ?>]" class="type" value="0"/>
+            <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type" value="0"/>
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
@@ -120,6 +120,7 @@ $('.types_dropdown').dropDown({
 		<? endif; ?>
 		<? endforeach;?>
 	},
-	listClass: 'type_dropdown'
+	listClass: 'type_dropdown',
+	bgEdit: '#FFCACA'
 });
 </script>
