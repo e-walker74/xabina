@@ -37,13 +37,13 @@ class Users_Address extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email_type_id, address, indx, city, country_id', 'required','on'=>'editaddress'),
+            array('indx', 'match', 'pattern' => '/^\+\d+$/'),
 			array('user_id, email_type_id, status, is_master, country_id', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
-			array('address', 'length', 'max'=>500),
-            array('address', 'length', 'min'=>10),
+            array('address, address_optional, city, indx', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, email_type_id, hash, status, is_master, address', 'safe', 'on'=>'search'),
+			array('id, user_id, email_type_id, hash, status, is_master, address, address_optional, city, indx, country_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +57,7 @@ class Users_Address extends ActiveRecord
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
+            'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
 		);
 	}
 
@@ -126,14 +127,5 @@ class Users_Address extends ActiveRecord
 		return parent::model($className);
 	}
 
-    /**
-     * Все типы
-     * @return array
-     */
-    public static function all(){
 
-        $array = array( '' => 'choose', 1 => 'Moscou');
-
-        return $array;
-    }
 }

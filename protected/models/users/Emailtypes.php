@@ -102,7 +102,7 @@ class Users_Emailtypes extends ActiveRecord
      */
     public static function all(){
         $models = self::model()->findAll();
-        $array = array( '' => 'choose');
+        $array = array( '' => 'Choose');
         foreach ($models as $v) {
             $array[$v->id] = $v->type_name;
         }

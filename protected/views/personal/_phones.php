@@ -40,7 +40,7 @@
             <td>
             	<span class="primary">
                 <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
-                	<?= Yii::t('Front', 'Recent email'); ?>
+                	<?= Yii::t('Front', 'Resend email'); ?>
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
                 	<?= Yii::t('Front', 'Make primary'); ?>
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
@@ -56,7 +56,7 @@
     <tr style="display:none; background:#CEFFCE" class="line-template">
         <td class="phone item">phone</td>
         <td class="type item">type_id</td>
-        <td><?= Yii::t('Front', 'Recent phone'); ?></td>
+        <td><?= Yii::t('Front', 'Resend phone'); ?></td>
         <td class="remove-td">
             <div class="remove-btn"></div>
         </td>
@@ -104,7 +104,7 @@
     </tr>
 </table>
 <div class="form-submit">
-	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back">Back</div></a> 
+	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a> 
     <div class="submit-button button-next save"
          onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/savephones') . '/' ?>', this)">
         <?= Yii::t('Front', 'Save'); ?>
