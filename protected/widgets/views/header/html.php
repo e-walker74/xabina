@@ -1,13 +1,13 @@
 <div class="header-top clearfix">
-	<div class="account-status pull-left"><?= Yii::t('Front', 'Account status:'); ?> <span>
+	<div class="account-status pull-left"><?= Yii::t('Front', 'Account status:'); ?> 
 	<?php if(Yii::app()->user->status == Users::USER_EMAIL_IS_ACTIVE): ?>
-		<?= Yii::t('Front', 'USER_EMAIL_IS_ACTIVED'); ?>
+		<span><?= Yii::t('Front', 'USER_EMAIL_IS_ACTIVED'); ?></span>
 	<?php elseif(Yii::app()->user->status == Users::USER_IS_ACTIVATED): ?>
-		<?= Yii::t('Front', 'USER_IS_ACTIVATED'); ?>
+		<span class="yellow"><?= Yii::t('Front', 'USER_IS_ACTIVATED'); ?></span>
 	<?php elseif(Yii::app()->user->status == Users::USER_IS_VERIFICATED): ?>
-		<?= Yii::t('Front', 'USER_IS_VERIFICATED'); ?>
+		<span class="green"><?= Yii::t('Front', 'USER_IS_VERIFICATED'); ?></span>
 	<?php endif; ?>
-	</span></div>
+	</div>
 	<?php if(Yii::app()->user->lastIp || Yii::app()->user->lastTime): ?>
 	<div class="last-visit pull-right">
 		<?= Yii::t('Front', 'Last enter:'); ?>
@@ -41,7 +41,7 @@
 		<li><a href="#"><?= Yii::t('Front', 'History') ?></a></li>
 	</ul>
 	<div class="search-cont pull-right">
-		<input value="Введите слово..." onfocus="if($(this).val()=='Введите слово...')$(this).val('')" onblur="if($(this).val()=='')$(this).val('Введите слово...')" type="text" class="search-text">
+		<input value="<?= Yii::t('Front', 'Search...') ?>" onfocus="if($(this).val()=='<?= Yii::t('Front', 'Search...') ?>')$(this).val('')" onblur="if($(this).val()=='')$(this).val('<?= Yii::t('Front', 'Search...') ?>')" type="text" class="search-text">
 		<div class="search-submit"></div>
 	</div>
 </div>

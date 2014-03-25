@@ -2,6 +2,30 @@
   <div class="h1-header">
     <?= Yii::t('Front', 'My personal cabinet'); ?>
   </div>
+<div id="personal_details_cont">
+	<div id="personal_details_view">
+		<div class="subheader"><?= Yii::t('Front', 'Personal details'); ?></div>
+		<table class="table xabina-table">
+			<tbody>
+			<tr class="table-header">
+				<th style="width: 39%"><?= $model->getAttributeLabel('first_name') ?></th>
+				<th style="width: 25%"><?= $model->getAttributeLabel('last_name') ?></th>
+				<th style="width: 24%"></th>
+				<th style="width: 12%" class="edit-th">
+					<a href="<?= Yii::app()->createUrl('/personal/editname') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				</th>
+			</tr>
+			<tr>
+				<td><?= $model->first_name ?></td>
+				<td><?= $model->last_name ?></td>
+				<td></td>
+				<td></td>
+			</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>
   <div class="subheader">
     <?= Yii::t('Front', 'E-Mail addresses'); ?>
   </div>

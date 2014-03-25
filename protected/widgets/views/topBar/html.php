@@ -17,7 +17,7 @@
                         </ul>
                     </div>
                     <ul class="user-menu pull-right  list-inline">
-                        <li class="user-personal"><a href="#"></a></li>
+                        <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
                         <li class="user-email"><a href="#"></a></li>
                         <li class="user-settings"><a href="#"></a></li>
                         <li class="user-logout"><?= CHtml::link('', array('/logout'), array('onclick'=>'return confirm("'.Yii::t('Front', 'Are you sure you want to logout?').'")')); ?></li>

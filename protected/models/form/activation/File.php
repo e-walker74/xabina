@@ -48,18 +48,6 @@ class Form_Activation_File extends CFormModel
 			'description' => Yii::t('Front', 'Description'),
 		);
 	}
-	
-	public function authenticatePhone($attribute,$params)
-	{
-		//if(!$this->hasErrors())
-		//{
-			$this->phone = trim($this->phone, '+');
-			$user = Users::model()->find('phone = :phone AND id != :user_id', array(':phone' => $this->phone, ':user_id' => $this->user_id));
-			if($user){
-				$this->addError('phone', Yii::t('Front', 'This Mobile Phone is already registered'));
-			}
-		//}
-	}
 
 	private function _setAttributes(&$to, $attributes)
 	{

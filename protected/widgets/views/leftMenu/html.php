@@ -1,9 +1,9 @@
 <ul class="sidebar-menu list-unstyled">
 	<li class="overview">
-		<a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/banking') ?>/"><?= Yii::t('Front', 'Overview') ?></a>
+		<a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/banking') ?>"><?= Yii::t('Front', 'Overview') ?></a>
 	</li>
 	<li class="accounts">
-		<a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/banking/accountsactivation') ?>/"><?= Yii::t('Front', 'Accounts') ?></a>
+		<a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/banking/accounts') ?>"><?= Yii::t('Front', 'Accounts') ?></a>
 	</li>
 	<li class="payments">
 		<a href="accounts_activation.html"><?= Yii::t('Front', 'Payments') ?></a>

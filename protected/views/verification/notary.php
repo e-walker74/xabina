@@ -121,8 +121,8 @@
 								</div>
 								<div class="field-input">
 									<div class="select-custom">
-										<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
-										<?= $form->dropDownList($model, 'file_type', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'PDF'), 2 => Yii::t('Front', 'JPG'), 3 => Yii::t('Front', 'PNG'), 4 => Yii::t('Front', 'GIF')), array('class' => 'country-select select-invisible')); ?>
+										<span class="select-custom-label"><?= Yii::t('Front', 'Notary form'); ?> </span>
+										<?= $form->dropDownList($model, 'file_type', array('notary_form' => Yii::t('Front', 'Notary form')), array('class' => 'country-select select-invisible')); ?>
 										<span class="validation-icon"></span>
 									</div>
 									<?= $form->error($model, 'file_type', array()); ?>

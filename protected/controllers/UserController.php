@@ -51,6 +51,27 @@ class UserController extends Controller
 				$account->user_id = $user->id;
 				$account->balance = $user->gift;
 				$account->save();
+				
+				$personal = new Users_Personal_Edit;
+				$personal->user_id = $user->id;
+				$personal->first_name = $user->first_name;
+				$personal->last_name = $user->last_name;
+				$personal->save();
+				
+				$phone = new Users_Phones;
+				$phone->user_id = $user->id;
+				$phone->email_type_id = 3; // TODO: email types
+				$phone->phone = $user->phone;
+				$phone->status = 0;
+				$phone->save();
+				
+				$phone = new Users_Emails;
+				$phone->user_id = $user->id;
+				$phone->email_type_id = 3; // TODO: email types
+				$phone->email = $user->email;
+				$phone->status = 1;
+				$phone->is_master = 1;
+				$phone->save();
 			
 				$model = new Form_Login;
 				$model->login = $user->email;

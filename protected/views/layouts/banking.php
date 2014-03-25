@@ -5,11 +5,13 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
+	<link rel="stylesheet" href="/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
     <link  rel="stylesheet/less" type="text/css" href="/css/style.less" />
     <link rel="stylesheet" href="/css/media.css" />
     <!--<script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>-->
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
+	<script type="text/javascript" src="/default/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/less.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
     <script type="text/javascript" src="/js/jquery.currencyDropDown.js"></script>

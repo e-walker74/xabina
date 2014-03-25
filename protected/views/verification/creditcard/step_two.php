@@ -34,17 +34,22 @@
 		<tr class="list-tr">
 			<td>
 				<table class="verification-code-table">
-					<tbody><tr>
-						<td width="20%"><?= $model->getAttributeLabel('country_id') ?>:</td>
-						<td width="80%" class="header"><?= $model->id ?></td>
-					</tr>
+					<tbody>
 					<tr>
-						<td><?= $model->getAttributeLabel('swift') ?>:</td>
-						<td class="header"><?= $model->swift ?></td>
+						<td><?= $model->getAttributeLabel('account_holder') ?>:</td>
+						<td class="header"><?= $model->account_holder ?></td>
 					</tr>
 					<tr>
 						<td><?= $model->getAttributeLabel('account_number') ?>:</td>
-						<td class="header"><?= $model->account_number ?></td>
+						<td class="header"><?= chunk_split($model->account_number, 4) ?></td>
+					</tr>
+					<tr>
+						<td><?= Yii::t('Front', 'Expiry Date') ?>:</td>
+						<td class="header"><?= $model->expiry_year ?>/<?= sprintf("%02d", $model->expiry_month) ?></td>
+					</tr>
+					<tr>
+						<td><?= $model->getAttributeLabel('cvc_code') ?>:</td>
+						<td class="header"><?= $model->cvc_code ?></td>
 					</tr>
 				</tbody></table>
 			</td>
@@ -58,7 +63,7 @@
 	<div class="xabina-form-container">
 	<?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'verification-creditcard',
-			'action' => Yii::app()->createUrl('/verification/creditcard').'/',
+			'action' => Yii::app()->createUrl('/verification/verificatinmethod', array('modelId' => 'creditcard')).'/',
             'enableAjaxValidation'=>false,
             'enableClientValidation'=>true,
 			'errorMessageCssClass' => 'error-message',
@@ -135,7 +140,7 @@
 	</table>
 
 	<div class="form-submit">
-		<div class="submit-button button-back"><?= Yii::t('Front', 'Back'); ?></div>
+		<a href="<?= Yii::app()->createUrl('/verification/verificatinmethod', array('modelId' => 'creditcard', 'back' => 1)); ?>" class="submit-button button-back"><?= Yii::t('Front', 'Back'); ?></a>
 		<div class="submit-button button-next" onclick="js:next(this); return false;"><?= Yii::t('Front', 'Next'); ?></div>
 	</div>
 	<?php $this->endWidget(); ?>

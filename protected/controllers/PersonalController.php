@@ -29,7 +29,9 @@ class PersonalController extends Controller
                     'editphones',
                     'savephones',
                     'editaddress',
-                    'saveaddress'
+                    'saveaddress',
+					'editname',
+					'uploadfile',
                 ),
                 'roles' => array('administrator')
             ),
@@ -48,8 +50,11 @@ class PersonalController extends Controller
         $model_emails = new Users_Emails();
         $model_phones = new Users_Phones();
         $model_address = new Users_Address();
+		
+		$model = Users::model()->findByPk(Yii::app()->user->id);
 
         $this->render('index', array(
+			'model' => $model,
             'users_emails' => self::getUsersItems($model_emails),
             'users_phones' => self::getUsersItems($model_phones),
             'users_address' => self::getUsersItems($model_address),
@@ -223,6 +228,108 @@ class PersonalController extends Controller
         }
     }
 
+	public function actionEditname(){
+		//$model = Users::model()->findByPk(Yii::app()->user->id);
+		
+		$files1 = Users_Files::model()->findAll('form = "editname" AND document = 1 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
+		$files2 = Users_Files::model()->findAll('form = "editname" AND document = 2 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
+		$model = new Form_Editname_File;
+		
+		if (Yii::app()->getRequest()->isAjaxRequest && (Yii::app()->getRequest()->getParam('ajax') == 'editname-from-1' || Yii::app()->getRequest()->getParam('ajax') == 'editname-from-2')) {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+		
+		if(isset($_POST['Form_Editname_File']) && Yii::app()->request->isAjaxRequest){
+			if(CActiveForm::validate($model) != '[]'){
+				echo CActiveForm::validate($model);
+			} else {
+				foreach($_POST['Form_Editname_File']['files'] as $file){
+					$document = $_POST['Form_Editname_File']['document'];
+					$fileModel = Users_Files::model()->find('user_id = :uid AND name = :name AND document = :document', array(':uid' => Yii::app()->user->id, ':name' => $file, ':document' => $document));
+					if($fileModel){
+						$fileModel->description = $model->description;
+						$fileModel->document_type = $model->file_type;
+						$fileModel->document = $model->document;
+						$fileModel->save();
+					}
+				}
+				echo CJSON::encode(array('success' => true));
+			}
+			Yii::app()->end();
+		}
+		
+		if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('success') == 'true'){
+			$success = true;
+			if(empty($files1) || empty($files1)){
+				$success = false;
+			} else {
+				foreach($files1 as $file){
+					if(!$file->document_type){
+						$success = false;
+					}
+				}
+				foreach($files2 as $file){
+					if(!$file->document_type){
+						$success = false;
+					}
+				}
+			}
+
+			if($success){
+				$personalEdit = new Users_Personal_Edit();
+				$personalEdit->user_id = Yii::app()->user->id;
+				$personalEdit->save();
+				Yii::log('User was change personal information', CLogger::LEVEL_INFO);
+				echo CJSON::encode(array('success' => true));
+			}
+			Yii::app()->end();
+		}
+
+		$this->render('_editname', array('model' => $model, 'files1' => $files1, 'files2' => $files2));
+	}
+	
+	public function actionUploadFile(){
+		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
+		$documentNum = Yii::app()->request->getParam('doc','int');
+		$countFiles = Users_Files::model()->count('form = "editname" AND document = :docNumb AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id, ':docNumb' => $documentNum));
+		if($countFiles >= 2){
+			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Many files')));
+			Yii::app()->end();
+		}
+		
+		$folder=Yii::app()->getBasePath(true) . '/../../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
+		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
+		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
+		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+		$oldUmask = umask ();
+		umask ( 0 );
+		$res = @mkdir ( $folder, 0777, 1);
+		umask ( $oldUmask );
+		$oldUmask = umask ();
+		$uploader->setFileName(mb_substr(md5(Yii::app()->user->name . time()), 5, 10));
+		$result = $uploader->handleUpload($folder);
+		$return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
+		
+		$fileSize=filesize($folder.$result['filename']); //GETTING FILE SIZE
+		$fileName=$result['filename']; //GETTING FILE NAME
+		
+		if($result['success'] == true){
+			$file = new Users_Files();
+			$file->user_id = Yii::app()->user->id;
+			$file->name = $result['filename'];
+			$file->ext = $uploader->getFileExt();
+			$file->form = 'editname';
+			$file->user_file_name = $uploader->getUserFileName();
+			$file->document = $documentNum;
+			if(!$file->save()){
+				dd($file->getErrors());
+			}
+		}
+
+		echo $return;// it's array
+		Yii::app()->end();
+	}
 
     public function actionActivate()
     {
@@ -281,20 +388,21 @@ class PersonalController extends Controller
                 $model_emails->email = $email;
                 $model_emails->user_id = Yii::app()->user->id;
                 $model_emails->email_type_id = (int)$arr_post_type[$k];
-                $model_emails->save();
-                /*if($model_emails->save()){
+                //$model_emails->save();
+                if($model_emails->save()){
                     $mail = new Mail;
                     $mail->send(
                         $model_emails->user, // this user
                         'emailConfirm', // sys mail code
                         array( // params
+							'{:type}' => 'email',
                             '{:date}' => date('Y m d', time()),
-                            '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/'.$this->createUrl('/personal/activate', array('type' => 'email','hash' => $model_emails->hash)),
+                            '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/'.Yii::app()->createUrl('/personal/activate', array('type' => 'email', 'hash' => $model_emails->hash)),
                         ),
                         $model_emails->email
                     );
 
-                }*/
+                }
 
             }
         }

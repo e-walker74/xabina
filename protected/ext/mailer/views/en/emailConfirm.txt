@@ -7,11 +7,11 @@
     <body>
 		<h2>Здравствуйте, <strong>{:userFullName}</strong></h2>
 
-		<em style="padding:10px;border-left:1px solid #d8d8d8">Ваш почтовый адрес {:userEmail} был указан при регистрации  на сайте 
-		XABINA.COM {:date}.</em>
-
 		<p>
-			Вы успешно зарегистрированы на сайте XABINA.COM
+			Вы добавили {:type} к своему профилю, чтобы активировать пройдите по ссылке
+		</p>
+		<p>
+			{:activateUrl}
 		</p>
 
 		<table border="0">

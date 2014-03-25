@@ -51,6 +51,8 @@ class Transactions extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
+			'info' => array(self::HAS_ONE, 'Transactions_Info', 'transaction_id'),
+			'attachments' => array(self::HAS_MANY, 'Transactions_Info_Attachments', 'transaction_id'),
 		);
 	}
 
@@ -91,6 +93,7 @@ class Transactions extends ActiveRecord
 		$criteria->together = true;
 		$criteria->limit = 3;
 		$criteria->order = 't.created_at desc';
+		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

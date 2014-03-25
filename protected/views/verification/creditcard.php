@@ -27,7 +27,7 @@
 	
 	<?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'verification-creditcard',
-			'action' => Yii::app()->createUrl('/verification/creditcard').'/',
+			'action' => Yii::app()->createUrl('/verification/verificatinmethod', array('modelId' => 'creditcard')).'/',
             'enableAjaxValidation'=>true,
             'enableClientValidation'=>false,
 			'errorMessageCssClass' => 'error-message',
@@ -77,52 +77,95 @@
 				}'
 			),
 	)); ?>
-		<div class="h2-header"><?= Yii::t('Front', 'Add bank account'); ?></div>
+		<div class="h2-header"><?= Yii::t('Front', 'Add credit card account'); ?></div>
 		<div class="xabina-form-container ">
-		   <div class="form-row clearfix">
+			<div class="form-row clearfix">
 				<div class="col-lg-5 col-md-5 col-sm-5">
-					<div class="field-lbl">
-						<?= $model->getAttributeLabel('country_id') ?> 
-						<span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+				   <div class="field-lbl">
+						<?= $model->getAttributeLabel('account_holder') ?> 
+						<span class="tooltip-icon " title="<?= Yii::t('Front', 'Insert Account Holder'); ?>"></span>
 					</div>
 					<div class="field-input">
-						<div class="select-custom">
-							<span class="select-custom-label"><?= Yii::t('Front', 'Select'); ?> </span>
-							<?= $form->dropDownList($model, 'country_id', array('' => Yii::t('Front', 'Select'), 1 => Yii::t('Front', 'Belarus'), 2 => Yii::t('Front', 'Russian'), 3 => Yii::t('Front', 'USA')), array('class' => 'country-select select-invisible')); ?>
-							<span class="validation-icon"></span>
-						</div>
-						<?= $form->error($model, 'country_id', array()); ?>
+						<?= $form->textField($model, 'account_holder', array('autocomplete' => 'off', 'class' => 'input-text jquery-live-validation-on')); ?>
+						<span class="validation-icon"></span>
+						<?= $form->error($model, 'account_holder', array()); ?>
 					</div>
 				</div>
 			</div>
 			<div class="form-row clearfix">
 				<div class="col-lg-5 col-md-5 col-sm-5">
-					<div class="field-lbl">
-						<?= $model->getAttributeLabel('swift') ?> 
-						<span class="tooltip-icon " title="<?= Yii::t('Front', 'Add SWIFT code'); ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($model, 'swift', array('autocomplete' => 'off', 'class' => 'input-text jquery-live-validation-on')); ?>
-						<span class="validation-icon"></span>
-						<?= $form->error($model, 'swift', array()); ?>
-					</div>
-				</div>
-		   </div>
-		   <div class="form-row clearfix">
-			   <div class="col-lg-5 col-md-5 col-sm-5">
 				   <div class="field-lbl">
 						<?= $model->getAttributeLabel('account_number') ?> 
-						<span class="tooltip-icon " title="<?= Yii::t('Front', 'Add SWIFT code'); ?>"></span>
+						<span class="tooltip-icon " title="<?= Yii::t('Front', 'Account number'); ?>"></span>
 					</div>
 					<div class="field-input">
 						<?= $form->textField($model, 'account_number', array('autocomplete' => 'off', 'class' => 'input-text jquery-live-validation-on')); ?>
 						<span class="validation-icon"></span>
 						<?= $form->error($model, 'account_number', array()); ?>
 					</div>
-			   </div>
-		   </div>
-		   <div class="form-submit">
-				<div class="submit-button button-back"><?= Yii::t('Front', 'Back'); ?></div>
+				</div>
+			</div>
+			<div class="form-row clearfix">
+				<div class="col-lg-5 col-md-5 col-sm-5">
+				   <div class="field-lbl">
+						<?= $model->getAttributeLabel('expiry_year') ?> 
+						<span class="tooltip-icon " title="<?= Yii::t('Front', 'Expiry year'); ?>"></span>
+					</div>
+					<div class="field-input">
+						<div class="select-custom">
+							<?php
+								$years = array('' => Yii::t('Front', 'Choose'));
+								$last = date('Y', time());
+								$years[$last] = $last;
+								for($i = 1; $i <= 10; $i++){
+									$last++;
+									$years[$last] = $last;
+								}
+							?>
+							<span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
+							<?= $form->dropDownList($model, 'expiry_year', $years, array('autocomplete' => 'off', 'class' => 'country-select select-invisible')); ?>
+							<span class="validation-icon"></span>
+							<?= $form->error($model, 'expiry_year', array()); ?>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-5 col-sm-5">
+				   <div class="field-lbl">
+						<?= $model->getAttributeLabel('expiry_month') ?> 
+						<span class="tooltip-icon " title="<?= Yii::t('Front', 'Expiry month'); ?>"></span>
+					</div>
+					<div class="field-input">
+						<div class="select-custom">
+                            <?php
+								$months = array('' => Yii::t('Front', 'Choose'));
+								for($i = 1; $i <= 12; $i++){
+									$month=sprintf("%02d", $i);
+									$months[$month] = $month;
+								}
+							?>
+							<span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
+							<?= $form->dropDownList($model, 'expiry_month', $months, array('autocomplete' => 'off', 'class' => 'country-select select-invisible')); ?>
+							<span class="validation-icon"></span>
+							<?= $form->error($model, 'expiry_month', array()); ?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-row clearfix">
+				<div class="col-lg-5 col-md-5 col-sm-5">
+				   <div class="field-lbl">
+						<?= $model->getAttributeLabel('cvc_code') ?> 
+						<span class="tooltip-icon " title="<?= Yii::t('Front', 'cvc code'); ?>"></span>
+					</div>
+					<div class="field-input">
+						<?= $form->textField($model, 'cvc_code', array('autocomplete' => 'off', 'class' => 'input-text jquery-live-validation-on')); ?>
+						<span class="validation-icon"></span>
+						<?= $form->error($model, 'cvc_code', array()); ?>
+					</div>
+				</div>
+			</div>
+			<div class="form-submit">
+				<a href="<?= Yii::app()->createUrl('/verification/index') ?>" class="submit-button button-back"><?= Yii::t('Front', 'Back'); ?></a>
 				<input type="submit" class="submit-button button-next" onclick="js:next(this); return false;" value="<?= Yii::t('Front', 'Next'); ?>" />
 			</div>
 		</div>

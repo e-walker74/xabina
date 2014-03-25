@@ -21,7 +21,7 @@ $(function(){
         }
     });
 
-    $('.select-invisible').on('change', onCustomSelectChange);
+    $('.container').on('change', '.select-invisible', onCustomSelectChange);
     function onCustomSelectChange(){
         $(this).prev('span').text($(this).find(':selected').text());
     }
@@ -270,8 +270,7 @@ $(function(){
 	}
 	
 	
-	 add_temp_user_address = function(url, button){
-	  
+	add_temp_user_address = function(url, button){
 		var form = jQuery(button).parents('form')
 		$.ajax({
 			url: url,
@@ -333,6 +332,150 @@ $(function(){
 		}
 		
 	});
+	
+	$('.main-container').on('click', '.xabina-alert .close-button', function(){
+ 		var url = $(this).attr('data-del-alert')
+ 		var element = $(this).parents('.xabina-alert')
+ 		$.ajax({
+ 			url: url,
+ 			success: function(data) {
+ 				var response= jQuery.parseJSON (data);
+ 				if(response.success){
+ 					element.remove()
+ 				}
+ 			},
+ 			cache:false,
+ 			data: {success: true},
+ 			type: 'GET'
+ 		});
+ 	})
+	
+	uploadFile = function(button){
+		var form = jQuery(button).parents('form')
+		$.ajax({
+			url: form.attr('action'),
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					form.addClass('success')
+				} else {
+					form.removeClass('success')
+					form.find("input").parent().addClass("valid")
+					form.find("input").next(".validation-icon").fadeIn();
+					$.each(response, function(key, value) {
+						$("#"+form.attr("id")+" #"+key).removeClass("valid");
+						$("#"+form.attr("id")+" #"+key).parent().removeClass("valid");
+						$("#"+form.attr("id")+" #"+key).addClass("input-error");
+						$("#"+form.attr("id")+" #"+key).parent().addClass("input-error");
+						$("#"+form.attr("id")+" #"+key).next(".validation-icon").fadeIn();
+						$("#"+form.attr("id")+" #"+key+"_em_").slideDown();
+						$("#"+form.attr("id")+" #"+key+"_em_").html(''+value);                            
+					});
+				}
+			},
+			cache:false,
+			async: false,
+			data: form.serialize(),
+			type: 'POST'
+		});
+	}
+	
+	saveEditName = function(url, button){
+		var forms = jQuery(document).find('form')
+		$.each(forms, function(key, value) {
+			if(!$(value).hasClass("success")){
+				$(value).find(".violet-button-slim").click()
+			}
+		})
+		var success = true;
+		$.each(forms, function(key, value) {
+			if(!$(value).hasClass("success")){
+				success = false
+			}
+		})
+		if(success){
+			$.ajax({
+				url: url,
+				success: function(data) {
+					var response= jQuery.parseJSON (data);
+					if(response.success){
+						$(document).find("input").parent().addClass("valid")
+						$(document).find("input").next(".validation-icon").fadeIn();
+						$('.xabina-alert').hide('slow');
+						$('.form-validable').hide('slow');
+						$('.form-submit').hide();
+						$('.xabina-alert-success').slideDown();
+					} else {
+						
+					}
+				},
+				cache:false,
+				data: {success: true},
+				type: 'POST'
+			});
+		}
+	}
+	
+	$(document).ready(function(){
+		$(".calendar-input").datepicker({
+			showOn:"button",
+			buttonImage: '/images/calendar_ico.png',
+			buttonImageOnly:true
+		});
+		
+		$('.trans-download').dropDown({
+			list: {
+			   PDF: 'PDF'
+			   /*,Other: 'Other'*/
+			},
+			listClass: 'formats_dropdown',
+			toChange: false,
+			callback: downloadPdf
+		});
+	})
+
+	
+	$('.advanced-button').on('click', function(e){
+		e.preventDefault();
+		var advancedForm = $('.advanced-search-form');
+		advancedForm.slideToggle();
+	});
+	
+	searchTransactions = function(button){
+		form = $(button).parents('form')
+		$.ajax({
+			url: form.action,
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					$('.transaction-table-overflow').html(response.html)
+				}
+			},
+			cache:false,
+			data: form.serialize(),
+			type: 'GET'
+		});
+	}
+	
+	downloadPdf = function(){
+		form = $('#searchForm')
+		url = form.attr('data-pdf-url') + "?" + form.serialize();
+		window.location.href=url
+	}
+	
 });
+
+function printDiv(divName) {
+	$('.attachments').hide();
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+	
+    document.body.innerHTML = originalContents;
+	$('.attachments').show();
+}
 
 

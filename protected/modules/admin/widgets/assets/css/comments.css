@@ -1,0 +1,127 @@
+/*News-comments*/
+.b-news-comments{padding:0 0px 10px 0px;position:relative}
+.b-news-comments__title-1{margin:0 0 20px;padding:0 0 5px 90px;border-bottom:1px solid #ebebeb;line-height:21px;font-weight:normal;font-size:15px;color:#333; white-space: nowrap;}
+.b-news-comments__title-1 .news_title{color:#777;/*overflow: hidden;text-overflow: ellipsis;display: inline-block;max-width: 445px;*/}
+.b-news-comments__title-1 .news_title_postfix{color:#777;}
+.b-news-comments__reply-form{margin:0;padding:17px 0 0 90px;background:#f6f8fa;position:relative}
+.b-news-comments__reply-form .author-img{margin:3px -100% 0 0;float:left;position:relative;left:-60px}
+.b-news-comments__reply-form .author{padding:0 0 8px}
+.ellipsis{overflow: hidden;white-space: nowrap;line-height: 1.2em;height: 1.2em;}
+.ellipsis > DIV:first-child {float: left;}
+.ellipsis > DIV + DIV {float: right;margin-top: -1.2em;}
+.ellipsis > DIV + DIV::after {background-color: white;content: '...';}
+
+.b-news-comments__log-in{margin:0 0 22px 0;padding:13px 0 16px 30px;background:#f6f8fa;line-height:21px;font-size:15px;color:#000}
+.b-news-comments__log-in .log-in-link{color:#165f85 }
+.b-news-comments__log-in .soc-net-list{margin:0 0 0 4px;display:inline;position:relative;top:2px}
+.b-news-comments__log-in .soc-net-list li{display:-moz-inline-stack;display:inline-block}
+.ie7 .b-news-comments__log-in .soc-net-list li{margin:0 5px 0 0;display:inline}
+.b-news-comments__log-in .soc-net-list li a{width:20px;height:20px;background:red url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat;display:block;text-indent:-9999px}
+.b-news-comments__log-in .soc-net-list li a.vkontakte{background-position:0 -100px}
+.b-news-comments__log-in .soc-net-list li a.facebook{background-position:-55px -100px}
+.b-news-comments__log-in .soc-net-list li a.google{background-position:-112px -100px}
+.b-news-comments__log-in .soc-net-list li a.twitter{background-position:-166px -100px}
+
+.b-news-comments__reply-form-editor{margin:0 0 22px;padding:0 211px 0 0;position:relative;}
+.b-news-comments__reply-form-editor .info{width:204px;display:block;position:absolute;top:6px;right:0;font:normal 11px/15px Tahoma,Verdana,Arial,Sans-serif;color:#777}
+.b-news-comments__reply-form .txt-editor{color:black;width:100%;height:108px;padding:8px 0 0 10px;resize:vertical;outline:medium none;border:0 none;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;font-size:15px;line-height:20px}
+.ie7 .b-news-comments__reply-form .txt-editor{width:98%}
+.markItUpContainer{border:1px solid #bec0c2;}
+.markItUpHeader{background:#ecf5fe;overflow:hidden;zoom:1}
+.markItUp{background:#fff}
+.markItUpHeader ul{height:28px;padding-left:3px;float:left}
+.markItUpHeader ul li{float:left;padding:0 2px 0 0;background:none;min-height:1px;border-bottom-width:0;vertical-align:top}
+.markItUpHeader ul a{height:27px;background:url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat;position:relative;display:block;overflow:hidden;text-indent:-9999px}
+.markItUpHeader .bold a{width:20px;background-position:-34px 9px}
+.markItUpHeader .em a{width:22px;background-position:-67px 7px}
+.markItUpHeader .quote a{width:30px;background-position:-103px 10px}
+.markItUpHeader .url a{width:39px;background-position:-148px 11px}
+
+.markItUpHeader small{padding:6px 10px 0 0;display:block;float:right;font:normal 11px/13px Tahoma,Verdana,Arial,Sans-serif;color:#777}
+
+.b-news-comments__reply-form-editor .btn-submit-1{margin:10px 0 21px;}
+
+.b-news-comments__item{padding:10px 0 0 90px;position:relative}
+.b-news-comments__item_answer{visibility:hidden}
+/*.b-news-comments__item:hover > .b-news-comments__item-bottom > .b-news-comments__item_content{visibility:visible;}*/
+.b-news-comments__item_content{display:none}
+.b-news-comments__item .b-news-comments__item{padding:0 0 0 40px;position:relative;}
+.b-news-comments__item-top{padding:0 0 3px}
+.b-news-comments__item .author-img{margin:3px -100% 0 0;float:left;position:relative;left:-60px}
+.b-news-comments__item .b-news-comments__item .author-img{margin:3px -100% 0 0;float:left;position:relative;left:-40px}
+.b-news-comments__item .vote{float:right;font:normal 11px Tahoma,Verdana,Arial,Sans-serif}
+.b-news-comments__item .vote.red{color:#b40000}
+.b-news-comments__item .vote.green{color:#4d9901}
+.b-news-comments__item .author{margin:0 6px 0 0;font-weight:bold;font-size:13px;color:#1c2530}
+.b-news-comments__item .author a{color:#1c2530}
+.b-news-comments__item .pub{font:normal 11px Tahoma,Verdana,Arial,Sans-serif;color:#777}
+.b-news-comments__item-middle{padding:0 30px 6px 0;line-height:17px;font-size:13px;color:#333;white-space: pre-line;}
+.b-news-comments__item-bottom{height:15px;padding:0 30px 0px 0;overflow:hidden;zoom:1;font:normal 11px Tahoma,Verdana,Arial,Sans-serif;color:#777;margin-bottom: 10px;}
+/*article article .b-news-comments__item-bottom{margin-top:-5px}*/
+.b-news-comments__item-bottom .answer-link{float:left;color:#165f85}
+.b-news-comments__item-bottom .answer-link:hover{text-decoration:underline}
+.b-news-comments__item-bottom .vote-up-wrap{float:right}
+
+.b-news-comments__item .toggle-link{width:13px;height:13px;background:url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat;left:-42px;top:10px}
+.b-news-comments__item .b-news-comments__item .b-news-comments__item .toggle-link{left:-32px;}
+.b-news-comments__item .toggle-link.active{background-position:-147px -33px}
+.b-news-comments__item .toggle-link{background-position:-173px -33px}
+
+.b-news-comments__item .b-news-comments__reply-form{margin:0 0 18px;padding:8px 12px 12px 50px;display: none;}
+.b-news-comments__item .b-news-comments__reply-form.active{display:block}
+.b-news-comments__item .b-news-comments__reply-form .author-img{margin:2px -100% 0 0;float:left;position:relative;left:-40px}
+.b-news-comments__item .b-news-comments__reply-form .author{margin:0;padding:0 0 8px;font-weight:normal;font-size:13px;color:#000}
+.b-news-comments__item .b-news-comments__reply-form .b-news-comments__reply-form-editor{margin:0;padding:0 12px 0 0}
+.b-news-comments__item .b-news-comments__reply-form .txt-editor{height:78px}
+.b-news-comments__item .b-news-comments__reply-form-editor .btn-submit-1{margin:10px 0 7px;padding:4px 19px}
+
+
+/*Vote-up*/
+.b-vote-up{margin:0 2px 0 7px}
+.b-vote-up__result{font-size:11px;cursor:default}
+.b-vote-up__link, .b-vote-up__link_login{width:12px;height:12px;background:url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat;display:-moz-inline-stack;display:inline-block;position:relative;cursor:pointer;cursor:hand}
+.ie7 .b-vote-up__link, .ie7 .b-vote-up__link_login{display:inline;zoom:1}
+.up .b-vote-up__link, .up .b-vote-up__link_login{background-position:-148px -71px;top:1px}
+.down .b-vote-up__link, .down .b-vote-up__link_login{background-position:-174px -71px;top:3px}
+.ie7 .down .b-vote-up__link, .ie7 .down .b-vote-up__link_login{top:2px}
+
+.b-news-pop-up-1{position:absolute;top:0}
+.b-news-pop-up-1-i{width:198px;padding:14px 20px 0;background:#fff;border:1px solid #ddd;border-top-color:#81b400;border-bottom:0 none;display:none}
+.b-news-pop-up-1-i .title{padding:0 0 13px;line-height:17px;font-size:13px;color:#1c2333}
+.b-news-pop-up-1-i .img{position:relative}
+.b-news-pop-up-1-i .img:hover .rate{display:block}
+.b-news-pop-up-1-i .img img{border:0 none;vertical-align:top}
+.b-news-pop-up-1-i .img figcaption{padding:13px 0 9px;line-height:17px;font-size:13px;text-align:left;position:relative;zoom:1}
+.b-news-pop-up-1-i span{padding:0 0 28px;display:block;font-size:13px;color:#b40000}
+.b-news-pop-up-1-i span b{text-decoration:underline;font-weight:bold}
+.b-news-pop-up-1-i .img div{display:-moz-inline-stack;display:inline-block;position:relative;vertical-align:top}
+.ie7 .b-news-pop-up-1-i .img div{display:inline}
+.b-news-pop-up-1-i .img .rate{width:18px;height:18px;background:url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat -92px -43px;top:0;left:11px;display:none}
+.b-news-pop-up-1-i .close{width:7px;height:7px;background:url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat 0 -76px;top:10px;right:10px;cursor:pointer;cursor:hand}
+
+
+.fix .b-news-pop-up-1-i{position:fixed;bottom:0;right:40px;display:block}
+.bb div{display:block}
+
+/*Btn-submit-1*/
+/*.btn-submit-1{width:auto;padding:0;margin:0;background-color:transparent;border:0 none;outline:medium none;overflow:visible;cursor:pointer;zoom:1;white-space:nowrap}*/
+.btn-submit-1::-moz-focus-inner{padding:0px;border:0px;cursor:pointer}
+.ie7 .btn-submit-1 span,
+.ie8 .btn-submit-1 span{filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffbe', endColorstr='#fef5a4',GradientType=0 );}
+
+.btn-submit-1 span span{height:23px;padding:2px 16px;border:0 none;font:normal 15px/21px Arial,Helvetica;color:#000;text-shadow:0 1px 1px #fff}
+@-moz-document url-prefix(){.btn-submit-1 b{line-height:20px !important}}
+.btn-submit-1 span span{
+    background: #fff5a3;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZjVhMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmY2NjNDIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #fff5a3 0%, #fccc42 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff5a3), color-stop(100%,#fccc42));
+    background: -webkit-linear-gradient(top,  #fff5a3 0%,#fccc42 100%);
+    background: -o-linear-gradient(top,  #fff5a3 0%,#fccc42 100%);
+    background: -ms-linear-gradient(top,  #fff5a3 0%,#fccc42 100%);
+    background: linear-gradient(to bottom,  #fff5a3 0%,#fccc42 100%);
+}
+.ie7 .btn-submit-1 ,
+.ie8 .btn-submit-1 {filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff5a3', endColorstr='#fccc42',GradientType=0 );} 
+
+

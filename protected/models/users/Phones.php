@@ -37,11 +37,10 @@ class Users_Phones extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email_type_id, phone', 'required', 'on'=>'editephones'),
-            array('phone', 'match', 'pattern' => '/^(\+?\d+)?\s*(\(\d+\))?[\s-]*([\d-]*)$/'),
+            array('phone', 'numerical'),
 			array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
-			array('phone', 'length', 'max'=>12),
-            array('phone', 'length', 'min'=>6),
+			array('phone', 'length', 'min' => 10, 'max' => 19, 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, email_type_id, hash, status, is_master, phone', 'safe', 'on'=>'search'),
