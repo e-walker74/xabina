@@ -4,8 +4,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class=" clearfix">
                     <select name="" id="" class="language-select pull-left">
-                        <option value="">Ru</option>
-                        <option value="">En</option>
+						<?php foreach(Yii::app()->params->translatedLanguages as $label => $translate): ?>
+							<option <?php if($label == Yii::app()->language): ?>selected="selected"<?php endif; ?> value="<?= Yii::app()->createUrl(Yii::app()->request->url, array('language' => $label)) ?>"><?= $translate ?></option>
+						<?php endforeach; ?>
                     </select>
 
                     <div class="font-size-adjust-container pull-left">

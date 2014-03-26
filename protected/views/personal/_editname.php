@@ -348,6 +348,7 @@
 
 		</tbody></table>
 		<div class="form-submit">
+			<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a> 
 			<div class="submit-button button-next" onclick="js:saveEditName('<?= Yii::app()->createUrl('/personal/editname'); ?>', this)"><?= Yii::t('Front', 'Save'); ?></div>
 		</div>
 		</div>

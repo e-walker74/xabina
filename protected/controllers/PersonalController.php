@@ -32,6 +32,9 @@ class PersonalController extends Controller
                     'saveaddress',
 					'editname',
 					'uploadfile',
+					'activate',
+					'makeprimary',
+					'testsms',
                 ),
                 'roles' => array('administrator')
             ),
@@ -47,17 +50,10 @@ class PersonalController extends Controller
      */
     public function actionIndex()
     {
-        $model_emails = new Users_Emails();
-        $model_phones = new Users_Phones();
-        $model_address = new Users_Address();
-		
 		$model = Users::model()->findByPk(Yii::app()->user->id);
 
         $this->render('index', array(
 			'model' => $model,
-            'users_emails' => self::getUsersItems($model_emails),
-            'users_phones' => self::getUsersItems($model_phones),
-            'users_address' => self::getUsersItems($model_address),
         ));
     }
 
@@ -333,11 +329,114 @@ class PersonalController extends Controller
 		echo $return;// it's array
 		Yii::app()->end();
 	}
+	
+	public function actionMakePrimary($type, $id){
+		$model = Users::getModelByType($type)->findByPk($id);
+		if(!$model || $model->user_id != Yii::app()->user->id || $model->status == 0 || $model->is_master == 1){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+		$reload = false;
+		$message = false;
+		
+		$model->generateHash();
+		$model->save();
+		if($type == 'emails'){
+			$mail = new Mail;
+			$mail->send(
+				$model->user, // this user
+				'emailMakePrimary', // sys mail code
+				array( // params
+					'{:type}' => 'email',
+					'{:date}' => date('Y m d', time()),
+					'{:activateUrl}' => Yii::app()->getBaseUrl(true).Yii::app()->createUrl('/personal/activate', 
+						array(
+							'type' => $type, 
+							'hash' => $model->hash,
+						)),
+				)
+				
+			);
+			$message = Yii::t('Front', 'We send you confirmation email');
+		} elseif($type == 'phones') {
+			$reload = true;
+			if(count($model->user->phones) > 1){
+				if(Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1){
+					Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+				}
+				$message = Yii::t('Front', 'We send you confirmation sms to mobile');
+			} else {
+				if($model->status == 1 && $model->is_master == 0){
+					$model->is_master = 1;
+					$model->hash = '';
+					$model->save();
+					Yii::app()->user->addNotification(
+						'activate_new_'.$model->id, //код
+						'You have successfully change primary '.$type,
+						'close', // возможность закрыть
+						'yellow' //желтая рамка
+					);
+				}
+			}
+		}
+		
+		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload));
+	}
 
-    public function actionActivate()
+    public function actionActivate($type)
     {
-        $hash = Yii::app()->getRequest()->getQuery('hash');
-        die;
+		$model = Users::getModelByType($type)
+					->find('user_id = :user_id AND hash = :hash', 
+						array(
+							':user_id' => Yii::app()->user->id, 
+							':hash' => Yii::app()->request->getParam('hash')
+						)
+					);
+		if(!$model){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+		if($model->status == 1 && $model->is_master == 0){
+			$master = Users::getModelByType($type)->find('user_id = :uid AND is_master = 1', array(':uid' => Yii::app()->user->id));
+			$model->is_master = 1;
+			if($type == 'emails'){
+				$model->user->email = $model->email;
+			} elseif($type == 'phones'){
+				$model->user->phone = $model->phone;
+			}
+			$model->hash = '';
+			if($model->user->save()){
+				if($master){
+					$master->is_master = 0;
+					$master->save();
+				}
+				$model->save();
+				Yii::app()->user->addNotification(
+					'is_master_new_'.$type, //код
+					$type.' "'. $model->user->email .'" is master',
+					'close', // возможность закрыть
+					'yellow' //желтая рамка
+				);
+			}
+		} elseif($model->status == 0 && $model->is_master == 0) {
+			$model->hash = '';
+			$model->status = 1;
+			$model->is_master = 0;
+			$model->save();
+			Yii::app()->user->addNotification(
+				'activate_new_'.$model->id, //код
+				'You have successfully activated new '.$type,
+				'close', // возможность закрыть
+				'yellow' //желтая рамка
+			);
+		}
+		
+		if(Yii::app()->request->isAjaxRequest){
+			echo CJSON::encode(array('success' => true));
+		} else {
+			$this->redirect(array('/banking/index'));
+		}
+		Yii::app()->end();
     }
 
 
@@ -369,7 +468,7 @@ class PersonalController extends Controller
         foreach ($arr_post_delete as $k => $v) {
             if ((int)$v === 1) {
                 $res = $model->findByPk((int)$k);
-                if ($res) {
+                if ($res && !$res->is_master) {
                     $res->delete();
                 }
             }
@@ -416,9 +515,9 @@ class PersonalController extends Controller
                         $model_emails->user, // this user
                         'emailConfirm', // sys mail code
                         array( // params
-							'{:type}' => 'email',
+							'{:type}' => 'emails',
                             '{:date}' => date('Y m d', time()),
-                            '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/'.Yii::app()->createUrl('/personal/activate', array('type' => 'email', 'hash' => $model_emails->hash)),
+                            '{:activateUrl}' => Yii::app()->getBaseUrl(true).Yii::app()->createUrl('/personal/activate', array('type' => 'email', 'hash' => $model_emails->hash)),
                         ),
                         $model_emails->email
                     );
@@ -438,7 +537,11 @@ class PersonalController extends Controller
                 $model_phones->phone = $phone;
                 $model_phones->user_id = Yii::app()->user->id;
                 $model_phones->email_type_id = (int)$arr_post_type[$k];
-                $model_phones->save();
+                if($model_phones->save()){
+					if(Yii::app()->sms->to($model_phones->phone)->body('Your activate code: {code}', array('{code}' => $model_phones->hash))->send() != 1){
+						Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+					}
+				}
             }
         }
         return true;
@@ -479,5 +582,9 @@ class PersonalController extends Controller
         return true;
 
     }
+	
+	public function actionTestSms(){
+		
+	}
 
 }

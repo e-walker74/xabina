@@ -124,9 +124,13 @@ class Users_Phones extends ActiveRecord
 		return parent::model($className);
 	}
 
+	public function generateHash(){
+		$this->hash = rand(1000, 9999);
+	}
+	
     public function beforeSave(){
         if($this->isNewRecord){
-            $this->hash = md5($this->phone . 'xabina hash' . time());
+            $this->generateHash();
         }
         return parent::beforeSave();
     }

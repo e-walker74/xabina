@@ -26,10 +26,6 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
 	
-	public function init(){
-		Languages::setLang();
-	}
-	
     protected function afterRender($view, &$output) {
         Yii::app()->dynamicRes->saveScheme();
     }

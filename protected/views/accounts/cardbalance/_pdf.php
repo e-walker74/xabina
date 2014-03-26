@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td class="headers"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
-                <td>254897546212Œ–</td>
+                <td>254897546212–û–†</td>
             </tr>
         </table>
         <table class="pdf-table">
@@ -84,7 +84,7 @@
         <table class="footer-info">
             <tr>
                 <td width="25%" class="left">LV3834753475457-47157475</td>
-                <td width="35%"><?= date('d M Y', strtotime($model->from_date)); ?> - <?= date('d M Y', strtotime($model->to_date)); ?></td>
+                <td width="35%"><?= date('d M Y', strtotime($model->from_date)); ?> - <?= ($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time()) ?></td>
                 <td width="30%"><?= date('d,m,Y H:i:s', time()); ?></td>
                 <!--<td width="10%" class="right">1/1</td>-->
             </tr>

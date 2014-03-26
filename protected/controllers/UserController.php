@@ -65,13 +65,13 @@ class UserController extends Controller
 				$phone->status = 0;
 				$phone->save();
 				
-				$phone = new Users_Emails;
-				$phone->user_id = $user->id;
-				$phone->email_type_id = 3; // TODO: email types
-				$phone->email = $user->email;
-				$phone->status = 1;
-				$phone->is_master = 1;
-				$phone->save();
+				$email = new Users_Emails;
+				$email->user_id = $user->id;
+				$email->email_type_id = 3; // TODO: email types
+				$email->email = $user->email;
+				$email->status = 1;
+				$email->is_master = 1;
+				$email->save();
 			
 				$model = new Form_Login;
 				$model->login = $user->email;

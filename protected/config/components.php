@@ -58,6 +58,7 @@ return array(
     // uncomment the following to enable URLs in path-format
     'urlManager' => array(
         'urlFormat' => 'path',
+		'class' => 'UrlManager',
         'showScriptName' => false,
         'rules' => array(
 			'/remindsuccess' => 'site/remindsuccess',
@@ -78,11 +79,13 @@ return array(
             '/banking/personal/editemails' => 'personal/editemails',
             '/banking/personal/savephones' => 'personal/savephones',
             '/banking/personal/editphones' => 'personal/editphones',
+			'/banking/personal/testsms' => 'personal/testsms',
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
 			'/banking/personal/uploadfile' => 'personal/uploadfile',
-			'/banking/personal/uploadfile' => 'personal/uploadfile', 
-            '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
+			'/banking/personal/emailconfirm' => 'personal/emailconfirm',
+			'/banking/personal/makeprimary/<type:(emails)>/<id:\d+>' => 'personal/makeprimary', 
+            '/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
 			'/banking/verification/notary' => 'verification/notary',
 			'/banking/verification/<modelId:(bankaccount|creditcard|paypal)>' => '/verification/verificatinmethod',
 			'/banking/verification/getnotaryfile' => 'verification/getnotaryfile',
@@ -117,4 +120,13 @@ return array(
         // use 'site/error' action to display errors
         'errorAction' => 'site/error',
     ),
+	'sms' => array(
+		'class' => 'application.ext.sms.Sms',
+		'login' => 'ekazak',
+		'password' => '123456',
+		'sendUrl' => 'http://www.spryng.nl/send.php',
+		'sender' => 'XABINA',
+		'route' => 'BUSINESS',
+		'allowlong' => 1,
+	),
 );

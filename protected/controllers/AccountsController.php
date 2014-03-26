@@ -200,7 +200,7 @@ class AccountsController extends Controller
 			$html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'model' => $model, 'user' => $user), true, false);
 			Yii::import('application.ext.mpdf.mpdf');
 			$mpdf = new mpdf('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
-			$mpdf->charset_in = 'cp1251'; /*не забываем про русский*/
+			$mpdf->charset_in = 'utf-8'; /*не забываем про русский*/
 
 			$stylesheet = file_get_contents('http://xabina.intwall.com/css/pdf/style.css'); /*подключаем css*/
 			$mpdf->WriteHTML($stylesheet, 1);

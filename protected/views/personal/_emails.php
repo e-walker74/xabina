@@ -40,11 +40,11 @@
             <td>
             	<span class="primary">
                 <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-                	<?= Yii::t('Front', 'Resend email'); ?>
+                	<?= Yii::t('Front', 'Pending activation'); ?>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-                	<?= Yii::t('Front', 'Make primary'); ?>
+                	<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
-                	<?= Yii::t('Front', 'Primary'); ?>
+                	<b><?= Yii::t('Front', 'Primary'); ?></b>
                 <? endif;?></span>
             </td>
             <td class="remove-td">
@@ -57,7 +57,7 @@
     <tr style="display:none; background:#CEFFCE" class="line-template">
         <td class="item">email</td>
         <td class="item">type_id</td>
-        <td><?= Yii::t('Front', 'Resend email'); ?></td>
+        <td><?= Yii::t('Front', 'Pending activation'); ?></td>
         <td class="remove-td">
             <div class="remove-btn"></div>
         </td>
@@ -70,7 +70,7 @@
             <div class="field-row">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'E-mail'); ?>
-                    <span class="tooltip-icon" title="tooltip text"></span></div>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'Insert youre email address'); ?>"></span></div>
                 <div class="field-input">
                     <?= $form->textField($model_emails, 'email', array('class' => 'input-text item0', 'data-v' => 'email')); ?>
                     <?= $form->error($model_emails, 'email'); ?>
@@ -82,7 +82,7 @@
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'E-mail Type'); ?>
                     <span class="tooltip-icon"
-                          title="<?= Yii::t('Front', 'You can upload a file to one of the formats: PDF, JPG, PNG, GIF'); ?>"></span>
+                          title="<?= Yii::t('Front', 'This type just for you'); ?>"></span>
                 </div>
                 <div class="field-input ">
                     <div class="select-custom"> <span class="select-custom-label">

@@ -10,15 +10,17 @@ function fontScale(scale){
 
 
 $(function(){
-
-	$('.currency_dropdown').dropDown({
-        currencies: {
+	
+	$('.currency_dropdown').tempDropDown({
+        list: {
             EUR: 'EUR',
 			USD: 'USD',
             RUB: 'RUB',
             CHF: 'CHF',
             JPY: 'JPY'
-        }
+        },
+        listClass: 'currencies_dropdown'
+
     });
 
     $('.container').on('change', '.select-invisible', onCustomSelectChange);
@@ -361,6 +363,10 @@ $(function(){
 			toChange: false,
 			callback: downloadPdf
 		});
+		
+		$('select.language-select').on('change', function(){
+			window.location.href=$(this).val()
+		})
 	})
 
 	
@@ -392,6 +398,43 @@ $(function(){
 		window.location.href=url
 	}
 	
+	makePrimary = function(url){
+		$.ajax({
+			url: url,
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					if(response.message){
+						alert(response.message);
+					}
+					if(response.reload){
+						location.reload()
+					}
+				}
+			},
+			cache:false,
+			data: {},
+			type: 'POST'
+		});
+	}
+	
+	activatePhone = function(url, link){
+		value = $(link).next().val();
+		if(value){
+			$.ajax({
+				url: url+value,
+				success: function(data) {
+					var response = jQuery.parseJSON (data);
+					if(response.success){
+						location.reload()
+					}
+				},
+				cache:false,
+				data: {},
+				type: 'POST'
+			});
+		}
+	}
 });
 
 function printDiv(divName) {

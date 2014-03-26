@@ -53,7 +53,7 @@
 			array(
 				'header' => Yii::t('Front', 'Currency'),
 				'value' => '"<div class=\"relative\"><span class=\"currency_button\">".$data->currency->code."</span></div>"',
-				'footer' => '<div class="relative"><span class="currency_button currency_dropdown">EUR </span><span class="currency_drdn_arr"></span></div>',
+				'footer' => '<div class="relative"><span class="dropdown_button  currency_dropdown">EUR </span><span class="currency_drdn_arr"></span></div>',
 				'type' => 'html',
 			),
 		),

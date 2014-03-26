@@ -134,14 +134,13 @@ class Users_Emails extends ActiveRecord
 		return parent::model($className);
 	}
 
-    /*public function addTempNewEmail(){
-        $this->user_id = Yii::app()->user->id;
-        $this->save();
-    }*/
-
+    public function generateHash(){
+		$this->hash = md5('email' . time() . $this->email);
+	}
+	
     public function beforeSave(){
         if($this->isNewRecord){
-            $this->hash = md5($this->email . 'xabina hash' . time());
+            $this->generateHash();
         }
         return parent::beforeSave();
     }
