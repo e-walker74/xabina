@@ -29,7 +29,7 @@
     </tr>
     <? foreach ($users_phones as $users_phone): ?>
         <tr>
-            <td><?= $users_phone->phone ?></td>
+            <td>+<?= $users_phone->phone ?></td>
             <td>
                 <div class="relative">
                     <span class="dropdown_button types_dropdown">
@@ -42,7 +42,6 @@
                 <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
 					<a style="float:right" href="javaScript:void(0)" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
 					<input type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Activation code'); ?>" />
-					
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
 					<?php if($users_phone->hash): ?>
 					<a style="float:right" href="javaScript:void(0)" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
@@ -58,6 +57,7 @@
                 <div class="remove-btn"></div>
             </td>
             <input type="hidden" name="delete[<?= $users_phone->id ?>]" class="delete" value="0"/>
+            <input type="hidden" name="type_edit[<?= $users_phone->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
@@ -118,3 +118,15 @@
     </div>
 </div>
 <?php $this->endWidget(); ?>
+<script>
+$('.types_dropdown').dropDown({
+	list: {
+		<? foreach(Users_EmailTypes::all() as $k => $v):?>
+		<? if(!empty($k) && !empty($v)):?>
+	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
+		<? endif; ?>
+		<? endforeach;?>
+	},
+	listClass: 'type_dropdown',
+});
+</script>

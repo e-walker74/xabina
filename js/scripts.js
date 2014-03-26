@@ -110,12 +110,15 @@ $(function(){
 	});
 	
 	
+	
+	
+	
 	/**
 	* Заполнение емейлов
 	*/
 	save_datas = function(url, button){
 		// удаляем  клонированные tr если на них есть класс remove
-	    $('.line-template.remove').remove();
+	    $(".line-template.remove").remove();
 		var form = $(button).parents('form');
 		$.ajax({
 			url: url,
@@ -124,7 +127,7 @@ $(function(){
 				var response = $.parseJSON (data);
 				if(response.success){
 					//alert(response.html);
-					$("#user_datas").html(response.html);			
+					$("#user_datas").html(response.html);
 					reset_values(form);
 				}
 				else {
@@ -147,38 +150,38 @@ $(function(){
   * Временное заполенение таблицы данными о юзере
   */
   add_temp_user_datas = function(url, button){
-	  	
-		var form = jQuery(button).parents('form');
+
+		var form = jQuery(button).parents("form");
 		//alert(form.attr('id')); 
 		$.ajax({
 			url: url,
 			success: function(data) {
 				
-				var response= jQuery.parseJSON(data);
+				var response= $.parseJSON(data);
 				if(response.success){
 					
 					var form_values = [];
 				    var select_texts = [];
 					
-					form.find('input:not(:hidden)').each(function(index, element) {
-						var v = $(element).data('v');						
+					form.find("input:not(:hidden)").each(function(index, element) {
+						var v = $(element).data("v");
                         form_values[v] = $(element).val();
 						
                     });
 									
-					form.find('select').each(function(index, element) {
-						var v = $(element).data('v');
+					form.find("select").each(function(index, element) {
+						var v = $(element).data("v");
                         form_values[v] = $(element).val();
                     });
 										
-					form.find('select option:selected').each(function(index, element) {
-						var v = $(element).parent('select').data('v');
+					form.find("select option:selected").each(function(index, element) {
+						var v = $(element).parent("select").data("v");
                         select_texts[v] = $(element).text();
                     });
 					
 																		
 					var line_template = $(".line-template:hidden").clone(line_template);
-					line_template.show().addClass('cloned');
+					line_template.show().addClass("cloned");
 					
 					line_template.find("td.item").each(function(index, element) {
 						
@@ -206,12 +209,12 @@ $(function(){
 						
 					});
 					
-				   line_template.find('input.item:hidden').each(function(index, element) {
-                       var v = $(element).data('v');
+				   line_template.find("input.item:hidden").each(function(index, element) {
+                       var v = $(element).data("v");
 					   $(element).val(form_values[v]);
                    });
 					
-					$(".line-template:last").after(line_template);					
+					$(".line-template:last").after(line_template);
 					reset_values(form);
 						
 																	
@@ -241,8 +244,9 @@ $(function(){
 	*/ 
 	function reset_values(form){	
 		$(form)[0].reset();
-		$(form).val('');
-		form.find("span.select-custom-label").text(form.find("select option:first").text());					
+		//$(form).val('');
+		//form.find("span.select-custom-label").text(form.find("select option:first").text());
+        form.find("span.select-custom-label").text("Choose");
 		return true;
 	}
 	
@@ -435,7 +439,30 @@ $(function(){
 			});
 		}
 	}
+
+	/**
+	* Удаление сообщений
+	*/
+	del_message = function(url, el){
+		$.ajax({
+			url: url,
+			success: function(data) {
+				//alert(data);
+				var response = $.parseJSON (data);
+				if(response.success){
+					$(el).parents('tr').fadeOut(100);
+				}
+				else {
+					alert('Can not be removed');
+				}
+			},
+			cache:false,
+			type: 'GET'
+		});
+  } 
+	
 });
+
 
 function printDiv(divName) {
 	$('.attachments').hide();

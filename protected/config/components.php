@@ -86,6 +86,8 @@ return array(
 			'/banking/personal/emailconfirm' => 'personal/emailconfirm',
 			'/banking/personal/makeprimary/<type:(emails)>/<id:\d+>' => 'personal/makeprimary', 
             '/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
+            '/message/save/<type:(save|send)>/<id:\d+>' => 'message/save',
+            '/message/cancel/<id:\d+>' => 'message/cancel',
 			'/banking/verification/notary' => 'verification/notary',
 			'/banking/verification/<modelId:(bankaccount|creditcard|paypal)>' => '/verification/verificatinmethod',
 			'/banking/verification/getnotaryfile' => 'verification/getnotaryfile',

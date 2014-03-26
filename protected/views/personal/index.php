@@ -1,5 +1,4 @@
-<div class="col-lg-9 col-md-9 col-sm-9" >
-  
+<div class="col-lg-9 col-md-9 col-sm-9" >  
 	<div class="h1-header"><?= Yii::t('Front', 'My personal cabinet'); ?></div>
 
 	<table class="table xabina-table table-account">
@@ -42,5 +41,4 @@
 			</td>
 		</tr>
 	</table>
-  
 </div>

@@ -2,7 +2,7 @@
     'id' => 'user_datas',
     'enableAjaxValidation' => false,
     'enableClientValidation' => true,
-    'action' => $this->createUrl('personal/editemails'),
+    //'action' => $this->createUrl('personal/editemails'),
     'errorMessageCssClass' => 'error-message',
     'htmlOptions' => array(
         'class' => 'form-validable',
@@ -11,7 +11,7 @@
     ),
     //'focus'=>array($model,'first_name'),
     'clientOptions' => array(
-        'validateOnSubmit' => false,
+        'validateOnSubmit' => true,
         'validateOnChange' => true,
         'errorCssClass' => 'input-error',
         'successCssClass' => 'valid'
@@ -51,7 +51,7 @@
                 <div class="remove-btn"></div>
             </td>
             <input type="hidden" name="delete[<?= $users_email->id ?>]" class="delete" value="0"/>
-            <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type" value="0"/>
+            <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
     <tr style="display:none; background:#CEFFCE" class="line-template">
@@ -121,6 +121,5 @@ $('.types_dropdown').dropDown({
 		<? endforeach;?>
 	},
 	listClass: 'type_dropdown',
-	bgEdit: '#FFCACA'
 });
 </script>
