@@ -3,24 +3,19 @@
 
 class Messages extends ActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+
 	public function tableName()
 	{
 		return 'messages';
 	}
 
-
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
             array('message, subject_id, to_id', 'required', 'on'=> 'Save'),
             array('message', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
 			array('archive, subject_id, to_id', 'numerical', 'integerOnly'=>true),
-            array('to_id, user_id', 'safe'),
+            array('to_id, user_id, dialog_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, dialog_id, message, archive, draft, subject_id, to_id', 'safe', 'on'=>'search'),
@@ -32,19 +27,14 @@ class Messages extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
-
 			'subject' => array(self::BELONGS_TO, 'Messages_Subject', 'subject_id'),
             'to' => array(self::BELONGS_TO, 'Messages_To', 'to_id'),
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+           // 'dialog' => array(self::HAS_MANY, 'Messages', 'dialog_id'),
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
 	public function attributeLabels()
 	{
 		return array(
@@ -95,15 +85,31 @@ class Messages extends ActiveRecord
      * @return array
      */
     public function getData($condition, $params){
+        $pages = null;
         $criteria = new CDbCriteria();
-        $criteria->order = 'id DESC';
         $criteria->condition = $condition;
         $criteria->params = $params;
-        $count = self::model()->count($criteria);
-        $pages = new CPagination($count);
-        $pages->pageSize = 10;
-        $pages->applyLimit($criteria);
+        $criteria->order = 'updated_at DESC';
         $messages = self::model()->findAll($criteria);
         return array('pages' => $pages,  'messages' => $messages);
+    }
+
+    public function getDialog($dialog_id, $id = 0, $archive = 0){
+        if(empty($dialog_id)){
+            return null;
+        }
+
+        $condition = 'dialog_id=:dialog_id AND id !=:id AND user_id=:user_id  AND archive=:archive AND subject_id > 0 AND draft=0';
+        $params = array(
+            ':user_id' => (int)Yii::app()->user->id,
+            ':id' => $id,
+            ':dialog_id' => $dialog_id,
+            ':archive' => $archive,
+        );
+        $criteria = new CDbCriteria();
+        $criteria->condition = $condition;
+        $criteria->params = $params;
+        $criteria->order = 'updated_at DESC';
+        return self::model()->findAll($criteria);
     }
 }

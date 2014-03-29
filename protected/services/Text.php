@@ -64,4 +64,17 @@ class Text
 
         return rtrim($matches[0]).((strlen($matches[0]) === strlen($str)) ? '' : $end_char);
     }
+
+    /**
+     * @param $str
+     * @param null $die
+     */
+    public static function pr($str, $die = null) {
+        echo "<pre>";
+        print_r($str);
+        echo "</pre>";
+        if ($die != null)
+            die('Сарботал die');
+    }
+
 }
