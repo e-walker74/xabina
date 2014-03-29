@@ -351,29 +351,6 @@ $(function(){
 		}
 	}
 	
-	$(document).ready(function(){
-		$(".calendar-input").datepicker({
-			showOn:"button",
-			buttonImage: '/images/calendar_ico.png',
-			buttonImageOnly:true
-		});
-		
-		$('.trans-download').tempDropDown({
-			list: {
-			   PDF: 'PDF'
-			   /*,Other: 'Other'*/
-			},
-			listClass: 'formats_dropdown',
-			toChange: false,
-			callback: downloadPdf
-		});
-		
-		$('select.language-select').on('change', function(){
-			window.location.href=$(this).val()
-		})
-	})
-
-	
 	$('.advanced-button').on('click', function(e){
 		e.preventDefault();
 		var advancedForm = $('.advanced-search-form');
@@ -476,5 +453,86 @@ function printDiv(divName) {
     document.body.innerHTML = originalContents;
 	$('.attachments').show();
 }
+
+$(document).ready(function(){
+	$(".calendar-input").datepicker({
+		showOn:"button",
+		buttonImage: '/images/calendar_ico.png',
+		buttonImageOnly:true
+	});
+	
+	$('.trans-download').tempDropDown({
+		list: {
+		   PDF: 'PDF'
+		   /*,Other: 'Other'*/
+		},
+		listClass: 'formats_dropdown',
+		toChange: false,
+		callback: downloadPdf
+	});
+	
+	$('select.language-select').on('change', function(){
+		window.location.href=$(this).val()
+	})
+	
+	$('#transfer_accordion').accordion({
+		heightStyle: "content",
+		active: false,
+		collapsible: true,
+		activate: function(event, ui){
+			$(event.target).find('input').attr('disabled','disabled')
+			$(event.target).find('textarea').attr('disabled','disabled')
+			$(event.target).find('select').attr('disabled','disabled')
+			$(event.target).find('.ui-accordion-content-active input').removeAttr('disabled')
+			$(event.target).find('.ui-accordion-content-active textarea').removeAttr('disabled')
+			$(event.target).find('.ui-accordion-content-active select').removeAttr('disabled')
+			$(event.target).find('.recurrence-form input').attr('disabled','disabled')
+			$(event.target).find('.recurrence-form select').attr('disabled','disabled')
+			if($(event.target).find('.ui-accordion-content-active .recurrence-form .active').hasClass('one-time')){
+				$(event.target).find('.ui-accordion-content-active .one_time_form input').removeAttr('disabled')
+				$(event.target).find('.ui-accordion-content-active .one_time_form select').removeAttr('disabled')
+			} else {
+				$(event.target).find('.ui-accordion-content-active .standing-form input').removeAttr('disabled')
+				$(event.target).find('.ui-accordion-content-active .standing-form select').removeAttr('disabled')
+			}
+			
+		}
+	});
+
+	$('.recurrence-select').on('click', 'a', changeRecurrenceForm);
+	
+	$('.recurrence-form').find('input').attr('disabled','disabled')
+	$('.recurrence-form').find('select').attr('disabled','disabled')
+
+	function changeRecurrenceForm(e){
+		e.preventDefault();
+		$(this).parents('.recurrence-form').find('input').attr('disabled','disabled')
+		$(this).parents('.recurrence-form').find('select').attr('disabled','disabled')
+		if($(this).hasClass('one-time')){
+			$(this).parents('.recurrence-select').find('.active').removeClass('active');
+			$(this).addClass('active');
+			$(this).parents('.recurrence-form').find('.one_time_form').find('input').removeAttr('disabled')
+			$(this).parents('.recurrence-form').find('.one_time_form').find('select').removeAttr('disabled')
+			$(this).parents('.recurrence-form').find('.one_time_form').show();
+			$(this).parents('.recurrence-form').find('.standing-form').hide();
+		}else if($(this).hasClass('standing')){
+			$(this).find('input').removeAttr('disabled')
+			$(this).find('select').removeAttr('disabled')
+			$(this).parents('.recurrence-select').find('.active').removeClass('active');
+			$(this).addClass('active');
+			$(this).parents('.recurrence-form').find('.standing-form').find('input').removeAttr('disabled')
+			$(this).parents('.recurrence-form').find('.standing-form').find('select').removeAttr('disabled')
+			$(this).parents('.recurrence-form').find('.standing-form').show();
+			$(this).parents('.recurrence-form').find('.one_time_form').hide();
+		}
+	}
+	
+	$(".with_datepicker").datepicker({
+        showOn:"button",
+        buttonImage: '/images/calendar_ico.png',
+        buttonImageOnly:true
+    });
+	
+})
 
 

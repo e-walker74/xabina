@@ -40,7 +40,7 @@
 		<div class="advanced-search">
 			<a href="#" class="advanced-button"><span><?= Yii::t('Front', 'Аdvanced search'); ?></span></a>
 		</div>
-		<div class="outcoming trans-button"><?= Yii::t('Front', 'outgoing transfer'); ?></div>
+		<a class="outcoming trans-button" href="<?= Yii::app()->createUrl('/transfers/outgoing', array('account' => $selectedAcc->number)) ?>"><?= Yii::t('Front', 'outgoing transfer'); ?></a>
 		<div class="incoming trans-button"><?= Yii::t('Front', 'incoming transfer'); ?></div>
 
 

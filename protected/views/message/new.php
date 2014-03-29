@@ -55,9 +55,9 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
     <div class="h1-header"><?= Yii::t('Front', 'New message'); ?></div>
     <? $this->widget('MessagesMenu'); ?>
-    <div class="xabina-alert">
+    <!--<div class="xabina-alert">
         <?= Yii::t('Front', 'In order to change Your Personal Details, please upload the new copy of Your ID (passport, driving licence, etc.)'); ?>
-    </div>
+    </div>-->
     <div class="reply-container">
         <div class="message-headers">
             <div class="message-controls">

@@ -48,11 +48,15 @@
                 <th width="20%"><?= Yii::t('Front', 'Debit turnover'); ?></th>
             </tr>
             <tr>
+			<?php if(!empty($transactions)): ?>
                 <td><?= current($transactions)->account->currency->code ?></td>
                 <td><?= number_format(current($transactions)->acc_balance - current($transactions)->sum, 2, ".", " ") ?></td>
                 <td><?= number_format(end($transactions)->acc_balance, 2, ".", " ") ?></td>
                 <td><span class="inc">???3 000.00</span></td>
                 <td><span class="dec">???5 000.00</span></td>
+			<?php else: ?>
+				<td colspan="5"><?= Yii::t('Front', 'No data meets the filter criterias'); ?></td>
+			<?php endif; ?>
             </tr>
         </table>
         <table class="pdf-table">
@@ -75,6 +79,11 @@
                 <td><?= number_format($trans->acc_balance, 2, ".", " ") ?></td>
             </tr>
 			<?php endforeach; ?>
+			<?php if(empty($transactions)): ?>
+			<tr>			
+				<td colspan="5"><?= Yii::t('Front', 'No transactions meet the filter criterias'); ?></td>
+			</tr>
+			<?php endif; ?>
         </table>
 
     </div>

@@ -144,6 +144,13 @@ class WebUser extends CWebUser {
 		return '';
 	}
 	
+	public function getThisIp() {
+		if (($name = $this->getState('__this_ip')) !== null)
+            return $name;
+			
+		return '';
+    }
+	
 	public function getLastTime(){
 		if (($name = $this->getState('__last_time')) !== null)
             return $name;
@@ -172,6 +179,10 @@ class WebUser extends CWebUser {
         $this->setState('__last_ip', $value);
     }
 	
+	public function setThisIp($value) {
+        $this->setState('__this_ip', $value);
+    }
+	
 	public function setLastTime($value) {
         $this->setState('__last_time', $value);
     }
@@ -188,6 +199,7 @@ class WebUser extends CWebUser {
 		$this->setEmail($user->email);
 		$this->setPhone($user->phone);
 		$this->setStatus($user->status);
+		$this->setThisIp(ip2long(CHttpRequest::getUserHostAddress()));
 		
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
 		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());

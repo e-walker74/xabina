@@ -26,6 +26,13 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
 	
+	public function init(){
+		if(!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(CHttpRequest::getUserHostAddress())){
+			Yii::app()->user->logout();
+		}
+		return parent::init();
+	}
+	
     protected function afterRender($view, &$output) {
         Yii::app()->dynamicRes->saveScheme();
     }

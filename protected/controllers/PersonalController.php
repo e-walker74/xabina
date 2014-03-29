@@ -526,7 +526,7 @@ class PersonalController extends Controller
                         array( // params
 							'{:type}' => 'emails',
                             '{:date}' => date('Y m d', time()),
-                            '{:activateUrl}' => Yii::app()->getBaseUrl(true).Yii::app()->createUrl('/personal/activate', array('type' => 'email', 'hash' => $model_emails->hash)),
+                            '{:activateUrl}' => Yii::app()->getBaseUrl(true).Yii::app()->createUrl('/personal/activate', array('type' => 'emails', 'hash' => $model_emails->hash)),
                         ),
                         $model_emails->email
                     );
