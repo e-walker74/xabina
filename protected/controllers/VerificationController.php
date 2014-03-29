@@ -26,7 +26,7 @@ class VerificationController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'notary', 'getnotaryfile', 'uploadfile', 'creditcard'),
+                'actions' => array('index', 'notary', 'getnotaryfile', 'uploadfile', 'bankaccount', 'creditcard', 'verificatinmethod'),
                 'roles' => array('administrator')
             ),
             array('deny', // deny everybody else
@@ -111,12 +111,12 @@ class VerificationController extends Controller
 		}
 		$file=Yii::app()->getBasePath(true) . '/../publicdocs/public.doc';
 		if (file_exists($file)) {
-			// ñáğàñûâàåì áóôåğ âûâîäà PHP, ÷òîáû èçáåæàòü ïåğåïîëíåíèÿ ïàìÿòè âûäåëåííîé ïîä ñêğèïò
-			// åñëè ıòîãî íå ñäåëàòü ôàéë áóäåò ÷èòàòüñÿ â ïàìÿòü ïîëíîñòüş!
+			// ÑĞ±Ñ€Ğ°ÑÑ‹Ğ²Ğ°ĞµĞ¼ Ğ±ÑƒÑ„ĞµÑ€ Ğ²Ñ‹Ğ²Ğ¾Ğ´Ğ° PHP, Ñ‡Ñ‚Ğ¾Ğ±Ñ‹ Ğ¸Ğ·Ğ±ĞµĞ¶Ğ°Ñ‚ÑŒ Ğ¿ĞµÑ€ĞµĞ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ¸Ñ Ğ¿Ğ°Ğ¼ÑÑ‚Ğ¸ Ğ²Ñ‹Ğ´ĞµĞ»ĞµĞ½Ğ½Ğ¾Ğ¹ Ğ¿Ğ¾Ğ´ ÑĞºÑ€Ğ¸Ğ¿Ñ‚
+			// ĞµÑĞ»Ğ¸ ÑÑ‚Ğ¾Ğ³Ğ¾ Ğ½Ğµ ÑĞ´ĞµĞ»Ğ°Ñ‚ÑŒ Ñ„Ğ°Ğ¹Ğ» Ğ±ÑƒĞ´ĞµÑ‚ Ñ‡Ğ¸Ñ‚Ğ°Ñ‚ÑŒÑÑ Ğ² Ğ¿Ğ°Ğ¼ÑÑ‚ÑŒ Ğ¿Ğ¾Ğ»Ğ½Ğ¾ÑÑ‚ÑŒÑ!
 			if (ob_get_level()) {
 			  ob_end_clean();
 			}
-			// çàñòàâëÿåì áğàóçåğ ïîêàçàòü îêíî ñîõğàíåíèÿ ôàéëà
+			// Ğ·Ğ°ÑÑ‚Ğ°Ğ²Ğ»ÑĞµĞ¼ Ğ±Ñ€Ğ°ÑƒĞ·ĞµÑ€ Ğ¿Ğ¾ĞºĞ°Ğ·Ğ°Ñ‚ÑŒ Ğ¾ĞºĞ½Ğ¾ ÑĞ¾Ñ…Ñ€Ğ°Ğ½ĞµĞ½Ğ¸Ñ Ñ„Ğ°Ğ¹Ğ»Ğ°
 			header('Content-Description: File Transfer');
 			header('Content-Type: application/octet-stream');
 			header('Content-Disposition: attachment; filename=' . basename($file));
@@ -125,7 +125,7 @@ class VerificationController extends Controller
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
 			header('Content-Length: ' . filesize($file));
-			// ÷èòàåì ôàéë è îòïğàâëÿåì åãî ïîëüçîâàòåëş
+			// Ñ‡Ğ¸Ñ‚Ğ°ĞµĞ¼ Ñ„Ğ°Ğ¹Ğ» Ğ¸ Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ÑĞµĞ¼ ĞµĞ³Ğ¾ Ğ¿Ğ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»Ñ
 			if ($fd = fopen($file, 'rb')) {
 				while (!feof($fd)) {
 					print fread($fd, 1024);
@@ -176,7 +176,260 @@ class VerificationController extends Controller
 		Yii::app()->end();
 	}
 	
-	public function actionCreditcard(){
+	public function actionVerificatinMethod($modelId){
+		$verification = Users_Verification::model()->find('user_id = :uId AND type = "'.$modelId.'"', array(':uId' => Yii::app()->user->id));
+		if($verification && $verification->status == Users_Verification::REQUIRES_MODERATION){
+			$this->render('completed');
+			Yii::app()->end();
+		} elseif(Yii::app()->user->status == Users::USER_IS_VERIFICATED){
+			$this->redirect('/banking/index');
+		}
+		
+		if($verification && $verification->status == Users_Verification::REQUIRES_USER_CODE && Yii::app()->request->getParam('back')){
+			$verification->status = Users_Verification::NOT_SEND_VERIFICATION;
+			$verification->{$modelId}->canceled = 1;
+			$verification->{$modelId}->save();
+			$verification->save();
+			if(!Yii::app()->request->isAjaxRequest){
+				$this->redirect(array('/verification/verificatinmethod', 'modelId' => $modelId));
+			}
+		}
+		
+		if(!$verification || $verification->status == Users_Verification::NOT_SEND_VERIFICATION){
+			$this->firstForm($verification, $modelId);
+		} elseif($verification && $verification->status == Users_Verification::REQUIRES_USER_CODE){
+			$this->verificationConfirm($verification, $modelId, false);
+		}elseif($verification && $verification->status == Users_Verification::VERIFICATION_COMPLETED){
+			if(Yii::app()->request->isAjaxRequest){
+				$this->renderPartial('completed', array(), true, false);
+			} else {
+				$this->render('completed');
+			}
+			Yii::app()->end();
+		}
+		
+		$this->render($modelId);
+	}
+	
+	public function firstForm($verification, $modelId){
+		if($verification && $verification->bankaccount) {
+			$model = $verification->bankaccount;
+		} else {
+			$model = Users_Verification::getVerificationModel($modelId);
+		}
+		
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'verification-'.$modelId) {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+		if(isset($_POST[get_class($model)])){
+			if(!$model->isNewRecord){
+				$model->canceled = 1;
+				$model->save();
+				$model = Users_Verification::getVerificationModel($modelId);
+			}
+			$model->attributes = $_POST[get_class($model)];
+			if($model->validate()){
+				$model->user_id = Yii::app()->user->id;
+				$model->save();
+				if(!$verification){
+					$verification = new Users_Verification();
+				}
+				$verification->type = $modelId;
+				$verification->user_id = Yii::app()->user->id;
+				$verification->status = Users_Verification::REQUIRES_USER_CODE;
+				$verification->rel_id = $model->id;
+				if($verification->save()){
+					$verification->{$modelId} = $model;
+				}
+				
+				Yii::app()->user->addNotification(
+					'verification_requires_user_code', //ĞºĞ¾Ğ´
+					'You have successfully passed the first stage of verification. We sent to Your bank account in the amount of 0.01EUR. In the description of the transaction specified 6-digit code that you need to enter the second stage to complete the process of verification.', 					
+					'critical', // Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ Ğ·Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ
+					'yellow' //Ğ¶ĞµĞ»Ñ‚Ğ°Ñ Ñ€Ğ°Ğ¼ĞºĞ°
+				);
+				// TODO::initialize transaction
+				$this->verificationConfirm($verification, $modelId, true);
+				Yii::app()->end();
+			}
+		}
+		
+		$countries = Countries::model()->findAll();
+		$countries = CHtml::listData($countries, 'id', 'name');
+		$countries = array_merge(array('' => Yii::t('Front', 'Choose')), $countries);
+		
+		$this->render($modelId, array('model' => $model, 'countries' => $countries));
+		Yii::app()->end();
+	}
+	
+	public function verificationConfirm($verification, $modelId, $render = false){
+		if($verification && $verification->{$modelId}) {
+			$model = $verification->{$modelId};
+			$model->scenario = 'verification_code';
+		} else {
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+		
+		
+		if (!$render && Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'verification-'.$modelId) {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+	
+		if(isset($_POST[get_class($model)]) && isset($_POST[get_class($model)]['verification_code'])){
+			if(Yii::app()->cache->get('User_verification_action_'.$modelId.Yii::app()->user->id) > 2){
+				$model->addError(get_class($model).'_verification_code', Yii::t('Front', 'Many attempts. Please try again in an hour.'));
+				echo CJSON::encode($model->getErrors());
+				Yii::app()->end();
+			}
+			if($verification
+					&& $verification->{$modelId} 
+					&& !$verification->{$modelId}->confirm
+					&& $verification->{$modelId}->verification_code
+					&& $verification->{$modelId}->verification_code == $_POST[get_class($model)]['verification_code']
+				){
+				$verification->{$modelId}->confirm = 1;
+				$verification->status = Users_Verification::VERIFICATION_COMPLETED;
+				$verification->{$modelId}->save();
+				$verification->save();
+				Yii::app()->user->removeNotification('verification_requires_user_code');
+				Yii::app()->user->removeNotification('vericate_your_account');
+				Yii::app()->user->addNotification(
+					'verification_completed', //ĞºĞ¾Ğ´
+					'Your account has been successfully verificated.', 
+					'close', // Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ Ğ·Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ
+					'yellow' //Ğ¶ĞµĞ»Ñ‚Ğ°Ñ Ñ€Ğ°Ğ¼ĞºĞ°
+				);
+				$user = Users::model()->findByPk(Yii::app()->user->id);
+				$user->status = Users::USER_IS_VERIFICATED;
+				if($user->save()){
+					Yii::app()->user->status = $user->status;
+					$html = $this->renderPartial('completed', array(), true, false);
+					echo CJSON::encode(array('success' => true, 'html' => $html));
+					Yii::app()->end();
+				}
+			} else {
+				if($i = Yii::app()->cache->get('User_verification_action_'.$modelId.Yii::app()->user->id)){
+					Yii::app()->cache->set('User_verification_action_'.$modelId.Yii::app()->user->id, ++$i, 3600);
+				} else {
+					Yii::app()->cache->set('User_verification_action_'.$modelId.Yii::app()->user->id, 1, 3600);
+				}
+				
+				$model->addError(get_class($model).'_verification_code', Yii::t('Front', 'Verification code is incorect'));
+				echo CJSON::encode($model->getErrors());
+				Yii::app()->end();
+			}
+		}
+		$model->verification_code = '';
+		
+		if(Yii::app()->request->isAjaxRequest){
+			$html = $this->renderPartial($modelId.'/step_two', array('model' => $model), true, false);
+			echo CJSON::encode(array('success' => true, 'html' => $html));
+			Yii::app()->end();
+		}
+		
+		$this->render($modelId.'/step_two', array('model' => $model));
+		Yii::app()->end();
+	}
+	
+	/*public function actionBankaccount(){
+		$verification = Users_Verification::model()->find('user_id = :uId AND type = "bankaccount"', array(':uId' => Yii::app()->user->id));
+		if($verification && $verification->status == Users_Verification::REQUIRES_MODERATION){
+			$this->render('completed');
+			Yii::app()->end();
+		} elseif(Yii::app()->user->status == Users::USER_IS_VERIFICATED){
+			$this->redirect('/banking/index');
+		}
+		
+		if(!$verification || $verification->status == Users_Verification::NOT_SEND_VERIFICATION){
+			$this->firstForm($verification, 'bankaccount');
+		} elseif($verification && $verification->status == Users_Verification::REQUIRES_USER_CODE){
+			$this->verificationConfirm($verification, 'bankaccount', false);
+		}elseif($verification && $verification->status == Users_Verification::VERIFICATION_COMPLETED){
+			if(Yii::app()->request->isAjaxRequest){
+				$this->renderPartial('completed', array(), true, false);
+			} else {
+				$this->render('completed');
+			}
+			Yii::app()->end();
+		}
+		
+		$this->render('bankaccount');
+	}*/
+	
+	/*public function bankaccountConfirm($verification, $render = false){
+		if($verification && $verification->bankaccount) {
+			$model = $verification->bankaccount;
+		} else {
+			throw new HttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+		if (!$render && Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'verification-bankaccount') {
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+	
+		if(isset($_POST['Users_Verification_Bankaccount']) && isset($_POST['Users_Verification_Bankaccount']['verification_code'])){
+			if(Yii::app()->cache->get('User_verification_action_'.Yii::app()->user->id) > 2){
+				$model->addError('Users_Verification_Bankaccount_verification_code', Yii::t('Front', 'Many attempts. Please try again in an hour.'));
+				echo CJSON::encode($model->getErrors());
+				Yii::app()->end();
+			}
+			if($verification 
+					&& $verification->bankaccount 
+					&& !$verification->bankaccount->confirm
+					&& $verification->bankaccount->verification_code
+					&& $verification->bankaccount->verification_code == $_POST['Users_Verification_Bankaccount']['verification_code']
+				){
+				$verification->bankaccount->confirm = 1;
+				$verification->status = Users_Verification::VERIFICATION_COMPLETED;
+				$verification->bankaccount->save();
+				$verification->save();
+				Yii::app()->user->removeNotification('verification_requires_user_code');
+				Yii::app()->user->removeNotification('vericate_your_account');
+				Yii::app()->user->addNotification(
+					'verification_completed', //ĞºĞ¾Ğ´
+					'Your account has been successfully verificated.', 
+					'close', // Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ Ğ·Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ
+					'yellow' //Ğ¶ĞµĞ»Ñ‚Ğ°Ñ Ñ€Ğ°Ğ¼ĞºĞ°
+				);
+				$user = Users::model()->findByPk(Yii::app()->user->id);
+				$user->status = Users::USER_IS_VERIFICATED;
+				if($user->save()){
+					Yii::app()->user->status = $user->status;
+					$html = $this->renderPartial('completed', array(), true, false);
+					echo CJSON::encode(array('success' => true, 'html' => $html));
+					Yii::app()->end();
+				}
+			} else {
+				if($i = Yii::app()->cache->get('User_verification_action_'.Yii::app()->user->id)){
+					Yii::app()->cache->set('User_verification_action_'.Yii::app()->user->id, ++$i, 3600);
+				} else {
+					Yii::app()->cache->set('User_verification_action_'.Yii::app()->user->id, 1, 3600);
+				}
+				
+				$model->addError('Users_Verification_Bankaccount_verification_code', Yii::t('Front', 'Verification code is incorect'));
+				echo CJSON::encode($model->getErrors());
+				Yii::app()->end();
+			}
+		}
+		$model->verification_code = '';
+		
+		if(Yii::app()->request->isAjaxRequest){
+			$html = $this->renderPartial('bankaccount/step_two', array('model' => $model), true, false);
+			echo CJSON::encode(array('success' => true, 'html' => $html));
+			Yii::app()->end();
+		}
+		
+		$this->render('bankaccount/step_two', array('model' => $model));
+		Yii::app()->end();
+	}*/
+	
+	
+	
+	/*public function actionCreditcard(){
 		$verification = Users_Verification::model()->find('user_id = :uId AND type = "creditcard"', array(':uId' => Yii::app()->user->id));
 		if($verification && $verification->status == Users_Verification::REQUIRES_MODERATION){
 			$this->render('completed');
@@ -186,38 +439,40 @@ class VerificationController extends Controller
 		}
 		
 		if(!$verification || $verification->status == Users_Verification::NOT_SEND_VERIFICATION){
-			$this->creditCardForm($verification);
-		} elseif($verification && $verification->status == Users_Verification::REQUIRES_USER_CODE){
-			$this->creditCardConfirm($verification);
+			$this->creditcardForm($verification);
+		}elseif($verification && $verification->status == Users_Verification::REQUIRES_USER_CODE){
+			$this->verificationConfirm($verification, 'creditcard');
 		}elseif($verification && $verification->status == Users_Verification::VERIFICATION_COMPLETED){
 			if(Yii::app()->request->isAjaxRequest){
 				$this->renderPartial('completed', array(), true, false);
+			} else{
+				$this->render('completed');
 			}
-		} elseif($verification && $verification->status == Users_Verification::VERIFICATION_COMPLETED){
-		
+			Yii::app()->end();
 		}
-		
 		$this->render('creditcard');
-	}
+	}*/
 	
-	public function creditCardConfirm($verification, $render = false){
+	/*public function creditcardConfirm($verification, $render = false){
 		if($verification && $verification->creditcard) {
 			$model = $verification->creditcard;
+			$model->scenario = 'verification_code';
 		} else {
 			throw new HttpException(404, Yii::t('Front', 'Page not found'));
 		}
+		
 		
 		if (!$render && Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'verification-creditcard') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
-	
+
 		if(isset($_POST['Users_Verification_Creditcard']) && isset($_POST['Users_Verification_Creditcard']['verification_code'])){
-			/*if(Yii::app()->cache->get('User_verification_action_'.Yii::app()->user->id) > 2){
+			if(Yii::app()->cache->get('User_verification_action_'.Yii::app()->user->id) > 2){
 				$model->addError('Users_Verification_Creditcard_verification_code', Yii::t('Front', 'Many attempts. Please try again in an hour.'));
 				echo CJSON::encode($model->getErrors());
 				Yii::app()->end();
-			}*/
+			}
 			if($verification 
 					&& $verification->creditcard 
 					&& !$verification->creditcard->confirm
@@ -229,11 +484,12 @@ class VerificationController extends Controller
 				$verification->creditcard->save();
 				$verification->save();
 				Yii::app()->user->removeNotification('verification_requires_user_code');
+				Yii::app()->user->removeNotification('vericate_your_account');
 				Yii::app()->user->addNotification(
-					'verification_completed', //êîä
+					'verification_completed', //ĞºĞ¾Ğ´
 					'Your account has been successfully verificated.', 
-					'close', // âîçìîæíîñòü çàêğûòü
-					'yellow' //æåëòàÿ ğàìêà
+					'close', // Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ Ğ·Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ
+					'yellow' //Ğ¶ĞµĞ»Ñ‚Ğ°Ñ Ñ€Ğ°Ğ¼ĞºĞ°
 				);
 				$user = Users::model()->findByPk(Yii::app()->user->id);
 				$user->status = Users::USER_IS_VERIFICATED;
@@ -265,15 +521,15 @@ class VerificationController extends Controller
 		
 		$this->render('creditcard/step_two', array('model' => $model));
 		Yii::app()->end();
-	}
+	}*/
 	
-	public function creditCardForm($verification){
+	/*public function creditcardForm($verification){
 		if($verification && $verification->creditcard) {
 			$model = $verification->creditcard;
 		} else {
 			$model = new Users_Verification_Creditcard();
 		}
-		
+
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'verification-creditcard') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
@@ -283,29 +539,29 @@ class VerificationController extends Controller
 			if($model->validate() && $model->isNewRecord){
 				$model->user_id = Yii::app()->user->id;
 				$model->save();
-				if($model->verification){
-					$verification = $model->verification;
-				} else {
-					$verification = new Users_Verification();
-				}
+				$verification = new Users_Verification();
 				$verification->type = 'creditcard';
 				$verification->user_id = Yii::app()->user->id;
 				$verification->status = Users_Verification::REQUIRES_USER_CODE;
 				$verification->rel_id = $model->id;
 				$verification->save();
 				Yii::app()->user->addNotification(
-					'verification_requires_user_code', //êîä
+					'verification_requires_user_code', //ĞºĞ¾Ğ´
 					'You have successfully passed the first stage of verification. We sent to Your bank account in the amount of 0.01EUR. In the description of the transaction specified 6-digit code that you need to enter the second stage to complete the process of verification.', 					
-					'critical', // âîçìîæíîñòü çàêğûòü
-					'yellow' //æåëòàÿ ğàìêà
+					'critical', // Ğ²Ğ¾Ğ·Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ Ğ·Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ
+					'yellow' //Ğ¶ĞµĞ»Ñ‚Ğ°Ñ Ñ€Ğ°Ğ¼ĞºĞ°
 				);
 				// TODO::initialize transaction
-				$this->creditCardConfirm($verification, true);
+				$this->verificationConfirm($verification, 'creditcard', true);
 				Yii::app()->end();
 			}
 		}
 		
-		$this->render('creditcard', array('model' => $model));
+		$countries = Countries::model()->findAll();
+		$countries = CHtml::listData($countries, 'id', 'name');
+		$countries = array_merge(array('' => Yii::t('Front', 'Choose')), $countries);
+		
+		$this->render('creditcard', array('model' => $model, 'countries' => $countries));
 		Yii::app()->end();
-	}
+	}*/
 }

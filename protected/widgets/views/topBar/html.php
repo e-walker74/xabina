@@ -4,8 +4,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class=" clearfix">
                     <select name="" id="" class="language-select pull-left">
-                        <option value="">Ru</option>
-                        <option value="">En</option>
+						<?php foreach(Yii::app()->params->translatedLanguages as $label => $translate): ?>
+							<option <?php if($label == Yii::app()->language): ?>selected="selected"<?php endif; ?> value="<?= Yii::app()->createUrl(Yii::app()->request->url, array('language' => $label)) ?>"><?= $translate ?></option>
+						<?php endforeach; ?>
                     </select>
 
                     <div class="font-size-adjust-container pull-left">
@@ -17,8 +18,8 @@
                         </ul>
                     </div>
                     <ul class="user-menu pull-right  list-inline">
-                        <li class="user-personal"><a href="#"></a></li>
-                        <li class="user-email"><a href="#"></a></li>
+                        <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
+                        <li class="user-email"><a href="<?= Yii::app()->createUrl('message/index'); ?>"></a></li>
                         <li class="user-settings"><a href="#"></a></li>
                         <li class="user-logout"><?= CHtml::link('', array('/logout'), array('onclick'=>'return confirm("'.Yii::t('Front', 'Are you sure you want to logout?').'")')); ?></li>
                     </ul>

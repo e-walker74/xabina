@@ -25,6 +25,11 @@ class Users extends ActiveRecord
     public $old_password;
     public $reemail;
 
+	public static function getModelByType($type){
+		$className = 'Users_' . $type;
+        return parent::model($className, true);
+	}
+	
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -123,6 +128,7 @@ class Users extends ActiveRecord
 			'notifications_active' => array(self::HAS_MANY, 'Users_Notification', 'user_id', 'condition' => 'closed = 0'),
 			'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
             'emails' => array(self::HAS_MANY, 'Users_Emails', 'user_id'),
+			'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
         );
     }
 

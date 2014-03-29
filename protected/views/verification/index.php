@@ -81,7 +81,7 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<a class="violet-button" href="<?= Yii::app()->createUrl('/verification/creditcard') ?>"><?= Yii::t('Front', 'Verify credit/debit card') ?></a>
+				<a class="violet-button" href="<?= Yii::app()->createUrl('/verification/verificatinmethod', array('modelId' => 'creditcard')) ?>"><?= Yii::t('Front', 'Verify credit/debit card') ?></a>
 			</td>
 		</tr>
 	</table>
@@ -97,42 +97,7 @@
 					<li>
 						<label>
 							<input type="radio"/>
-							<img src="/images/bank_ico.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/bank_ico2.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/bank_ico3.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/bank_ico4.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
 							<img src="/images/bank_ico5.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/bank_ico6.png" alt=""/>
 						</label>
 
 					</li>
@@ -141,7 +106,7 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<div class="violet-button"><?= Yii::t('Front', 'Verify bank account') ?></div>
+				<a class="violet-button" href="<?= Yii::app()->createUrl('/verification/verificatinmethod', array('modelId' => 'bankaccount')) ?>"><?= Yii::t('Front', 'Verify bank account') ?></a>
 			</td>
 		</tr>
 	</table>
@@ -157,48 +122,6 @@
 					<li>
 						<label>
 							<input type="radio"/>
-							<img src="/images/payment_system1.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/payment_system2.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/payment_system3.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/payment_system4.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/payment_system5.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
-							<img src="/images/payment_system6.png" alt=""/>
-						</label>
-
-					</li>
-					<li>
-						<label>
-							<input type="radio"/>
 							<img src="/images/payment_system7.png" alt=""/>
 						</label>
 
@@ -208,7 +131,7 @@
 		</tr>
 		<tr class="tr-choose-payment">
 			<td>
-				<div class="violet-button"><?= Yii::t('Front', 'Verify your e-wallet') ?></div>
+				<a class="violet-button" href="<?= Yii::app()->createUrl('/verification/verificatinmethod', array('modelId' => 'paypal')) ?>"><?= Yii::t('Front', 'Verify your e-wallet') ?></a>
 			</td>
 		</tr>
 	</table>

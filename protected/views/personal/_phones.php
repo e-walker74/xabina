@@ -40,11 +40,17 @@
             <td>
             	<span class="primary">
                 <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
-                	<?= Yii::t('Front', 'Pending activation'); ?>
+					<a style="float:right" href="javaScript:void(0)" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
+					<input type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Activation code'); ?>" />
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
-                	<?= Yii::t('Front', 'Make primary'); ?>
+					<?php if($users_phone->hash): ?>
+					<a style="float:right" href="javaScript:void(0)" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
+					<input type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Make primary code'); ?>" />
+					<?php else: ?>
+					<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<?php endif; ?>
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
-                	<?= Yii::t('Front', 'Primary'); ?>
+                	<b><?= Yii::t('Front', 'Primary'); ?></b>
                 <? endif;?></span>
             </td>
             <td class="remove-td">

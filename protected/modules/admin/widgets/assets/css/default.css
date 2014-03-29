@@ -1,0 +1,1106 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+/*b,*/ u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+html{
+    font-family: Arial,Verdana, sans-serif;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+/*body {width:1178px;margin:0px auto;line-height: 1;background-color: #fff;*/
+body {line-height: 1;background-color: #fff;
+    background: -o-linear-gradient(#fff, #f9f8f8, #f2f2f2);
+    background: -ms-linear-gradient(#fff, #f9f8f8, #f2f2f2);
+    background: -moz-linear-gradient(#fff, #f9f8f8, #f2f2f2);
+    background: -webkit-linear-gradient(#fff, #f9f8f8, #f2f2f2);
+    background: linear-gradient(#fff, #f9f8f8, #f2f2f2);
+    line-height:15px;font-size:12px;
+    color: #333;}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {content: '';content: none;}
+.icon,.shd{display:block;position:absolute;overflow:hidden;font-size:1px;line-height:normal}
+table {border-collapse: collapse;border-spacing:0;}
+.body-paddingTop{margin-top:50px;}
+.clearfix:before, .clearfix:after {content:"";display:table;}
+.clearfix:after {clear:both;}
+.clearfix {zoom:1; /* Хак для IE 6 и 7 */}
+.clear {clear: both; height: 1px; display: block; float: none !important;}
+.displayBlock{display: block!important;}
+.displayNone{display: none!important;}
+.disableBg, .disableBgCont {position:fixed;overflow: auto;top:0px;left:0px;height:100%;width:100%;background: rgba(0, 0, 0, 0.4);z-index:10;display:none}
+.substrate{/* min-height: 100%; */height: 100%;width: 100%;display: none;position: fixed;top: 0px;left: 0px;}	
+#newError{display:none;position:fixed;left:0px;bottom:0px;width:100%;text-align:center;background-color:rgba(62, 66, 70, 0.95);font-size:17px;color:#fff;padding:25px;z-index:10;}
+span#error{position:relative;top:-10px;left:0px;font-family:Arial;font-size: 13px;color:#ff0000;padding-left:20px;}
+.load_answer{position:relative;top:0px;left:0px;width:230px;margin: 25% auto;font-family:Arial;font-size:15px;color:#666;padding: 10px;border: 1px solid #ddd;background-color: #fdfddd;margin-bottom:10px;text-align:center}
+.procces_load_center{position:relative;top:0px;left:0px;width:16px;margin: 25% auto;background: url(http://static.migom.by/img/design/indicator_white_small.gif) no-repeat;}
+.procces_load{position:relative;top:0px;left:0px;width:16px;margin: 20px auto;background: url(http://static.migom.by/img/design/indicator_white_small.gif) no-repeat;}
+.like_ok{overflow:hidden;width:6.5em;}
+.like_ok div{position:relative;width:130px;left:-60px}
+@font-face {
+    font-family: Cuprum!important;
+	 src: url('../../css/cuprum-v2.ttf') format('truetype');
+	 font-weight: normal;
+	 font-style: normal;
+}
+.button_yellow{
+    cursor:pointer;background: #fff5a3;font: 15px Arial;color: rgb(0, 0, 0);white-space:nowrap;line-height: 17px;
+    background: -o-linear-gradient(#fff5a3, #fccc42);
+    background: -ms-linear-gradient(#fff5a3, #fccc42);
+    background: -moz-linear-gradient(#fff5a3, #fccc42);
+    background: -webkit-linear-gradient(#fff5a3, #fccc42);
+    background: linear-gradient(#fff5a3, #fccc42);
+    -moz-box-shadow: 1px 1px 0px 0px #fff5a3 inset, -1px -1px 0px 0px #fccc42 inset;
+    -webkit-box-shadow: 1px 1px 0px 0px rgba(255, 255, 190, 1) inset, -1px -1px 0px 0px rgba(255, 243, 160, 1) inset;
+    box-shadow: 1px 1px 0px 0px rgba(255, 255, 190, 1) inset, -1px -1px 0px 0px rgba(255, 243, 160, 1) inset;
+    border:1px solid #a6b0b7;
+    text-shadow:0 1px 0px #fff;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#fccc42');padding: 0px 20px 2px;height: 30px;}
+.button-green  {
+    cursor:pointer;background: #6ba132;font: 13px Arial;white-space:nowrap;
+    background: -o-linear-gradient(#9bcf51, #75a93b);
+    background: -ms-linear-gradient(#9bcf51, #75a93b);
+    background: -moz-linear-gradient(#9bcf51, #75a93b);
+    background: -webkit-linear-gradient(#9bcf51, #75a93b);
+    background: linear-gradient(#9bcf51, #75a93b);
+    -moz-box-shadow: 1px 1px 0px 0px #9bcf51 inset, -1px -1px 0px 0px #75a93b inset;
+    -webkit-box-shadow: 1px 1px 0px 0px #9bcf51 inset, -1px -1px 0px 0px #75a93b inset;
+    box-shadow: 1px 1px 0px 0px #9bcf51 inset, -1px -1px 0px 0px #75a93b inset;
+    border:1px solid #94c456;
+    text-shadow:0 1px 0px #fff;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#75a93b');padding: 0px 20px 2px;height: 30px;}
+.btn-green-flat{
+    cursor:pointer;background: #6ba132;font:11px Tahoma;color:#fff;white-space:nowrap;
+    background: -o-linear-gradient(#9bcf51, #75a93b);
+    background: -ms-linear-gradient(#9bcf51, #75a93b);
+    background: -moz-linear-gradient(#9bcf51, #75a93b);
+    background: -webkit-linear-gradient(#9bcf51, #75a93b);
+    background: linear-gradient(#9bcf51, #75a93b);
+    -moz-box-shadow: 1px 1px 0px 0px #9bcf51 inset, -1px -1px 0px 0px #75a93b inset;
+    -webkit-box-shadow: 1px 1px 0px 0px #9bcf51 inset, -1px -1px 0px 0px #75a93b inset;
+    border:1px solid #94c456;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#75a93b');padding: 0px 7px 3px;height: 20px;}
+.begin-up{display:none;opacity:0;position:fixed;top:50px;left:0px; height:100%!important;padding:5px;width:43px;z-index:2000;font-size:1.1em;color:#999;text-decoration:none}
+.begin-up div {margin:20px 0 0 16px;color:#1c2530;font-size:19px;}
+.begin-up:hover{background-color:#c7c7c7;cursor:pointer;}
+button[disabled], button.disabled{color:#999}
+a {color:#165f85;text-decoration:none;}
+a:hover {color:#165f85;text-decoration:underline;}
+/*Подчеркивание с разрывами
+a {text-shadow: 1px -1px 1px white, -1px -1px 1px white, 2px -1px 2px white, -2px -1px 2px white;
+    text-decoration: none;
+    background: #00e url(data:image/gif;base64,R0lGODlhAQA7APABAP … и так далее … AAACCISPqcvtEEwBADs=) 0 100% repeat-x;
+    background-image: -webkit-linear-gradient(90deg, #fff 0, #fff 2px, rgba(0,0,0,0) 2px, #fff 3px, #fff 59px);}
+a:visited {color: #551a8b;background-color: #551a8b;}
+a:hover {background-color: red;color: red;}
+*/
+.cseller-catalog a:visited, .csitemap a:visited{color: #639;}
+/*a:visited {color: #639;}*/
+.boby-container{width:1200px;margin:0 auto}
+.body-wrapper {width: 100%; position: relative; zoom: 1;}
+.body {width:100%;overflow:hidden}
+.body .body-cont {float:left;width:860px;padding-left:30px}
+.body .body-centr {float:left;overflow:hidden;width:650px}
+.body .body-lc{margin-right:30px;overflow:hidden;}
+.body .body-cont.m-zero {padding-left:0px}
+.body .body-cont-full {margin:0 30px 0 30px; position: relative;}
+.body-left {width: 220px; float: left;margin-left:30px}
+.body-right {float:right;width:250px;margin-right:30px;}
+
+/*Header*/
+header{position:relative;padding-top:11px;height:50px;background:#fff;z-index:6;margin-bottom:5px;margin-top: 5px;}
+header .cont-header{width:1200px; margin:0 auto}
+header .migom-logo{position:absolute;top:3px;left:30px;width: 213px;height: 54px;background: url(http://static.migom.by/img/design/logo_new.png) no-repeat left top;}
+header .cont-label{margin:6px 0 0 -4px;float:left;margin-right:20px;}
+.cont-label .label{height:20px;padding:0 10px 0 5px;background:#e0efcf;position:relative;/*left:125px;top:12px;*/}
+.cont-label .label a{font-size:15px;line-height:17px;color:#1c2530}
+.cont-label .label .icon{width:10px;height:20px;background:url(http://static.migom.by/img/design/top_label_bg.png) no-repeat;top:0;left:-10px}
+.cont-label div{height:1px;position: relative;top: -2px;}
+
+.cont-label.green div{background:url(http://static.migom.by/img/design/dot_bg_7.png) repeat-x 0 0px;}
+.cont-label.red div{background:url(http://static.migom.by/img/design/dot_bg_7.png) repeat-x 0 -1px;}
+.cont-label.blue div{background:url(http://static.migom.by/img/design/dot_bg_7.png) repeat-x 0 -2px;}
+.cont-label.orange div{background:url(http://static.migom.by/img/design/dot_bg_7.png) repeat-x -0 -3px;}
+.cont-label .title{font-size:15px}
+.cont-label .title:hover{text-decoration:none}
+
+/*.cont-label:hover > div{/*background:none;display:none}*/
+.cont-label:hover  .title + div{background:none}
+.cont-label.grey a{color:#d2d2d2}
+.cont-label.green a{color:#81b400}
+.cont-label.red a{color:#ff0000}
+.cont-label.blue a{color:#4b73ca}
+.cont-label.orange a{color:#ffb400}
+a.logo{display:block;width:213px;height:54px;}
+header table tr td{vertical-align: middle;}
+.wrapper_head_fixed{width: 100%;position:fixed;top:0px;left:0px;/*	z-index: 5!important;*/margin: 0!important;padding-top: 5px!important;height: 43px!important;}
+.wrapper_head_fixed.grey{border-bottom:2px solid #d2d2d2}
+.wrapper_head_fixed.green{border-bottom:2px solid #81b400}
+.wrapper_head_fixed.red{border-bottom:2px solid #ff0000}
+.wrapper_head_fixed.blue{border-bottom:2px solid #4b73ca}
+.wrapper_head_fixed.orange{border-bottom:2px solid #ffb400}
+.wrapper_head_fixed table{width: 99.9%;}
+.wrapper_head_fixed .migom-logo{position: relative;top:-5px;left:0px;float:left;width: 204px;height: 54px;background: url(http://static.migom.by/img/design/logo_new.png) no-repeat left -54px;}
+.wrapper_head_fixed .wrapper_head_right{margin-left:-47px;}
+.wrapper_head_right .line-search-full{width:100%;z-index:7;margin}
+.wrapper_head_right{padding-left:267px;}
+.wrapper_head_right .user-data{white-space:nowrap;margin-left:17px;}
+.wrapper_banner{text-align:center;}
+.wrapper_content{min-height:650px;position: relative;background: #fff;-moz-box-shadow: 0px 3px 7px 0px rgba(179, 192, 178, 1);-webkit-box-shadow: 0px 3px 7px 0px rgba(179, 192, 178, 1);box-shadow: 0px 2px 7px 0px rgba(179, 192, 178, 1);/*z-index: 3;*/}
+.wrapper_centered_1000px{width: 1000px;margin-left: auto;margin-right: auto;}
+.wrapper_centered_1200px{width: 1200px!important;margin-left: auto;margin-right: auto;}
+.wrapper_centered_1200px.wrapper_head_fixed{width: 100%;}
+
+/*Navigation*/
+nav{position: relative;height: 41px;border-bottom: 1px solid #d2d2d2;margin-bottom:15px}
+.main-menu{
+    /*overflow: hidden;*/
+    font: 19px Arial;
+    color: #1c2530;
+}
+.main-menu > li{
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+}
+.main-menu > li a{color: #1c2530;text-decoration: none;}
+.main-menu > .main-nav_catalog div{
+    height: 40px;
+    line-height: 40px;
+    margin-left: 30px;
+    padding-right: 25px;
+    border-bottom: 2px solid #81b400;
+    background: url(http://static.migom.by/img/design/catalog-link-pointer.png) no-repeat 153px 50%;
+    cursor: default;
+}
+.main-nav_news{
+    border-bottom: 2px solid #ff0000;
+}
+.main-nav_review{
+    border-bottom: 2px solid #4a72c8;
+}
+.main-nav_service{border-bottom: 2px solid #ffb400;}
+.main-nav_service img{margin-top:8px;}
+.main-nav_news, .main-nav_review, .main-nav_service{
+    padding: 0 19px;
+}
+.main-menu > .main-nav_catalog_active div{
+    line-height: 36px!important;
+    border-top: 2px solid #81b400;
+    border-bottom: none!important;
+}
+.main-menu > .main-nav_catalog_active{
+    border-bottom: 2px solid #fff;
+}
+.main-nav_news_active{
+    line-height: 36px!important;
+    border-top: 2px solid #ff0000;
+    border-bottom: none;
+}
+.main-nav_review_active{
+    line-height: 36px!important;
+    border-top: 2px solid #4a72c8;
+    border-bottom: none;
+}
+.main-nav_service_active{
+    line-height: 36px!important;
+    border-top: 2px solid #ffb400;
+    border-bottom: none;
+}
+
+nav .main-menu_righLinks{position: absolute;right:29px !important;top:8px !important;height: 42px;font: 11px Tahoma;color: #3a5f85;}
+nav .main-menu_righLinks a{height:26px !important;padding:0 10px !important;background:#e0efcf;font:normal 11px/24px Tahoma,Verdana,Arial,Sans-serif !important;color:#3a5f85 !important;display: inline-block;text-decoration: none;vertical-align: middle;}
+nav .main-menu_righLinks a:hover{background-color:#bfd7a4}
+nav .main-menu_righLinks a.isActive{
+    display: inline-block;
+    height: 40px;
+    line-height: 38px!important;
+    padding: 0 8px;
+    color: #333;
+    text-decoration: none;
+    background: #fff;
+    border-top: 2px solid #d2d2d2;
+    vertical-align: middle;
+    cursor: default;
+}
+.catalog-menu{display: none;}
+.popup-menu_wrapper{position: absolute;top:0;left: 15px;background: transparent;z-index: 5;}
+.popup-menu_wrapper:hover{background: #fff;}
+.popup-menu_wrapper:hover .catalog-menu{display: block;}
+.popup-menu_wrapper:hover .popup-menu_levelOne .main-nav_catalog div{background: url(http://static.migom.by/img/design/catalog-link-pointer2.png) no-repeat 153px 50%;}
+.popup-menu_wrapper:hover .popup-menu_levelOne{
+    -moz-box-shadow: 1px 3px 7px 0px rgba(141, 146, 151, 0.7);
+    -webkit-box-shadow: 1px 3px 7px 0px rgba(141, 146, 151, 0.7);
+    box-shadow: 1px 3px 7px 0px rgba(141, 146, 151, 0.7);
+}
+.popup-menu_wrapper:hover > .popup-menu_levelOne {display:block}
+.popup-menu_levelOne > ul, .popup-menu_levelOne .catalog-menu > ul{width: 185px;font: 13px Arial;color: #3a5f85;}
+.popup-menu_levelOne > ul li, .popup-menu_levelOne .catalog-menu > ul li{padding-left: 14px;padding-bottom: 6px;}
+.popup-menu_levelOne > ul li a, .popup-menu_levelOne .catalog-menu > ul li a{color: #3a5f85;text-decoration: none;}
+.popup-menu_levelOne > ul li a:hover, .popup-menu_levelOne .catalog-menu > ul li a:hover{text-decoration: underline;}
+ul li a.main_cat{color:#1c2530;}
+ul li a.main_cat:hover{text-decoration: none;}
+.popup-menu_levelOne .main-nav_catalog{padding-top: 0;padding-bottom: 4px;}
+.popup-menu_levelOne .main-nav_catalog div{height: 40px;line-height: 40px;margin-left: 0;border-bottom: 2px solid #81b400;font-size: 19px;color: #1c2530;background: url(http://static.migom.by/img/design/catalog-link-pointer.png) no-repeat 153px 50%;white-space: nowrap;cursor: default;}
+.menu-item-theme_NY{
+    padding-top: 4px;
+    padding-bottom: 7px;
+    color: #f75000;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    background: #feeee7 url(http://static.migom.by/img/design/menu-item-theme_NY.png) no-repeat right top;
+}
+.menu-item-theme_NY a{
+    color: #f75000!important;
+    text-decoration: none;
+}
+.menu-item-theme_NY a:hover{
+    text-decoration: underline;
+}
+
+
+.popup-menu_levelOne .level0ne-menu_mainItems{
+
+}
+.popup-menu_levelOne .level0ne-menu_mainItems > li{
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 1.0;
+    cursor: default;
+}
+.popup-menu_levelOne .level0ne-menu_mainItems > li p{
+    position: relative;
+    overflow: hidden;
+    height: 18px;
+    padding-top: 2px;
+    font: 15px Arial;
+    color: #1c2530;
+}
+.popup-menu_levelOne .level0ne-menu_mainItems > li p:after{
+    content: ' ';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 46px;
+    height: 100%;
+    background: url(http://static.migom.by/img/design/text-fade-clip.png) repeat-y right top;
+    z-index: 10!important;/*IE 8*/
+    zoom: 1;
+}
+.popup-menu_levelOne .level0ne-menu_mainItems > li:hover{background-color: #f1f1f1;}
+.popup-menu_levelOne .level0ne-menu_mainItems > li:hover .popup-menu_levelTwo{display: block;}
+.popup-menu_levelOne .level0ne-menu_mainItems > li:hover p:after{background: url(http://static.migom.by/img/design/text-fade-clip_gray.png) repeat-y right top!important;}
+
+.sep-line{
+    color: #ebebeb;
+    background-color: #ebebeb;
+    border: 0px none;
+    height: 1px;
+    margin:0;
+    padding:0;
+    -moz-box-shadow: 0px 1px 0px 0px white;
+    -webkit-box-shadow: 0px 1px 0px 0px white;
+    box-shadow: 0px 1px 0px 0px white;
+}
+.popup-menu_levelOne .sep-line{margin:6px 15px 6px 15px;}
+.all-items-link{
+    display: inline-block;
+    padding-left: 16px;
+    padding-top: 8px;
+    padding-bottom: 19px;
+    color: #777;font-size:13px;text-decoration:underline}
+.popup-menu_levelTwo{
+    width: auto!important;
+    overflow: hidden;
+    display: none;
+    position: absolute;
+    left: 185px;
+    top: 0;
+    min-height: 100%;
+    background: #fff url(http://static.migom.by/img/design/shadow_right.gif) repeat-y left top;
+
+    -moz-box-shadow: 2px 3px 5px 0px rgba(141, 146, 151, 0.5);
+    -webkit-box-shadow: 2px 3px 5px 0px rgba(141, 146, 151, 0.5);
+    box-shadow: 2px 3px 5px 0px rgba(141, 146, 151, 0.5);
+}
+
+.popup-menu_levelTwo:before{
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px;
+    height: 18px;
+    background: url(http://static.migom.by/img/design/shadow-top.png) no-repeat left top;
+    /*z-index: 15!important;*/
+    zoom: 1;
+}
+.popup-menu_levelTwo div div{
+    /*float: left;*/
+    width: 230px;
+    display:inline-block!important;
+    vertical-align: top;
+}
+.popup-menu_levelTwo ul{
+    position: relative;
+    padding-bottom: 1git 0px;
+
+}
+.popup-menu_levelTwo ul:after{
+    content: ' ';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 46px;
+    height: 100%;
+    background: url(http://static.migom.by/img/design/text-fade-clip.png) repeat-y right top;
+}
+
+.popup-menu_levelTwo ul li{
+    overflow: hidden;
+    height: 13px;
+    padding-top: 7px;
+    padding-bottom: 3px;
+    font: 13px Arial;
+    color: #3a5f85;
+}
+.popup-menu_levelTwo ul li a{
+    color: #3a5f85;
+    text-decoration: none;
+}
+.popup-menu_levelTwo ul li a:hover{
+    text-decoration: underline;
+}
+.popup-menu_levelTwo .items-header{
+    padding-bottom: 11px!important;
+    font: 15px Arial;
+    color: #1c2530;
+}
+
+/*Header*/
+.widget_bookmark, .widget_compare, .widget_lastprod{position:relative;
+    /*float: right;*/
+    display: inline-block;
+    padding: 0 8px;
+    height: 36px;
+    line-height: 32px;
+    border: 1px solid transparent;
+    /*cursor: pointer;*/
+}
+.widget_profile_pointer{
+    position: relative;top:3px;
+    display: inline-block;
+    width: 26px;
+    height: 36px;
+    line-height: 36px;
+    border: 1px solid transparent;
+    vertical-align: middle;
+    background: url(http://static.migom.by/img/design/catalog-link-pointer.png) no-repeat 10px 13px;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;cursor:pointer;
+}
+.widget_opened{
+    border:1px solid #c2c2c2!important;
+    /*height: 35px!important;
+     line-height: 35px!important;*/
+    -moz-box-shadow: -3px 3px 5px 0px rgba(194, 194, 151, 0.8);
+    -webkit-box-shadow: -3px 3px 5px 0px rgba(194, 194, 151, 0.8);
+    box-shadow: -3px 3px 5px 0px rgba(194, 194, 194, 0.8);
+    cursor: default!important;
+}
+
+.widget_opened.widget_profile_pointer{position:relative;right:-2px;background: #fff url(http://static.migom.by/img/design/catalog-link-pointer2.png) no-repeat 10px 13px!important;}
+.widget_bookmark .sep-line, .widget_compare .sep-line, .widget_lastprod .sep-line, .widget_profile_pointer .sep-line{
+    display: none;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    color: #fff;
+    background-color: #fff;
+    z-index: 6;
+}
+.widget_opened .sep-line{display: block!important;}
+.widget_opened .widget_popup, .widget_opened .widget_popup2{display: block!important;}
+.widget_popup{
+    display: none;
+    position: absolute;
+    top: 36px;
+    right: -1px;
+    padding: 14px 30px 18px 30px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #c2c2c2;
+
+    -moz-box-shadow: -3px 3px 5px 0px rgba(194, 194, 151, 0.8);
+    -webkit-box-shadow: -3px 3px 5px 0px rgba(194, 194, 151, 0.8);
+    box-shadow: -3px 3px 5px 0px rgba(194, 194, 194, 0.8);
+}
+.widget_popup2{
+    display: none;
+    position: absolute;
+    top: 36px;
+    right: -1px;
+    padding: 19px;
+    background: #fff;
+    border: 1px solid #c2c2c2;
+    line-height: 1.0!important;
+
+    -moz-box-shadow: -3px 3px 5px 0px rgba(194, 194, 151, 0.8);
+    -webkit-box-shadow: -3px 3px 5px 0px rgba(194, 194, 151, 0.8);
+    box-shadow: -3px 3px 5px 0px rgba(194, 194, 194, 0.8);
+}
+.widget_popup2 ul{
+    position: relative;
+    top: -6px;
+    display: inline-block;
+    height: 100px;
+    vertical-align: top;
+}
+.widget_popup2 ul li{
+
+}
+.widget_popup2 ul .row_name{
+    padding-bottom: 4px;
+    font: 25px Arial;
+    font-weight: bold;
+    color: #1c2530;
+}
+.widget_popup2 ul .row_name a{color: #1c2530;text-decoration: underline;}
+.widget_popup2 ul .row_edit{padding-bottom: 42px;font: 11px Tahoma;color: #777;}
+.widget_popup2 ul .row_edit a{color: #777;text-decoration:underline;}
+.widget_popup2 ul .row_name a:hover, .widget_popup2 ul .row_edit a:hover{text-decoration:none;}
+.widget_popup2 ul .row_exit{
+    font: 13px Arial;
+    color: #b40000;
+}
+.widget_popup2 ul .row_exit a{
+    color: #b40000;
+    text-decoration: none;
+    background: url(http://static.migom.by/img/design/red-dotted-underline.png) repeat-x left bottom;
+}
+.widget_popup2 img{
+    vertical-align: top;
+    margin-right: 15px;
+}
+
+.widget_popup h3{
+    font: 15px Arial;
+    color: #1c2530;
+    padding-bottom: 27px;
+}
+.widget_popup h4{
+    white-space: normal!important;
+    font: 13px Arial;
+    color: #165f85;
+    padding: 3px 0 4px 0;
+}
+.widget_popup h4 a{
+    font: 13px Arial;
+    color: #165f85;
+    text-decoration: none;
+}
+.widget_popup h4 a:hover{
+    text-decoration: underline;
+}
+.widget_popup a.link_price{color: #b40000;font: 15px Arial;}
+.widget_popup a.link_price:hover{text-decoration: underline;}
+.widget_popup a span{
+    font-weight: bold;
+}
+.widget_popup .productBCL:hover .icon_del, .widget_popup .productBCL:hover .icon_star{
+    display: inline-block;
+}
+.widget_popup .icon_del, .widget_popup .icon_star{
+    display: none;
+    position: absolute;
+    right: -37px;
+    /*display: inline-block;*/
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.widget_popup .icon_del{
+    background: url(http://static.migom.by/img/design/icons.png) no-repeat left -56px;
+    top: -9px;
+}
+.widget_popup .icon_star{
+    background: url(http://static.migom.by/img/design/icons.png) no-repeat left -81px;
+    top: 19px;
+}
+.widget_popup .productBCL{
+    display: inline-block;
+    width: 130px;
+    /*padding-bottom: 8px;*/
+    margin: 0 18px;
+    vertical-align: top;
+}
+
+
+.img-wrapper{
+    position: relative;
+    display: inline-block;
+}
+.widget_profile{
+    position: relative;top:-1px;display: inline-block;
+    margin-left: 9px;
+    /*margin-right: 20px;*/
+    height: 30px;
+    line-height: 30px;
+}
+.widget_profile_authentication a{font: 13px Arial;color: #7fb73d;cursor: pointer;text-decoration:underline;}
+.widget_profile_authentication a:hover{text-decoration:none;}
+.widget_profile_authentication .enter{margin-right:30px;}
+	
+.widget_profile ul.small-tags{
+    display: inline-block;
+    vertical-align: middle;
+    height: 30px;
+    line-height: 1.0;
+    padding:0;
+    margin:0 0 0 5px;
+    text-align: right;
+}
+.widget_profile ul.small-tags li{
+    padding: 0 10px 0 0;
+    margin:0;
+    font: 9px Tahoma;
+    color: #36be2e;
+    background: url(http://static.migom.by/img/design/small-icons_tick.png) no-repeat right 3px;
+}
+.widget_profile ul.small-tags li:first-child{
+    padding-bottom: 6px;
+    color: #ff7c78;
+    background: url(http://static.migom.by/img/design/small-icons_heart.png) no-repeat right 3px;
+}
+.widget_profile_photo{
+    position: relative;
+    display: inline-block;
+    /*width: 60px;*/
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    /*background: url(http://static.migom.by/img/design/catalog-link-pointer.png) no-repeat 42px 13px;*/
+}
+.widget_profile_photo i{
+    position: absolute;
+    right: 0;
+    margin-right: -7px;
+    top: -7px;
+    display: inline-block;
+    /*height: 12px;*/
+    padding:1px 4px;
+    border: 1px solid #eafa68;
+    background-color: #eb4e00;
+    color: #fde8dd;
+    font: 9px Tahoma;
+
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+.widget_profile_photo i a{
+    text-decoration: none;
+    color: #fff;
+}
+.widget_profile_photo img{
+    cursor: pointer;
+}
+.widget_lastprod{margin-right:10px;position:relative}
+.widget_bookmark i, .widget_compare i, .widget_lastprod i{
+    display: inline-block;
+    width: 16px;
+    height: 14px;
+    vertical-align: middle;
+}
+.widget_compare p{
+    margin-top: 8px;
+    padding-top: 17px;
+    border-top: 1px solid #f6f6f6;
+    /*background: url(http://static.migom.by/img/design/litegray-solid-underline.png) repeat-x;*/
+}
+.widget_compare i{background: url(http://static.migom.by/img/design/icons.png) no-repeat left top;}
+.widget_bookmark i{position:relative;top:-1px;left:4px;background: url(http://static.migom.by/img/design/icons.png) no-repeat left -14px;}
+.widget_lastprod i{background: url(http://static.migom.by/img/design/icons.png) no-repeat left -28px;}
+.widget_compare .widget_popup{padding-top: 10px!important;}
+.widget_compare .widget_popup h3 select{font: 15px Arial;}
+.widget_bookmark .left_poiner, .widget_lastprod .left_poiner, .widget_compare .left_poiner{
+    display: inline-block;
+    width: 21px;
+    height: 63px;
+    background: url(http://static.migom.by/img/design/pointers.png) no-repeat left top;
+    vertical-align: top;
+    margin-top: 21px;
+    margin-left: 18px;
+    cursor: pointer;
+}
+.widget_bookmark .right_poiner, .widget_lastprod .right_poiner, .widget_compare .right_poiner{
+    display: inline-block;
+    width: 21px;
+    height: 63px;
+    background: url(http://static.migom.by/img/design/pointers.png) no-repeat -21px top;
+    vertical-align: top;
+    margin-top: 21px;
+    margin-right: 18px;
+    cursor: pointer;
+}
+.pointer_isActive.right_poiner{
+    background-position: -63px top!important;
+}
+.pointer_isActive.left_poiner{
+    background-position: -42px top!important;
+}
+.hide_poiner_0_bookmark, .hide_poiner_0_lastprod, .hide_poiner_0_compare{
+    display: none;
+}
+.compare_carousel, .bookmark_carousel, .lastprod_carousel{
+    display: inline-block;
+    position: relative;
+}
+.count-numbers{
+    font: 13px Arial;
+    color: #333;
+    margin-left: 5px;
+    text-decoration: none;
+}
+.count-numbers_blue{color: #0099cc;font-weight:bold}
+.count-numbers_pink{
+    color: #ff8480;
+}
+.count-numbers_pink i{
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 14px;
+    top: 2px;
+    left: -4px;
+    background: url(http://static.migom.by/img/design/icons.png) no-repeat left -42px;
+}
+.b-seach-cont{position: relative;}
+.b-seach{
+    
+    height: 28px;
+    line-height: 28px;
+    /*width: 100%;*/
+    border: 1px solid #bec0c2;
+    background: #fff;
+	overflow: hidden;
+    -moz-box-shadow: 1px 1px 2px 0px rgba(190, 192, 194, 0.7) inset;
+    -webkit-box-shadow: 1px 1px 2px 0px rgba(190, 192, 194, 0.7) inset;
+    box-shadow: 1px 1px 2px 0px rgba(190, 192, 194, 0.7) inset;
+}
+
+.search-button{display: inline-block;margin-left:6px;}
+.seachline-input{
+    display: inline-block;position:absolute;z-index:1;
+    width: 100%;
+    height: 26px;
+    line-height: 26px!important;
+    font: 13px Arial;
+    vertical-align: top;
+    background: transparent;
+	border: none;background-image: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D);outline: none; background-position: initial initial; background-repeat: initial initial; color:#333;
+}
+input.seachline-input[type="text"]:focus{color:#333}
+.seachline-dis{
+    position: absolute; background-color: transparent; -webkit-text-fill-color: silver; color: silver; left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: 26px;
+    line-height: 26px!important;
+    font: 13px Arial;
+    color: #999;
+    vertical-align: top;
+    background: transparent;
+    border: 0px none;
+    outline-width: 0;
+}
+.seachline-select {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 92px;
+    padding-left: 8px;
+    height: 28px;
+    line-height: 28px!important;
+    font: 13px Arial;
+    color: #777;
+    background: transparent url(http://static.migom.by/img/design/select-pointer.png) no-repeat 90px 13px;
+    border-right: 1px solid #ebeced;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.seachline-select ul{
+    display: none;
+    position: absolute;
+    top: 28px;
+    left: 0;
+    width: 100%;
+    border: 1px solid #7e9db9;
+    background: #fff;
+}
+
+
+/*alert news in nemu*/
+/*.wrapper_content, header{
+	width: 1200px!important;
+	margin-left: auto!important;
+	margin-right: auto!important;
+}*/
+.main-nav_news .main-nav_news_count{padding:2px 6px;position: relative;left: -8px;margin-right:2px;background: #fe0000;font: 11px Arial;color: #fff;vertical-align: middle;cursor: pointer;}
+.main-nav_news{position: relative;padding-left: 19px!important;}
+.main-nav_news_popup{position: absolute;top:38px;left: -170px;width: 1142px;padding-bottom:17px;border-top: 2px solid #fe0000;background: #fff;z-index:6;-moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);-webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);}
+.main-nav_news_popup h2{
+	padding-top: 12px;
+	padding-bottom: 22px;
+	padding-left: 30px;
+	font: 19px Arial;
+	color: #1c2630;
+}
+.main-nav_news_popup h2 b{
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	margin-right: 5px;
+	margin-top: 1px;
+	background: url('http://static.migom.by/img/design/icons.png') no-repeat left -194px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.main-nav_news_popup h2 b:first-child{
+	margin-left: 8px;
+}
+.main-nav_news_popup h2 b.isActive{
+	background-position: left -179px;
+	cursor: default;
+}
+.main-nav_news_popup_item{clear:both;width:286px;margin-right:40px;margin-left:30px;margin-bottom:30px}
+.hasLeftPointer .main-nav_news_popup_item{margin-right:12px;	margin-left:60px;}
+.main-nav_news_popup .iterate{float:left;overflow:hidden;}
+.main-nav_news_popup_item img{
+	position: relative;
+	top: 4px;
+	float: left;
+}
+.main-nav_news_popup_item p{
+	padding-left: 80px;
+	padding-top: 2px;
+	font: 9px Tahoma;
+	color: #777;
+}
+.main-nav_news_popup_item p span{
+	position: relative;
+	display: inline-block;
+	width: 13px;
+	height: 11px;
+	padding-top: 1px;
+	/*padding-bottom: 2px;*/
+	margin-left: 10px;
+	text-align: center;
+	background: #0099cc;
+	color: #fff;
+	line-height: 9px!important;
+	vertical-align: top;
+	font: 9px Tahoma;
+}
+.main-nav_news_popup_item p span:after{
+	content: ' ';
+	position: absolute;
+	left: 2px;
+	top: -3px;
+	width: 3px;
+	height:	3px;
+	background: url('http://static.migom.by/img/design/news-popup-item-pointer.gif') no-repeat left top;	
+}
+.main-nav_news_popup_item p a{
+	position: relative;
+	display: inline-block;
+	width: 13px;
+	height: 11px;
+	padding-top: 1px;
+	/*padding-bottom: 2px;*/
+	margin-left: 10px;
+	text-align: center;
+	background: #0099cc;
+	color: #fff;
+	line-height: 9px!important;
+	vertical-align: top;
+	font: 9px Tahoma;
+}
+.main-nav_news_popup_item p a:after{
+	content: ' ';
+	position: absolute;
+	left: 2px;
+	top: -3px;
+	width: 3px;
+	height:	3px;
+	background: url('http://static.migom.by/img/design/news-popup-item-pointer.gif') no-repeat left top;	
+}
+.main-nav_news_popup_item h3 {padding-left: 80px;line-height: 15px!important;}
+.main-nav_news_popup_item h3 a{font: 13px Arial;color: #165f85;text-decoration: none;line-height: 15px!important;}
+.main-nav_news_popup_item h3 a:hover{text-decoration: underline;}
+.main-nav_news_popup_item_marked a{background-color: #fffe9a;}
+.main-nav_news_popup_goLeft, .main-nav_news_popup_goRight{position:absolute;top:0;width:30px;height: 100%;cursor: pointer;}
+.main-nav_news_popup_goLeft{display: none;left: 0;}
+.hasLeftPointer .main-nav_news_popup_goLeft{display: block}
+.main-nav_news_popup_goRight{right: 0;}
+.main-nav_news_popup_goLeft div, .main-nav_news_popup_goRight div{position: absolute;width: 12px;height: 44px;top: 50%;margin-top: -20px;}
+.main-nav_news_popup_goLeft div{left: 8px;background: url(http://static.migom.by/img/design/pointers.png) no-repeat -84px top;}
+.main-nav_news_popup_goRight div{right: 8px;background: url(http://static.migom.by/img/design/pointers.png) no-repeat -96px top;}
+.main-nav_news_popup_goLeft:hover div{background-position: -108px top;}
+.main-nav_news_popup_goRight:hover div{background-position: -120px top;}
+.main-nav_news_popup_goLeft:hover, .main-nav_news_popup_goRight:hover{background-color: #e6e6e6;}
+.seachline-select ul li{padding-left: 8px;}
+.seachline-select ul li:hover{color: #fff;background: #3399fe;}
+.b-seach .seachline-select ul{left: -1px;}
+
+/*new Breadcrumbs*/
+.b-path{margin:0 0 15px 0;padding:0 0 0 23px;color:#787878}
+.b-path li{padding: 0px 20px 0px 5px;display:inline;position:relative;font:normal 11px Tahoma,Verdana,Arial,Sans-serif}
+.b-path li a{text-decoration:underline;color:#787878}
+.b-path li .icon{width:9px;height:5px;background:url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat 0 0;top:6px;right:2px}
+
+/*header title*/
+.hdrtitle {margin: 0 0 14px 30px; color: #1c2530; font-size: 25px;}
+.hdrtitle h1 {margin-right: 3px; font-weight: normal; display: inline;}
+.hdrtitle span {margin-left: 10px; font-size: 11px; font-family: tahoma; color: #777;}
+.hdrtitle .new {vertical-align: super; margin-left: -6px;}
+.subhn{position:relative;top:-15px;font-family:Tahoma;font-size:10px;color:#c80000}
+
+/* reklama spec */
+.ctabbed-spec{width:250px;}
+.ctabbed-spec a{text-decoration:none;}
+.ctabbed-spec .bd .item {padding: 8px 10px; border-left: 1px solid #9fce00;border-top: 1px solid #9fce00;border-right: 1px solid #9fce00;}
+.ctabbed-spec .bd .item:hover{box-shadow:inset 0px 0px 4px #9fce00;-moz-box-shadow: inset 0px 0px 4px #9fce00; -webkit-box-shadow: inset 0px 0px 4px #9fce00;cursor:pointer;}
+.ctabbed-spec .bd .item-last {border-bottom: 1px solid #9fce00;}
+.ctabbed-spec .bd {padding:0px}
+.ctabbed-spec .bd .dep{font-family:tahoma;font-size:11px;color:rgb(119, 119, 119);}
+.ctabbed-spec .bd .descr {float:left;width:140px;font-size:14px;}
+.ctabbed-spec .bd .img {position:relative;top:0px;right:0px;float:right;width:75px;z-index:1;background:#fff;text-align:center;box-shadow: -5px 0px 1px rgba(255, 255, 255, 0.8);-moz-box-shadow: -5px 0px 1px rgba(255, 255, 255, 0.8); -webkit-box-shadow: -5px 0px 1px rgba(255, 255, 255, 0.8);padding-left:10px;}
+.ctabbed-spec .bd .costbg{float:left;width:60px;height:20px;background: url(http://static.migom.by/img/design/rail_cost_right.gif) no-repeat;font-family:Arial;font-size:14px;font-weight:bold;color:#000000;padding-top:2px;padding-left:5px;}
+.ctabbed-spec .descr .seller{position:relative;width:250px;top:2px;left:0px;z-index:1;text-decoration:underline;font-size:12px;color:#555555}
+.title_mainspec {padding-top:5px;color:#165f85;margin-bottom:8px;}
+.ctabbed-spec .bd {padding:0px}
+
+.adv_migom_spec {width:240px;/*height:400px;*/padding:0px;margin:0px auto 0px;text-align:center;font-family:Tahoma}
+.adv_migom_spec a{text-decoration:none}
+.adv_migom_spec .tcolor-1{color:#ccae66}
+.adv_migom_spec .tcolor-2{color:#1c78e1}
+.adv_migom_spec .tcolor-3{color:#ff4a4a}
+.adv_migom_spec .cont-img{float:left;text-align:left;width:120px;padding-top:20px}
+.adv_migom_spec .img{width:100px;margin-left:20px;position:absolute;bottom:0px}
+/*.adv_migom_spec .img img{width:100%}*/
+.adv_migom_spec .cont-cost{overflow:hidden;text-align:right;width:120px;padding-top:44px}
+.adv_migom_spec .cost-us{font-family:'Cuprum';font-size:40px;font-weight:bold;color:#333;margin-right:6px;}
+.adv_migom_spec .cost-us span{position:relative;top:-17px;font-family:'Cuprum';font-size:16px;line-height:14px;font-weight:normal;padding-left:5px}
+.adv_migom_spec .cost-by{font-size:15px;line-height:14px;color:#777;margin-right:12px;margin-top:2px;}
+.adv_migom_spec .prefix-by{font-size:9px;}
+.adv_migom_spec .cont-info{text-align:left;margin:9px 0 0 20px}
+.adv_migom_spec .type-name{font-size:11px;color:#777;}
+.adv_migom_spec .name{font-family:'Cuprum';font-size:20px;color:#333;margin-top:13px;}
+.adv_migom_spec .bottom-cont{height:90px;position:relative;top:10px;left:0px;line-height:14px;}
+.adv_migom_spec .bc{position:relative;}
+.adv_migom_spec .info-company{width:115px;float:left;text-align:left;margin-left:19px}
+.adv_migom_spec .contact{overflow:hidden;text-align:left;}
+.adv_migom_spec .alt{font-size:9px;color:#aaa;line-height:13px;}
+.adv_migom_spec .code{color:#aaa}
+.adv_migom_spec .number{font-size:13px;color:#333;margin-bottom:6px;}
+.adv_migom_spec .content{height:310px}
+.adv_migom_spec .cont-img-data{height:170px;position: relative;}
+.adv_migom_spec .name-company{font-size:13px;margin-bottom:14px;color:#333}
+.adv_migom_spec .ellipsis{overflow:hidden;white-space: nowrap;text-overflow: ellipsis}
+.body-right .extmedia{background: url('http://static.migom.by/img/adv/ext_banner1.jpg') no-repeat scroll 0 0 transparent;/*float: left;width: 240px;height: 60px;margin: -40px 0 0 0px!important;z-index: 1;position: absolute;*/color: #FFF;font-family: Arial;font-size: 15px;font-weight: bold;height: 30px;padding-left: 20px;padding-top:8px;width: 250px;}
+.body-right .lkink:hover{text-decoration:none}
+
+a.adv-spec {text-decoration: none}
+a.adv-spec:hover {text-decoration: none}
+#adv-migom-spec {width: 250px; height: 400px; padding:0px; margin:0px auto; margin-bottom: 25px; background: url(http://static.migom.by/img/adv/bg1.gif) top left no-repeat;}
+#adv-migom-spec .item {position:relative;top:0px;left:0px;height: 400px;padding:0px; margin:0;font-size: 11px; font-family: Tahoma;}
+#adv-migom-spec .title{text-align:left;padding:13px 15px 10px 15px;}
+#adv-migom-spec .n-type{color: #999999;margin:0px 0px;}
+#adv-migom-spec .n-name{color: #165f85; font-size: 18px; font-family: Arial; font-weight:bold;}
+#adv-migom-spec .n-info{color: #333333;margin-bottom:7px;}
+#adv-migom-spec .n-price{width:90px;float:left;background-color:#e60000;margin-left:1px;padding:4px 10px 4px 0px;color:#fff;font-size:18px;font-family:Arial;font-weight:bold;text-align:right}
+#adv-migom-spec .n-price .from{font-size:13px;font-weight:normal;}
+#adv-migom-spec .n-seler{margin-left:80px;background-color: #fedf3c;padding:4px 5px 4px 0px;color:#1d252f;font-size:18px;font-family:Arial;font-weight:bold;}
+#adv-migom-spec .n-seler .sel{position:relative;top:-2px;font-size:13px;font-weight:normal;}
+#adv-migom-spec .box-prod{position:absolute;top:190px;left:45px;}
+#adv-migom-spec .img-prod{position:relative;top:0px;left:0px;width:160px;height:160px;margin-bottom:10px;}
+#adv-migom-spec .sale{position:absolute;top:35px;left:-18px;width:66px;height:66px;background: url(http://static.migom.by/img/adv/hitsale.png) top center no-repeat;}
+#adv-migom-spec .comparison{position:absolute;top:360px;left:18%;font-size: 18px; font-family: Arial;color:#000;font-weight:bold;text-decoration:underline;}
+
+/*suggest*/
+#autocomplete_choices {display:none;position:absolute;top:25px; font-size:10px;left: 20%; max-height:1000px; text-align:left; z-index:1000; color:#555555; font-family:tahoma,arial,verdana,helvetica,clean,sans-serif; font-size:11px; font-style:normal;font-variant:normal;font-weight:normal; margin-left: -21px; margin-right: -23px;}
+#autocomplete_choices  a {color:#0066CC; text-decoration:none; border-bottom: medium none;}
+#autocomplete_choices .s_t_l {background:url("http://static.migom.by/img/design/s_t_l.png") no-repeat left top transparent;	height:20px; padding-left:60px;}
+#autocomplete_choices .s_t_r {background:url("http://static.migom.by/img/design/s_t_r.png") no-repeat right top transparent; height:20px;}
+#autocomplete_choices .s_m_l {background:url("http://static.migom.by/img/design/s_m_l.png") repeat-y left top transparent; padding-left:21px;}
+#autocomplete_choices .s_m_r {background:url("http://static.migom.by/img/design/s_m_r.png") repeat-y right top transparent;	padding-right:21px;}
+#autocomplete_choices .s_b_l {background:url("http://static.migom.by/img/design/s_b_l.png") no-repeat left bottom transparent; height:20px;	padding-left:60px;}
+#autocomplete_choices .s_b_r {background:url("http://static.migom.by/img/design/s_b_r.png") no-repeat right bottom transparent;	height:20px;}
+#autocomplete_choices span {background:none; display:inline; height: auto; padding:0;}
+#autocomplete_choices .item {padding-top:5px; border-bottom: 1px solid #dcdcdc;}
+#autocomplete_choices .items .catbrend{padding:7px 7px 7px 10px;background:#fdfddd;border-bottom: 1px solid #dcdcdc;}
+.item-annonce{display:none;width:300px;position:absolute;top:0px;left:0px;font-family:Tahoma;font-size:11px;color:#ecf0f4;z-index:30;}
+.triangle-top{background:url("http://static.migom.by/img/design/triangle-top.png") no-repeat 40px top transparent;}
+.annonce-text{position:relative;top:-8px;left:0px;box-shadow: 0px 0px 3px #484c4f;background-color:rgba(62, 66, 70, 0.95);padding:7px 10px 10px 10px}
+#autocomplete_choices .items .catbrend a {font-family:Arial;font-size:14px;color:#165f85;}
+#autocomplete_choices .item.article {padding-bottom: 0px;}
+#autocomplete_choices .item-last {border: 0; margin-bottom:0;}
+#autocomplete_choices .item.selected {margin:0px;padding-top:5px;padding-bottom: 0px;background:url("http://static.migom.by/img/design/s_selected.gif") repeat-y left top #EEF5E8;}
+#autocomplete_choices .item.selected  ul {width: auto;margin-right:0px;float:none}
+#autocomplete_choices .item .img {display: block; width: 50px; float: left;}
+#autocomplete_choices .item .img img {margin: 0 auto; display: block;}
+#autocomplete_choices .item .prices {display: block; width: 90px; float: right; text-align: right; margin-top: 15px;}
+#autocomplete_choices .item .prices .price {background:url("http://static.migom.by/img/design/s_cost.png") no-repeat right bottom transparent;height:21px; line-height:20px; text-align:right; width:89px;}
+#autocomplete_choices .item .prices .price a {color: #ffffff;}
+#autocomplete_choices .item .prices .price a:hover {text-decoration: underline;}
+#autocomplete_choices .item .prices .price a span {font-size:12px; padding-right:5px;}
+#autocomplete_choices .item .prices .price strong {font-weight: bold;}
+#autocomplete_choices .item .prices .price-absent {background:none; font-size: 13px;}
+#autocomplete_choices .item .prices .compare {margin-bottom: 2px; display: block; float: right;}
+#autocomplete_choices .item .prices .more {margin-bottom: 8px; clear: both; font-size: 10px; font-family: tahoma; color: #777;margin-top:-8px;}
+#autocomplete_choices .item .prices .more a {color: #777; text-decoration: underline;}
+#autocomplete_choices .item .prices .more a:hover {text-decoration: none;}
+#autocomplete_choices .item .prices ul {color: #555;}
+#autocomplete_choices .item .prices ul a {color: #555; text-decoration: underline;}
+#autocomplete_choices .item .prices ul a:hover {text-decoration: none;}
+#autocomplete_choices .item .info {margin: 0 90px 0 60px;}
+#autocomplete_choices .item .info .title {margin-bottom: 2px; font-weight: bold; font-size: 12px;}
+#autocomplete_choices .item .info .title a {color: #165f85;}
+#autocomplete_choices .item .info .title img {vertical-align: super;}
+#autocomplete_choices .item .info .descr {margin-bottom: 5px; font-size: 11px; font-family: tahoma;line-height:15px}
+#autocomplete_choices .item .info .descr span {display: none; }
+#autocomplete_choices .item .info .descr a {color: #777; text-decoration: underline;}
+#autocomplete_choices .item .info .descr a:hover {text-decoration: none;}
+#autocomplete_choices .item .info .mark {margin-bottom: 6px;}
+#autocomplete_choices .item .info .mark-empty {font-size: 10px; color: #999; font-family: tahoma;}
+#autocomplete_choices .item .info .choose {margin-bottom: 6px; padding: 1px 5px 3px 2px; display: -moz-inline-box; display: inline-block; font-size: 11px; font-family: tahoma; color: #165f85; background: #eaebeb;}
+#autocomplete_choices .item .info .choose input {margin: 0 5px 0 0; padding: 0; vertical-align: top;}
+#autocomplete_choices .item .info .choose label {cursor: pointer;}
+#autocomplete_choices .item .info .choosen {color: #4d9901; background-color: #e8f2de;}
+#autocomplete_choices .item .info .links {margin-bottom: 5px; font-size: 11px; color: #777; font-family: tahoma;}
+#autocomplete_choices .item .info .links li {margin-left: 3px; padding-left: 6px; display: inline; background: url(http://static.migom.by/img/design/links-div.gif) no-repeat left 2px;}
+#autocomplete_choices .item .info .links li.first {margin: 0; padding: 0; background: none;}
+#autocomplete_choices .item.article .info {margin: 0 0 0 55px;}
+#autocomplete_choices .item.news .info {margin: 0 0 0 0;}
+#autocomplete_choices .item.service .info {margin: 0 135px 0 0;}
+#autocomplete_choices .item.service .info ul {font-size: 11px; font-family: tahoma;}
+#autocomplete_choices .item.service .info ul li {padding-right: 5px; margin-right: 6px; display: block; float: left; white-space: nowrap; background: url(http://static.migom.by/img/design/links-div.gif) no-repeat right center;}
+#autocomplete_choices .item.service .info ul li.last {padding: 0; margin: 0; background: none;}
+#autocomplete_choices .item.service .info ul li a {color: #555;}
+#autocomplete_choices .item.service .info ul li img {vertical-align: bottom;}
+#autocomplete_choices .item.service .phones {float: right; display: block; width: 130px; text-align: right;}
+#autocomplete_choices .item.service .phones .map a {margin-bottom: 14px; padding-left: 18px; display: -moz-inline-box; display: inline-block; line-height: 19px; height: 19px; background: url(http://static.migom.by/img/design/ico-mappin2.gif) no-repeat left center;}
+#autocomplete_choices .item.service .phones ul {margin-bottom: 4px;}
+#autocomplete_choices .item.service .phones ul li {padding-right: 23px; margin-bottom: 4px; display: inline-block; white-space: nowrap; background: no-repeat right 0;}
+#autocomplete_choices .item.service .phones ul li span {color: #555;}
+#autocomplete_choices .item.service .phones ul li.mts {background-image: url(http://static.migom.by/img/design/ico-mts.gif);}
+#autocomplete_choices .item.service .phones ul li.velcom {background-image: url(http://static.migom.by/img/design/ico-velcom.gif);}
+#autocomplete_choices .item.service .phones ul li.life {background-image: url(http://static.migom.by/img/design/ico-life.gif);}
+#autocomplete_choices .item.service .phones .place {font-family: tahoma; font-size: 11px; color: #555;}
+#autocomplete_choices .item .select_for {margin-top: 10px;}
+#autocomplete_choices .item .select_for label {background: url(http://static.migom.by/img/design/select_for_comparison.png) no-repeat scroll 0 0 transparent; float: right; height: 13px; margin-top: 3px; overflow: hidden; width: 62px;}
+#autocomplete_choices .item .select_for .active {background-position: 0 -13px;}
+#autocomplete_choices .item .select_for input {float: right;}
+#autocomplete_choices .item .choose {display: none;}
+#autocomplete_choices .item .choose.choosen {display: block;}
+#autocomplete_choices .items_all{text-align:center}
+#bottom_panel {position:fixed;left:0px;bottom:0pt;width:100%;margin:0px 10px;z-index:11}
+#bottom_panel .bd-bottom-panel{display:none;background:#fff;position:relative;top:0px;left:0px;min-width:946px;max-width:980px;margin:0px auto;border-top:2px solid #7ab341;border-right:2px solid #7ab341;border-left:2px solid #7ab341;box-shadow: 0px 0px 4px #C0C0C0;font-family:Arial;font-size:15px;color:#1c2530;}
+#bottom_panel .panel-clear{border:none;}
+#bottom_panel .noempty{display:block;}
+#bottom_panel .title-line{background:#f8f9fa;}
+#bottom_panel .title-right-top{float:right;position:relative;top:10px;right:10px;}
+#bottom_panel .close-panel{width:25px;height:25px;background: url(http://static.migom.by/img/design/strelka_close.png) -150px 0px no-repeat;margin-top:-2px;float:right;cursor:pointer}
+#bottom_panel .hide{width:25px;height:25px;background: url(http://static.migom.by/img/design/strelka_close.png) -125px 0px no-repeat;float:right;cursor:pointer}
+#bottom_panel .show-panel{display:none;position:fixed;bottom:0px;right:10%;background-color:#f8f9fa;padding:0px 8px 8px 8px;cursor:pointer;border-top:2px solid #7ab341;border-right:2px solid #7ab341;border-left:2px solid #7ab341;box-shadow: 0px 0px 4px #C0C0C0;}
+#bottom_panel .show-panel .imgs{width:25px;height:25px;margin-top:-5px;background: url(http://static.migom.by/img/design/strelka_close.png) -100px 0px no-repeat;}
+#bottom_panel .scroll-top{font-size:13px;color:#666666;margin-right:20px;cursor:pointer}
+#bottom_panel .titleleft{float:left;}
+.titleleft .listtitle{background:#f8f9fa;float:left;padding:10px 20px 10px 20px;cursor:pointer;}
+#bottom_panel .selected_path{position:relative;top:2px;z-index:4;background:#fff;border-left:1px solid #d8d9da;border-right:1px solid #d8d9da;border-bottom:1px solid #fff;cursor:default;font-weight:bold;margin-left:20px;margin-top:-2px;}
+#bottom_panel .first-list{width:699px;overflow:hidden;}
+#bottom_panel .list-prod{width:699px;display:none;overflow:hidden;}
+#bottom_panel .small_star{float:left;width:20px;background: url(http://static.migom.by/img/design/strelka_close.png) -216px -4px no-repeat;}
+#bottom_panel .boxScroll{position:relative;right:0px;width:6000px;margin-top:2px;}
+#bottom_panel .info-prod{width:140px;min-height:165px;float:left;background: url("http://static.migom.by/img/design/carousel-div.gif") no-repeat right top;text-align:center}
+#bottom_panel .ip-last{width:140px;float:left;text-align:center;background:none;}
+#bottom_panel .img {position:relative;top:0px;left:0px;height: 100px;}
+#bottom_panel .prod-name{display:block;min-height:35px;font-size:12px;color:#333333;margin-top:5px}
+#bottom_panel .titleright{position:absolute;right:0px;float:right;width:235px;height:225px;overflow:auto;background:#fff;font-size:13px;color:#666666}
+.bd-bottom-panel .box-content{position:relative;top:0px;z-index:3;background:#fff;min-height:213px;padding:20px 20px 0px 20px;display:none;border-top:1px solid #d8d9da;}
+.box-content ul.titleright li{max-width:220px;padding-top:5px;padding-bottom:4px;margin-right:20px;cursor:pointer}
+#bottom_panel .del-section{position:relative;top:-1px;float:left;width:25px;height:25px;margin-right:5px;background: url(http://static.migom.by/img/design/strelka_close.png) -75px -5px no-repeat;}
+ul.titleright span.name-section{position:relative;top:-2px;left:-3px;border-bottom:1px dotted #666;color:#333;}
+ul.titleright span.ns-act{border-bottom:none;color:#4d9901;}
+span.symbol-count{color:#777;}
+#bottom_panel .price {font-size: 12px;color: #b40000;}
+#bottom_panel a.nohover:hover{text-decoration:none;}
+#bottom_panel .compare-button{position:relative;left:300px;margin-bottom:10px;clear:both;}
+#bottom_panel .content_img{position:relative;top:0px;left:0px}
+.content_img a{position:relative;top:0px;left:0px;z-index:9}
+#bottom_panel .del-product{display:none;position:absolute;top:-5px;right:15%;width:25px;height:25px;background: url(http://static.migom.by/img/design/strelka_close.png) 0px 0px no-repeat;cursor:pointer;z-index:10}
+#bottom_panel .nav-prev{display:none;position:absolute;top:30px;left:10px;width:21px;height:63px;background: url("http://static.migom.by/img/design/carousel-nav.png") no-repeat scroll left bottom transparent;cursor:pointer;}
+#bottom_panel .nav-prev-active{display:none;background: url("http://static.migom.by/img/design/carousel-nav.png") no-repeat scroll left top transparent;z-index:10}
+#bottom_panel .nav-next{position:absolute;top:30px;left:710px;width:21px;height:63px;background: url("http://static.migom.by/img/design/carousel-nav.png") no-repeat scroll right bottom transparent;cursor:pointer;}
+#bottom_panel .nav-next-active{background: url("http://static.migom.by/img/design/carousel-nav.png") no-repeat scroll right top transparent;z-index:10}
+
+footer{padding-top:15px;padding-bottom:15px;overflow:hidden;zoom:1;font-family:arial;font-size:13px;color:#333;}
+footer ul{float:left;width:22%;padding-left:30px}
+footer ul li{line-height:21px}
+footer ul li a{color:#165f85;text-decoration:none}
+footer ul li a:hover{text-decoration:underline}
+
+.footer_copyright{padding-left:30px;font:11px tahoma, verdana, arial, sans-serif;color:#777}
+.footer_copyright li:first-child{color:#3f3f3f;margin-left:-11px}
+.footer_copyright li:first-child span{color:#aaa}
+.footer_copyright_conditions{line-height:1.35;padding-top:30px}
+.footer_social li{padding_left:30px;position:relative}
+.footer_social_vk,.footer_social_f,.footer_social_t,.footer_social_lj{padding-left:20px}
+.footer_social_vk:after,.footer_social_f:after,.footer_social_t:after,.footer_social_lj:after{content:' ';position:absolute;left:-2px;top:2px;width:16px;height:16px;background:url(http://static.migom.by/img/design/icons.png) no-repeat left top}
+.footer_social_vk:after{background-position:left -106px}
+.footer_social_f:after{background-position:left -122px}
+.footer_social_t:after{background-position:left -138px}
+.footer_social_lj:after{background-position:left -154px}
+.footer_links{padding_left:30px;color:#777}
+.footer_megaplane{padding-top:30px}
+.footer_copyright_conditions a,.footer_links a{color:#777;text-decoration:underline}
+.footer_copyright_conditions a:hover,.footer_links a:hover{text-decoration:none}
+
+/*bookmark*/
+#big_bookmark{width:20px;height:20px;position:relative;top:-3px;float:left;margin-right:5px}
+#big_bookmark .mark-star{cursor:pointer;background: url("http://static.migom.by/img/design/strelka_close.png")  -195px -3px no-repeat;height:20px}
+#big_bookmark .active{background: url("http://static.migom.by/img/design/strelka_close.png") -175px -3px no-repeat;}
+#small_bookmark{position:absolute;top:5px;float:left;margin-right:5px}
+#small_bookmark .mark-star{width:20px;height:20px;cursor:pointer;background: url("http://static.migom.by/img/design/strelka_close.png")  -234px -3px no-repeat;}
+#small_bookmark .active{background: url("http://static.migom.by/img/design/strelka_close.png") -214px -3px no-repeat;}
+
+/* comment counter*/
+a.link-comment-counter, a.link-comment-counter:hover{text-decoration:none !important;}
+a.link-comment-counter .img-comment{position:relative;top:-1px;left:0px;background-color:#0099cc;margin-left:7px;padding:0 3px 1px 3px;font-family:Tahoma;font-size:11px;color:#fff;font-weight:bold;cursor:pointer;}
+a.link-comment-counter .hvost{position:absolute;left:4px;bottom:-4px;width:5px;height:10px;background: url("http://static.migom.by/img/design/sprite_news.gif") no-repeat scroll -34px 0px transparent;}
+
+.lazy{display:none}
+

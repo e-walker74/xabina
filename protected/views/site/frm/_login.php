@@ -4,13 +4,14 @@
                     <div class="popup-register-block auth">
 
 					<div class="popup-language-menu"  style="background-color: rgba(237, 239, 238, 1)">
-                        <div class="language-current"><a class="en" href="#">English</a></div>
+                        <div class="language-current"><a class="<?= Yii::app()->language ?>" href="#"><?= Yii::app()->params->translatedLanguages[Yii::app()->language] ?></a></div>
                         <ul class="language-list">
-                            <li class="ch" ><a href="#">Chinese</a></li>
-                            <li class="du" ><a href="#">Dutch</a></li>
-                            <li class="ge" ><a href="#">German</a></li>
-                            <li class="fr" ><a href="#">French</a></li>
-                            <li class="ru" ><a href="#">Russian</a></li>
+							<?php foreach(Yii::app()->params->translatedLanguages as $label => $translate): ?>
+								<?php if($label == Yii::app()->language) continue; ?>
+								<li class="<?= $label ?>" >
+									<?= CHtml::link($translate, array(Yii::app()->request->url, 'language' => $label)); ?>
+								</li>
+							<?php endforeach; ?>
                         </ul>
                     </div>
 					<div class="shadow_blocker"></div>
@@ -18,6 +19,7 @@
                         <div class="popup-register-header"><?= Yii::t('Front', 'Account login') ?></div>
 							<?php $form=$this->beginWidget('CActiveForm', array(
 										'id'=>'login-from',
+										//'action' => Yii::app()->request->url,
 										'enableAjaxValidation'=>false,
 										'enableClientValidation'=>false,
 										'focus'=>array($model,'first_name'),

@@ -6,7 +6,7 @@ class WebUser extends CWebUser {
 	private $_notifications = false;
     private $_model = null;
     private $_id = null;
-
+	
     private function _getModel() {
         if (!$this->isGuest && $this->_model === null && $this->id) {
             $this->_model = Users::model()->findByPk($this->id /* array('select' => 'role') */);

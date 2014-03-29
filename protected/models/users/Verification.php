@@ -23,6 +23,11 @@ class Users_Verification extends ActiveRecord
 	{
 		return 'users_verification';
 	}
+	
+	public static function getVerificationModel($modelId){
+		$className = 'Users_Verification_' . $modelId;
+        return parent::model($className, true);
+	}
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -51,6 +56,8 @@ class Users_Verification extends ActiveRecord
 		return array(
 			'notary' => array(self::BELONGS_TO, 'Users_Verification_Notary', 'rel_id'),
 			'creditcard' => array(self::BELONGS_TO, 'Users_Verification_Creditcard', 'rel_id', 'condition' => 'canceled = 0'),
+			'bankaccount' => array(self::BELONGS_TO, 'Users_Verification_Bankaccount', 'rel_id', 'condition' => 'canceled = 0'),
+			'paypal' => array(self::BELONGS_TO, 'Users_Verification_Paypal', 'rel_id', 'condition' => 'canceled = 0'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}

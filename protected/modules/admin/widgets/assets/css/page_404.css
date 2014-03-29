@@ -1,0 +1,55 @@
+body{
+	/*background: #fff url(images/easter.png) no-repeat right 330px;*/
+}
+.easter_404{
+	position: absolute;
+	top: 330px;
+	right: 0;
+}
+.block_404{
+	width: 570px;
+	margin: 0 auto;
+	padding-top: 90px;
+	font-family: arial;
+}
+.block_404 hgroup{
+	padding: 29px 0 21px 0;
+}
+.block_404 h2{
+	padding-bottom: 13px;
+	font-size: 25px;
+	color: #000;
+}
+.block_404 h6{
+	font: 11px tahoma, verdana, arial, "sans-serif";
+	color: #777;
+}
+.block_404 h2{
+padding-top:29px\0/;
+}
+
+.block_404 h6{
+padding-bottom:21px\0/;
+}
+.block_404 p{
+	padding-bottom: 18px;
+	font-size: 15px;
+	color: #333;
+	line-height: 21px;
+}
+.block_404 ul{
+	overflow: hidden;
+	margin-right: -27px;
+}
+.block_404 ul li{
+	float: left;
+	padding-right: 29px;
+}
+.block_404 ul li a{
+	font-size: 13px;
+	color: #165e86;
+	text-decoration: none;
+}
+.block_404 ul li a:hover{
+	text-decoration: underline;
+}

@@ -1,120 +1,44 @@
-<div class="col-lg-9 col-md-9 col-sm-9" >
-  <div class="h1-header">
-    <?= Yii::t('Front', 'My personal cabinet'); ?>
-  </div>
-  <div class="subheader">
-    <?= Yii::t('Front', 'E-Mail addresses'); ?>
-  </div>
-  <table class="table xabina-table">
-    <tbody>
-      <tr class="table-header">
-        <th style="width: 39%"><?= Yii::t('Front', 'E-Mail')?></th>
-        <th style="width: 25%"><?= Yii::t('Front', 'Type')?></th>
-        <th style="width: 24%"><?= Yii::t('Front', 'Status')?></th>
-        <th style="width: 12%" class="edit-th"> <div class="table-edit-btn">
-        <?=CHtml::link('Edit',array('personal/editemails')); ?>
-        </div>
-        </th>
-      </tr>
-      <? foreach ($users_emails as $users_email): ?>
-      <tr>
-        <td><?= $users_email->email ?></td>
-        <td><div class="relative"> <span class="dropdown_button types_dropdown">
-            <?= $users_email->emailType->type_name ?>
-            </span> </div></td>
-        <td><span class="primary">
-          <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-          <?= Yii::t('Front', 'Pending activation'); ?>
-          <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-          <?= Yii::t('Front', 'Make primary'); ?>
-          <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
-          <?= Yii::t('Front', 'Primary'); ?>
-          <? endif;?>
-          </span></td>
-        <td class="remove-td"><div class="remove-btn"></div></td>
-      </tr>
-      <? endforeach; ?>
-    </tbody>
-  </table>
-  <div class="subheader">
-    <?= Yii::t('Front', 'Phone numbers'); ?>
-  </div>
-  <table class="table xabina-table">
-    <tbody>
-      <tr class="table-header">
-        <th style="width: 39%"><?= Yii::t('Front', 'Phone')?></th>
-        <th style="width: 25%"><?= Yii::t('Front', 'Type')?></th>
-        <th style="width: 24%"><?= Yii::t('Front', 'Status')?></th>
-        <th style="width: 12%" class="edit-th"> <div class="table-edit-btn">
-        <?=CHtml::link('Edit',array('personal/editphones')); ?>
-        </div>
-        </th>
-      </tr>
-      <? foreach ($users_phones as $users_phone): ?>
-      <tr>
-        <td>+<?= $users_phone->phone ?></td>
-        <td><div class="relative"> <span class="dropdown_button types_dropdown">
-            <?= $users_phone->emailType->type_name ?>
-            </span> </div></td>
-        <td><span class="primary">
-          <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
-          <?= Yii::t('Front', 'Pending activation'); ?>
-          <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
-          <?= Yii::t('Front', 'Make primary'); ?>
-          <? elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
-          <?= Yii::t('Front', 'Primary'); ?>
-          <? endif;?>
-          </span></td>
-        <td class="remove-td"><div class="remove-btn"></div></td>
-      </tr>
-      <? endforeach; ?>
-    </tbody>
-  </table>
-  <div class="subheader">
-    <?= Yii::t('Front', 'Change addresses'); ?>
-  </div>
-  <table class="table xabina-table">
-    <tbody>
-      <tr class="table-header">
-        <th style="width: 39%"><?= Yii::t('Front', 'Address')?></th>
-        <th style="width: 25%"><?= Yii::t('Front', 'Type')?></th>
-        <th style="width: 24%"><?= Yii::t('Front', 'Status')?></th>
-        <th style="width: 12%" class="edit-th"> <div class="table-edit-btn">
-         <?=CHtml::link('Edit',array('personal/editaddress')); ?>
-        </div>
-        </th>
-      </tr>
-      <? foreach ($users_address as $users_addr): ?>
-        <tr>
-            <td>
-			<?= $users_addr->address ?><br>
-            <?= empty($users_addr->address_optional) ? '' : $users_addr->address_optional .'<br>' ?>
-            <?= $users_addr->indx?><br>
-            <?= $users_addr->city?><br>
-            <?= $users_addr->country_id?>
-            </td>
-            <td>
-                <div class="relative">
-                    <span class="dropdown_button types_dropdown">
-                        <?= $users_addr->emailType->type_name ?>
-                    </span>
-               </div>
-            </td>
-            <td>
-            	<span class="primary">
-                <? if($users_addr->status == 0 && $users_addr->is_master == 0):?>
-                	<?= Yii::t('Front', 'Resend address'); ?>
-                <? elseif ($users_addr->status == 1 && $users_addr->is_master == 0):?>
-                	<?= Yii::t('Front', 'Make primary'); ?>
-                <? elseif ($users_addr->status == 1 && $users_addr->is_master == 1):?>
-                	<?= Yii::t('Front', 'Primary'); ?>
-                <? endif;?></span>
-            </td>
-            <td class="remove-td">
-                <div class="remove-btn"></div>
-            </td>
-        </tr>
-    <? endforeach; ?>
-    </tbody>
-  </table>
+<div class="col-lg-9 col-md-9 col-sm-9" >  
+	<div class="h1-header"><?= Yii::t('Front', 'My personal cabinet'); ?></div>
+
+	<table class="table xabina-table table-account">
+		<tr class="table-header">
+			<th width="37%"><?= Yii::t('Front', 'Section'); ?></th>
+			<th width="52%"><?= Yii::t('Front', 'Description'); ?></th>
+			<th width="11%"></th>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Personal Information Management'); ?></td>
+			<td><?= Yii::t('Front', 'Change name, last name, password, and download files, documents. Information about uploaded files, as well as the validity of the document') ?>
+			</td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editname') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Manage email addresses'); ?></td>
+			<td><?= Yii::t('Front', 'Changing or deleting email addresses'); ?></td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editemails') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Manage phones'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Changing or deleting phone appointment number of personal, corporate, and the main  secondary'); ?>
+			</td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editphones') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Manage addresses'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Changing or deleting addresses. Adding additional addresses as well as the appointment of mailing address as a personal or corporate'); ?>
+			</td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editaddress') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+	</table>
 </div>

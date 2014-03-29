@@ -6,8 +6,6 @@
  * The followings are the available columns in table 'users_verification_creditcard':
  * @property integer $id
  * @property integer $user_id
- * @property integer $country_id
- * @property string $swift
  * @property string $account_number
  * @property integer $created_at
  * @property integer $updated_at
@@ -30,21 +28,24 @@ class Users_Verification_Creditcard extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country_id, swift, account_number', 'required'),
-			array('user_id, country_id', 'numerical', 'integerOnly'=>true),
-			array('swift', 'length', 'max'=>255),
+			array('verification_code', 'required', 'on' => 'verification_code'),
+			array('account_number', 'unique'),
+			array('account_number, account_holder, expiry_year, expiry_month, cvc_code', 'required'),
+			array('user_id, expiry_year, expiry_month, cvc_code', 'numerical', 'integerOnly'=>true),
+			array('account_holder', 'match', 'pattern'=>'/[a-zA-Z -]+/', 'message' => Yii::t('Front', 'name is incorect')),
+			array('cvc_code', 'length', 'min' => 3, 'max'=>4, 'message' => Yii::t('Front', 'card id not valid')),
 			array('account_number', 'length', 'min' => 14, 'max'=>19, 'message' => Yii::t('Front', 'card id not valid')),
 			array('account_number', 'match', 'pattern'=>'/^((34)|(35)|(4)|(62[0-5]0)|(5[0-6])|(67))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
 			array('account_number', 'checkCard'),
-			array('verification_code', 'numerical', 'on' => 'update'),
+			array('verification_code', 'numerical', 'on' => 'verification_code'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, country_id, swift, account_number, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, user_id, account_number, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 	
 	public function checkCard(){
-		if(!AccountService::checkNumber($this->account_number, 16)){
+		if(!AccountService::checkNumber($this->account_number, strlen($this->account_number))){
 			$this->addError('account_number', Yii::t('Front', 'Card id not valid'));
 		}
 	}
@@ -70,8 +71,6 @@ class Users_Verification_Creditcard extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'country_id' => 'Country',
-			'swift' => 'Swift',
 			'account_number' => 'Account Number',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
@@ -98,8 +97,6 @@ class Users_Verification_Creditcard extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('country_id',$this->country_id);
-		$criteria->compare('swift',$this->swift,true);
 		$criteria->compare('account_number',$this->account_number,true);
 		$criteria->compare('created_at',$this->created_at);
 		$criteria->compare('updated_at',$this->updated_at);

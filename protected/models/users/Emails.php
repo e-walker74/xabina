@@ -126,9 +126,14 @@ class Users_Emails extends ActiveRecord
 	}
 
 
+    public function generateHash(){
+		$this->hash = md5('email' . time() . $this->email);
+	}
+	
+	
     public function beforeSave(){
         if($this->isNewRecord){
-            $this->hash = md5($this->email . 'xabina hash' . time());
+            $this->generateHash();
         }
         return parent::beforeSave();
     }

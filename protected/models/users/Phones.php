@@ -41,7 +41,7 @@ class Users_Phones extends ActiveRecord
             array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
             array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
-
+			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, email_type_id, hash, status, is_master, phone', 'safe', 'on'=>'search'),
@@ -127,9 +127,13 @@ class Users_Phones extends ActiveRecord
 		return parent::model($className);
 	}
 
+	public function generateHash(){
+		$this->hash = rand(1000, 9999);
+	}
+	
     public function beforeSave(){
         if($this->isNewRecord){
-            $this->hash = md5($this->phone . 'xabina hash' . time());
+            $this->generateHash();
         }
         // телефон должен попадать в базу без +
         $this->phone = trim($this->phone, '+');

@@ -34,6 +34,19 @@ class AccountsController extends Controller
 					$model->user->status = Users::USER_IS_ACTIVATED;
 					$model->user->save();
 				}
+				
+				$model_address = new Users_Address;
+				$model_address->address = $model->address_line_1;
+				$model_address->address_optional = $model->address_line_2;
+                $model_address->indx = $model->zip_code;
+                $model_address->city = $model->town;
+                $model_address->country_id = $model->country_id;
+
+                $model_address->user_id = $model->user->id;
+                $model_address->email_type_id = 3; // set default!!!
+
+                $model_address->save();
+				
 				Yii::app()->user->addNotification(
 					'vericate_your_account', //код
 					'Your account has been successfully activated. We recommend you to go through a verification procedure to use your account without restrictions.', 
