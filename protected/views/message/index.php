@@ -27,10 +27,13 @@
                 <tr class="<?= empty($v->opened) ? 'no-read' : 'read' ?>">
                     <td width="76%">
                         <div
-                            class="message-header <?= empty($v->opened) ? 'read' : 'no-read' ?>"><?= $v->to->name ?></div>
+                            class="message-header <?= empty($v->opened) ? 'read' : 'no-read' ?>">
+                            <a href="<?= $this->createUrl('message/view/id/'.$v->id.'/type/inbox')?>"><?=$v->to->name?></a>
+                            </div>
                         <div class="message-subject">
-                            <?= text::limit_words($v->subject->title, 15) ?>
+                            <?= text::limit_words($v->message, 15) ?>
                         </div>
+                        
                     </td>
                     <td width="5%">
                         <a href="#" class="attachment-button"></a>
@@ -40,7 +43,12 @@
                         <?= date('H:i', $v->updated_at) ?>
                     </td>
                     <td width="5%">
-                        <span class="remove-button" onclick="js:del_message('<?= $this->createUrl('message/del', array('ajax' => 'messages','del_id' => $v->id, 'do' => 2)) ?>', this)"></span>
+                        <span class="remove-button" onclick="js:del_message('<?= $this->createUrl('message/del', array(
+						'ajax' => 'messages',
+						'del_id' => $v->id, 
+						'do' => 3,
+						//'dialog_id' => $v->dialog_id,
+						)) ?>', this, '<?=Yii::t('Front', 'Are you sure?')?>')"></span>
                     </td>
                 </tr>
             <? endforeach; ?>

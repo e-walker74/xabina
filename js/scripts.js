@@ -420,7 +420,10 @@ $(function(){
 	/**
 	* Удаление сообщений
 	*/
-	del_message = function(url, el){
+	del_message = function(url, el, msg){
+		if(!confirm(msg)){
+			return;
+		}
 		$.ajax({
 			url: url,
 			success: function(data) {
@@ -439,7 +442,6 @@ $(function(){
   } 
 	
 });
-
 
 function printDiv(divName) {
 	$('.attachments').hide();
