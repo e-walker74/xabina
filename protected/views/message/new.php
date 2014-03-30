@@ -3,7 +3,7 @@
     'enableAjaxValidation' => false,
     'enableClientValidation' => true,
     //'action' => $this->createUrl('message/save'),
-    //'errorMessageCssClass' => 'error-message',
+    'errorMessageCssClass' => 'error-message',
     'htmlOptions' => array(
         'class' => 'form-validable',
         //'onsubmit'=>"return false;",/* Disable normal form submit */

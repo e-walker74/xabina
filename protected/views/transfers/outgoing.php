@@ -78,15 +78,15 @@
 		<div class="transfer-form">
 			<table class="transfer-table">
 				<tr class="amount">
-					<td width="8%"><?= Yii::t('Front', 'Amount'); ?></td>
+					<td width="8%" style="vertical-align: top; padding: 10px 0 0;"><?= Yii::t('Front', 'Amount'); ?></td>
 					<td width="92%">
-						
+						<div class="ammount-cont">
 						<?= $form->textField($model, 'amount', array('autocomplete' => 'off', 'class' => 'amount-sum')); ?>
 						<span class="delimiter">.</span>
 						<?= $form->textField($model, 'amount_cent', array('autocomplete' => 'off', 'class' => 'amount-cent', 'maxlength'=>2)); ?>
 						<?= $form->error($model, 'amount', array()); ?>
 						<?= $form->error($model, 'amount_cent', array()); ?>
-						
+                        </div>
 
 						<div class="amount-currency">
 							<?= Yii::t('Front', 'Currency'); ?>
@@ -98,7 +98,7 @@
 					</td>
 				</tr>
 				<tr class="account">
-					<td><?= Yii::t('Front', 'Account') ?></td>
+					<td style="vertical-align: middle;padding:11px 0 0 "><?= Yii::t('Front', 'Account') ?></td>
 					<td>
 						<div class="select-custom account-select">
 							<span class="select-custom-label">
@@ -148,7 +148,8 @@
 					<div class="accordion-form xabina-form-container">
 						<div class="row-cont">
 						<div class="account-select-lbl"><?= Yii::t('Front', 'Account'); ?></div>
-						<div class="select-custom account-select">
+                        <div class="select-custom-container">
+						    <div class="select-custom account-select">
 						<span class="select-custom-label">
 							<?= $selectedAcc->user->fullName ?>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -177,8 +178,10 @@
 							</option>
 							<?php endforeach; ?>
 						</select>
+						    </div>
+                            <div class="clearfix"></div>
+                            <?= $form->error($model, 'own_account_id', array()); ?>
 						</div>
-						<?= $form->error($model, 'own_account_id', array()); ?>
 						</div>
 						<div class="form-cont">
 						<div class="own-description-cont">
@@ -194,6 +197,7 @@
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
 										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+                                        <div class="clearfix"></div>
 										<?= $form->error($model, 'execution_time', array()); ?>
 									</div>
 									<div class="urgent-cont">
@@ -216,8 +220,11 @@
 										</div>
 									</div>
 									<div class="exec-date-cont">
-										<div class="lbl"><?= Yii::t('Front', 'Starte date'); ?></div>
-										<?= $form->textField($model, 'start_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+                                        <div>
+                                            <div class="lbl"><?= Yii::t('Front', 'Start date'); ?></div>
+                                            <?= $form->textField($model, 'start_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+                                            <div class="clearfix"></div>
+                                        </div>
 										<?= $form->error($model, 'start_time', array()); ?>
 									</div>
 									<div class="exec-date-cont">
@@ -230,8 +237,8 @@
 							<input name="Transfers_Outgoing[send_to]" id="Transfers_Outgoing_send_to" type="hidden" value="own">
 						</div>
 						<div class="form-submit">
-							<input name="save" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER'); ?>" class="submit-button button-save" />
-							<input name="save_next" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'Next'); ?>" class="submit-button button-next" />
+							<input name="save" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER'); ?>" class="submit-button button-save  submit-input" />
+							<input name="save_next" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'Next'); ?>" class="submit-button button-next  submit-input" />
 						</div>
 					</div>
 				</div>
@@ -239,9 +246,12 @@
 				<div class="accordion-content">
 					<div class="accordion-form xabina-form-container">
 						<div class="row-cont">
+
 							<div class="account-select-lbl"><?= Yii::t('Front', 'Account number'); ?></div>
+                            <div class="input-custom-container">
 							<?= $form->textField($model, 'account_number', array('autocomplete' => 'off', 'class' => 'account-number-input')); ?>
 							<?= $form->error($model, 'account_number', array()); ?>
+						    </div>
 						</div>
 						<div class="form-cont">
 							<div class="own-description-cont">
@@ -257,6 +267,7 @@
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
 										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+                                        <div class="clearfix"></div>
 										<?= $form->error($model, 'execution_time', array()); ?>
 									</div>
 									<div class="urgent-cont">
@@ -293,8 +304,8 @@
 							<input name="Transfers_Outgoing[send_to]" id="Transfers_Outgoing_send_to" type="hidden" value="xabina">
 						</div>
 						<div class="form-submit">
-							<input name="save" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER'); ?>" class="submit-button button-save" />
-							<input name="save_next" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'Next'); ?>" class="submit-button button-next" />
+							<input name="save" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER'); ?>" class="submit-button button-save  submit-input" />
+							<input name="save_next" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'Next'); ?>" class="submit-button button-next  submit-input" />
 						</div>
 					</div>
 				</div>
@@ -312,6 +323,7 @@
 						   <table class="iban-table">
 							   <tr>
 								   <td width="59%" class="left-col">
+                                       <div style="display: inline-block; width:100%">
 										<div class="input-lbl"><?= Yii::t('Front', 'Country') ?></div>
 										<div class="select-custom">
 											<span class="select-custom-label">
@@ -324,23 +336,30 @@
 													} ?></span>
 											<?= $form->dropDownList($model, 'country_id', CHtml::listData($countries, 'id', 'name'), array('class' => 'select-invisible country-select')); ?>
 										</div>
+                                       </div>
 								   </td>
-								   <td width="41%">
+								   <td width="41%" class="right-col">
+                                       <div style="display: inline-block; width:100%">
 									   <div class="input-lbl"><?= Yii::t('Front', 'BIC (SWIFT Adres)') ?></div>
 									   <?= $form->textField($model, 'swift', array('autocomplete' => 'off', 'class' => 'input-text')); ?>
 									   <?= $form->error($model, 'swift', array()); ?>
+                                       </div>
 								   </td>
 							   </tr>
 							   <tr class="second-row">
 								   <td class="left-col ">
+                                       <div style="display: inline-block; width:100%">
 									   <div class="input-lbl"><?= Yii::t('Front', 'Bank beneficiary') ?></div>
 									   <?= $form->textField($model, 'bank_beneficiary', array('autocomplete' => 'off', 'class' => 'input-text')); ?>
 									   <?= $form->error($model, 'bank_beneficiary', array()); ?>
+                                       </div>
 								   </td>
-								   <td>
+								   <td  class="right-col">
+                                       <div style="display: inline-block; width:100%">
 									   <div class="input-lbl"><?= Yii::t('Front', 'postcode and/or city') ?></div>
 									   <?= $form->textField($model, 'postcode', array('autocomplete' => 'off', 'class' => 'input-text')); ?>
 									   <?= $form->error($model, 'postcode', array()); ?>
+                                       </div>
 								   </td>
 							   </tr>
 						   </table>
@@ -359,6 +378,7 @@
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
 										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+                                        <div class="clearfix"></div>
 										<?= $form->error($model, 'execution_time', array()); ?>
 									</div>
 									<div class="urgent-cont">
@@ -403,8 +423,8 @@
 						</div>
 						<input name="Transfers_Outgoing[send_to]" id="Transfers_Outgoing_send_to" type="hidden" value="external">
 						<div class="form-submit">
-							<input name="save" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER'); ?>" class="submit-button button-save" />
-							<input name="save_next" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'Next'); ?>" class="submit-button button-next" />
+							<input name="save" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER'); ?>" class="submit-button button-save  submit-input" />
+							<input name="save_next" onclick="$(this).addClass('clicked-button')" type="submit" value="<?= Yii::t('Front', 'Next'); ?>" class="submit-button button-next  submit-input" />
 						</div>
 					</div>
 				</div>

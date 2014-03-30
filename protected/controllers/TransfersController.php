@@ -85,9 +85,11 @@ class TransfersController extends Controller
 						break;
 					case 'xabina':
 						$model->scenario = 'xabina';
+						$model->execution_time = $model->xabina_execution_time;
 						break;
 					case 'external':
 						$model->scenario = 'external';
+						$model->execution_time = $model->external_execution_time;
 						break;
 				}
 			}
@@ -113,9 +115,11 @@ class TransfersController extends Controller
 						break;
 					case 'xabina':
 						$model->scenario = 'xabina';
+						$model->execution_time = $model->xabina_execution_time;
 						break;
 					case 'external':
 						$model->scenario = 'external';
+						$model->execution_time = $model->external_execution_time;
 						break;
 				}
 			}

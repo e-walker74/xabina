@@ -12,7 +12,7 @@
 		'id'=>'accounts-grid',
 		'dataProvider'=>$accounts->search(),
 		'summaryText' => '',
-		'itemsCssClass' => 'table xabina-table',
+		'itemsCssClass' => 'table xabina-table accounts-table',
 		'afterAjaxUpdate'=>'function(){$(\'.currency_dropdown\').currencyDropDown({
 			currencies: {
 				EUR: \'EUR\',

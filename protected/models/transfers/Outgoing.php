@@ -34,6 +34,12 @@ class Transfers_Outgoing extends ActiveRecord
 
 	public static $periods = array(1 => 'Day(s)', 2 => 'Week(s)', 3 => 'Month(s)');
 	public $amount_cent;
+	public $xabina_execution_time;
+	public $external_execution_time;
+	public $xabina_start_time;
+	public $external_start_time;
+	public $xabina_end_time;
+	public $external_end_time;
 	
 	/**
 	 * @return string the associated database table name
@@ -51,7 +57,7 @@ class Transfers_Outgoing extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('amount, currency_id, account_id, send_to, execution_time', 'required'),
+			array('amount, currency_id, account_id, send_to', 'required'),
 			array('amount', 'checkBalance', 'message' => Yii::t('Front', 'Not enough money'), 'on' => 'own,xabina,external'),
 			array('own_account_id', 'required', 'on' => 'own'),
 			array('account_number', 'required', 'on' => 'xabina'),

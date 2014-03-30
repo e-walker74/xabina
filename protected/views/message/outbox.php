@@ -8,7 +8,7 @@
                 <tr class="<?=empty($v->opened) ? 'no-read' : 'read'?>">
                     <td width="76%">
                         <div class="message-header <?=empty($v->opened) ? 'read' : 'no-read'?>">
-                        	<a href="<?= $this->createUrl('message/view/id/'.$v->id.'/type/outbox')?>"><?=$v->to->name?></a>
+                        	<a href="<?= $this->createUrl('/message/view', array('id' => $v->id))?>"><?=$v->to->name?></a>
                         </div>
                         <div class="message-subject"><?= text::limit_words($v->message, 15) ?></div>
                     </td>

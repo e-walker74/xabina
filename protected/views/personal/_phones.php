@@ -20,9 +20,9 @@
 
 <table class="table  xabina-table-edit">
     <tr class="table-header">
-        <th width="39%"><?= Yii::t('Front', 'Phone'); ?></th>
+        <th width="34%"><?= Yii::t('Front', 'Phone'); ?></th>
         <th width="25%"><?= Yii::t('Front', 'Type'); ?></th>
-        <th width="28%"><?= Yii::t('Front', 'Status'); ?></th>
+        <th width="33%"><?= Yii::t('Front', 'Status'); ?></th>
         <th width="8%" class="edit-th">
             <div class="table-close-btn"></div>
         </th>
@@ -38,20 +38,21 @@
                </div>
             </td>
             <td>
-            	<span class="primary">
+
                 <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
-					<a style="float:right" href="javaScript:void(0)" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
-					<input type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Activation code'); ?>" />
+					<a style="float:right" href="javaScript:void(0)" class="edit-add-button" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
+					<input type="text" name="code_activation" class="status-check-input" placeholder="<?= Yii::t('Front', 'Activation code'); ?>" />
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
 					<?php if($users_phone->hash): ?>
-					<a style="float:right" href="javaScript:void(0)" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
-					<input type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Make primary code'); ?>" />
+					<a style="float:right" href="javaScript:void(0)" class="edit-add-button" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
+					<input class="status-check-input" type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Make primary code'); ?>" />
 					<?php else: ?>
 					<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
 					<?php endif; ?>
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
-                	<b><?= Yii::t('Front', 'Primary'); ?></b>
-                <? endif;?></span>
+                <span class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+                <? endif;?>
+
             </td>
             <td class="remove-td">
                 <div class="remove-btn"></div>
@@ -91,16 +92,18 @@
                           title="<?= Yii::t('Front', 'You can upload a file to one of the formats: PDF, JPG, PNG, GIF'); ?>"></span>
                 </div>
                 <div class="field-input ">
-                    <div class="select-custom"> <span class="select-custom-label">
-            <?= Yii::t('Front', 'Choose'); ?>
-            </span>
+                    <div class="select-custom">
+                        <span class="select-custom-label">
+                            <?= Yii::t('Front', 'Choose'); ?>
+                        </span>
                         <?=
                         $form->dropDownList($model_phones, 'email_type_id', Users_EmailTypes::all(), array(
                             'class' => 'country-select select-invisible item1','data-v' => 'type_id'
 
                         )); ?>
-                        <?= $form->error($model_phones, 'email_type_id'); ?>
-                        <span class="validation-icon"></span></div>
+                    </div>
+                    <?= $form->error($model_phones, 'email_type_id'); ?>
+                    <span class="validation-icon"></span>
                 </div>
             </div>
             <div class="edit-add-button"

@@ -76,6 +76,11 @@
 										<div class="form-line-submit">
 											<input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Login'); ?>"/>
 										</div>
+                                        <div class="register-forgot-row">
+                                            <a href="#">Open an account</a>
+                                            /
+                                            <a href="#">Lost Password?</a>
+                                        </div>
 									</div>
 							<?php $this->endWidget(); ?>
                     </div>

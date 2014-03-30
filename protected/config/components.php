@@ -86,7 +86,7 @@ return array(
 
             '/message/save/<type:(save|send|edit)>/<id:\d+>' => 'message/save',
             //'/message/reply/<dialog:\d+>/<id:\d+>' => 'message/reply',
-            '/message/view/<id:\d+>/<type:(inbox|outbox|archive)>' => 'message/view',
+            '/message/view/<id:\d+>' => 'message/view',
             '/message/cancel/<id:\d+>' => 'message/cancel',
             '/message/new/<id:\d+>' => 'message/new',
 

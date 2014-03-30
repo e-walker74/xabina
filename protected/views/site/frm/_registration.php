@@ -109,5 +109,10 @@
 		<div class="popup-register-agreement">
                             <a href="/terms"><?= Yii::t('Front', 'I read and agree to the terms & conditions'); ?></a>
                         </div>
+
+                        <div class="popup-register-login">
+                            Already have an account?
+                            <a href="/login">Log in</a>
+                        </div>
 	</div>
 </div>

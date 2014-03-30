@@ -85,15 +85,18 @@
                           title="<?= Yii::t('Front', 'This type just for you'); ?>"></span>
                 </div>
                 <div class="field-input ">
-                    <div class="select-custom"> <span class="select-custom-label">
-						<?= Yii::t('Front', 'Choose'); ?>
+                    <div class="select-custom">
+                        <span class="select-custom-label">
+						    <?= Yii::t('Front', 'Choose'); ?>
                         </span>
                         <?=
                         $form->dropDownList($model_emails, 'email_type_id', Users_EmailTypes::all(), array(
                             'class' => 'country-select select-invisible item1', 'data-v' => 'type_id',
                         )); ?>
-                        <?= $form->error($model_emails, 'email_type_id'); ?>
-                        <span class="validation-icon"></span></div>
+
+                    </div>
+                    <?= $form->error($model_emails, 'email_type_id'); ?>
+                    <span class="validation-icon"></span>
                 </div>
             </div>
             <div class="edit-add-button"

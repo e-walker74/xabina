@@ -108,7 +108,6 @@
 
 
              $('body').click({self: self}, function(e){
-                 debugger;
                  if($(e.target).hasClass('dropdown_button') || $(e.target).parents('.dropdown_button').length ) {
                      e.preventDefault();
                      e.stopPropagation();
