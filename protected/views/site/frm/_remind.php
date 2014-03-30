@@ -14,7 +14,7 @@
 							<?php endforeach; ?>
                         </ul>
                     </div>
-
+                        <div class="shadow_blocker"></div>
                         <div class="popup-register-header"><?= Yii::t('Front', 'Password reset') ?></div>
 							<?php $form=$this->beginWidget('CActiveForm', array(
 										'id'=>'remind-from',
