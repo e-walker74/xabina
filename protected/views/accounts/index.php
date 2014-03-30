@@ -6,7 +6,7 @@
 		'id'=>'accounts-grid',
 		'dataProvider'=>$accounts->search(),
 		'summaryText' => '',
-		'itemsCssClass' => 'table xabina-table',
+		'itemsCssClass' => 'table xabina-table accounts-table',
 		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number)))',
 		'afterAjaxUpdate'=>'function(){$(\'.currency_dropdown\').currencyDropDown({
 			currencies: {

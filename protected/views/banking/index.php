@@ -10,14 +10,15 @@
 		'summaryText' => '',
 		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number)))',
 		'itemsCssClass' => 'table xabina-table',
-		'afterAjaxUpdate'=>'function(){$(\'.currency_dropdown\').currencyDropDown({
-			currencies: {
+		'afterAjaxUpdate'=>'function(){$(\'.currency_dropdown\').tempDropDown({
+			list: {
 				EUR: \'EUR\',
 				USD: \'USD\',
 				RUB: \'RUB\',
 				CHF: \'CHF\',
 				JPY: \'JPY\'
-			}
+			},
+	         listClass: "currencies_dropdown"
 		})}',
 		/*'htmlOptions' => array(
 			'class' => 'table xabina-table',
@@ -48,8 +49,8 @@
 			),
 			array(
 				'header' => Yii::t('Front', 'Currency'),
-				'value' => '"<div class=\"relative\"><span class=\"currency_button\">".$data->currency->code."</span></div>"',
-				'footer' => '<div class="relative"><span class="dropdown_button  currency_dropdown">EUR </span><span class="currency_drdn_arr"></span></div>',
+				'value' => '"<div class=\"relative\"><span class=\"dropdown_button\">".$data->currency->code."</span></div>"',
+				'footer' => '<div class="relative"><span class="dropdown_button  currency_dropdown">EUR <span class="currency_drdn_arr"></span></span></div>',
 				'type' => 'html',
 			),
 		),

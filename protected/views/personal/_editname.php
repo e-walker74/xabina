@@ -109,7 +109,7 @@
 								</td>
 								<td style="width: 65%;">
 									<div class="td-cont ">
-										<div class="field-row">
+										<div class="field-row file-upload-row">
 										<div class="field-lbl">
 											<?= Yii::t('Front', 'File Upload') ?>
 											<span class="tooltip-icon" title="<?= Yii::t('Front', 'You can upload up to 3 files in the following formats: PDF, JPG, PNG, GIF') ?>"></span>
@@ -272,7 +272,7 @@
 								</td>
 								<td style="width: 65%;">
 									<div class="td-cont ">
-										<div class="field-row">
+										<div class="field-row file-upload-row">
 										<div class="field-lbl">
 											<?= Yii::t('Front', 'File Upload') ?>
 											<span class="tooltip-icon" title="<?= Yii::t('Front', 'You can upload up to 3 files in the following formats: PDF, JPG, PNG, GIF') ?>"></span>

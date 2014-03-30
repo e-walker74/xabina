@@ -11,7 +11,7 @@
     <!--<script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>-->
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
-	<script type="text/javascript" src="/default/js/bootstrap.min.js"></script>
+<!--	<script type="text/javascript" src="/default/js/bootstrap.min.js"></script>-->
     <script type="text/javascript" src="/js/less.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
     <script type="text/javascript" src="/js/jquery.currencyDropDown.js"></script>

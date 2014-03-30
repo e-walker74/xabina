@@ -5,7 +5,7 @@
         <div class="message-headers">
         	<? if($type != 'archive'):?>
             <div class="message-controls">
-                <a class="button-violet" href="<?=$this->createUrl('message/new/'.$model->dialog_id) ?>">
+                <a class="button-violet" href="<?=$this->createUrl('/message/new/', array('id' => $model->dialog_id)) ?>">
 					<?= Yii::t('Front', 'Reply'); ?>
                 </a>
                 <?=CHtml::link(Yii::t('Front', 'Delete'), Yii::app()->createUrl('/message/del/', array(

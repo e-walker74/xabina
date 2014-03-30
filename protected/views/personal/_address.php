@@ -84,9 +84,7 @@
                     <?= $form->textField($model_address, 'address', array('class' => 'input-text', 'data-v' => 'address')); ?>
                     <?= $form->error($model_address, 'address'); ?>
                 </div>
-            </div>
-            
-            <div class="field-row">
+
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Index'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
@@ -94,24 +92,26 @@
                     <?= $form->textField($model_address, 'indx', array('class' => 'input-text','data-v' => 'indx')); ?>
                     <?= $form->error($model_address, 'indx'); ?>
                 </div>
-            </div>
-            
+
             <div class="field-lbl"> <?= Yii::t('Front', 'Сountry'); ?><span class="tooltip-icon" title="You can upload a file to one of the formats: PDF, JPG, PNG, GIF"></span> </div>
             <div class="field-input ">
-              <div class="select-custom"> <span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
-                <?=
-				$form->dropDownList($model_address, 'country_id', Countries::all(), array(
-					'class' => 'country-select select-invisible', 'data-v' => 'country_id'
+              <div class="select-custom">
+                  <span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
+                    <?=
+                    $form->dropDownList($model_address, 'country_id', Countries::all(), array(
+                        'class' => 'country-select select-invisible', 'data-v' => 'country_id'
 
-				)); ?>
-				<?= $form->error($model_address, 'country_id'); ?>
-                <span class="validation-icon"></span> </div>
+                    )); ?>
+
+              </div>
+                <?= $form->error($model_address, 'country_id'); ?>
+                <span class="validation-icon"></span>
             </div>
           </div>
         </td>
-        <td colspan="3">
+        <td colspan="3" class="edit-address">
         
-        	<div class="field-row">
+        	<div class="field-row edit-select">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
@@ -119,9 +119,7 @@
                     <?= $form->textField($model_address, 'address_optional', array('class' => 'input-text','data-v' => 'address_optional')); ?>
                     <?= $form->error($model_address, 'address_optional'); ?>
                 </div>
-            </div>
-            
-            <div class="field-row">
+
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'City'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
@@ -129,25 +127,26 @@
                     <?= $form->textField($model_address, 'city', array('class' => 'input-text',  'data-v' => 'city')); ?>
                     <?= $form->error($model_address, 'city'); ?>
                 </div>
-            </div>
-        
-            <div class="field-row edit-select">
+
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Address Type'); ?>
                     <span class="tooltip-icon"
                           title="<?= Yii::t('Front', 'You can upload a file to one of the formats: PDF, JPG, PNG, GIF'); ?>"></span>
                 </div>
                 <div class="field-input ">
-                    <div class="select-custom"> <span class="select-custom-label">
-            <?= Yii::t('Front', 'Choose'); ?>
-            </span>
+                    <div class="select-custom">
+                        <span class="select-custom-label">
+                            <?= Yii::t('Front', 'Choose'); ?>
+                        </span>
                         <?=
                         $form->dropDownList($model_address, 'email_type_id', Users_EmailTypes::all(), array(
                             'class' => 'country-select select-invisible item1', 'data-v' => 'type_id'
 
                         )); ?>
-                        <?= $form->error($model_address, 'email_type_id'); ?>
-                        <span class="validation-icon"></span></div>
+
+                    </div>
+                    <?= $form->error($model_address, 'email_type_id'); ?>
+                    <span class="validation-icon"></span>
                 </div>
             </div>
             <div class="edit-add-button"

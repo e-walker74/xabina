@@ -156,3 +156,19 @@
 [05-Mar-2014 16:45:19 Europe/Minsk] PHP Fatal error:  Cannot redeclare Form_Registration::authenticate() in /home/evnaby/sites/xabina/protected/models/form/Registration.php on line 68
 [05-Mar-2014 16:45:21 Europe/Minsk] PHP Fatal error:  Cannot redeclare Form_Registration::authenticate() in /home/evnaby/sites/xabina/protected/models/form/Registration.php on line 68
 [06-Mar-2014 14:09:45 Europe/Minsk] PHP Fatal error:  Class 'UsersLogs' not found in /home/evnaby/sites/xabina/protected/components/WebUser.php on line 93
+[29-Mar-2014 23:38:39 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[29-Mar-2014 23:43:20 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[29-Mar-2014 23:43:24 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[29-Mar-2014 23:43:46 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 12:12:27 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:11:36 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:12:41 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:12:46 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:15:01 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:15:19 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:17:21 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:17:25 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:17:26 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:17:31 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:18:45 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
+[30-Mar-2014 14:19:10 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
