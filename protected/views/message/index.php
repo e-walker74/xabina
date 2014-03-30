@@ -19,6 +19,7 @@
 )); ?>
 <div class="col-lg-9 col-md-9 col-sm-9">
     <div class="h1-header"><?= Yii::t('Front', 'All messages'); ?></div>
+	<?php $this->widget('XabinaAlert'); ?>
     <? $this->widget('MessagesMenu'); ?>
     <div class="messages-cont">
         <table class="xabina-messages-table ">
@@ -36,7 +37,7 @@
                         
                     </td>
                     <td width="5%">
-                        <a href="#" class="attachment-button"></a>
+                        <!--<a href="#" class="attachment-button"></a>-->
                     </td>
                     <td width="14%" class="datetime-td">
                         <?= date('d-m-Y', $v->updated_at) ?><br>

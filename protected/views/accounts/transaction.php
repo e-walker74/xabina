@@ -3,7 +3,7 @@
 	<table class="xabina-table-upload transaction-table-cont" id="printTable">
 		<tbody><tr class="header-tr">
 			<td>
-				<?= Yii::t('Front', 'Indepland - Details overschrijving') ?>
+				<?= Yii::t('Front', 'Attachments') ?>
 			</td>
 		</tr>
 		<tr class="form-tr">
@@ -21,8 +21,7 @@
 							<td class="name"><?= Yii::t('Front', 'Attachment') ?></td>
 							<td>
 								<?php foreach($trans->attachments as $file): ?>
-									<a class="attachment-button" href="<?= Yii::app()->createUrl('/accounts/getattach', array('name' => $file->name)) ?>"></a>
-									<?= $file->user_file_name; ?>
+									<a class="attachment-button" href="<?= Yii::app()->createUrl('/accounts/getattach', array('name' => $file->name)) ?>"><?= $file->user_file_name; ?></a>
 								<?php endforeach; ?>
 							</td>
 						</tr>
@@ -104,7 +103,7 @@
 						</div>
 						<div class="field-input">
 							<div class="select-custom">
-								<span class="select-custom-label"><?= Yii::t('Front', 'Some documents'); ?> </span>
+								<span class="select-custom-label"><?= Yii::t('Front', 'Transaction documents'); ?> </span>
 								<?= $form->dropDownList($model, 'file_type', array('some_documents' => Yii::t('Front', 'Some documents')), array('class' => 'country-select select-invisible')); ?>
 								<span class="validation-icon"></span>
 							</div>

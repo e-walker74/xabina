@@ -1,12 +1,12 @@
 <div id="wrap">
 	<div id="page-heading">
-		<h1><?= Yii::t('Accounts', 'Verifications') ?></h1>
+		<h1><?= Yii::t('Messages', 'Messages') ?></h1>
 	</div>
 
 	<div class="container">
 		<div class="panel panel-midnightblue">
 			<div class="panel-heading ">
-				<h4><?= Yii::t('Accounts', 'Information from activation form') ?></h4>
+				<h4><?= Yii::t('Messages', 'Messages List') ?></h4>
 				<div class="options">   
 					<!--<a href="javascript:;"><i class="fa fa-cog"></i></a>
 					<a href="javascript:;"><i class="fa fa-wrench"></i></a>-->
@@ -15,12 +15,11 @@
 			</div>
 			<div class="panel-body collapse in">
 				<?php $this->widget('zii.widgets.grid.CGridView', array(
-					'dataProvider'=>$verifications->search(),
+					'dataProvider'=>$model->search(),
 					'ajaxUpdate' => true,
 					//'htmlOptions' => array('class' => 'table table-striped table-bordered datatables'),
 					'itemsCssClass' => 'table table-striped table-bordered datatables',
-					'filter'=>$verifications,
-					'rowCssClassExpression' => '($data->status == 1) ? "to-moderator" : (($data->status == 3) ? "ok" : "")',
+					'filter'=>$model,
 					'summaryCssClass' => 'dataTables_info',
 					'template' => '{items}
 									<div class="row">
@@ -35,13 +34,15 @@
 					//'cssFile'=>$this->module->assetsUrl.'/css/styles-admin.css',
 					'pager' => 'BootstrapPager',
 					'columns'=>array(
-						'type',
-						'user.email',
-						'status',
+						array(
+							'header' => Yii::t('Front', 'Dialog'),
+							'value' => '"<b>".$data->user->email . "</b> Subject: " . $data->subject->title',
+							'type' => 'html',
+						),
 						array(
 							'class'=>'CButtonColumn',
-							'updateButtonUrl'=>'Yii::app()->createUrl("/admin/accounts/verificationupdate", array("id" => $data->user_id, "type" => $data->type))',
-							'template' => '{update}',
+							'viewButtonUrl'=>'Yii::app()->createUrl("/admin/messages/view", array("id" => $data->dialog_id))',
+							'template' => '{view}',
 							'buttons' => array(
 								'update' => array(
 									//'label' => '',

@@ -1,18 +1,13 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
 	<div class="h1-header"><?= Yii::t('Front', 'My accounts'); ?></div>
-	
 	<?php $this->widget('XabinaAlert'); ?>
 
-	<?php if(Yii::app()->user->status == Users::USER_EMAIL_IS_ACTIVE): ?>
-		<a href="<?= Yii::app()->createUrl('/banking/accountsactivation/') ?>" class="activate-account-button"><?= Yii::t('Front', 'Activate account'); ?></a>
-	<?php elseif(Yii::app()->user->status == Users::USER_IS_ACTIVATED): ?>
-		<a href="<?= Yii::app()->createUrl('verification/index') ?>" class="activate-account-button"><?= Yii::t('Front', 'Verificate account'); ?></a>
-	<?php endif;?>
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 		'id'=>'accounts-grid',
 		'dataProvider'=>$accounts->search(),
 		'summaryText' => '',
 		'itemsCssClass' => 'table xabina-table',
+		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number)))',
 		'afterAjaxUpdate'=>'function(){$(\'.currency_dropdown\').currencyDropDown({
 			currencies: {
 				EUR: \'EUR\',

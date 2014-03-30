@@ -29,4 +29,5 @@
 			<li><a href="<?= Yii::app()->createUrl('/admin/logs/users/') ?>/"><?= Yii::t('Logs', 'Users'); ?></a></li>
 		</ul>
 	</li>
+	<li><a href="<?= Yii::app()->createUrl('/admin/messages/index/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Messages', 'Messages'); ?></span></a></li>
 </ul>

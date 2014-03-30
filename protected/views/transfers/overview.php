@@ -1,5 +1,6 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
 	<div class="h1-header"><?= Yii::t('Front', 'New transfer'); ?></div>
+	<?php $this->widget('XabinaAlert'); ?>
 	<div class="xabina-progress-bar transfer-bar">
 		<div class="step step1  previous">
 			<div class="step-name"><?= Yii::t('Front', 'Data input'); ?></div>
@@ -64,7 +65,7 @@
 					<br/>
 					<?=  $transfer->description ?>
 					</td>
-				<td width="15%"><?= ($transfer->execution_time) ? date('m.d.Y', $transfer->execution_time) : date('m.d.Y', $transfer->start_time) ?></td>
+				<td width="15%"><?= ($transfer->execution_time) ? date('m.d.Y', $transfer->execution_time) : Yii::t('Front', 'Start').': '. date('m.d.Y', $transfer->start_time) . ' ' . Yii::t('Front', 'End').': '. date('m.d.Y', $transfer->end_time) ?></td>
 				<td width="15%"><?= $transfer->amount ?> <span class="currency-code"><?= $transfer->currency->code ?></span></td>
 				<td width="5%" style="vertical-align: middle">
 					<div class="edit-td">
@@ -72,7 +73,7 @@
 					</div>
 				</td>
 				<td width="5%" style="vertical-align: middle">
-					<a class="overview-remove" onclick="js:deleteTransaction(this, '<?= Yii::t('Front', 'A you shure you want to delete'); ?>'); return false" href="<?= Yii::app()->createUrl('/transfers/delete', array('id' => $transfer->id)); ?>"></a>
+					<a class="overview-remove" onclick="js:deleteTransaction(this, '<?= Yii::t('Front', 'A You sure You want to delete'); ?>'); return false" href="<?= Yii::app()->createUrl('/transfers/delete', array('id' => $transfer->id)); ?>"></a>
 				</td>
 			</tr>
 			<?php endforeach;?>

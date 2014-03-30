@@ -65,6 +65,10 @@ class UserController extends Controller
 				$phone->status = 0;
 				$phone->save();
 				
+				if(Yii::app()->sms->to($phone->phone)->body('Activation code: {code}', array('{code}' => $phone->hash))->send() != 1){
+					Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+				}
+				
 				$email = new Users_Emails;
 				$email->user_id = $user->id;
 				$email->email_type_id = 3; // TODO: email types
@@ -77,8 +81,9 @@ class UserController extends Controller
 				$model->login = $user->email;
 				$model->password = $user->password;
 				if ($model->login()){
-					Yii::app()->user->addNotification('activate_your_account', 'Welcome, <span>:userName!</span></br> Activate your account', 'critical', 'yellow');
+					Yii::app()->user->addNotification('activate_your_account', 'Welcome, <span>:userName!</span></br> Activate your account', 'critical', 'red');
 					Yii::log('User was loging and confirm email. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
+					Yii::app()->user->addNotification('mobile_activation', 'To activate the mobile click <a href="'.Yii::app()->createUrl('personal/editphones').'">here</a>', 'critical', 'red');
 					$this->redirect(array('banking/index'));
 				}
 			}

@@ -56,9 +56,6 @@
     <?= Yii::app()->controller->action ->id == 'new' ? Yii::t('Front', 'New message') :   Yii::t('Front', 'Received messages');?>
   </div>
   <? $this->widget('MessagesMenu'); ?>
-  <div class="xabina-alert">
-    <?= Yii::t('Front', 'In order to change Your Personal Details, please upload the new copy of Your ID (passport, driving licence, etc.)'); ?>
-  </div>
   <div class="reply-container">
     <div class="message-headers">
     
@@ -70,9 +67,9 @@
                     )
                 ); ?>
                 
-        <a class="button-violet" href="#" id="attachment_add">
+        <!--<a class="button-violet" href="#" id="attachment_add">
         	<?= Yii::t('Front', 'Add attachment'); ?>
-        </a> 
+        </a>--> 
 		
 		<?=CHtml::link(Yii::t('Front', 'Save message'), "#", array(
                         'submit' => array('/message/save/save/' . $model->id .'/'),
@@ -100,6 +97,7 @@
                 	<span class="select-custom-label"><?= empty($model->to->name) ?  Yii::t('Front', 'Choose') : $model->to->name; ?></span>
                     <?=$form->dropDownList($model, 'to_id', Messages_To::all(), array(
                                     'class' => 'country-select select-invisible',
+									'disabled' => empty($model->to->name) ? '' : 'disabled',
                     )); ?>
               </div>
               <?= $form->error($model, 'to_id'); ?></td>
@@ -116,6 +114,7 @@
                     </span>
                     <?=$form->dropDownList($model, 'subject_id', Messages_Subject::all(), array(
                                     'class' => 'country-select select-invisible',
+									'disabled' => empty($model->subject->title) ? '' : 'disabled',
                     )); ?>
               </div>
               <?= $form->error($model, 'subject_id'); ?>
@@ -195,3 +194,11 @@
   <? endif;?>
 </div>
 <?php $this->endWidget(); ?>
+<script>
+$(window).bind('beforeunload', function(){
+	return '<?= Yii::t('Front', 'Are you sure you want to leave? Your message will be deleted'); ?>';
+});
+$('.message-controls a').click(function(){
+	$(window).unbind('beforeunload')
+})
+</script>

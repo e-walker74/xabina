@@ -1,5 +1,6 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
 	<div class="h1-header"><?= Yii::t('Front', 'New transfer'); ?></div>
+	<?php $this->widget('XabinaAlert'); ?>
 	<div class="xabina-progress-bar transfer-bar">
 		<div class="step step1 current" >
 			<div class="step-name"><?= Yii::t('Front', 'Data input'); ?></div>
@@ -256,8 +257,8 @@
 								<div class="one_time_form">
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
-										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-										<?= $form->error($model, 'execution_time', array()); ?>
+										<?= $form->textField($model, 'xabina_execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+										<?= $form->error($model, 'xabina_execution_time', array()); ?>
 									</div>
 									<div class="urgent-cont">
 										<label>
@@ -280,13 +281,13 @@
 									</div>
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Starte date'); ?></div>
-										<?= $form->textField($model, 'start_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-										<?= $form->error($model, 'start_time', array()); ?>
+										<?= $form->textField($model, 'xabina_start_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+										<?= $form->error($model, 'xabina_start_time', array()); ?>
 									</div>
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'End date'); ?></div>
-										<?= $form->textField($model, 'end_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-										<?= $form->error($model, 'end_time', array()); ?>
+										<?= $form->textField($model, 'xabina_end_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+										<?= $form->error($model, 'xabina_end_time', array()); ?>
 									</div>
 								</div>
 							</div>
@@ -358,8 +359,8 @@
 								<div class="one_time_form">
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
-										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-										<?= $form->error($model, 'execution_time', array()); ?>
+										<?= $form->textField($model, 'external_execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+										<?= $form->error($model, 'external_execution_time', array()); ?>
 									</div>
 									<div class="urgent-cont">
 										<label>
@@ -382,8 +383,8 @@
 									</div>
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Starte date'); ?></div>
-										<?= $form->textField($model, 'start_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-										<?= $form->error($model, 'start_time', array()); ?>
+										<?= $form->textField($model, 'external_start_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
+										<?= $form->error($model, 'external_start_time', array()); ?>
 									</div>
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'End date'); ?></div>
@@ -398,7 +399,7 @@
 							<div class="lbl"><?= Yii::t('Front', 'Charges'); ?></div>
 							<div class="select-custom select-charges">
 								<span class="select-custom-label"><?= Yii::t('Front', 'Shared (mandatory for EC payments)'); ?></span>
-								<?= $form->dropDownList($model, 'charges', array('1' => Yii::t('Front', 'Shared (mandatory for EC payments)'), 2 => Yii::t('Front', 'Another')), array('class' => 'select-invisible country-select')); ?>
+								<?= $form->dropDownList($model, 'charges', array('1' => Yii::t('Front', 'Shared (mandatory for EC payments)'), 2 => Yii::t('Front', 'Receiver pays the fees'), 3 => Yii::t('Front', 'Sender pays the fees')), array('class' => 'select-invisible country-select')); ?>
 							</div>
 						</div>
 						<input name="Transfers_Outgoing[send_to]" id="Transfers_Outgoing_send_to" type="hidden" value="external">

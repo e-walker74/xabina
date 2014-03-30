@@ -35,7 +35,7 @@ class Users_Verification_Creditcard extends ActiveRecord
 			array('account_holder', 'match', 'pattern'=>'/[a-zA-Z -]+/', 'message' => Yii::t('Front', 'name is incorect')),
 			array('cvc_code', 'length', 'min' => 3, 'max'=>4, 'message' => Yii::t('Front', 'card id not valid')),
 			array('account_number', 'length', 'min' => 14, 'max'=>19, 'message' => Yii::t('Front', 'card id not valid')),
-			array('account_number', 'match', 'pattern'=>'/^((34)|(35)|(4)|(62[0-5]0)|(5[0-6])|(67))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
+			array('account_number', 'match', 'pattern'=>'/^((34)|(35)|(37)|(4)|(62[0-5]0)|(5[0-6])|(67))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
 			array('account_number', 'checkCard'),
 			array('verification_code', 'numerical', 'on' => 'verification_code'),
 			// The following rule is used by search().

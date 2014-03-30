@@ -30,6 +30,11 @@ class MessageController extends Controller
             ),
         );
     }
+	
+	public function init(){
+		Yii::app()->clientScript->registerScriptFile('/js/messages.js');
+		return parent::init();
+	}
 
     public function actionNew()
     {
@@ -53,6 +58,8 @@ class MessageController extends Controller
         $model->user_id = Yii::app()->user->id;
         $model->from_id = Yii::app()->user->id;
         $model->save();
+		
+		$this->redirect(array('/message/save', 'type' => 'edit', 'id' => $model->id));
 
         $model->scenario = 'Save';
 
@@ -60,14 +67,13 @@ class MessageController extends Controller
             'model' => $model,
             //'id' => $model->id,
             //'dialog_id' => 0,
-
         ));
     }
 
     public function actionIndex()
     {
         $sql = "SELECT t1.* FROM messages t1
-                  INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages WHERE user_id=:user_id GROUP BY dialog_id) t2
+                  INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages WHERE user_id=:user_id AND draft=0 GROUP BY dialog_id) t2
                     ON t1.dialog_id = t2.dialog_id AND t1.updated_at = t2.updated_at
                 WHERE
                 archive=0 AND
@@ -91,13 +97,17 @@ class MessageController extends Controller
     {
         $id = (int)Yii::app()->getRequest()->getQuery('id');
         $archive = 0;
-        $type = Yii::app()->getRequest()->getQuery('type');
-
-        if($type == 'archive'){
-            // если тип Архив - открываем историю только архивов
-            $archive = 1;
-        }
+		$type = false;
         $model = $this->loadModel($id);
+		
+		if($model->from_id != Yii::app()->user->id){
+			$type = 'inbox';
+		}
+		if($model->archive){
+			$type = 'archive';
+			$archive = 1;
+		}
+		
         //прочитано
         $model->opened = 1;
         $model->save();
@@ -114,7 +124,7 @@ class MessageController extends Controller
     public function actionArchive()
     {
         $sql = "SELECT t1.* FROM messages t1
-          INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages WHERE user_id =:user_id GROUP BY dialog_id) t2
+          INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages WHERE user_id =:user_id AND draft=0 GROUP BY dialog_id) t2
             ON t1.dialog_id = t2.dialog_id AND t1.updated_at = t2.updated_at
         WHERE
         archive=1 AND
@@ -158,7 +168,7 @@ class MessageController extends Controller
     {
 
         $sql ="SELECT t1.* FROM messages t1
-          INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages where user_id=:user_id GROUP BY dialog_id) t2
+          INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages where user_id=:user_id AND draft=0 GROUP BY dialog_id) t2
             ON t1.dialog_id = t2.dialog_id AND t1.updated_at = t2.updated_at
         WHERE
         archive=0 AND
@@ -183,20 +193,25 @@ class MessageController extends Controller
     {
         $type = Yii::app()->getRequest()->getQuery('type');
         $id = Yii::app()->getRequest()->getQuery('id');
-        $dialog_id = Yii::app()->getRequest()->getQuery('dialog');
 
         $model = $this->loadModel($id);
         $model->scenario = 'Save';
+		
+		$prevMessage = Messages::model()->find(array(
+			'condition' => 'dialog_id = :did AND id != :tid AND subject_id != 0 AND to_id != 0',
+			'params' => array(':did' => $model->dialog_id, ':tid' => $model->id),
+			'order' => 'created_at desc',
+		));
+		
+		if($prevMessage){
+			$model->subject_id = $prevMessage->subject_id;
+			$model->to_id = $prevMessage->to_id;
+		}
 
         if (isset($_POST['Messages'])) {
-
-            if (!empty($dialog_id)) {
-                $model = new Messages();
-                $model->dialog_id = $dialog_id;
-            }
-
             $model->attributes = $_POST['Messages'];
             $model->draft = $type === 'save' ? 1 : 0;
+			$model->sended = $type === 'send' ? 1 : 0;
             $model->user_id = Yii::app()->user->id;
             $model->from_id = Yii::app()->user->id;
 
@@ -214,8 +229,7 @@ class MessageController extends Controller
         $this->render('new', array(
             'model' => $model,
             'dialogs' => Messages::model()->getDialog($model->dialog_id, $model->id),
-            'id' => $id,
-            'dialog_id' => $dialog_id
+            'id' => $id
         ));
 
     }

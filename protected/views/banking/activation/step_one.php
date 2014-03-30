@@ -174,7 +174,7 @@
 					<div class="select-custom">
 						<span class="select-custom-label">
 							<?php if($model->country_id): ?>
-								<?= $model->country_id; ?> 
+								<?= Countries::model()->findByPk($model->country_id)->name; // TODO::get from select by js!!! ?>
 							<?php else: ?>
 								<?= Yii::t('Front', 'Select'); ?> 
 							<?php endif; ?>
@@ -187,8 +187,8 @@
 			</div>
 			<div class="col-lg-5 col-md-5 col-sm-5">
 				<div class="offert-link">
-					<?= Yii::t('Front', 'Заполняя заявку, вы соглашаетесь с'); ?>
-					<a href="#"><?= Yii::t('Front', 'условиями предоставления персональных данных'); ?></a>
+					<?= Yii::t('Front', 'You have read and agree to the'); ?>
+					<a href="<?= Yii::app()->createUrl('site/terms') ?>"><?= Yii::t('Front', 'terms & conditions of Xabina Online Banking'); ?></a>
 				</div>
 			</div>
 		</div>

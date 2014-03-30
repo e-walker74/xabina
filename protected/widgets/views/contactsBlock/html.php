@@ -2,23 +2,23 @@
 	<li class="phones">
 		<div class="contact-ico"></div>
 		<div class="contact-text">
-		(912) 555-1234  <br>
-		(912) 567-8904
+		+31 880 200 200  <br>
+		+31 880 200 100
 		</div>
 	</li>
 	<li class="address">
 		<div class="contact-ico"></div>
 		<div class="contact-text">
-		1600 Pennsylvania  <br>
-		Ave NW, Washington  <br>
-		DC 20500, USA
+		Stadsring 99 <br>
+		3811 HP Amersfoort <br>
+		The Netherlands
 		</div>
 	</li>
 	<li class="emails">
 		<div class="contact-ico"></div>
 		<div class="contact-text">
-		hello@xabina.com   <br>
-		office@xabina.com
+		Info@xabina.com<br>
+		help@xabina.com
 		</div>
 	</li>
 </ul>

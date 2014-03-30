@@ -49,5 +49,8 @@ return array(
 	'Add Your first name using latin alphabet' => 'Введите имя используя латинский алфавит',
 	'Add Your last name using latin alphabet' => 'Введите фамилию используя латинский алфавит',
 	'Insert Your login using latin alphabet' => 'Введите логин использую латиницу',
-	'Bank account application form' => 'afdasdf',
+	'Bank account application form' => 'Регистрация',
+	'First Name' => 'Имя',
+	'Last Name' => 'Фамилия',
+	'Mobile Phone' => 'Мобильный телефон',
 );

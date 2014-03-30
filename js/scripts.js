@@ -11,6 +11,12 @@ function fontScale(scale){
 
 $(function(){
 	
+	/* balance index chenge currency on accounts table */
+	changeCurrency = function(){
+		$('.total_currencies span').hide()
+		$('.total_currencies span.'+$('.currency_dropdown').text()).show()
+	}
+	
 	$('.currency_dropdown').tempDropDown({
         list: {
             EUR: 'EUR',
@@ -19,7 +25,8 @@ $(function(){
             CHF: 'CHF',
             JPY: 'JPY'
         },
-        listClass: 'currencies_dropdown'
+        listClass: 'currencies_dropdown',
+		callback: changeCurrency
 
     });
 
@@ -103,7 +110,11 @@ $(function(){
 	$('.sidebar-menu.list-unstyled li').each(function(i, e) {
 		var my_href;
 		my_href = $(e).find('a').attr('href');
-		if(my_href == window.location.href){
+		if(my_href == window.location.origin + window.location.pathname){
+			$(e).parents('ul').show()
+			if($(e).parents('ul').prev('li')){
+				$(e).parents('ul').prev('li').addClass('active');
+			}
 			$(e).addClass('active');
 			return;
 		}
@@ -126,7 +137,7 @@ $(function(){
 				//alert(data);
 				var response = $.parseJSON (data);
 				if(response.success){
-					//alert(response.html);
+					$(window).unbind('beforeunload')
 					$("#user_datas").html(response.html);
 					reset_values(form);
 				}
@@ -157,6 +168,10 @@ $(function(){
 			url: url,
 			success: function(data) {
 				
+				$(window).bind('beforeunload', function(){
+					return 'Are you sure you want to leave this page? All the changes will not be saved.';
+				});
+
 				var response= $.parseJSON(data);
 				if(response.success){
 					
@@ -376,7 +391,7 @@ $(function(){
 	downloadPdf = function(){
 		form = $('#searchForm')
 		url = form.attr('data-pdf-url') + "?" + form.serialize();
-		window.location.href=url
+		window.open(url)
 	}
 	
 	makePrimary = function(url){
@@ -457,6 +472,12 @@ function printDiv(divName) {
 }
 
 $(document).ready(function(){
+
+	$('.main-container').on('click', '.clickable-row', function(){
+		url = $(this).attr('data-url')
+		window.location.href=url
+	})
+
 	$(".calendar-input").datepicker({
 		showOn:"button",
 		buttonImage: '/images/calendar_ico.png',
@@ -476,30 +497,6 @@ $(document).ready(function(){
 	$('select.language-select').on('change', function(){
 		window.location.href=$(this).val()
 	})
-	
-	$('#transfer_accordion').accordion({
-		heightStyle: "content",
-		active: false,
-		collapsible: true,
-		activate: function(event, ui){
-			$(event.target).find('input').attr('disabled','disabled')
-			$(event.target).find('textarea').attr('disabled','disabled')
-			$(event.target).find('select').attr('disabled','disabled')
-			$(event.target).find('.ui-accordion-content-active input').removeAttr('disabled')
-			$(event.target).find('.ui-accordion-content-active textarea').removeAttr('disabled')
-			$(event.target).find('.ui-accordion-content-active select').removeAttr('disabled')
-			$(event.target).find('.recurrence-form input').attr('disabled','disabled')
-			$(event.target).find('.recurrence-form select').attr('disabled','disabled')
-			if($(event.target).find('.ui-accordion-content-active .recurrence-form .active').hasClass('one-time')){
-				$(event.target).find('.ui-accordion-content-active .one_time_form input').removeAttr('disabled')
-				$(event.target).find('.ui-accordion-content-active .one_time_form select').removeAttr('disabled')
-			} else {
-				$(event.target).find('.ui-accordion-content-active .standing-form input').removeAttr('disabled')
-				$(event.target).find('.ui-accordion-content-active .standing-form select').removeAttr('disabled')
-			}
-			
-		}
-	});
 
 	$('.recurrence-select').on('click', 'a', changeRecurrenceForm);
 	

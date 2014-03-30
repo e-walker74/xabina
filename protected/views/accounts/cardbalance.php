@@ -1,5 +1,6 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
 	<div class="h1-header"><?= Yii::t('Front', 'Balance'); ?></div>
+	<?php $this->widget('XabinaAlert'); ?>
 	<div class="account-selection">
 		<span class="select-lbl"><?= Yii::t('Front', 'Account'); ?></span>
 		<div class="select-custom account-select">
@@ -41,7 +42,7 @@
 			<a href="#" class="advanced-button"><span><?= Yii::t('Front', 'Аdvanced search'); ?></span></a>
 		</div>
 		<a class="outcoming trans-button" href="<?= Yii::app()->createUrl('/transfers/outgoing', array('account' => $selectedAcc->number)) ?>"><?= Yii::t('Front', 'outgoing transfer'); ?></a>
-		<div class="incoming trans-button"><?= Yii::t('Front', 'incoming transfer'); ?></div>
+		<!--<div class="incoming trans-button"><?= Yii::t('Front', 'incoming transfer'); ?></div>-->
 
 
 

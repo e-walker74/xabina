@@ -92,6 +92,20 @@ class TransfersController extends Controller
 				}
 			}
 			$model->attributes = $_POST['Transfers_Outgoing'];
+			switch($model->scenario){
+				case 'own':
+					break;
+				case 'xabina':
+					$model->start_time = $model->xabina_start_time;
+					$model->end_time = $model->xabina_end_time;
+					$model->execution_time = $model->xabina_execution_time;
+					break;
+				case 'external':
+					$model->start_time = $model->external_start_time;
+					$model->end_time = $model->external_end_time;
+					$model->execution_time = $model->external_execution_time;
+					break;
+			}
 			if($model->start_time){
 				$model->start_time = strtotime($model->start_time);
 			}
@@ -120,6 +134,20 @@ class TransfersController extends Controller
 				}
 			}
 			$model->attributes = $_POST['Transfers_Outgoing'];
+			switch($model->scenario){
+				case 'own':
+					break;
+				case 'xabina':
+					$model->start_time = $model->xabina_start_time;
+					$model->end_time = $model->xabina_end_time;
+					$model->execution_time = $model->xabina_execution_time;
+					break;
+				case 'external':
+					$model->start_time = $model->external_start_time;
+					$model->end_time = $model->external_end_time;
+					$model->execution_time = $model->external_execution_time;
+					break;
+			}
 			if($model->start_time){
 				$model->start_time = strtotime($model->start_time);
 			}
@@ -146,13 +174,34 @@ class TransfersController extends Controller
 		
 		if($model->isNewRecord){
 			$model->currency_id = 1; //default EUR currency
-			$model->execution_time = date('m/d/Y', time()); //default
 			$model->each_transfer = 1;
 			$model->each_period = 3;
+			$model->execution_time = date('m/d/Y', time()); //default
 			$model->start_time = date('m/d/Y', time()); //default
 			$model->end_time = date('m/d/Y', time()+3600*24*365); //default
+			$model->xabina_execution_time = date('m/d/Y', time()); //default
+			$model->xabina_start_time = date('m/d/Y', time()); //default
+			$model->xabina_end_time = date('m/d/Y', time()+3600*24*365); //default
+			$model->external_execution_time = date('m/d/Y', time()); //default
+			$model->external_start_time = date('m/d/Y', time()); //default
+			$model->external_end_time = date('m/d/Y', time()+3600*24*365); //default
 			$model->country_id = 3205;
 		} else {
+			if(!$model->start_time){
+				$model->start_time = time();
+			}
+			if(!$model->end_time){
+				$model->end_time = time();
+			}
+			if(!$model->execution_time){
+				$model->execution_time = time();
+			}
+			$model->xabina_start_time = date('m/d/Y', $model->start_time);
+			$model->xabina_end_time = date('m/d/Y', $model->end_time);
+			$model->xabina_execution_time = date('m/d/Y', $model->execution_time);
+			$model->external_start_time = date('m/d/Y', $model->start_time);
+			$model->external_end_time = date('m/d/Y', $model->end_time);
+			$model->external_execution_time = date('m/d/Y', $model->execution_time);
 			$model->start_time = date('m/d/Y', $model->start_time);
 			$model->end_time = date('m/d/Y', $model->end_time);
 			$model->execution_time = date('m/d/Y', $model->execution_time);
@@ -207,7 +256,7 @@ class TransfersController extends Controller
 				} else {
 					$transes[$tr->transfer->currency->code] = array(
 						'amount' => $transes[$tr->transfer->currency->code]['amount'] + $tr->transfer->amount,
-						'count' => $transes[$tr->transfer->currency->code]['count']++,
+						'count' => $transes[$tr->transfer->currency->code]['count']+1,
 					);
 				} 
 			}

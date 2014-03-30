@@ -92,9 +92,9 @@ class BankingController extends Controller
 		$activationForm->setUserId(Yii::app()->user->id);
 		$activationForm->setPhone(Yii::app()->user->phone);
 		
-		$countries = Countries::model()->findAll();
-		$countries = CHtml::listData($countries, 'id', 'name');
-		$countries = array_merge(array('' => Yii::t('Front', 'Choose')), $countries);
+		$countries = Countries::model()->findAll(array('order' => 'name asc'));
+		$countries = CHtml::listData($countries, 'id', 'name');		
+		$countries = array('' => Yii::t('Front', 'Select')) + $countries;
 		
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'activation-from-first-step') {
             echo CActiveForm::validate($activationForm);
@@ -168,7 +168,7 @@ class BankingController extends Controller
 		}
 
 		if($partial){
-			$html = $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model), true, false);
+			$html = $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();

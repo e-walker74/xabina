@@ -26,7 +26,7 @@
                 <td width="20%" class="headers"><?= Yii::t('Front', 'Client'); ?>:</td>
                 <td width="80%"><?= $user->fullname ?></td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td class="headers"><?= Yii::t('Front', 'Address'); ?>:</td>
                 <td>Square des Places 1, 1700 Fribourg, Switzerland</td>
             </tr>
@@ -37,7 +37,7 @@
             <tr>
                 <td class="headers"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
                 <td>254897546212ОР</td>
-            </tr>
+            </tr>-->
         </table>
         <table class="pdf-table">
             <tr>
@@ -52,8 +52,8 @@
                 <td><?= current($transactions)->account->currency->code ?></td>
                 <td><?= number_format(current($transactions)->acc_balance - current($transactions)->sum, 2, ".", " ") ?></td>
                 <td><?= number_format(end($transactions)->acc_balance, 2, ".", " ") ?></td>
-                <td><span class="inc">???3 000.00</span></td>
-                <td><span class="dec">???5 000.00</span></td>
+                <td><span class="inc"><?= number_format($credit, 2, ".", " ") ?></span></td>
+                <td><span class="dec"><?= number_format($debit, 2, ".", " ") ?></span></td>
 			<?php else: ?>
 				<td colspan="5"><?= Yii::t('Front', 'No data meets the filter criterias'); ?></td>
 			<?php endif; ?>
@@ -89,16 +89,7 @@
     </div>
         <div class="push"></div>
     </div>
-    <div class="pdf-footer">
-        <table class="footer-info">
-            <tr>
-                <td width="25%" class="left">LV3834753475457-47157475</td>
-                <td width="35%"><?= date('d M Y', strtotime($model->from_date)); ?> - <?= ($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time()) ?></td>
-                <td width="30%"><?= date('d,m,Y H:i:s', time()); ?></td>
-                <!--<td width="10%" class="right">1/1</td>-->
-            </tr>
-        </table>
-    </div>
+    
 </div>
 </body>
 </html>

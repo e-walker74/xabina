@@ -93,8 +93,10 @@ class Users_Verification extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('type',$this->type,true);
+		$criteria->compare('type','notary');
+		$criteria->compare('status',self::REQUIRES_MODERATION);
 		$criteria->compare('rel_id',$this->rel_id);
+		$criteria->order = 'created_at desc';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

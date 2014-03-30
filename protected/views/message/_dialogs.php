@@ -30,7 +30,7 @@
               </tr>
             </tbody>
           </table>
-          <a class="attachment-link" href="#">Annual Financial Summary 2013</a></div>
+          <!--<a class="attachment-link" href="#">Annual Financial Summary 2013</a></div>-->
         <div class="message-text">
           <?=$dialog->message?>
         </div>

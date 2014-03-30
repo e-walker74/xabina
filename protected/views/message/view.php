@@ -46,7 +46,7 @@
                     <td><?=$model->to->name?></td>
                 </tr>
                 </tbody></table>
-            <a class="attachment-link" href="#">Annual Financial Summary 2013</a>
+            <!--<a class="attachment-link" href="#">Annual Financial Summary 2013</a>-->
         </div>
 
         <div class="message-text">

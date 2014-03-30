@@ -35,6 +35,7 @@ class WebUser extends CWebUser {
 		if(!$user_id){
 			$user_id = Yii::app()->user->id;
 		}
+
 		if($this->getId() !== null ){
 			$notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
 				'code' => $code,

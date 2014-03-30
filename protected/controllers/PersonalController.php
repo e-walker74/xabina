@@ -381,7 +381,7 @@ class PersonalController extends Controller
 						'activate_new_'.$model->id, //код
 						'You have successfully change primary '.$type,
 						'close', // возможность закрыть
-						'yellow' //желтая рамка
+						'green' //желтая рамка
 					);
 				}
 			}
@@ -422,7 +422,7 @@ class PersonalController extends Controller
 					'is_master_new_'.$type, //код
 					$type.' "'. $model->user->email .'" is master',
 					'close', // возможность закрыть
-					'yellow' //желтая рамка
+					'green' //желтая рамка
 				);
 			}
 		} elseif($model->status == 0 && $model->is_master == 0) {
@@ -430,11 +430,14 @@ class PersonalController extends Controller
 			$model->status = 1;
 			$model->is_master = 0;
 			$model->save();
+			if($type == 'phones'){
+				Yii::app()->user->removeNotification('mobile_activation');
+			}
 			Yii::app()->user->addNotification(
 				'activate_new_'.$model->id, //код
 				'You have successfully activated new '.$type,
 				'close', // возможность закрыть
-				'yellow' //желтая рамка
+				'green'
 			);
 		}
 		

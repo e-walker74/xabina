@@ -16,7 +16,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('login', 'index', 'error', 'registration', 'remind', 'registrationsuccess', 'remindsuccess'),
+                'actions' => array('login', 'terms', 'index', 'error', 'registration', 'remind', 'registrationsuccess', 'remindsuccess'),
                 'users' => array('*')
             ),
 			array('allow', // allow readers only access to the view file
@@ -36,6 +36,10 @@ class SiteController extends Controller {
     public function actionIndex(){
 		$this->render('index');
     }
+	
+	public function actionTerms(){
+		$this->renderPartial('terms');
+	}
 
     public function actionError() {
         $this->layout = false;

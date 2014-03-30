@@ -15,6 +15,6 @@
 </div>
 <div class="xabina-bubble">
 	<span><?= Yii::t('Front', 'Thank you!'); ?></span><br>
-	<?= Yii::t('Front', 'You have completed the process of activating the account. In the near future your profile will <br> activated and you receive a message to your email address.'); ?>
+	<?= Yii::t('Front', 'You have completed the process of activating the account. In the near future your profile will be activated <br> and you will receive a message to your email address.'); ?>
 	<div class="habina-bubble-arr"></div>
 </div>

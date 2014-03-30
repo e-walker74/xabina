@@ -45,8 +45,8 @@
         <footer>
             <div class="footer-wrapper">
                 <ul class="footer-menu">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="#">Contacts</a></li>
+                    <li><a href="<?= Yii::app()->getBaseUrl(true) ?>">Home</a></li>
+                    <!--<li><a href="#">Contacts</a></li>-->
                 </ul>
 
                 <div class="footer-copyright">Xabina © 2014 All right reserved</div>

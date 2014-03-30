@@ -58,14 +58,17 @@ class Messages extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('dialog_id',$this->dialog_id);
+		$criteria->compare('t.dialog_id',$this->dialog_id);
 		$criteria->compare('message',$this->message,true);
-		$criteria->compare('archive',$this->archive);
-		$criteria->compare('draft',$this->draft);
+		$criteria->compare('archive',0);
+		$criteria->compare('draft',0);
 		$criteria->compare('created_at',$this->created_at);
 		$criteria->compare('updated_at',$this->updated_at);
 		$criteria->compare('subject_id',$this->subject_id);
         $criteria->compare('to_id',$this->to_id);
+		$criteria->with = array('user');
+		$criteria->together = true;
+		$criteria->group = 't.dialog_id desc';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -5,7 +5,7 @@
                 <div class=" clearfix">
                     <select name="" id="" class="language-select pull-left">
 						<?php foreach(Yii::app()->params->translatedLanguages as $label => $translate): ?>
-							<option <?php if($label == Yii::app()->language): ?>selected="selected"<?php endif; ?> value="<?= Yii::app()->createUrl(Yii::app()->request->url, array('language' => $label)) ?>"><?= $translate ?></option>
+							<option <?php if($label == Yii::app()->language): ?>selected="selected"<?php endif; ?> value="<?= Yii::app()->createUrl(Yii::app()->request->url, array('language' => $label)) ?>"><?= $label ?></option>
 						<?php endforeach; ?>
                     </select>
 
@@ -18,9 +18,9 @@
                         </ul>
                     </div>
                     <ul class="user-menu pull-right  list-inline">
-                        <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
+                        <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
                         <li class="user-email"><a href="<?= Yii::app()->createUrl('message/index'); ?>"></a></li>
-                        <li class="user-settings"><a href="#"></a></li>
+                        <!--<li class="user-personal"><a href="#"></a></li>-->
                         <li class="user-logout"><?= CHtml::link('', array('/logout'), array('onclick'=>'return confirm("'.Yii::t('Front', 'Are you sure you want to logout?').'")')); ?></li>
                     </ul>
                     <div class="user-greeting pull-right"><?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->name)); ?></div>

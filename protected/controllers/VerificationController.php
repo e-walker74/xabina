@@ -255,7 +255,7 @@ class VerificationController extends Controller
 			}
 		}
 		
-		$countries = Countries::model()->findAll();
+		$countries = Countries::model()->findAll(array('order' => 'name asc'));
 		$countries = CHtml::listData($countries, 'id', 'name');
 		$countries = array_merge(array('' => Yii::t('Front', 'Choose')), $countries);
 		

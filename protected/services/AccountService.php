@@ -33,6 +33,8 @@ class AccountService {
 		if(count($number) != $len){
 			return false;
 		}
+		$last = array_pop($number);
+		$number = array_reverse($number);
 		foreach($number as $key => $value){
 			if($key%2 == 0){
 				$value = $value*2;
@@ -42,6 +44,7 @@ class AccountService {
 			}
 			$sum = $value + $sum;
 		}
+		$sum = $sum + $last;
 		if($sum%10){
 			return false;
 		} else {

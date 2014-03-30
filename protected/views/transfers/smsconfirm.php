@@ -1,5 +1,6 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
 	<div class="h1-header"><?= Yii::t('Front', 'New transfer') ?></div>
+	<?php $this->widget('XabinaAlert'); ?>
 	<div class="xabina-progress-bar transfer-bar">
 		<div class="step step1 ">
 			<div class="step-name"><?= Yii::t('Front', 'Data input') ?></div>

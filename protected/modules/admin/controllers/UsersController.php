@@ -16,7 +16,7 @@ class UsersController extends Controller
 			if(!$model->email && !$model->login){
 				$model->addError('login', Yii::t('Users', 'Email and Login is empty'));
 			}elseif($model->email && !$model->login){
-				$model->login = $model->email;
+				///$model->login = $model->email;
 			}
 			
 			$pass = substr(md5(time() . 'xabina_pass' . $model->login), 2, 8);
@@ -62,7 +62,7 @@ class UsersController extends Controller
 				$this->redirect(array('/admin/users/update', 'id' => $model->id));
 			}
 		}
-
+		
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -102,6 +102,9 @@ class UsersController extends Controller
 		if(isset($_POST['Users']))
 		{
 			$model->attributes=$_POST['Users'];
+			if(!$model->login){
+				unset($model->login);
+			}
 			if($model->save()){
 				$this->redirect(array('/admin/users/admin/'));
 			}

@@ -144,5 +144,50 @@ $(function(){
         e.preventDefault();
         $('html,body').animate({scrollTop: $($(this).attr('href')).offset().top}, 500);
     });
+	
+	delay = (function(){
+	  var timer = 0;
+	  return function(callback, ms){
+		clearTimeout (timer);
+		timer = setTimeout(callback, ms);
+	  };
+	})();
+	
+	$('input').keyup(function() {
+		delay(function(){
+		  validateFormFields()
+		}, 500 );
+	});
+	
+	validateFormFields = function(){
+		var form = jQuery('form')
+		$.ajax({
+			url: form.attr('action'),
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.length==0){
+					form.find("input").parent().addClass("valid")
+					form.find("input").next(".validation-icon").fadeIn();
+					form.find("input").removeClass('input-error')
+					form.find(".errorMessage").hide()
+				}
+				$.each(response, function(key, value) {
+					if($("#"+form.attr("id")+" #"+key).val()){
+						$("#"+form.attr("id")+" #"+key).removeClass("valid");
+						$("#"+form.attr("id")+" #"+key).parent().removeClass("valid");
+						$("#"+form.attr("id")+" #"+key).addClass("input-error");
+						$("#"+form.attr("id")+" #"+key).parent().addClass("input-error");
+						$("#"+form.attr("id")+" #"+key).next(".validation-icon").fadeIn();
+						$("#"+form.attr("id")+" #"+key+"_em_").slideDown();
+						$("#"+form.attr("id")+" #"+key+"_em_").html(''+value);                            
+					}
+				});
+			},
+			cache:false,
+			async: false,
+			data: form.serialize() + '&ajax' + '=' + form.attr('id'),
+			type: 'POST'
+		});
+	}
 
 });

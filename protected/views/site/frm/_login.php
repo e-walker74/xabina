@@ -27,20 +27,20 @@
 										'enableClientValidation'=>true,
 										'focus'=>array($model,'first_name'),
 										'clientOptions'=>array(
-										  'validateOnSubmit'=>true,
-										  'afterValidate' => 'js:function(form, data, hasError) { 
-											  if(hasError) {
-												  for(var i in data) {
-													$("#"+i).addClass("input-error");
-													$("#"+i).next(".validation-icon").show();
+											  'validateOnSubmit'=>true,
+											  'afterValidate' => 'js:function(form, data, hasError) { 
+												  if(hasError) {
+													  for(var i in data) {
+														$("#"+i).addClass("input-error");
+														$("#"+i).next(".validation-icon").show();
+													  }
+													  return false;
 												  }
-												  return false;
-											  }
-											  else {
-												  form.find("input").removeClass("input-error");
-												  return true;
-											  }
-										  }',
+												  else {
+													  form.find("input").removeClass("input-error");
+													  return true;
+												  }
+											  }',
 										'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
 										   if(hasError) {$("#"+attribute.id).addClass("input-error");$("#"+attribute.id).next(".validation-icon").show();}
 										   else {$("#"+attribute.id).removeClass("input-error"); $("#"+attribute.id).next(".validation-icon").show();}

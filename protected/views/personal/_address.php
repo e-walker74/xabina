@@ -17,7 +17,6 @@
         'successCssClass' => 'valid'
     ),
 )); ?>
-
 <table class="table  xabina-table-edit">
     <tr class="table-header">
         <th width="39%"><?= Yii::t('Front', 'Address'); ?></th>

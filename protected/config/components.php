@@ -63,6 +63,7 @@ return array(
         'rules' => array(
 			'/remindsuccess' => 'site/remindsuccess',
 			'/remind' => 'site/remind',
+			'/terms' => 'site/terms',
 			'/registrationsuccess' => 'site/registrationSuccess',
 			'/emailconfirm/<hash:\w+>' => 'user/emailconfirm',
 			'/remove/notification/<code:\w+>' => 'user/deletenotification',
@@ -74,6 +75,7 @@ return array(
 			'/banking/accounts/transaction/uploadattachemnt/<id:\d+>' => '/accounts/uploadattachemnt',
 			'/banking/accounts/transaction/getattach/<name:[\w.]+>' => 'accounts/getattach',
 			'/banking/accounts/transaction/onpdf' => 'accounts/transactionsonpdf',
+			'/banking/accounts/transaction/getpdf/<md5>' => 'accounts/getpdf',
             '/banking/personal' => 'personal/index',
             '/banking/personal/saveemails' => 'personal/saveemails',
             '/banking/personal/editemails' => 'personal/editemails',
@@ -86,12 +88,11 @@ return array(
 
             '/message/save/<type:(save|send|edit)>/<id:\d+>' => 'message/save',
             //'/message/reply/<dialog:\d+>/<id:\d+>' => 'message/reply',
-            '/message/view/<id:\d+>/<type:(inbox|outbox|archive)>' => 'message/view',
+            '/message/view/<id:\d+>' => 'message/view',
             '/message/cancel/<id:\d+>' => 'message/cancel',
             '/message/new/<id:\d+>' => 'message/new',
 
             '/banking/verification/notary' => 'verification/notary',
-            '/banking/verification/creditcard' => '/verification/creditcard',
             '/banking/verification/getnotaryfile' => 'verification/getnotaryfile',
             '/banking/accountsactivation' => '/banking/accountsactivation',
 			'/banking/personal/uploadfile' => 'personal/uploadfile',
@@ -106,6 +107,7 @@ return array(
 			'/banking/verification/uploadfile' => 'verification/uploadfile',
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
+			'page/<url>' => 'pages/index',
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

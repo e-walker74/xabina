@@ -1,7 +1,9 @@
 $(function(){
 
-	updateTransactionsTable = function(refresh_button){
-		var accNumber = $('.refresh-button').parent().find('select').val()
+	updateTransactionsTable = function(select){
+		var accNumber = $(select).val()
+		$(select).parents('.account-selection').find('.refresh-button').fadeIn()
+		
 		$.ajax({
 			url: window.location.pathname,
 			success: function(data) {
@@ -9,6 +11,7 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html);
 				}
+				$(select).parents('.account-selection').find('.refresh-button').fadeOut()
 			},
 			cache:false,
 			data: {account: accNumber},
@@ -18,7 +21,16 @@ $(function(){
 	
 	$(document).on('click', '.transaction-table-overflow tr', function(){
 		var url = $(this).attr('data-transaction-info-url')
-		window.location.href = url
+		if(url){
+			window.location.href = url
+		}
 	})
 	
 });
+
+$(document).ready(function(){
+	$('.refresh-button').fadeOut()
+	$('.account-selection .account-select select').change(function(){
+		updateTransactionsTable(this)
+	})
+})

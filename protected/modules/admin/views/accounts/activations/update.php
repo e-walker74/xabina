@@ -95,7 +95,7 @@
 				<div class="form-group">
 					<?php echo $form->labelEx($model, 'country', array('class' => 'col-sm-3 control-label')); ?>
 					<div class="col-sm-6">
-						<?php echo $form->textField($model, 'country', array('disabled' => 'disabled', 'size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+						<?php echo $form->textField($model->country, 'name', array('disabled' => 'disabled', 'size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				

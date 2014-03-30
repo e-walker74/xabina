@@ -1,5 +1,7 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >  
 	<div class="h1-header"><?= Yii::t('Front', 'My personal cabinet'); ?></div>
+	
+	<?php $this->widget('XabinaAlert'); ?>
 
 	<table class="table xabina-table table-account">
 		<tr class="table-header">

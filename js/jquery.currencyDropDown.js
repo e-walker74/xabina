@@ -108,7 +108,7 @@
 
 
              $('body').click({self: self}, function(e){
-                 debugger;
+                 //debugger;
                  if($(e.target).hasClass('dropdown_button') || $(e.target).parents('.dropdown_button').length ) {
                      e.preventDefault();
                      e.stopPropagation();
@@ -131,7 +131,7 @@
                  e.stopPropagation();
                  e.preventDefault();
                  if(options.toChange){
-                     self.html($(this).text()+' <span class="currency_drdn_arr"></span>');
+                     self.html($(this).text()+'<span class="currency_drdn_arr"></span>');
 
                  }
                  removeDropDown();

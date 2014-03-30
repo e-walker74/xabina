@@ -26,7 +26,7 @@ class AccountsController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index','cardbalance', 'transaction', 'uploadattachemnt','getattach','transactionsonpdf'),
+                'actions' => array('index','cardbalance', 'transaction', 'uploadattachemnt','getattach','transactionsonpdf', 'getpdf'),
                 'roles' => array('administrator')
             ),
             array('deny', // deny everybody else
@@ -195,9 +195,20 @@ class AccountsController extends Controller
 		$model = new Form_Search();
 		if(isset($_GET['Form_Search'])){
 			$model->attributes = $_GET['Form_Search'];
+			$key = md5(serialize($model->attributes));
 			$transactions = $model->searchUserTransactions();
 			$user = Users::model()->findByPk(Yii::app()->user->id);
-			$html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'model' => $model, 'user' => $user), true, false);
+			$debit = 0;
+			$credit = 0;
+			foreach($transactions as $trans){
+				if($trans->type == 'positive'){
+					$credit = $credit + $trans->sum;
+				}
+				if($trans->type == 'negative'){
+					$debit = $debit + $trans->sum;
+				}
+			}
+			$html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
 			Yii::import('application.ext.mpdf.mpdf');
 			$mpdf = new mpdf('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
 			$mpdf->charset_in = 'utf-8'; /*не забываем про русский*/
@@ -206,8 +217,36 @@ class AccountsController extends Controller
 			$mpdf->WriteHTML($stylesheet, 1);
 			
 			$mpdf->list_indent_first_level = 0; 
+			$start_date = date('d M Y', strtotime($model->from_date));
+			$end_date = ($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time());
+
+			$mpdf->SetHtmlFooter('<div class="pdf-footer">
+				<table class="footer-info">
+					<tr>
+						<td width="25%" class="left">Xabina</td>
+						<!--<td width="35%">' . $start_date . ' - ' . $end_date . '</td>-->
+						<td width="30%">' . date('d.m.Y H:i:s', time()) . '</td>
+						<td width="10%" class="right">{PAGENO}/{nbpg}</td>
+					</tr>
+				</table>
+			</div>');
 			$mpdf->WriteHTML($html, 2); /*формируем pdf*/
+			
+			ob_start();
 			$mpdf->Output('transactions.pdf', 'I');
+			$template = ob_get_contents();
+			ob_end_clean();
+			Yii::app()->cache->set('pdf_generator_'.$key.Yii::app()->user->id, $template, 3600*24);
+			$this->redirect(array('accounts/getpdf', 'md5' => $key));
+		}
+		Yii::app()->end();
+	}
+	
+	public function actionGetPdf($md5){
+		if(Yii::app()->cache->get('pdf_generator_'.$md5.Yii::app()->user->id)){
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/pdf');
+			echo Yii::app()->cache->get('pdf_generator_'.$md5.Yii::app()->user->id);
 		}
 	}
 }

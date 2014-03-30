@@ -27,21 +27,21 @@
 	<?php endif; ?>
 </div>
 <div class="header-middle clearfix">
-	<a href="/" class="logo pull-left"></a>
+	<a href="<?= Yii::app()->createUrl('/banking/index') ?>" class="logo pull-left"></a>
 	<ul class="header-links pull-right list-inline">
-		<?php $this->widget('TopAndBottomRepeatMenu'); ?>
+		<?php //$this->widget('TopAndBottomRepeatMenu'); ?>
 	</ul>		
 </div>
 <div class="header-bottom clearfix">
 	<ul class="top-menu pull-left list-unstyled">
 		<li class="current"><a href="<?= Yii::app()->createUrl('/banking/index') ?>"><?= Yii::t('Front', 'Home') ?></a></li>
-		<li><a href="#"><?= Yii::t('Front', 'About') ?></a></li>
-		<li><a href="#"><?= Yii::t('Front', 'Services') ?></a></li>
-		<li><a href="#"><?= Yii::t('Front', 'Credits') ?></a></li>
-		<li><a href="#"><?= Yii::t('Front', 'History') ?></a></li>
+		<li><a href="<?= Yii::app()->createUrl('pages/index', array('url' => 'About')) ?>"><?= Yii::t('Front', 'About') ?></a></li>
+		<li><a href="<?= Yii::app()->createUrl('pages/index', array('url' => 'Services')) ?>"><?= Yii::t('Front', 'Services') ?></a></li>
+		<li><a href="<?= Yii::app()->createUrl('pages/index', array('url' => 'Credits')) ?>"><?= Yii::t('Front', 'Credits') ?></a></li>
+		<li><a href="<?= Yii::app()->createUrl('pages/index', array('url' => 'History')) ?>"><?= Yii::t('Front', 'History') ?></a></li>
 	</ul>
 	<div class="search-cont pull-right">
-		<input value="<?= Yii::t('Front', 'Search...') ?>" onfocus="if($(this).val()=='<?= Yii::t('Front', 'Search...') ?>')$(this).val('')" onblur="if($(this).val()=='')$(this).val('<?= Yii::t('Front', 'Search...') ?>')" type="text" class="search-text">
-		<div class="search-submit"></div>
+		<!--<input value="<?= Yii::t('Front', 'Search...') ?>" onfocus="if($(this).val()=='<?= Yii::t('Front', 'Search...') ?>')$(this).val('')" onblur="if($(this).val()=='')$(this).val('<?= Yii::t('Front', 'Search...') ?>')" type="text" class="search-text">
+		<div class="search-submit"></div>-->
 	</div>
 </div>
