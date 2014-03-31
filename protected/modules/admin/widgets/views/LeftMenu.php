@@ -30,4 +30,10 @@
 		</ul>
 	</li>
 	<li><a href="<?= Yii::app()->createUrl('/admin/messages/index/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Messages', 'Messages'); ?></span></a></li>
+	<li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Transfers', 'Transfers'); ?></span></a>
+		<ul class="acc-menu">
+			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/create/') ?>/"><?= Yii::t('Transfers', 'Create'); ?></a></li>
+			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/outgoing/') ?>/"><?= Yii::t('Transfers', 'Outgoing'); ?></a></li>
+		</ul>
+	</li>
 </ul>

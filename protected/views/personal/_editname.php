@@ -8,7 +8,7 @@
 			<tbody><tr class="table-header">
 				<th><?= Yii::t('Front', 'Personal details'); ?></th>
 				<th class="edit-th">
-					<div class="table-close-btn"></div>
+					
 				</th>
 			</tr>
 			<tr>
@@ -169,7 +169,7 @@
 										?>
 										<div class="error-message" id="Form_Editname_File_files_em_" style="overflow: hidden;"></div>
 										<div class="field-row">
-											<div class="violet-button-slim" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
+											<div style="display:none;" class="violet-button-slim" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
 										</div>
 										<input type="hidden" name="Form_Editname_File[document]" value="1" />
 									</div>
@@ -332,7 +332,7 @@
 										?>
 										<div class="error-message" id="Form_Editname_File_files_em_" style="overflow: hidden;"></div>
 										<div class="field-row">
-											<div class="violet-button-slim" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
+											<div style="display:none;" class="violet-button-slim" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
 										</div>
 										<input type="hidden" name="Form_Editname_File[document]" value="2" />
 									</div>

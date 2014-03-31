@@ -38,7 +38,7 @@ return array(
 	'Are you sure you want to logout?' => 'Вы уверены?',
 	'Account login' => 'Вход',
 	'Password reset' => 'Восстановление пароля',
-	'Login or E-Mail' => 'Login или E-Mail',
+	'Login or E-Mail' => 'Логин или Эл.почту',
 	'Password' => 'Пароль',
 	'Login' => 'Вход',
 	'Remind' => 'Восстановить',
@@ -53,4 +53,5 @@ return array(
 	'First Name' => 'Имя',
 	'Last Name' => 'Фамилия',
 	'Mobile Phone' => 'Мобильный телефон',
+	'E-mail' => 'Эл.почта',
 );

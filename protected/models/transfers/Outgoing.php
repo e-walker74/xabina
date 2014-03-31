@@ -70,7 +70,7 @@ class Transfers_Outgoing extends ActiveRecord
 			array('user_id, currency_id, account_id, country_id', 'length', 'max'=>10),
 			array('send_to', 'length', 'max'=>8),
 			//array('execution_time, start_time, end_time, xabina_execution_time, xabina_start_time, xabina_end_time, external_execution_time, external_start_time, external_end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time())),
-			array('execution_time, start_time, end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time())),
+			array('execution_time, start_time, end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time()), 'on' => 'insert', 'message' => Yii::t('Front', 'Date in not correct')),
 			array('account_holder, swift, bank_beneficiary, postcode, external_account_number', 'length', 'max'=>255),
 			array('description, amount, amount_cent, currency_id, account_id, send_to, execution_time, each_transfer, each_period, start_time, end_time, urgent', 'safe'),
 			array('own_account_id', 'safe', 'on' => 'own'),
@@ -117,6 +117,7 @@ class Transfers_Outgoing extends ActiveRecord
 			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 			'own_account' => array(self::BELONGS_TO, 'Accounts', 'own_account_id'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
@@ -178,31 +179,30 @@ class Transfers_Outgoing extends ActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('t.status',0);
+		$criteria->compare('t.need_confirm',0);
 		$criteria->compare('amount',$this->amount);
-		$criteria->compare('currency_id',$this->currency_id,true);
-		$criteria->compare('account_id',$this->account_id,true);
-		$criteria->compare('send_to',$this->send_to,true);
-		$criteria->compare('account_number',$this->account_number,true);
-		$criteria->compare('account_holder',$this->account_holder,true);
-		$criteria->compare('country_id',$this->country_id,true);
-		$criteria->compare('swift',$this->swift,true);
-		$criteria->compare('bank_beneficiary',$this->bank_beneficiary,true);
-		$criteria->compare('postcode',$this->postcode,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('charges',$this->charges);
-		$criteria->compare('standing',$this->standing);
-		$criteria->compare('execution_time',$this->execution_time);
-		$criteria->compare('urgent',$this->urgent);
-		$criteria->compare('each_transfer',$this->each_transfer);
-		$criteria->compare('each_period',$this->each_period);
-		$criteria->compare('start_time',$this->start_time);
-		$criteria->compare('end_time',$this->end_time);
-		$criteria->compare('need_confirm',$this->need_confirm);
-		$criteria->compare('created_at',$this->created_at);
-		$criteria->compare('updated_at',$this->updated_at);
+		$criteria->with = 'user';
+		$criteria->together = true;
+		$criteria->order = 't.created_at desc';
+		
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+	
+	public function log()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('t.status',0);
+		$criteria->compare('amount',$this->amount);
+		$criteria->with = 'user';
+		$criteria->together = true;
+		$criteria->order = 't.created_at desc';
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

@@ -26,7 +26,7 @@
                 <td width="20%" class="headers"><?= Yii::t('Front', 'Client'); ?>:</td>
                 <td width="80%"><?= $user->fullname ?></td>
             </tr>
-            <!--<tr>
+            <tr>
                 <td class="headers"><?= Yii::t('Front', 'Address'); ?>:</td>
                 <td>Square des Places 1, 1700 Fribourg, Switzerland</td>
             </tr>
@@ -37,7 +37,7 @@
             <tr>
                 <td class="headers"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
                 <td>254897546212ОР</td>
-            </tr>-->
+            </tr>
         </table>
         <table class="pdf-table">
             <tr>

@@ -71,61 +71,36 @@
 
 
                     <div class="content-text">
-                        <div class="page-header">Условия оказания услуг участникам программы
-                            комплексного обслуживания клиентов RocketBank</div>
-                        <div class="paragraph-header" id="intro">I, Общие положения</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                          <div class="paragraph-header" id="defs">I, Общие положения</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                          <div class="paragraph-header" id="provision">I, Общие положения</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
+						<div class="page-header">Terms & Conditions of service provision to the clients of Xabina.com online banking</div>
+                        <div class="paragraph-header" id="intro">I. Introduction</div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                          <div class="paragraph-header" id="defs">I. Introduction</div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                          <div class="paragraph-header" id="provision">I. Introduction</div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
 
-                          <div class="paragraph-header" id="inform">I, Общие положения</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
-                        <div class="paragraph-text">1. Общество с ограниченной ответственностью «Рокет» (далее –
-                            Рокет; Исполнитель), являясь Оператором программы комплексного обслуживания клиентов
-                            RocketBank (далее – Программа), предлагает любому физическому лицу стать участником
-                            Программы.</div>
+                          <div class="paragraph-header" id="inform">I. Introduction</div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
+                        <div class="paragraph-text">1. Xabina B.V., acting as a certified provider of financial services to the clients of Xabina, 
+						offers every physical as well as legal entity to take part in Xabina online banking programme. </div>
 
                     </div>
                     <div class="clear"></div>

@@ -5,6 +5,8 @@
 				<td width="15%"><?= date('d.m.Y', $trans->created_at) ?></td>
 				<td width="10%">OV</td>
 				<td width="40%">
+					<b><?= $trans->info->sender ?></b>
+					<br/>
 					<?= $trans->operation ?>
 				</td>
 				<td width="22%">

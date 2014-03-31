@@ -174,7 +174,7 @@
 					?>
 					<div class="error-message" id="Form_Activation_File_files_em_" style="overflow: hidden;"></div>
 					<div class="field-row">
-						<div class="violet-button-slim" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
+						<div class="violet-button-slim" style="display:none" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
 					</div>
 					<input type="hidden" name="Form_Activation_File[document]" value="1" />
 				</div>
@@ -335,7 +335,7 @@
 					?>
 					<div class="error-message" id="Form_Activation_File_files_em_" style="overflow: hidden;"></div>
 					<div class="field-row">
-						<div class="violet-button-slim" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
+						<div class="violet-button-slim" style="display:none" onclick="js:uploadFile(this)"><?= Yii::t('Front', 'Upload selected files')?></div>
 					</div>
 					<input type="hidden" name="Form_Activation_File[document]" value="2" />
 				</div>

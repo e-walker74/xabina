@@ -1,16 +1,16 @@
 
-	<div class="h1-header">Активация счета</div>
+	<div class="h1-header"><?= Yii::t('Front', 'Account activation'); ?></div>
 	<div class="xabina-progress-bar">
 		<div class="step step1 current">
-			<div class="step-name">Личная информация</div>
+			<div class="step-name"><?= Yii::t('Front', 'Personal information'); ?></div>
 			<div class="step-arr"></div>
 		</div>
 		<div class="step step2">
-			<div class="step-name">Загрузка файлов</div>
+			<div class="step-name"><?= Yii::t('Front', 'Upload files'); ?></div>
 			<div class="step-arr"></div>
 		</div>
 		<div class="step step3">
-			<div class="step-name">Активация</div>
+			<div class="step-name"><?= Yii::t('Front', 'Activation'); ?></div>
 			<div class="step-arr"></div>
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 				}'
 			),
 	)); ?>
-	<div class="h2-header">Личные данные</div>
+	<div class="h2-header"><?= Yii::t('Front', 'Personal information'); ?></div>
 	<div class="xabina-form-container ">
 	   <div class="form-row clearfix">
 			<div class="col-lg-5 col-md-5 col-sm-5">
@@ -114,7 +114,7 @@
 		   </div>
 	   </div>
 	</div>
-	<div class="h2-header">Личные данные</div>
+	<div class="h2-header"><?= Yii::t('Front', 'Personal data'); ?></div>
 	<div class="xabina-form-container">
 		<div class="form-row clearfix">
 			<div class="col-lg-5 col-md-5 col-sm-5">
@@ -188,12 +188,12 @@
 			<div class="col-lg-5 col-md-5 col-sm-5">
 				<div class="offert-link">
 					<?= Yii::t('Front', 'You have read and agree to the'); ?>
-					<a href="<?= Yii::app()->createUrl('site/terms') ?>"><?= Yii::t('Front', 'terms & conditions of Xabina Online Banking'); ?></a>
+					<a target="_blank" href="<?= Yii::app()->createUrl('site/terms') ?>"><?= Yii::t('Front', 'terms & conditions of Xabina Online Banking'); ?></a>
 				</div>
 			</div>
 		</div>
 		<div class="form-submit">
-			<div class="submit-button button-next" onclick="js:next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)">Далее</div>
+			<div class="submit-button button-next" onclick="js:next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)"><?= Yii::t('Front', 'Next'); ?></div>
 		</div>
 	</div>
 	<?php $this->endWidget(); ?>

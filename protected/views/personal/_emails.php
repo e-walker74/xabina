@@ -24,7 +24,7 @@
         <th width="25%"><?= Yii::t('Front', 'Type'); ?></th>
         <th width="28%"><?= Yii::t('Front', 'Status'); ?></th>
         <th width="8%" class="edit-th">
-            <div class="table-close-btn"></div>
+            
         </th>
     </tr>
     <? foreach ($users_emails as $users_email): ?>

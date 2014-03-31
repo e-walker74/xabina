@@ -27,7 +27,7 @@ class Form_Registration extends CFormModel
 			array('first_name, last_name', 'match', 'pattern' => '/^[a-zA-Z\- ]{1,}$/', 'message' => Yii::t('Front', 'Add Your name using latin alphabet')),
 			array('last_name', 'required', 'message' => Yii::t('Front', 'Last Name is incorrect')),
 			array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
-			array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..')),
+			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('phone', 'authenticatePhone'),
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),

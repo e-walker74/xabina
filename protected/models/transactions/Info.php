@@ -10,11 +10,6 @@
  * @property string $sender
  * @property integer $sum
  * @property integer $curency_id
- * @property string $address
- * @property string $postal_code
- * @property string $country
- * @property string $transfer_from
- * @property string $account_payer
  * @property string $bic
  * @property string $data_bank
  * @property string $costs
@@ -40,12 +35,13 @@ class Transactions_Info extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('transaction_id, date, type, sender, value, address, postal_code, country, transfer_from, account_payer, bic, data_bank, costs', 'required'),
-			array('transaction_id, date, value', 'numerical', 'integerOnly'=>true),
-			array('type, sender, address, postal_code, country, transfer_from, account_payer, bic, data_bank, costs', 'length', 'max'=>255),
+			array('date, type, sender', 'required'),
+			array('transaction_id', 'numerical', 'integerOnly'=>true),
+			array('type, sender, bic, data_bank, costs', 'length', 'max'=>255),
+			array('details_of_payment', 'safe', 'on' => 'admin'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('transaction_id, date, type, sender, value, address, postal_code, country, transfer_from, account_payer, bic, data_bank, costs', 'safe', 'on'=>'search'),
+			array('transaction_id, date, type, sender, value, bic, data_bank, costs', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,11 +68,6 @@ class Transactions_Info extends CActiveRecord
 			'sender' => 'Sender',
 			'sum' => 'Sum',
 			'curency_id' => 'Curency',
-			'address' => 'Address',
-			'postal_code' => 'Postal Code',
-			'country' => 'Country',
-			'transfer_from' => 'Transfer From',
-			'account_payer' => 'Account Payer',
 			'bic' => 'Bic',
 			'data_bank' => 'Data Bank',
 			'costs' => 'Costs',

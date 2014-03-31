@@ -267,14 +267,8 @@
 								<div class="one_time_form">
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
-<<<<<<< HEAD
 										<?= $form->textField($model, 'xabina_execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
 										<?= $form->error($model, 'xabina_execution_time', array()); ?>
-=======
-										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-                                        <div class="clearfix"></div>
-										<?= $form->error($model, 'execution_time', array()); ?>
->>>>>>> b326cc0de6b61f03ba597ddaf31fe68073aef716
 									</div>
 									<div class="urgent-cont">
 										<label>
@@ -323,7 +317,7 @@
 							<?= $form->error($model, 'account_holder', array()); ?>
 							<?= $form->textField($model, 'external_account_number', array('autocomplete' => 'off', 'class' => 'acc-number', 'placeholder' => Yii::t('Front', 'Account Number'))); ?>
 							<?= $form->error($model, 'external_account_number', array()); ?>
-							<a href="#" class="addresses-button"><?= Yii::t('Front', 'Addresses'); ?></a>
+							<!--<a href="#" class="addresses-button"><?= Yii::t('Front', 'Addresses'); ?></a>-->
 						</div>
 						<div class="iban-block">
 						   <table class="iban-table">
@@ -383,14 +377,8 @@
 								<div class="one_time_form">
 									<div class="exec-date-cont">
 										<div class="lbl"><?= Yii::t('Front', 'Execution date') ?></div>
-<<<<<<< HEAD
 										<?= $form->textField($model, 'external_execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
 										<?= $form->error($model, 'external_execution_time', array()); ?>
-=======
-										<?= $form->textField($model, 'execution_time', array('autocomplete' => 'off', 'class' => 'exec-date with_datepicker')); ?>
-                                        <div class="clearfix"></div>
-										<?= $form->error($model, 'execution_time', array()); ?>
->>>>>>> b326cc0de6b61f03ba597ddaf31fe68073aef716
 									</div>
 									<div class="urgent-cont">
 										<label>

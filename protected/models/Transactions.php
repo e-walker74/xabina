@@ -15,7 +15,7 @@
 class Transactions extends ActiveRecord
 {
 	public $user_id;
-	public $account_id;
+	public $account_number;
 
 	/**
 	 * @return string the associated database table name
@@ -33,8 +33,11 @@ class Transactions extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('account_number', 'checkNumber', 'on' => 'admin'),
+			array('account_number', 'length', 'max' => 12, 'min' => 12, 'on' => 'admin'),
 			array('account_id, type, sum', 'required'),
 			array('account_id, sum', 'numerical', 'integerOnly'=>true),
+			array('operation', 'safe', 'on' => 'admin'),
 			array('type', 'in', 'range'=>array('positive', 'negative'), 'allowEmpty'=>false),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -42,6 +45,14 @@ class Transactions extends ActiveRecord
 		);
 	}
 
+	public function checkNumber($attribute, $params){
+		if(!AccountService::checkNumber($this->account_number)){
+			$this->addError('account_number', Yii::t('Transfers', 'Number is incorrect'));
+		} elseif(!Accounts::model()->find('number = :n', array(':n' => $this->account_number))) {
+			$this->addError('account_number', Yii::t('Transfers', 'This number not found in system'));
+		}
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */

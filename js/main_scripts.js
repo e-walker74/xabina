@@ -145,7 +145,7 @@ $(function(){
         $('html,body').animate({scrollTop: $($(this).attr('href')).offset().top}, 500);
     });
 	
-	delay = (function(){
+	/*delay = (function(){
 	  var timer = 0;
 	  return function(callback, ms){
 		clearTimeout (timer);
@@ -156,7 +156,7 @@ $(function(){
 	$('input').keyup(function() {
 		delay(function(){
 		  validateFormFields()
-		}, 500 );
+		}, 2000 );
 	});
 	
 	validateFormFields = function(){
@@ -188,6 +188,6 @@ $(function(){
 			data: form.serialize() + '&ajax' + '=' + form.attr('id'),
 			type: 'POST'
 		});
-	}
+	}*/
 
 });

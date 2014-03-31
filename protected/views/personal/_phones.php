@@ -24,7 +24,7 @@
         <th width="25%"><?= Yii::t('Front', 'Type'); ?></th>
         <th width="33%"><?= Yii::t('Front', 'Status'); ?></th>
         <th width="8%" class="edit-th">
-            <div class="table-close-btn"></div>
+            
         </th>
     </tr>
     <? foreach ($users_phones as $users_phone): ?>
@@ -42,6 +42,7 @@
                 <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
 					<a style="float:right" href="javaScript:void(0)" class="edit-add-button" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
 					<input type="text" name="code_activation" class="status-check-input" placeholder="<?= Yii::t('Front', 'Activation code'); ?>" />
+					<div class="error-message"></div>
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
 					<?php if($users_phone->hash): ?>
 					<a style="float:right" href="javaScript:void(0)" class="edit-add-button" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>

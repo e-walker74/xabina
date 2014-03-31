@@ -37,6 +37,16 @@ class Currencies extends CActiveRecord
 			array('id, code, title, last_value, last_update', 'safe', 'on'=>'search'),
 		);
 	}
+	
+	public static function convert($sum, $from, $to){
+		$from = Currencies::model()->find('code = :f', array(':f' => $from));
+		$to = Currencies::model()->find('code = :f', array(':f' => $to));
+
+		$eurFrom = $sum / $from->last_value;
+		$return = $eurFrom * $to->last_value;
+
+		return $return;
+	}
 
 	/**
 	 * @return array relational rules.

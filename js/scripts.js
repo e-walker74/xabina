@@ -423,6 +423,8 @@ $(function(){
 					var response = jQuery.parseJSON (data);
 					if(response.success){
 						location.reload()
+					} else {
+						$(link).parent().find('.error-message').html(response.message).fadeIn()
 					}
 				},
 				cache:false,

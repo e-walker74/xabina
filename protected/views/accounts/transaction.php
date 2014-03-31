@@ -17,6 +17,7 @@
 							<td width="80%"><?= $value ?></td>
 						</tr>
 						<?php endforeach; ?>
+						<?php if(count($trans->attachments)): ?>
 						<tr class="attachments">
 							<td class="name"><?= Yii::t('Front', 'Attachment') ?></td>
 							<td>
@@ -25,6 +26,7 @@
 								<?php endforeach; ?>
 							</td>
 						</tr>
+						<?php endif; ?>
 					</tbody></table>
 				</div>
 
@@ -90,7 +92,7 @@
 		<tbody>
 		<tr class="header-tr">
 			<td colspan="2">
-				<?= Yii::t('Front', 'Passport'); ?>
+				<?= Yii::t('Front', 'Attachments'); ?>:
 			</td>
 		</tr>
 		<tr class="form-tr">
@@ -103,8 +105,8 @@
 						</div>
 						<div class="field-input">
 							<div class="select-custom">
-								<span class="select-custom-label"><?= Yii::t('Front', 'Transaction documents'); ?> </span>
-								<?= $form->dropDownList($model, 'file_type', array('some_documents' => Yii::t('Front', 'Some documents')), array('class' => 'country-select select-invisible')); ?>
+								<span class="select-custom-label"><?= Yii::t('Front', 'Passport'); ?> </span>
+								<?= $form->dropDownList($model, 'file_type', array('passport' => Yii::t('Front', 'Passport'), 'identification_document' => Yii::t('Front', 'Identification Document'), 'driving_license' => Yii::t('Front', 'Driving License'), 'certificate' => Yii::t('Front', 'Birth Certificate'), ), array('class' => 'country-select select-invisible')); ?>
 								<span class="validation-icon"></span>
 							</div>
 							<?= $form->error($model, 'file_type', array()); ?>

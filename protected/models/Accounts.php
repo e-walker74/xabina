@@ -133,7 +133,7 @@ class Accounts extends ActiveRecord
 			$this->type_id = 1;
 			$this->status = 1;
 		}
-		return true;
+		return parent::beforeSave();
 	}
 	
 	public function getUserBalanceInEUR($number = false){

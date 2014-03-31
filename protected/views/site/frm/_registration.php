@@ -107,12 +107,12 @@
 
 <?php $this->endWidget(); ?>
 		<div class="popup-register-agreement">
-                            <a href="/terms"><?= Yii::t('Front', 'I read and agree to the terms & conditions'); ?></a>
+                            <a target="_blank" href="<?= Yii::app()->createUrl('site/terms') ?>"><?= Yii::t('Front', 'I read and agree to the terms & conditions'); ?></a>
                         </div>
 
-                        <div class="popup-register-login">
-                            Already have an account?
-                            <a href="/login">Log in</a>
+                        <div class="popup-register-login"> 
+                            <?= Yii::t('Front', 'Already have an account?'); ?>
+                            <a href="<?= Yii::app()->createUrl('/site/login') ?>"><?= Yii::t('Front', 'Log in'); ?></a>
                         </div>
 	</div>
 </div>

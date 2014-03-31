@@ -176,8 +176,7 @@
                     </label>
                   </div>
                   <div class="field-row">
-                    <div
-                                        class="violet-button-slim">
+                    <div class="violet-button-slim">
                       <?= Yii::t('Front', 'Upload selected files'); ?>
                     </div>
                   </div>

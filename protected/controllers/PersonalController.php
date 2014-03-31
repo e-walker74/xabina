@@ -392,6 +392,9 @@ class PersonalController extends Controller
 
     public function actionActivate($type)
     {
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
 		$model = Users::getModelByType($type)
 					->find('user_id = :user_id AND hash = :hash', 
 						array(
@@ -400,7 +403,8 @@ class PersonalController extends Controller
 						)
 					);
 		if(!$model){
-			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Activate code is incorrect')));
+			Yii::app()->end();
 		}
 		
 		if($model->status == 1 && $model->is_master == 0){

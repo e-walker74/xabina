@@ -293,16 +293,18 @@ class TransfersController extends Controller
             echo CActiveForm::validate($form);
             Yii::app()->end();
         }
-		
 		if(isset($_POST['Form_Smsconfirm']) && Yii::app()->request->isAjaxRequest ){
 			$confs = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			if(count($confs)){
 				$smsshot = Yii::app()->cache->get('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id);
-				if($smsshot > 3){
+				if(!$smsshot){
+					$smsshot = 1;
+				}
+				if($smsshot >= 3){
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Try in a hour')));
 					Yii::app()->end();
 				}elseif($confs[0]->confirm_code != (int)$_POST['Form_Smsconfirm']['code']){
-					//Yii::app()->cache->set('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id, $smsshot, 3600);
+					Yii::app()->cache->set('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id, ++$smsshot, 3600);
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Code is incorrect')));
 					Yii::app()->end();
 				} else{
@@ -358,7 +360,7 @@ class TransfersController extends Controller
 		} else {
 			$confirmations = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			if(empty($confirmations)){
-				throw new CHttpEcxeption(404, Yii::t('Page not found'));
+				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 			}
 		}
 		$num = substr($user->phone, -3, 3);

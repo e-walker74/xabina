@@ -77,9 +77,9 @@
 											<input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Login'); ?>"/>
 										</div>
                                         <div class="register-forgot-row">
-                                            <a href="#">Open an account</a>
+                                            <a href="<?= Yii::app()->createUrl('/site/registration') ?>"><?= Yii::t('Front', 'Open an account'); ?></a>
                                             /
-                                            <a href="#">Lost Password?</a>
+                                            <a href="<?= Yii::app()->createUrl('/site/remind') ?>"><?= Yii::t('Front', 'Lost Password?'); ?></a>
                                         </div>
 									</div>
 							<?php $this->endWidget(); ?>
