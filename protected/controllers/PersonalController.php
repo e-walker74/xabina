@@ -304,7 +304,7 @@ class PersonalController extends Controller
 			Yii::app()->end();
 		}
 		
-		$folder=Yii::app()->getBasePath(true) . '/../../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
+		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
 		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
 		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
 		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -390,11 +390,10 @@ class PersonalController extends Controller
 		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload));
 	}
 
-    public function actionActivate($type)
-    {
-		if(!Yii::app()->request->isAjaxRequest){
+    public function actionActivate($type){
+		/*if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-		}
+		}*/
 		$model = Users::getModelByType($type)
 					->find('user_id = :user_id AND hash = :hash', 
 						array(
@@ -416,18 +415,32 @@ class PersonalController extends Controller
 				$model->user->phone = $model->phone;
 			}
 			$model->hash = '';
+			if(!$model->user->validate()){
+				echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'This mobile primary for another account')));
+				Yii::app()->end();
+			}
 			if($model->user->save()){
 				if($master){
 					$master->is_master = 0;
 					$master->save();
 				}
 				$model->save();
-				Yii::app()->user->addNotification(
-					'is_master_new_'.$type, //код
-					$type.' "'. $model->user->email .'" is master',
-					'close', // возможность закрыть
-					'green' //желтая рамка
-				);
+				if($type == 'emails'){
+					Yii::app()->user->addNotification(
+						'is_master_new_'.$type, //код
+						$type.' "'. $model->user->email .'" is primary',
+						'close', // возможность закрыть
+						'green' //желтая рамка
+					);
+				} elseif($type == 'phones') {
+					Yii::app()->user->addNotification(
+						'is_master_new_'.$type, //код
+						'Phone "'. $model->user->phone .'" is primary',
+						'close', // возможность закрыть
+						'green' //желтая рамка
+					);
+				}
+				
 			}
 		} elseif($model->status == 0 && $model->is_master == 0) {
 			$model->hash = '';

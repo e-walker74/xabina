@@ -21,7 +21,7 @@
 			)); ?>
 		<?php endif; ?>
 		<?php if(Yii::app()->user->lastIp): ?>
-			 • IP:<?= Yii::app()->user->lastIp ?>
+			 • IP: <?= Yii::app()->user->lastIp ?>
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>

@@ -40,6 +40,11 @@
 							'type' => 'html',
 						),
 						array(
+							'header' => Yii::t('Front', 'Message'),
+							'value' => '$data->message',
+							'type' => 'html',
+						),
+						array(
 							'class'=>'CButtonColumn',
 							'viewButtonUrl'=>'Yii::app()->createUrl("/admin/messages/view", array("id" => $data->dialog_id))',
 							'template' => '{view}',

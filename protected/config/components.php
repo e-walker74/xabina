@@ -61,6 +61,7 @@ return array(
 		'class' => 'UrlManager',
         'showScriptName' => false,
         'rules' => array(
+			'/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
 			'/remindsuccess' => 'site/remindsuccess',
 			'/remind' => 'site/remind',
 			'/terms' => 'site/terms',
@@ -84,7 +85,7 @@ return array(
 			'/banking/personal/testsms' => 'personal/testsms',
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
-            '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
+            
 
             '/message/save/<type:(save|send|edit)>/<id:\d+>' => 'message/save',
             //'/message/reply/<dialog:\d+>/<id:\d+>' => 'message/reply',
@@ -98,7 +99,7 @@ return array(
 			'/banking/personal/uploadfile' => 'personal/uploadfile',
 			'/banking/personal/emailconfirm' => 'personal/emailconfirm',
 			'/banking/personal/makeprimary/<type:(emails)>/<id:\d+>' => 'personal/makeprimary', 
-            '/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
+            
 			'/transfers/smsconfirm/<type:(all)>' => 'transfers/smsconfirm',
 			'/transfers/smsconfirm/' => 'transfers/smsconfirm',
             '/message/save/<type:(save|send)>/<id:\d+>' => 'message/save',

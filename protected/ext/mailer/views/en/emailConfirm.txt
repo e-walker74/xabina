@@ -2,41 +2,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
         <meta http-equiv="Content-Language" content="ru" /> 
-        <title>Регистрация на сайте XABINA.COM</title>
+        <title>E-Mail confirmation at XABINA.COM</title>
     </head>
     <body>
-		<h2>Здравствуйте, <strong>{:userFullName}</strong></h2>
+		<h2>Dear, <strong>{:userFullName}</strong></h2>
 
 		<p>
-			Вы добавили {:type} к своему профилю, чтобы активировать пройдите по ссылке
+			You have added {:type} to your account. Please, finalize the activation procedure by open the following URL:
 		</p>
 		<p>
-			{:activateUrl}
-		</p>
-
-		<table border="0">
-				<tr>
-					<td style="padding: 10px;font-size: .8em;width: 150px">Логин:</td>
-					<td style="padding: 10px;font-size: .8em;width: 150px">Пароль:</td>
-				</tr>
-				<tr>
-					<td style="border:1px solid #e3e3e3;border-right: none;"><strong>{:userLogin}</strong></td>
-					<td style="border: 1px solid #e3e3e3;border-left: none;"><strong>{:userPassword}</strong></td>
-				</tr>	
-		</table>
-
-		<p>
-			Для активации профиля перейдите по ссылке:
-			<a href="{:activateUrl}" target="_blank">{:activateUrl}</a>
+			<a href="{:activateUrl}">{:activateUrl}</a>
 		</p>
 
 		<p>
-			Любые предложения, вопросы или замечания пишите на support@xabina.com
+			If you have any questions or experience problems, you can e-mail us at: support@xabina.com
 		</p>
 		<p>
-			Сообщение тестовое
+			If you got this e-mail by mistake, we strictly advise You to contact us as soon as possible at: security@xabina.com.
 		</p>
 		<p>-----</p>
-		<p style="color:#666666; font-size:.8em">С уважением, команда <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
+		<p style="color:#666666; font-size:.8em">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
     </body>
 </html>

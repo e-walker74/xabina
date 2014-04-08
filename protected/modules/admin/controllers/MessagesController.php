@@ -33,11 +33,16 @@ class MessagesController extends Controller
 			$mes->to_id = $messages->to_id;
 			$mes->dialog_id = $messages->dialog_id;
 			$mes->user_id = $messages->user_id;
+		} elseif($user_id = Yii::app()->request->getParam('user_id', '', 'int')){
+			
 		} else {
 			throw new CHttpException(404, Yii::t('Messages', 'Page not found'));
 		}
 		
 		if(isset($_POST['Messages'])){
+			if(isset($user_id)){
+				$mes->user_id = $user_id;
+			}
 			$mes->attributes = $_POST['Messages'];
 			$mes->from_id = 0;
 			$mes->draft = 0;

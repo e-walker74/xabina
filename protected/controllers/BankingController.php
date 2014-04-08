@@ -44,8 +44,9 @@ class BankingController extends Controller
 		$accounts = Accounts::model();
 		$accounts->user_id = Yii::app()->user->id;
 		
-		$transactions = Transactions::model();
+		$transactions = new Transactions('search');
 		$transactions->user_id = Yii::app()->user->id;
+		
 		$this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
     }
 
@@ -196,7 +197,7 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 		
-		$folder=Yii::app()->getBasePath(true) . '/../../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
+		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
 		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
 		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
 		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);

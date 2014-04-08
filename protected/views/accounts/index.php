@@ -38,8 +38,10 @@
 			),
 			array(
 				'header' => Yii::t('Front', 'Balance') . ' <span class="sort_arr"></span>',
-				'value' => 'number_format($data->balance, 0, "", " ");',
+				'value' => '($data->balance >= 0) ? "<span class=\"sum-inc\">".number_format($data->balance, 2, ".", " ")."</span>" : "<span class=\"sum-dec\">".number_format($data->balance, 2, ".", " ")."</span>"',
+				'htmlOptions' => array('style' => 'text-align:right;'),
 				'name' => 'balance',
+				'type' => 'html',
 			),
 			array(
 				'header' => Yii::t('Front', 'Currency'),

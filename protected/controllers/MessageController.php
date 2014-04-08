@@ -175,7 +175,7 @@ class MessageController extends Controller
         from_id=:from_id AND
         subject_id > 0 AND
         draft=0
-        ORDER BY updated_at DESC";
+        ORDER BY created_at DESC";
 
         $messages = Messages::model()->findAllBySql($sql, array(
                 ':user_id' => (int)Yii::app()->user->id,

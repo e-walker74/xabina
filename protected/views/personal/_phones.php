@@ -47,6 +47,7 @@
 					<?php if($users_phone->hash): ?>
 					<a style="float:right" href="javaScript:void(0)" class="edit-add-button" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)" ><?= Yii::t('Front', 'Check'); ?></a>
 					<input class="status-check-input" type="text" name="code_activation" placeholder="<?= Yii::t('Front', 'Make primary code'); ?>" />
+					<div class="error-message"></div>
 					<?php else: ?>
 					<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
 					<?php endif; ?>

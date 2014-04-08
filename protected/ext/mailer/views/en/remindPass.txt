@@ -2,22 +2,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
         <meta http-equiv="Content-Language" content="ru" /> 
-        <title>Регистрация на сайте XABINA.COM</title>
+        <title>Password reminder at XABINA.COM</title>
     </head>
     <body>
-		<h2>Здравствуйте, <strong>{:userFullName}</strong></h2>
-
-		<em style="padding:10px;border-left:1px solid #d8d8d8">Ваш почтовый адрес {:userEmail} был указан при регистрации  на сайте 
-		XABINA.COM {:date}.</em>
+		<h2>Dear, <strong>{:userFullName}</strong></h2>
 
 		<p>
-			На сайте xabina.com бы сделан запрос на восстановление пароля. Новые данные для входа в систему:
+			Someone requested the new password from your account at Xabina.com. You can find the new password below:
 		</p>
 
 		<table border="0">
 				<tr>
-					<td style="padding: 10px;font-size: .8em;width: 150px">Логин:</td>
-					<td style="padding: 10px;font-size: .8em;width: 150px">Пароль:</td>
+					<td style="padding: 10px;font-size: .8em;width: 150px">Username:</td>
+					<td style="padding: 10px;font-size: .8em;width: 150px">Password:</td>
 				</tr>
 				<tr>
 					<td style="border:1px solid #e3e3e3;border-right: none;"><strong>{:userLogin}</strong></td>
@@ -26,15 +23,13 @@
 		</table>
 
 		<p>
-			Для активации профиля перейдите по ссылке:
-			<a href="{:activateUrl}" target="_blank">{:activateUrl}</a>
+			If you have any questions or experience problems, you can e-mail us at: support@xabina.com
 		</p>
-
 		<p>
-			Любые предложения, вопросы или замечания пишите на support@xabina.com
+			If you got this e-mail by mistake, we strictly advise You to contact us as soon as possible at: security@xabina.com.
 		</p>
 
 		<p>-----</p>
-		<p style="color:#666666; font-size:.8em">С уважением, команда <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
+		<p style="color:#666666; font-size:.8em">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
     </body>
 </html>

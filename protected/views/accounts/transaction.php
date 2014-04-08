@@ -3,7 +3,7 @@
 	<table class="xabina-table-upload transaction-table-cont" id="printTable">
 		<tbody><tr class="header-tr">
 			<td>
-				<?= Yii::t('Front', 'Attachments') ?>
+				<?= Yii::t('Front', 'Transaction details') ?>
 			</td>
 		</tr>
 		<tr class="form-tr">

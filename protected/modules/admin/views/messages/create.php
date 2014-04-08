@@ -49,6 +49,42 @@
 						),
 					));
 				?>
+				<?php if(Yii::app()->request->getParam('user_id')): ?>
+				<div class="form-group">
+					<?php echo $form->labelEx($model, 'subject_id', array('class' => 'col-sm-3 control-label')); ?>
+					<div class="col-sm-6">
+						<?php echo $form->dropDownList($model, 'subject_id', CHtml::listData(Messages_Subject::model()->findAll(), 'id', 'title'), array('class' => 'form-control')); ?>
+					</div>
+					<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'type'); ?></div></div>
+				</div>
+				
+				<div class="form-group">
+					<?php echo $form->labelEx($model, 'from', array('class' => 'col-sm-3 control-label')); ?>
+					<div class="col-sm-6">
+						<?php echo $form->dropDownList($model, 'to_id', CHtml::listData(Messages_To::model()->findAll(), 'id', 'name'), array('class' => 'form-control')); ?>
+					</div>
+					<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'type'); ?></div></div>
+				</div>
+				
+				<?php else: ?>
+				
+				<div class="form-group">
+					<?php echo $form->labelEx($model, 'subject_id', array('class' => 'col-sm-3 control-label')); ?>
+					<div class="col-sm-6">
+						<?php echo $form->dropDownList($model, 'subject_id', CHtml::listData(Messages_Subject::model()->findAll(), 'id', 'title'), array('class' => 'form-control', 'disabled' => 'disables')); ?>
+					</div>
+					<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'type'); ?></div></div>
+				</div>
+				
+				<div class="form-group">
+					<?php echo $form->labelEx($model, 'to_id', array('class' => 'col-sm-3 control-label')); ?>
+					<div class="col-sm-6">
+						<?php echo $form->dropDownList($model, 'to_id', CHtml::listData(Messages_To::model()->findAll(), 'id', 'name'), array('class' => 'form-control', 'disabled' => 'disables')); ?>
+					</div>
+					<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'type'); ?></div></div>
+				</div>
+				
+				<?php endif; ?>
 				
 				<div class="form-group">
 					<?php echo $form->labelEx($model, 'message', array('class' => 'col-sm-3 control-label')); ?>

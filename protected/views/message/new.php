@@ -97,7 +97,7 @@
                 	<span class="select-custom-label"><?= empty($model->to->name) ?  Yii::t('Front', 'Choose') : $model->to->name; ?></span>
                     <?=$form->dropDownList($model, 'to_id', Messages_To::all(), array(
                                     'class' => 'country-select select-invisible',
-									'disabled' => empty($model->to->name) ? '' : 'disabled',
+									'disabled' => (empty($model->to->name) || $model->draft) ? '' : 'disabled',
                     )); ?>
               </div>
               <?= $form->error($model, 'to_id'); ?></td>
@@ -114,7 +114,7 @@
                     </span>
                     <?=$form->dropDownList($model, 'subject_id', Messages_Subject::all(), array(
                                     'class' => 'country-select select-invisible',
-									'disabled' => empty($model->subject->title) ? '' : 'disabled',
+									'disabled' => (empty($model->subject->title) || $model->draft) ? '' : 'disabled',
                     )); ?>
               </div>
               <?= $form->error($model, 'subject_id'); ?>

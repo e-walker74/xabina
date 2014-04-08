@@ -76,7 +76,7 @@
 							<tbody>
 							<tr class="header-tr">
 								<td colspan="2">
-									<?= Yii::t('Front', 'Passport'); ?>
+									<?= Yii::t('Front', 'Document 1'); ?>
 								</td>
 							</tr>
 							<tr class="form-tr">
@@ -239,7 +239,7 @@
 							<tbody>
 							<tr class="header-tr">
 								<td colspan="2">
-									<?= Yii::t('Front', 'Passport'); ?>
+									<?= Yii::t('Front', 'Document 2'); ?>
 								</td>
 							</tr>
 							<tr class="form-tr">
