@@ -9,17 +9,27 @@ class LogsController extends Controller
 		if(isset($_GET['Mail_Log'])){
 			$mail->attributes=$_GET['Mail_Log'];
 		}
-		
+
 		$this->render('mail', array('mail' => $mail));
 	}
-	
+
 	public function actionUsers(){
 		$logs = new Users_Log('search');
 		$logs->unsetAttributes();  // clear any default values
 		if(isset($_GET['Users_Log'])){
 			$logs->attributes=$_GET['Users_Log'];
 		}
-		
+
+		$this->render('users', array('logs' => $logs));
+	}
+
+    public function actionAdminsUsers(){
+		$logs = new Admin_Users_Log('search');
+		$logs->unsetAttributes();  // clear any default values
+		if(isset($_GET['Admin_Users_Log'])){
+			$logs->attributes=$_GET['Admin_Users_Log'];
+		}
+
 		$this->render('users', array('logs' => $logs));
 	}
 }

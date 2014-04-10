@@ -8,7 +8,7 @@ class MailerController extends Controller
 		$templates = MailerService::getTemplates();
 		$this->render('mails', array('mails' => $mails, 'templates' => $templates));
 	}
-	
+
 	public function actionUpdate($id){
 		$mail_template = MailTemplates::model()->findByPk($id);
 
@@ -20,4 +20,13 @@ class MailerController extends Controller
 		$templates = MailerService::getTemplates();
 		$this->render('update', array('model' => $mail_template, 'templates' => $templates['workFiles']));
 	}
+
+    public function actionTestSend(){
+        $template = Yii::app()->request->getParam('template');
+        $email = Yii::app()->request->getParam('email');
+        $mail = new Mail;
+        $user = Users::model()->findByPk(3);
+        if($mail->send($user, $template, array(), $email))
+            echo Yii::t('Mailer', 'Email was send');
+    }
 }

@@ -3,7 +3,7 @@
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
  */
-class Controller extends CController
+class Controller extends RController
 {
     public $layout='avant';
 
@@ -30,7 +30,7 @@ class Controller extends CController
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+			'rights', // perform access control for CRUD operations
 		);
 	}
 

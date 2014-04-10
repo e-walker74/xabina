@@ -89,7 +89,7 @@ class WebUser extends CWebUser {
 		if($this->getId() !== null ){
 			Yii::log(array('user_id' => $this->getId(), 'action' => 'getRole'), CLogger::LEVEL_ERROR, 'webUser');
 			$this->_model = $this->_getModel();
-			$this->setRole($this->model->role);
+			$this->setRole(Users::$roles[$this->model->role]);
 			return $this->getRole();
 		}
         else
@@ -196,7 +196,7 @@ class WebUser extends CWebUser {
         $this->id = $identity->getId();
         $user = $this->_getModel();
 
-        $this->setRole($user->role);
+        $this->setRole(Users::$roles[$user->role]);
 		$this->setEmail($user->email);
 		$this->setPhone($user->phone);
 		$this->setStatus($user->status);

@@ -27,7 +27,7 @@ class TransfersController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array('outgoing', 'overview', 'delete', 'smsverivicaiton', 'smsconfirm', 'success'),
-                'roles' => array('administrator')
+                'roles' => array('client')
             ),
             array('deny', // deny everybody else
                 'users' => array('*')

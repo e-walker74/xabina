@@ -1,5 +1,5 @@
 <div class="popup-register-cont">
-			
+
 
                     <div class="popup-register-block auth">
 
@@ -20,15 +20,12 @@
 							<?php $form=$this->beginWidget('CActiveForm', array(
 										'id'=>'login-from',
 										//'action' => Yii::app()->request->url,
-										'enableAjaxValidation'=>false,
-										'enableClientValidation'=>false,
-										'focus'=>array($model,'first_name'),
 										'enableAjaxValidation'=>true,
 										'enableClientValidation'=>true,
 										'focus'=>array($model,'first_name'),
 										'clientOptions'=>array(
 											  'validateOnSubmit'=>true,
-											  'afterValidate' => 'js:function(form, data, hasError) { 
+											  'afterValidate' => 'js:function(form, data, hasError) {
 												  if(hasError) {
 													  for(var i in data) {
 														$("#"+i).addClass("input-error");

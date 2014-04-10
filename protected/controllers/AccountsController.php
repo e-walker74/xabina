@@ -27,7 +27,7 @@ class AccountsController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array('index','cardbalance', 'transaction', 'uploadattachemnt','getattach','transactionsonpdf', 'getpdf'),
-                'roles' => array('administrator')
+                'roles' => array('client')
             ),
             array('deny', // deny everybody else
                 'users' => array('*')

@@ -19,6 +19,11 @@
 						'fromName',
 						'template',
 						'params',
+                        array(
+                            'header' => Yii::t('Mails', 'Send test'),
+                            'value' => 'CHtml::link("Send test email", "javascript:;", array("class" => "btn btn-default btn-block bootbox-test-mail", "data-template" => $data->code))',
+                            'type' => 'raw',
+                        ),
 						array(
 							'class'=>'CButtonColumn',
 							//'viewButtonUrl'=>'Yii::app()->createUrl("user/index", array("id" => $data->id))',
@@ -27,6 +32,7 @@
 								'update' => array(
 									'label' => '',
 									'imageUrl'=>false,  // make sure you have an image
+                                    'htmlOptions' => array('data-toggle' => 'modal')
 								),
 							),
 						)
@@ -35,4 +41,4 @@
 			</div>
 		</div>
 	</div>
-</div>	
+</div>

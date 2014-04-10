@@ -26,8 +26,6 @@ $(document).ready(
 
     prettyPrint(); //Apply Code Prettifier
 
-    $('.toggle').toggles({on:true});
-
     //EasyPieChart in rightbar
 
     try {

@@ -27,7 +27,7 @@ class BankingController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array('index', 'accountsactivation','uploadactivationfile','accountsactivationback', 'savefiles'),
-                'roles' => array('administrator')
+                'roles' => array('client'),
             ),
             array('deny', // deny everybody else
                 'users' => array('*')

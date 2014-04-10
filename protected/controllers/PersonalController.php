@@ -36,7 +36,7 @@ class PersonalController extends Controller
 					'makeprimary',
 					'testsms',
                 ),
-                'roles' => array('administrator')
+                'roles' => array('client')
             ),
             array('deny', // deny everybody else
                 'users' => array('*')

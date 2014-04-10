@@ -20,10 +20,12 @@ class Users extends ActiveRecord
 	const USER_EMAIL_IS_ACTIVE = 3;
 	const USER_IS_NOT_ACTIVE = 4;
 	
+	public static $roles = array(1 => 'individual', 2 => 'legalentity');
+	
     public $newpassword;
 	public $repassword;
     public $old_password;
-    public $reemail;
+    public $reemail;	
 
 	public static function getModelByType($type){
 		$className = 'Users_' . $type;

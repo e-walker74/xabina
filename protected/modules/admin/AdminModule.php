@@ -31,7 +31,6 @@ class AdminModule extends CWebModule
             'admin.services.*',
 			'core.widgets.*',
 			'admin.widgets.*',
-			'messages.models.*',
 		));
 	}
 
