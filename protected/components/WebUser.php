@@ -36,29 +36,9 @@ class WebUser extends CWebUser {
 			$user_id = Yii::app()->user->id;
 		}
 
-		if($this->getId() !== null ){
-			$notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
-				'code' => $code,
-				':uid' => $user_id,
-			));
-			if($notify){
-				return false;
-			}
-			$this->_model = $this->_getModel();
-			$notify = new Users_Notification();
-			$notify->user_id = $user_id;
-			$notify->code = $code;
-			$notify->message = $message;
-			$notify->type = $type;
-			$notify->style = $style;
-			if($notify->save()){
-				$this->_notifications = false;
-				return true;
-			}
-			return false;
-		}
-        else
-            return false;
+		$this->_notifications = false;
+		
+		Users::addNotification($code, $message, $type, $style, $user_id);
 	}
 	
 	public function removeNotification($code){

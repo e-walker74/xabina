@@ -36,7 +36,8 @@ class Transactions extends ActiveRecord
 			array('account_number', 'checkNumber', 'on' => 'admin'),
 			array('account_number', 'length', 'max' => 12, 'min' => 12, 'on' => 'admin'),
 			array('account_id, type, sum', 'required'),
-			array('account_id, sum', 'numerical', 'integerOnly'=>true),
+			array('account_id', 'numerical', 'integerOnly'=>true),
+			array('sum', 'type', 'type'=>'float'),
 			array('operation', 'safe', 'on' => 'admin'),
 			array('type', 'in', 'range'=>array('positive', 'negative'), 'allowEmpty'=>false),
 			// The following rule is used by search().
@@ -100,14 +101,15 @@ class Transactions extends ActiveRecord
 
 		$criteria->compare('account_id',$this->account_id);
 		$criteria->compare('account.user_id',$this->user_id);
-		$criteria->with = array('account');
+		$criteria->with = 'account';
 		$criteria->together = true;
-		$criteria->limit = 3;
-		$criteria->order = 't.created_at desc';
 		
+		$criteria->order = 't.created_at desc';
+		$criteria->limit = 5;
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination' => false,
 		));
 	}
 

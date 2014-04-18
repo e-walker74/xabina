@@ -23,7 +23,7 @@
 		<div class="xabina-bubble">
 			<span><?= Yii::t('Front', 'Thank you'); ?></span>
 			<br>
-			<?= Yii::t('Front', 'The verification process was successful. You see the status of the transaction can archive transaction'); ?>
+			<?= Yii::t('Front', 'The verification process was successful. <br/>You see the status of the transaction can archive transaction'); ?>
 
 			<div class="habina-bubble-arr"></div>
 		</div>

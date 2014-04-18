@@ -327,8 +327,9 @@ class TransfersController extends Controller
 				throw new CHttpException(404, Yii::t('Page not found'));
 			}
 		}
-	
+		
 		$code = rand(1000, 9999);
+		$user = Users::model()->findByPk(Yii::app()->user->id);
 		if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('type') == 'all'){
 			Transfers_Confirmation::model()->deleteAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
 			$transfers = Transfers_Outgoing::model()->findAll('user_id = :uid AND need_confirm = 1', array(':uid' => Yii::app()->user->id));
@@ -341,6 +342,7 @@ class TransfersController extends Controller
 				$ntc->active = 1;
 				$ntc->save();
 			}
+
 			if(Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1){
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			}
@@ -349,7 +351,6 @@ class TransfersController extends Controller
 		}
 	
 		$newConfirmations = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 0', array(':uid' => Yii::app()->user->id));
-		$user = Users::model()->findByPk(Yii::app()->user->id);
 		if(count($newConfirmations)){
 			Transfers_Confirmation::model()->deleteAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			Transfers_Confirmation::model()->updateAll(array('confirm_code' => $code, 'active' => 1), 'user_id = :uid AND active = 0', array(':uid' => Yii::app()->user->id));

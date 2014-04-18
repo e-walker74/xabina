@@ -40,6 +40,7 @@ class Users_Activation extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, step, first_name, last_name, address_line_1, zip_code, town, country_id', 'required'),
+			array('terms, fee_structure', 'in', 'range' => array(1), 'on' => 'terms', 'message' => Yii::t('Front', 'Do you not agree with rules?')),
 			array('user_id, step, created_at, updated_at, moderator_id, country_id', 'numerical', 'integerOnly'=>true),
 			array('zip_code', 'length', 'min' => 2, 'max' => 9, 'tooShort' => Yii::t('Front', 'Zip Code is too short'), 'tooLong' => Yii::t('Front', 'Zip Code is too long')),
 			array('address_line_1, address_line_2, town, first_name, last_name', 'length', 'max'=>255),
@@ -104,7 +105,7 @@ class Users_Activation extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('step',$this->step);
+		$criteria->compare('step', $this->step);
 		$criteria->compare('first_name',$this->first_name,true);
 		$criteria->compare('last_name',$this->last_name,true);
 		$criteria->compare('address_line_1',$this->address_line_1,true);

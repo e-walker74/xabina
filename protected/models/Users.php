@@ -19,19 +19,19 @@ class Users extends ActiveRecord
 	const USER_IS_ACTIVATED = 2;
 	const USER_EMAIL_IS_ACTIVE = 3;
 	const USER_IS_NOT_ACTIVE = 4;
-	
+
 	public static $roles = array(1 => 'individual', 2 => 'legalentity');
-	
+
     public $newpassword;
 	public $repassword;
     public $old_password;
-    public $reemail;	
+    public $reemail;
 
 	public static function getModelByType($type){
 		$className = 'Users_' . $type;
         return parent::model($className, true);
 	}
-	
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -83,7 +83,7 @@ class Users extends ActiveRecord
 			array('login, email, phone, role', 'safe', 'on' => 'admin'),
         );
     }
-	
+
 	public function authenticatePhone($attribute,$params)
 	{
 		//if(!$this->hasErrors())
@@ -130,7 +130,15 @@ class Users extends ActiveRecord
 			'notifications_active' => array(self::HAS_MANY, 'Users_Notification', 'user_id', 'condition' => 'closed = 0'),
 			'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
             'emails' => array(self::HAS_MANY, 'Users_Emails', 'user_id'),
+			'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id'),
 			'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
+            'vkontakte' => array(self::HAS_MANY, 'Users_Providers_Vkontakte', 'user_id'),
+            'facebook' => array(self::HAS_MANY, 'Users_Providers_Facebook', 'user_id'),
+            'linkedin' => array(self::HAS_MANY, 'Users_Providers_Linkedin', 'user_id'),
+            'twitter' => array(self::HAS_MANY, 'Users_Providers_Twitter', 'user_id'),
+            'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id'),
+			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'created_at asc'),
+			'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
         );
     }
 
@@ -206,7 +214,7 @@ class Users extends ActiveRecord
         $this->profile->delete();
         parent::afterDelete();
     }
-	
+
 	public function getFullName(){
 		$res = $this->login;
 		if($this->first_name && $this->last_name){
@@ -217,23 +225,55 @@ class Users extends ActiveRecord
 		}
 		return $res;
 	}
-	
+
 	public function createHash(){
 		$this->hash = md5(crc32('xabina was here' . $this->id . $this->email . time()));
 	}
-	
+
 	public function sendEmailConfirm(){
 		$mail = new Mail();
 		$this->createHash();
 		//$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
 	}
-	
-	public function addNotification($message, $type = 'close', $style = 'green'){
+
+	/*public function addNotification($message, $type = 'close', $style = 'green'){
 		$notify = new Users_Notification;
 		$notify->message = $message;
 		$notify->type = $type;
 		$notify->style = $style;
 		$notify->user_id = $this->id;
 		$notify->save();
+	}*/
+	
+	public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false){
+		if(!$user_id){
+			$user_id = Yii::app()->user->id;
+			$user = Users::model()->findByPk($user_id);
+		} else {
+			$user = Users::model()->findByPk(Yii::app()->user->id);
+		}
+		
+		$notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
+			'code' => $code,
+			':uid' => $user_id,
+		));
+		if($notify){
+			return false;
+		}
+		$notify = new Users_Notification();
+		$notify->user_id = $user_id;
+		$notify->code = $code;
+		$notify->message = $message;
+		$notify->type = $type;
+		$notify->style = $style;
+		if($notify->save()){
+			//$this->_notifications = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public static function removeNotification($code, $user_id){
+		Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
 	}
 }

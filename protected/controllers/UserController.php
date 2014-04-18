@@ -65,7 +65,7 @@ class UserController extends Controller
 				$phone->status = 0;
 				$phone->save();
 				
-				if(Yii::app()->sms->to($phone->phone)->body('Activation code: {code}', array('{code}' => $phone->hash))->send() != 1){
+				if(Yii::app()->sms->to($phone->phone)->body('Activation Code: {code} Xabina welcomes you! Please, activate mobile phone in the Settings tab of online banking.', array('{code}' => $phone->hash))->send() != 1){
 					Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 				}
 				

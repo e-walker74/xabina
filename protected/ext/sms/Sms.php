@@ -27,7 +27,7 @@ class SMS extends CComponent
 	}
 	
 	public function send(){
-		return true;
+		return 1;
 		$this->_operation = 'send';
 		$data = $this->generateRquest();
 		// application/xwww8form8urlencoded
@@ -40,7 +40,7 @@ class SMS extends CComponent
 		$result = curl_exec($ch);
 		curl_close($ch);
 		return $result;
-		
+
 		//'&USERNAME=********&PASSWORD=********&DESTINATION=316********&SENDER=Spryng&ROUTE=BUSINESS&BODY=test&ALLOWLONG=1'
 	}
 	

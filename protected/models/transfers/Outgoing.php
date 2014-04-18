@@ -32,6 +32,7 @@
 class Transfers_Outgoing extends ActiveRecord
 {
 
+	public static $charges = array('1' => 'Shared (mandatory for EC payments)', 2 => 'Receiver pays the fees', 3 => 'Sender pays the fees');
 	public static $periods = array(1 => 'Day(s)', 2 => 'Week(s)', 3 => 'Month(s)');
 	public $amount_cent;
 	public $xabina_execution_time;
@@ -70,7 +71,7 @@ class Transfers_Outgoing extends ActiveRecord
 			array('user_id, currency_id, account_id, country_id', 'length', 'max'=>10),
 			array('send_to', 'length', 'max'=>8),
 			//array('execution_time, start_time, end_time, xabina_execution_time, xabina_start_time, xabina_end_time, external_execution_time, external_start_time, external_end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time())),
-			array('execution_time, start_time, end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time()), 'on' => 'insert', 'message' => Yii::t('Front', 'Date in not correct')),
+			array('execution_time, start_time, end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time()), 'on' => 'own,xabina,external', 'tooSmall' => Yii::t('Front', 'Date in not correct')),
 			array('account_holder, swift, bank_beneficiary, postcode, external_account_number', 'length', 'max'=>255),
 			array('description, amount, amount_cent, currency_id, account_id, send_to, execution_time, each_transfer, each_period, start_time, end_time, urgent', 'safe'),
 			array('own_account_id', 'safe', 'on' => 'own'),
@@ -122,6 +123,9 @@ class Transfers_Outgoing extends ActiveRecord
 	}
 
 	public function beforeSave(){
+		if($this->amount_cent){
+			$this->amount = $this->amount.'.'.$this->amount_cent;
+		}
 		if($this->isNewRecord){
 			$this->user_id = Yii::app()->user->id;
 		}

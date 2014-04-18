@@ -77,8 +77,11 @@ class Transactions_Info extends CActiveRecord
 	public function getPublicAttrs(){
 		$attrs = array();
 		foreach($this->attributes as $key => $value){
-			if($key != 'transaction_id' && $value){
+			if($key != 'transaction_id' && $key != 'charges' && $value){
 				$attrs[$this->getAttributeLabel($key)] = $value;
+			}
+			if($key == 'charges' && $value){
+				$attrs[$this->getAttributeLabel($key)] = Transfers_Outgoing::$charges[$value];
 			}
 		}
 		return $attrs;

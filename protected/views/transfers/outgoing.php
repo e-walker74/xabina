@@ -86,7 +86,6 @@
 						<span class="delimiter">.</span>
 						<?= $form->textField($model, 'amount_cent', array('autocomplete' => 'off', 'class' => 'amount-cent', 'maxlength'=>2)); ?>
 						<?= $form->error($model, 'amount', array()); ?>
-						<?= $form->error($model, 'amount_cent', array()); ?>
                         </div>
 
 						<div class="amount-currency">
@@ -186,8 +185,8 @@
 						</div>
 						<div class="form-cont">
 						<div class="own-description-cont">
-							<div class="own-description-lbl"><?= Yii::t('Front', 'Description'); ?> <span>(0/140)</span></div>
-							<?= $form->textArea($model, 'description', array('autocomplete' => 'off', 'class' => 'own-descrition')); ?>
+							<div class="own-description-lbl"><?= Yii::t('Front', 'Description'); ?> <span>(<span class="len1-num">0</span>/140)</span></div>
+							<?= $form->textArea($model, 'description', array('autocomplete' => 'off', 'class' => 'own-descrition len1')); ?>
 						</div>
 							<div class="recurrence-form">
 								<div class="recurrence-select">
@@ -256,8 +255,8 @@
 						</div>
 						<div class="form-cont">
 							<div class="own-description-cont">
-								<div class="own-description-lbl"><?= Yii::t('Front', 'Description'); ?> <span>(0/140)</span></div>
-								<?= $form->textArea($model, 'description', array('autocomplete' => 'off', 'class' => 'own-descrition')); ?>
+								<div class="own-description-lbl"><?= Yii::t('Front', 'Description'); ?> <span>(<span class="len2-num">0</span>/140)</span></div>
+								<?= $form->textArea($model, 'description', array('autocomplete' => 'off', 'class' => 'own-descrition len2')); ?>
 							</div>
 							<div class="recurrence-form">
 								<div class="recurrence-select">
@@ -366,8 +365,8 @@
 						</div>
 						<div class="form-cont">
 							<div class="own-description-cont">
-								<div class="own-description-lbl"><?= Yii::t('Front', 'Description'); ?> <span>(0/140)</span></div>
-								<?= $form->textArea($model, 'description', array('autocomplete' => 'off', 'class' => 'own-descrition')); ?>
+								<div class="own-description-lbl"><?= Yii::t('Front', 'Description'); ?> <span>(<span class="len3-num">0</span>/140)</span></div>
+								<?= $form->textArea($model, 'description', array('autocomplete' => 'off', 'class' => 'own-descrition len3')); ?>
 							</div>
 							<div class="recurrence-form">
 								<div class="recurrence-select">
@@ -417,7 +416,7 @@
 							<div class="lbl"><?= Yii::t('Front', 'Charges'); ?></div>
 							<div class="select-custom select-charges">
 								<span class="select-custom-label"><?= Yii::t('Front', 'Shared (mandatory for EC payments)'); ?></span>
-								<?= $form->dropDownList($model, 'charges', array('1' => Yii::t('Front', 'Shared (mandatory for EC payments)'), 2 => Yii::t('Front', 'Receiver pays the fees'), 3 => Yii::t('Front', 'Sender pays the fees')), array('class' => 'select-invisible country-select')); ?>
+								<?= $form->dropDownList($model, 'charges', Transfers_Outgoing::$charges, array('class' => 'select-invisible country-select')); ?>
 							</div>
 						</div>
 						<input name="Transfers_Outgoing[send_to]" id="Transfers_Outgoing_send_to" type="hidden" value="external">
@@ -433,7 +432,9 @@
 		<?php $this->endWidget(); ?>
 	</div>
 </div>
+<?php Yii::app()->clientScript->registerScriptFile('/js/jquery.limit.js'); ?>
 <?php Yii::app()->clientScript->registerScriptFile('/js/transfers.js'); ?>
+
 <?php if(!$model->isNewRecord):?>
 <script>
 $(document).ready(function(){

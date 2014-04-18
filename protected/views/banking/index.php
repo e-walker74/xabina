@@ -42,9 +42,11 @@
 				'footerHtmlOptions'=>array('class' => 'totals-lbl'),
 			),
 			array(
+				'htmlOptions' => array('style' => 'text-align:right;'),
 				'header' => Yii::t('Front', 'Balance') . ' <span class="sort_arr"></span>',
-				'value' => 'number_format($data->balance, 0, "", " ");',
+				'value' => '($data->balance >= 0) ? "<span class=\"sum-inc\">".number_format($data->balance, 2, ".", " ")."</span>" : "<span class=\"sum-dec\">".number_format($data->balance, 2, ".", " ")."</span>"',
 				'name' => 'balance',
+				'type' => 'html',
 				'footer' => $accounts->getUserBalanceInEUR(),
 			),
 			array(
@@ -66,13 +68,14 @@
 		'emptyText' => Yii::t('Front', 'Transactions not found'),
 		'columns'=>array(
 			array(
-				'header' => Yii::t('Front', 'Time'),
-				'value' => 'date("d.m.Y", $data->created_at) . "<br/>" . date("G:i", $data->created_at)',
+				'header' => Yii::t('Front', 'Date'),
+				'value' => 'date("d.m.Y", $data->created_at)',
 				'type' => 'html',
 			),
 			array(
-				'header' => Yii::t('Front', 'Operation'),
-				'value' => '$data->operation',
+				'header' => Yii::t('Front', 'Description'),
+				'value' => '"<b>" . $data->info->sender . "</b>" . "<br/>" . $data->operation',
+				'type' => 'html',
 			),
 			array(
 				'header' => Yii::t('Front', 'Account number'),
@@ -80,7 +83,8 @@
 			),
 			array(
 				'header' => Yii::t('Front', 'Balance'),
-				'value' => '($data->type = "positive") ? "<span class=\"sum-inc\">+".number_format($data->sum, 0, "", " ")."</span>" : "<span class=\"sum-dec\">-".number_format($data->sum, 0, "", " ")."</span>"',
+				'htmlOptions' => array('style' => 'text-align:right;'),
+				'value' => '($data->type == "positive") ? "<span class=\"sum-inc\">+".number_format($data->sum, 2, ".", " ")."</span>" : "<span class=\"sum-dec\">-".number_format($data->sum, 2, ".", " ")."</span>"',
 				'type' => 'html',
 			),
 			array(

@@ -11,12 +11,12 @@ return array(
 			'86.57.147.222',
 			'93.84.11.20',
 			'91.187.24.230',
-			'86.57.198.45',
+			'81.25.36.145',
             '::1',
             '127.0.0.1'),
     ),
     'admin',
-    'rights'=>array(
+    /*'rights'=>array(
 		'superuserName'=>'SuperUser', // Name of the role with super user privileges.
 		'authenticatedName'=>'Authenticated', // Name of the authenticated user role.
 		'userIdColumn'=>'id', // Name of the user id column in the database.
@@ -33,6 +33,6 @@ return array(
 		'install'=>false, // Whether to enable installer.
 		'debug'=>false, // Whether to enable debug mode.
         'userClass' => 'Users',
-	),
+	),*/
 );
 ?>

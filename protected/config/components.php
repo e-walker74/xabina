@@ -5,6 +5,7 @@ return array(
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
+    'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'notify' => array(
         'class' => 'core.components.QUserNotify',
     ),
@@ -61,6 +62,7 @@ return array(
 		'class' => 'UrlManager',
         'showScriptName' => false,
         'rules' => array(
+			'/gii' => 'gii',
 			'/remindsuccess' => 'site/remindsuccess',
 			'/remind' => 'site/remind',
 			'/terms' => 'site/terms',
@@ -86,7 +88,7 @@ return array(
             '/banking/personal/editaddress' => 'personal/editaddress',
             '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
 
-            '/message/save/<type:(save|send|edit)>/<id:\d+>' => 'message/save',
+            '/message/save/<type:(save|send|edit|socials)>/<id:\d+>' => 'message/save',
             //'/message/reply/<dialog:\d+>/<id:\d+>' => 'message/reply',
             '/message/view/<id:\d+>' => 'message/view',
             '/message/cancel/<id:\d+>' => 'message/cancel',

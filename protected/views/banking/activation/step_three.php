@@ -13,8 +13,81 @@
 		<div class="step-arr"></div>
 	</div>
 </div>
-<div class="xabina-bubble">
-	<span><?= Yii::t('Front', 'Thank you!'); ?></span><br>
-	<?= Yii::t('Front', 'You have completed the process of activating the account. In the near future your profile will be activated <br> and you will receive a message to your email address.'); ?>
-	<div class="habina-bubble-arr"></div>
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'activation-form-step-3',
+	//'action' => Yii::app()->createUrl('/banking/savefiles').'/',
+	'enableAjaxValidation'=>true,
+	'enableClientValidation'=>true,
+	'errorMessageCssClass' => 'error-message',
+	'htmlOptions' => array(
+		'class' => 'form-validable',
+		'enctype' => 'multipart/form-data'
+	),
+	'clientOptions'=>array(
+		'validateOnSubmit'=>true,
+		'validateOnChange'=>true,
+		'errorCssClass'=>'input-error',
+		'successCssClass'=>'valid',
+		'afterValidate' => 'js:function(form, data, hasError) {
+			form.find("input").removeClass("input-error");
+			form.find("input").parent().removeClass("input-error");
+			form.find(".validation-icon").fadeIn();
+			if(hasError) {
+				form.removeClass("success");
+				for(var i in data) {
+					form.find("#"+i).addClass("input-error");
+					form.find("#"+i).parent().addClass("input-error");
+					form.find("#"+i).next(".validation-icon").fadeIn();
+				}
+				return false;
+			}
+			else {
+				return true;
+			}
+		}',
+		'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
+			if(hasError){
+				form.removeClass("success");
+				if(!form.find("#"+attribute.id).hasClass("input-error")){
+					form.find("#"+attribute.id+"_em_").hide().slideDown();
+				}
+				form.find("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
+				form.find("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
+				form.find("#"+attribute.id).next(".validation-icon").fadeIn();
+			} else {
+				if(form.find("#"+attribute.id).hasClass("input-error")){
+					form.find("#"+attribute.id+"_em_").show().slideUp();
+				}
+				form.find("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error"); 
+				form.find("#"+attribute.id).next(".validation-icon").fadeIn();
+				form.find("#"+attribute.id).addClass("valid");
+			}
+		}'
+	),
+)); ?>
+<div class="subheader"><?= Yii::t('Front', 'Terms &amp; Conditions') ?></div>
+<div class="xabina-form-container">
+	<div class="agreement-text">
+		<?= Yii::t('Front', '{termsConditionsText}'); ?>
+	</div>
+	<label class="agreement-check">
+		<?= $form->checkBox($activation, 'terms'); ?>
+		<?= Yii::t('Front', 'I have read and agree to the terms &amp; conditions'); ?>
+		<?= $form->error($activation, 'terms'); ?>
+	</label>
+	<div class="subheader"><?= Yii::t('Front', 'Fee structure'); ?></div>
+
+	<div class="agreement-text">
+		<?= Yii::t('Front', '{feeStructure}'); ?>
+	</div>
+	<label class="agreement-check">
+		<?= $form->checkBox($activation, 'fee_structure'); ?>
+		<?= Yii::t('Front', 'I have read and agree to the terms &amp; conditions'); ?>
+		<?= $form->error($activation, 'fee_structure'); ?>
+	</label>
+	<div class="form-submit">
+		<div onclick="js:next('<?= Yii::app()->createUrl('/banking/accountsactivation').'/' ?>', this)" class="submit-button button-next activate" ><?= Yii::t('Front', 'Activate') ?></div>
+	</div>
 </div>
+<?php $this->endWidget(); ?>
+	

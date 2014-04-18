@@ -1,6 +1,6 @@
-<div class="col-lg-9 col-md-9 col-sm-9" >  
+<div class="col-lg-9 col-md-9 col-sm-9" >
 	<div class="h1-header"><?= Yii::t('Front', 'My personal cabinet'); ?></div>
-	
+
 	<?php $this->widget('XabinaAlert'); ?>
 
 	<table class="table xabina-table table-account">
@@ -40,6 +40,33 @@
 			</td>
 			<td>
 				<a href="<?= Yii::app()->createUrl('/personal/editaddress') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+        <tr>
+			<td class="header"><?= Yii::t('Front', 'Manage soccial networks'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Edit social netrworks'); ?>
+			</td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editsocials') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Manage instant messager services'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Edit instant messager services'); ?>
+			</td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editmessagers') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+			</td>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Manage Security Questions'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Edit security questions list'); ?>
+			</td>
+			<td>
+				<a href="<?= Yii::app()->createUrl('/personal/editqustions') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
 			</td>
 		</tr>
 	</table>

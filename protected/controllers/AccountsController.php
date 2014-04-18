@@ -126,7 +126,7 @@ class AccountsController extends Controller
 			echo CJSON::encode(array('success' => false));
 		}
 		
-		$folder=Yii::app()->getBasePath(true) . '/../../documents/'.Yii::app()->user->id.'/attachments/'; // folder for uploaded files
+		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/attachments/'; // folder for uploaded files
 		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
 		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
 		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
@@ -164,7 +164,7 @@ class AccountsController extends Controller
 		if(!$model){
 			throw new CHttpException(404, Yii::t('Admin', 'Page not found'));
 		}
-		$file=Yii::app()->getBasePath(true) . '/../../documents/'.$user_id.'/attachments/'.$model->name;
+		$file=Yii::app()->getBasePath(true) . '/../documents/'.$user_id.'/attachments/'.$model->name;
 		if (file_exists($file)) {
 			// сбрасываем буфер вывода PHP, чтобы избежать переполнения памяти выделенной под скрипт
 			// если этого не сделать файл будет читаться в память полностью!
@@ -213,7 +213,7 @@ class AccountsController extends Controller
 			$mpdf = new mpdf('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
 			$mpdf->charset_in = 'utf-8'; /*не забываем про русский*/
 
-			$stylesheet = file_get_contents('http://xabina.intwall.com/css/pdf/style.css'); /*подключаем css*/
+			$stylesheet = file_get_contents('http://xabina.com/css/pdf/style.css'); /*подключаем css*/
 			$mpdf->WriteHTML($stylesheet, 1);
 			
 			$mpdf->list_indent_first_level = 0; 
@@ -232,12 +232,12 @@ class AccountsController extends Controller
 			</div>');
 			$mpdf->WriteHTML($html, 2); /*формируем pdf*/
 			
-			ob_start();
+			//ob_start();
 			$mpdf->Output('transactions.pdf', 'I');
-			$template = ob_get_contents();
-			ob_end_clean();
-			Yii::app()->cache->set('pdf_generator_'.$key.Yii::app()->user->id, $template, 3600*24);
-			$this->redirect(array('accounts/getpdf', 'md5' => $key));
+			//$template = ob_get_contents();
+			//ob_end_clean();
+			//Yii::app()->cache->set('pdf_generator_'.$key.Yii::app()->user->id, $template, 3600*24);
+			//$this->redirect(array('accounts/getpdf', 'md5' => $key));
 		}
 		Yii::app()->end();
 	}

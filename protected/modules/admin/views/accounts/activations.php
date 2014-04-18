@@ -20,7 +20,7 @@
 					//'htmlOptions' => array('class' => 'table table-striped table-bordered datatables'),
 					'itemsCssClass' => 'table table-striped table-bordered datatables',
 					'filter'=>$activations,
-					'rowCssClassExpression' => '($data->step == 3) ? "to-moderator" : (($data->step == 4) ? "ok" : "")',
+					'rowCssClassExpression' => '($data->step == 4) ? "to-moderator" : (($data->step == 7) ? "ok" : "")',
 					'summaryCssClass' => 'dataTables_info',
 					'template' => '{items}
 									<div class="row">

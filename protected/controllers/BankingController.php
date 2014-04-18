@@ -41,11 +41,13 @@ class BankingController extends Controller
      */
     public function actionIndex()
     {
+		
 		$accounts = Accounts::model();
 		$accounts->user_id = Yii::app()->user->id;
 		
-		$transactions = Transactions::model();
+		$transactions = new Transactions('search');
 		$transactions->user_id = Yii::app()->user->id;
+		
 		$this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
     }
 
@@ -53,7 +55,9 @@ class BankingController extends Controller
 		if(Yii::app()->request->isAjaxRequest && isset($_POST['deleteFile'])){
 			$activation = Users_Activation::model()->findByPk(Yii::app()->user->id);
 			if($activation->step == 2){
-				$file = Users_Files::model()->find('name = :name AND user_id = :user_id', array(':name' => $_POST['deleteFile'], ':user_id' => Yii::app()->user->id));
+				$file = Users_Files::model()->find('name = :name AND user_id = :user_id', 
+					array(':name' => $_POST['deleteFile'], ':user_id' => Yii::app()->user->id)
+				);
 				if($file){
 					$file->deleted = 1;
 					$file->save();
@@ -79,6 +83,8 @@ class BankingController extends Controller
 			Yii::app()->end();
 		} elseif($activation->step == 3){
 			$this->activationStepThree($activation);
+		} elseif($activation->step == 4){
+			$this->activationStepFour($activation);
 		}else{
 			$this->redirect(array('/banking'));
 			Yii::app()->end();
@@ -101,7 +107,7 @@ class BankingController extends Controller
             Yii::app()->end();
         }
 		
-		if(isset($_POST['Form_Activation'])){
+		if(isset($_POST['Form_Activation']) && Yii::app()->request->isAjaxRequest){
 			$validate = CActiveForm::validate($activationForm);
 			if($validate !== '[]'){
 				echo $validate;
@@ -160,8 +166,6 @@ class BankingController extends Controller
 			if($success){
 				$activation->step = 3;
 				$activation->save();
-				Yii::app()->user->removeNotification('activate_your_account');
-				Yii::log('User was loging and confirm email. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
 				$this->activationStepThree($activation, true);
 			}
 			Yii::app()->end();
@@ -178,8 +182,47 @@ class BankingController extends Controller
 	}
 	
 	public function activationStepThree($activation, $partial = false){
+		// term and conditions from
+		$activation->scenario = 'terms';
+		
+		if(Yii::app()->request->isAjaxRequest && isset($_POST['Users_Activation']) && Yii::app()->request->getParam('ajax') == 'activation-form-step-3'){
+			echo CActiveForm::validate($activation);
+            Yii::app()->end();
+		}
+		
+		if(isset($_POST['Users_Activation']) && Yii::app()->request->isAjaxRequest){
+			$validate = CActiveForm::validate($activation);
+			if($validate !== '[]'){
+				echo $validate;
+			} else {
+				$activation->attributes = $_POST['Users_Activation'];
+				if($activation->save()){
+					$activation->step = 4;
+					$activation->save();
+					$this->activationStepFour($activation, true);
+				} else {
+					d($activation->getErrors());
+					die;
+				}
+			}
+			Yii::app()->end();
+		}
+		
 		if($partial){
 			$html = $this->renderPartial('activation/step_three', array('activation' => $activation), true, true);
+			$arr = array('html' => $html, 'success' => true);
+			echo CJSON::encode($arr);
+			Yii::app()->end();
+		}
+		
+		$this->render('activation', array('activation' => $activation));
+	}
+	
+	public function activationStepFour($activation, $partial = false){
+		Yii::app()->user->removeNotification('activate_your_account');
+		Yii::log('User was loging and confirm email. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
+		if($partial){
+			$html = $this->renderPartial('activation/step_four', array('activation' => $activation), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();
@@ -196,7 +239,7 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 		
-		$folder=Yii::app()->getBasePath(true) . '/../../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
+		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
 		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
 		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
 		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);

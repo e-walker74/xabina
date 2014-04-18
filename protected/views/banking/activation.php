@@ -5,6 +5,8 @@
 		<?php $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'model' => $model, 'activation' => $activation)); ?>
 	<?php elseif($activation->step == 3): ?>
 		<?php $this->renderPartial('activation/step_three', array('activation' => $activation)); ?>
+	<?php elseif($activation->step == 4): ?>
+		<?php $this->renderPartial('activation/step_four', array('activation' => $activation)); ?>
 	<?php endif; ?>
 </div>
 <?php Yii::app()->clientScript->registerScriptFile('/js/activation.js'); ?>

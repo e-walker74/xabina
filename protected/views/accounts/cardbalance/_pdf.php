@@ -69,7 +69,7 @@
             </tr>
 			<?php foreach($transactions as $trans): ?>
 			<tr>
-                <td><?= date('d.m.Y', strtotime($trans->created_at)) ?></td>
+                <td><?= date('d.m.Y', $trans->created_at) ?></td>
                 <td><?= $trans->info->type ?></td>
                 <td>
                     <strong><?= $trans->info->sender ?></strong> <br>

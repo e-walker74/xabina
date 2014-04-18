@@ -2,14 +2,10 @@
     'id' => 'user_datas',
     'enableAjaxValidation' => false,
     'enableClientValidation' => true,
-    //'action' => $this->createUrl('personal/editemails'),
     'errorMessageCssClass' => 'error-message',
     'htmlOptions' => array(
         'class' => 'form-validable',
-        //'onsubmit'=>"return false;",/* Disable normal form submit */
-        //'onkeypress'=>" if(event.keyCode == 13){ send(); } "
     ),
-    //'focus'=>array($model,'first_name'),
     'clientOptions' => array(
         'validateOnSubmit' => true,
         'validateOnChange' => true,
@@ -18,7 +14,7 @@
     ),
 )); ?>
 
-<table class="table  xabina-table-edit">
+<table class="table  xabina-table-personal">
     <tr class="table-header">
         <th width="39%"><?= Yii::t('Front', 'E-Mail'); ?></th>
         <th width="25%"><?= Yii::t('Front', 'Type'); ?></th>
@@ -28,6 +24,29 @@
         </th>
     </tr>
     <? foreach ($users_emails as $users_email): ?>
+		<? if($users_email->status == 0 && $users_email->is_master == 0):?>
+		<tr class="email-comment-tr">
+			<td colspan="4">
+				<div class="comment-bg">
+				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
+				<br>
+					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))"><?= Yii::t('Front', 'Send new activation link'); ?></a>
+				</div>
+				<div class="comment-arr"></div>
+			</td>
+		</tr>
+		<? elseif ($users_email->status == 1 && $users_email->is_master == 0 && $users_email->hash):?>
+		<tr class="email-comment-tr">
+			<td colspan="4">
+				<div class="comment-bg">
+				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
+				<br>
+					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))"><?= Yii::t('Front', 'Send new activation link'); ?></a>
+				</div>
+				<div class="comment-arr"></div>
+			</td>
+		</tr>
+		<?php endif; ?>
         <tr>
             <td><?= $users_email->email ?></td>
             <td>
@@ -38,34 +57,39 @@
                </div>
             </td>
             <td>
-            	<span class="primary">
+            	
                 <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-                	<?= Yii::t('Front', 'Pending activation'); ?>
+                	<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))" class="verify"><?= Yii::t('Front', 'Verify') ?></a>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-                	<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
-                	<b><?= Yii::t('Front', 'Primary'); ?></b>
-                <? endif;?></span>
+                <span class="primary">
+					<b><?= Yii::t('Front', 'Primary'); ?></b>
+				</span>
+                <? endif;?>
             </td>
-            <td class="remove-td">
-                <div class="remove-btn"></div>
+			<?php if(!$users_email->is_master): ?>
+            <td class="remove-td actions-td">
+                <a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this email from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>', this) : false;" class="remove-btn"></a>
             </td>
+			<?php else: ?>
+			<td></td>
+			<?php endif; ?>
             <input type="hidden" name="delete[<?= $users_email->id ?>]" class="delete" value="0"/>
             <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
-    <tr style="display:none; background:#CEFFCE" class="line-template">
-        <td class="item">email</td>
-        <td class="item">type_id</td>
-        <td><?= Yii::t('Front', 'Pending activation'); ?></td>
-        <td class="remove-td">
-            <div class="remove-btn"></div>
-        </td>
-        <input type="hidden" name="email[]" class ="email item" data-v="email" value=""/>
-        <input type="hidden" name="type[]" class="type item" data-v="type_id"  value=""/>
-	    <input type="hidden" name="delete[]" class="delete" value="0"/>
-    </tr>
-    <tr>
+	<tr>
+			<td class="add-new-td" colspan="5">
+				<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+			</td>
+		</tr>
+		<tr class="prof-form" style="overflow: hidden;">
+			<td colspan="5" class="table-form-subheader">
+				<div class="table-subheader"><?= Yii::t('Front', 'Add E-Mail'); ?></div>
+			</td>
+		</tr>
+	<tr class="prof-form emails-form-tr">
         <td>
             <div class="field-row">
                 <div class="field-lbl">
@@ -96,22 +120,18 @@
 
                     </div>
                     <?= $form->error($model_emails, 'email_type_id'); ?>
-                    <span class="validation-icon"></span>
                 </div>
             </div>
-            <div class="edit-add-button"
-                 onclick="js:add_temp_user_datas('<?= $this->createUrl('personal/editemails', array('ajax' => 'user_datas')) ?>', this)">
-                <?= Yii::t('Front', 'Add'); ?>
-            </div>
+            <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
         </td>
     </tr>
 </table>
 <div class="form-submit">
 	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a>   
-    <div class="submit-button button-next save"
+    <!--<div class="submit-button button-next save"
          onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/saveemails') . '/' ?>', this)">
         <?= Yii::t('Front', 'Save'); ?>
-    </div>
+    </div>-->
 </div>
 <?php $this->endWidget(); ?>
 <script>

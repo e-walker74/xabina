@@ -78,5 +78,6 @@ $(function(){
 				type: 'POST'
 			});
 		}
+		return false;
 	}
 });

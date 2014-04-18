@@ -2,24 +2,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
         <meta http-equiv="Content-Language" content="ru" /> 
-        <title>Верификация на сайте XABINA.COM</title>
+        <title>Changes to account at XABINA.COM</title>
     </head>
     <body>
-		<h2>Здравствуйте, <strong>{:userFullName}</strong></h2>
+		<h2>Dear, <strong>{:userFullName}</strong></h2>
 
-		<em style="padding:10px;border-left:1px solid #d8d8d8">Ваш счет был верифицирован модератором {:date}.</em>
-
-		<p>
-			Ваш счет на XABINA.COM был успешно верифицирован модератором 
-		</p>
+		<em style="padding:10px;border-left:1px solid #d8d8d8">Someone requested a change of Primary E-Mail from your account at Xabina {:date}.</em>
 		
 		<p>
-			Для активации профиля перейдите по ссылке:
+			In order to finalize the change of primary E-Mail, open the following URL:
 			<a href="{:activateUrl}" target="_blank">{:activateUrl}</a>
 		</p>
 
-
+		<p>
+			If you have any questions or experience problems, you can e-mail us at: support@xabina.com
+		</p>
+		<p>
+			If you got this e-mail by mistake, we strictly advise You to contact us as soon as possible at: security@xabina.com.
+		</p>
 		<p>-----</p>
-		<p style="color:#666666; font-size:.8em">С уважением, команда <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
+		<p style="color:#666666; font-size:.8em">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
     </body>
 </html>
