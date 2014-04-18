@@ -186,10 +186,12 @@
 				</div>
 			</div>
 			<div class="col-lg-5 col-md-5 col-sm-5">
+                <!--
 				<div class="offert-link">
 					<?= Yii::t('Front', 'You have read and agree to the'); ?>
 					<a target="_blank" href="<?= Yii::app()->createUrl('site/terms') ?>"><?= Yii::t('Front', 'terms & conditions of Xabina Online Banking'); ?></a>
 				</div>
+                -->
 			</div>
 		</div>
 		<div class="form-submit">
