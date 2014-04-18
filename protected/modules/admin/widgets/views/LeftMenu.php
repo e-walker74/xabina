@@ -27,6 +27,7 @@
 		<ul class="acc-menu">
 			<li><a href="<?= Yii::app()->createUrl('/admin/logs/mail/') ?>/"><?= Yii::t('Logs', 'Mail'); ?></a></li>
 			<li><a href="<?= Yii::app()->createUrl('/admin/logs/users/') ?>/"><?= Yii::t('Logs', 'Users'); ?></a></li>
+            <li><a href="<?= Yii::app()->createUrl('/admin/logs/adminsusers/') ?>/"><?= Yii::t('Logs', 'Admins Users'); ?></a></li>
 		</ul>
 	</li>
 	<li><a href="<?= Yii::app()->createUrl('/admin/messages/index/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Messages', 'Messages'); ?></span></a></li>
@@ -34,6 +35,21 @@
 		<ul class="acc-menu">
 			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/create/') ?>/"><?= Yii::t('Transfers', 'Create'); ?></a></li>
 			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/outgoing/') ?>/"><?= Yii::t('Transfers', 'Outgoing'); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Admins', 'Admins'); ?></span></a>
+		<ul class="acc-menu">
+			<li><a href="<?= Yii::app()->createUrl('/admin/admins/create') ?>/"><?= Yii::t('Admins', 'Create new'); ?></a></li>
+            <li><a href="<?= Yii::app()->createUrl('/admin/admins/manage') ?>/"><?= Yii::t('Admins', 'Manage'); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Rights', 'Rights'); ?></span></a>
+		<ul class="acc-menu">
+			<li><a href="<?= Yii::app()->createUrl('/admin/rights/') ?>/"><?= Yii::t('Rights', 'Assignments'); ?></a></li>
+			<li><a href="<?= Yii::app()->createUrl('/admin/rights/authItem/permissions') ?>/"><?= Yii::t('Rights', 'Permissions'); ?></a></li>
+            <li><a href="<?= Yii::app()->createUrl('/admin/rights/authItem/roles') ?>/"><?= Yii::t('Rights', 'Roles'); ?></a></li>
+<!--            <li><a href="<?= Yii::app()->createUrl('/admin/rights/authItem/tasks') ?>/"><?= Yii::t('Rights', 'Tasks'); ?></a></li>
+            <li><a href="<?= Yii::app()->createUrl('/admin/rights/authItem/operations') ?>/"><?= Yii::t('Rights', 'Operations'); ?></a></li>-->
 		</ul>
 	</li>
 </ul>

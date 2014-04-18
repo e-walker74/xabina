@@ -22,8 +22,8 @@ class PagesController extends Controller
     {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array(),
-                'users' => array('*')
+                'actions' => array('index'),
+                'users' => array('client')
             ),
             array('deny', // deny everybody else
                 'users' => array('*')

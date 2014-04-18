@@ -19,6 +19,7 @@ class AccountsController extends Controller
 		if(isset($_GET['Users_Activation'])){
 			$activations->attributes=$_GET['Users_Activation'];
 		}
+		$activations->step = '>' . 3;
 		$this->render('activations', array('activations' => $activations));
 	}
 	
@@ -28,7 +29,7 @@ class AccountsController extends Controller
 		if(isset($_POST['Users_Activation'])){
 			$model->description = $_POST['Users_Activation']['description'];
 			$model->moderator_id = Yii::app()->user->id;
-			$model->step = 4;
+			$model->step = 5;
 			if($model->save()){
 				if($model->user->status == Users::USER_EMAIL_IS_ACTIVE){
 					$model->user->status = Users::USER_IS_ACTIVATED;
@@ -47,11 +48,11 @@ class AccountsController extends Controller
 
                 $model_address->save();
 				
-				Yii::app()->user->addNotification(
-					'vericate_your_account', //код
+				Users::addNotification(
+					'vericate_your_account', // код
 					'Your account has been successfully activated. We recommend you to go through a verification procedure to use your account without restrictions.', 
 					'close', // возможность закрыть
-					'yellow', //желтая рамка
+					'yellow', // желтая рамка
 					$model->user_id
 				);
 				$mail = new Mail();
@@ -65,7 +66,7 @@ class AccountsController extends Controller
 				$this->redirect(array('/admin/accounts/activations'));
 			}
 		}
-		
+
 		$this->render('activations/update', array('model' => $model));
 	}
 	

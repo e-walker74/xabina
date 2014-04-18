@@ -91,9 +91,15 @@
         var $dropDown;
 
         function createDropDown(){
+			//console.log(options.list);
             var dropDown = '<ul class="dropdown_list list-unstyled ' + options.listClass + '">';
-            for ( var prop in options.list )
-                dropDown += '<li><a href="#">'+  options.list[prop] +'</a></li>';
+            for ( var prop in options.list ){
+				if(options.list[prop].id){
+					dropDown += '<li><a href="#" data-id=' + options.list[prop].id +'>'+  options.list[prop].name +'</a></li>';
+				} else {
+					dropDown += '<li><a href="#">'+  options.list[prop] +'</a></li>';
+				}
+			}
             dropDown += '</ul>';
             return dropDown;
         }
@@ -132,10 +138,9 @@
                  e.preventDefault();
                  if(options.toChange){
                      self.html($(this).text()+'<span class="currency_drdn_arr"></span>');
-
                  }
                  removeDropDown();
-				 options.callback()
+				 options.callback(e, self)
              }
 
 

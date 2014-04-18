@@ -110,7 +110,6 @@
           </div>
         </td>
         <td colspan="3" class="edit-address">
-        
         	<div class="field-row edit-select">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Address Line 2 (optional)'); ?>

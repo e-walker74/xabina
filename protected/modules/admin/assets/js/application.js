@@ -42,7 +42,7 @@ $(function () {
     var targetAnchor;
     $.each ($('ul.acc-menu a'), function() {
        //console.log(this.href);
-       
+
         if( this.href == window.location ) {
             targetAnchor = this;
             return false;
@@ -74,7 +74,7 @@ $(function () {
     });
 
 
-    // Reads Cookie for Collapsible Leftbar 
+    // Reads Cookie for Collapsible Leftbar
     // if($.cookie('admin_leftbar_collapse') === 'collapse-leftbar')
     //     $("body").addClass("collapse-leftbar");
 
@@ -103,7 +103,7 @@ $(function () {
                     if($(this).css('display') == 'none')
                         $(this).css('display', '');
                 });
-                
+
                 $('ul.acc-menu:first ul.acc-menu').css('visibility', 'hidden');
                 $.cookie('admin_leftbar_collapse', 'collapse-leftbar');
             }
@@ -116,7 +116,7 @@ $(function () {
     $("a#rightmenu-trigger").click(function () {
         $("body").toggleClass("show-rightbar");
         widgetheight();
-        
+
         if($.cookie('admin_rightbar_show') === 'show-rightbar')
                 $.cookie('admin_rightbar_show', '');
             else
@@ -251,6 +251,17 @@ function widgetheight() {
     $("#widgetarea").getNiceScroll().resize();
 }
 
+//Generation random password
+function generatePassword() {
+    var length = 8,
+        charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
 // -------------------------------
 // Back to Top button
 // -------------------------------
@@ -308,3 +319,20 @@ $('#search').click(function(event) {
 
 //Presentational: set all panel-body with br0 if it has panel-footer
 $(".panel-footer").prev().css("border-radius","0");
+
+$("#genNewPass").click(function(){
+  var pass = generatePassword(); $('#Admins_password').val(pass);
+})
+
+$('.bootbox-test-mail').click(function(button){
+    bootbox.prompt("Enter your test email address?", function(result) {
+        if (result !== null) {
+            var template = $(button.currentTarget).attr('data-template')
+            $.post('/admin/mailer/testSend', {template: template, email: result}, function(response){
+                alert(response);
+            })
+        }
+    });
+});
+
+

@@ -23,7 +23,7 @@ class MessageController extends Controller
                 'actions' => array(
                     'index', 'view', 'archive', 'draft', 'outbox', 'new', 'save', 'cancel', 'del', 'reply',
                 ),
-                'roles' => array('administrator')
+                'roles' => array('client')
             ),
             array('deny',
                 'users' => array('*')

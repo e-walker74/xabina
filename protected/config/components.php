@@ -5,6 +5,7 @@ return array(
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
+    'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'notify' => array(
         'class' => 'core.components.QUserNotify',
     ),
@@ -61,7 +62,7 @@ return array(
 		'class' => 'UrlManager',
         'showScriptName' => false,
         'rules' => array(
-			'/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
+			'/gii' => 'gii',
 			'/remindsuccess' => 'site/remindsuccess',
 			'/remind' => 'site/remind',
 			'/terms' => 'site/terms',
@@ -85,9 +86,9 @@ return array(
 			'/banking/personal/testsms' => 'personal/testsms',
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
-            
+            '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
 
-            '/message/save/<type:(save|send|edit)>/<id:\d+>' => 'message/save',
+            '/message/save/<type:(save|send|edit|socials)>/<id:\d+>' => 'message/save',
             //'/message/reply/<dialog:\d+>/<id:\d+>' => 'message/reply',
             '/message/view/<id:\d+>' => 'message/view',
             '/message/cancel/<id:\d+>' => 'message/cancel',
@@ -98,8 +99,8 @@ return array(
             '/banking/accountsactivation' => '/banking/accountsactivation',
 			'/banking/personal/uploadfile' => 'personal/uploadfile',
 			'/banking/personal/emailconfirm' => 'personal/emailconfirm',
-			'/banking/personal/makeprimary/<type:(emails)>/<id:\d+>' => 'personal/makeprimary', 
-            
+			'/banking/personal/makeprimary/<type:(emails)>/<id:\d+>' => 'personal/makeprimary',
+            '/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
 			'/transfers/smsconfirm/<type:(all)>' => 'transfers/smsconfirm',
 			'/transfers/smsconfirm/' => 'transfers/smsconfirm',
             '/message/save/<type:(save|send)>/<id:\d+>' => 'message/save',
@@ -109,6 +110,7 @@ return array(
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
 			'page/<url>' => 'pages/index',
+
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -120,13 +122,13 @@ return array(
         'class' => 'QHttpRequest',
 		'enableCsrfValidation' => true,
 		'noCsrfValidationRoutes'=>array(
-			'banking/uploadactivationfile', 
-			'banking/accountsactivation', 
-			'banking/verification/uploadfile', 
-			'verification/notary', 
-			'banking/personal/uploadfile', 
-			'personal/uploadfile', 
-			'personal/editname', 
+			'banking/uploadactivationfile',
+			'banking/accountsactivation',
+			'banking/verification/uploadfile',
+			'verification/notary',
+			'banking/personal/uploadfile',
+			'personal/uploadfile',
+			'personal/editname',
 			'banking/personal/uploadfile',
 			'accounts/uploadattachemnt',
 			'banking/accounts/transaction/uploadattachemnt/*'

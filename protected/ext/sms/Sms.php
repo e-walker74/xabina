@@ -27,6 +27,7 @@ class SMS extends CComponent
 	}
 	
 	public function send(){
+		return 1;
 		$this->_operation = 'send';
 		$data = $this->generateRquest();
 		// application/xwww8form8urlencoded

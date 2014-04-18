@@ -7,85 +7,30 @@ return array(
         'bizRule' => null,
         'data' => null
     ),
-    'user' => array(
+	'client' => array(
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'User',
+        'description' => 'individual',
         'bizRule' => null,
         'data' => null
     ),
-	'author' => array(
+    'individual' => array(
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Author',
+        'description' => 'individual',
 		'children' => array(
-            'user',
-        ),
-        'bizRule' => null,
-        'data' => null
-    ),
-    'moderator' => array(
-        'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Moderator',
-		'children' => array(
-            'user',
+            'client',
         ),
         'bizRule' => null,
         'data' => null
     ),
-    'administrator' => array(
+	'legalentity' => array(
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Administrator',
+        'description' => 'legalentity',
 		'children' => array(
-            'moderator', 
-			'author',
+            'client',
         ),
         'bizRule' => null,
         'data' => null
     ),
-	'designers' => array(
-		'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'designers',
-		'children' => array(
-			'user',
-        ),
-        'bizRule' => null,
-        'data' => null
-	),
-	'photographer' => array(
-        'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'photographer',
-		'children' => array(
-            'user', 
-        ),
-        'bizRule' => null,
-        'data' => null
-    ),
-	'copywriter' => array(
-		'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'copywriter',
-		'children' => array(
-            'user',
-        ),
-        'bizRule' => null,
-        'data' => null
-	),
-	'designer' => array(
-		'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'designer',
-		'children' => array(
-            'designers',
-        ),
-        'bizRule' => null,
-        'data' => null
-	),
-	'craftsman' => array(
-		'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'craftsman',
-		'children' => array(
-            'designers',
-        ),
-        'bizRule' => null,
-        'data' => null
-	),
 );
 
 ?>

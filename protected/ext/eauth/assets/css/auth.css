@@ -1,0 +1,102 @@
+/* Height hack for float wrappers */
+.services {
+    overflow: auto;
+	float: right;
+	padding: 23px 44px 0 0;
+}
+
+.services .service-head{
+	font: 13px/13px "PT Sans",sans-serif;
+	color: #4d4d4d;
+	margin-left: 17px;
+}
+
+.auth-service{
+	float: left;
+}
+
+.services-mini{
+	display: inline-block;
+	position: absolute;
+	margin: 4px 0 0 5px;
+}
+
+.auth-icon {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: url("../images/auth.png") no-repeat;
+}
+
+.auth-icon-mini {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url("../images/mini-social.png") no-repeat;
+}
+
+.auth-icon-mini.google_oauth  { background-position: 0 -32px;  }
+.auth-icon-mini.facebook		 { background-position: 0 -16px; }
+.auth-icon-mini.vkontakte	 { background-position: 0 0; }
+
+.auth-icon.google,
+.auth-icon.google_oauth  { background-position: 0 -100px;  }
+.auth-icon.twitter    	 { background-position: 0 -68px;  }
+.auth-icon.yandex,
+.auth-icon.yandex_oauth  { background-position: 0 -102px; }
+.auth-icon.vkontakte	 { background-position: 0 0; }
+.auth-icon.facebook		 { background-position: 0 -50px; }
+.auth-icon.mailru		 { background-position: 0 -204px; }
+.auth-icon.moikrug		 { background-position: 0 -238px; }
+.auth-icon.odnoklassniki { background-position: 0 -272px; }
+
+.auth-icon.linkedin    	 { background: url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSQhwEcTZ6HUcMr7g4fHooCJYA_JrTsKa67XRQ5-uJQMTusuq8r5Q"); }
+.auth-icon.github      	 { background-position: 0 -340px; }
+.auth-icon.live      	 { background-position: 0 -372px; }
+
+/*.auth-link:hover .auth-icon i,*/
+.auth-link:focus .auth-icon i {
+/*    display: block;
+    width: 50px;
+    height: 50px;
+    background: url("../images/auth.png") 0 0 no-repeat;*/
+}
+
+.auth-services {
+    margin: 0 0 1em;
+	padding: 8px 13px 0 0;
+	list-style: none;
+	/* Height hack for float wrappers */
+    /*overflow:auto;*/
+}
+
+.related .auth-services{
+	padding: 0 13px 0 0;
+}
+
+.auth-service-mini {
+    float: left;
+    margin: 0 5px 0 0;
+}
+
+.auth-services .auth-service .auth-link {
+    display: block;
+    width: 58px;
+    /*padding: 0 0.4em;*/
+}
+
+.auth-services .auth-service .auth-link-mini {
+    display: block;
+    width: 16px;
+    /*padding: 0 0.4em;*/
+}
+
+.auth-service .auth-link .auth-icon {
+    margin: 0 auto;
+}
+
+.auth-service .auth-link .auth-title {
+    display: block;
+    margin-top: 0.4em;
+    text-align: center;
+}

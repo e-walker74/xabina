@@ -265,24 +265,6 @@ $(function(){
 		return true;
 	}
 	
-	/**
-	* Контроллер Personal
-	* Помечаем как удаленные данные во временной таблицы
-	*/
-	$('td.remove-td').live('click', function(){
-		if($(this).parents('tr').find('input.delete').val() == '0'){
-			$(this).parents('tr').find('input.delete').val('1');
-			$(this).parent('tr').css('background-color', '#FFCACA');
-			$(this).parent('tr').addClass('remove');
-		}
-		else{
-			$(this).parents('tr').find('input.delete').val('0');
-			$(this).parent('tr').css('background-color', '#FFF');
-			$(this).parent('tr').removeClass('remove');
-		}
-		
-	});
-	
 	$('.main-container').on('click', '.xabina-alert .close-button', function(){
  		var url = $(this).attr('data-del-alert')
  		var element = $(this).parents('.xabina-alert')
@@ -414,8 +396,26 @@ $(function(){
 		});
 	}
 	
+	deleteRow = function(url, link){
+		$.ajax({
+			url: url,
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					if($(link).parents('tr').prev('tr').hasClass('email-comment-tr')){
+						$(link).parents('tr').prev('tr').remove()
+					}
+					$(link).parents('tr').remove()
+				}
+			},
+			cache:false,
+			data: {},
+			type: 'POST'
+		});
+	}
+	
 	activatePhone = function(url, link){
-		value = $(link).next().val();
+		value = $(link).parents('.field-row').find('.input-text-sms').val();
 		if(value){
 			$.ajax({
 				url: url+value,
@@ -424,7 +424,7 @@ $(function(){
 					if(response.success){
 						location.reload()
 					} else {
-						$(link).parent().find('.error-message').html(response.message).fadeIn()
+						$(link).parents('td').find('.error-message').html(response.message).fadeIn()
 					}
 				},
 				cache:false,
@@ -533,6 +533,22 @@ $(document).ready(function(){
         buttonImage: '/images/calendar_ico.png',
         buttonImageOnly:true
     });
+	
+	if($('#bg-404-gold').length){
+		$('#bg-404-gold').plaxify({"xRange":30,"yRange":30});
+		$.plax.enable();
+	}
+	
+	 $('.mask-toggle').on('mouseenter', function(e){
+        var $maskedEl = $(this).parents('td').find('.masked-value');
+        var $originalEl = $(this).parents('td').find('.original-value');
+        $maskedEl.html($originalEl.val());
+    })
+    $('.mask-toggle').on('mouseleave', function(e){
+        var $maskedEl = $(this).parents('td').find('.masked-value');
+        var $originalEl = $(this).parents('td').find('.original-value');
+        $maskedEl.html('**********');
+    })
 	
 })
 

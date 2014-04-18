@@ -115,21 +115,21 @@ class Users_Profile extends CActiveRecord
                 ));
     }
 
-    public static function updateByProvider(Users $user, EAuthUserIdentity $identity)
-    {
-        if (!$user->{$identity->getProviderName()}) {
-            $userProviders          = new UserProviders($identity->getProviderName());
-            $userProviders->user_id = $user->id;
-            $userProviders->soc_id  = $identity->getAttribute('soc_id');
-            $userProviders->save();
-        }
-        foreach ($user->profile->getAttributes() as $key => $val) {
-            if (!$val && $identity->getAttribute($key)) {
-                $user->profile->{$key} = $identity->getAttribute($key);
-            }
-        }
-        return $user->profile->save();
-    }
+//    public static function updateByProvider(Users $user, EAuthUserIdentity $identity)
+//    {
+//        if (!$user->{$identity->getProviderName()}) {
+//            $userProviders          = new UserProviders($identity->getProviderName());
+//            $userProviders->user_id = $user->id;
+//            $userProviders->soc_id  = $identity->getAttribute('soc_id');
+//            $userProviders->save();
+//        }
+//        foreach ($user->profile->getAttributes() as $key => $val) {
+//            if (!$val && $identity->getAttribute($key)) {
+//                $user->profile->{$key} = $identity->getAttribute($key);
+//            }
+//        }
+//        return $user->profile->save();
+//    }
 
     public function beforeSave()
     {

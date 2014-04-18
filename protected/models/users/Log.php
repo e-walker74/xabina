@@ -21,7 +21,7 @@ class Users_Log extends ActiveRecord
 {
 
 	public $login;
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -59,7 +59,7 @@ class Users_Log extends ActiveRecord
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
-	
+
 	public function beforeSave(){
 		//$browser = get_browser(null, true);
 		$this->ip_address = ip2long(CHttpRequest::getUserHostAddress());
@@ -69,11 +69,11 @@ class Users_Log extends ActiveRecord
 		$this->request_url = $_SERVER['REQUEST_URI'];
 		return parent::beforeSave();
 	}
-	
+
 	public function afterFind(){
 		$this->ip_address = long2ip($this->ip_address);
 	}
-	
+
 	public function getUserBrowser($user_agent){
 		$res = 'Unknown';
 		if(strpos($user_agent, 'MSIE') !== FALSE)
@@ -90,10 +90,10 @@ class Users_Log extends ActiveRecord
 			$res = "Opera";
 		elseif(strpos($user_agent, 'Safari') !== FALSE)
 			$res = "Safari";
-		
+
 		return $res;
 	}
-	
+
 	public function getUserOS($user_agent){
 		$os_platform    =   "Unknown OS Platform";
 
@@ -122,12 +122,12 @@ class Users_Log extends ActiveRecord
 			'/webos/i'              =>  'Mobile'
 		);
 
-		foreach ($os_array as $regex => $value) { 
+		foreach ($os_array as $regex => $value) {
 			if (preg_match($regex, $user_agent)) {
 				$os_platform    =   $value;
 				break;
 			}
-		}   
+		}
 
 		return $os_platform;
 	}

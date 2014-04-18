@@ -36,7 +36,7 @@ require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'phpmailer'.DIRECTORY_SEPARAT
  * @see http://phpmailer.codeworxtech.com/_index.php?pg=phpmailer
  *
  * @author MetaYii
- * @package application.extensions.emailer 
+ * @package application.extensions.emailer
  * @since 1.0
  */
 class EMailer
@@ -46,7 +46,7 @@ class EMailer
    //***************************************************************************
 
    public $html;
-   
+
    /**
     * The path to the directory where the view for getView is stored. Must not
     * have ending dot.
@@ -200,8 +200,8 @@ class EMailer
    //***************************************************************************
    // Utilities
    //***************************************************************************
-        
-        
+
+
 	/**
 	* Displays an e-mail in preview mode.
 	*
@@ -217,5 +217,6 @@ class EMailer
 		//$body = CController::renderInternal($viewFile, array_merge($vars, array('content'=>$this->_myMailer)), true);
 		$this->html = $body;
 		$this->_myMailer->MsgHTML($body);
+        return $body;
 	}
 }
