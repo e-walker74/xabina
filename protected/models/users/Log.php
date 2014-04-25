@@ -61,11 +61,11 @@ class Users_Log extends ActiveRecord
 	}
 
 	public function beforeSave(){
-		$browser = get_browser(null, true);
+		//$browser = get_browser(null, true);
 		$this->ip_address = ip2long(CHttpRequest::getUserHostAddress());
-		$this->browser = $browser['browser'];
-		$this->os = $browser['platform'];
-		$this->browser_version = $browser['version'];
+		//$this->browser = $browser['browser'];
+		//$this->os = $browser['platform'];
+		//$this->browser_version = $browser['version'];
 		$this->request_url = $_SERVER['REQUEST_URI'];
 		return parent::beforeSave();
 	}
