@@ -42,6 +42,10 @@ class Transfers_Outgoing extends ActiveRecord
 	public $xabina_end_time;
 	public $external_end_time;
 	
+	const PENDING_STATUS = 0;
+	const APPROVED_STATUS = 1;
+	const REJECTED_STATUS = 2;
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -103,6 +107,8 @@ class Transfers_Outgoing extends ActiveRecord
 	public function checkXabinaNumber($attribute,$params){
 		if(!AccountService::checkNumber($this->account_number)){
 			$this->addError('account_number', Yii::t('Front', 'Account number is incorrect'));
+		} elseif(!Accounts::model()->find('number = :n', array(':n' => $this->account_number))) {
+			$this->addError('account_number', Yii::t('Front', 'Account number is incorrect'));
 		}
 	}
 
@@ -119,6 +125,7 @@ class Transfers_Outgoing extends ActiveRecord
 			'own_account' => array(self::BELONGS_TO, 'Accounts', 'own_account_id'),
 			'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);
 	}
 
@@ -221,5 +228,38 @@ class Transfers_Outgoing extends ActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function getHtmlOperationDescription(){
+		switch($this->send_to){
+			case 'xabina':
+				return chunk_split($this->account_number, 4) . '<br>' . 
+					$this->description;
+				break;
+			case 'own':
+				return '<strong class="holder">' . $this->own_account->user->fullName . '</strong><br/>' . 
+					chunk_split($this->own_account->number, 4) . '<br>' . 
+					$this->description;
+				break;
+			case 'external':
+				return '<strong class="holder">' . $this->bank_beneficiary . '</strong><br/>' . 
+					chunk_split($this->swift, 4) . '<br>' . 
+					$this->description;
+				break;
+		}
+	}
+	
+	public function getHtmlStatus(){
+		switch($this->status){
+			case self::PENDING_STATUS:
+				return '<span class="pending">Pending</span>';
+				break;
+			case self::APPROVED_STATUS:
+				return '<span class="approved">Approved</span>';
+				break;
+			case self::REJECTED_STATUS:
+				return '<span class="rejected">Rejected</span>';
+				break;
+		}
 	}
 }

@@ -131,7 +131,7 @@ class Users_Phones extends ActiveRecord
 	}
 
 	public function generateHash(){
-		if($this->withOutHash){
+		if(!$this->withOutHash){
 			$this->hash = rand(1000, 9999);
 		}
 	}

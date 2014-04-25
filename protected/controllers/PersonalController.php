@@ -53,6 +53,9 @@ class PersonalController extends Controller
 
     public function actionIndex()
     {
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = '';
+	
 		$model = Users::model()->findByPk(Yii::app()->user->id);
 
         $this->render('index', array(
@@ -62,6 +65,10 @@ class PersonalController extends Controller
 
     public function actionEditemails()
     {
+		
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage email addresses'))] = '';
+	
 		$model_emails = new Users_Emails('editemails');
 
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
@@ -85,6 +92,10 @@ class PersonalController extends Controller
     }
 	
 	public function actionEditmessagers(){
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage instant messager services'))] = '';
+	
 		$model = new Users_Instmessagers();
 		$user = Users::model()->findByPk(Yii::app()->user->id);
 		
@@ -148,6 +159,9 @@ class PersonalController extends Controller
     public function actionEditphones()
     {
 
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage phones'))] = '';
+	
         $model_phones = new Users_Phones('editphones');
 
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
@@ -207,6 +221,9 @@ class PersonalController extends Controller
     public function actionEditaddress()
     {
 
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage addresses'))] = '';
+	
         $model = new Users_Address('editaddress');
 		$user = Users::model()->findByPk(Yii::app()->user->id);
 
@@ -266,6 +283,10 @@ class PersonalController extends Controller
     }
 
 	public function actionEditname(){
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Information Management'))] = '';
+	
 		//$model = Users::model()->findByPk(Yii::app()->user->id);
 
 		$files1 = Users_Files::model()->findAll('form = "editname" AND document = 1 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
@@ -754,6 +775,10 @@ class PersonalController extends Controller
 	}
 
     public function actionEditSocials(){
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage soccial networks'))] = '';
+	
 		$service = Yii::app()->request->getQuery('service');
         if (isset($service)) {
 
@@ -793,6 +818,10 @@ class PersonalController extends Controller
     }
 	
 	public function actionEditQustions(){
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage Security Questions'))] = '';
+	
 		$model = new Users_Securityquestions();
 		$user = Users::model()->findByPk(Yii::app()->user->id);
 
@@ -876,7 +905,7 @@ class PersonalController extends Controller
 				break;
 				
 		}
-		
+
 		echo CJSON::encode(array('success' => $return));
 	}
 

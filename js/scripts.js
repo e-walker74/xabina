@@ -121,10 +121,17 @@ $(function(){
 		}
 	});
 	
-	
-	
-	
-	
+	/**
+	* Left menu slide down
+	*/
+	$('.sidebar-menu a.with-menu').click(function(){
+		if($(this).attr('href') != window.location.origin + window.location.pathname){
+			$('.sidebar-menu ul').slideUp('slow')
+			$(this).parents('li').next('ul').slideDown('slow')
+		}
+		return false
+	})
+
 	/**
 	* Заполнение емейлов
 	*/

@@ -55,14 +55,14 @@ class MessageController extends Controller
 			if($last->user_id != Yii::app()->user->id){
 				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 			}
-			$dialog_id = $last->dialog_id;
+			$model->dialog_id = $last->dialog_id;
 
 			$model->to = $last->from;
 			$model->subject = $last->subject;
 		}
 
         $model->draft = 1;
-        $model->dialog_id = $dialog_id;
+//        $model->dialog_id = $dialog_id;
 
         $model->user_id = Yii::app()->user->id;
         $model->from_id = Yii::app()->user->id;
