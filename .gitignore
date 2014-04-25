@@ -8,3 +8,9 @@
 /.htaccess
 /protected/config/local.php
 /protected/config/components/
+/core
+/documents
+/framework
+/pma
+/widex_access_test.php
+
