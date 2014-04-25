@@ -29,7 +29,7 @@
                     <td width="76%">
                         <div
                             class="message-header <?= empty($v->opened) ? 'read' : 'no-read' ?>">
-                            <a href="<?= $this->createUrl('message/view/id/'.$v->id.'/type/inbox')?>"><?=$v->to->name?></a>
+                            <a href="<?= $this->createUrl('message/view/id/'.$v->id.'/type/inbox')?>"><?=$v->to?></a>
                             </div>
                         <div class="message-subject">
                             <?= text::limit_words($v->message, 15) ?>
@@ -40,8 +40,7 @@
                         <!--<a href="#" class="attachment-button"></a>-->
                     </td>
                     <td width="14%" class="datetime-td">
-                        <?= date('d-m-Y', $v->updated_at) ?><br>
-                        <?= date('H:i', $v->updated_at) ?>
+                        <?= date('d-m-Y <br> H:i', $v->sent_at) ?>
                     </td>
                     <td width="5%">
                         <span class="remove-button" onclick="js:del_message('<?= $this->createUrl('message/del', array(

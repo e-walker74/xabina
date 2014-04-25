@@ -112,4 +112,13 @@ class Currencies extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public static function getTotalByTransactionsInEUR($transes = array()){
+		
+		$total = 0;
+		foreach($transes as $trans){
+			$total += ($trans->amount / $trans->account->currency->last_value);
+		}
+		return $total;
+	}
 }

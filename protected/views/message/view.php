@@ -5,7 +5,7 @@
         <div class="message-headers">
         	<? if($type != 'archive'):?>
             <div class="message-controls">
-                <a class="button-violet" href="<?=$this->createUrl('/message/new/', array('id' => $model->dialog_id)) ?>">
+                <a class="button-violet" href="<?=$this->createUrl('/message/new/', array('id' => $model->id)) ?>">
 					<?= Yii::t('Front', 'Reply'); ?>
                 </a>
                 <?=CHtml::link(Yii::t('Front', 'Delete'), Yii::app()->createUrl('/message/del/', array(
@@ -29,21 +29,21 @@
                         <? if($model->from_id == (int)Yii::app()->user->id):?>
                         	<?= Yii::t('Front', 'Me'); ?>
                         <? else: ?> 
-                        	 <?=$model->to->name?>  
+                        	 <?=$model->from?>  
                         <? endif;?>
                     </td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('Front', 'Subject:'); ?></td>
-                    <td><?=$model->subject->title?></td>
+                    <td><?=$model->subject ?></td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('Front', 'Date:'); ?></td>
-                    <td><?=date('d M Y H:i',$model->updated_at)?></td>
+                    <td><?=date('d M Y H:i',$model->sent_at)?></td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('Front', 'To:'); ?></td>
-                    <td><?=$model->to->name?></td>
+                    <td><?=$model->to?></td>
                 </tr>
                 </tbody></table>
             <!--<a class="attachment-link" href="#">Annual Financial Summary 2013</a>-->

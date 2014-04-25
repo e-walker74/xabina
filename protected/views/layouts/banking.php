@@ -34,6 +34,11 @@
 						<?php $this->widget('ContactsBlock'); ?>								
 					</div>
 				</div>
+				<?php
+					$this->widget('XBreadcrumbs', array(
+							'links'=>$this->breadcrumbs
+					));
+				?>
 				<?= $content ?>
 			</div>
 		</div>

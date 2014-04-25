@@ -90,7 +90,7 @@ class Form_Registration extends CFormModel
 		$result = false;
 		$user = new Users;
 		$user->attributes = $this->attributes;
-		//$user->login = '';
+		$user->login = new CDbExpression('UUID_SHORT()');
 		$pass = substr(md5(time() . 'xabina_pass' . $user->email), 2, 8);
 		$user->password = md5($pass);
 		$user->created_at = time();
@@ -100,6 +100,7 @@ class Form_Registration extends CFormModel
 		$user->createHash();
 		$user->lang = Yii::app()->language;
 		if($user->save()){
+			$user = Users::model()->findByPk($user->id);
 			$mail = new Mail();
 			if($mail->send(
 				$user, // this user

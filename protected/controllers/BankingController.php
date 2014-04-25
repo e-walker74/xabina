@@ -142,25 +142,12 @@ class BankingController extends Controller
 		if($activation->step != 2 || $activation->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
-		$files1 = Users_Files::model()->findAll('form = "activation" AND document = 1 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
-		$files2 = Users_Files::model()->findAll('form = "activation" AND document = 2 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
 		$model = new Form_Activation_File;
 		
 		if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('success') == 'true'){
-			$success = true;
-			if(empty($files1) || empty($files1)){
-				$success = false;
-			} else {
-				foreach($files1 as $file){
-					if(!$file->document_type){
-						$success = false;
-					}
-				}
-				foreach($files2 as $file){
-					if(!$file->document_type){
-						$success = false;
-					}
-				}
+			$success = false;
+			if(Users_Files::model()->count('user_id = :uid AND deleted = 0 AND form = "Users_Activation"', array(':uid' => Yii::app()->user->id)) > 1){
+				$success = true;
 			}
 
 			if($success){

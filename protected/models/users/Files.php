@@ -10,8 +10,14 @@
  * @property string $form
  * @property string $type
  */
-class Users_Files extends CActiveRecord
+class Users_Files extends ActiveRecord
 {
+
+	public static $fileTypes = array(
+		'Transactions' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
+		'Users_Activation' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
+	);
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -48,6 +54,7 @@ class Users_Files extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 

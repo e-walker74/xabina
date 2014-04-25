@@ -26,7 +26,7 @@ class TransfersController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('outgoing', 'overview', 'delete', 'smsverivicaiton', 'smsconfirm', 'success'),
+                'actions' => array('outgoing', 'overview', 'delete', 'smsverivicaiton', 'smsconfirm', 'success', 'resendsms'),
                 'roles' => array('client')
             ),
             array('deny', // deny everybody else
@@ -35,12 +35,18 @@ class TransfersController extends Controller
         );
     }
 	
+	public function init(){
+		$this->breadcrumbs[Yii::t('Front', 'Payments')] = '';
+	}
+	
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
     public function actionOutgoing()
     {
+		
+		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = '';
 
 		if(Yii::app()->user->role > Users::USER_IS_ACTIVATED){
 			throw new CHttpException(403, Yii::t('Front', 'You have no permissions'));
@@ -223,6 +229,9 @@ class TransfersController extends Controller
 	public function actionOverview(){
 		$transfers = Transfers_Outgoing::model()->findAll('user_id = :uid AND need_confirm = 1', array('uid' => Yii::app()->user->id));
 		
+		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = array('/transfers/outgoing');
+		$this->breadcrumbs[Yii::t('Front', 'Transfers overview')] = '';
+		
 		if(isset($_POST['transfer']) && Yii::app()->request->isAjaxRequest){
 			$return = false;
 			$arr = explode('_', $_POST['transfer']);
@@ -366,7 +375,43 @@ class TransfersController extends Controller
 		}
 		$num = substr($user->phone, -3, 3);
 		
+		$confirmations = Transfers_Confirmation::model()->with('transfer')->findAll('t.user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 		
-		$this->render('smsconfirm', array('model' => $form, 'num' => $num));
+		$transes = array();
+
+		foreach($confirmations as $tr){
+			if(!isset($transes[$tr->transfer->currency->code])){
+				$transes[$tr->transfer->currency->code] = array(
+					'amount' => $tr->transfer->amount,
+					'count' => 1,
+				);
+			} else {
+				$transes[$tr->transfer->currency->code] = array(
+					'amount' => $transes[$tr->transfer->currency->code]['amount'] + $tr->transfer->amount,
+					'count' => $transes[$tr->transfer->currency->code]['count']+1,
+				);
+			} 
+		}
+		
+		$this->render('smsconfirm', array(
+			'model' => $form, 
+			'num' => $num, 
+			'confirmations' => $confirmations,
+			'transes' => $transes,
+		));
+	}
+	
+	public function actionResendSms(){
+		$trans = Transfers_Confirmation::model()->with('transfer')->find('t.user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
+		if($trans){
+			$code = rand(1000, 9999);
+			Transfers_Confirmation::model()->updateAll(array('confirm_code' => $code), 'user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
+			$user = Users::model()->findByPk(Yii::app()->user->id);
+			
+			if(Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1){
+				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+			}
+			echo CJSON::encode(array('success' => true));
+		}
 	}
 }

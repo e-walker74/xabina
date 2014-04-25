@@ -1,55 +1,3 @@
-<?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'messages',
-    'enableAjaxValidation' => false,
-    'enableClientValidation' => true,
-    //'action' => $this->createUrl('message/save'),
-    'errorMessageCssClass' => 'error-message',
-    'htmlOptions' => array(
-        'class' => 'form-validable',
-        //'onsubmit'=>"return false;",/* Disable normal form submit */
-        //'onkeypress'=>" if(event.keyCode == 13){ send(); } "
-    ),
-    //'focus'=>array($model,'first_name'),
-    'clientOptions' => array(
-        'validateOnSubmit' => true,
-        'validateOnChange' => true,
-        'errorCssClass' => 'input-error',
-        'successCssClass' => 'valid',
-        'afterValidate' => 'js:function(form, data, hasError) {
-                    form.find("input").removeClass("input-error");
-                    form.find("input").parent().removeClass("input-error");
-                    form.find(".validation-icon").fadeIn();
-                    if(hasError) {
-                        for(var i in data) {
-                            $("#"+i).addClass("input-error");
-                            $("#"+i).parent().addClass("input-error");
-                            $("#"+i).next(".validation-icon").fadeIn();
-                        }
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
-                }',
-        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-                    if(hasError){
-                        if(!$("#"+attribute.id).hasClass("input-error")){
-                            $("#"+attribute.id+"_em_").hide().slideDown();
-                        }
-                        $("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-                        $("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-                        $("#"+attribute.id).next(".validation-icon").fadeIn();
-                    } else {
-                        if($("#"+attribute.id).hasClass("input-error")){
-                            $("#"+attribute.id+"_em_").show().slideUp();
-                        }
-                        $("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-                        $("#"+attribute.id).next(".validation-icon").fadeIn();
-                        $("#"+attribute.id).addClass("valid");
-                    }
-                }'
-    ),
-)); ?>
 <? // $form->errorSummary($model); ?>
 <div class="col-lg-9 col-md-9 col-sm-9">
   <div class="h1-header">
@@ -59,71 +7,7 @@
   <div class="reply-container">
     <div class="message-headers">
     
-      <div class="message-controls">
-	     <?=CHtml::link(Yii::t('Front', 'Send message'), "#", array(
-                        'submit' => array('/message/save/send/' . $model->id .'/'),
-                        'csrf' => true,
-                        'class' => 'button-violet'
-                    )
-                ); ?>
-                
-        <!--<a class="button-violet" href="#" id="attachment_add">
-        	<?= Yii::t('Front', 'Add attachment'); ?>
-        </a>--> 
-		
-		<?=CHtml::link(Yii::t('Front', 'Save message'), "#", array(
-                        'submit' => array('/message/save/save/' . $model->id .'/'),
-                        'csrf' => true,
-                        'class' => 'button-violet',
-                    )
-                ); ?>
-        <?=CHtml::link(Yii::t('Front', 'Cancel'), Yii::app()->createUrl('/message/cancel/' . $model->id), array(
-                        'class' => 'button-violet',
-						'confirm' => Yii::t('Front', 'Are you sure?'),
-                    )
-                ); 
-              ?>
-      </div>
-      <table class="message-headers-table">
-        <tbody>
-          <tr>
-            <td><div style="height: 5px"></div></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td width="12%"><?= Yii::t('Front', 'To:'); ?></td>
-            <td width="88%">
-            	<div class="select-custom"> 
-                	<span class="select-custom-label"><?= empty($model->to->name) ?  Yii::t('Front', 'Choose') : $model->to->name; ?></span>
-                    <?=$form->dropDownList($model, 'to_id', Messages_To::all(), array(
-                                    'class' => 'country-select select-invisible',
-									'disabled' => (empty($model->to->name) || $model->draft) ? '' : 'disabled',
-                    )); ?>
-              </div>
-              <?= $form->error($model, 'to_id'); ?></td>
-          </tr>
-          <tr>
-            <td><div style="height: 14px"></div></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><?= Yii::t('Front', 'Subject:'); ?></td>
-            <td><div class="select-custom">
-                    <span class="select-custom-label">
-						<?= empty($model->subject->title) ?  Yii::t('Front', 'Choose') : $model->subject->title; ?>
-                    </span>
-                    <?=$form->dropDownList($model, 'subject_id', Messages_Subject::all(), array(
-                                    'class' => 'country-select select-invisible',
-									'disabled' => (empty($model->subject->title) || $model->draft) ? '' : 'disabled',
-                    )); ?>
-              </div>
-              <?= $form->error($model, 'subject_id'); ?>
-              </td>
-          </tr>
-        </tbody>
-      </table>
-      <?= $form->textArea($model, 'message', array('class' => 'message-reply-textarea')); ?>
-      <?= $form->error($model, 'message'); ?>
+		<?php $this->renderPartial('_form', array('model' => $model)); ?>
       
       <div class="xabina-form-container" id="message-reply-attachment">
         <table class="xabina-table-transaction-document xabina-table-upload">
@@ -192,7 +76,6 @@
   	<?php $this->renderPartial('_dialogs', array('dialogs' => $dialogs)); ?>
   <? endif;?>
 </div>
-<?php $this->endWidget(); ?>
 <script>
 $(window).bind('beforeunload', function(){
 	return '<?= Yii::t('Front', 'Are you sure you want to leave? Your message will be deleted'); ?>';

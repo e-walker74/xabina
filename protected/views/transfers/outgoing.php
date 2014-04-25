@@ -432,7 +432,6 @@
 		<?php $this->endWidget(); ?>
 	</div>
 </div>
-<?php Yii::app()->clientScript->registerScriptFile('/js/jquery.limit.js'); ?>
 <?php Yii::app()->clientScript->registerScriptFile('/js/transfers.js'); ?>
 
 <?php if(!$model->isNewRecord):?>

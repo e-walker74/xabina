@@ -2,8 +2,9 @@ $(function(){
 
 	updateTransactionsTable = function(select){
 		var accNumber = $(select).val()
+		$("#Form_Search_account_number").val(accNumber)
 		$(select).parents('.account-selection').find('.refresh-button').fadeIn()
-		
+		$('#search_accordion').accordion({ collapsible: true , active: false})
 		$.ajax({
 			url: window.location.pathname,
 			success: function(data) {
@@ -33,4 +34,10 @@ $(document).ready(function(){
 	$('.account-selection .account-select select').change(function(){
 		updateTransactionsTable(this)
 	})
+	
+	$('#search_accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
 })

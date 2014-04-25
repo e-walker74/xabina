@@ -28,9 +28,10 @@
 </div>
 <div class="header-middle clearfix">
 	<a href="<?= Yii::app()->createUrl('/banking/index') ?>" class="logo pull-left"></a>
-	<ul class="header-links pull-right list-inline">
-		<?php //$this->widget('TopAndBottomRepeatMenu'); ?>
-	</ul>		
+	<div class="pull-right header-buttons">
+		<a href="<?= Yii::app()->createUrl('/transfers/outgoing') ?>" class="rounded-buttons new-transfer"><?= Yii::t('Front', 'NEW TRANSFER') ?></a>
+		<a href="<?= Yii::app()->createUrl('/transfers/incoming') ?>" class="rounded-buttons upload"><?= Yii::t('Front', 'UPLOAD') ?></a>
+	</div>	
 </div>
 <div class="header-bottom clearfix">
 	<ul class="top-menu pull-left list-unstyled">

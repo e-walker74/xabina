@@ -23,19 +23,17 @@
 		<div class="subheader"><?= Yii::t('Front', 'SMS-verification') ?></div>
 		<div class="xabina-alert">
 			<?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number +x xxx xxx {num}.', array('{num}' => $num)) ?>
+			<br/>
+			<a onclick="return resendSms('<?= Yii::t('Front', 'Sms was successfully sent') ?>', this);" href="<?= Yii::app()->createUrl('/transfers/resendsms'); ?>" class="violet-link"><?= Yii::t('Front', 'Send verification code once again'); ?></a>
 		</div>
 		<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'sms-confirmation-code',
-				//'action' => Yii::app()->createUrl('/banking/accountsactivation').'/',
 				'enableAjaxValidation'=>true,
 				'enableClientValidation'=>false,
 				'errorMessageCssClass' => 'error-message',
 				'htmlOptions' => array(
 					'class' => 'form-validable',
-					//'onsubmit'=>"return false;",/* Disable normal form submit */
-					//'onkeypress'=>" if(event.keyCode == 13){ send(); } "
 				),
-				//'focus'=>array($model,'first_name'),
 				'clientOptions'=>array(
 					'validateOnSubmit'=>true,
 					'validateOnChange'=>true,
@@ -78,7 +76,7 @@
 					}'
 				),
 		)); ?>
-		<div class="xabina-form-container">
+		<!--<div class="xabina-form-container">
 			<div class="sms-form">
 				<div class="lbl"><?= Yii::t('Front', 'Verification code') ?></div>
 				<?= $form->textField($model, 'code', array('class' => 'sms-input')) ?>
@@ -88,7 +86,30 @@
 				<a class="submit-button button-back" href="<?= Yii::app()->createUrl('transfers/overview') ?>"><?= Yii::t('Front', 'Back') ?></a>
 				<input type="submit" class="submit-button button-next" value="<?= Yii::t('Front', 'Next') ?>" />
 			</div>
-		</div>
+		</div>-->
+		<div class="xabina-form-container">
+            <div class="sms-verification-cont">
+				
+				<div class="lbl"><?= Yii::t('Front', 'Verification code'); ?></div>
+				<?= $form->textField($model, 'code', array('class' => 'sms-input')) ?>
+				<?= $form->error($model, 'code'); ?>
+
+                <div class="total-value">
+                    <span><?= Yii::t('Front', 'Total Value'); ?></span>
+					<?php foreach($transes as $currency => $value): ?>
+					<br>
+					<?= number_format($value['amount'], 2, ".", " ") ?> <?= $currency ?>
+					<?php endforeach; ?>
+                </div>
+                <div class="transaction-num">
+                    <span><?= Yii::t('Front', 'Transactions #'); ?></span><br/>
+					<?= count($confirmations) ?>
+                </div>
+            </div>
+            <div class="form-submit">
+                <input type="submit" class="submit-button button-next" value="<?= Yii::t('Front', 'Next') ?>" />
+            </div>
+        </div>
 		<?php $this->endWidget(); ?>
 	</div>
 </div>

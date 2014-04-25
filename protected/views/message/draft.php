@@ -9,7 +9,7 @@
                 <tr class="<?=empty($v->opened) ? 'no-read' : 'read'?>">
                     <td width="76%">
                         <div class="message-header <?=empty($v->opened) ? 'read' : 'no-read'?>">
-							<a href="<?= $this->createUrl('message/save', array('type' => 'edit' , 'id' => $v->id))?>"><?=$v->to->name?></a>
+							<a href="<?= $this->createUrl('message/save', array('type' => 'edit' , 'id' => $v->id))?>"><?= $v->to ?></a>
                         </div>
                         <div class="message-subject"> <?= text::limit_words($v->message, 15) ?></div>
                     </td>

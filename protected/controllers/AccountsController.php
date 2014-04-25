@@ -26,7 +26,18 @@ class AccountsController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index','cardbalance', 'transaction', 'uploadattachemnt','getattach','transactionsonpdf', 'getpdf'),
+                'actions' => array(
+					'index',
+					'cardbalance', 
+					'transaction', 
+					'uploadattachemnt',
+					'getattach',
+					'transactionsonpdf', 
+					'getpdf',
+					'addnotetotransaction',
+					'deletenote',
+					'updatecategory',
+				),
                 'roles' => array('client')
             ),
             array('deny', // deny everybody else
@@ -34,7 +45,8 @@ class AccountsController extends Controller
             ),
         );
     }
-
+	
+	
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -248,5 +260,67 @@ class AccountsController extends Controller
 			header('Content-Type: application/pdf');
 			echo Yii::app()->cache->get('pdf_generator_'.$md5.Yii::app()->user->id);
 		}
+	}
+	
+	public function actionAddNoteToTransaction($id){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+		$trans = Transactions::model()->with('account')->findByPk($id);
+		if($trans->account->user_id != Yii::app()->user->id){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		if(isset($_POST['note-text'])){
+			$notes = new Transactions_Notes;
+			$notes->user_id = Yii::app()->user->id;
+			$notes->text = $_POST['note-text'];
+			$notes->transaction_id = $id;
+			if($notes->save()){
+				$html = $this->renderPartial('application.views.accounts._notes', array('trans' => $trans), true);
+				echo CJSON::encode(array('success' => true, 'html' => $html));
+			} else {
+				echo CJSON::encode(array('success' => false));
+			}
+			Yii::app()->end();
+		}
+	}
+	
+	public function actionDeleteNote($id){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		$note = Transactions_Notes::model()->findByPk($id);
+		if($note->user_id != Yii::app()->user->id){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		$note->deleted = 1;
+		$note->save();
+		echo CJSON::encode(array('success' => true));
+	}
+	
+	public function actionUpdateCategory($id){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		$trans = Transactions::model()->with('account')->findByPk($id);
+		if($trans->account->user_id != Yii::app()->user->id){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		$cat_id = Yii::app()->request->getParam('category', '0', 'int');
+		if(!$cat_id){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		$cat = Transactions_Categories::model()->findByPk($cat_id);
+		if($cat->user_id && $cat->user_id != Yii::app()->user_id){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		Transactions_Categories_Links::model()->deleteAll('transaction_id = :id', array(':id' => $id));
+		$link = new Transactions_Categories_Links;
+		$link->transaction_id = $trans->id;
+		$link->category_id = $cat->id;
+		dd($link->save());
+		
+		
 	}
 }

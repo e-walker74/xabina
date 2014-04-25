@@ -40,6 +40,32 @@ $(function(){
             $(this).val( '+' + $(this).val() );
         }
     });
+	
+	$("#Form_Smslogin_phone").on('focus', function(){
+        if(!$(this).val()){
+            $(this).val('+'); 
+        }
+    });
+    $("#Form_Smslogin_phone").on('input', function(){
+        if( !~($(this).val().indexOf('+')) ){
+            $(this).val( '+' + $(this).val() );
+        }
+    });
+	
+	resendLoginEmail = function(message, url){
+		$.ajax({
+ 			url: url,
+ 			success: function(response) {
+ 				if(response.success){
+ 					alert(message)
+ 				}
+ 			},
+ 			cache:false,
+			dataType: 'json',
+ 			data: {success: true},
+ 			type: 'GET'
+ 		});
+	}
 
     //live validation plugin initialization
     /*$('#popup-register-form').liveValidation({
