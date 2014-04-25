@@ -41,6 +41,7 @@ class BankingController extends Controller
      */
     public function actionIndex()
     {
+		$this->breadcrumbs[Yii::t('Front', 'Overview')] = '';
 		
 		$accounts = Accounts::model();
 		$accounts->user_id = Yii::app()->user->id;
@@ -52,6 +53,10 @@ class BankingController extends Controller
     }
 
 	public function actionAccountsActivation(){
+		
+		$this->breadcrumbs[Yii::t('Front', 'Overview')] = array('/banking/index');
+		$this->breadcrumbs[Yii::t('Front', 'Account activation')] = '';
+		
 		if(Yii::app()->request->isAjaxRequest && isset($_POST['deleteFile'])){
 			$activation = Users_Activation::model()->findByPk(Yii::app()->user->id);
 			if($activation->step == 2){
@@ -225,7 +230,7 @@ class BankingController extends Controller
 			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Many files')));
 			Yii::app()->end();
 		}
-		
+
 		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
 		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
 		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
@@ -238,10 +243,10 @@ class BankingController extends Controller
 		$uploader->setFileName(mb_substr(md5(Yii::app()->user->name . time()), 5, 10));
 		$result = $uploader->handleUpload($folder);
 		$return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-		
+
 		$fileSize=filesize($folder.$result['filename']); //GETTING FILE SIZE
 		$fileName=$result['filename']; //GETTING FILE NAME
-		
+
 		if($result['success'] == true){
 			$file = new Users_Files();
 			$file->user_id = Yii::app()->user->id;

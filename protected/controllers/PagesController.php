@@ -37,6 +37,7 @@ class PagesController extends Controller
      */
     public function actionIndex($url)
     {
+		$this->breadcrumbs[Yii::t('Front', $url)] = '';
 		$this->render('index', array('url' => $url));
     }
 }

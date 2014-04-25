@@ -26,7 +26,16 @@ class TransfersController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('outgoing', 'overview', 'delete', 'smsverivicaiton', 'smsconfirm', 'success', 'resendsms'),
+                'actions' => array(
+							'outgoing', 
+							'overview', 
+							'delete', 
+							'smsverivicaiton', 
+							'smsconfirm', 
+							'success', 
+							'resendsms',
+							'history',
+				),
                 'roles' => array('client')
             ),
             array('deny', // deny everybody else
@@ -36,7 +45,7 @@ class TransfersController extends Controller
     }
 	
 	public function init(){
-		$this->breadcrumbs[Yii::t('Front', 'Payments')] = '';
+		
 	}
 	
     /**
@@ -181,7 +190,7 @@ class TransfersController extends Controller
 			echo CActiveForm::validate($model, null, false);
 			Yii::app()->end();
 		}
-		
+
 		if($model->isNewRecord){
 			$model->currency_id = 1; //default EUR currency
 			$model->each_transfer = 1;
@@ -216,7 +225,7 @@ class TransfersController extends Controller
 			$model->end_time = date('m/d/Y', $model->end_time);
 			$model->execution_time = date('m/d/Y', $model->execution_time);
 		}
-		
+
 		$this->render('outgoing', array(
 			'model' => $model,
 			'currencies' => $currencies,
@@ -282,7 +291,15 @@ class TransfersController extends Controller
 	}
 	
 	public function actionSuccess(){
-		$this->render('success');
+	
+		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = array('/transfers/outgoing');
+		$this->breadcrumbs[Yii::t('Front', 'SMS-verification')] = '';
+		$this->breadcrumbs[Yii::t('Front', 'Success')] = '';
+		
+		$time = time() - 3600 * 24 * 5;
+		$transfers = Transfers_Outgoing::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ')', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
+	
+		$this->render('success', array('transfers' => $transfers));
 	}
 	
 	public function actionDelete($id){
@@ -296,6 +313,9 @@ class TransfersController extends Controller
 	}
 	
 	public function actionSmsConfirm(){
+	
+		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = array('/transfers/outgoing');
+		$this->breadcrumbs[Yii::t('Front', 'SMS-verification')] = '';
 	
 		$form = new Form_Smsconfirm();
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirmation-code') {
@@ -413,5 +433,13 @@ class TransfersController extends Controller
 			}
 			echo CJSON::encode(array('success' => true));
 		}
+	}
+	
+	public function actionHistory(){
+		$this->breadcrumbs[Yii::t('Front', 'Payments Overview')] = '';
+		$time = time() - 3600 * 24 * 30;
+		$transfers = Transfers_Outgoing::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ' OR status = 0)', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
+		
+		$this->render('history', array('transfers' => $transfers));
 	}
 }

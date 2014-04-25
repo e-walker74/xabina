@@ -28,8 +28,8 @@ class AccountsController extends Controller
             array('allow', // allow readers only access to the view file
                 'actions' => array(
 					'index',
-					'cardbalance', 
-					'transaction', 
+					'cardbalance',
+					'transaction',
 					'uploadattachemnt',
 					'getattach',
 					'transactionsonpdf', 
@@ -37,6 +37,7 @@ class AccountsController extends Controller
 					'addnotetotransaction',
 					'deletenote',
 					'updatecategory',
+					'payments',
 				),
                 'roles' => array('client')
             ),
@@ -45,24 +46,30 @@ class AccountsController extends Controller
             ),
         );
     }
-	
-	
+
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
     public function actionIndex()
     {
+
+		$this->breadcrumbs[Yii::t('Front', 'Accounts')] = '';
+
 		$accounts = Accounts::model();
 		$accounts->user_id = Yii::app()->user->id;
-		
+
 		$transactions = Transactions::model();
 		$transactions->user_id = Yii::app()->user->id;
-		
+
 		$this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
     }
-	
+
 	public function actionCardBalance(){
+
+		$this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+		$this->breadcrumbs[Yii::t('Front', 'Balance')] = '';
+
 		$accounts = Accounts::model()->with('user')->findAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
 		if(empty($accounts)){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -73,7 +80,7 @@ class AccountsController extends Controller
 		} elseif(!$selectedAcc) {
 			$selectedAcc = $accounts[0];
 		}
-		
+
 		$model = new Form_Search();
 		$model->from_date = date('m/d/Y', time()-3600*24*30);
 		$model->account_number = $selectedAcc->number;
@@ -85,13 +92,13 @@ class AccountsController extends Controller
 			echo CJSON::encode(array('success' => true, 'html' => $html));
 			Yii::app()->end();
 		}
-		
+
 		if(Yii::app()->request->isAjaxRequest && $accountNumber = Yii::app()->request->getParam('account', false, 'int')){
 			$html = $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $selectedAcc->transactions), true, false);
 			echo CJSON::encode(array('success' => true, 'html' => $html));
 			Yii::app()->end();
 		}
-		
+
 		$this->render('cardbalance', 
 			array(
 				'accounts' => $accounts, 
@@ -99,15 +106,21 @@ class AccountsController extends Controller
 				'model' => $model,
 			));
 	}
-	
+
 	public function actionTransaction($id){
+
+		$this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+		$this->breadcrumbs[Yii::t('Front', 'Balance')] = array('/accounts/cardBalance');
+		$this->breadcrumbs[Yii::t('Front', 'Transaction details')] = '';
+
 		$trans = Transactions::model()->with('account')->findByPk($id);
+		
 		if($trans->account->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}		
-		
+
 		if(isset($_POST['Transactions_Info_Attachments'])){
-			
+
 			$file = Transactions_Info_Attachments::model();
 			$file->attributes = $_POST['Transactions_Info_Attachments'];
 			$file = Transactions_Info_Attachments::model()->find('name = :name AND user_id = :user_id', array(':name' => $file->name, ':user_id' => Yii::app()->user->id));
@@ -122,22 +135,22 @@ class AccountsController extends Controller
 				Yii::app()->end();
 			}
 		}
-		
+
 		$model = new Transactions_Info_Attachments;
-		
+
 		$this->render('transaction', array('trans' => $trans, 'model' => $model));
 	}
-	
+
 	public function actionUploadAttachemnt($id){
 		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
 		$documentNum = Yii::app()->request->getParam('doc','int');
-		
+
 		$trans = Transactions::model()->findByPk($id);
 
 		if(!$trans || $trans->account->user_id != Yii::app()->user->id){
 			echo CJSON::encode(array('success' => false));
 		}
-		
+
 		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/attachments/'; // folder for uploaded files
 		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
 		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
@@ -150,10 +163,10 @@ class AccountsController extends Controller
 		$uploader->setFileName(mb_substr(md5(Yii::app()->user->name . time()), 5, 10));
 		$result = $uploader->handleUpload($folder);
 		$return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-		
+
 		$fileSize=filesize($folder.$result['filename']); //GETTING FILE SIZE
 		$fileName=$result['filename']; //GETTING FILE NAME
-		
+
 		if($result['success'] == true){
 			$attachemntFile = new Transactions_Info_Attachments;
 			$attachemntFile->user_id = Yii::app()->user->id;
@@ -167,12 +180,12 @@ class AccountsController extends Controller
 		echo $return;// it's array
 		Yii::app()->end();
 	}
-	
+
 	public function actionGetAttach($name){
 		$user_id = Yii::app()->user->id;
 		$name = Yii::app()->request->getParam('name', 'str');
 		$model = Transactions_Info_Attachments::model()->find('user_id = :user_id AND name = :name', array(':user_id' => $user_id, ':name' => $name));
-		
+
 		if(!$model){
 			throw new CHttpException(404, Yii::t('Admin', 'Page not found'));
 		}
@@ -202,7 +215,7 @@ class AccountsController extends Controller
 			exit;
 		}
 	}
-	
+
 	public function actionTransactionsOnPdf(){
 		$model = new Form_Search();
 		if(isset($_GET['Form_Search'])){
@@ -227,7 +240,7 @@ class AccountsController extends Controller
 
 			$stylesheet = file_get_contents('http://xabina.com/css/pdf/style.css'); /*подключаем css*/
 			$mpdf->WriteHTML($stylesheet, 1);
-			
+
 			$mpdf->list_indent_first_level = 0; 
 			$start_date = date('d M Y', strtotime($model->from_date));
 			$end_date = ($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time());
@@ -243,7 +256,7 @@ class AccountsController extends Controller
 				</table>
 			</div>');
 			$mpdf->WriteHTML($html, 2); /*формируем pdf*/
-			
+
 			//ob_start();
 			$mpdf->Output('transactions.pdf', 'I');
 			//$template = ob_get_contents();
@@ -253,7 +266,7 @@ class AccountsController extends Controller
 		}
 		Yii::app()->end();
 	}
-	
+
 	public function actionGetPdf($md5){
 		if(Yii::app()->cache->get('pdf_generator_'.$md5.Yii::app()->user->id)){
 			header('Content-Description: File Transfer');
@@ -261,12 +274,12 @@ class AccountsController extends Controller
 			echo Yii::app()->cache->get('pdf_generator_'.$md5.Yii::app()->user->id);
 		}
 	}
-	
+
 	public function actionAddNoteToTransaction($id){
 		if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
-		
+
 		$trans = Transactions::model()->with('account')->findByPk($id);
 		if($trans->account->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -285,7 +298,7 @@ class AccountsController extends Controller
 			Yii::app()->end();
 		}
 	}
-	
+
 	public function actionDeleteNote($id){
 		if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -298,7 +311,7 @@ class AccountsController extends Controller
 		$note->save();
 		echo CJSON::encode(array('success' => true));
 	}
-	
+
 	public function actionUpdateCategory($id){
 		if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -320,7 +333,5 @@ class AccountsController extends Controller
 		$link->transaction_id = $trans->id;
 		$link->category_id = $cat->id;
 		dd($link->save());
-		
-		
 	}
 }
