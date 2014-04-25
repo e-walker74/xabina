@@ -27,25 +27,23 @@ $(function(){
 		});
 	}
 	
-	deleteTransaction = function(link, message){
-		if (confirm(message)) {
-			url = $(link).attr('href')
-			$.ajax({
-				url: url,
-				success: function(data) {
-					var response= jQuery.parseJSON (data);
-					if(response.success){
-						$(link).parents('tr').slideUp().remove()
-					} else {
+	deleteTransaction = function(link){
+		url = $(link).attr('href')
+		$.ajax({
+			url: url,
+			success: function(data) {
+				var response= jQuery.parseJSON (data);
+				if(response.success){
+					$(link).parents('tr').slideUp().remove()
+				} else {
 
-					}
-				},
-				cache:false,
-				async: true,
-				data: {},
-				type: 'POST'
-			});
-		}
+				}
+			},
+			cache:false,
+			async: true,
+			data: {},
+			type: 'POST'
+		});
 		return false;
 	}
 	
@@ -57,7 +55,7 @@ $(function(){
 				var response= jQuery.parseJSON (data);
 				if(response.success){
 					if(response.html)
-					$('.table-xabina-overview-re').html(response.html)
+					$('.overview-payment-sum').html(response.html)
 				} else {
 					location.reload()
 				}
@@ -106,7 +104,11 @@ $(function(){
 		});
 	}
 	
+	
+	
 });
+
+
 
 (function($) {
     $.fn.extend( {
@@ -125,11 +127,38 @@ $(function(){
             setCount($(this)[0], elem);
         }
     });
+
+	checkSelectedTransactions = function(message){
+		if($('.overview-check:checked').length == 0){
+			alert(message)
+			return false
+		}
+	}
+
+	resendSms = function(message, link){
+		$.ajax({
+			url: $(link).attr('href'),
+			success: function(data) {
+				if(data.success){
+					alert(message)
+				}
+			},
+			dataType: 'json',
+			cache: false,
+			async: true,
+			type: 'POST'
+		});
+		return false;
+	}
+
 })(jQuery);
 
 $(document).ready(function(){
+	if($('textarea.len1').length != 0)
 	$('textarea.len1').limiter('140',$('.len1-num'));
+	if($('textarea.len2').length != 0)
 	$('textarea.len2').limiter('140',$('.len1-num'));
+	if($('textarea.len3').length != 0)
 	$('textarea.len3').limiter('140',$('.len1-num'));
 
 	$('.main-container').on('click', '.overview-check', function(){

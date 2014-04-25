@@ -36,18 +36,74 @@
 		</div>
 		<a href="javaScript:void(0)" onclick="js:updateTransactionsTable(this);" class="refresh-button"></a>
 	</div>
-
-	<div class="balance-search">
-		<div class="advanced-search">
-			<a href="#" class="advanced-button"><span><?= Yii::t('Front', 'Аdvanced search'); ?></span></a>
-		</div>
-		<a class="outcoming trans-button" href="<?= Yii::app()->createUrl('/transfers/outgoing', array('account' => $selectedAcc->number)) ?>"><?= Yii::t('Front', 'outgoing transfer'); ?></a>
-		<!--<div class="incoming trans-button"><?= Yii::t('Front', 'incoming transfer'); ?></div>-->
-
-
-
-	</div>
+	
 	<div class="clearfix"></div>
+	
+	<div class="transfer-accordion" id="search_accordion">
+		<div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Advanced search'); ?> </a><span class="arr"></span></div>
+		<div class="accordion-content">
+			<?php $form=$this->beginWidget('CActiveForm', array(
+				//'action'=>Yii::app()->createUrl(),
+				'method'=>'get',
+				'htmlOptions' => array('class' => 'advanced-search-form', 'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/'),
+			)); ?>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="field-lbl"><?= $model->getAttributeLabel('keyword') ?> </div>
+						<div class="field-input">
+							<?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text', 'placeholder' => Yii::t('Front', 'You can filer transactions by Sender, Account number or any Keyword'))); ?>
+							<?= $form->hiddenField($model, 'account_number'); ?>
+						</div>
+					</div>
+				</div>				
+				<div class="row second-row" >
+					<div class="col-nested-3">
+						<div class="field-lbl"><?= Yii::t('Front', 'Date'); ?></div>
+						<div class="field-input ">
+							<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
+							<?= $form->textField($model, 'from_date', array('autocomplete' => 'off', 'class' => 'input-text two-row-input calendar-input')); ?>
+							<span class="calendar-ico"></span>
+						</div>
+						<div class="field-input two-line">
+							<span class="from-lbl "><?= Yii::t('Front', 'to') ?></span>
+							<?= $form->textField($model, 'to_date', array('autocomplete' => 'off', 'class' => 'input-text two-row-input calendar-input')); ?>
+							<span class="calendar-ico"></span>
+						</div>
+					</div>
+					<div class="col-nested-3">
+						<div class="field-lbl "><?= Yii::t('Front', 'Sum') ?></div>
+						<div class="field-input ">
+							<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
+							<?= $form->textField($model, 'from_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input')); ?>
+						</div>
+						<div class="field-input two-line">
+							<span class="from-lbl "><?= Yii::t('Front', 'to') ?></span>
+							<?= $form->textField($model, 'to_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input')); ?>
+
+						</div>
+					</div>
+					<div class="col-nested-3">
+						<div class="field-lbl empty">d</div>
+						<div class="field-input ">
+							<div class="select-custom">
+							<span class="select-custom-label"><?= Yii::t('Front', 'All transactions') ?></span>
+								<?=  $form->dropDownList($model, 'type', array(
+									'' => Yii::t('Front', 'All transactions'), 
+									'incoming' => Yii::t('Front', 'Incoming'),
+									'outgoing' => Yii::t('Front', 'Outgoing'),
+								), array('class' => 'select-invisible')); ?>
+							</div>
+						</div>
+						<div class="field-input  search-cont two-line">
+							<input type="submit" class="button-find" onclick="js:searchTransactions(this); return false;" value="<?= Yii::t('Front', 'Search'); ?>" />
+						</div>
+
+					</div>
+				</div>
+			<?php $this->endWidget(); ?>
+		</div>
+	</div>
+	
 	<div class="advanced-search-form" style="display: none">
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			//'action'=>Yii::app()->createUrl(),
@@ -56,58 +112,7 @@
 			'htmlOptions' => array('data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/'),
 		)); ?>
 		<div class="row">
-			<div class="col-nested-3">
-				<div class="field-lbl">
-					<?= $model->getAttributeLabel('sender') ?> 
-				</div>
-				<div class="field-input">
-					<?= $form->textField($model, 'sender', array('autocomplete' => 'off', 'class' => 'input-text')); ?>
-				</div>
-			</div>
-			<div class="col-nested-3">
-				<div class="field-lbl">
-					<?= $model->getAttributeLabel('account_number') ?> 
-				</div>
-				<div class="field-input">
-					<?= $form->textField($model, 'account_number', array('autocomplete' => 'off', 'class' => 'input-text')); ?>
-				</div>
-			</div>
-			<div class="col-nested-3">
-				<div class="field-lbl">
-					<?= $model->getAttributeLabel('keyword') ?> 
-				</div>
-				<div class="field-input">
-					<?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text')); ?>
-				</div>
-			</div>
-
-		</div>
-		<div class="row">
-			<div class="col-nested-3">
-				<div class="field-lbl"><?= Yii::t('Front', 'Date'); ?></div>
-				<div class="field-input ">
-					<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
-					<?= $form->textField($model, 'from_date', array('autocomplete' => 'off', 'class' => 'input-text two-row-input calendar-input')); ?>
-					<span class="calendar-ico"></span>
-				</div>
-				<div class="field-input two-line">
-					<span class="from-lbl "><?= Yii::t('Front', 'to') ?></span>
-					<?= $form->textField($model, 'to_date', array('autocomplete' => 'off', 'class' => 'input-text two-row-input calendar-input')); ?>
-					<span class="calendar-ico"></span>
-				</div>
-			</div>
-			<div class="col-nested-3">
-				<div class="field-lbl "><?= Yii::t('Front', 'Sum') ?></div>
-				<div class="field-input ">
-					<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
-					<?= $form->textField($model, 'from_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input')); ?>
-				</div>
-				<div class="field-input two-line">
-					<span class="from-lbl "><?= Yii::t('Front', 'to') ?></span>
-					<?= $form->textField($model, 'to_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input')); ?>
-
-				</div>
-			</div>
+			
 			<div class="col-nested-3">
 				<div class="field-lbl empty">d</div>
 				<div class="field-input ">
@@ -132,9 +137,11 @@
 
 
 	<div class="subheader"><?= Yii::t('Front', 'Transaction'); ?>
-		<div class="relative pull-right">
-			<div class="trans-download dropdown_button"><a href="#"><span><?= Yii::t('Front', 'Download Statement'); ?></span></a></div>
-		</div>
+	<div class="relative pull-right transaction-actions">
+		<a class="relative button download-button dropdown_button" href="#"></a>
+		<a class="button send-button" href="#"></a>
+		<a class="button print-button" href="#"></a>
+	</div>
 	</div>
 	<div class="transaction-table-header">
 		<table class="transaction-header">

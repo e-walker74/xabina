@@ -8,15 +8,6 @@
 		'summaryText' => '',
 		'itemsCssClass' => 'table xabina-table accounts-table',
 		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number)))',
-		'afterAjaxUpdate'=>'function(){$(\'.currency_dropdown\').currencyDropDown({
-			currencies: {
-				EUR: \'EUR\',
-				USD: \'USD\',
-				RUB: \'RUB\',
-				CHF: \'CHF\',
-				JPY: \'JPY\'
-			}
-		})}',
 		/*'htmlOptions' => array(
 			'class' => 'table xabina-table',
 		),*/
@@ -25,21 +16,23 @@
 		//'cssFile'=>Yii::app()->getBaseUrl(true).'/css/styles-admin.css',
 		'columns'=>array(
 			array(
-				'header' => Yii::t('Front', 'Account number'),
-				'value' => 'chunk_split($data->number, 4)',
+				'header' => Yii::t('Front', 'Account'),
+				'value' => '"<b>".$data->user->fullName."</b><br/>".chunk_split($data->number, 4)',
+				'type' => 'html',
 			),
 			array(
 				'header' => Yii::t('Front', 'Type'),
 				'value' => 'Yii::t("Front", "[".$data->type_info->title."_account_type]");',
 			),
 			array(
-				'header' => Yii::t('Front', 'Owner'),
-				'value' => '$data->user->fullName',
+				'header' => Yii::t('Front', 'Name'),
+				'value' => '"we have no names"',
 			),
 			array(
 				'header' => Yii::t('Front', 'Balance') . ' <span class="sort_arr"></span>',
 				'value' => '($data->balance >= 0) ? "<span class=\"sum-inc\">".number_format($data->balance, 2, ".", " ")."</span>" : "<span class=\"sum-dec\">".number_format($data->balance, 2, ".", " ")."</span>"',
 				'htmlOptions' => array('style' => 'text-align:right;'),
+				'headerHtmlOptions' => array('style' => 'text-align:right;'),
 				'name' => 'balance',
 				'type' => 'html',
 			),

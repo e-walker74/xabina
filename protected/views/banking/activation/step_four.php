@@ -1,5 +1,5 @@
 <div class="h1-header"><?= Yii::t('Front', 'Account activation'); ?></div>
-<div class="xabina-progress-bar">
+<div class="xabina-progress-bar complete">
 	<div class="step step1 ">
 		<div class="step-name"><?= Yii::t('Front', 'Personal Information'); ?></div>
 		<div class="step-arr"></div>

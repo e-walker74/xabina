@@ -1,6 +1,5 @@
 <?php
 
-
 class Messages extends ActiveRecord
 {
 
@@ -12,14 +11,29 @@ class Messages extends ActiveRecord
 	public function rules()
 	{
 		return array(
-            array('message, subject_id, to_id', 'required', 'on'=> 'Save'),
-            array('message', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
-			array('archive, subject_id, to_id', 'numerical', 'integerOnly'=>true),
-            array('to_id, user_id, dialog_id', 'safe'),
+            array('message, to, subject', 'required', 'on'=> 'update'),
+            array('message, subject, to', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify'), 'message' => 'Purifier'),
+			array('to', 'validateToField', 'on' => 'update'),
+			array('archive', 'numerical', 'integerOnly'=>true),
+            array('to, user_id, dialog_id', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, dialog_id, message, archive, draft, subject_id, to_id', 'safe', 'on'=>'search'),
+			array('id, dialog_id, message, archive, draft, subject, to', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	public function validateToField($attribute,$params){
+		$toArr = explode(',', trim($this->to));
+		foreach($toArr as $to){
+			$to = trim($to);
+			if(Messages_To::model()->find('name = :name', array(':name' => $to))){
+				continue;
+			} elseif(is_numeric($to) && Users::model()->find('login = :login', array(':login' => $to))){
+				continue;
+			}
+			$this->addError('to', Yii::t('Front', 'To is incorrect'));
+		}
+		return true;
 	}
 
 	/**
@@ -28,10 +42,8 @@ class Messages extends ActiveRecord
 	public function relations()
 	{
 		return array(
-			'subject' => array(self::BELONGS_TO, 'Messages_Subject', 'subject_id'),
-            'to' => array(self::BELONGS_TO, 'Messages_To', 'to_id'),
+            //'to' => array(self::BELONGS_TO, 'Messages_To', 'to'),
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-           // 'dialog' => array(self::HAS_MANY, 'Messages', 'dialog_id'),
 		);
 	}
 
@@ -45,8 +57,8 @@ class Messages extends ActiveRecord
 			'draft' => 'Draft',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
-			'subject_id' => 'Subject',
-            'to_id' => 'To'
+			'subject' => 'Subject',
+            'to' => 'To'
 		);
 	}
 
@@ -64,8 +76,8 @@ class Messages extends ActiveRecord
 		$criteria->compare('draft',0);
 		$criteria->compare('created_at',$this->created_at);
 		$criteria->compare('updated_at',$this->updated_at);
-		$criteria->compare('subject_id',$this->subject_id);
-        $criteria->compare('to_id',$this->to_id);
+		$criteria->compare('subject',$this->subject);
+        $criteria->compare('to',$this->to);
 		$criteria->with = array('user');
 		$criteria->together = true;
 		$criteria->group = 't.dialog_id desc';
@@ -102,17 +114,20 @@ class Messages extends ActiveRecord
             return null;
         }
 
-        $condition = 'dialog_id=:dialog_id AND id !=:id AND user_id=:user_id  AND archive=:archive AND subject_id > 0 AND draft=0';
+        $condition = 'dialog_id=:dialog_id AND id !=:id AND user_id=:user_id AND archive=:archive AND draft=0';
         $params = array(
             ':user_id' => (int)Yii::app()->user->id,
             ':id' => $id,
             ':dialog_id' => $dialog_id,
             ':archive' => $archive,
         );
+
         $criteria = new CDbCriteria();
         $criteria->condition = $condition;
         $criteria->params = $params;
         $criteria->order = 'updated_at DESC';
-        return self::model()->findAll($criteria);
+        
+		return self::model()->findAll($criteria);
     }
+
 }

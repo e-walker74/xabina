@@ -48,31 +48,18 @@ $(function(){
 	}
 	
 	last = function(url, button){
-		var forms = jQuery(document).find('form')
-		$.each(forms, function(key, value) {
-			if(!$(value).hasClass("success")){
-				$(value).find(".violet-button-slim").click()
-			}
-		})
-		var success = true;
-		$.each(forms, function(key, value) {
-			if(!$(value).hasClass("success")){
-				success = false
-			}
-		})
-		if(success){
+		
+		if($('#attachments-block .attachments-list li').length > 1){
 			$.ajax({
 				url: url,
-				success: function(data) {
-					var response= jQuery.parseJSON (data);
+				success: function(response) {
 					if(response.success){
-						$(document).find("input").parent().addClass("valid")
-						$(document).find("input").next(".validation-icon").fadeIn();
 						$("#steps").html(response.html)
 					} else {
 						
 					}
 				},
+				dataType: 'json',
 				cache:false,
 				data: {success: true},
 				type: 'POST'

@@ -16,7 +16,21 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('login', 'terms', 'index', 'error', 'registration', 'remind', 'registrationsuccess', 'remindsuccess'),
+                'actions' => array(
+					'login', 
+					'terms', 
+					'index', 
+					'error', 
+					'registration', 
+					'remind', 
+					'registrationsuccess', 
+					'remindsuccess',
+					'SMSLogin',
+					'SMSConfirm',
+					'SMSConfirm',
+					'SMSPhoneChange',
+					'resendloginsms',
+				),
                 'users' => array('*')
             ),
 			array('allow', // allow readers only access to the view file
@@ -64,6 +78,8 @@ class SiteController extends Controller {
 			$this->redirect(array('/banking/index'));
 		}
 		
+		$this->redirect(array('/site/SMSLogin'));
+
         $model = new Form_Login;
 
         // if it is ajax validation request
@@ -84,6 +100,114 @@ class SiteController extends Controller {
 
         $this->render('frm/_login', array('model' => $model));
     }
+	
+	public function actionResendLoginSMS(){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		if(!isset(Yii::app()->session['user_phone'])){
+			$this->redirect(array('/site/smslogin'));
+		}
+		
+		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+		$model = new Form_Smslogin('login');
+		$model->userId = $user->login;
+		if($model->smsSendCode()){
+			echo CJSON::encode(array('success' => true));
+		}
+	}
+	
+	public function actionSMSLogin(){
+	
+		$model = new Form_Smslogin('login');
+		
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-login') {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+		
+		if(isset($_POST['Form_Smslogin'])){
+			$model->userId = $_POST['Form_Smslogin']['userId'];
+			if($model->smsSendCode())
+				$this->redirect(array('/site/SMSConfirm'));
+		}
+
+		$this->render('frm/_smslogin', array('model' => $model));
+	}
+	
+	public function actionSMSConfirm(){
+	
+		$model = new Form_Smslogin('confirm');
+		if(!isset(Yii::app()->session['user_phone'])){
+			$this->redirect(array('/site/smslogin'));
+		}
+		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+		$model->userId = $user->login;
+
+		if(!Yii::app()->cache->get('sms_auth_code_user_'.$model->userId)){
+			$this->redirect(array('/site/smslogin'));
+		}
+	
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirm') {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+		
+		if(isset($_POST['Form_Smslogin'])){
+			if(!isset(Yii::app()->session['user_phone'])){
+				$this->redirect(array('/site/smslogin'));
+			}
+			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+			$model->code = $_POST['Form_Smslogin']['code'];
+			
+			if(!$user->phone_confirm){
+				$user->phone_confirm = 1;
+				$newPhone = new Users_Phones;
+				$newPhone->user_id = $user->id;
+				$newPhone->email_type_id = 3; // TODO: email types
+				$newPhone->phone = $user->phone;
+				$newPhone->status = 1;
+				$newPhone->is_master = 1;
+				$newPhone->withOutHash = true;
+				$newPhone->save();
+				$user->save();
+			}
+			
+			if($model->login()){
+				$this->redirect(array('banking/index'));
+			}
+		}
+	
+		$this->render('frm/_smsconfirm', array('model' => $model, 'user' => $user));
+	}
+	
+	public function actionSMSPhoneChange(){
+	
+		$model = new Form_Smslogin('change');
+		if(!isset(Yii::app()->session['user_phone'])){
+			$this->redirect(array('/site/smslogin'));
+		}
+		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+		$model->userId = $user->login;
+		if($user->phone_confirm){
+			throw new CHttpException(404, Yii::t('Page not found'));
+		}
+		
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+		
+		if(isset($_POST['Form_Smslogin'])){
+			$user->phone = $_POST['Form_Smslogin']['phone'];
+			if($user->save() && $model->smsSendCode()){
+				$this->redirect(array('/site/SMSConfirm'));
+				
+			}
+		}
+		
+		$this->render('frm/_smsnewphone', array('model' => $model));
+	}
 
     /**
      * Logs out the current user and redirect to homepage.
@@ -116,11 +240,11 @@ class SiteController extends Controller {
         }
         $this->render('frm/_registration', array('model' => $model));
     }
-	
+
 	public function actionRegistrationSuccess(){
 		$this->render('registrationSuccess');
 	}
-	
+
 	public function actionRemindSuccess(){
 		$this->render('remindEmailSend');
 	}

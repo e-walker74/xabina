@@ -58,16 +58,9 @@ class UserController extends Controller
 				$personal->last_name = $user->last_name;
 				$personal->save();
 				
-				$phone = new Users_Phones;
-				$phone->user_id = $user->id;
-				$phone->email_type_id = 3; // TODO: email types
-				$phone->phone = $user->phone;
-				$phone->status = 0;
-				$phone->save();
-				
-				if(Yii::app()->sms->to($phone->phone)->body('Activation Code: {code} Xabina welcomes you! Please, activate mobile phone in the Settings tab of online banking.', array('{code}' => $phone->hash))->send() != 1){
+				/*if(Yii::app()->sms->to($phone->phone)->body('Activation Code: {code} Xabina welcomes you! Please, activate mobile phone in the Settings tab of online banking.', array('{code}' => $phone->hash))->send() != 1){
 					Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
-				}
+				}*/
 				
 				$email = new Users_Emails;
 				$email->user_id = $user->id;
@@ -76,7 +69,9 @@ class UserController extends Controller
 				$email->status = 1;
 				$email->is_master = 1;
 				$email->save();
-			
+				
+				$this->redirect(array('/site/SMSLogin'));
+				/*
 				$model = new Form_Login;
 				$model->login = $user->email;
 				$model->password = $user->password;
@@ -86,6 +81,7 @@ class UserController extends Controller
 					Yii::app()->user->addNotification('mobile_activation', 'To activate the mobile click <a href="'.Yii::app()->createUrl('personal/editphones').'">here</a>', 'critical', 'red');
 					$this->redirect(array('banking/index'));
 				}
+				*/
 			}
 		} else {
 			throw new CHttpException(404, Yii::t('Error', 'Page not found. This is disposable link.'));

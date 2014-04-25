@@ -17,6 +17,7 @@ $(function(){
 		$('.total_currencies span.'+$('.currency_dropdown').text()).show()
 	}
 	
+	if($('.currency_dropdown').length != 0)
 	$('.currency_dropdown').tempDropDown({
         list: {
             EUR: 'EUR',
@@ -433,6 +434,7 @@ $(function(){
 			});
 		}
 	}
+	
 
 	/**
 	* Удаление сообщений
@@ -456,8 +458,8 @@ $(function(){
 			cache:false,
 			type: 'GET'
 		});
-  } 
-	
+	}
+
 });
 
 function printDiv(divName) {
@@ -480,20 +482,11 @@ $(document).ready(function(){
 		window.location.href=url
 	})
 
+	if($('.calendar-input').length != 0)
 	$(".calendar-input").datepicker({
 		showOn:"button",
 		buttonImage: '/images/calendar_ico.png',
 		buttonImageOnly:true
-	});
-	
-	$('.trans-download').tempDropDown({
-		list: {
-		   PDF: 'PDF'
-		   /*,Other: 'Other'*/
-		},
-		listClass: 'formats_dropdown',
-		toChange: false,
-		callback: downloadPdf
 	});
 	
 	$('select.language-select').on('change', function(){
@@ -528,6 +521,7 @@ $(document).ready(function(){
 		}
 	}
 	
+	if($('.with_datepicker').length != 0)
 	$(".with_datepicker").datepicker({
         showOn:"button",
         buttonImage: '/images/calendar_ico.png',
@@ -550,6 +544,143 @@ $(document).ready(function(){
         $maskedEl.html('**********');
     })
 	
+	
+	
+	if($('.calendar-input, .with_datepicker').length)
+    $(".calendar-input, .with_datepicker").datepicker({
+        showOn:"button",
+        buttonImage: '/images/calendar_ico.png',
+        buttonImageOnly:true
+    });
+    if($('.calendar-input-2').length)
+    $(".calendar-input-2").datepicker({
+        showOn:"button",
+        buttonImage: '/images/calendar_ico_2.png',
+        buttonImageOnly:true
+    });
+	
+	/*if($('input.button-find').length)
+	$(document).keyup(function(event){
+		if(event.keyCode == 13){
+			$("input.button-find").click();
+		}
+	});*/
+	
+	if($('.download-button').length != 0)
+	$('.download-button').tempDropDown({
+		list: {
+		   PDF: 'PDF'
+		   /*,Other: 'Other'
+		   PDF : 'PDF' ,
+           XLS : 'XLS' ,
+           DOC : 'DOC' ,
+           JPG : 'JPG'*/
+		},
+		listClass: 'formats_dropdown',
+		toChange: false,
+		callback: downloadPdf
+	});
+	
+	if($('#addNotes').length != 0){
+		$('#addNotes').on('submit', function(ev) {
+			var data = $('#addNotes').serialize();
+			$.post($('#addNotes').attr('action'), data, function(data){
+				if(data.success){
+					$('#notes-list').html(data.html)
+					$('html, body').animate({
+						scrollTop: $("#notes-list").offset().top-50
+					}, 500);
+				}
+				$('#addNotes')[0].reset()
+			}, 'json')
+			
+			return false;
+		});
+	}
+	
+	if($("#notes-list"))
+	$("#notes-list").on('click', '.delete', function(){
+		var link = $(this)
+		
+		if(!confirm(link.attr('data-confirm-text'))){
+			return false;
+		}
+		
+		$.ajax({
+			type: "POST",
+			url: link.attr('href'),
+			success: function(data){
+				if(data.success){
+					link.parents('li').remove()
+				}
+			},
+			dataType: 'json'
+		});
+		return false;
+	})
+	
+	if($("#transaction-category-select"))
+	$("#transaction-category-select").change(function(){
+		
+		$.ajax({
+			type: "POST",
+			url: $("#transaction-category-select").attr('data-url'),
+			data: {category: $("#transaction-category-select").val()}
+		});
+		return false;
+	})
+	
+	$( ".escape-dialog" ).dialog({
+        autoOpen: false,
+        appendTo: '#top_container .clearfix',
+        dialogClass: 'xabina-popup-alerts',
+        height: 'auto',
+        minHeight: 0,
+        position:{
+            my: 'right top',
+            at: 'right bottom',
+            of: ".user-logout"
+        },
+        show: 'fadeIn',
+        resizable: false
+    });
+
+    /*$( ".user-logout" ).click(function() {
+        var $dialog = $( ".escape-dialog" );
+        $dialog.dialog( "option", "width", $(this).parents('.clearfix').width());
+        $dialog.dialog( "open" );
+        return false;
+    });*/
+    $('.xabina-dialog .no').click(function(){
+        $(this).parents('.xabina-dialog').dialog('close');
+        return false;
+    });
+    $('.xabina-dialog .yes').click(function(){
+        var link = $(this).parents('a')
+		return deleteTransaction(link)
+    });
+
+    $( ".remove-dialog" ).dialog({
+        autoOpen: false,
+        dialogClass: 'xabina-popup-alerts',
+        height: 'auto',
+        minHeight: 0,
+        show: 'fadeIn'
+    });
+	
+	if($('.remove-with-dialog').length != 0)
+	$('.remove-with-dialog').click(function() {
+        var $dialog =  $( ".remove-dialog" );
+        $dialog.dialog( "option", "appendTo", $(this));
+        $dialog.dialog( "option", "width", $(this).parents('.xabina-form-container').width());
+        $dialog.dialog( "option", "position", {
+            my: 'right+11 top+15',
+            at: 'right bottom',
+            of: $(this)
+        } );
+        $dialog.dialog( "open" );
+        return false;
+    })
 })
 
 

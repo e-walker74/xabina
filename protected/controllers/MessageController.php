@@ -21,7 +21,7 @@ class MessageController extends Controller
             ),
             array('allow',
                 'actions' => array(
-                    'index', 'view', 'archive', 'draft', 'outbox', 'new', 'save', 'cancel', 'del', 'reply',
+                    'index', 'view', 'archive', 'draft', 'outbox', 'new', 'save', 'cancel', 'del',
                 ),
                 'roles' => array('client')
             ),
@@ -38,19 +38,28 @@ class MessageController extends Controller
 
     public function actionNew()
     {
-        $dialog_id = Yii::app()->getRequest()->getQuery('id');
+        $mess_id = Yii::app()->getRequest()->getQuery('id', '0', 'int');
 
         $model = new Messages();
 
-        if(empty ($dialog_id)){
-            $dialog_id_obj = $model->find(array(
-                'select' => 'dialog_id',
-                'order' => 'dialog_id DESC',
-                'limit' => 1
-            ));
+        if(!$mess_id){
+			$dialog_id_obj = $model->find(array(
+				'select' => 'dialog_id',
+				'order' => 'dialog_id DESC',
+				'limit' => 1
+			));
 
-            $dialog_id = empty($dialog_id_obj->dialog_id) ? 1 : (int)$dialog_id_obj->dialog_id + 1;
-        }
+			$model->dialog_id = empty($dialog_id_obj->dialog_id) ? 1 : (int)$dialog_id_obj->dialog_id + 1;
+        } else {
+			$last = Messages::model()->findByPk($mess_id);
+			if($last->user_id != Yii::app()->user->id){
+				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+			}
+			$dialog_id = $last->dialog_id;
+
+			$model->to = $last->from;
+			$model->subject = $last->subject;
+		}
 
         $model->draft = 1;
         $model->dialog_id = $dialog_id;
@@ -60,27 +69,19 @@ class MessageController extends Controller
         $model->save();
 		
 		$this->redirect(array('/message/save', 'type' => 'edit', 'id' => $model->id));
-
-        $model->scenario = 'Save';
-
-        $this->render('new', array(
-            'model' => $model,
-            //'id' => $model->id,
-            //'dialog_id' => 0,
-        ));
     }
 
     public function actionIndex()
     {
         $sql = "SELECT t1.* FROM messages t1
-                  INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages WHERE user_id=:user_id AND draft=0 GROUP BY dialog_id) t2
+                  INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages WHERE user_id=:user_id AND draft=0 AND sended=1 AND from_id != :user_id GROUP BY dialog_id) t2
                     ON t1.dialog_id = t2.dialog_id AND t1.updated_at = t2.updated_at
                 WHERE
                 archive=0 AND
-                from_id=0 AND
-                subject_id > 0 AND
-                draft=0
-                ORDER BY updated_at DESC";
+				user_id != from_id AND
+				user_id = :user_id AND
+                sended=1
+                ORDER BY sent_at DESC";
 
         $messages = Messages::model()->findAllBySql($sql, array(
                 ':user_id' => (int)Yii::app()->user->id)
@@ -108,9 +109,16 @@ class MessageController extends Controller
 			$archive = 1;
 		}
 		
+		if($model->user_id != Yii::app()->user->id){
+			throw new CHttpException(404, Yii::t('Page not found'));
+		}
+		
         //прочитано
-        $model->opened = 1;
-        $model->save();
+		if($model->opened == 0){
+			$model->opened = 1;
+			$model->save();
+		}
+        
         $this->render('view', array(
             'model' => $model,
             'type' => $type,
@@ -128,8 +136,8 @@ class MessageController extends Controller
             ON t1.dialog_id = t2.dialog_id AND t1.updated_at = t2.updated_at
         WHERE
         archive=1 AND
-        subject_id > 0 AND
-        draft=0
+        draft=0 AND 
+		user_id = :user_id
         ORDER BY updated_at DESC";
 
         $messages = Messages::model()->findAllBySql($sql, array(
@@ -147,7 +155,7 @@ class MessageController extends Controller
      */
     public function actionDraft()
     {
-        $condition = 'user_id=:user_id AND from_id=:from_id AND archive=0 AND subject_id > 0 AND draft=1';
+        $condition = 'user_id=:user_id AND from_id=:from_id AND archive=0 AND draft=1';
         $params = array(
             ':user_id' => (int)Yii::app()->user->id,
             ':from_id' => (int)Yii::app()->user->id,
@@ -168,18 +176,18 @@ class MessageController extends Controller
     {
 
         $sql ="SELECT t1.* FROM messages t1
-          INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages where user_id=:user_id AND draft=0 GROUP BY dialog_id) t2
+          INNER JOIN (SELECT dialog_id, MAX(updated_at) updated_at FROM messages where user_id=:user_id AND from_id = user_id AND draft=0 AND sended = 1 GROUP BY dialog_id) t2
             ON t1.dialog_id = t2.dialog_id AND t1.updated_at = t2.updated_at
         WHERE
         archive=0 AND
-        from_id=:from_id AND
-        subject_id > 0 AND
-        draft=0
-        ORDER BY created_at DESC";
+        from_id=:user_id AND
+        draft=0 AND
+		user_id = from_id AND
+		sended=1
+        ORDER BY sent_at DESC";
 
         $messages = Messages::model()->findAllBySql($sql, array(
                 ':user_id' => (int)Yii::app()->user->id,
-                ':from_id' => (int)Yii::app()->user->id,
             )
         );
 
@@ -195,26 +203,62 @@ class MessageController extends Controller
         $id = Yii::app()->getRequest()->getQuery('id');
 
         $model = $this->loadModel($id);
-        $model->scenario = 'Save';
 		
 		$prevMessage = Messages::model()->find(array(
-			'condition' => 'dialog_id = :did AND id != :tid AND subject_id != 0 AND to_id != 0',
+			'condition' => 'dialog_id = :did AND id != :tid',
 			'params' => array(':did' => $model->dialog_id, ':tid' => $model->id),
 			'order' => 'created_at desc',
 		));
 		
 		if($prevMessage){
-			$model->subject_id = $prevMessage->subject_id;
-			$model->to_id = $prevMessage->to_id;
+			$model->subject = $prevMessage->subject;
+			$model->to = $prevMessage->to;
 		}
+		
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'messages') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
 
-        if (isset($_POST['Messages'])) {
+        if (isset($_POST['Messages'])) 
+		{
+		
             $model->attributes = $_POST['Messages'];
             $model->draft = $type === 'save' ? 1 : 0;
 			$model->sended = $type === 'send' ? 1 : 0;
             $model->user_id = Yii::app()->user->id;
             $model->from_id = Yii::app()->user->id;
-
+			
+			$models = array();
+			
+			$toArray = explode(',', trim($model->to));
+			$transaction=$model->dbConnection->beginTransaction();
+			$save = true;
+			foreach($toArray as &$to){
+				$to = trim($to);
+				$newModel = new Messages;
+				$newModel->attributes = $model->attributes;
+				$newModel->from = Users::model()->findByPk(Yii::app()->user->id)->login;
+				$newModel->from_id = Yii::app()->user->id;
+				$newModel->to = $to;
+				$newModel->sended = 1;
+				$newModel->draft = 0;
+				$newModel->sent_at = time();
+				if(is_numeric($to)){
+					$newModel->user_id = Users::model()->find('login = :login', array(':login' => $to))->id;
+				} else {
+					$newModel->user_id = 0;
+				}
+				if(!$newModel->save()){
+					$save = false;
+				}
+			}
+			$model->sent_at = time();
+			if($model->save() && $save)
+				$transaction->commit();
+			else
+				$transaction->rollback();
+			
             if ($model->save()) {
                 if ($type === 'save') {
                     $this->redirect('/message/draft/');

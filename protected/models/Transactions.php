@@ -65,6 +65,9 @@ class Transactions extends ActiveRecord
 			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 			'info' => array(self::HAS_ONE, 'Transactions_Info', 'transaction_id'),
 			'attachments' => array(self::HAS_MANY, 'Transactions_Info_Attachments', 'transaction_id'),
+			'notes' => array(self::HAS_MANY, 'Transactions_Notes', 'transaction_id', 'condition' => 'deleted = 0'),
+			'link' => array(self::HAS_ONE, 'Transactions_Categories_Links', 'transaction_id'),
+			'category' => array(self::HAS_ONE, 'Transactions_Categories', array('category_id' => 'id'), 'through' => 'link'),
 		);
 	}
 

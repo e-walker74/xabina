@@ -20,6 +20,9 @@
  */
 class Users_Phones extends ActiveRecord
 {
+
+	public $withOutHash = false;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -128,7 +131,9 @@ class Users_Phones extends ActiveRecord
 	}
 
 	public function generateHash(){
-		$this->hash = rand(1000, 9999);
+		if($this->withOutHash){
+			$this->hash = rand(1000, 9999);
+		}
 	}
 	
     public function beforeSave(){
