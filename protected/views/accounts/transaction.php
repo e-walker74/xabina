@@ -49,7 +49,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<?php $this->widget('WidgetUpload')->getFilesTable($trans, Yii::app()->user->id)?>
+								<?php $this->widget('WidgetUpload')->getFilesTable($trans, Yii::app()->user->id) ?>
 								
 								<?php $this->renderPartial('application.views.accounts._notes', array('trans' => $trans)); ?>
 							</td>

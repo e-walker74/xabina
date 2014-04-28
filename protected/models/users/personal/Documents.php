@@ -1,30 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "users_files".
+ * This is the model class for table "users_personal_documents".
  *
- * The followings are the available columns in table 'users_files':
+ * The followings are the available columns in table 'users_personal_documents':
+ * @property integer $id
  * @property integer $user_id
- * @property string $name
- * @property string $ext
- * @property string $form
- * @property string $type
+ * @property string $file_type
+ * @property integer $expiry_date
  */
-class Users_Files extends ActiveRecord
+class Users_Personal_Documents extends CActiveRecord
 {
-
-	public static $fileTypes = array(
-		'Transactions' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
-		'Users_Activation' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
-		'Users_Personal_Edit' => array('count' => 999, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
-	);
-
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_files';
+		return 'users_personal_documents';
 	}
 
 	/**
@@ -35,15 +27,12 @@ class Users_Files extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, name, ext', 'required'),
-			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('name, form, document_type, document', 'length', 'max'=>30),
-			array('user_file_name', 'length', 'max'=>255),
-			array('ext', 'length', 'max'=>11),
-			array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			array('user_id, file_type, expiry_date', 'required'),
+			array('user_id, expiry_date', 'numerical', 'integerOnly'=>true),
+			array('file_type', 'length', 'max'=>60),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, name, ext, user_file_name, type', 'safe', 'on'=>'search'),
+			array('id, user_id, file_type, expiry_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +45,6 @@ class Users_Files extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'personal_document' => array(self::HAS_ONE, 'Users_Personal_Documents', 'file_id'),
 		);
 	}
 
@@ -66,11 +54,10 @@ class Users_Files extends ActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'id' => 'ID',
 			'user_id' => 'User',
-			'name' => 'Name',
-			'ext' => 'Ext',
-			'user_file_name' => 'user_file_name',
-			'type' => 'Type',
+			'file_type' => 'File Type',
+			'expiry_date' => 'Expiry Date',
 		);
 	}
 
@@ -92,10 +79,10 @@ class Users_Files extends ActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('form',$this->form);
-		$criteria->with = 'personal_document';
-		$criteria->together = true;
-		
+		$criteria->compare('id',$this->id);
+		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('file_type',$this->file_type,true);
+		$criteria->compare('expiry_date',$this->expiry_date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +93,7 @@ class Users_Files extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersFiles the static model class
+	 * @return UsersPersonalDocuments the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

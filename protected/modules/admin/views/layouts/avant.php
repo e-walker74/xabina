@@ -116,6 +116,7 @@
 <script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/demo/demo.js'></script>
 <script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/demo/demo-modals.js'></script>
 <script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/bootbox/bootbox.min.js'></script>
+<script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-datepicker/js/bootstrap-datepicker.js'></script> 
 
 </body>
 </html>

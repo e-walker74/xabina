@@ -63,3 +63,25 @@
 		});
 		return false;
 	})
+	
+	var editRow = function(row){
+		row.find('.not-edit-doc').hide()
+		row.find('.edit-doc').show()
+	}
+	
+	$('#attachments-block').on('click', '.edit-doc .ok', function(){
+		var link = $(this)
+		var row = link.parents('li')
+		$.ajax({
+			type: "POST",
+			url: link.attr('href'),
+			data: {comment: row.find('textarea').val()},
+			success: function(data){
+				row.find('.not-edit-doc').show()
+				row.find('.edit-doc').hide()
+				row.find('.attach-comment .not-edit-doc').html(row.find('textarea').val())
+			},
+			dataType: 'json'
+		});
+		return false;
+	})

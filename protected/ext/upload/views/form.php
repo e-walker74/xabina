@@ -2,18 +2,20 @@
 <table class="add-attachment-form">
 	<tbody>
 		<tr>
-			<th><?= Yii::t('Front', 'Add Attachments &amp; Notes'); ?></th>
+			<th><?= Yii::t('Front', 'Add Attachments'); ?></th>
 		</tr>
 		<tr>
 			<td>
 <?php endif; ?>
-				<form enctype="multipart/form-data" name="upload" action="<?= Yii::app()->createUrl('file/upload', array('id' => (isset($model->id)) ? $model->id : Yii::app()->user->id)) ?>" method="post">
+				<form enctype="multipart/form-data" name="upload" action="<?= Yii::app()->createUrl('file/upload', array('inTable' => $this->inTable, 'id' => (isset($model->id)) ? $model->id : Yii::app()->user->id)) ?>" method="post">
 					<input type="hidden" name="type" value="<?= get_class($model) ?>">
 					<table class="inner-table">
 						<tbody><tr>
 						<td style="width: 45%; ">
 							<div class="form-cell">
-								<div class="form-lbl" style="text-indent: -9999px">a</div>
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Select a file') ?><span title='<?= Yii::t('Front', 'Press "select" button to add new file') ?>' class="tooltip-icon"></span>
+								</div>
 								<div class="form-input">
 									<label class="file-label">
 										<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
@@ -34,7 +36,7 @@
 						<td style="width: 45%; ">
 							<div class="form-cell">
 								<div class="form-lbl">
-									<?= Yii::t('Front', 'Comments') ?><span title="<?= Yii::t('Front', 'Comments to file') ?>" class="tooltip-icon"></span>
+									<?= Yii::t('Front', 'Comments') ?><span title="<?= Yii::t('Front', 'You can add any comment to uploaded file, using text field below.') ?>" class="tooltip-icon"></span>
 								</div>
 								<div class="form-input">
 									<textarea name="description" class="attach-textarea"></textarea>

@@ -70,7 +70,7 @@ class PersonalController extends Controller
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage email addresses'))] = '';
 	
 		$model_emails = new Users_Emails('editemails');
-
+		
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
             echo CActiveForm::validate($model_emails);
             Yii::app()->end();
@@ -343,8 +343,8 @@ class PersonalController extends Controller
 			}
 			Yii::app()->end();
 		}
-
-		$this->render('_editname', array('model' => $model, 'files1' => $files1, 'files2' => $files2));
+		$user = Users::model()->findByPk(Yii::app()->user->id);
+		$this->render('editname', array('user' => $user, 'model' => $model, 'files1' => $files1, 'files2' => $files2));
 	}
 
 	public function actionUploadFile(){

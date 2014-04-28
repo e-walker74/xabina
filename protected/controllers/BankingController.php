@@ -41,7 +41,7 @@ class BankingController extends Controller
      */
     public function actionIndex()
     {
-		$this->breadcrumbs[Yii::t('Front', 'Overview')] = '';
+		$this->breadcrumbs[Yii::t('Front', 'Overview!!!!!!')] = '';
 		
 		$accounts = Accounts::model();
 		$accounts->user_id = Yii::app()->user->id;

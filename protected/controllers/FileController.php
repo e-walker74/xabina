@@ -115,8 +115,7 @@ class FileController extends Controller
 				echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Error')));
 				Yii::app()->end();
 			}
-			
-			$html = Widget::create('WidgetUpload')->getFilesTable($model, Yii::app()->user->id, true);
+			$html = Widget::create('WidgetUpload', 'WidgetUpload', array('inTable' => Yii::app()->request->getParam('inTable', false)))->getFilesTable($model, Yii::app()->user->id, true);
 			echo CJSON::encode(
 				array(
 					'success' => true, 
@@ -186,6 +185,33 @@ class FileController extends Controller
 		}
 	}
 	
+	public function actionEdit($id){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		$model = Users_Files::model()->find(
+			'user_id = :user_id AND id = :id', 
+			array(
+				':user_id' => Yii::app()->user->id, 
+				':id' => $id
+			)
+		);
+		
+		if(!$model){
+			echo CJSON::encode(array('success' => false));
+			Yii::app()->end();
+		}
+		
+		$model->description = Yii::app()->request->getParam('comment', '');
+		if($model->save()){
+			echo CJSON::encode(array('success' => true));
+			Yii::app()->end();
+		} else {
+			echo CJSON::encode(array('success' => false));
+			Yii::app()->end();
+		}
+	}
+	
 	public function actionGetMinimize($id, $name){
 		$model = Users_Files::model()->find(
 			'user_id = :user_id AND id = :id', 
@@ -201,7 +227,7 @@ class FileController extends Controller
 		$file=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/'.$model->name;
 		if(getimagesize($file)){
 			$image = Yii::app()->image->load($file);
-			$image->resize(60, 40)->quality(75);
+			$image->resize(60, 40, Image::WIDTH)->crop(60, 40)->quality(75);
 			$image->render(); // or $image->save('images/small.jpg');
 			Yii::app()->end();
 		} else {
@@ -217,7 +243,7 @@ class FileController extends Controller
 					$image = Yii::app()->image->load(Yii::app()->getBasePath(true) . '/../images/Word_2013_Icon.PNG');
 			}
 			
-			$image->resize(60, 40)->quality(75);
+			$image->resize(60, 40, Image::AUTO)->quality(75);
 			$image->render(); // or $image->save('images/small.jpg');
 			Yii::app()->end();
 		}

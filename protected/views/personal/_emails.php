@@ -1,6 +1,6 @@
 <?php $form = $this->beginWidget('CActiveForm', array(
     'id' => 'user_datas',
-    'enableAjaxValidation' => false,
+    'enableAjaxValidation' => true,
     'enableClientValidation' => true,
     'errorMessageCssClass' => 'error-message',
     'htmlOptions' => array(
