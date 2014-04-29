@@ -19,20 +19,17 @@
 					<?php foreach($files as $file): ?>
 					<li>
 						<div class="attach-img">
-							<img alt="" src="<?= Yii::app()->createUrl('/file/getMinimize', array('id' => $file->id, 'name' => $file->user_file_name)) ?>">
+							<a href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->user_file_name)) ?>">
+								<img alt="" src="<?= Yii::app()->createUrl('/file/getMinimize', array('id' => $file->id, 'name' => $file->user_file_name)) ?>">
+							</a>
 						</div>
 						<div class="attach-comment">
 							<div class="not-edit-doc">
-							<?php if(mb_strlen($file->description) > 100): ?>
-								<span><?= SiteService::subStrEx($file->description, 100); ?></span>
-								<a href="javaScript:void(0)" onclick="$(this).prev('span').hide(); $(this).hide(); $(this).next('span').slideDown('slow');" class="show-more"><?= Yii::t('Front', 'show more') ?></a>
-								<span style="display:none;"><?= $file->description ?></span>
-							<?php else: ?>
-								<?= $file->description ?>
-							<?php endif; ?>
+							<?= $file->shortDescription ?>
 							</div>
 							<div class="edit-doc">
-								<textarea name="edit_file_comment" ></textarea>
+								<textarea name="edit_file_comment" ><?= $file->description ?></textarea>
+								<div class="error-message"></div>
 							</div>
 						</div>
 						<div class="attach-sender">

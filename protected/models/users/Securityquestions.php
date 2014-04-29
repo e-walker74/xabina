@@ -29,7 +29,7 @@ class Users_Securityquestions extends ActiveRecord
 		return array(
 			array('question_id, answer', 'required'),
 			array('user_id, question_id', 'numerical', 'integerOnly'=>true),
-			array('answer', 'length', 'max'=>20),
+			array('answer', 'length', 'max'=>20, 'message' => Yii::t('Front', 'Entry is to long')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, question_id, answer', 'safe', 'on'=>'search'),

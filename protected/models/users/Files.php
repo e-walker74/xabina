@@ -37,8 +37,8 @@ class Users_Files extends ActiveRecord
 		return array(
 			array('user_id, name, ext', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('name, form, document_type, document', 'length', 'max'=>30),
-			array('user_file_name', 'length', 'max'=>255),
+			array('name, form, document_type, document', 'length', 'max'=>30, 'message' => Yii::t('Front', 'Entry is to long')),
+			array('user_file_name, description', 'length', 'max'=>255, 'message' => Yii::t('Front', 'Entry is to long')),
 			array('ext', 'length', 'max'=>11),
 			array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
 			// The following rule is used by search().
@@ -111,5 +111,20 @@ class Users_Files extends ActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function getShortDescription(){
+		if(mb_strlen($this->description) > 100){
+			$str = '<span class="show_more">
+				<span>' . SiteService::subStrEx($this->description, 100) . '</span>
+				<a href="javaScript:void(0)" onclick="$(document).find(\'.show_less\').hide(); $(this).parents(\'.show_more\').hide(); $(this).parents(\'.show_more\').next(\'.show_less\').slideDown(\'slow\');" class="show-more">' . Yii::t('Front', 'show more') . '</a>
+			</span>
+			<span class="show_less" style="display:none;">' . $this->description . '
+				<a class="show-more" href="javaScript:void(0)" onclick="$(this).parents(\'.show_less\').hide().prev(\'.show_more\').slideDown(\'slow\');">' . Yii::t('Front', 'Show less') . '</a>
+			</span>';
+		} else {
+			$str = $this->description;
+		}
+		return $str;
 	}
 }

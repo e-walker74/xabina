@@ -26,18 +26,12 @@
                         </td>
                         <td class="actions-td">
                             <div class="transaction-buttons-cont">
-								<?php if($model->pin1 && $model->pin1_exp > time()): ?>
-									<a href="#" onclick="$(this).parents('tr').next('tr').show(); $(this).hide(); return false;" class="button edit"></a>
-								<?php endif; ?>
+								<a href="#" onclick="pageRefresh(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
                             </div>
                         </td>
                     </tr>
 					<?php endif; ?>
-					<?php if($model->pin1 && $model->pin1_exp > time()): ?>
-					<tr style="display:none;">
-					<?php else: ?>
-                    <tr>
-					<?php endif; ?>
+					<tr class="edit-form" style="display:none;">
                         <td colspan="3">
 							<?php $model->scenario = 'pin1'; ?>
 							<?php $form = $this->beginWidget('CActiveForm', array(
@@ -87,6 +81,7 @@
 												<?= 
 													$form->dropDownList($model, 'pin1_exp', array('' => 'Choose', time()+3600*24*30 => 'month', time()+3600*24*30*6 => '6 month', time()+3600*24*30*12 => 'year'), array(
 													'class' => 'country-select select-invisible',
+													'options' => array('' => array('disabled' => true)),
 												)); ?>
                                             </div>
 											<?= $form->error($model, 'pin1_exp'); ?>
@@ -159,9 +154,7 @@
                         </td>
                         <td class="actions-td">
                             <div class="transaction-buttons-cont">
-								<?php if($model->pin2 && $model->pin2_exp > time()): ?>
-									<a href="#" onclick="$(this).parents('tr').next('tr').show(); $(this).hide(); return false;" class="button edit"></a>
-								<?php endif; ?>
+								<a href="#" onclick="pageRefresh(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
                             </div>
                         </td>
                     </tr>
@@ -173,11 +166,7 @@
 						</tr>
 						<?php endif; ?>
 					<?php endif; ?>
-					<?php if($model->pin2 && $model->pin2_exp > time()): ?>
-					<tr style="display:none;">
-					<?php else: ?>
-                    <tr>
-					<?php endif; ?>
+					<tr class="edit-form" style="display:none;">
                         <td colspan="3">
 							<?php $model->scenario = 'pin2'; ?>
 							<?php $form = $this->beginWidget('CActiveForm', array(
@@ -227,6 +216,7 @@
 												<?= 
 													$form->dropDownList($model, 'pin2_exp', array('' => 'Choose', time()+3600*24*30 => 'month', time()+3600*24*30*6 => '6 month', time()+3600*24*30*12 => 'year'), array(
 													'class' => 'country-select select-invisible',
+													'options' => array('' => array('disabled' => true)),
 												)); ?>
 												
                                             </div>
@@ -291,7 +281,7 @@
                             <span class="masked-value">**********</span>
                         </td>
                         <td>
-							<?php if($model->pin2_exp < time()): ?>
+							<?php if($model->pin3_exp < time()): ?>
 							<span class="rejected"><?= date('d.m.Y', $model->pin3_exp) ?></span>
 							<?php else: ?>
 							<span class="expires-end"><?= date('d.m.Y', $model->pin3_exp) ?></span>
@@ -299,9 +289,7 @@
                         </td>
                         <td class="actions-td">
                             <div class="transaction-buttons-cont">
-								<?php if($model->pin3 && $model->pin3_exp > time()): ?>
-									<a href="#" onclick="$(this).parents('table').find('tr').show(); $(this).hide(); return false;" class="button edit"></a>
-								<?php endif; ?>
+								<a href="#" onclick="pageRefresh(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
                             </div>
                         </td>
                     </tr>
@@ -313,11 +301,7 @@
 						</tr>
 						<?php endif; ?>
 					<?php endif; ?>
-					<?php if($model->pin3 && $model->pin3_exp > time()): ?>
-					<tr style="display:none;">
-					<?php else: ?>
-                    <tr>
-					<?php endif; ?>
+					<tr class="edit-form" style="display:none;">
                         <td colspan="3">
 							<?php $model->scenario = 'pin3'; ?>
 							<?php $form = $this->beginWidget('CActiveForm', array(
@@ -367,6 +351,7 @@
 												<?= 
 													$form->dropDownList($model, 'pin3_exp', array('' => 'Choose', time()+3600*24*30 => 'month', time()+3600*24*30*6 => '6 month', time()+3600*24*30*12 => 'year'), array(
 													'class' => 'country-select select-invisible',
+													'options' => array('' => array('disabled' => true)),
 												)); ?>
                                             </div>
 											<?= $form->error($model, 'pin3_exp'); ?>
@@ -419,3 +404,9 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+<script>
+	var pageRefresh = function(){
+		$('.transaction-buttons-cont .edit').show()
+		$('.edit-form').hide()
+	}
+</script>

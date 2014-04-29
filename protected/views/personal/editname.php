@@ -43,14 +43,14 @@
 						</tr>
 						<?php foreach($user->personal_documents as $doc): ?>
 						<?php if(($doc->expiry_date - time()) <= 0): ?>
-						<tr class="comment-tr top-border-red">
+						<tr class="comment-tr border-red">
 							<td colspan="2" style="line-height: 1.43!important">
 								<span class="rejected">
 								<?= Yii::t('Front', 'Your :type has expired. Please upload a copy of Your new :type below.', array(':type' => $doc->file_type)) ?>
 								</span>
 							</td>
 						</tr>
-						<tr class="form-sms-tr bottom-border-red">
+						<tr class="form-sms-tr">
 							<td><strong><?= $doc->file_type ?></strong></td>
 							<td>
 								<span class="rejected">
@@ -59,14 +59,14 @@
 							</td>
 						</tr>
 						<?php elseif(($doc->expiry_date - time()) <= 3600*7*30*3): ?>
-						<tr class="comment-tr top-border-yellow">
+						<tr class="comment-tr border-yellow">
 							<td colspan="2" style="line-height: 1.43!important">
 								<span class="pending">
 								<?= Yii::t('Front', 'Your document is about to expire in less than 3 months. We kindly advise you to upload new document, to avoid account suspention in the future') ?>
 								</span>
 							</td>
 						</tr>
-						<tr class="form-sms-tr bottom-border-yellow">
+						<tr class="form-sms-tr">
 							<td><strong><?= $doc->file_type ?></strong></td>
 							<td>
 								<span class="pending">

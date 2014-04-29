@@ -1,14 +1,13 @@
 	var form = document.forms.namedItem("upload");
-	
+
 	$(form).find('.file-name').hide()
-	
+
 	$(form).find('.file-input').change(function(){
 		var value = $(this).val()
 		$(this).parent().find('.file-name').show().html(value.split('/').pop().split('\\').pop())
 		$(this).parent().find('.no-file-name').hide()
 	})
 
-	
 	form.addEventListener('submit', function(ev) {
 		var
 		oOutput = document.getElementById("attachments-block"),
@@ -43,7 +42,7 @@
 		oReq.send(oData);
 		ev.preventDefault();
 	}, false);
-	
+
 	var deletefile = function(link){
 		
 		$.ajax({
@@ -58,12 +57,14 @@
 		});
 		return false;
 	}
-	
+
 	var editRow = function(row){
+		$(document).find('.edit-doc').hide()
+		$(document).find('.not-edit-doc').show()
 		row.find('.not-edit-doc').hide()
 		row.find('.edit-doc').show()
 	}
-	
+
 	$('#attachments-block').on('click', '.edit-doc .ok', function(){
 		var link = $(this)
 		var row = link.parents('li')
@@ -72,9 +73,14 @@
 			url: link.attr('href'),
 			data: {comment: row.find('textarea').val()},
 			success: function(data){
-				row.find('.not-edit-doc').show()
-				row.find('.edit-doc').hide()
-				row.find('.attach-comment .not-edit-doc').html(row.find('textarea').val())
+				if(data.success){
+					row.find('.not-edit-doc').show()
+					row.find('.attach-comment .not-edit-doc').html(data.comment).show()
+					row.find('.edit-doc').hide()
+					row.find('.attach-comment textarea').next('.error-message').html('').slideUp()
+				} else {
+					row.find('.attach-comment textarea').next('.error-message').html(data.message).slideDown('slow')
+				}
 			},
 			dataType: 'json'
 		});
@@ -95,12 +101,13 @@
         $dialog.dialog( "open" );
         return false;
     });
-	
+
 	$('.dialog-file-delete-dialog .no').click(function(){
         $(this).parents('.dialog-file-delete-dialog').dialog('close');
         $('.attach-actions .to-remove').removeClass('to-remove')
 		return false;
     });
+
     $('.dialog-file-delete-dialog .yes').click(function(){
 		$(this).parents('.dialog-file-delete-dialog').dialog('close');
 		return deletefile($(this))

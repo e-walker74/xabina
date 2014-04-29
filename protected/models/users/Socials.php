@@ -30,7 +30,7 @@ class Users_Socials extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, rel_id', 'required'),
-            array('provider', 'length', 'max' => 60),
+            array('provider', 'length', 'max' => 60, 'message' => Yii::t('Front', 'Entry is to long')),
 //            array('is_master'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

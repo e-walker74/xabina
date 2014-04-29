@@ -25,7 +25,7 @@
     </tr>
     <? foreach ($users_emails as $users_email): ?>
 		<? if($users_email->status == 0 && $users_email->is_master == 0):?>
-		<tr class="email-comment-tr">
+		<tr class="email-comment-tr border-yellow">
 			<td colspan="4">
 				<div class="comment-bg">
 				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
@@ -36,7 +36,7 @@
 			</td>
 		</tr>
 		<? elseif ($users_email->status == 1 && $users_email->is_master == 0 && $users_email->hash):?>
-		<tr class="email-comment-tr">
+		<tr class="email-comment-tr border-yellow">
 			<td colspan="4">
 				<div class="comment-bg">
 				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
@@ -51,9 +51,7 @@
             <td><?= $users_email->email ?></td>
             <td>
                 <div class="relative">
-                    <span class="dropdown_button types_dropdown">
-                        <?= $users_email->emailType->type_name ?>
-                    </span>
+					<?= $users_email->emailType->type_name ?>
                </div>
             </td>
             <td>
@@ -117,7 +115,9 @@
                         </span>
                         <?=
                         $form->dropDownList($model_emails, 'email_type_id', Users_EmailTypes::all(), array(
-                            'class' => 'country-select select-invisible item1', 'data-v' => 'type_id',
+                            'class' => 'country-select select-invisible item1', 
+							'data-v' => 'type_id',
+							'options' => array('' => array('disabled' => true)),
                         )); ?>
 
                     </div>

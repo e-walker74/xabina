@@ -205,10 +205,10 @@ class FileController extends Controller
 		
 		$model->description = Yii::app()->request->getParam('comment', '');
 		if($model->save()){
-			echo CJSON::encode(array('success' => true));
+			echo CJSON::encode(array('success' => true, 'comment' => $model->shortDescription));
 			Yii::app()->end();
 		} else {
-			echo CJSON::encode(array('success' => false));
+			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Comment is incorrect')));
 			Yii::app()->end();
 		}
 	}
