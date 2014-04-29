@@ -3,7 +3,7 @@
 <?php endif; ?>
 <?php if(count($files)): ?>
 <?php if($this->inTable): ?>
-<div class="inner-header"><?= Yii::t('Front', 'Attachment') ?></div>
+<!--<div class="inner-header"><?= Yii::t('Front', 'Attachment') ?></div>-->
 <table class="inner-table attachments-table">
 	<tbody>
 		<tr>
@@ -44,7 +44,7 @@
 							<div class="not-edit-doc transaction-buttons-cont">
 								<a class="button download" href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->user_file_name)) ?>"></a>
 								<a class="button edit" href="javaScript:void(0)" onclick="editRow($(this).parents('li'))"></a>
-								<a class="button delete" data-confirm-text="<?= Yii::t('Front', 'Are you sure You want to delete file?') ?>" href="<?= Yii::app()->createUrl('/file/delete', array('id' => $file->id)) ?>"></a>
+								<a class="button delete dialog-file-delete" href="<?= Yii::app()->createUrl('/file/delete', array('id' => $file->id)) ?>"></a>
 							</div>
 							<div class="edit-doc transaction-buttons-cont">
 								<a class="button ok" href="<?= Yii::app()->createUrl('/file/edit', array('id' => $file->id)) ?>"></a>
@@ -61,6 +61,33 @@
 </table>
 <?php endif; ?>
 <?php endif; ?>
+
 <?php if(!Yii::app()->request->isAjaxRequest): ?>
 </div>
+
+<?php endif; ?>
+
+<?php if($this->showDialog): ?>
+<div class="dialog-file-delete-dialog">
+	<div class="arr"></div>
+	<?= Yii::t('Front', 'Are you sure you want to delete this file?'); ?>
+	<a href="#" class="no" tabindex="-1"><?= Yii::t('Front', 'No'); ?></a>
+	<a href="#"  class="yes" tabindex="-1"><?= Yii::t('Front', 'Yes'); ?></a>
+</div>
+<script>
+	$( ".dialog-file-delete-dialog" ).dialog({
+        autoOpen: false,
+        appendTo: '#top_container .clearfix',
+        dialogClass: 'xabina-popup-alerts',
+        height: 'auto',
+        minHeight: 0,
+        position:{
+            my: 'right top',
+            at: 'right bottom',
+            of: ".user-logout"
+        },
+        show: 'fadeIn',
+        resizable: false
+    });
+</script>
 <?php endif; ?>

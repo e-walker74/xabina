@@ -37,10 +37,12 @@
 					<? endif;?>
 				</td>
 				<td class="actions-td">
-					<a href="javaScript:void(0)" onclick="$(this).parents('tr').next('tr').toggle('slow')" class="edit-btn"></a>
-					<?php if(!$addr->is_master): ?>
-						<a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this address from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>', this) : false;" class="remove-btn"></a>
-					<?php endif; ?>
+					<div class="transaction-buttons-cont">
+						<a class="button edit" href="javaScript:void(0)" onclick="$(this).parents('tr').next('tr').toggle('slow'); $(this).parents('tr').hide()" ></a>
+						<?php if(!$addr->is_master): ?>
+							<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this address from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>', this) : false;" ></a>
+						<?php endif; ?>
+					</div>
 				</td>
 			</tr>
 			<tr class="edit-address-tr" style="display:none;">
@@ -53,6 +55,7 @@
 						'errorMessageCssClass' => 'error-message',
 						'htmlOptions' => array(
 							'class' => 'form-validable',
+							'style' => 'position: relative;',
 						),
 						'clientOptions' => array(
 							'validateOnSubmit' => true,
@@ -131,8 +134,12 @@
 							<?= $form->error($addr, 'email_type_id'); ?>
 						</div>
 					</div>
-
-					<input type="submit" class="violet-button-slim-square" href="#" value="<?= Yii::t('Front', 'Save'); ?>" />
+					
+					<div class="field-row" style="display: inline-block; width: 14%; top: 38px; position: absolute;">
+						<div class="transaction-buttons-cont">
+							<input type="submit" value="" class="button ok">
+						</div>
+					</div>
 
 					<?php $this->endWidget(); ?>
 				</td>
@@ -140,12 +147,12 @@
 			<?php endforeach; ?>
 			
 			<tr>
-				<td class="add-new-td" colspan="5">
-					<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+				<td class="add-new-td" colspan="4">
+					<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 				</td>
 			</tr>
 			<tr class="prof-form">
-				<td colspan="5" class="table-form-subheader">
+				<td colspan="4" class="table-form-subheader">
 					<div class="table-subheader"><?= Yii::t('Front', 'Add address'); ?></div>
 				</td>
 			</tr>
@@ -159,6 +166,7 @@
 						'errorMessageCssClass' => 'error-message',
 						'htmlOptions' => array(
 							'class' => 'form-validable',
+							'style' => 'position: relative;',
 						),
 						'clientOptions' => array(
 							'validateOnSubmit' => true,
@@ -193,7 +201,7 @@
 							<div class="select-custom">
 							<span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
 								<?=
-								$form->dropDownList($model, 'country_id', array_merge(array('' => Yii::t('Front', 'Choose')), CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name')), array(
+								$form->dropDownList($model, 'country_id', CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'), array(
 									'class' => 'country-select select-invisible'
 
 								)); ?>
@@ -230,15 +238,20 @@
 									<?= Yii::t('Front', 'Choose'); ?>
 								</span>
 								<?=
-								$form->dropDownList($model, 'email_type_id', array_merge(array('' => Yii::t('Front', 'Choose')), CHtml::listData(Users_EmailTypes::model()->findAll(array('order' => 'type_name asc')), 'id', 'type_name')), array(
+								$form->dropDownList($model, 'email_type_id', CHtml::listData(Users_EmailTypes::model()->findAll(array('order' => 'type_name asc')), 'id', 'type_name'), array(
 									'class' => 'country-select select-invisible item1'
-								)); ?>
+								)); 
+								?>
 							</div>
 							<?= $form->error($model, 'email_type_id'); ?>
 						</div>
 					</div>
-
-					<input type="submit" class="violet-button-slim-square" href="#" value="<?= Yii::t('Front', 'Add'); ?>" />
+					
+					<div class="field-row" style="display: inline-block; width: 14%; top: 38px; position: absolute;">
+						<div class="transaction-buttons-cont">
+							<input type="submit" value="" class="button ok">
+						</div>
+					</div>
 
 					<?php $this->endWidget(); ?>
 				</td>

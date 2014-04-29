@@ -41,6 +41,7 @@ class PersonalController extends Controller
 					'resendsms',
 					'editqustions',
 					'resendemail',
+					'editpins',
                 ),
                 'roles' => array('client')
             ),
@@ -54,7 +55,7 @@ class PersonalController extends Controller
     public function actionIndex()
     {
 	
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
 	
 		$model = Users::model()->findByPk(Yii::app()->user->id);
 
@@ -66,7 +67,7 @@ class PersonalController extends Controller
     public function actionEditemails()
     {
 		
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage email addresses'))] = '';
 	
 		$model_emails = new Users_Emails('editemails');
@@ -93,7 +94,7 @@ class PersonalController extends Controller
 	
 	public function actionEditmessagers(){
 	
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage instant messager services'))] = '';
 	
 		$model = new Users_Instmessagers();
@@ -159,7 +160,7 @@ class PersonalController extends Controller
     public function actionEditphones()
     {
 
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage phones'))] = '';
 	
         $model_phones = new Users_Phones('editphones');
@@ -221,7 +222,7 @@ class PersonalController extends Controller
     public function actionEditaddress()
     {
 
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage addresses'))] = '';
 	
         $model = new Users_Address('editaddress');
@@ -233,13 +234,17 @@ class PersonalController extends Controller
         }
 
         if (isset($_POST['Users_Address'])) {
-			if(isset($_POST['Users_Address']['id'])){
+			if(isset($_POST['Users_Address']['id']) && $_POST['Users_Address']['id']){
 				$model = Users_Address::model()->findByPk($_POST['Users_Address']['id']);
 				if($model->user_id != Yii::app()->user->id){
 					throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 				}
 			}
 			$model->attributes = $_POST['Users_Address'];
+			if($model->isNewRecord){
+				$model->user_id = Yii::app()->user->id;
+			}
+			
             if($model->save()){
 				$this->redirect(array('/personal/editaddress'));
 			}
@@ -284,8 +289,8 @@ class PersonalController extends Controller
 
 	public function actionEditname(){
 	
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Information Management'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Details'))] = '';
 	
 		//$model = Users::model()->findByPk(Yii::app()->user->id);
 
@@ -776,7 +781,7 @@ class PersonalController extends Controller
 
     public function actionEditSocials(){
 	
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage soccial networks'))] = '';
 	
 		$service = Yii::app()->request->getQuery('service');
@@ -819,7 +824,7 @@ class PersonalController extends Controller
 	
 	public function actionEditQustions(){
 	
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage Security Questions'))] = '';
 	
 		$model = new Users_Securityquestions();
@@ -907,6 +912,46 @@ class PersonalController extends Controller
 		}
 
 		echo CJSON::encode(array('success' => $return));
+	}
+	
+	public function actionEditPins(){
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Password Settings'))] = '';
+		
+		$model = Users_Pins::model()->find('user_id = :uid', array(':uid' => Yii::app()->user->id));
+		if(!$model){
+			$model = new Users_Pins;
+			$model->user_id = Yii::app()->user->id;
+		}
+		
+		if(isset($_POST['Users_Pins'])){
+			if(isset($_POST['Users_Pins']['pin1'])){
+				$model->scenario = 'pin1';
+			} elseif(isset($_POST['Users_Pins']['pin2'])){
+				$model->scenario = 'pin2';
+			} elseif(isset($_POST['Users_Pins']['pin3'])){
+				$model->scenario = 'pin3';
+			}
+		}
+		
+		if (isset($_POST['ajax'])) {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+		
+		if(isset($_POST['Users_Pins'])){
+			$model->attributes = $_POST['Users_Pins'];
+			if(isset($_POST['Users_Pins']['confirm_pass'])){
+				$model->confirm_pass = $_POST['Users_Pins']['confirm_pass'];
+			}
+
+			if($model->save()){
+				$this->redirect(array('/personal/editpins'));
+			}
+		}
+	
+		$this->render('pins', array('model' => $model));
 	}
 
 }

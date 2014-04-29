@@ -14,20 +14,18 @@
 			<td><?= Yii::t('Front', 'Change name, last name, password, and download files, documents. Information about uploaded files, as well as the validity of the document') ?>
 			</td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editname') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editname') ?>" ></a>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td class="header"><?= Yii::t('Front', 'Manage email addresses'); ?></td>
 			<td><?= Yii::t('Front', 'Changing or deleting email addresses'); ?></td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editemails') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editemails') ?>" ></a>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -36,10 +34,9 @@
 				<?= Yii::t('Front', 'Changing or deleting phone appointment number of personal, corporate, and the main  secondary'); ?>
 			</td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editphones') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editphones') ?>" ></a>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -48,10 +45,9 @@
 				<?= Yii::t('Front', 'Changing or deleting addresses. Adding additional addresses as well as the appointment of mailing address as a personal or corporate'); ?>
 			</td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editaddress') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editaddress') ?>" ></a>
+				</div>
 			</td>
 		</tr>
         <tr>
@@ -60,10 +56,9 @@
 				<?= Yii::t('Front', 'Edit social netrworks'); ?>
 			</td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editsocials') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editsocials') ?>" ></a>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -72,10 +67,9 @@
 				<?= Yii::t('Front', 'Edit instant messager services'); ?>
 			</td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editmessagers') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editmessagers') ?>" ></a>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -84,10 +78,20 @@
 				<?= Yii::t('Front', 'Edit security questions list'); ?>
 			</td>
 			<td>
-                <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
-                </div>
-				<a href="<?= Yii::app()->createUrl('/personal/editqustions') ?>" class="table-edit-btn"><?= Yii::t('Front', 'Edit') ?></a>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editqustions') ?>" ></a>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Manage Password'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Edit passwords'); ?>
+			</td>
+			<td>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/editpins') ?>" ></a>
+				</div>
 			</td>
 		</tr>
 	</table>

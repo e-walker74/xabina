@@ -59,7 +59,7 @@
             <td>
             	
                 <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-                	<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))" class="verify"><?= Yii::t('Front', 'Verify') ?></a>
+                	<span class="verify"><?= Yii::t('Front', 'Unverified') ?></span>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
 					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
@@ -70,7 +70,9 @@
             </td>
 			<?php if(!$users_email->is_master): ?>
             <td class="remove-td actions-td">
-                <a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this email from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>', this) : false;" class="remove-btn"></a>
+				<div class="transaction-buttons-cont">
+					<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this email from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>', this) : false;" ></a>
+				</div>
             </td>
 			<?php else: ?>
 			<td></td>
@@ -81,7 +83,7 @@
     <? endforeach; ?>
 	<tr>
 			<td class="add-new-td" colspan="4">
-				<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+				<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 			</td>
 		</tr>
 		<tr class="prof-form" style="overflow: hidden;">

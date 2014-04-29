@@ -64,9 +64,9 @@ class XBreadcrumbs extends CWidget
 	 */
 	public function run()
 	{
-		if(empty($this->links))
-			return;
-			
+
+		/*if(empty($this->links))
+			return;*/
 			
 		$this->links = array_merge(array(Yii::t('Front', 'Home') => array('/banking/index')), $this->links);
 

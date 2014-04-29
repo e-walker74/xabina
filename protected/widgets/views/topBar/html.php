@@ -21,7 +21,7 @@
                         <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
                         <li class="user-email"><a href="<?= Yii::app()->createUrl('message/index'); ?>"></a></li>
                         <!--<li class="user-personal"><a href="#"></a></li>-->
-                        <li class="user-logout"><?= CHtml::link('', array('/logout'), array('onclick'=>'return confirm("'.Yii::t('Front', 'Are you sure you want to logout?').'")')); ?></li>
+                        <li class="user-logout"><?= CHtml::link('', array('/site/logout')); ?></li>
                     </ul>
                     <div class="user-greeting pull-right"><?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->name)); ?></div>
                 </div>
@@ -29,4 +29,11 @@
         </div>
     </div>
 
+</div>
+
+<div class="escape-dialog xabina-dialog">
+	<div class="arr"></div>
+	<?= Yii::t('Front', 'Are you sure you want to logout?'); ?>
+	<a href="#" class="no" tabindex="-1"><?= Yii::t('Front', 'No') ?></a>
+	<a href="<?= Yii::app()->createUrl('/site/logout') ?>"  class="yes" tabindex="-1"><?= Yii::t('Front', 'Yes') ?></a>
 </div>

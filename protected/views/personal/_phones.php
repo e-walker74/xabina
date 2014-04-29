@@ -77,7 +77,9 @@
             </td>
 			<?php if(!$users_phone->is_master): ?>
             <td class="remove-td actions-td">
-                <a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this phone from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this) : false;" class="remove-btn"></a>
+				<div class="transaction-buttons-cont">
+					<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this phone from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this) : false;" ></a>
+				</div>
             </td>
 			<?php else: ?>
 			<td></td>
@@ -86,9 +88,9 @@
             <input type="hidden" name="type_edit[<?= $users_phone->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
-	    <tr>
+	<tr>
 			<td class="add-new-td" colspan="4">
-				<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+				<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 			</td>
 		</tr>
 		<tr class="prof-form" style="overflow: hidden;">

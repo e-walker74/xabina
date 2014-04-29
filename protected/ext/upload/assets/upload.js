@@ -44,25 +44,20 @@
 		ev.preventDefault();
 	}, false);
 	
-	$('#attachments-block').on('click', '.attach-actions .delete', function(){
-		var link = $(this)
-		
-		if(!confirm(link.attr('data-confirm-text'))){
-			return false;
-		}
+	var deletefile = function(link){
 		
 		$.ajax({
 			type: "POST",
 			url: link.attr('href'),
 			success: function(data){
 				if(data.success){
-					link.parents('li').remove()
+					$('.to-remove').parents('li').remove()
 				}
 			},
 			dataType: 'json'
 		});
 		return false;
-	})
+	}
 	
 	var editRow = function(row){
 		row.find('.not-edit-doc').hide()
@@ -85,3 +80,28 @@
 		});
 		return false;
 	})
+
+    $( "#attachments-block" ).on('click', ".dialog-file-delete", function() {
+        var $dialog = $( ".dialog-file-delete-dialog" );
+		$dialog.dialog( "option", "appendTo", $(this));
+        $dialog.dialog( "option", "width", $(this).parents('table').width());
+        $dialog.dialog( "option", "position", {
+            my: 'right+11 top+15',
+            at: 'right bottom',
+            of: $(this)
+        } );
+		$( ".dialog-file-delete-dialog" ).find('.yes').attr('href', $(this).attr('href'))
+		$(this).addClass('to-remove')
+        $dialog.dialog( "open" );
+        return false;
+    });
+	
+	$('.dialog-file-delete-dialog .no').click(function(){
+        $(this).parents('.dialog-file-delete-dialog').dialog('close');
+        $('.attach-actions .to-remove').removeClass('to-remove')
+		return false;
+    });
+    $('.dialog-file-delete-dialog .yes').click(function(){
+		$(this).parents('.dialog-file-delete-dialog').dialog('close');
+		return deletefile($(this))
+    });
