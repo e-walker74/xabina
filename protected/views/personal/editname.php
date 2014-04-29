@@ -58,21 +58,31 @@
 								</span>
 							</td>
 						</tr>
+						<?php elseif(($doc->expiry_date - time()) <= 3600*7*30*3): ?>
+						<tr class="comment-tr top-border-yellow">
+							<td colspan="2" style="line-height: 1.43!important">
+								<span class="pending">
+								<?= Yii::t('Front', 'Your document is about to expire in less than 3 months. We kindly advise you to upload new document, to avoid account suspention in the future') ?>
+								</span>
+							</td>
+						</tr>
+						<tr class="form-sms-tr bottom-border-yellow">
+							<td><strong><?= $doc->file_type ?></strong></td>
+							<td>
+								<span class="pending">
+									<?= date('d.m.Y', $doc->expiry_date); ?>
+								</span>
+							</td>
+						</tr>
 							
 						<?php else: ?>
 						
 						<tr class="form-sms-tr">
 							<td><strong><?= $doc->file_type ?></strong></td>
 							<td>
-								<?php if(($doc->expiry_date - time()) <= 3600*7*4): ?>
-									<span class="pending">
-										<?= date('d.m.Y', $doc->expiry_date); ?>
-									</span>
-								<?php else: ?>
-									<span class="approved">
-										<?= date('d.m.Y', $doc->expiry_date); ?>
-									</span>
-								<?php endif; ?>
+								<span class="approved">
+									<?= date('d.m.Y', $doc->expiry_date); ?>
+								</span>
 							</td>
 						</tr>
 						<?php endif; ?>
@@ -80,24 +90,7 @@
 					</tbody>
 				</table>
 				<?php endif; ?>
-				<div class="subheader">
-					<?= Yii::t('Front', 'Verification documents'); ?>
-				</div>
-				<table class="table xabina-table-personal inner-table">
-					<tbody>
-						<tr class="table-header">
-							<th style="width:13%"><?= Yii::t('Front', 'File type') ?></th>
-							<th style="width:42%"><?= Yii::t('Front', 'File comments') ?></th>
-							<th style="width:25%"><?= Yii::t('Front', 'Sender') ?></th>
-							<th style="width:20%"></th>
-						</tr>
-						<tr class="">
-							<td colspan="4">
-				<?php $this->widget('WidgetUpload', array('inTable' => false))->getFilesTable($user->personal, Yii::app()->user->id) ?>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+
 				<div class="subheader">
 					<?= Yii::t('Front', 'Verification documents'); ?>
 				</div>
@@ -109,6 +102,8 @@
 						<tr class="add-attachment-form">
 							<td>
 								<?php $this->widget('WidgetUpload', array('inTable' => false))->html($user->personal)?>
+								
+								<?php $this->widget('WidgetUpload')->getFilesTable($user->personal, Yii::app()->user->id) ?>
 							</td>
 						</tr>
 					</tbody>

@@ -115,7 +115,8 @@ class FileController extends Controller
 				echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Error')));
 				Yii::app()->end();
 			}
-			$html = Widget::create('WidgetUpload', 'WidgetUpload', array('inTable' => Yii::app()->request->getParam('inTable', false)))->getFilesTable($model, Yii::app()->user->id, true);
+			//$html = Widget::create('WidgetUpload', 'WidgetUpload', array('inTable' => Yii::app()->request->getParam('inTable', false)))->getFilesTable($model, Yii::app()->user->id, true);
+			$html = Widget::create('WidgetUpload', 'WidgetUpload', array('showDialog' => false))->getFilesTable($model, Yii::app()->user->id, true);
 			echo CJSON::encode(
 				array(
 					'success' => true, 

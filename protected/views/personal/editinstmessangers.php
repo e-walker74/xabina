@@ -92,13 +92,15 @@
 						<?php endif; ?>
 					</td>
 					<td class="actions-td">
-						<a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this network from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)) ?>', this) : false;" class="remove-btn"></a>
+						<div class="transaction-buttons-cont">
+							<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this instant messaging from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)) ?>', this) : false;" ></a>
+						</div>
 					</td>
 				</tr>
 			<?php endforeach; ?>
 			<tr>
 				<td class="add-new-td" colspan="5">
-					<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+					<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 				</td>
 			</tr>
 

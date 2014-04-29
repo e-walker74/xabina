@@ -70,7 +70,9 @@
             </td>
 			<?php if(!$users_email->is_master): ?>
             <td class="remove-td actions-td">
-                <a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this email from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>', this) : false;" class="remove-btn"></a>
+				<div class="transaction-buttons-cont">
+					<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this email from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>', this) : false;" ></a>
+				</div>
             </td>
 			<?php else: ?>
 			<td></td>
@@ -80,12 +82,12 @@
         </tr>
     <? endforeach; ?>
 	<tr>
-			<td class="add-new-td" colspan="5">
-				<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+			<td class="add-new-td" colspan="4">
+				<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 			</td>
 		</tr>
 		<tr class="prof-form" style="overflow: hidden;">
-			<td colspan="5" class="table-form-subheader">
+			<td colspan="4" class="table-form-subheader">
 				<div class="table-subheader"><?= Yii::t('Front', 'Add E-Mail'); ?></div>
 			</td>
 		</tr>

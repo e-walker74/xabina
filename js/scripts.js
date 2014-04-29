@@ -652,12 +652,12 @@ $(document).ready(function(){
         resizable: false
     });
 
-    /*$( ".user-logout" ).click(function() {
+    $( ".user-logout" ).click(function() {
         var $dialog = $( ".escape-dialog" );
         $dialog.dialog( "option", "width", $(this).parents('.clearfix').width());
         $dialog.dialog( "open" );
         return false;
-    });*/
+    });
     $('.xabina-dialog .no').click(function(){
         $(this).parents('.xabina-dialog').dialog('close');
         return false;

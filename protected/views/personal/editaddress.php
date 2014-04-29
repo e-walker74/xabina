@@ -37,10 +37,12 @@
 					<? endif;?>
 				</td>
 				<td class="actions-td">
-					<a href="javaScript:void(0)" onclick="$(this).parents('tr').next('tr').toggle('slow')" class="edit-btn"></a>
-					<?php if(!$addr->is_master): ?>
-						<a href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this address from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>', this) : false;" class="remove-btn"></a>
-					<?php endif; ?>
+					<div class="transaction-buttons-cont">
+						<a class="button edit" href="javaScript:void(0)" onclick="$(this).parents('tr').next('tr').toggle('slow')" ></a>
+						<?php if(!$addr->is_master): ?>
+							<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this address from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>', this) : false;" ></a>
+						<?php endif; ?>
+					</div>
 				</td>
 			</tr>
 			<tr class="edit-address-tr" style="display:none;">
@@ -140,12 +142,12 @@
 			<?php endforeach; ?>
 			
 			<tr>
-				<td class="add-new-td" colspan="5">
-					<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+				<td class="add-new-td" colspan="4">
+					<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 				</td>
 			</tr>
 			<tr class="prof-form">
-				<td colspan="5" class="table-form-subheader">
+				<td colspan="4" class="table-form-subheader">
 					<div class="table-subheader"><?= Yii::t('Front', 'Add address'); ?></div>
 				</td>
 			</tr>

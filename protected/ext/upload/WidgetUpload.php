@@ -2,6 +2,7 @@
 class WidgetUpload extends QWidget {
 	
 	public $inTable = true;
+	public $showDialog = true;
 	
     public function run()
     {
