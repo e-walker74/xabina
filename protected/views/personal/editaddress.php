@@ -62,7 +62,7 @@
 						),
 					)); ?>
 					<?= $form->hiddenField($addr, 'id'); ?>
-					<div class="field-row">
+					<div class="field-row" style="display: inline-block; width: 37%; margin:0 10px  0 0; ">
 						<div class="field-lbl">
 							<?= Yii::t('Front', 'Address Line 1'); ?>
 							<span class="tooltip-icon" title="tooltip text"></span>
@@ -96,7 +96,7 @@
 						</div>
 					</div>
 					
-					<div class="field-row edit-select">
+					<div class="field-row edit-select" style="display: inline-block; width: 48%;">
 						<div class="field-lbl">
 							<?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
 							<span class="tooltip-icon" title="tooltip text"></span>
@@ -150,7 +150,7 @@
 				</td>
 			</tr>
 			<tr class="new-address-tr prof-form">
-				<td colspan="4" >
+				<td colspan="4" style="border-right: 1px solid #ddd" >
 					<?php $form = $this->beginWidget('CActiveForm', array(
 						'id' => 'adress_form',
 						'enableAjaxValidation' => true,
@@ -168,7 +168,7 @@
 						),
 					)); ?>
 					<?= $form->hiddenField($model, 'id'); ?>
-					<div class="field-row">
+					<div class="field-row" style="display: inline-block; width: 37%; margin:0 10px  0 0; ">
 						<div class="field-lbl">
 							<?= Yii::t('Front', 'Address Line 1'); ?>
 							<span class="tooltip-icon" title="tooltip text"></span>
@@ -202,7 +202,7 @@
 						</div>
 					</div>
 					
-					<div class="field-row edit-select">
+					<div class="field-row edit-select" style="display: inline-block; width: 48%;">
 						<div class="field-lbl">
 							<?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
 							<span class="tooltip-icon" title="tooltip text"></span>
