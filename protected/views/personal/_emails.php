@@ -80,49 +80,60 @@
         </tr>
     <? endforeach; ?>
 	<tr>
-			<td class="add-new-td" colspan="5">
+			<td class="add-new-td" colspan="4">
 				<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 			</td>
 		</tr>
 		<tr class="prof-form" style="overflow: hidden;">
-			<td colspan="5" class="table-form-subheader">
+			<td colspan="4" class="table-form-subheader">
 				<div class="table-subheader"><?= Yii::t('Front', 'Add E-Mail'); ?></div>
 			</td>
 		</tr>
 	<tr class="prof-form emails-form-tr">
-        <td>
-            <div class="field-row">
-                <div class="field-lbl">
-                    <?= Yii::t('Front', 'E-mail'); ?>
-                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'Insert youre email address'); ?>"></span></div>
-                <div class="field-input">
-                    <?= $form->textField($model_emails, 'email', array('class' => 'input-text item0', 'data-v' => 'email')); ?>
-                    <?= $form->error($model_emails, 'email'); ?>
-                </div>
-            </div>
-        </td>
-        <td colspan="3">
-            <div class="field-row edit-select">
-                <div class="field-lbl">
-                    <?= Yii::t('Front', 'E-mail Type'); ?>
-                    <span class="tooltip-icon"
-                          title="<?= Yii::t('Front', 'This type just for you'); ?>"></span>
-                </div>
-                <div class="field-input ">
-                    <div class="select-custom">
-                        <span class="select-custom-label">
-						    <?= Yii::t('Front', 'Choose'); ?>
-                        </span>
-                        <?=
-                        $form->dropDownList($model_emails, 'email_type_id', Users_EmailTypes::all(), array(
-                            'class' => 'country-select select-invisible item1', 'data-v' => 'type_id',
-                        )); ?>
-
+        <td colspan="4" >
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="field-row">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front', 'E-mail'); ?>
+                        <span class="tooltip-icon" title="<?= Yii::t('Front', 'Insert youre email address'); ?>"></span></div>
+                    <div class="field-input">
+                        <?= $form->textField($model_emails, 'email', array('class' => 'input-text item0', 'data-v' => 'email')); ?>
+                        <?= $form->error($model_emails, 'email'); ?>
                     </div>
-                    <?= $form->error($model_emails, 'email_type_id'); ?>
+                </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="field-row">
+                        <div class="field-lbl">
+                            <?= Yii::t('Front', 'E-mail Type'); ?>
+                            <span class="tooltip-icon"
+                                  title="<?= Yii::t('Front', 'This type just for you'); ?>"></span>
+                        </div>
+                        <div class="field-input ">
+                            <div class="select-custom">
+                                <span class="select-custom-label">
+                                    <?= Yii::t('Front', 'Choose'); ?>
+                                </span>
+                                <?=
+                                $form->dropDownList($model_emails, 'email_type_id', Users_EmailTypes::all(), array(
+                                    'class' => 'country-select select-invisible item1', 'data-v' => 'type_id',
+                                )); ?>
+
+                            </div>
+                            <?= $form->error($model_emails, 'email_type_id'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="field-row">
+                        <div class="field-lbl">&nbsp;</div>
+                        <div class="field-input">
+                            <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
+                        </div>
+                    </div>
                 </div>
             </div>
-            <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
         </td>
     </tr>
 </table>

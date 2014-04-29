@@ -86,54 +86,66 @@
             <input type="hidden" name="type_edit[<?= $users_phone->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
-	<tr>
-			<td class="add-new-td" colspan="5">
+	    <tr>
+			<td class="add-new-td" colspan="4">
 				<a class="table-btn" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 			</td>
 		</tr>
 		<tr class="prof-form" style="overflow: hidden;">
-			<td colspan="5" class="table-form-subheader">
+			<td colspan="4" class="table-form-subheader">
 				<div class="table-subheader"><?= Yii::t('Front', 'Add phone number'); ?></div>
 			</td>
 		</tr>
     <tr class="prof-form emails-form-tr">
-        <td>
-            <div class="field-row">
-                <div class="field-lbl">
-                    <?= Yii::t('Front', 'Phone'); ?>
-                    <span class="tooltip-icon" title="tooltip text"></span></div>
-                <div class="field-input">
-                    <?= $form->textField($model_phones, 'phone', array('class' => 'input-text item0', 'data-v' => 'phone')); ?>
-                    <?= $form->error($model_phones, 'phone'); ?>
-                </div>
-            </div>
-        </td>
-        <td colspan="3">
-            <div class="field-row edit-select">
-                <div class="field-lbl">
-                    <?= Yii::t('Front', 'Phone Type'); ?>
-                    <span class="tooltip-icon"
-                          title="<?= Yii::t('Front', 'You can upload a file to one of the formats: PDF, JPG, PNG, GIF'); ?>"></span>
-                </div>
-                <div class="field-input ">
-                    <div class="select-custom">
-                        <span class="select-custom-label">
-                            <?= Yii::t('Front', 'Choose'); ?>
-                        </span>
-                        <?=
-                        $form->dropDownList($model_phones, 'email_type_id', Users_EmailTypes::all(), array(
-                            'class' => 'country-select select-invisible item1','data-v' => 'type_id'
-                        )); ?>
+        <td colspan="4">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="field-row">
+                        <div class="field-lbl">
+                            <?= Yii::t('Front', 'Phone'); ?>
+                            <span class="tooltip-icon" title="tooltip text"></span></div>
+                        <div class="field-input">
+                            <?= $form->textField($model_phones, 'phone', array('class' => 'input-text item0', 'data-v' => 'phone')); ?>
+                            <?= $form->error($model_phones, 'phone'); ?>
+                        </div>
                     </div>
-                    <?= $form->error($model_phones, 'email_type_id'); ?>
-                    <span class="validation-icon"></span>
+
                 </div>
-            </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="field-row">
+                        <div class="field-lbl">
+                            <?= Yii::t('Front', 'Phone Type'); ?>
+                            <span class="tooltip-icon"
+                                  title="<?= Yii::t('Front', 'You can upload a file to one of the formats: PDF, JPG, PNG, GIF'); ?>"></span>
+                        </div>
+                        <div class="field-input ">
+                            <div class="select-custom">
+                                <span class="select-custom-label">
+                                    <?= Yii::t('Front', 'Choose'); ?>
+                                </span>
+                                <?=
+                                $form->dropDownList($model_phones, 'email_type_id', Users_EmailTypes::all(), array(
+                                    'class' => 'country-select select-invisible item1','data-v' => 'type_id'
+                                )); ?>
+                            </div>
+                            <?= $form->error($model_phones, 'email_type_id'); ?>
+                            <span class="validation-icon"></span>
+                        </div>
+                    </div>
             <!--<div class="edit-add-button"
                  onclick="js:add_temp_user_datas('<?= $this->createUrl('personal/editphones', array('ajax' => 'user_datas')) ?>', this)">
                 <?= Yii::t('Front', 'Add'); ?>
             </div>-->
-			<input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="field-row">
+                        <div class="field-lbl">&nbsp;</div>
+                        <div class="field-input">
+			                <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </td>
     </tr>
 </table>

@@ -91,7 +91,7 @@
 							<th style="width:25%"><?= Yii::t('Front', 'Sender') ?></th>
 							<th style="width:20%"></th>
 						</tr>
-						<tr class="">
+						<tr class="verification-docs-tr">
 							<td colspan="4">
 				<?php $this->widget('WidgetUpload', array('inTable' => false))->getFilesTable($user->personal, Yii::app()->user->id) ?>
 							</td>
@@ -107,7 +107,7 @@
 							<th><?= Yii::t('Front', 'Add Attachments'); ?></th>
 						</tr>
 						<tr class="add-attachment-form">
-							<td>
+							<td style="padding: 0!important">
 								<?php $this->widget('WidgetUpload', array('inTable' => false))->html($user->personal)?>
 							</td>
 						</tr>

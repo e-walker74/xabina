@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>banking</title>
+    <title>Xabina</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
@@ -34,11 +34,13 @@
 						<?php $this->widget('ContactsBlock'); ?>								
 					</div>
 				</div>
+                <div class="col-lg-9 col-md-9 col-sm-9">
 				<?php
 					$this->widget('XBreadcrumbs', array(
 							'links'=>$this->breadcrumbs
 					));
 				?>
+                </div>
 				<?= $content ?>
 			</div>
 		</div>
