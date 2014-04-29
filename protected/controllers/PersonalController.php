@@ -234,13 +234,17 @@ class PersonalController extends Controller
         }
 
         if (isset($_POST['Users_Address'])) {
-			if(isset($_POST['Users_Address']['id'])){
+			if(isset($_POST['Users_Address']['id']) && $_POST['Users_Address']['id']){
 				$model = Users_Address::model()->findByPk($_POST['Users_Address']['id']);
 				if($model->user_id != Yii::app()->user->id){
 					throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 				}
 			}
 			$model->attributes = $_POST['Users_Address'];
+			if($model->isNewRecord){
+				$model->user_id = Yii::app()->user->id;
+			}
+			
             if($model->save()){
 				$this->redirect(array('/personal/editaddress'));
 			}

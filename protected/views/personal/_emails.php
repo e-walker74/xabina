@@ -59,7 +59,7 @@
             <td>
             	
                 <? if($users_email->status == 0 && $users_email->is_master == 0):?>
-                	<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))" class="verify"><?= Yii::t('Front', 'Verify') ?></a>
+                	<span class="verify"><?= Yii::t('Front', 'Unverified') ?></span>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
 					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
                 <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
