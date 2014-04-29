@@ -38,7 +38,7 @@
 				</td>
 				<td class="actions-td">
 					<div class="transaction-buttons-cont">
-						<a class="button edit" href="javaScript:void(0)" onclick="$(this).parents('tr').next('tr').toggle('slow'); $(this).parents('tr').hide()" ></a>
+						<a class="button edit" href="javaScript:void(0)" onclick="pageRefresh(); $(this).parents('tr').next('tr').toggle('slow'); $(this).parents('tr').hide()" ></a>
 						<?php if(!$addr->is_master): ?>
 							<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this address from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>', this) : false;" ></a>
 						<?php endif; ?>
@@ -90,9 +90,9 @@
 							<div class="select-custom">
 							<span class="select-custom-label"><?= $addr->country->name; ?> </span>
 								<?=
-								$form->dropDownList($addr, 'country_id', CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'), array(
-									'class' => 'country-select select-invisible'
-
+								$form->dropDownList($addr, 'country_id', Countries::all(), array(
+									'class' => 'country-select select-invisible',
+									'options' => array('' => array('disabled' => true)),
 								)); ?>
 							</div>
 							<?= $form->error($addr, 'country_id'); ?>
@@ -128,7 +128,8 @@
 								</span>
 								<?=
 								$form->dropDownList($addr, 'email_type_id', Users_EmailTypes::all(), array(
-									'class' => 'country-select select-invisible item1'
+									'class' => 'country-select select-invisible item1',
+									'options' => array('' => array('disabled' => true)),
 								)); ?>
 							</div>
 							<?= $form->error($addr, 'email_type_id'); ?>
@@ -148,7 +149,7 @@
 			
 			<tr>
 				<td class="add-new-td" colspan="4">
-					<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+					<a class="table-btn" onclick="pageRefresh(); $(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 				</td>
 			</tr>
 			<tr class="prof-form">
@@ -201,9 +202,9 @@
 							<div class="select-custom">
 							<span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
 								<?=
-								$form->dropDownList($model, 'country_id', CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'), array(
-									'class' => 'country-select select-invisible'
-
+								$form->dropDownList($model, 'country_id', Countries::all(), array(
+									'class' => 'country-select select-invisible',
+									'options' => array('' => array('disabled' => true)),
 								)); ?>
 							</div>
 							<?= $form->error($model, 'country_id'); ?>
@@ -238,8 +239,9 @@
 									<?= Yii::t('Front', 'Choose'); ?>
 								</span>
 								<?=
-								$form->dropDownList($model, 'email_type_id', CHtml::listData(Users_EmailTypes::model()->findAll(array('order' => 'type_name asc')), 'id', 'type_name'), array(
-									'class' => 'country-select select-invisible item1'
+								$form->dropDownList($model, 'email_type_id', Users_EmailTypes::all(), array(
+									'class' => 'country-select select-invisible item1',
+									'options' => array('' => array('disabled' => true)),
 								)); 
 								?>
 							</div>
@@ -265,3 +267,12 @@
 		<div class="clearfix"></div>
 	</div>
 </div>
+
+<script>
+	var pageRefresh = function(){
+		$('.address-tr').show();
+		$('.edit-address-tr').hide();
+		$('.add-new-td').parent().show()
+		$('.prof-form').hide()
+	}
+</script>

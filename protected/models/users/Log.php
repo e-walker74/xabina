@@ -40,8 +40,8 @@ class Users_Log extends ActiveRecord
 		return array(
 			array('user_id, type', 'required'),
 			array('user_id, ip_address, created_at', 'numerical', 'integerOnly'=>true),
-			array('type, browser, os, request_url', 'length', 'max'=>30),
-			array('region', 'length', 'max'=>2),
+			array('type, browser, os, request_url', 'length', 'max'=>30, 'message' => Yii::t('Front', 'Entry is to long')),
+			array('region', 'length', 'max'=>2, 'message' => Yii::t('Front', 'Entry is to long')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, type, ip_address, browser, os, request_url, region, created_at, login', 'safe', 'on'=>'search'),

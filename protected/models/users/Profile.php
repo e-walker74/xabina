@@ -46,7 +46,7 @@ class Users_Profile extends CActiveRecord
             array('user_id', 'required'),
             array('user_id, city_id, inst_id, height, og, ot, ob', 'numerical', 'integerOnly' => true),
             array('birthday', 'date', 'format' => 'yyyy-MM-dd', 'on' => 'insert'),
-            array('name, surname', 'length', 'max' => 255),
+            array('name, surname', 'length', 'max' => 255, 'message' => Yii::t('Front', 'Entry is to long')),
 			array('name, surname, about, designer_term', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             array('avatar', 'file', 'types'      => 'jpg', 'allowEmpty' => true),
             // The following rule is used by search().

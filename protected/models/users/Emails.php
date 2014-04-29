@@ -38,8 +38,8 @@ class Users_Emails extends ActiveRecord
 			array('email, email_type_id', 'required', 'on'=>'editemails'),
             array('email', 'email'),
 			array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
-			array('hash', 'length', 'max'=>32),
-			array('email', 'length', 'max'=>200),
+			array('hash', 'length', 'max'=>32, 'message' => Yii::t('Front', 'Entry is to long')),
+			array('email', 'length', 'max'=>200, 'message' => Yii::t('Front', 'Entry is to long')),
             array('email', 'checkEmailUnique', 'on'=>'editemails'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

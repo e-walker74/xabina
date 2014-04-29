@@ -79,9 +79,9 @@
 					<td><?= $mes->messager_login ?></td>
 					<td>
 						<div class="relative">
-							<span class="dropdown_button types_dropdown" row-id="<?= $mes->id ?>">
+							<!--<span class="dropdown_button types_dropdown" row-id="<?= $mes->id ?>">-->
 								<?= $mes->type->type_name ?>
-							</span>
+							<!--</span>-->
 					   </div>
 					</td>
 					<td>

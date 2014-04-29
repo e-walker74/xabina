@@ -26,7 +26,7 @@
     </tr>
     <? foreach ($users_phones as $users_phone): ?>
 		<?php if($users_phone->hash): ?>
-		<tr class="email-comment-tr sms-comment-tr">
+		<tr class="email-comment-tr sms-comment-tr  border-yellow">
 			<td colspan="4">
 				<div class="comment-bg">
 					<?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number') ?> 
@@ -41,9 +41,9 @@
             <td>+<?= $users_phone->phone ?></td>
             <td>
                 <div class="relative">
-                    <span class="dropdown_button types_dropdown">
+                    <!--<span class="dropdown_button types_dropdown">-->
                         <?= $users_phone->emailType->type_name ?>
-                    </span>
+                    <!--</span>-->
                </div>
             </td>
             <td>
@@ -111,7 +111,6 @@
                             <?= $form->error($model_phones, 'phone'); ?>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="field-row">
