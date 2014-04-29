@@ -96,24 +96,6 @@
 				<table class="table xabina-table-personal inner-table">
 					<tbody>
 						<tr class="table-header">
-							<th style="width:13%"><?= Yii::t('Front', 'File type') ?></th>
-							<th style="width:42%"><?= Yii::t('Front', 'File comments') ?></th>
-							<th style="width:25%"><?= Yii::t('Front', 'Sender') ?></th>
-							<th style="width:20%"></th>
-						</tr>
-						<tr class="verification-docs-tr">
-							<td colspan="4">
-				<?php $this->widget('WidgetUpload', array('inTable' => false))->getFilesTable($user->personal, Yii::app()->user->id) ?>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div class="subheader">
-					<?= Yii::t('Front', 'Verification documents'); ?>
-				</div>
-				<table class="table xabina-table-personal inner-table">
-					<tbody>
-						<tr class="table-header">
 							<th><?= Yii::t('Front', 'Add Attachments'); ?></th>
 						</tr>
 						<tr class="add-attachment-form">
