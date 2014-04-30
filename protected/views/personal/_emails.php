@@ -116,9 +116,12 @@
 							'options' => array('' => array('disabled' => true)),
                         )); ?>
 
+                            </div>
+                            <?= $form->error($model_emails, 'email_type_id'); ?>
+                        </div>
                     </div>
-                    <?= $form->error($model_emails, 'email_type_id'); ?>
                 </div>
+                
             </div>
         </td>
         <td>

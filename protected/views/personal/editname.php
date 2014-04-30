@@ -90,7 +90,6 @@
 					</tbody>
 				</table>
 				<?php endif; ?>
-
 				<div class="subheader">
 					<?= Yii::t('Front', 'Verification documents'); ?>
 				</div>
