@@ -7,6 +7,28 @@
 		$(this).parent().find('.file-name').show().html(value.split('/').pop().split('\\').pop())
 		$(this).parent().find('.no-file-name').hide()
 	})
+	
+	$('#file-form input[type=submit]').click(function(){
+		var ret = false;
+		$.ajax({
+			type: "POST",
+			url: $('#file-form').attr('action'),
+			success: function(data){
+				if(data.description){
+					$('#file-form').find('.error-message').html(data.description[0]).slideDown()
+					ret = false;
+				} else {
+					$('#file-form').find('.error-message').slideUp()
+					ret = true;
+				}
+			},
+			data: $('#file-form').serialize()+'&ajax=1',
+			dataType: 'json',
+			async: false
+			
+		});
+		return ret;
+	})
 
 	form.addEventListener('submit', function(ev) {
 		var
@@ -28,12 +50,23 @@
 					$('html, body').animate({
 						scrollTop: $("#attachments-block").offset().top-50
 					}, 500);
+					successNotify('File Upload', 'File was successfully uploaded')
 				}
 				$(form).find('.success-popup-cont').fadeIn().delay(2000).fadeOut();
 				$(form).find('.success-popup span').html(data.message);
 				$(form)[0].reset()
 				$(form).find('.file-name').hide()
 				$(form).find('.no-file-name').show()
+				$('#attachments-block .delete').confirmation({
+					title: 'Are you sure?',
+					singleton: true,
+					popout: true,
+					onConfirm: function(){
+						link = $(this).parents('.popover').prev('a')
+						deletefile(link);
+						return false;
+					}
+				})
 			} else {
 				$(form).find('.success-popup span').html('error');
 			}
@@ -47,10 +80,11 @@
 		
 		$.ajax({
 			type: "POST",
-			url: link.attr('href'),
+			url: $(link).attr('data-url'),
 			success: function(data){
 				if(data.success){
-					$('.to-remove').parents('li').remove()
+					$(link).parents('li').remove()
+					successNotify('Delete File', 'File was successfully deleted')
 				}
 			},
 			dataType: 'json'
@@ -58,9 +92,10 @@
 		return false;
 	}
 
+	
+	
 	var editRow = function(row){
-		$(document).find('.edit-doc').hide()
-		$(document).find('.not-edit-doc').show()
+		resetPage()
 		row.find('.not-edit-doc').hide()
 		row.find('.edit-doc').show()
 	}
@@ -78,6 +113,7 @@
 					row.find('.attach-comment .not-edit-doc').html(data.comment).show()
 					row.find('.edit-doc').hide()
 					row.find('.attach-comment textarea').next('.error-message').html('').slideUp()
+					successNotify('Comment File', 'Comment to file was successfully updated')
 				} else {
 					row.find('.attach-comment textarea').next('.error-message').html(data.message).slideDown('slow')
 				}
@@ -86,29 +122,3 @@
 		});
 		return false;
 	})
-
-    $( "#attachments-block" ).on('click', ".dialog-file-delete", function() {
-        var $dialog = $( ".dialog-file-delete-dialog" );
-		$dialog.dialog( "option", "appendTo", $(this));
-        $dialog.dialog( "option", "width", $(this).parents('table').width());
-        $dialog.dialog( "option", "position", {
-            my: 'right+11 top+15',
-            at: 'right bottom',
-            of: $(this)
-        } );
-		$( ".dialog-file-delete-dialog" ).find('.yes').attr('href', $(this).attr('href'))
-		$(this).addClass('to-remove')
-        $dialog.dialog( "open" );
-        return false;
-    });
-
-	$('.dialog-file-delete-dialog .no').click(function(){
-        $(this).parents('.dialog-file-delete-dialog').dialog('close');
-        $('.attach-actions .to-remove').removeClass('to-remove')
-		return false;
-    });
-
-    $('.dialog-file-delete-dialog .yes').click(function(){
-		$(this).parents('.dialog-file-delete-dialog').dialog('close');
-		return deletefile($(this))
-    });

@@ -31,9 +31,17 @@
 
 </div>
 
-<div class="escape-dialog xabina-dialog">
-	<div class="arr"></div>
-	<?= Yii::t('Front', 'Are you sure you want to logout?'); ?>
-	<a href="#" class="no" tabindex="-1"><?= Yii::t('Front', 'No') ?></a>
-	<a href="<?= Yii::app()->createUrl('/site/logout') ?>"  class="yes" tabindex="-1"><?= Yii::t('Front', 'Yes') ?></a>
-</div>
+<script>
+
+$(document).ready(function(){
+
+	$('.user-logout').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		href: '<?= Yii::app()->createUrl('/site/logout') ?>',
+		placement: 'bottom'
+	})
+})
+
+</script>

@@ -53,19 +53,23 @@ class Users_Pins extends ActiveRecord
 	
 	public function checkUserNewPass($attributes, $params){
 		$oldPin = false;
+		$pass = false;
 		$oldPins = Users_Pins::model()->find('user_id = :uid', array(':uid' => Yii::app()->user->id));
 		switch($this->scenario){
 			case 'pin1':
+				$pass = $this->pin1;
 				if($oldPins && $oldPins->pin1){
 					$oldPin = $oldPins->pin1;
 				}
 				break;
 			case 'pin2':
+				$pass = $this->pin2;
 				if($oldPins && $oldPins->pin2){
 					$oldPin = $oldPins->pin2;
 				}
 				break;
 			case 'pin3':
+				$pass = $this->pin3;
 				if($oldPins && $oldPins->pin3){
 					$oldPin = $oldPins->pin3;
 				}
@@ -74,6 +78,9 @@ class Users_Pins extends ActiveRecord
 		
 		if($oldPin && $oldPin != md5($this->old_pass)){
 			$this->addError('old_pass', Yii::t('Front', 'Old Pass is incorrect'));
+		}
+		if($oldPin && $oldPin == md5($pass)){
+			$this->addError('old_pass', Yii::t('Front', 'New password should be different than the old one'));
 		}
 	}
 	

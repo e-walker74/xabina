@@ -19,9 +19,7 @@
         <th width="39%"><?= Yii::t('Front', 'E-Mail'); ?></th>
         <th width="25%"><?= Yii::t('Front', 'Type'); ?></th>
         <th width="28%"><?= Yii::t('Front', 'Status'); ?></th>
-        <th width="8%" class="edit-th">
-            
-        </th>
+        <th width="8%" class="edit-th"></th>
     </tr>
     <? foreach ($users_emails as $users_email): ?>
 		<? if($users_email->status == 0 && $users_email->is_master == 0):?>
@@ -30,7 +28,7 @@
 				<div class="comment-bg">
 				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
 				<br>
-					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))"><?= Yii::t('Front', 'Send new activation link'); ?></a>
+					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){successNotify('<?= Yii::t('Front', 'Email Address') ?>', '<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))"><?= Yii::t('Front', 'Send new activation link'); ?></a>
 				</div>
 				<div class="comment-arr"></div>
 			</td>
@@ -69,7 +67,7 @@
 			<?php if(!$users_email->is_master): ?>
             <td class="remove-td actions-td">
 				<div class="transaction-buttons-cont">
-					<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this email from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>', this) : false;" ></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
 				</div>
             </td>
 			<?php else: ?>
@@ -90,8 +88,8 @@
 			</td>
 		</tr>
 	<tr class="prof-form emails-form-tr">
-        <td>
-            <div class="field-row">
+        <td colspan="3">
+            <div class="field-row inline-form">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'E-mail'); ?>
                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'Insert youre email address'); ?>"></span></div>
@@ -100,9 +98,7 @@
                     <?= $form->error($model_emails, 'email'); ?>
                 </div>
             </div>
-        </td>
-        <td colspan="3">
-            <div class="field-row edit-select">
+			<div class="field-row edit-select inline-form">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'E-mail Type'); ?>
                     <span class="tooltip-icon"
@@ -124,18 +120,20 @@
                     <?= $form->error($model_emails, 'email_type_id'); ?>
                 </div>
             </div>
-            <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
+        </td>
+        <td>
+			<div class="transaction-buttons-cont">
+				<input type="submit" class="button ok" value="" />
+				<a class="button cancel" href="javaScript:void(0)"></a>
+			</div>
         </td>
     </tr>
 </table>
 <div class="form-submit">
 	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a>   
-    <!--<div class="submit-button button-next save"
-         onclick="js:save_datas('<?= Yii::app()->createUrl('/banking/personal/saveemails') . '/' ?>', this)">
-        <?= Yii::t('Front', 'Save'); ?>
-    </div>-->
 </div>
 <?php $this->endWidget(); ?>
+
 <script>
 $('.types_dropdown').dropDown({
 	list: {

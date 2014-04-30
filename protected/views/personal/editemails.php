@@ -13,3 +13,24 @@
     <div class="clearfix"></div>
   </div>
 </div>
+
+<?php 
+	Yii::app()->clientScript->registerScript('email', 
+		'$(document).ready(function(){
+
+			$(".delete").confirmation({
+				title: "'. Yii::t('Front', 'Are you sure?') .'",
+				singleton: true,
+				popout: true,
+				onConfirm: function(){
+					link = $(this).parents(".popover").prev("a")
+					deleteRow(link);
+					successNotify("'. Yii::t('Front', 'Email Address?') .'", "'. Yii::t('Front', 'Email Address was successfully deleted!') .'")
+					return false;
+				}
+			})
+
+		})', 
+		CClientScript::POS_END
+	);
+?>

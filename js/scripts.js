@@ -39,6 +39,7 @@ $(function(){
 	
 	$('.tooltip-icon').tooltip({
         tooltipClass: 'xabina-tooltip',
+		placement: 'right',
         position:{
             my: "left+25 top-12",
             at: "right top",
@@ -391,7 +392,7 @@ $(function(){
 				var response= jQuery.parseJSON (data);
 				if(response.success){
 					if(response.message){
-						alert(response.message);
+						successNotify('Primary', response.message)
 					}
 					if(response.reload){
 						location.reload()
@@ -404,9 +405,10 @@ $(function(){
 		});
 	}
 	
-	deleteRow = function(url, link){
+	deleteRow = function(link){
+	
 		$.ajax({
-			url: url,
+			url: $(link).attr('data-url'),
 			success: function(data) {
 				var response= jQuery.parseJSON (data);
 				if(response.success){
@@ -688,6 +690,24 @@ $(document).ready(function(){
         $dialog.dialog( "open" );
         return false;
     })
+	
+	$('textarea').autosize();
 })
+
+var resetPage = function(){
+	$(document).find('.edit-doc').hide()
+	$(document).find('.not-edit-doc').show()
+	$(document).find('.prof-form').hide()
+	$(document).find('.add-new-td').parents('tr').show()
+}
+
+$(document).on('click', '.button.cancel', function(){
+	resetPage()
+})
+
+var successNotify = function(title, message){
+	$.pnotify({ title: title, text: message, type: 'success', width: '500px', delay: 3000});
+}
+
 
 

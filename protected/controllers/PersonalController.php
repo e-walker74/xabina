@@ -42,6 +42,7 @@ class PersonalController extends Controller
 					'editqustions',
 					'resendemail',
 					'editpins',
+					'settings',
                 ),
                 'roles' => array('client')
             ),
@@ -66,10 +67,10 @@ class PersonalController extends Controller
 
     public function actionEditemails()
     {
-		
+
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage email addresses'))] = '';
-	
+
 		$model_emails = new Users_Emails('editemails');
 		
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
@@ -81,7 +82,13 @@ class PersonalController extends Controller
 
             $model_emails->attributes = $_POST['Users_Emails'];
 			$model_emails->user_id = Yii::app()->user->id;
+			
 			if($model_emails->save()){
+				Yii::app()->session['flash_notify'] = array(
+					'title' => Yii::t('Front', 'Email Address'),
+					'message' => Yii::t('Front', 'New email address was added'),
+				);
+			
 				$this->redirect(array('/personal/editemails'));
 			}
         }
@@ -162,9 +169,11 @@ class PersonalController extends Controller
 
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage phones'))] = '';
-	
-        $model_phones = new Users_Phones('editphones');
 
+        $model_phones = new Users_Phones('editphones');
+		$model_telephones = new Users_Telephones;
+		$user = Users::model()->findByPk(Yii::app()->user->id);
+		
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
             echo CActiveForm::validate($model_phones);
             Yii::app()->end();
@@ -179,9 +188,25 @@ class PersonalController extends Controller
 
             Yii::app()->end();
         }
+		
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_telephones') {
+            echo CActiveForm::validate($model_telephones);
+            Yii::app()->end();
+        }
+		
+		if (isset($_POST['Users_Telephones'])) {
+			$model_telephones->attributes = $_POST['Users_Telephones'];
+			$model_telephones->user_id = Yii::app()->user->id;
+			if($model_telephones->save()){
+				$this->redirect(array('/personal/editphones'));
+			}
+            Yii::app()->end();
+        }
 
         $this->render('editphones', array(
             'users_phones' => self::getUsersItems($model_phones),
+			'model_telephones' => $model_telephones,
+			'user' => $user,
             'model_phones' => $model_phones,
         ));
     }
@@ -290,7 +315,7 @@ class PersonalController extends Controller
 	public function actionEditname(){
 	
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Details'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My personal information'))] = '';
 	
 		//$model = Users::model()->findByPk(Yii::app()->user->id);
 
@@ -500,7 +525,7 @@ class PersonalController extends Controller
 				)
 
 			);
-			$message = Yii::t('Front', 'We send you confirmation email');
+			$message = Yii::t('Front', 'We sent you a confirmation email');
 		} elseif($type == 'phones') {
 			$model->generateHash();
 			$model->save();
@@ -509,7 +534,7 @@ class PersonalController extends Controller
 				if(Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1){
 					Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 				}
-				$message = Yii::t('Front', 'We send you confirmation sms to mobile');
+				$message = Yii::t('Front', 'We sent you a confirmation sms to mobile');
 			} else {
 				if($model->status == 1 && $model->is_master == 0){
 					$model->is_master = 1;
@@ -642,7 +667,7 @@ class PersonalController extends Controller
             'select' => implode(',', $fields),
             'condition' => 'user_id=:user_id',
             'params' => array(':user_id' => Yii::app()->user->id),
-            'order' => 'id',
+            'order' => 'is_master desc, id',
        ));
     }
 
@@ -830,10 +855,10 @@ class PersonalController extends Controller
 		$model = new Users_Securityquestions();
 		$user = Users::model()->findByPk(Yii::app()->user->id);
 
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'users_securityquestions') {
+        if (isset($_POST['ajax'])) {
 			$error = CActiveForm::validate($model);
 			if($error == '[]'){
-				if($user->questions){
+				if(count($user->questions) >= 5){
 					$model->addError('Users_Securityquestions_answer', Yii::t('Front', 'You have reached the required limit for security questions. In order to add new questions, you need to delete the existing ones'));
 					echo CJSON::encode($model->getErrors());
 					Yii::app()->end();
@@ -846,8 +871,8 @@ class PersonalController extends Controller
         if (isset($_POST['Users_Securityquestions'])) {
 			$model->attributes = $_POST['Users_Securityquestions'];
 			$model->user_id = Yii::app()->user->id;
-			if($user->questions){
-				$model->addError('Users_Securityquestions_answer', Yii::t('Front', 'You have reached the required limit for security questions. In order to add new questions, you need to delete the existing ones'));
+			if(count($user->questions) >= 5){
+				$model->addError('Users_Securityquestions_answer', Yii::t('Front', 'Youasdfasdf have reached the required limit for security questions. In order to add new questions, you need to delete the existing ones'));
 				echo CJSON::encode($model->getErrors());
 				Yii::app()->end();
 			}
@@ -857,14 +882,15 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
 
-        $this->render('editqustions', array('model' => $model, 'user' => $user));
+        $this->render('sequeityqustions', array('model' => $model, 'user' => $user));
 	}
 	
 	public function actionDelete($id){
-		$type = Yii::app()->request->getParam('type', '', 'list', array('social','messager','phones','question', 'emails', 'address'));
+		$type = Yii::app()->request->getParam('type', '', 'list', array('social','messager','phones','question', 'emails', 'address', 'telephones'));
 		if(!$type && !$id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
+		
 		$return = true;
 		switch($type){
 			case 'social':
@@ -908,7 +934,14 @@ class PersonalController extends Controller
 					$return = false;
 				}
 				break;
-				
+			case 'telephones':
+				$telephone = Users_Telephones::model()->findByPk($id);
+				if($telephone->user_id == Yii::app()->user->id){
+					$telephone->delete();
+				} else {
+					$return = false;
+				}
+				break;
 		}
 
 		echo CJSON::encode(array('success' => $return));
@@ -954,4 +987,35 @@ class PersonalController extends Controller
 		$this->render('pins', array('model' => $model));
 	}
 
+	public function actionsettings(){
+	
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Account Settings'))] = '';
+	
+		$user = Users::model()->findByPk(Yii::app()->user->id);
+		
+		if(!$user->settings){
+			$user->settings = new Users_Settings;
+			$user->settings->user_id = $user->id;
+			$user->settings->language = $user->lang;
+			$user->settings->statement_language = $user->lang;
+			$user->settings->font_size = 14;
+			$user->settings->time_zone = 1;
+			$user->settings->currency = 1;
+			$user->settings->save();
+		}
+		
+		if(isset($_POST['Users_Settings']) && Yii::app()->request->isAjaxRequest){
+			$user->settings->attributes = $_POST['Users_Settings'];
+			if($user->settings->save()){
+				echo CJSON::encode(array('success' => true));
+			} else {
+				echo CJSON::encode(array('success' => false, 'message' => $user->settings->getErrors()));
+			}
+			Yii::app()->end();
+		}
+		
+		$this->render('settings', array('user' => $user));
+	}
+	
 }

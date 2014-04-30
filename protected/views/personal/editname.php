@@ -8,7 +8,7 @@
 		<div id="emails_edit">
 			<div class="xabina-form-container">
 				<div class="subheader">
-					<?= Yii::t('Front', 'Personal details'); ?>
+					<?= Yii::t('Front', 'My personal information'); ?>
 				</div>
 				<table class="table xabina-table-personal">
 					<tbody>

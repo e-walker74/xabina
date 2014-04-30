@@ -36,6 +36,17 @@ class FileController extends Controller
     }
 
 	public function actionUpload($id){
+	
+		if(Yii::app()->request->getParam('ajax')){
+			$file = new Users_Files;
+			$file->description = Yii::app()->request->getParam('description');
+			$file->user_id = Yii::app()->user->id;
+			$file->name = 'validate';
+			$file->ext = 'validate';
+			$file->validate();
+			echo CJSON::encode($file->getErrors());
+			Yii::app()->end();
+		}
 
 		$countFilesInHour = Yii::app()->cache->get('uploaded_files_by_user_'.Yii::app()->user->id);
 		if($countFilesInHour > 20){
@@ -208,7 +219,7 @@ class FileController extends Controller
 			echo CJSON::encode(array('success' => true, 'comment' => $model->shortDescription));
 			Yii::app()->end();
 		} else {
-			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Comment is incorrect')));
+			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Entry is to long')));
 			Yii::app()->end();
 		}
 	}
@@ -272,5 +283,9 @@ class FileController extends Controller
 			}
 			exit;
 		}
+	}
+	
+	public function actionValidate(){
+		
 	}
 }
