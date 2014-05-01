@@ -709,5 +709,24 @@ var successNotify = function(title, message){
 	$.pnotify({ title: title, text: message, type: 'success', width: '500px', delay: 3000});
 }
 
+var backgroundBlack = function(){
+	if(!jQuery("body").find("#TB_overlay").is("div")) /* если фон уже добавлен не добавляем повторно */
+	{
+	if(!jQuery.browser.msie) /* если браузер не ИЕ фоном будет div */
+		jQuery("body").append("<div id='TB_overlay'><div class='wait-ico'></div></div>");
+	else /* иначе добавляем iframe */
+		jQuery("body").append("<div id='TB_overlay'><iframe scrolling='no' frameborder='0' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; filter:alpha(opacity=0)'></iframe></div>");
+	}
+	var centerWidth = ($(window).width()) / 2,
+	centerHeight = ($(window).height()) / 2;
+	$('body').css({overflow: 'hidden'})
+	$("#TB_overlay").fadeIn("fast");
+}
+
+var dellBackgroundBlack = function(){
+	$("#TB_overlay").remove();
+	$('body').css({overflow: 'auto'})
+}
+
 
 

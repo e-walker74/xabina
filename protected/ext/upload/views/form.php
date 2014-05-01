@@ -16,25 +16,20 @@
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Select a file') ?><span title='<?= Yii::t('Front', 'Press "select" button to add new file') ?>' class="tooltip-icon"></span>
 								</div>
-								<div class="form-input">
+								<div class="form-input file">
 									<label class="file-label">
 										<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
 										<span class="file-name"><?= Yii::t('Front', 'File is not selected'); ?></span>
 										<span class="no-file-name"><?= Yii::t('Front', 'File is not selected'); ?></span>
 										<input id="uFile" type="file" class="file-input">
 									</label>
-									<div class="success-popup-cont">
-										<div class="success-popup">
-											<span></span>
-											<div class="arr"></div>
-										</div>
-									</div>
+									<div class="error-message"></div>
 								</div>
 
 							</div>
 						</td>
 						<td style="width: 45%; ">
-							<div class="form-cell">
+							<div class="form-cell comment">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Comments') ?><span title="<?= Yii::t('Front', 'You can add any comment to uploaded file, using text field below.') ?>" class="tooltip-icon"></span>
 								</div>

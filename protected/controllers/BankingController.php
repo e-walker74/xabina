@@ -170,7 +170,7 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 		
-		$this->render('activation', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model));
+		$this->render('activation', array('activation' => $activation, 'model' => $model));
 	}
 	
 	public function activationStepThree($activation, $partial = false){
