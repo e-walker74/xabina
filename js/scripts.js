@@ -707,7 +707,7 @@ $(document).on('click', '.button.cancel', function(){
 
 var successNotify = function(title, message){
 	var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 45, "firstpos2": 5};
-	$.pnotify({ title: title, text: message, type: 'success', delay: 322000, width: '700px', stack: stack_context, history: false});
+	$.pnotify({ title: title, text: message, type: 'success', delay: 3000, width: '700px', stack: stack_context, history: false});
 }
 
 var backgroundBlack = function(){
