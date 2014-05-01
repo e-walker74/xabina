@@ -710,6 +710,12 @@ var successNotify = function(title, message){
 	$.pnotify({ title: title, text: message, type: 'success', delay: 3000, width: '700px', stack: stack_context, history: false});
 }
 
+$(document).bind("ajaxSend", function(){
+   backgroundBlack()
+}).bind("ajaxComplete", function(){
+   dellBackgroundBlack()
+});
+
 var backgroundBlack = function(){
 
 	if(!jQuery("body").find("#TB_overlay").is("div")) /* если фон уже добавлен не добавляем повторно */
