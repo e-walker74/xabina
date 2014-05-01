@@ -66,6 +66,7 @@
 				$(form).find('.success-popup-cont').fadeIn().delay(2000).fadeOut();
 				$(form).find('.success-popup span').html(data.message);
 				$(form)[0].reset()
+				$(form).find('textarea').val('').trigger('autosize.resize')
 				$(form).find('.file-name').hide()
 				$(form).find('.no-file-name').show()
 				$('#attachments-block .delete').confirmation({
