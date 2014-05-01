@@ -83,7 +83,7 @@ class Users_Pins extends ActiveRecord
 			$this->addError('old_pass', Yii::t('Front', 'New password should be different than the old one'));
 		}
 	}
-	
+
 	public function checkConfirm($attributes, $params){
 		$newPin = false;
 		switch($this->scenario){

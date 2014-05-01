@@ -10,15 +10,16 @@
 	
 	$('#file-form input[type=submit]').click(function(){
 		var ret = false;
+		
 		$.ajax({
 			type: "POST",
 			url: $('#file-form').attr('action'),
 			success: function(data){
 				if(data.description){
-					$('#file-form').find('.error-message').html(data.description[0]).slideDown()
+					$('#file-form').find('.comment .error-message').html(data.description[0]).slideDown().delay( 3000 ).slideUp()
 					ret = false;
 				} else {
-					$('#file-form').find('.error-message').slideUp()
+					$('#file-form').find('.comment .error-message').slideUp()
 					ret = true;
 				}
 			},
@@ -27,10 +28,19 @@
 			async: false
 			
 		});
+		
+		if(!document.getElementById('uFile').files[0]){
+			ret = false;
+			$('#file-form').find('.file .error-message').html('File not selected').slideDown().delay( 3000 ).slideUp()
+		}
+		
 		return ret;
 	})
 
 	form.addEventListener('submit', function(ev) {
+	
+		backgroundBlack()
+	
 		var
 		oOutput = document.getElementById("attachments-block"),
 		oData = new FormData(document.forms.namedItem("upload"));
@@ -43,6 +53,7 @@
 		var oReq = new XMLHttpRequest();
 		oReq.open("POST", ev.currentTarget.action, true);
 		oReq.onload = function(oEvent) {
+			dellBackgroundBlack()
 			if (oReq.status == 200) {
 				var data = jQuery.parseJSON(oEvent.currentTarget.response)
 				if(data.success){
@@ -55,6 +66,7 @@
 				$(form).find('.success-popup-cont').fadeIn().delay(2000).fadeOut();
 				$(form).find('.success-popup span').html(data.message);
 				$(form)[0].reset()
+				$(form).find('textarea').val('').trigger('autosize.resize')
 				$(form).find('.file-name').hide()
 				$(form).find('.no-file-name').show()
 				$('#attachments-block .delete').confirmation({
