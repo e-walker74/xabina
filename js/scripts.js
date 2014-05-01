@@ -706,10 +706,11 @@ $(document).on('click', '.button.cancel', function(){
 })
 
 var successNotify = function(title, message){
-	$.pnotify({ title: title, text: message, type: 'success', width: '500px', delay: 3000});
+	$.pnotify({ title: title, text: message, type: 'success', width: '500px', delay: 3000, width: '700px'});
 }
 
 var backgroundBlack = function(){
+
 	if(!jQuery("body").find("#TB_overlay").is("div")) /* если фон уже добавлен не добавляем повторно */
 	{
 	if(!jQuery.browser.msie) /* если браузер не ИЕ фоном будет div */
@@ -720,6 +721,7 @@ var backgroundBlack = function(){
 	var centerWidth = ($(window).width()) / 2,
 	centerHeight = ($(window).height()) / 2;
 	$('body').css({overflow: 'hidden'})
+	
 	$("#TB_overlay").fadeIn("fast");
 }
 
