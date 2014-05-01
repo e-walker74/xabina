@@ -8,8 +8,20 @@
       <div class="subheader">
         <?= Yii::t('Front', 'Change phone numbers'); ?>
       </div>
-      <?php $this->renderPartial('_phones', array('users_phones' => $users_phones, 'model_phones' => $model_phones)); ?>
+      <?php $this->renderPartial('_mobile_phones', array('users_phones' => $users_phones, 'model_phones' => $model_phones)); ?>
+	  
+	  <div class="subheader">
+        <?= Yii::t('Front', 'Change phone numbers'); ?>
+      </div>
+      <?php $this->renderPartial('_phones', array('model_telephones' => $model_telephones, 'user' => $user)); ?>
+	  
     </div>
     <div class="clearfix"></div>
   </div>
 </div>
+<script>
+	var resetPage = function(){
+		$('.prof-form').hide()
+		$('.add-new-td').parents('tr').show()
+	}
+</script>

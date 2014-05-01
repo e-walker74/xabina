@@ -125,7 +125,7 @@ class Users extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'profile' => array(self::HAS_ONE, 'Users_Profile', 'user_id'),
+            //'profile' => array(self::HAS_ONE, 'Users_Profile', 'user_id'),
 			'notifications' => array(self::HAS_MANY, 'Users_Notification', 'user_id'),
 			'notifications_active' => array(self::HAS_MANY, 'Users_Notification', 'user_id', 'condition' => 'closed = 0'),
 			'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
@@ -139,6 +139,10 @@ class Users extends ActiveRecord
             'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id'),
 			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'created_at asc'),
 			'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
+			'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
+			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
+			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
+			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
         );
     }
 

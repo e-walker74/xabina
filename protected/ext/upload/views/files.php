@@ -2,7 +2,8 @@
 <div id="attachments-block">
 <?php endif; ?>
 <?php if(count($files)): ?>
-<div class="inner-header"><?= Yii::t('Front', 'Attachment') ?></div>
+<?php if($this->inTable): ?>
+<!--<div class="inner-header"><?= Yii::t('Front', 'Attachment') ?></div>-->
 <table class="inner-table attachments-table">
 	<tbody>
 		<tr>
@@ -13,20 +14,23 @@
 		</tr>
 		<tr>
 			<td colspan="4">
+<?php endif; ?>
 				<ul class="attachments-list list-unstyled">
 					<?php foreach($files as $file): ?>
 					<li>
 						<div class="attach-img">
-							<img alt="" src="<?= Yii::app()->createUrl('/file/getMinimize', array('id' => $file->id, 'name' => $file->user_file_name)) ?>">
+							<a href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->user_file_name)) ?>">
+								<img alt="" src="<?= Yii::app()->createUrl('/file/getMinimize', array('id' => $file->id, 'name' => $file->user_file_name)) ?>">
+							</a>
 						</div>
 						<div class="attach-comment">
-							<?php if(mb_strlen($file->description) > 100): ?>
-								<span><?= SiteService::subStrEx($file->description, 100); ?></span>
-								<a href="javaScript:void(0)" onclick="$(this).prev('span').hide(); $(this).hide(); $(this).next('span').slideDown('slow');" class="show-more"><?= Yii::t('Front', 'show more') ?></a>
-								<span style="display:none;"><?= $file->description ?></span>
-							<?php else: ?>
-								<?= $file->description ?>
-							<?php endif; ?>
+							<div class="not-edit-doc">
+							<?= $file->shortDescription ?>
+							</div>
+							<div class="edit-doc">
+								<textarea name="edit_file_comment" ><?= $file->description ?></textarea>
+								<div class="error-message"></div>
+							</div>
 						</div>
 						<div class="attach-sender">
 							<?= $file->user->fullName; ?>
@@ -34,21 +38,46 @@
 
 						</div>
 						<div class="attach-actions">
-							<div class="transaction-buttons-cont">
+							<div class="not-edit-doc transaction-buttons-cont">
 								<a class="button download" href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->user_file_name)) ?>"></a>
-								<a class="button edit" href="#"></a>
-								<a class="button delete" data-confirm-text="<?= Yii::t('Front', 'Are you sure You want to delete file?') ?>" href="<?= Yii::app()->createUrl('/file/delete', array('id' => $file->id)) ?>"></a>
+								<a class="button edit" href="javaScript:void(0)" onclick="editRow($(this).parents('li'))"></a>
+								<a class="button delete dialog-file-delete" data-url="<?= Yii::app()->createUrl('/file/delete', array('id' => $file->id)) ?>" href="javaScript:void(0)"></a>
+							</div>
+							<div class="edit-doc transaction-buttons-cont">
+								<a class="button ok" href="<?= Yii::app()->createUrl('/file/edit', array('id' => $file->id)) ?>"></a>
+								<a class="button cancel" href="javaScript:void(0)"></a>
 							</div>
 						</div>
 					</li>
 					<?php endforeach; ?>
 				</ul>
+<?php if($this->inTable): ?>
 			</td>
 		</tr>
 
 	</tbody>
 </table>
 <?php endif; ?>
+<?php endif; ?>
+
 <?php if(!Yii::app()->request->isAjaxRequest): ?>
 </div>
+<script>
+$(document).ready(function(){
+
+	$('#attachments-block .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			link = $(this).parents('.popover').prev('a')
+			deletefile(link);
+			return false;
+		}
+	})
+
+})
+</script>
 <?php endif; ?>
+
+

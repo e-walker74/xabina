@@ -39,7 +39,7 @@ class Users_Verification extends ActiveRecord
 		return array(
 			array('user_id, rel_id', 'required'),
 			array('user_id, rel_id', 'numerical', 'integerOnly'=>true),
-			array('type', 'length', 'max'=>18),
+			array('type', 'length', 'max'=>18, 'message' => Yii::t('Front', 'Entry is to long')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('user_id, type, rel_id', 'safe', 'on'=>'search'),

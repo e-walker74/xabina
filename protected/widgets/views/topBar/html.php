@@ -21,7 +21,7 @@
                         <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
                         <li class="user-email"><a href="<?= Yii::app()->createUrl('message/index'); ?>"></a></li>
                         <!--<li class="user-personal"><a href="#"></a></li>-->
-                        <li class="user-logout"><?= CHtml::link('', array('/logout'), array('onclick'=>'return confirm("'.Yii::t('Front', 'Are you sure you want to logout?').'")')); ?></li>
+                        <li class="user-logout"><?= CHtml::link('', array('/site/logout')); ?></li>
                     </ul>
                     <div class="user-greeting pull-right"><?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->name)); ?></div>
                 </div>
@@ -30,3 +30,18 @@
     </div>
 
 </div>
+
+<script>
+
+$(document).ready(function(){
+
+	$('.user-logout').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		href: '<?= Yii::app()->createUrl('/site/logout') ?>',
+		placement: 'bottom'
+	})
+})
+
+</script>

@@ -1,22 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "users_securityquestions".
+ * This is the model class for table "users_telephones".
  *
- * The followings are the available columns in table 'users_securityquestions':
+ * The followings are the available columns in table 'users_telephones':
  * @property integer $id
  * @property integer $user_id
- * @property integer $question_id
- * @property string $answer
+ * @property integer $number
+ * @property integer $created_at
+ * @property integer $updated_at
  */
-class Users_Securityquestions extends ActiveRecord
+class Users_Telephones extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_securityquestions';
+		return 'users_telephones';
 	}
 
 	/**
@@ -27,20 +28,12 @@ class Users_Securityquestions extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('question_id, answer', 'required'),
-			array('user_id, question_id', 'numerical', 'integerOnly'=>true),
-			array('question_id', 'uniqCheck'),
-			array('answer', 'length', 'max'=>20, 'tooLong' => Yii::t('Front', 'Entry is to long')),
+			array('number, email_type_id', 'required'),
+			array('user_id, number', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, question_id, answer', 'safe', 'on'=>'search'),
+			array('id, user_id, number', 'safe', 'on'=>'search'),
 		);
-	}
-	
-	public function uniqCheck($attribute, $value){
-		if(self::model()->find('question_id = :qid AND user_id = :uid', array(':qid' => $this->question_id, ':uid' => Yii::app()->user->id))){
-			$this->addError('question_id', Yii::t('Front', 'You can\'t use one question 2 times'));
-		}
 	}
 
 	/**
@@ -51,7 +44,8 @@ class Users_Securityquestions extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'question' => array(self::BELONGS_TO, 'Securityquestions', 'question_id'),
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
 		);
 	}
 
@@ -63,8 +57,9 @@ class Users_Securityquestions extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'question_id' => 'Question',
-			'answer' => 'Answer',
+			'number' => 'Number',
+			'created_at' => 'Created At',
+			'updated_at' => 'Updated At',
 		);
 	}
 
@@ -88,8 +83,9 @@ class Users_Securityquestions extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('question_id',$this->question_id);
-		$criteria->compare('answer',$this->answer,true);
+		$criteria->compare('number',$this->number);
+		$criteria->compare('created_at',$this->created_at);
+		$criteria->compare('updated_at',$this->updated_at);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,7 +96,7 @@ class Users_Securityquestions extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersSecurityquestions the static model class
+	 * @return UsersTelephones the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -2,6 +2,7 @@
 class WidgetUpload extends QWidget {
 	
 	public $inTable = true;
+	public $showDialog = true;
 	
     public function run()
     {
@@ -14,10 +15,16 @@ class WidgetUpload extends QWidget {
     }
 	
 	public function getFilesTable($model, $user, $processOutput = false){
-		$files = Users_Files::model()->findAll('user_id = :uid AND form = :type AND deleted = 0', array(
-			':uid' => $user,
-			':type' => get_class($model),
-		));
+		$files = Users_Files::model()->findAll(
+			array(
+				'condition' => 'user_id = :uid AND form = :type AND deleted = 0', 
+				'params' => array(
+					':uid' => $user,
+					':type' => get_class($model),
+				),
+				'order' => 'created_at desc',
+			)
+		);
 		return $this->render('files', array('files' => $files), $processOutput);
 	}
 	

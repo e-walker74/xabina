@@ -1,22 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "users_securityquestions".
+ * This is the model class for table "users_personal_documents".
  *
- * The followings are the available columns in table 'users_securityquestions':
+ * The followings are the available columns in table 'users_personal_documents':
  * @property integer $id
  * @property integer $user_id
- * @property integer $question_id
- * @property string $answer
+ * @property string $file_type
+ * @property integer $expiry_date
  */
-class Users_Securityquestions extends ActiveRecord
+class Users_Personal_Documents extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_securityquestions';
+		return 'users_personal_documents';
 	}
 
 	/**
@@ -27,20 +27,13 @@ class Users_Securityquestions extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('question_id, answer', 'required'),
-			array('user_id, question_id', 'numerical', 'integerOnly'=>true),
-			array('question_id', 'uniqCheck'),
-			array('answer', 'length', 'max'=>20, 'tooLong' => Yii::t('Front', 'Entry is to long')),
+			array('user_id, file_type, expiry_date', 'required'),
+			array('user_id, expiry_date', 'numerical', 'integerOnly'=>true),
+			array('file_type', 'length', 'max'=>60),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, question_id, answer', 'safe', 'on'=>'search'),
+			array('id, user_id, file_type, expiry_date', 'safe', 'on'=>'search'),
 		);
-	}
-	
-	public function uniqCheck($attribute, $value){
-		if(self::model()->find('question_id = :qid AND user_id = :uid', array(':qid' => $this->question_id, ':uid' => Yii::app()->user->id))){
-			$this->addError('question_id', Yii::t('Front', 'You can\'t use one question 2 times'));
-		}
 	}
 
 	/**
@@ -51,7 +44,7 @@ class Users_Securityquestions extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'question' => array(self::BELONGS_TO, 'Securityquestions', 'question_id'),
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
@@ -63,8 +56,8 @@ class Users_Securityquestions extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'question_id' => 'Question',
-			'answer' => 'Answer',
+			'file_type' => 'File Type',
+			'expiry_date' => 'Expiry Date',
 		);
 	}
 
@@ -88,8 +81,8 @@ class Users_Securityquestions extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('question_id',$this->question_id);
-		$criteria->compare('answer',$this->answer,true);
+		$criteria->compare('file_type',$this->file_type,true);
+		$criteria->compare('expiry_date',$this->expiry_date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,7 +93,7 @@ class Users_Securityquestions extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersSecurityquestions the static model class
+	 * @return UsersPersonalDocuments the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
