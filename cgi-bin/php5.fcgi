@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/local/cpanel/cgi-sys/php5 -c /home/evnaby/sites/xabina/cgi-bin/php.ini
+exec /usr/local/cpanel/cgi-sys/php5 -c /home/xabinate/public_html/cgi-bin/php.ini

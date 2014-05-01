@@ -9,3 +9,5 @@
 /protected/config/local.php
 /protected/config/components/
 /documents
+/cgi-bin
+/i
