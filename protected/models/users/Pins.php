@@ -35,15 +35,15 @@ class Users_Pins extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pin1, pin1_exp', 'required', 'on' => 'pin1'),
-			array('pin2, pin2_exp', 'required', 'on' => 'pin2'),
-			array('pin3, pin3_exp', 'required', 'on' => 'pin3'),
+			array('pin1, pin1_exp', 'required', 'on' => 'pin1', 'message' => Yii::t('Front', 'Cannot be blank.')),
+			array('pin2, pin2_exp', 'required', 'on' => 'pin2', 'message' => Yii::t('Front', 'Cannot be blank.')),
+			array('pin3, pin3_exp', 'required', 'on' => 'pin3', 'message' => Yii::t('Front', 'Cannot be blank.')),
 			array('confirm_pass', 'required'),
 			array('confirm_pass, old_pass', 'safe'),
 			array('old_pass', 'checkUserNewPass'),
 			array('confirm_pass', 'checkConfirm'),
 			
-			array('user_id, pin1_exp, pin2_exp, pin3_exp', 'numerical', 'integerOnly'=>true),
+			array('user_id, pin1_exp, pin2_exp, pin3_exp', 'numerical', 'integerOnly'=>true, 'message' => Yii::t('Front', 'Password lifetime is incorrect')),
 			array('pin1, pin2, pin3, confirm_pass, old_pass', 'length', 'max' => 32, 'message' => Yii::t('Front', 'Entry is to long')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -79,26 +79,38 @@ class Users_Pins extends ActiveRecord
 		if($oldPin && $oldPin != md5($this->old_pass)){
 			$this->addError('old_pass', Yii::t('Front', 'Old Pass is incorrect'));
 		}
-		if($oldPin && $oldPin == md5($pass)){
-			$this->addError('old_pass', Yii::t('Front', 'New password should be different than the old one'));
-		}
+		
 	}
 
 	public function checkConfirm($attributes, $params){
+		$oldPin = false;
+		$oldPins = Users_Pins::model()->find('user_id = :uid', array(':uid' => Yii::app()->user->id));
 		$newPin = false;
 		switch($this->scenario){
 			case 'pin1':
 				$newPin = $this->pin1;
+				if($oldPins && $oldPins->pin1){
+					$oldPin = $oldPins->pin1;
+				}
 				break;
 			case 'pin2':
 				$newPin = $this->pin2;
+				if($oldPins && $oldPins->pin2){
+					$oldPin = $oldPins->pin2;
+				}
 				break;
 			case 'pin3':
 				$newPin = $this->pin3;
+				if($oldPins && $oldPins->pin3){
+					$oldPin = $oldPins->pin3;
+				}
 				break;
 		}
 		if($newPin != $this->confirm_pass){
 			$this->addError('confirm_pass', Yii::t('Front', 'Confirm new password is incorrect'));
+		}
+		if($oldPin && $oldPin == md5($newPin)){
+			$this->addError($this->scenario, Yii::t('Front', 'New password should be different than the old one'));
 		}
 	}
 

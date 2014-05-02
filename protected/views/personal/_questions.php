@@ -1,10 +1,10 @@
-<?php if(count($user->questions) >= 5): ?>
-<tr class="comment-tr">
+
+<tr class="comment-tr" <?php if(count($user->questions) < 5): ?>style="display:none;"<?php endif; ?>>
 	<td colspan="3" style=" line-height: 1.43!important"><span class="rejected"><?= Yii::t('Front', 'You have reached the required limit for security questions. In order to add new questions, you need to delete the existing ones') ?></span></td>
 </tr>
-<?php endif; ?>
+
 <?php foreach($user->questions as $ques): ?>
-<tr>
+<tr class="question-row" data-value="<?= $ques->question->id ?>">
 	<td><?= $ques->question->question ?></td>
 	<td>
 		<div class="masked-value">**********</div>
@@ -19,7 +19,7 @@
 </tr>
 <?php endforeach; ?>
 
-<tr>
+<tr <?php if(count($user->questions) == 5): ?>style="display:none;"<?php endif; ?>>
 	<td class="add-new-td" colspan="3">
 		<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 	</td>
@@ -45,50 +45,16 @@
 				'validateOnChange'=>true,
 				'errorCssClass'=>'input-error',
 				'successCssClass'=>'valid',
-				'afterValidate' => 'js:function(form, data, hasError) {
-					
-					form.find("input").removeClass("input-error");
-					form.find("input").parent().removeClass("input-error");
-					form.find(".validation-icon").fadeIn();
-					
-					if(hasError) {
-						form.removeClass("success");
-						for(var i in data) {
-							form.find("#"+i).addClass("input-error");
-							form.find("#"+i).parent().addClass("input-error");
-							form.find("#"+i).next(".validation-icon").fadeIn();
-						}
-						return false;
-					}
-					else {
-						return true;
-					}
-					return false;
-				}',
-				'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-					if(hasError){
-						form.removeClass("success");
-						if(!form.find("#"+attribute.id).hasClass("input-error")){
-							form.find("#"+attribute.id+"_em_").hide().slideDown();
-						}
-						form.find("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-						form.find("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-						form.find("#"+attribute.id).next(".validation-icon").fadeIn();
-					} else {
-						if(form.find("#"+attribute.id).hasClass("input-error")){
-							form.find("#"+attribute.id+"_em_").show().slideUp();
-						}
-						form.find("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error"); 
-						form.find("#"+attribute.id).next(".validation-icon").fadeIn();
-						form.find("#"+attribute.id).addClass("valid");
-					}
-				}'
 			),
 		)); ?>
 	   <table class="messanger-table">
 		   <tbody><tr>
-			   <td width="41%">
-				   <div class="field-row edit-select">
+			   <td colspan="2">
+					<div class="transaction-buttons-cont">
+						<input type="submit" class="button ok" value="" />
+						<a class="button cancel" href="javaScript:void(0)"></a>
+					</div>
+					<div class="field-row left-coll">
 					   <div class="field-lbl">
 
 						   <?= Yii::t('Front', 'Question'); ?>
@@ -108,9 +74,7 @@
 						   </div>
 					   </div>
 				   </div>
-			   </td>
-			   <td width="59%">
-				   <div class="field-row add-username">
+				   <div class="field-row right-coll">
 					   <div class="field-lbl ">
 
 							<?= Yii::t('Front', 'Answer'); ?>
@@ -122,7 +86,6 @@
 							<?= $form->error($model, 'answer'); ?>
 					   </div>
 				   </div>
-				   <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Font', 'Add'); ?>" />
 			   </td>
 		   </tr>
 	   </tbody>

@@ -28,8 +28,9 @@ class Users_Telephones extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('number, email_type_id', 'required'),
-			array('user_id, number', 'numerical', 'integerOnly'=>true),
+			array('number', 'required', 'message' => Yii::t('Front', 'Phone Number is incorrect')),
+			array('email_type_id', 'required', 'message' => Yii::t('Front', 'Phone Type is incorrect')),
+			array('user_id, number', 'numerical', 'integerOnly'=>true, 'message' => Yii::t('Front', 'Phone Number is incorrect')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, number', 'safe', 'on'=>'search'),

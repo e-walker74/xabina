@@ -4,7 +4,7 @@
   </div>
   <?php $this->widget('XabinaAlert'); ?>
   <div id="emails_view" class="xabina-form-container">
-		<div class="subheader"><?= Yii::t('Front', 'Change Instant Messaging'); ?></div>
+		<div class="subheader"><?= Yii::t('Front', 'My instant messengers'); ?></div>
 		<?php $form=$this->beginWidget('CActiveForm', array(
 			'id'=>'users_instmessager',
 			'enableAjaxValidation'=>true,
@@ -68,9 +68,6 @@
 				<th style="width: 20%"><?= Yii::t('Front', 'Status'); ?></th>
 				<th style="width: 5%"></th>
 			</tr>
-			<tr class="comment-tr">
-				<td colspan="5" style=" line-height: 1.43!important"><?= Yii::t('Front', 'Instant messanger description'); ?></td>
-			</tr>
 			<?php foreach($user->messagers as $mes): ?>
 				<tr>
 					<td>
@@ -93,11 +90,20 @@
 					</td>
 					<td class="actions-td">
 						<div class="transaction-buttons-cont">
-							<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this instant messaging from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)) ?>', this) : false;" ></a>
+							<a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)) ?>" ></a>
 						</div>
 					</td>
 				</tr>
 			<?php endforeach; ?>
+			<?php if(!$user->messagers): ?>
+			<tr class="comment-tr">
+				<td colspan="6" style="line-height: 1.43!important">
+					<span class="rejected">
+						<?= Yii::t('Front', 'You have not added any instant messenger yet. You can add new instant messenger by clicking "Add new" button.') ?>
+					</span>
+				</td>
+			</tr>
+			<?php endif; ?>
 			<tr>
 				<td class="add-new-td" colspan="5">
 					<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
@@ -113,8 +119,12 @@
 				<td colspan="5">
 				   <table class="messanger-table">
 					   <tbody><tr>
-						   <td width="41%">
-							   <div class="field-row edit-select">
+						   <td colspan="2">
+								<div class="transaction-buttons-cont">
+									<input type="submit" class="button ok submit" value="" />
+									<a class="button cancel" href="javaScript:void(0)"></a>
+								</div>
+								<div class="field-row left-coll">
 								   <div class="field-lbl">
 
 									   <?= Yii::t('Front', 'Instant Messenger'); ?>
@@ -129,9 +139,7 @@
 									   </div>
 								   </div>
 							   </div>
-						   </td>
-						   <td width="59%">
-							   <div class="field-row add-username">
+							   <div class="field-row right-coll">
 								   <div class="field-lbl ">
 
 										<?= Yii::t('Front', 'Username'); ?>
@@ -143,7 +151,6 @@
 										<?= $form->error($model, 'messager_login'); ?>
 								   </div>
 							   </div>
-							   <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Font', 'Add'); ?>" />
 						   </td>
 					   </tr>
 				   </tbody>
@@ -159,24 +166,21 @@
 		<div class="clearfix"></div>
 	</div>
 </div>
+
 <script>
-$('.types_dropdown').tempDropDown({
-	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
-	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
-	},
-	listClass: 'type_dropdown',
-	callback: function(element, dropdown){
-		$.post(
-			'<?= Yii::app()->createUrl('/personal/changetype', array('type' => 'instmessagers')) ?>',
-			{row_id : dropdown.attr('row-id'), type_id: $(element.currentTarget).attr('data-id')},
-			function(data){
-				
-			}
-		)
-	}
-});
+
+$(document).ready(function(){
+
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+
+})
+
 </script>

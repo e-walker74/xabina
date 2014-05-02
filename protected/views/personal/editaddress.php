@@ -4,7 +4,7 @@
   </div>
   <?php $this->widget('XabinaAlert'); ?>
 	<div id="addresses_view" class="xabina-form-container">
-		<div class="subheader"><?= Yii::t('Front', 'Change addresses'); ?></div>
+		<div class="subheader"><?= Yii::t('Front', 'My addresses'); ?></div>
 		<table class="table xabina-table-personal">
 			<tbody>
 			<tr class="table-header">
@@ -21,8 +21,10 @@
 						<?= $addr->address_optional ?><br>
 					<?php endif; ?>
 					<?= $addr->indx?><br>
-					<?= $addr->city?><br>
+					<?= $addr->city?>
+					<?php if($addr->country): ?>,
 					<?= $addr->country->name?>
+					<?php endif; ?>
 				</td>
 				<td>
 					<div class="relative">
@@ -38,9 +40,9 @@
 				</td>
 				<td class="actions-td">
 					<div class="transaction-buttons-cont">
-						<a class="button edit" href="javaScript:void(0)" onclick="pageRefresh(); $(this).parents('tr').next('tr').toggle('slow'); $(this).parents('tr').hide()" ></a>
+						<a class="button edit" href="javaScript:void(0)" onclick="resetPage(); $(this).parents('tr').next('tr').toggle('slow'); $(this).parents('tr').hide()" ></a>
 						<?php if(!$addr->is_master): ?>
-							<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this address from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>', this) : false;" ></a>
+							<a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)) ?>"></a>
 						<?php endif; ?>
 					</div>
 				</td>
@@ -65,80 +67,92 @@
 						),
 					)); ?>
 					<?= $form->hiddenField($addr, 'id'); ?>
-					<div class="field-row" style="display: inline-block; width: 37%; margin:0 10px  0 0; ">
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Address Line 1'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($addr, 'address', array('class' => 'input-text')); ?>
-							<?= $form->error($addr, 'address'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Index'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($addr, 'indx', array('class' => 'input-text')); ?>
-							<?= $form->error($addr, 'indx'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Сountry'); ?>
-							<span class="tooltip-icon" title="<?= Yii::t('Front', 'Choose country'); ?>"></span>
-						</div>
-						<div class="field-input ">
-							<div class="select-custom">
-							<span class="select-custom-label"><?= $addr->country->name; ?> </span>
-								<?=
-								$form->dropDownList($addr, 'country_id', Countries::all(), array(
-									'class' => 'country-select select-invisible',
-									'options' => array('' => array('disabled' => true)),
-								)); ?>
+					<div class="transaction-buttons-cont to-row">
+						<input type="submit" value="" class="button ok">
+						<a class="button cancel" href="javaScript:void(0)"></a>
+					</div>
+					<div class="field-row">
+						<div class="field-row left-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Address Line 1'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
 							</div>
-							<?= $form->error($addr, 'country_id'); ?>
+							<div class="field-input">
+								<?= $form->textField($addr, 'address', array('class' => 'input-text')); ?>
+								<?= $form->error($addr, 'address'); ?>
+							</div>
+						</div>
+						<div class="field-row right-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
+							</div>
+							<div class="field-input">
+								<?= $form->textField($addr, 'address_optional', array('class' => 'input-text')); ?>
+								<?= $form->error($addr, 'address_optional'); ?>
+							</div>
+						</div>
+					</div>
+					<div class="field-row">
+						<div class="field-row left-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Index'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
+							</div>
+							<div class="field-input">
+								<?= $form->textField($addr, 'indx', array('class' => 'input-text')); ?>
+								<?= $form->error($addr, 'indx'); ?>
+							</div>
+						</div>
+						<div class="field-row right-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'City'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
+							</div>
+							<div class="field-input">
+								<?= $form->textField($addr, 'city', array('class' => 'input-text')); ?>
+								<?= $form->error($addr, 'city'); ?>
+							</div>
 						</div>
 					</div>
 					
-					<div class="field-row edit-select" style="display: inline-block; width: 48%;">
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($addr, 'address_optional', array('class' => 'input-text')); ?>
-							<?= $form->error($addr, 'address_optional'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'City'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($addr, 'city', array('class' => 'input-text')); ?>
-							<?= $form->error($addr, 'city'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Address Type'); ?>
-							<span class="tooltip-icon"
-								title="<?= Yii::t('Front', 'Address type tooltip'); ?>"></span>
-						</div>
-						<div class="field-input ">
-							<div class="select-custom">
-								<span class="select-custom-label">
-									<?= $addr->emailType->type_name; ?>
-								</span>
-								<?=
-								$form->dropDownList($addr, 'email_type_id', Users_EmailTypes::all(), array(
-									'class' => 'country-select select-invisible item1',
-									'options' => array('' => array('disabled' => true)),
-								)); ?>
+					<div class="field-row">
+						<div class="field-row left-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Сountry'); ?>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'Choose country'); ?>"></span>
 							</div>
-							<?= $form->error($addr, 'email_type_id'); ?>
+							<div class="field-input ">
+								<div class="select-custom">
+								<span class="select-custom-label"><?= $addr->country->name; ?> </span>
+									<?=
+									$form->dropDownList($addr, 'country_id', Countries::all(), array(
+										'class' => 'country-select select-invisible',
+										'options' => array('' => array('disabled' => true)),
+									)); ?>
+								</div>
+								<?= $form->error($addr, 'country_id'); ?>
+							</div>
 						</div>
-					</div>
-					
-					<div class="field-row" style="display: inline-block; width: 14%; top: 38px; position: absolute;">
-						<div class="transaction-buttons-cont">
-							<input type="submit" value="" class="button ok">
+						<div class="field-row right-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Address Type'); ?>
+								<span class="tooltip-icon"
+									title="<?= Yii::t('Front', 'Address type tooltip'); ?>"></span>
+							</div>
+							<div class="field-input ">
+								<div class="select-custom">
+									<span class="select-custom-label">
+										<?= $addr->emailType->type_name; ?>
+									</span>
+									<?=
+									$form->dropDownList($addr, 'email_type_id', Users_EmailTypes::all(), array(
+										'class' => 'country-select select-invisible item1',
+										'options' => array('' => array('disabled' => true)),
+									)); ?>
+								</div>
+								<?= $form->error($addr, 'email_type_id'); ?>
+							</div>
 						</div>
 					</div>
 
@@ -146,10 +160,19 @@
 				</td>
 			</tr>
 			<?php endforeach; ?>
+			<?php if(!$user->addresses): ?>
+			<tr class="comment-tr">
+				<td colspan="4" style="line-height: 1.43!important">
+					<span class="rejected">
+						<?= Yii::t('Front', 'You have not added any address yet. You can add new address by clicking "Add new" button.') ?>
+					</span>
+				</td>
+			</tr>
+			<?php endif; ?>
 			
 			<tr>
 				<td class="add-new-td" colspan="4">
-					<a class="table-btn" onclick="pageRefresh(); $(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+					<a class="table-btn" onclick="resetPage(); $(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
 				</td>
 			</tr>
 			<tr class="prof-form">
@@ -177,84 +200,98 @@
 						),
 					)); ?>
 					<?= $form->hiddenField($model, 'id'); ?>
-					<div class="field-row" style="display: inline-block; width: 37%; margin:0 10px  0 0; ">
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Address Line 1'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($model, 'address', array('class' => 'input-text')); ?>
-							<?= $form->error($model, 'address'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Index'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($model, 'indx', array('class' => 'input-text')); ?>
-							<?= $form->error($model, 'indx'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Сountry'); ?>
-							<span class="tooltip-icon" title="<?= Yii::t('Front', 'Choose country'); ?>"></span>
-						</div>
-						<div class="field-input ">
-							<div class="select-custom">
-							<span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
-								<?=
-								$form->dropDownList($model, 'country_id', Countries::all(), array(
-									'class' => 'country-select select-invisible',
-									'options' => array('' => array('disabled' => true)),
-								)); ?>
+					<div class="transaction-buttons-cont to-row">
+						<input type="submit" value="" class="button ok">
+						<a class="button cancel" href="javaScript:void(0)"></a>
+					</div>
+					<div class="filed-row">
+						<div class="field-row left-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Address Line 1'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
 							</div>
-							<?= $form->error($model, 'country_id'); ?>
-						</div>
-					</div>
-					
-					<div class="field-row edit-select" style="display: inline-block; width: 48%;">
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($model, 'address_optional', array('class' => 'input-text')); ?>
-							<?= $form->error($model, 'address_optional'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'City'); ?>
-							<span class="tooltip-icon" title="tooltip text"></span>
-						</div>
-						<div class="field-input">
-							<?= $form->textField($model, 'city', array('class' => 'input-text')); ?>
-							<?= $form->error($model, 'city'); ?>
-						</div>
-						<div class="field-lbl">
-							<?= Yii::t('Front', 'Address Type'); ?>
-							<span class="tooltip-icon"
-								title="<?= Yii::t('Front', 'Address type tooltip'); ?>"></span>
-						</div>
-						<div class="field-input ">
-							<div class="select-custom">
-								<span class="select-custom-label">
-									<?= Yii::t('Front', 'Choose'); ?>
-								</span>
-								<?=
-								$form->dropDownList($model, 'email_type_id', Users_EmailTypes::all(), array(
-									'class' => 'country-select select-invisible item1',
-									'options' => array('' => array('disabled' => true)),
-								)); 
-								?>
+							<div class="field-input">
+								<?= $form->textField($model, 'address', array('class' => 'input-text')); ?>
+								<?= $form->error($model, 'address'); ?>
 							</div>
-							<?= $form->error($model, 'email_type_id'); ?>
+							
+						</div>
+						
+						<div class="field-row right-coll edit-select">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Address Line 2 (optional)'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
+							</div>
+							<div class="field-input">
+								<?= $form->textField($model, 'address_optional', array('class' => 'input-text')); ?>
+								<?= $form->error($model, 'address_optional'); ?>
+							</div>
 						</div>
 					</div>
-					
-					<div class="field-row" style="display: inline-block; width: 14%; top: 38px; position: absolute;">
-						<div class="transaction-buttons-cont">
-							<input type="submit" value="" class="button ok">
+					<div class="filed-row">
+						<div class="field-row left-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Index'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
+							</div>
+							<div class="field-input">
+								<?= $form->textField($model, 'indx', array('class' => 'input-text')); ?>
+								<?= $form->error($model, 'indx'); ?>
+							</div>
+						</div>
+						
+						<div class="field-row right-coll edit-select">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'City'); ?>
+								<span class="tooltip-icon" title="tooltip text"></span>
+							</div>
+							<div class="field-input">
+								<?= $form->textField($model, 'city', array('class' => 'input-text')); ?>
+								<?= $form->error($model, 'city'); ?>
+							</div>
 						</div>
 					</div>
-
+					<div class="filed-row">
+						<div class="field-row left-coll">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Сountry'); ?>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'Choose country'); ?>"></span>
+							</div>
+							<div class="field-input ">
+								<div class="select-custom">
+								<span class="select-custom-label"><?= Yii::t('Front', 'Choose'); ?> </span>
+									<?=
+									$form->dropDownList($model, 'country_id', Countries::all(), array(
+										'class' => 'country-select select-invisible',
+										'options' => array('' => array('disabled' => true)),
+									)); ?>
+								</div>
+								<?= $form->error($model, 'country_id'); ?>
+							</div>
+						</div>
+						
+						<div class="field-row right-coll edit-select">
+							<div class="field-lbl">
+								<?= Yii::t('Front', 'Address Type'); ?>
+								<span class="tooltip-icon"
+									title="<?= Yii::t('Front', 'Address type tooltip'); ?>"></span>
+							</div>
+							<div class="field-input ">
+								<div class="select-custom">
+									<span class="select-custom-label">
+										<?= Yii::t('Front', 'Choose'); ?>
+									</span>
+									<?=
+									$form->dropDownList($model, 'email_type_id', Users_EmailTypes::all(), array(
+										'class' => 'country-select select-invisible item1',
+										'options' => array('' => array('disabled' => true)),
+									)); 
+									?>
+								</div>
+								<?= $form->error($model, 'email_type_id'); ?>
+							</div>
+						</div>
+					</div>
 					<?php $this->endWidget(); ?>
 				</td>
 
@@ -269,10 +306,19 @@
 </div>
 
 <script>
-	var pageRefresh = function(){
-		$('.address-tr').show();
-		$('.edit-address-tr').hide();
-		$('.add-new-td').parent().show()
-		$('.prof-form').hide()
-	}
+
+$(document).ready(function(){
+
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+
+})
+
 </script>

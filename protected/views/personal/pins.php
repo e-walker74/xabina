@@ -26,10 +26,30 @@
                         </td>
                         <td class="actions-td">
                             <div class="transaction-buttons-cont">
-								<a href="#" onclick="pageRefresh(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
+								<a href="#" onclick="resetPage(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
                             </div>
                         </td>
                     </tr>
+						<?php if($model->pin1_exp < time()): ?>
+						<tr class="comment-tr">
+							<td colspan="3"><span class="error-msg">
+							<?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?>
+							</span></td>
+						</tr>
+						<?php endif; ?>
+					<?php else: ?>
+					<tr class="comment-tr">
+						<td colspan="2" style="line-height: 1.43!important">
+							<span class="rejected">
+								<?= Yii::t('Front', 'You have not a pin. You can add a pin by clicking "Pencil" button.') ?>
+							</span>
+						</td>
+						<td class="actions-td">
+                            <div class="transaction-buttons-cont">
+								<a href="#" onclick="resetPage(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
+                            </div>
+                        </td>
+					</tr>
 					<?php endif; ?>
 					<tr class="edit-form" style="display:none;">
                         <td colspan="3">
@@ -88,9 +108,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2">
-                                        <div class="transaction-buttons-cont">
-                                            <input type="submit" value="" class="button ok" />
-                                        </div>
+                                        <div class="transaction-buttons-cont to-row">
+											<input type="submit" class="button ok" value="" />
+											<a class="button cancel" href="javaScript:void(0)"></a>
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -154,7 +175,7 @@
                         </td>
                         <td class="actions-td">
                             <div class="transaction-buttons-cont">
-								<a href="#" onclick="pageRefresh(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
+								<a href="#" onclick="resetPage(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
                             </div>
                         </td>
                     </tr>
@@ -165,6 +186,19 @@
 							</span></td>
 						</tr>
 						<?php endif; ?>
+					<?php else: ?>
+					<tr class="comment-tr">
+						<td colspan="2" style="line-height: 1.43!important">
+							<span class="rejected">
+								<?= Yii::t('Front', 'You have not a pin. You can add a pin by clicking "Pencil" button.') ?>
+							</span>
+						</td>
+						<td class="actions-td">
+                            <div class="transaction-buttons-cont">
+								<a href="#" onclick="resetPage(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
+                            </div>
+                        </td>
+					</tr>
 					<?php endif; ?>
 					<tr class="edit-form" style="display:none;">
                         <td colspan="3">
@@ -224,9 +258,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2">
-                                        <div class="transaction-buttons-cont">
-                                            <input type="submit" value="" class="button ok" />
-                                        </div>
+                                        <div class="transaction-buttons-cont to-row">
+											<input type="submit" class="button ok" value="" />
+											<a class="button cancel" href="javaScript:void(0)"></a>
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -289,7 +324,7 @@
                         </td>
                         <td class="actions-td">
                             <div class="transaction-buttons-cont">
-								<a href="#" onclick="pageRefresh(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
+								<a href="#" onclick="resetPage(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
                             </div>
                         </td>
                     </tr>
@@ -300,6 +335,19 @@
 							</span></td>
 						</tr>
 						<?php endif; ?>
+					<?php else: ?>
+					<tr class="comment-tr">
+						<td colspan="2" style="line-height: 1.43!important">
+							<span class="rejected">
+								<?= Yii::t('Front', 'You have not a pin. You can add a pin by clicking "Pencil" button.') ?>
+							</span>
+						</td>
+						<td class="actions-td">
+                            <div class="transaction-buttons-cont">
+								<a href="#" onclick="resetPage(); $(this).parents('table').find('tr.edit-form').show(); $(this).hide(); return false;" class="button edit"></a>
+                            </div>
+                        </td>
+					</tr>
 					<?php endif; ?>
 					<tr class="edit-form" style="display:none;">
                         <td colspan="3">
@@ -358,9 +406,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2">
-                                        <div class="transaction-buttons-cont">
-                                            <input type="submit" value="" class="button ok" />
-                                        </div>
+                                        <div class="transaction-buttons-cont to-row">
+											<input type="submit" class="button ok" value="" />
+											<a class="button cancel" href="javaScript:void(0)"></a>
+										</div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -404,9 +453,3 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-<script>
-	var pageRefresh = function(){
-		$('.transaction-buttons-cont .edit').show()
-		$('.edit-form').hide()
-	}
-</script>

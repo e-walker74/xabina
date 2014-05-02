@@ -29,7 +29,7 @@
 							<?= Yii::t('Front', 'Comments') ?><span title="<?= Yii::t('Front', 'You can add any comment to uploaded file, using text field below.') ?>" class="tooltip-icon"></span>
 						</div>
 						<div class="form-input">
-							<textarea name="description" class="attach-textarea autosize"></textarea>
+							<textarea name="description" maxlength="250" class="attach-textarea autosize"></textarea>
 						</div>
 						<div class="error-message"></div>
 					</div>

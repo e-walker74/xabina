@@ -28,7 +28,7 @@
 							<?= $file->shortDescription ?>
 							</div>
 							<div class="edit-doc">
-								<textarea name="edit_file_comment" ><?= $file->description ?></textarea>
+								<textarea name="edit_file_comment" maxlength="250" ><?= $file->description ?></textarea>
 								<div class="error-message"></div>
 							</div>
 						</div>

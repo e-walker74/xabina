@@ -6,7 +6,7 @@
   <div id="emails_edit">
     <div class="xabina-form-container">
       <div class="subheader">
-        <?= Yii::t('Front', 'Change E-Mail addresses'); ?>
+        <?= Yii::t('Front', 'My E-Mail addresses'); ?>
       </div>
       <?php $this->renderPartial('_emails', array('users_emails' => $users_emails, 'model_emails' => $model_emails)); ?>
     </div>

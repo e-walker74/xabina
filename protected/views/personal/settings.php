@@ -5,13 +5,13 @@
 	<div class="h1-header">
 		<?= Yii::t('Front', 'My personal cabinet'); ?>
 	</div>
-	<div class="subheader"><?= Yii::t('Front', 'Manage settings'); ?></div>
+	<div class="subheader"><?= Yii::t('Front', 'Account Settings'); ?></div>
 	<form name="settings-form" id="settings_form">
 	<table class="table xabina-table table-options">
 		<tbody><tr class="table-header">
 			<th width="15%"><?= Yii::t('Front', 'Options'); ?></th>
-			<th width="80%"></th>
-			<th width="5%"></th>
+			<th width="70%"></th>
+			<th width="15%"></th>
 		</tr>
 		<tr class="user-settings-data">
 			<td><?= Yii::t('Front', 'Language'); ?></td>
@@ -30,9 +30,10 @@
 					<?= CHtml::activeDropDownList($user->settings, 'language', Languages::$languages, array('class' => 'select-invisible')) ?>
 				</div>
 			</td>
-			<td>
+			<td style="width:50px">
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -55,7 +56,8 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -83,7 +85,8 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -109,7 +112,8 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -134,7 +138,8 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -152,15 +157,11 @@
 <script>
 	
 	$('.edit').click(function(){
-		reset_setings()
+		resetPage()
 		$(this).parents('tr').hide().next('.edit-block').show()
 		return false;
 	})
 	
-	var reset_setings = function(){
-		$('.edit-block').hide();
-		$('.user-settings-data').show();
-	}
 	
 	$('.ok').click(function(){
 		row = $(this).parents('tr')
@@ -171,7 +172,7 @@
 				if(data.success){
 					successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>')
 					row.prev('.user-settings-data').find('.data').html(row.find('select option:selected').text())
-					reset_setings()
+					resetPage()
 				}
 			},
 			dataType: 'json',

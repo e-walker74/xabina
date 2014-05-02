@@ -37,7 +37,7 @@ class Users_Phones extends ActiveRecord
 	public function rules()
 	{
 		return array(
-			array('email_type_id', 'required', 'on'=>'editphones'),
+			array('email_type_id', 'required', 'on'=>'editphones', 'message' => Yii::t('Front', 'Phone Type is cannot be blank.')),
             array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'),'on'=>'editphones'),
             array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..'),'on'=>'editphones'),
             array('phone', 'checkPhoneUnique', 'on'=>'editphones'),

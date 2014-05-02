@@ -31,7 +31,7 @@
 				<div class="comment-bg">
 					<?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number') ?> 
 					+<?= $users_phone->phone ?>
-					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendsms', array('id' => $users_phone->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Sms sended') ?>')}}))"><?= Yii::t('Front', 'Send verification code once again'); ?></a>
+					<a href="<?= $this->createUrl('/personal/resendsms', array('id' => $users_phone->id)) ?>" onclick='return resendSms(this)'><?= Yii::t('Front', 'Send verification code once again'); ?></a>
 				</div>
 				<div class="comment-arr"></div>
 			</td>
@@ -54,7 +54,7 @@
 						<div class="field-input">
 							<input type="text" name="code_activation" class="status-check-input input-text-sms" />
 						</div>
-						<div class="violet-button-slim-square" onclick="activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"><?= Yii::t('Front', 'Add') ?></div>
+						<a href="javaScript:void(0)" class="button ok" onclick="activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
 					</div>
 					<div class="error-message"></div>
                 <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
@@ -65,7 +65,7 @@
 						<div class="field-input">
 							<input class="status-check-input input-text-sms" type="text" name="code_activation" />
 						</div>
-						<div class="violet-button-slim-square" onclick="js:activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"><?= Yii::t('Front', 'Add') ?></div>
+						<a href="javaScript:void(0)" class="button ok" onclick="activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
 					</div>
 					<div class="error-message"></div>
 					<?php else: ?>
@@ -99,8 +99,8 @@
 			</td>
 		</tr>
     <tr class="prof-form emails-form-tr">
-        <td>
-            <div class="field-row">
+        <td colspan="4">
+            <div class="field-row left-coll">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Phone'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
@@ -109,9 +109,7 @@
                     <?= $form->error($model_phones, 'phone'); ?>
                 </div>
             </div>
-        </td>
-        <td colspan="3">
-            <div class="field-row edit-select">
+			<div class="field-row right-coll">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Phone Type'); ?>
                     <span class="tooltip-icon"
@@ -133,11 +131,10 @@
                     <span class="validation-icon"></span>
                 </div>
             </div>
-            <!--<div class="edit-add-button"
-                 onclick="js:add_temp_user_datas('<?= $this->createUrl('personal/editphones', array('ajax' => 'user_datas')) ?>', this)">
-                <?= Yii::t('Front', 'Add'); ?>
-            </div>-->
-			<input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
+			<div class="transaction-buttons-cont">
+				<input type="submit" class="button ok" value="" />
+				<a class="button cancel" href="javaScript:void(0)"></a>
+			</div>
         </td>
     </tr>
 </table>
@@ -158,7 +155,18 @@ $(document).ready(function(){
 
 })
 
-
+var resendSms = function(link){
+	link = $(link)
+	$.post(
+		link.attr('href'), 
+		function(data){
+			if(jQuery.parseJSON(data).success){
+				successNotify('<?= Yii::t('Front', 'My phone numbers') ?>', '<?= Yii::t('Front', 'Sms was sent') ?>');
+			}
+		}
+	)
+	return false;
+}
 
 $('.types_dropdown').dropDown({
 	list: {

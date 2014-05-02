@@ -6,7 +6,7 @@
   <div id="emails_edit">
     <div class="xabina-form-container">
       <div class="subheader">
-        <?= Yii::t('Front', 'Change phone numbers'); ?>
+        <?= Yii::t('Front', 'My phone numbers'); ?>
       </div>
       <?php $this->renderPartial('_mobile_phones', array('users_phones' => $users_phones, 'model_phones' => $model_phones)); ?>
 	  
@@ -19,9 +19,3 @@
     <div class="clearfix"></div>
   </div>
 </div>
-<script>
-	var resetPage = function(){
-		$('.prof-form').hide()
-		$('.add-new-td').parents('tr').show()
-	}
-</script>

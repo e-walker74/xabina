@@ -30,6 +30,7 @@ class Form_Registration extends CFormModel
 			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('phone', 'authenticatePhone'),
+			array('email', 'checkEmailUnique'),
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),
 			// password needs to be authenticated
 			array('email', 'authenticate'),
@@ -60,6 +61,14 @@ class Form_Registration extends CFormModel
 			}
 		//}
 	}
+	
+	public function checkEmailUnique($attribute, $params){
+        $this->email = trim($this->email);
+		$email = Users_Emails::model()->find('email = :email AND status=1', array(':email' => $this->email));
+        if($email){
+            $this->addError('email', Yii::t('Front', 'This E-mail is already registered'));
+        }
+    }
 
 	/**
 	 * Authenticates the password.
