@@ -131,16 +131,3 @@
 	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a>   
 </div>
 <?php $this->endWidget(); ?>
-
-<script>
-$('.types_dropdown').dropDown({
-	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
-	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
-	},
-	listClass: 'type_dropdown',
-});
-</script>

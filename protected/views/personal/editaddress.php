@@ -32,11 +32,8 @@
 				   </div>
 				</td>
 				<td>
-					<? if($addr->is_master == 0):?>
-						<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'address', 'id' => $addr->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
-					<? elseif ($addr->is_master == 1):?>
-						<span class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
-					<? endif;?>
+					<a <? if($addr->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'address', 'id' => $addr->id)) ?>', changePrimaryRow(this))"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<span <? if($addr->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
 				</td>
 				<td class="actions-td">
 					<div class="transaction-buttons-cont">
@@ -306,6 +303,14 @@
 </div>
 
 <script>
+
+var changePrimaryRow = function(link){
+	$('.address-tr .make-primary').show();
+	$('.address-tr .primary').hide();
+
+	$(link).parents('tr').find('.primary').show()
+	$(link).parents('tr').find('.make-primary').hide()
+}
 
 $(document).ready(function(){
 

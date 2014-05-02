@@ -425,7 +425,7 @@ class PersonalController extends Controller
 
 		$reload = false;
 		$message = false;
-
+		$titleMess = false;
 		if($type == 'emails'){
 			$model->generateHash();
 			$model->save();
@@ -487,17 +487,18 @@ class PersonalController extends Controller
 			Users_Address::model()->updateAll(array('is_master' => 0), 'user_id = :uid', array(':uid' => Yii::app()->user->id));
 			Users_Address::model()->updateByPk($id, array('is_master' => 1));
 			
-			Yii::app()->session['flash_notify'] = array(
+			/*Yii::app()->session['flash_notify'] = array(
 				'title' => Yii::t('Front', 'Personal Cabinet'),
 				'message' => Yii::t('Front', 'Primary address was changed'),
-			);
-			
-			$reload = true;
+			);*/
+			$message = Yii::t('Front', 'Primary address was changed');
+			$titleMess = Yii::t('Front', 'Personal Cabinet');
+			//$reload = true;
 		}
 
-		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload));
+		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload, 'titleMess' => $titleMess));
 	}
-	
+
 	public function actionChangeType($type){
 		$row_id = Yii::app()->request->getParam('row_id', '', 'int');
 		$type_id = Yii::app()->request->getParam('type_id', '', 'int');

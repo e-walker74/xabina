@@ -401,7 +401,7 @@ $(function(){
 				var response= jQuery.parseJSON (data);
 				if(response.success){
 					if(response.message){
-						successNotify('Primary', response.message)
+						successNotify(response.titleMess, response.message)
 					}
 					if(response.reload){
 						location.reload()
@@ -663,7 +663,7 @@ $(document).ready(function(){
 		});
 		return false;
 	})
-	
+
 	$( ".escape-dialog" ).dialog({
         autoOpen: false,
         appendTo: '#top_container .clearfix',
@@ -701,7 +701,7 @@ $(document).ready(function(){
         minHeight: 0,
         show: 'fadeIn'
     });
-	
+
 	if($('.remove-with-dialog').length != 0)
 	$('.remove-with-dialog').click(function() {
         var $dialog =  $( ".remove-dialog" );
@@ -715,7 +715,7 @@ $(document).ready(function(){
         $dialog.dialog( "open" );
         return false;
     })
-	
+
 	$('textarea').autosize();
 })
 
@@ -751,15 +751,16 @@ $(document).on('click', '.button.cancel', function(){
 })
 
 var successNotify = function(title, message, element){
-	
-	
+
 	if(element){
 		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": $(element).position().top-40, context: $('.col-lg-9.col-md-9.col-sm-9')};
 	} else {
 		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 45, "firstpos2": 5, context: $('.top-bar .container .clearfix')};
 	}
 	$.pnotify({ title: title, text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()-10+'px', stack: stack_context, history: false});
+
 }
+
 /*
 $(document).bind("ajaxSend", function(){
    backgroundBlack()
@@ -782,6 +783,7 @@ var backgroundBlack = function(){
 	$('body').css({overflow: 'hidden'})
 	
 	$("#TB_overlay").fadeIn("fast");
+
 }
 
 var dellBackgroundBlack = function(){

@@ -23,8 +23,16 @@
             
         </th>
     </tr>
+	
+	<tr class="comment-tr empty-row" <?php if(!empty($user->telephones)): ?>style="display:none"<?php endif; ?>>
+		<td colspan="3" style="line-height: 1.43!important">
+			<span class="rejected">
+			<?= Yii::t('Front', 'You have not added any phones yet. You can add new phone by clicking "Add new" button.'); ?>
+		</td>
+	</tr>
+	
     <? foreach ($user->telephones as $users_phone): ?>
-        <tr class="form-sms-tr">
+        <tr class="form-sms-tr phone-row">
             <td><?= $users_phone->number ?></td>
             <td>
                 <div class="relative">
@@ -42,14 +50,6 @@
             <input type="hidden" name="type_edit[<?= $users_phone->id ?>]" class="type_edit" value="0"/>
         </tr>
     <? endforeach; ?>
-	<?php if(empty($user->telephones)): ?>
-	<tr class="comment-tr">
-		<td colspan="3" style="line-height: 1.43!important">
-			<span class="rejected">
-			<?= Yii::t('Front', 'You have not added any phones yet. You can add new phone by clicking "Add new" button.'); ?>
-		</td>
-	</tr>
-	<?php endif; ?>
 	<tr>
 		<td class="add-new-td" colspan="3">
 			<a class="table-btn" onclick="resetPage(); $(this).parents('tr').hide(); $(this).parents('form').find('.prof-form').toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
@@ -115,7 +115,13 @@ $(document).ready(function(){
 		popout: true,
 		onConfirm: function(){
 			link = $(this).parents('.popover').prev('a')
-			deleteRow(link);
+			deleteRow(link, function(){
+				if($('.phone-row').length == 0){
+					$('.empty-row').show()
+				} else {
+					$('.empty-row').hide()
+				}
+			});
 			return false;
 		}
 	})

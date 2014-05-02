@@ -72,7 +72,7 @@
    <table class="messanger-table">
 	   <tbody><tr>
 		   <td colspan="2">
-				<div class="transaction-buttons-cont to-row">
+				<div class="transaction-buttons-cont to-input-row">
 					<input type="submit" class="button ok" value="" />
 				</div>
 			   <div class="field-row left-coll">
@@ -136,7 +136,7 @@
    <table class="messanger-table">
 	   <tbody><tr>
 		   <td colspan="2">
-				<div class="transaction-buttons-cont to-row">
+				<div class="transaction-buttons-cont to-input-row">
 					<input type="submit" class="button ok" value="" />
 				</div>
 				<div class="field-row left-coll">

@@ -25,7 +25,7 @@
 				onConfirm: function(){
 					link = $(this).parents(".popover").prev("a")
 					deleteRow(link);
-					successNotify("'. Yii::t('Front', 'Email Address?') .'", "'. Yii::t('Front', 'Email Address was successfully deleted!') .'")
+					/*successNotify("'. Yii::t('Front', 'Email Address') .'", "'. Yii::t('Front', 'Email Address was successfully deleted!') .'")*/
 					return false;
 				}
 			})
