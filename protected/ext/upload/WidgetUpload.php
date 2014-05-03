@@ -3,9 +3,16 @@ class WidgetUpload extends QWidget {
 	
 	public $inTable = true;
 	public $showDialog = true;
-	
+	public $formId = 'file-form';
+	public $typeSuffix = '';
+
+
     public function run()
     {
+        if($this->typeSuffix) {
+            $this->formId = $this->formId.$this->typeSuffix;
+        }       
+        
         $cs = Yii::app()->clientScript;
 		$cs->registerCoreScript('jquery');
 
@@ -15,12 +22,13 @@ class WidgetUpload extends QWidget {
     }
 	
 	public function getFilesTable($model, $user, $processOutput = false){
+		$type = get_class($model).$this->typeSuffix;
 		$files = Users_Files::model()->findAll(
 			array(
 				'condition' => 'user_id = :uid AND form = :type AND deleted = 0', 
 				'params' => array(
 					':uid' => $user,
-					':type' => get_class($model),
+					':type' => $type,
 				),
 				'order' => 'created_at desc',
 			)

@@ -7,8 +7,11 @@
 		<tr>
 			<td>
 <?php endif; ?>
-				<form enctype="multipart/form-data" id="file-form" name="upload" action="<?= Yii::app()->createUrl('file/upload', array('inTable' => $this->inTable, 'id' => (isset($model->id)) ? $model->id : Yii::app()->user->id)) ?>" method="post">
+				<form enctype="multipart/form-data" id="<?=$this->formId?>" 
+					name="upload" class="form-file-widget"
+					action="<?= Yii::app()->createUrl('file/upload', array('inTable' => $this->inTable, 'id' => (isset($model->id)) ? $model->id : Yii::app()->user->id)) ?>" method="post">
 					<input type="hidden" name="type" value="<?= get_class($model) ?>">
+					<input type="hidden" name="typeSuffix" value="<?=$this->typeSuffix?>">
 					<div class="form-cell file-block">
 						<div class="form-lbl">
 							<?= Yii::t('Front', 'Select a file') ?><span title='<?= Yii::t('Front', 'Press "select" button to add new file') ?>' class="tooltip-icon"></span>
@@ -18,7 +21,7 @@
 								<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
 								<span class="file-name"><?= Yii::t('Front', 'File is not selected'); ?></span>
 								<span class="no-file-name"><?= Yii::t('Front', 'File is not selected'); ?></span>
-								<input id="uFile" type="file" class="file-input">
+                                <input type="file" class="file-input" id="<?=$this->formId?>-file-input">
 							</label>
 							<div class="error-message"></div>
 						</div>

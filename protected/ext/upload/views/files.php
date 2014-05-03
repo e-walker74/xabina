@@ -1,5 +1,5 @@
 <?php if(!Yii::app()->request->isAjaxRequest): ?>
-<div id="attachments-block">
+<div id="<?=$this->formId?>-attachments-block" class="attachments-block">
 <?php endif; ?>
 <?php if(count($files)): ?>
 <?php if($this->inTable): ?>
@@ -64,8 +64,7 @@
 </div>
 <script>
 $(document).ready(function(){
-
-	$('#attachments-block .delete').confirmation({
+	$('#<?=$this->formId?>-attachments-block .delete').confirmation({
 		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
 		singleton: true,
 		popout: true,
