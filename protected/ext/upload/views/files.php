@@ -1,6 +1,6 @@
-<?php if(!Yii::app()->request->isAjaxRequest): ?>
+<?php //if(!Yii::app()->request->isAjaxRequest): ?>
 <div id="<?=$this->formId?>-attachments-block" class="attachments-block">
-<?php endif; ?>
+<?php //endif; ?>
 <?php if(count($files)): ?>
 <?php if($this->inTable): ?>
 <!--<div class="inner-header"><?= Yii::t('Front', 'Attachment') ?></div>-->
@@ -59,24 +59,3 @@
 </table>
 <?php endif; ?>
 <?php endif; ?>
-
-<?php if(!Yii::app()->request->isAjaxRequest): ?>
-</div>
-<script>
-$(document).ready(function(){
-	$('#<?=$this->formId?>-attachments-block .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			link = $(this).parents('.popover').prev('a')
-			deletefile(link);
-			return false;
-		}
-	})
-
-})
-</script>
-<?php endif; ?>
-
-

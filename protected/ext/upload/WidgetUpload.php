@@ -14,8 +14,6 @@ class WidgetUpload extends QWidget {
         }       
         
         $cs = Yii::app()->clientScript;
-		$cs->registerCoreScript('jquery');
-
 		$assets_path = dirname(__FILE__).DIRECTORY_SEPARATOR.'assets';
 		$url = Yii::app()->assetManager->publish($assets_path, false, -1, YII_DEBUG);
 		$cs->registerScriptFile($url.'/upload.js',CClientScript::POS_END);

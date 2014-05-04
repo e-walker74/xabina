@@ -141,4 +141,15 @@
 			dataType: 'json'
 		});
 		return false;
-	})
+	});    
+    
+    $('.attachments-block .delete').confirmation({
+		title: 'Are you sure?',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			link = $(this).parents('.popover').prev('a')
+			deletefile(link);
+			return false;
+		}
+	});
