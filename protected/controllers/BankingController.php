@@ -129,7 +129,7 @@ class BankingController extends Controller
 		}
 		
 		if($partial){            
-            $this->cleanResponseJs();			
+            $this->cleanResponseJs();	
             $html = $this->renderPartial('activation/step_one', array('model' => $activationForm, 'activation' => $activation, 'countries' => $countries), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
@@ -312,9 +312,6 @@ class BankingController extends Controller
 			$this->activationStepOne($activation, true);
 			Yii::app()->end();
 		}
-	}
+	}    
     
-    private function cleanResponseJs() {
-        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
-    }
 }
