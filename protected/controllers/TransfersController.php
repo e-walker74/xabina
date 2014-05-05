@@ -27,7 +27,8 @@ class TransfersController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
-							'outgoing', 
+							'outgoing',
+                            'outgoingv2',
 							'overview', 
 							'delete', 
 							'smsverivicaiton', 
@@ -47,11 +48,16 @@ class TransfersController extends Controller
 	public function init(){
 		
 	}
-	
+
     /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
+     * outgoing new version
+     * template newtransfer_xabina_15.psd
+     * codding http://nikxabina.intwall.com/layout/account/new_transfer.html
      */
+    public function actionOutgoingv2(){
+        $this->render('outgoingv2');
+    }
+
     public function actionOutgoing()
     {
 		

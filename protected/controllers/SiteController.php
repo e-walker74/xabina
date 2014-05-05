@@ -174,7 +174,7 @@ class SiteController extends Controller {
 			}
 			
 			if($model->login()){
-				$this->redirect(array('banking/index'));
+				$this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
 			}
 		}
 	

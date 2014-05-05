@@ -107,8 +107,29 @@ class Form_Registration extends CFormModel
 		$user->role = 1;
 		$user->status = Users::USER_IS_NOT_ACTIVE;
 		$user->createHash();
-		$user->lang = Yii::app()->language;
 		if($user->save()){
+		
+			if(!$user->settings){
+				$user->settings = new Users_Settings;
+				$user->settings->user_id = $user->id;
+				$user->settings->language = Yii::app()->language;
+				$user->settings->statement_language = Yii::app()->language;
+				$user->settings->font_size = 14;
+				
+				$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+				$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+				
+				$user->settings->time_zone_id = 276; // NL
+				if($country){
+					$zone = Zone::model()->find('country_code = :code', array(':code' => $country));
+					if($zone){
+						$user->settings->time_zone_id = $zone->zone_id;
+					}
+				}
+				$user->settings->currency_id = 1;
+				$user->settings->save();
+			}
+		
 			$user = Users::model()->findByPk($user->id);
 			$mail = new Mail();
 			if($mail->send(

@@ -13,7 +13,7 @@ class WebUser extends CWebUser {
         }
         return $this->_model;
     }
-	
+
 	public function getNotifications(){
 		if($this->_notifications !== false){
 			return $this->_notifications;
@@ -56,6 +56,8 @@ class WebUser extends CWebUser {
         else
             return false;
 	}
+
+    /********************** GETTERS *************************/
 
     /**
      * Returns the unique identifier for the user (e.g. username).
@@ -140,6 +142,32 @@ class WebUser extends CWebUser {
 	}
 
     /**
+     * Getting user language
+     * by default user language from users settings
+     * @return null|string
+     */
+    public function getLanguage(){
+        if (($name = $this->getState('__language')) !== null)
+            return $name;
+
+        return '';
+    }
+
+    /**
+     * Getting user font size
+     * by default user font size from users settings
+     * @return null|string
+     */
+    public function getFontSize(){
+        if (($name = $this->getState('__font_size')) !== null)
+            return $name;
+
+        return '';
+    }
+
+    /************* SETTERS **************/
+
+    /**
      * Sets the unique identifier for the user (e.g. username).
      * @param string $value the user name.
      * @see getName
@@ -172,6 +200,16 @@ class WebUser extends CWebUser {
         $this->setState('__status', $value);
     }
 
+    public function setLanguage($value){
+        $this->setState('__language', $value);
+        return $this;
+    }
+
+    public function setFontSize($value){
+        $this->setState('__font_size', $value);
+        return $this;
+    }
+
     public function login($identity, $duration = 0) {
         $this->id = $identity->getId();
         $user = $this->_getModel();
@@ -181,7 +219,9 @@ class WebUser extends CWebUser {
 		$this->setPhone($user->phone);
 		$this->setStatus($user->status);
 		$this->setThisIp(ip2long(CHttpRequest::getUserHostAddress()));
-		
+		$this->setLanguage($user->settings->language);
+        $this->setFontSize($user->settings->font_size);
+
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
 		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
 		$log = new Users_Log;
@@ -189,6 +229,8 @@ class WebUser extends CWebUser {
 		$log->type = 'login';
 		$log->user_id = $user->id;
 		$log->save();
+		
+		
 
 		if($user->last_auth){
 			$this->setLastIp($user->last_auth->ip_address);

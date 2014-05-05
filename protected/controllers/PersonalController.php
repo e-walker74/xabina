@@ -951,7 +951,15 @@ class PersonalController extends Controller
 			$user->settings->language = $user->lang;
 			$user->settings->statement_language = $user->lang;
 			$user->settings->font_size = 14;
-			$user->settings->time_zone = 1;
+			
+			$address = Users_Address::model()->find('user_id = :uid AND is_master = 1', array(':uid' => Yii::app()->user->id));
+			$user->settings->time_zone_id = 276; // NL
+			if($address){
+				$zone = Zone::model()->find('country_code = :code', array(':code' => $address->country->code));
+				if($zone){
+					$user->settings->time_zone_id = $zone->zone_id;
+				}
+			}
 			$user->settings->currency_id = 1;
 			$user->settings->save();
 		}

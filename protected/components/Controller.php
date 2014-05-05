@@ -30,6 +30,7 @@ class Controller extends CController
 		if(!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(CHttpRequest::getUserHostAddress())){
 			Yii::app()->user->logout();
 		}
+
 		return parent::init();
 	}
 	

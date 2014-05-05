@@ -16,6 +16,13 @@
                             <li class="medium-size" onclick="fontScale(1.25);">A</li>
                             <li class="large-size" onclick="fontScale(1.5);">A</li>
                         </ul>
+                        <script>
+                            <?php if(Yii::app()->user->getFontSize() == '16'): ?>
+                                fontScale(1.25)
+                            <?php elseif(Yii::app()->user->getFontSize() == '18'): ?>
+                                fontScale(1.5)
+                            <?php endif; ?>
+                        </script>
                     </div>
                     <ul class="user-menu pull-right  list-inline">
                         <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>

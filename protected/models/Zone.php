@@ -1,24 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "users_settings".
+ * This is the model class for table "zone".
  *
- * The followings are the available columns in table 'users_settings':
- * @property integer $user_id
- * @property integer $language
- * @property integer $statement_language
- * @property integer $font_size
- * @property integer $time_zone_id
- * @property integer $currency_id
+ * The followings are the available columns in table 'zone':
+ * @property integer $zone_id
+ * @property string $country_code
+ * @property string $zone_name
  */
-class Users_Settings extends CActiveRecord
+class Zone extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users_settings';
+		return 'zone';
 	}
 
 	/**
@@ -29,11 +26,12 @@ class Users_Settings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, language, statement_language, font_size, time_zone_id, currency_id', 'required'),
-			array('user_id, font_size, time_zone_id, currency_id', 'numerical', 'integerOnly'=>true),
+			array('country_code, zone_name', 'required'),
+			array('country_code', 'length', 'max'=>2),
+			array('zone_name', 'length', 'max'=>35),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, language, statement_language, font_size, time_zone_id, currency_id', 'safe', 'on'=>'search'),
+			array('zone_id, country_code, zone_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,8 +43,6 @@ class Users_Settings extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
-			'time_zone' => array(self::BELONGS_TO, 'Zone', 'time_zone_id'),
 		);
 	}
 
@@ -56,12 +52,9 @@ class Users_Settings extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'user_id' => 'User',
-			'language' => 'Language',
-			'statement_language' => 'Statement Language',
-			'font_size' => 'Font Size',
-			'time_zone_id' => 'Time Zone',
-			'currency_id' => 'currency_id',
+			'zone_id' => 'Zone',
+			'country_code' => 'Country Code',
+			'zone_name' => 'Zone Name',
 		);
 	}
 
@@ -83,12 +76,9 @@ class Users_Settings extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('language',$this->language);
-		$criteria->compare('statement_language',$this->statement_language);
-		$criteria->compare('font_size',$this->font_size);
-		$criteria->compare('time_zone_id',$this->time_zone_id);
-		$criteria->compare('currency_id',$this->currency_id);
+		$criteria->compare('zone_id',$this->zone_id);
+		$criteria->compare('country_code',$this->country_code,true);
+		$criteria->compare('zone_name',$this->zone_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -99,7 +89,7 @@ class Users_Settings extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersSettings the static model class
+	 * @return Zone the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -716,6 +716,22 @@ $(document).ready(function(){
         return false;
     })
 
+    $('.xabina-accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+
+    $('.details-accordion').accordion({
+        heightStyle: "content",
+        active: 0,
+        collapsible: true
+    });
+
+    $( ".xabina-tabs" ).tabs({
+
+    });
+
 	$('textarea').autosize();
 })
 

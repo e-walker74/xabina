@@ -76,10 +76,9 @@
 				<div class="select-custom ">
 					<span class="select-custom-label"><?= $user->settings->font_size ?>px</span>
 					<?= CHtml::activeDropDownList($user->settings, 'font_size', array(
-						'10' => '10px',
-						'12' => '12px',
 						'14' => '14px',
 						'16' => '16px',
+						'18' => '18px',
 					), array('class' => 'select-invisible')) ?>
 				</div>
 			</td>
@@ -92,7 +91,7 @@
 		</tr>
 		<tr class="user-settings-data">
 			<td><?= Yii::t('Front', 'Time zone'); ?></td>
-			<td class="data"><?= $user->settings->time_zone ?></td>
+			<td class="data"><?= $user->settings->time_zone->zone_name ?></td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="#" class="button edit"></a>
@@ -103,11 +102,8 @@
 			<td><?= Yii::t('Front', 'Time zone'); ?></td>
 			<td>
 				<div class="select-custom ">
-					<span class="select-custom-label"><?= $user->settings->time_zone ?></span>
-					<?= CHtml::activeDropDownList($user->settings, 'time_zone', array(
-						'1' => '1',
-						'2' => '3',
-					), array('class' => 'select-invisible')) ?>
+					<span class="select-custom-label"><?= $user->settings->time_zone->zone_name ?></span>
+					<?= CHtml::activeDropDownList($user->settings, 'time_zone_id', CHtml::listData(Zone::model()->findAll(array('order' => 'zone_name asc')), 'zone_id', 'zone_name'), array('class' => 'select-invisible')) ?>
 				</div>
 			</td>
 			<td>
@@ -171,7 +167,9 @@
 			success: function(data){
 				if(data.success){
 					successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>')
-					row.prev('.user-settings-data').find('.data').html(row.find('select option:selected').text())
+                    var text = row.find('select option:selected').text()
+                    var datafield = row.prev('.user-settings-data').find('.data')
+                    datafield.html(text)
 					resetPage()
 				}
 			},
