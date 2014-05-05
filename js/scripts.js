@@ -386,9 +386,9 @@ $(function(){
 		});
 	}
 	
-	downloadPdf = function(e){
+	downloadPdf = function(){
 		form = $('#searchForm')
-		url = form.attr('data-'+e.target.innerText.toLowerCase()+'-url') + "?" + form.serialize();
+		url = form.attr('data-pdf-url') + "?" + form.serialize();
 		window.open(url)
 	}
 	
@@ -601,21 +601,7 @@ $(document).ready(function(){
 	if($('.download-button').length != 0)
 	$('.download-button').tempDropDown({
 		list: {
-		   PDF: {
-               id : 'pdf',
-               name : 'PDF',
-               class : 'PDF'
-           },
-           DOC : {
-               id : 'doc',
-               name : 'DOC',
-               class : 'DOC'
-           },
-           CSV : {
-               id : 'csv',
-               name : 'CSV',
-               class : 'XLS'
-           }
+		   PDF: 'PDF'
 		   /*,Other: 'Other'
 		   PDF : 'PDF' ,
            XLS : 'XLS' ,
@@ -747,6 +733,24 @@ $(document).ready(function(){
     });
 
 	$('textarea').autosize();
+
+    /**
+     * new transfer page
+     */
+    $('.search-ico').click(function(){
+        $(this).hide();
+        $(this).parents('.search-opt-cont').find('.messages-addressbook').show();
+        $('.messages-header-cont').addClass('open');
+        return false;
+    });
+
+    $('.checkbox-custom').on('click', 'label', function(){
+        if($(this).find('input').prop('checked')){
+            $(this).addClass('checked');
+        }else{
+            $(this).removeClass('checked');
+        }
+    });
 })
 
 var resetPage = function(){
@@ -774,6 +778,7 @@ var resetPage = function(){
 	$('.user-settings-data').show();
 	
 	$('form').trigger('reset')
+
 }
 
 $(document).on('click', '.button.cancel', function(){

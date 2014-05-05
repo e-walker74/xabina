@@ -58,7 +58,7 @@
         </div>
         <div class="sign-cont">
             <div class="transaction-buttons-cont quick-remove">
-                <a href="#" class="button remove"></a>
+                <a href="#" class="button cancel"></a>
             </div>
             <a href="#" class="sign-send-button">SIGN AND SEND</a>
         </div>
@@ -112,7 +112,7 @@
         </div>
         <div class="sign-cont">
             <div class="transaction-buttons-cont quick-remove">
-                <a href="#" class="button remove"></a>
+                <a href="#" class="button cancel"></a>
             </div>
             <a href="#" class="sign-send-button">SIGN AND SEND</a>
         </div>
