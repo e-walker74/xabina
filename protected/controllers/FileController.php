@@ -55,8 +55,11 @@ class FileController extends Controller
 		}
 		Yii::app()->cache->set('uploaded_files_by_user_'.Yii::app()->user->id, ++$countFilesInHour, 3600);
 		
-		$type = Yii::app()->request->getParam('type', '', 'list', array_keys(Users_Files::$fileTypes));
-		if(!$type){
+		$typeClassName = Yii::app()->request->getParam('type', '', 'list', array_keys(Users_Files::$fileTypes));
+		$typeSuffix    = Yii::app()->request->getParam('typeSuffix', '');
+		$type 		   = $typeClassName . $typeSuffix;
+
+		if(!$typeClassName){
 			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Error')));
 			Yii::app()->end();
 		}
@@ -79,7 +82,7 @@ class FileController extends Controller
 			}
 		}
 		
-		$model = $type::model()->findByPk($id);
+		$model = $typeClassName::model()->findByPk($id);
 		
 		if(Users_Files::$fileTypes[$type]['user_check']){
 			if(isset($model->user_id)){
@@ -126,8 +129,12 @@ class FileController extends Controller
 				echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Error')));
 				Yii::app()->end();
 			}
-			//$html = Widget::create('WidgetUpload', 'WidgetUpload', array('inTable' => Yii::app()->request->getParam('inTable', false)))->getFilesTable($model, Yii::app()->user->id, true);
-			$html = Widget::create('WidgetUpload', 'WidgetUpload', array('showDialog' => false))->getFilesTable($model, Yii::app()->user->id, true);
+            
+			$html = Widget::create(
+                        'WidgetUpload', 'WidgetUpload', 
+                        array('showDialog' => false, 'typeSuffix' => $typeSuffix)
+                    )->getFilesTable($model, Yii::app()->user->id, true);
+            
 			echo CJSON::encode(
 				array(
 					'success' => true, 

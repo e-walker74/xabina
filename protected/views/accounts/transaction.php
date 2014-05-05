@@ -4,8 +4,18 @@
 		<tbody><tr class="header-tr">
 			<td>
 				<?= Yii::t('Front', 'Transaction details') ?>
-				<div class="transaction-buttons-cont">
-					<a class="button download" href="#"></a>
+                <?php $form=$this->beginWidget('CActiveForm', array(
+                        'method'=>'get',
+                        'id' => 'searchForm',
+                        'htmlOptions' => array(
+                            'data-pdf-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'/pdf/'),
+//                            'data-doc-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'doc')),
+                            'data-csv-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'/csv/')
+                        ),
+                    )); ?>
+                <?php $this->endWidget(); ?>
+				<div class="relative pull-right transaction-actions">
+					<a class="relative button download-button dropdown_button" href="#"></a>
 					<a class="button send" href="#"></a>
 					<a class="button print" href="javaScript:void(0)" onclick="js:printDiv('printTable')" ></a>
 				</div>

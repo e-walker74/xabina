@@ -128,8 +128,9 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 		
-		if($partial){
-			$html = $this->renderPartial('activation/step_one', array('model' => $activationForm, 'activation' => $activation, 'countries' => $countries), true, true);
+		if($partial){            
+            $this->cleanResponseJs();	
+            $html = $this->renderPartial('activation/step_one', array('model' => $activationForm, 'activation' => $activation, 'countries' => $countries), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();
@@ -163,8 +164,8 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 
-		if($partial){
-			$html = $this->renderPartial('activation/step_two', array('files1' => $files1, 'files2' => $files2, 'activation' => $activation, 'model' => $model), true, true);
+		if($partial){            
+			$html = $this->renderPartial('activation/step_two', array('activation' => $activation, 'model' => $model), true, true);
 			$arr = array('html' => $html, 'success' => true);
 			echo CJSON::encode($arr);
 			Yii::app()->end();
@@ -311,5 +312,6 @@ class BankingController extends Controller
 			$this->activationStepOne($activation, true);
 			Yii::app()->end();
 		}
-	}
+	}    
+    
 }

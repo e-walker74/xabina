@@ -37,5 +37,9 @@ class Controller extends CController
     protected function afterRender($view, &$output) {
         Yii::app()->dynamicRes->saveScheme();
     }
+    
+    protected function cleanResponseJs() {
+        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+    }
 
 }

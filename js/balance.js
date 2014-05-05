@@ -18,6 +18,7 @@ $(function(){
 			data: {account: accNumber},
 			type: 'GET'
 		});
+        $('#searchForm_account_number').val(accNumber);
 	}
 	
 	$(document).on('click', '.transaction-table-overflow tr', function(){
