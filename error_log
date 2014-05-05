@@ -174,3 +174,13 @@
 [30-Mar-2014 14:19:10 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BREAK in /home/evnaby/sites/nikxabina/protected/controllers/TransfersController.php on line 93
 [18-Apr-2014 13:32:49 Europe/Minsk] PHP Warning:  require(/home/evnaby/sites/nikxabina/protected/config/components/eauth.php) [<a href='function.require'>function.require</a>]: failed to open stream: No such file or directory in /home/evnaby/sites/nikxabina/protected/config/components.php on line 8
 [18-Apr-2014 13:32:49 Europe/Minsk] PHP Fatal error:  require() [<a href='function.require'>function.require</a>]: Failed opening required '/home/evnaby/sites/nikxabina/protected/config/components/eauth.php' (include_path='.:/opt/alt/php53/usr/share/pear:/opt/alt/php53/usr/share/php') in /home/evnaby/sites/nikxabina/protected/config/components.php on line 8
+[02-May-2014 21:30:13 Europe/Minsk] PHP Fatal error:  Call to undefined method SplTempFileObject::fputcsv() in /home/evnaby/sites/valxabina/protected/controllers/AccountsController.php on line 270
+[02-May-2014 21:32:33 Europe/Minsk] PHP Fatal error:  Call to undefined method SplFileObject::fputcsv() in /home/evnaby/sites/valxabina/protected/controllers/AccountsController.php on line 270
+[02-May-2014 22:48:19 Europe/Minsk] PHP Fatal error:  Class 'PHPWord' not found in /home/evnaby/sites/valxabina/protected/controllers/AccountsController.php on line 241
+[02-May-2014 22:51:44 Europe/Minsk] PHP Fatal error:  Class 'PHPWord' not found in /home/evnaby/sites/valxabina/protected/controllers/AccountsController.php on line 243
+[02-May-2014 22:55:03 Europe/Minsk] PHP Fatal error:  Class 'ZipArchive' not found in /home/evnaby/sites/valxabina/protected/vendor/phpWord/PHPWord/Writer/Word2007.php on line 70
+[02-May-2014 22:56:35 Europe/Minsk] PHP Fatal error:  Class 'ZipArchive' not found in /home/evnaby/sites/valxabina/protected/vendor/phpWord/PHPWord/Writer/Word2007.php on line 70
+[02-May-2014 23:04:08 Europe/Minsk] PHP Fatal error:  Class 'XMLWriter' not found in /home/evnaby/sites/valxabina/protected/vendor/phpWord/PHPWord/Shared/XMLWriter.php on line 61
+[03-May-2014 00:10:57 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_STRING in /home/evnaby/sites/valxabina/protected/controllers/AccountsController.php on line 197
+[04-May-2014 16:03:45 Europe/Minsk] PHP Parse error:  syntax error, unexpected ',' in /home/evnaby/sites/valxabina/protected/views/accounts/transaction.php on line 14
+[04-May-2014 16:04:03 Europe/Minsk] PHP Parse error:  syntax error, unexpected ',' in /home/evnaby/sites/valxabina/protected/views/accounts/transaction.php on line 14

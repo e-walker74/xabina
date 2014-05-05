@@ -19,24 +19,39 @@
     <div class="pdf-content">
         <div class="extract-header">
             <?= Yii::t('Front', 'Account Statement'); ?>
-            <div class="extract-period"><?= Yii::t('Front', 'Period'); ?>: <?= date('d M Y', strtotime($model->from_date)); ?> - <?= ($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time()) ?></div>
         </div>
         <table class="extract-info-table">
             <tr>
-                <td width="20%" class="headers"><?= Yii::t('Front', 'Client'); ?>:</td>
-                <td width="80%"><?= $user->fullname ?></td>
+                <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Client'); ?>:</td>
+                <td class="pdf-td-width-50"><?= $user->fullname ?></td>
+                <td class="headers pdf-td-width-12"><?= Yii::t('Front', 'Period'); ?>:</td>
+                <td class="pdf-td-width-20"><?= date('d M', strtotime($model->from_date)); ?> - <?= ($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time()) ?></td>
             </tr>
             <tr>
-                <td class="headers"><?= Yii::t('Front', 'Address'); ?>:</td>
-                <td>Square des Places 1, 1700 Fribourg, Switzerland</td>
+                <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Address'); ?>:</td>
+                <td class="pdf-td-width-50">Square des Places 1, 1700 Fribourg, Switzerland</td>
+                <td class="headers pdf-td-width-12"><?= Yii::t('Front', 'Transactions'); ?>:</td>
+                <td class="pdf-td-width-20"><?= $model->type ? Yii::t('Front', ucfirst($model->type)) : Yii::t('Front', 'All') ; ?></td>
             </tr>
             <tr>
-                <td class="headers"><?= Yii::t('Front', 'Reg #'); ?>:</td>
-                <td>2546897</td>
+                <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Reg #'); ?>:</td>
+                <td class="pdf-td-width-50">2546897</td>
+                <?php if($model->from_sum != '' || $model->to_sum != ''): ?>
+                    <td class="headers pdf-td-width-12"><?= Yii::t('Front', 'Sum'); ?>:</td>
+                    <td class="pdf-td-width-20">
+                        <?php if($model->from_sum != ''): ?><?= Yii::t('Front', 'from'); ?> <?= $model->from_sum ; ?><?php endif; ?>
+                        <?php if($model->to_sum != ''): ?><?= Yii::t('Front', 'to'); ?> <?= $model->to_sum ; ?><?php endif; ?>
+                         EUR
+                    </td>
+                <?php endif; ?>
             </tr>
             <tr>
-                <td class="headers"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
-                <td>254897546212ОР</td>
+                <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
+                <td class="pdf-td-width-50">254897546212ОР</td>
+                <?php if($model->keyword != ''): ?>
+                    <td class="headers pdf-td-width-12"><?= Yii::t('Front', 'Keyword'); ?>:</td>
+                    <td class="pdf-td-width-20"><?= $model->keyword; ?></td>
+                <?php endif; ?>
             </tr>
         </table>
         <table class="pdf-table">

@@ -379,9 +379,9 @@ $(function(){
 		});
 	}
 	
-	downloadPdf = function(){
+	downloadPdf = function(e){
 		form = $('#searchForm')
-		url = form.attr('data-pdf-url') + "?" + form.serialize();
+		url = form.attr('data-'+e.target.innerText.toLowerCase()+'-url') + "?" + form.serialize();
 		window.open(url)
 	}
 	
@@ -578,7 +578,21 @@ $(document).ready(function(){
 	if($('.download-button').length != 0)
 	$('.download-button').tempDropDown({
 		list: {
-		   PDF: 'PDF'
+		   PDF: {
+               id : 'pdf',
+               name : 'PDF',
+               class : 'PDF'
+           },
+           DOC : {
+               id : 'doc',
+               name : 'DOC',
+               class : 'DOC'
+           },
+           CSV : {
+               id : 'csv',
+               name : 'CSV',
+               class : 'XLS'
+           }
 		   /*,Other: 'Other'
 		   PDF : 'PDF' ,
            XLS : 'XLS' ,

@@ -45,14 +45,20 @@
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				//'action'=>Yii::app()->createUrl(),
 				'method'=>'get',
-				'htmlOptions' => array('class' => 'advanced-search-form', 'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/'),
+			    'id' => 'searchForm',
+				'htmlOptions' => array(
+                    'class' => 'advanced-search-form',
+                    'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/',
+                    'data-doc-url' => $this->createUrl('/accounts/transactionsondoc').'/',
+                    'data-csv-url' => $this->createUrl('/accounts/transactionsoncsv').'/'
+                ),
 			)); ?>
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="field-lbl"><?= $model->getAttributeLabel('keyword') ?> </div>
 						<div class="field-input">
 							<?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text', 'placeholder' => Yii::t('Front', 'You can filer transactions by Sender, Account number or any Keyword'))); ?>
-							<?= $form->hiddenField($model, 'account_number'); ?>
+							<?= $form->hiddenField($model, 'account_number', array('id'=>'searchForm_account_number')); ?>
 						</div>
 					</div>
 				</div>				
@@ -103,38 +109,6 @@
 			<?php $this->endWidget(); ?>
 		</div>
 	</div>
-	
-	<div class="advanced-search-form" style="display: none">
-		<?php $form=$this->beginWidget('CActiveForm', array(
-			//'action'=>Yii::app()->createUrl(),
-			'method'=>'get',
-			'id' => 'searchForm',
-			'htmlOptions' => array('data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/'),
-		)); ?>
-		<div class="row">
-			
-			<div class="col-nested-3">
-				<div class="field-lbl empty">d</div>
-				<div class="field-input ">
-					<div class="select-custom">
-					<span class="select-custom-label"><?= Yii::t('Front', 'All transactions') ?></span>
-						<?=  $form->dropDownList($model, 'type', array(
-							'' => Yii::t('Front', 'All transactions'), 
-							'incoming' => Yii::t('Front', 'Incoming'),
-							'outgoing' => Yii::t('Front', 'Outgoing'),
-						), array('class' => 'select-invisible')); ?>
-					</div>
-				</div>
-				<div class="field-input  search-cont two-line">
-					<a class="search-button" href="javaScript:void(0)" onclick="js:searchTransactions(this)"><?= Yii::t('Front', 'Search'); ?></a>
-				</div>
-
-			</div>
-
-		</div>
-		<?php $this->endWidget(); ?>
-	</div>
-
 
 	<div class="subheader"><?= Yii::t('Front', 'Transaction'); ?>
 	<div class="relative pull-right transaction-actions">
@@ -156,7 +130,7 @@
 		</tbody></table>
 	</div>
 	<div class="transaction-table-overflow">
-		<?php $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $selectedAcc->transactions)) ?>
+		<?php $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $transactions)) ?>
 	</div>
 	
 	<?php $this->widget('AdsBlocks'); ?>
