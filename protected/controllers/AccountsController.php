@@ -431,7 +431,7 @@ class AccountsController extends Controller
 			$mpdf = new mpdf('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
 			$mpdf->charset_in = 'utf-8'; /*не забываем про русский*/
 
-			$stylesheet = file_get_contents('http://valxabina.intwall.com/css/pdf/style.css'); /*подключаем css*/
+			$stylesheet = file_get_contents(Yii::app()->getBaseUrl(true) . '/css/pdf/style.css'); /*подключаем css*/
 			$mpdf->WriteHTML($stylesheet, 1);
 
 			$mpdf->list_indent_first_level = 0; 
