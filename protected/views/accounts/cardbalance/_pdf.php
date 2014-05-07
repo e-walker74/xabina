@@ -62,7 +62,7 @@
                 <th width="23%"><?= Yii::t('Front', 'Credit turnover'); ?></th>
                 <th width="20%"><?= Yii::t('Front', 'Debit turnover'); ?></th>
             </tr>
-            <tr>
+            <tr class="text-center">
 			<?php if(!empty($transactions)): ?>
                 <td><?= current($transactions)->account->currency->code ?></td>
                 <td><?= number_format(current($transactions)->acc_balance - current($transactions)->sum, 2, ".", " ") ?></td>
@@ -70,7 +70,11 @@
                 <td><span class="inc"><?= number_format($credit, 2, ".", " ") ?></span></td>
                 <td><span class="dec"><?= number_format($debit, 2, ".", " ") ?></span></td>
 			<?php else: ?>
-				<td colspan="5"><?= Yii::t('Front', 'No data meets the filter criterias'); ?></td>
+                <td><?= $account->currency->code ?></td>
+                <td><?= number_format($account->transactions[0]->acc_balance, 2, ".", " ") ?></td>
+                <td><?= number_format($account->transactions[0]->acc_balance, 2, ".", " ") ?></td>
+                <td class="inc"><?= number_format($credit, 2, ".", " ") ?></td>
+                <td class="dec"><?= number_format($debit, 2, ".", " ") ?></td>
 			<?php endif; ?>
             </tr>
         </table>
@@ -90,8 +94,18 @@
                     <strong><?= $trans->info->sender ?></strong> <br>
                     <?= $trans->info->details_of_payment ?>
                 </td>
-                <td><span class="inc"><?= number_format($trans->sum, 2, ".", " ") ?></span> &nbsp; <?= $trans->account->currency->code ?></td>
-                <td><?= number_format($trans->acc_balance, 2, ".", " ") ?></td>
+                <td class="nowrap">
+                    <?php
+                    if($trans->type == 'positive')
+                        $class = 'inc';
+                    else
+                        $class = 'dec';
+                    ?>
+                    <span class="<?=$class;?>"><?= number_format($trans->sum, 2, ".", " ") ?></span> <?=$trans->account->currency->code; ?>
+                </td>
+                <td>
+                    <?= number_format($trans->acc_balance, 2, ".", " ") ?>
+                </td>
             </tr>
 			<?php endforeach; ?>
 			<?php if(empty($transactions)): ?>

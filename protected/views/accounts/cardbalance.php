@@ -56,27 +56,26 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="field-lbl"><?= $model->getAttributeLabel('keyword') ?> </div>
-						<div class="field-input">
+						<div class="field-input keyword">
 							<?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text', 'placeholder' => Yii::t('Front', 'You can filer transactions by Sender, Account number or any Keyword'))); ?>
 							<?= $form->hiddenField($model, 'account_number', array('id'=>'searchForm_account_number')); ?>
-						</div>
+                            <a class="refresh-button"></a>
+                        </div>
 					</div>
 				</div>				
 				<div class="row second-row" >
 					<div class="col-nested-3">
 						<div class="field-lbl"><?= Yii::t('Front', 'Date'); ?></div>
 						<div class="field-input ">
-							<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
 							<?= $form->textField($model, 'from_date', array('autocomplete' => 'off', 'class' => 'input-text two-row-input calendar-input')); ?>
 							<span class="calendar-ico"></span>
 						</div>
 						<div class="field-input two-line">
-							<span class="from-lbl "><?= Yii::t('Front', 'to') ?></span>
 							<?= $form->textField($model, 'to_date', array('autocomplete' => 'off', 'class' => 'input-text two-row-input calendar-input')); ?>
 							<span class="calendar-ico"></span>
 						</div>
 					</div>
-					<div class="col-nested-3">
+					<div class="col-nested-3 transaction-sum">
 						<div class="field-lbl "><?= Yii::t('Front', 'Sum') ?></div>
 						<div class="field-input ">
 							<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
@@ -101,7 +100,7 @@
 							</div>
 						</div>
 						<div class="field-input  search-cont two-line">
-							<input type="submit" class="button-find" onclick="js:searchTransactions(this); return false;" value="<?= Yii::t('Front', 'Search'); ?>" />
+							<input type="submit" class="search-button button-find" onclick="js:searchTransactions(this); return false;" value="<?= Yii::t('Front', 'Search'); ?>" />
 						</div>
 
 					</div>

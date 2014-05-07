@@ -14,15 +14,17 @@
                         ),
                     )); ?>
                 <?php $this->endWidget(); ?>
-				<div class="relative pull-right transaction-actions">
-					<a class="relative button download-button dropdown_button" href="#"></a>
-					<a class="button send" href="#"></a>
-					<a class="button print" href="javaScript:void(0)" onclick="js:printDiv('printTable')" ></a>
-				</div>
 			</td>
+            <td>
+                <div class="relative pull-right transaction-actions">
+                    <a class="relative button download-button dropdown_button" href="#"></a>
+                    <a class="button send" href="#"></a>
+                    <a class="button print" href="javaScript:void(0)" onclick="js:printDiv('printTable')" ></a>
+                </div>
+            </td>
 		</tr>
 		<tr class="form-tr">
-			<td>
+			<td colspan="2">
 				<div class="transaction-info-cont">
 					<table class="transaction-info-table table">
 						<tbody>

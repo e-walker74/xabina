@@ -371,7 +371,8 @@ $(function(){
 	});
 	
 	searchTransactions = function(button){
-		form = $(button).parents('form')
+		var form = $(button).parents('form');
+        form.find('.refresh-button').fadeIn();
 		$.ajax({
 			url: form.action,
 			success: function(data) {
@@ -379,6 +380,7 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html)
 				}
+                form.find('.refresh-button').fadeOut();
 			},
 			cache:false,
 			data: form.serialize(),

@@ -286,82 +286,8 @@ class AccountsController extends Controller
 				}
 			}
 
-            $path = Yii::getPathOfAlias('application.vendor.phpWord');
-
-            spl_autoload_unregister(array('YiiBaseEx','autoload'));
-            require_once $path .'/PHPWord.php';
-
-            // New Word Document
-            $PHPWord = new PHPWord();
-
-            // New portrait section
-            $section = $PHPWord->createSection();
-
-            // Add header
-            $styleCell = array('valign'=>'center', 'borderBottomColor'=>'403186');
-            $header = $section->createHeader();
-            // Add table style
-            $PHPWord->addTableStyle('headTableStyle', array('borderSize'=>6, 'borderColor'=>'FFFFFF'));
-            $hTable = $header->addTable('headTableStyle');
-            $hTable->addRow(57);
-            $hTable->addCell(168, $styleCell)->addImage(Yii::app()->basePath.'/../images/logo.png', array('align'=>'left'));
-            $cell = $hTable->addCell(2000, $styleCell);
-            $cell->addText('Xabina/Stadsring 99');
-            $cell->addText('3811 HP Amersfoort/The Netherlands');
-            $cell->addText('Telephone: +31 880 200 200    Fax: +31 880 200 100');
-            $cell->addText('Company Registration Number: 32168526');
-
-
-            // Define table style arrays
-//            $styleTable = array('borderSize'=>6, 'borderColor'=>'CCCDD2', 'cellMargin'=>80);
-//            $styleFirstRow = array('bgColor'=>'BDBDC5');
-
-            // Define cell style arrays
-//            $styleCell = array('valign'=>'center');
-//            $styleCellBTLR = array('valign'=>'center', 'borderTopColor'=>'CCCDD2', 'textDirection'=>PHPWord_Style_Cell::TEXT_DIR_BTLR);
-
-            // Define font style for first row
-//            $fontStyle = array('bold'=>true, 'align'=>'center');
-
-            // Add table style
-//            $PHPWord->addTableStyle('myOwnTableStyle', $styleTable, $styleFirstRow);
-
-            // Add table
-//            $table = $section->addTable('myOwnTableStyle');
-
-            // Add row
-//            $table->addRow();
-
-            // Add cells
-//            $table->addCell(2000, $styleCell)->addText('Row 1', $fontStyle);
-//            $table->addCell(2000, $styleCell)->addText('Row 2', $fontStyle);
-//            $table->addCell(2000, $styleCell)->addText('Row 3', $fontStyle);
-//            $table->addCell(2000, $styleCell)->addText('Row 4', $fontStyle);
-//            $table->addCell(500, $styleCellBTLR)->addText('Row 5', $fontStyle);
-
-            // Add more rows / cells
-//            for($i = 1; $i <= 10; $i++) {
-//                $table->addRow();
-//                $table->addCell(2000)->addText("Cell $i");
-//                $table->addCell(2000)->addText("Cell $i");
-//                $table->addCell(2000)->addText("Cell $i");
-//                $table->addCell(2000)->addText("Cell $i");
-//
-//                $text = ($i % 2 == 0) ? 'X' : '';
-//                $table->addCell(500)->addText($text);
-//            }
-
-            $footer = $section->createFooter();
-            $footer->addPreserveText('Page {PAGE} of {NUMPAGES}.', array('align'=>'center'));
-
-            // Save File
-            $objWriter = PHPWord_IOFactory::createWriter($PHPWord, 'Word2007');
-            $objWriter->save('test.doc');
-
-            spl_autoload_unregister(array('YiiBaseEx','autoload'));
-
-//            $html = $this->renderPartial('cardbalance/_doc', array('transactions' => $transactions, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
-            Yii::app()->request->sendFile('test.doc', file_get_contents('test.doc'), 'application/octet-stream', true);
+            $html = $this->renderPartial('cardbalance/_doc', array('transactions' => $transactions, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
+            Yii::app()->request->sendFile('test.doc', $html, 'application/octet-stream', true);
         }
 		Yii::app()->end();
     }
@@ -418,6 +344,7 @@ class AccountsController extends Controller
 			$user = Users::model()->findByPk(Yii::app()->user->id);
 			$debit = 0;
 			$credit = 0;
+            $account = Accounts::model()->findByAttributes(array('number'=>$model->account_number));
 			foreach($transactions as $trans){
 				if($trans->type == 'positive'){
 					$credit = $credit + $trans->sum;
@@ -426,7 +353,7 @@ class AccountsController extends Controller
 					$debit = $debit + $trans->sum;
 				}
 			}
-			$html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
+			$html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'account' => $account, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
 			Yii::import('application.ext.mpdf.mpdf');
 			$mpdf = new mpdf('utf-8', 'A4', '8', '', 10, 10, 7, 7, 10, 10); /*задаем формат, отступы и.т.д.*/
 			$mpdf->charset_in = 'utf-8'; /*не забываем про русский*/
