@@ -101,7 +101,7 @@
                     else
                         $class = 'dec';
                     ?>
-                    <span class="<?=$class;?>"><?= number_format($trans->sum, 2, ".", " ") ?></span> <?=$trans->account->currency->code; ?>
+                    <span class="<?=$class;?>"><?= ($trans->type == 'negative') ? "-" : "" ?><?= number_format($trans->sum, 2, ".", " ") ?></span> <?=$trans->account->currency->code; ?>
                 </td>
                 <td>
                     <?= number_format($trans->acc_balance, 2, ".", " ") ?>

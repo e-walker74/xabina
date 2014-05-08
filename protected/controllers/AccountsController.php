@@ -331,7 +331,7 @@ class AccountsController extends Controller
                     $transactionsTable['sumDec'][] = '';
 					$credit = $credit + $trans->sum;
 				} else if($trans->type == 'negative'){
-                    $transactionsTable['sumDec'][] = number_format($trans->sum, 2, ".", " ") . $trans->account->currency->code;
+                    $transactionsTable['sumDec'][] = '-' . number_format($trans->sum, 2, ".", " ") . $trans->account->currency->code;
                     $transactionsTable['sumInc'][] = '';
                     $debit = $debit + $trans->sum;
 				}
