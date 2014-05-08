@@ -1,0 +1,11 @@
+[06-May-2014 00:23:05 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_VARIABLE in /home/evnaby/sites/xabina/protected/views/transfers/outgoingv2.php on line 437
+[06-May-2014 00:23:07 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_VARIABLE in /home/evnaby/sites/xabina/protected/views/transfers/outgoingv2.php on line 437
+[06-May-2014 00:36:27 Europe/Minsk] PHP Parse error:  syntax error, unexpected '}' in /home/evnaby/sites/xabina/protected/views/transfers/outgoingv2.php on line 441
+[06-May-2014 00:36:29 Europe/Minsk] PHP Parse error:  syntax error, unexpected '}' in /home/evnaby/sites/xabina/protected/views/transfers/outgoingv2.php on line 441
+[07-May-2014 12:09:02 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end in /home/evnaby/sites/xabina/protected/views/transfers/outgoingv2.php on line 448
+[07-May-2014 23:43:57 Europe/Minsk] PHP Fatal error:  Unsupported operand types in /home/evnaby/sites/xabina/protected/views/transfers/_outgoing_details.php on line 295
+[07-May-2014 23:44:02 Europe/Minsk] PHP Fatal error:  Unsupported operand types in /home/evnaby/sites/xabina/protected/views/transfers/_outgoing_details.php on line 295
+[07-May-2014 23:46:15 Europe/Minsk] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/evnaby/sites/xabina/protected/views/transfers/_outgoing_details.php on line 298
+[07-May-2014 23:46:16 Europe/Minsk] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/evnaby/sites/xabina/protected/views/transfers/_outgoing_details.php on line 298
+[08-May-2014 00:03:42 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_LNUMBER, expecting ')' in /home/evnaby/sites/xabina/protected/models/form/Outgoingtransf.php on line 52
+[08-May-2014 17:31:17 Europe/Minsk] PHP Fatal error:  Access to undeclared static property: Transfers_Outgoing::$ewallet_types in /home/evnaby/sites/xabina/protected/models/transfers/Outgoing.php on line 63

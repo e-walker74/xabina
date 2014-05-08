@@ -44,6 +44,9 @@
 					$(form).find('textarea').val('').trigger('autosize.resize')
 					$(form).find('.file-name').hide()
 					$(form).find('.no-file-name').show()
+                    $('textarea').autosize();
+                    if($('textarea.len1').length != 0)
+                        $('textarea.len1').limiter('140',$('.len1-num'));
 					$('#'+attachmentsBlockId+' .delete').confirmation({
 						title: 'Are you sure?',
 						singleton: true,
@@ -94,7 +97,7 @@
 		return ret;
 	})
 
-	
+
 
 	var deletefile = function(link){
 		
@@ -103,7 +106,11 @@
 			url: $(link).attr('data-url'),
 			success: function(data){
 				if(data.success){
-					$(link).parents('li').remove()
+                    var ul = $(link).parents('ul')
+                    $(link).parents('li').remove()
+                    if(ul.find('li').length == 0){
+                        ul.parents('table.attachments-table').hide();
+                    }
 					successNotify('Delete File', 'File was successfully deleted')
 				}
 			},
@@ -118,6 +125,8 @@
 		resetPage()
 		row.find('.not-edit-doc').hide()
 		row.find('.edit-doc').show()
+
+        row.find('textarea').focus()
 	}
 
 	$('.attachments-block').on('click', '.edit-doc .ok', function(){
@@ -153,3 +162,6 @@
 			return false;
 		}
 	});
+
+    if($('textarea.len').length != 0)
+        $('textarea.len').limiter('140',$('.len-num'));

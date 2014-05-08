@@ -54,192 +54,380 @@ class TransfersController extends Controller
      * template newtransfer_xabina_15.psd
      * codding http://nikxabina.intwall.com/layout/account/new_transfer.html
      */
-    public function actionOutgoingv2(){
-        $this->render('outgoingv2');
-    }
+    public function actionOutgoing(){
 
-    public function actionOutgoing()
-    {
-		
-		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = '';
 
-		if(Yii::app()->user->role > Users::USER_IS_ACTIVATED){
-			throw new CHttpException(403, Yii::t('Front', 'You have no permissions'));
-		}
-		$number = Yii::app()->request->getParam('account', '', 'int');
-		$transfer = Yii::app()->request->getParam('transfer', '', 'int');
-		if($transfer){
-			$model = Transfers_Outgoing::model()->findByPk($transfer);
-			if(!$model || $model->user_id != Yii::app()->user->id || $model->need_confirm != 1){
-				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-			}
-			$number = $model->account->number;
-		} else {
-			$model = new Transfers_Outgoing;
-		}
-		
-		$currencies = Currencies::model()->findAll();
-		$countries = Countries::model()->findAll();
-		$accounts = Accounts::model()->findAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
-		if(empty($accounts)){
-			throw new CHttpException(404, Yii::t('Front', 'You have not any accounts'));
-		}
-		if($number){
-			$selectedAcc = Accounts::model()->find('user_id = :uid AND number = :number', array(':uid' => Yii::app()->user->id, ':number' => $number));
-		} else {
-			$selectedAcc = $accounts[0];
-			foreach($accounts as $acc){
-				if($acc->balance > 0){
-					$this->redirect(array('/transfers/outgoing', 'account' => $acc->number));
-					Yii::app()->end();
-				}
-			}
-			$this->redirect(array('/transfers/outgoing', 'account' => $selectedAcc->number));
-			Yii::app()->end();
-		}
-		
-		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'transfer-outgoint-from') {
-            if(isset($_POST['Transfers_Outgoing']['send_to'])){
-				switch($_POST['Transfers_Outgoing']['send_to']){
-					case 'own':
-						$model->scenario = 'own';
-						break;
-					case 'xabina':
-						$model->scenario = 'xabina';
-						$model->execution_time = $model->xabina_execution_time;
-						break;
-					case 'external':
-						$model->scenario = 'external';
-						$model->execution_time = $model->external_execution_time;
-						break;
-				}
-			}
-			$model->attributes = $_POST['Transfers_Outgoing'];
-			switch($model->scenario){
-				case 'own':
-					break;
-				case 'xabina':
-					$model->start_time = $model->xabina_start_time;
-					$model->end_time = $model->xabina_end_time;
-					$model->execution_time = $model->xabina_execution_time;
-					break;
-				case 'external':
-					$model->start_time = $model->external_start_time;
-					$model->end_time = $model->external_end_time;
-					$model->execution_time = $model->external_execution_time;
-					break;
-			}
-			if($model->start_time){
-				$model->start_time = strtotime($model->start_time);
-			}
-			if($model->end_time){
-				$model->end_time = strtotime($model->end_time);
-			}
-			if($model->execution_time){
-				$model->execution_time = strtotime($model->execution_time);
-			}
-			echo CActiveForm::validate($model, null, false);
-			Yii::app()->end();
+
+        $user = Users::model()->with('settings')->findByPk(Yii::app()->user->id);
+        $accounts = $user->accounts;
+        if(empty($user->accounts)){
+            throw new CHttpException(404, Yii::t('Front', 'You have not any accounts'));
         }
-		
-		if(isset($_POST['Transfers_Outgoing']) && Yii::app()->request->isAjaxRequest){
-			if(isset($_POST['Transfers_Outgoing']['send_to'])){
-				switch($_POST['Transfers_Outgoing']['send_to']){
-					case 'own':
-						$model->scenario = 'own';
-						break;
-					case 'xabina':
-						$model->scenario = 'xabina';
-						$model->execution_time = $model->xabina_execution_time;
-						break;
-					case 'external':
-						$model->scenario = 'external';
-						$model->execution_time = $model->external_execution_time;
-						break;
-				}
-			}
-			$model->attributes = $_POST['Transfers_Outgoing'];
-			switch($model->scenario){
-				case 'own':
-					break;
-				case 'xabina':
-					$model->start_time = $model->xabina_start_time;
-					$model->end_time = $model->xabina_end_time;
-					$model->execution_time = $model->xabina_execution_time;
-					break;
-				case 'external':
-					$model->start_time = $model->external_start_time;
-					$model->end_time = $model->external_end_time;
-					$model->execution_time = $model->external_execution_time;
-					break;
-			}
-			if($model->start_time){
-				$model->start_time = strtotime($model->start_time);
-			}
-			if($model->end_time){
-				$model->end_time = strtotime($model->end_time);
-			}
-			if($model->execution_time){
-				$model->execution_time = strtotime($model->execution_time);
-			}
-			if($model->validate()){
-				$model->need_confirm = 1;
-				if($model->save()){
-					if(isset($_GET['next'])){
-						echo CJSON::encode(array('success' => true, 'clean' => false, 'url' => Yii::app()->createUrl('/transfers/overview')));
-					} else {
-						echo CJSON::encode(array('success' => true, 'clean' => true));
-					}
-					Yii::app()->end();
-				}
-			}
-			echo CActiveForm::validate($model, null, false);
-			Yii::app()->end();
-		}
 
-		if($model->isNewRecord){
-			$model->currency_id = 1; //default EUR currency
-			$model->each_transfer = 1;
-			$model->each_period = 3;
-			$model->execution_time = date('m/d/Y', time()); //default
-			$model->start_time = date('m/d/Y', time()); //default
-			$model->end_time = date('m/d/Y', time()+3600*24*365); //default
-			$model->xabina_execution_time = date('m/d/Y', time()); //default
-			$model->xabina_start_time = date('m/d/Y', time()); //default
-			$model->xabina_end_time = date('m/d/Y', time()+3600*24*365); //default
-			$model->external_execution_time = date('m/d/Y', time()); //default
-			$model->external_start_time = date('m/d/Y', time()); //default
-			$model->external_end_time = date('m/d/Y', time()+3600*24*365); //default
-			$model->country_id = 3205;
-		} else {
-			if(!$model->start_time){
-				$model->start_time = time();
-			}
-			if(!$model->end_time){
-				$model->end_time = time();
-			}
-			if(!$model->execution_time){
-				$model->execution_time = time();
-			}
-			$model->xabina_start_time = date('m/d/Y', $model->start_time);
-			$model->xabina_end_time = date('m/d/Y', $model->end_time);
-			$model->xabina_execution_time = date('m/d/Y', $model->execution_time);
-			$model->external_start_time = date('m/d/Y', $model->start_time);
-			$model->external_end_time = date('m/d/Y', $model->end_time);
-			$model->external_execution_time = date('m/d/Y', $model->execution_time);
-			$model->start_time = date('m/d/Y', $model->start_time);
-			$model->end_time = date('m/d/Y', $model->end_time);
-			$model->execution_time = date('m/d/Y', $model->execution_time);
-		}
+        $number = Yii::app()->request->getParam('account', '', 'int');
+        $transfer = Yii::app()->request->getParam('transfer', '', 'int');
 
-		$this->render('outgoing', array(
-			'model' => $model,
-			'currencies' => $currencies,
-			'countries' => $countries,
-			'accounts' => $accounts,
-			'selectedAcc' => $selectedAcc,
-		));
+        if($number){
+            $selectedAcc = Accounts::model()->find('user_id = :uid AND number = :number', array(':uid' => Yii::app()->user->id, ':number' => $number));
+            if(!$selectedAcc)
+                throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        } else {
+            $selectedAcc = $accounts[0];
+            foreach($accounts as $acc){
+                if($acc->balance > 0){
+                    $this->redirect(array('/transfers/outgoing', 'account' => $acc->number));
+                    Yii::app()->end();
+                }
+            }
+            $this->redirect(array('/transfers/outgoing', 'account' => $selectedAcc->number));
+            Yii::app()->end();
+        }
+
+        /*
+         * Own Form
+         */
+        $ownForm = new Form_Outgoingtransf_Own;
+
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'own-form') {
+            echo CActiveForm::validate($ownForm);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Form_Outgoingtransf_Own'])){
+            $ownForm->attributes = $_POST['Form_Outgoingtransf_Own'];
+            $message = Yii::t('Front', 'Payment was saved successfully');
+            if($ownForm->save()){
+                if(isset($_GET['next'])){
+                    echo CJSON::encode(array(
+                        'success' => true,
+                        'clean' => false,
+                        'message' => $message,
+                        'url' => Yii::app()->createUrl('/transfers/overview')
+                    ));
+                } else {
+                    echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
+                }
+            } else {
+                echo CJSON::encode(array('success' => false, 'message' => ''));
+            }
+            Yii::app()->end();
+        }
+        /*
+         * end Own Form
+         */
+
+        /*
+         * start Another Xabina account
+         */
+        $anotherForm = new Form_Outgoingtransf_Another;
+
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'another-form') {
+            echo CActiveForm::validate($anotherForm);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Form_Outgoingtransf_Another'])){
+            $anotherForm->attributes = $_POST['Form_Outgoingtransf_Another'];
+            $message = Yii::t('Front', 'Payment was saved successfully');
+            if($anotherForm->save()){
+                if(isset($_GET['next'])){
+                    echo CJSON::encode(array(
+                        'success' => true,
+                        'clean' => false,
+                        'message' => $message,
+                        'url' => Yii::app()->createUrl('/transfers/overview')
+                    ));
+                } else {
+                    echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
+                }
+            } else {
+                echo CJSON::encode(array('success' => false, 'message' => ''));
+            }
+            Yii::app()->end();
+        }
+        /*
+         * end Another Xabina Account
+         */
+
+        /*
+         * start External Xabina account
+         */
+        $externalForm = new Form_Outgoingtransf_External;
+
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'external-form') {
+            echo CActiveForm::validate($externalForm);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Form_Outgoingtransf_External'])){
+            $externalForm->attributes = $_POST['Form_Outgoingtransf_External'];
+            $message = Yii::t('Front', 'Payment was saved successfully');
+            if($externalForm->save()){
+                if(isset($_GET['next'])){
+                    echo CJSON::encode(array(
+                        'success' => true,
+                        'clean' => false,
+                        'message' => $message,
+                        'url' => Yii::app()->createUrl('/transfers/overview')
+                    ));
+                } else {
+                    echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
+                }
+            } else {
+                echo CJSON::encode(array('success' => false, 'message' => ''));
+            }
+            Yii::app()->end();
+        }
+        /*
+         * end External Xabina Account
+         */
+
+        /*
+         * start E-Wallet Xabina account
+         */
+        $ewalletForm = new Form_Outgoingtransf_Ewallet;
+
+        if(isset($_POST['Form_Outgoingtransf_Ewallet'])){
+            $ewalletForm->attributes = $_POST['Form_Outgoingtransf_Ewallet'];
+            switch($ewalletForm->ewallet_type){
+                case 1:
+                    $ewalletForm->scenario = 'paypall';
+                    break;
+                case 2:
+                    $ewalletForm->scenario = 'webmoney';
+                    break;
+                case 3:
+                    $ewalletForm->scenario = 'scrill';
+                    break;
+            }
+        }
+
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'ewallet-form') {
+            echo CActiveForm::validate($ewalletForm);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Form_Outgoingtransf_Ewallet'])){
+            $ewalletForm->attributes = $_POST['Form_Outgoingtransf_Ewallet'];
+            $message = Yii::t('Front', 'Payment was saved successfully');
+            if($ewalletForm->save()){
+                if(isset($_GET['next'])){
+                    echo CJSON::encode(array(
+                        'success' => true,
+                        'clean' => false,
+                        'message' => $message,
+                        'url' => Yii::app()->createUrl('/transfers/overview')
+                    ));
+                } else {
+                    echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
+                }
+            } else {
+                echo CJSON::encode(array('success' => false, 'message' => ''));
+            }
+            Yii::app()->end();
+        }
+        /*
+         * end E-Wallet Xabina Account
+         */
+
+
+        $currencies = Currencies::model()->findAll();
+        $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
+
+        $this->render('outgoingv2', array(
+            'user'          => $user,
+            'selectedAcc'   => $selectedAcc,
+            'currencies'    => $currencies,
+            'categories'    => $categories,
+            'ownForm'       => $ownForm,
+            'anotherForm'   => $anotherForm,
+            'externalForm'  => $externalForm,
+            'ewalletForm'   => $ewalletForm,
+        ));
     }
+
+//    public function actionOutgoing()
+//    {
+//
+//		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = '';
+//
+//		if(Yii::app()->user->role > Users::USER_IS_ACTIVATED){
+//			throw new CHttpException(403, Yii::t('Front', 'You have no permissions'));
+//		}
+//		$number = Yii::app()->request->getParam('account', '', 'int');
+//		$transfer = Yii::app()->request->getParam('transfer', '', 'int');
+//		if($transfer){
+//			$model = Transfers_Outgoing::model()->findByPk($transfer);
+//			if(!$model || $model->user_id != Yii::app()->user->id || $model->need_confirm != 1){
+//				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+//			}
+//			$number = $model->account->number;
+//		} else {
+//			$model = new Transfers_Outgoing;
+//		}
+//
+//		$currencies = Currencies::model()->findAll();
+//		$countries = Countries::model()->findAll();
+//		$accounts = Accounts::model()->findAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
+//		if(empty($accounts)){
+//			throw new CHttpException(404, Yii::t('Front', 'You have not any accounts'));
+//		}
+//		if($number){
+//			$selectedAcc = Accounts::model()->find('user_id = :uid AND number = :number', array(':uid' => Yii::app()->user->id, ':number' => $number));
+//		} else {
+//			$selectedAcc = $accounts[0];
+//			foreach($accounts as $acc){
+//				if($acc->balance > 0){
+//					$this->redirect(array('/transfers/outgoing', 'account' => $acc->number));
+//					Yii::app()->end();
+//				}
+//			}
+//			$this->redirect(array('/transfers/outgoing', 'account' => $selectedAcc->number));
+//			Yii::app()->end();
+//		}
+//
+//		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'transfer-outgoint-from') {
+//            if(isset($_POST['Transfers_Outgoing']['send_to'])){
+//				switch($_POST['Transfers_Outgoing']['send_to']){
+//					case 'own':
+//						$model->scenario = 'own';
+//						break;
+//					case 'xabina':
+//						$model->scenario = 'xabina';
+//						$model->execution_time = $model->xabina_execution_time;
+//						break;
+//					case 'external':
+//						$model->scenario = 'external';
+//						$model->execution_time = $model->external_execution_time;
+//						break;
+//				}
+//			}
+//			$model->attributes = $_POST['Transfers_Outgoing'];
+//			switch($model->scenario){
+//				case 'own':
+//					break;
+//				case 'xabina':
+//					$model->start_time = $model->xabina_start_time;
+//					$model->end_time = $model->xabina_end_time;
+//					$model->execution_time = $model->xabina_execution_time;
+//					break;
+//				case 'external':
+//					$model->start_time = $model->external_start_time;
+//					$model->end_time = $model->external_end_time;
+//					$model->execution_time = $model->external_execution_time;
+//					break;
+//			}
+//			if($model->start_time){
+//				$model->start_time = strtotime($model->start_time);
+//			}
+//			if($model->end_time){
+//				$model->end_time = strtotime($model->end_time);
+//			}
+//			if($model->execution_time){
+//				$model->execution_time = strtotime($model->execution_time);
+//			}
+//			echo CActiveForm::validate($model, null, false);
+//			Yii::app()->end();
+//        }
+//
+//		if(isset($_POST['Transfers_Outgoing']) && Yii::app()->request->isAjaxRequest){
+//			if(isset($_POST['Transfers_Outgoing']['send_to'])){
+//				switch($_POST['Transfers_Outgoing']['send_to']){
+//					case 'own':
+//						$model->scenario = 'own';
+//						break;
+//					case 'xabina':
+//						$model->scenario = 'xabina';
+//						$model->execution_time = $model->xabina_execution_time;
+//						break;
+//					case 'external':
+//						$model->scenario = 'external';
+//						$model->execution_time = $model->external_execution_time;
+//						break;
+//				}
+//			}
+//			$model->attributes = $_POST['Transfers_Outgoing'];
+//			switch($model->scenario){
+//				case 'own':
+//					break;
+//				case 'xabina':
+//					$model->start_time = $model->xabina_start_time;
+//					$model->end_time = $model->xabina_end_time;
+//					$model->execution_time = $model->xabina_execution_time;
+//					break;
+//				case 'external':
+//					$model->start_time = $model->external_start_time;
+//					$model->end_time = $model->external_end_time;
+//					$model->execution_time = $model->external_execution_time;
+//					break;
+//			}
+//			if($model->start_time){
+//				$model->start_time = strtotime($model->start_time);
+//			}
+//			if($model->end_time){
+//				$model->end_time = strtotime($model->end_time);
+//			}
+//			if($model->execution_time){
+//				$model->execution_time = strtotime($model->execution_time);
+//			}
+//			if($model->validate()){
+//				$model->need_confirm = 1;
+//				if($model->save()){
+//					if(isset($_GET['next'])){
+//						echo CJSON::encode(array('success' => true, 'clean' => false, 'url' => Yii::app()->createUrl('/transfers/overview')));
+//					} else {
+//						echo CJSON::encode(array('success' => true, 'clean' => true));
+//					}
+//					Yii::app()->end();
+//				}
+//			}
+//			echo CActiveForm::validate($model, null, false);
+//			Yii::app()->end();
+//		}
+//
+//		if($model->isNewRecord){
+//			$model->currency_id = 1; //default EUR currency
+//			$model->each_transfer = 1;
+//			$model->each_period = 3;
+//			$model->execution_time = date('m/d/Y', time()); //default
+//			$model->start_time = date('m/d/Y', time()); //default
+//			$model->end_time = date('m/d/Y', time()+3600*24*365); //default
+//			$model->xabina_execution_time = date('m/d/Y', time()); //default
+//			$model->xabina_start_time = date('m/d/Y', time()); //default
+//			$model->xabina_end_time = date('m/d/Y', time()+3600*24*365); //default
+//			$model->external_execution_time = date('m/d/Y', time()); //default
+//			$model->external_start_time = date('m/d/Y', time()); //default
+//			$model->external_end_time = date('m/d/Y', time()+3600*24*365); //default
+//			$model->country_id = 3205;
+//		} else {
+//			if(!$model->start_time){
+//				$model->start_time = time();
+//			}
+//			if(!$model->end_time){
+//				$model->end_time = time();
+//			}
+//			if(!$model->execution_time){
+//				$model->execution_time = time();
+//			}
+//			$model->xabina_start_time = date('m/d/Y', $model->start_time);
+//			$model->xabina_end_time = date('m/d/Y', $model->end_time);
+//			$model->xabina_execution_time = date('m/d/Y', $model->execution_time);
+//			$model->external_start_time = date('m/d/Y', $model->start_time);
+//			$model->external_end_time = date('m/d/Y', $model->end_time);
+//			$model->external_execution_time = date('m/d/Y', $model->execution_time);
+//			$model->start_time = date('m/d/Y', $model->start_time);
+//			$model->end_time = date('m/d/Y', $model->end_time);
+//			$model->execution_time = date('m/d/Y', $model->execution_time);
+//		}
+//
+//		$this->render('outgoing', array(
+//			'model' => $model,
+//			'currencies' => $currencies,
+//			'countries' => $countries,
+//			'accounts' => $accounts,
+//			'selectedAcc' => $selectedAcc,
+//		));
+//    }
 	
 	public function actionOverview(){
 		$transfers = Transfers_Outgoing::model()->findAll('user_id = :uid AND need_confirm = 1', array('uid' => Yii::app()->user->id));

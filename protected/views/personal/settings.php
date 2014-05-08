@@ -7,7 +7,7 @@
 	</div>
 	<div class="subheader"><?= Yii::t('Front', 'Account Settings'); ?></div>
 	<form name="settings-form" id="settings_form">
-	<table class="table xabina-table table-options">
+	<table class="table xabina-table table-options xabina-table-personal">
 		<tbody><tr class="table-header">
 			<th width="15%"><?= Yii::t('Front', 'Options'); ?></th>
 			<th width="70%"></th>

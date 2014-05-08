@@ -48,21 +48,21 @@
 								<?= chunk_split($transfer->account->number, 4) ?>
 							</td>
 							<td width="30%">
-								<?php switch($transfer->send_to){
+								<?php switch($transfer->form_type){
 											case'own':
-												echo chunk_split($transfer->own_account->number, 4);
+												echo chunk_split($transfer->to_account_number, 4);
 												break;
 											case'xabina':
-												echo chunk_split($transfer->account_number, 4);
+												echo chunk_split($transfer->to_account_number, 4);
 												break;
 											case'external':
-												echo $transfer->account_holder . ' ' . $transfer->external_account_number;
+												echo $transfer->to_account_holder . ' ' . $transfer->to_account_number;
 												break;
 									} ?>
 									<br/>
 									<?=  $transfer->description ?>
 							</td>
-							<td width="14%"><?= ($transfer->execution_time) ? date('m.d.Y', $transfer->execution_time) : Yii::t('Front', 'Start').': '. date('m.d.Y', $transfer->start_time) . ' ' . Yii::t('Front', 'End').': '. date('m.d.Y', $transfer->end_time) ?></td>
+							<td width="14%"><?= ($transfer->frequency_type == 1) ? date('m.d.Y', $transfer->execution_date) : Yii::t('Front', 'Start').': '. date('m.d.Y', $transfer->start_time) . ' ' . Yii::t('Front', 'End').': '. date('m.d.Y', $transfer->end_time) ?></td>
 							<td width="14%"><?= $transfer->amount ?> <span class="currency-code"><?= $transfer->currency->code ?></span></td>
 							<td width="15%" style="text-align: right">
 								<a class="overview-edit" href="<?= Yii::app()->createUrl('/transfers/outgoing', array('transfer' => $transfer->id)); ?>"></a>
