@@ -20,11 +20,8 @@
 					<?php if($addr->address_optional):?>
 						<?= $addr->address_optional ?><br>
 					<?php endif; ?>
-					<?= $addr->indx?><br>
-					<?= $addr->city?>
-					<?php if($addr->country): ?>,
-					<?= $addr->country->name?>
-					<?php endif; ?>
+					<?= $addr->indx?>
+                    <?= $addr->city?><?php if($addr->country): ?> (<?= $addr->country->code?>)<?php endif; ?>
 				</td>
 				<td>
 					<div class="relative">

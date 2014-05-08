@@ -33,14 +33,6 @@ class Transfers_Outgoing extends ActiveRecord
 {
 
 	public static $charges = array('1' => 'Shared (mandatory for EC payments)', 2 => 'Receiver pays the fees', 3 => 'Sender pays the fees');
-	public static $periods = array(1 => 'Day(s)', 2 => 'Week(s)', 3 => 'Month(s)');
-	public $amount_cent;
-	public $xabina_execution_time;
-	public $external_execution_time;
-	public $xabina_start_time;
-	public $external_start_time;
-	public $xabina_end_time;
-	public $external_end_time;
 	
 	const PENDING_STATUS = 0;
 	const APPROVED_STATUS = 1;
@@ -59,57 +51,17 @@ class Transfers_Outgoing extends ActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('amount, currency_id, account_id, send_to', 'required'),
-			array('amount', 'checkBalance', 'message' => Yii::t('Front', 'Not enough money'), 'on' => 'own,xabina,external'),
-			array('own_account_id', 'required', 'on' => 'own'),
-			array('account_number', 'required', 'on' => 'xabina'),
-			array('account_number', 'checkXabinaNumber', 'on' => 'xabina'),
-			array('own_account_id', 'compare', 'compareAttribute' => 'account_id', 'operator' => '!=', 'on' => 'own', 'message' => Yii::t('Front', 'Account number is incorrect')),
-			array('account_holder, external_account_number, currency_id, swift, bank_beneficiary, postcode', 'required', 'on' => 'external'),
-			array('charges, standing, urgent, each_transfer, each_period, need_confirm', 'numerical', 'integerOnly'=>true),
-			array('amount, amount_cent, account_number', 'numerical'),
-			array('account_number', 'length', 'max'=>12, 'min' => 12),
-			array('user_id, currency_id, account_id, country_id', 'length', 'max'=>10),
-			array('send_to', 'length', 'max'=>8),
-			//array('execution_time, start_time, end_time, xabina_execution_time, xabina_start_time, xabina_end_time, external_execution_time, external_start_time, external_end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time())),
-			array('execution_time, start_time, end_time', 'numerical', 'min' => strtotime(date('m/d/Y'), time()), 'on' => 'own,xabina,external', 'tooSmall' => Yii::t('Front', 'Date in not correct')),
-			array('account_holder, swift, bank_beneficiary, postcode, external_account_number', 'length', 'max'=>255),
-			array('description, amount, amount_cent, currency_id, account_id, send_to, execution_time, each_transfer, each_period, start_time, end_time, urgent', 'safe'),
-			array('own_account_id', 'safe', 'on' => 'own'),
-			array('account_number', 'safe', 'on' => 'xabina'),
-			array('account_holder, external_account_number, country_id, swift, bank_beneficiary, postcode, charges', 'safe', 'on' => 'external'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, amount, currency_id, account_id, send_to, account_number, account_holder, country_id, swift, bank_beneficiary, postcode, description, charges, standing, execution_time, urgent, each_transfer, each_period, start_time, end_time, need_confirm, created_at, updated_at', 'safe', 'on'=>'search'),
-		);
-	}
-	
-	public function checkBalance($attribute,$params){
-		if($this->account_id && $this->amount){
-			$account = Accounts::model()->findByPk($this->account_id);
-			if($account->user_id != Yii::app()->user->id){
-				return;
-			}
-			$amount = $this->amount;
-			if($this->amount_cent){
-				$amount = $this->amount.'.'.$this->amount_cent;
-			}
-			if($account->balance < $amount){
-				$this->addError('amount', Yii::t('Front', 'Not enough money'));
-				$this->addError('amount_cent', Yii::t('Front', 'Not enough money'));
-			}
-		}
-	}
-	
-	public function checkXabinaNumber($attribute,$params){
-		if(!AccountService::checkNumber($this->account_number)){
-			$this->addError('account_number', Yii::t('Front', 'Account number is incorrect'));
-		} elseif(!Accounts::model()->find('number = :n', array(':n' => $this->account_number))) {
-			$this->addError('account_number', Yii::t('Front', 'Account number is incorrect'));
-		}
+        return array(
+            array('amount, account_id, account_number, currency_id, charges, form_type', 'required'),
+            array('amount, account_id, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id', 'numerical'),
+            array('urgent, favorite, is_iban', 'boolean'),
+            array('tag1, tag2, tag3, to_account_number', 'length', 'max' => 255),
+            array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
+            array('frequency_type', 'in', 'range' => array(1, 2)),
+            array('description, to_account_holder, bic, bank_name, to_account_number', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+            array('execution_date, start_date, end_date', 'safe'),
+            array('ewallet_type', 'in', 'range' => array_keys(Form_Outgoingtransf_Ewallet::$ewallet_types)),
+        );
 	}
 
 	/**
@@ -122,18 +74,14 @@ class Transfers_Outgoing extends ActiveRecord
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
 			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
-			'own_account' => array(self::BELONGS_TO, 'Accounts', 'own_account_id'),
-			'country' => array(self::BELONGS_TO, 'Countries', 'country_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);
 	}
 
 	public function beforeSave(){
-		if($this->amount_cent){
-			$this->amount = $this->amount.'.'.$this->amount_cent;
-		}
 		if($this->isNewRecord){
+            $this->status = self::PENDING_STATUS;
 			$this->user_id = Yii::app()->user->id;
 		}
 		return parent::beforeSave();
@@ -186,7 +134,6 @@ class Transfers_Outgoing extends ActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -204,7 +151,6 @@ class Transfers_Outgoing extends ActiveRecord
 	
 	public function log()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 

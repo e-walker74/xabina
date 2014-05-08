@@ -8,6 +8,23 @@ function fontScale(scale){
 	   $('body').css({'font-size': '114.3%'});
 }
 
+$.fn.extend( {
+    limiter: function(limit, elem) {
+        $(this).on("keyup focus", function() {
+            setCount(this, elem);
+        });
+        function setCount(src, elem) {
+            var chars = src.value.length;
+            if (chars > limit) {
+                src.value = src.value.substr(0, limit);
+                chars = limit;
+            }
+            elem.html( chars );
+        }
+        setCount($(this)[0], elem);
+    }
+});
+
 
 $(function(){
 	
@@ -732,44 +749,29 @@ $(document).ready(function(){
         return false;
     })
 
-    $('.xabina-accordion').accordion({
-        heightStyle: "content",
-        active: false,
-        collapsible: true
-    });
-
-    $('.details-accordion').accordion({
-        heightStyle: "content",
-        active: 0,
-        collapsible: true
-    });
-
-    $( ".xabina-tabs" ).tabs({
-
-    });
-
 	$('textarea').autosize();
 
-    /**
-     * new transfer page
-     */
-    $('.search-ico').click(function(){
-        $(this).hide();
-        $(this).parents('.search-opt-cont').find('.messages-addressbook').show();
-        $('.messages-header-cont').addClass('open');
-        return false;
-    });
 
-    $('.checkbox-custom').on('click', 'label', function(){
-        if($(this).find('input').prop('checked')){
-            $(this).addClass('checked');
-        }else{
-            $(this).removeClass('checked');
+    var edit = false;
+
+    $('.xabina-table-personal input[type=text], .xabina-table-personal input[type=password], .xabina-table-personal textarea, .xabina-table-personal select').change(function(){
+        if(edit == false){
+            edit = true
+            $(window).bind('beforeunload', function(){
+                return 'Are you sure you want to leave this page? All the changes will not be saved.';
+            });
         }
-    });
+    })
+
+    $('form').on('submit', function(){
+        $(window).unbind('beforeunload')
+    })
+	
 })
 
 var resetPage = function(){
+
+    $(window).unbind('beforeunload')
 
 	/* name page */
 	$(document).find('.edit-doc').hide()
@@ -795,6 +797,11 @@ var resetPage = function(){
 	
 	$('form').trigger('reset')
 
+    $('form select').each(function( index ) {
+        $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
+    })
+
+    $('.checkbox-custom label').removeClass('checked')
 }
 
 $(document).on('click', '.button.cancel', function(){
@@ -804,11 +811,19 @@ $(document).on('click', '.button.cancel', function(){
 var successNotify = function(title, message, element){
 
 	if(element){
-		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": $(element).position().top-40, context: $('.col-lg-9.col-md-9.col-sm-9')};
-	} else {
-		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 45, "firstpos2": 5, context: $('.top-bar .container .clearfix')};
+		var stack_context = {
+            "dir1": "down",
+            "dir2": "left",
+            "firstpos2": 15,
+            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top -40,
+            context: $('.col-lg-9.col-md-9.col-sm-9')
+        };
+	}else if($('.h1-header').length != 0){
+        var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 15, "firstpos1": $('.h1-header:first').position().top-40, context: $('.h1-header:first')};
+    }else {
+		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
 	}
-	$.pnotify({ title: title, text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()-10+'px', stack: stack_context, history: false});
+	$.pnotify({ /*title: title,*/ text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
 
 }
 
@@ -851,5 +866,6 @@ var chechSequrityValuesData = function(){
 	$('form .select-custom-label').html($('#Users_Securityquestions_question_id option:selected').html())
 	
 }
+
 
 
