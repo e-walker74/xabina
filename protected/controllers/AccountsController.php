@@ -185,6 +185,38 @@ class AccountsController extends Controller
 				Yii::app()->end();
                 break;
             case 'doc':
+                $includePath = Yii::getPathOfAlias('application.vendor.phpWord');
+                $tmplPath = Yii::getPathOfAlias('application.views.accounts.transaction');
+                spl_autoload_unregister(array('YiiBaseEx', 'autoload'));
+                require_once $includePath.'/PHPWord.php';
+
+                $PHPWord = new PHPWord();
+
+                spl_autoload_register(array('YiiBaseEx', 'autoload'));
+
+                $document = $PHPWord->loadTemplate($tmplPath.'/transaction_template.docx');
+
+                $this->fillHeaderDocTemplate($document, null, Users::model()->findByPk(Yii::app()->user->id));
+
+                $document->setValue('headerText', Yii::t('Front', 'Indepland - Details overschrijving'));
+
+                $detailTable = array(
+                    'label' => array(),
+                    'value' => array()
+                );
+                foreach($trans->info->getPublicAttrs() as $label => $value) {
+                    $detailTable['label'][] = $label;
+                    $detailTable['value'][] = $value;
+                }
+                $document->cloneRow('detailTable', $detailTable);
+
+                // footer
+                $document->setValue('nowDateVal', date('d.m.Y H:i:s'));
+
+                $fileName = Yii::getPathOfAlias('application.runtime').'/transactions_'.md5(serialize($trans)).'.docx';
+                $document->save($fileName);
+
+                Yii::app()->request->sendFile("transaction{$trans->id}.docx", file_get_contents($fileName), 'application/octet-stream', true);
                 break;
         }
 
@@ -277,17 +309,88 @@ class AccountsController extends Controller
 			$user = Users::model()->findByPk(Yii::app()->user->id);
 			$debit = 0;
 			$credit = 0;
+            $account = Accounts::model()->findByAttributes(array('number'=>$model->account_number));
+            $transactionsTable = array(
+                'date' => array(),
+                'type' => array(),
+                'detailsSender' => array(),
+                'detailsExtra' => array(),
+                'sumInc' => array(),
+                'sumDec' => array(),
+                'balance' => array(),
+            );
 			foreach($transactions as $trans){
+                $transactionsTable['date'][] = date('d.m.Y', $trans->created_at);
+                $transactionsTable['type'][] = $trans->info->type;
+                $transactionsTable['detailsSender'][] = $trans->info->sender;
+                $transactionsTable['detailsExtra'][] = $trans->info->details_of_payment;
+                $transactionsTable['balance'][] = number_format($trans->acc_balance, 2, ".", " ");
+
 				if($trans->type == 'positive'){
+                    $transactionsTable['sumInc'][] = number_format($trans->sum, 2, ".", " ") . $trans->account->currency->code;
+                    $transactionsTable['sumDec'][] = '';
 					$credit = $credit + $trans->sum;
-				}
-				if($trans->type == 'negative'){
-					$debit = $debit + $trans->sum;
+				} else if($trans->type == 'negative'){
+                    $transactionsTable['sumDec'][] = number_format($trans->sum, 2, ".", " ") . $trans->account->currency->code;
+                    $transactionsTable['sumInc'][] = '';
+                    $debit = $debit + $trans->sum;
 				}
 			}
 
-            $html = $this->renderPartial('cardbalance/_doc', array('transactions' => $transactions, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
-            Yii::app()->request->sendFile('test.doc', $html, 'application/octet-stream', true);
+            $includePath = Yii::getPathOfAlias('application.vendor.phpWord');
+            $tmplPath = Yii::getPathOfAlias('application.views.accounts.cardbalance');
+            spl_autoload_unregister(array('YiiBaseEx', 'autoload'));
+            require_once $includePath.'/PHPWord.php';
+
+            $PHPWord = new PHPWord();
+
+            spl_autoload_register(array('YiiBaseEx', 'autoload'));
+
+            $document = $PHPWord->loadTemplate($tmplPath.'/cardbalance_template.docx');
+
+            $this->fillHeaderDocTemplate($document, $model, $user);
+
+            // headers for balance table
+            $document->setValue('currency', Yii::t('Front', 'Currency'));
+            $document->setValue('balanceStarting', Yii::t('Front', 'Balance at the starting date'));
+            $document->setValue('balanceEnding', Yii::t('Front', 'Balance at the ending date'));
+            $document->setValue('credit', Yii::t('Front', 'Credit turnover'));
+            $document->setValue('debit', Yii::t('Front', 'Debit turnover'));
+            // values for balance table
+            $document->setValue('currencyVal', $account->currency->code);
+            $balanceStart = count($transactions) ?
+                reset($transactions)->acc_balance - reset($transactions)->sum :
+                $account->transactions[0]->acc_balance;
+            $balanceEnd = count($transactions) ?
+                end($transactions)->acc_balance :
+                $account->transactions[0]->acc_balance;
+            $document->setValue('balanceStartingVal', number_format($balanceStart, 2, ".", " "));
+            $document->setValue('balanceEndingVal', number_format($balanceEnd, 2, ".", " "));
+            $document->setValue('creditVal', $credit);
+            $document->setValue('debitVal', $debit);
+
+            // headers for transactions table
+            $document->setValue('date', Yii::t('Front', 'Date'));
+            $document->setValue('type', Yii::t('Front', 'Type'));
+            $document->setValue('details', Yii::t('Front', 'Details'));
+            $document->setValue('sum', Yii::t('Front', 'Sum'));
+            $document->setValue('balance', Yii::t('Front', 'Balance'));
+
+            if(count($transactions) == 0) {
+                $document->removeRow('transactionsTable');
+                $document->setValue('noTransactions.val', Yii::t('Front', 'No transactions meet the filter criterias'));
+            } else {
+                $document->cloneRow('transactionsTable', $transactionsTable);
+                $document->removeRow('noTransactions');
+            }
+
+            // footer
+            $document->setValue('nowDateVal', date('d.m.Y H:i:s'));
+
+            $fileName = Yii::getPathOfAlias('application.runtime').'/transactions_'.md5(serialize($model)).'.docx';
+            $document->save($fileName);
+
+            Yii::app()->request->sendFile('transactions.docx', file_get_contents($fileName), 'application/octet-stream', true);
         }
 		Yii::app()->end();
     }
@@ -454,4 +557,49 @@ class AccountsController extends Controller
 		$link->category_id = $cat->id;
 		dd($link->save());
 	}
+
+    /**
+     * @param PHPWord_Template $document
+     * @param Form_Search $model
+     * @param Users $user
+     */
+    private function fillHeaderDocTemplate(&$document, $model=null, $user=null)
+    {
+        if($model) {
+            $periodVal =date('d M', strtotime($model->from_date)) .' - '.(($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time()));
+            $document->setValue('periodVal', $periodVal);
+        }
+
+        // translate for info table
+        $document->setValue('Account_Statement', Yii::t('Front', 'Account Statement'));
+        $document->setValue('client', Yii::t('Front', 'Client').':');
+        $document->setValue('address', Yii::t('Front', 'Address').':');
+        $document->setValue('reg', Yii::t('Front', 'Reg #').':');
+        $document->setValue('account_number_IBAN', Yii::t('Front', 'Account number IBAN').':');
+        $document->setValue('periodFilter', Yii::t('Front', 'Period').':');
+        $document->setValue('transactionsFilter', Yii::t('Front', 'Transactions').':');
+
+        if($model) {
+            $document->setValue('sumFilter', ($model->from_sum != '' || $model->to_sum != '') ? (Yii::t('Front', 'Sum').':') : '');
+            $document->setValue('keywordFilter', ($model->keyword != '') ? (Yii::t('Front', 'Keyword').':') : '');
+        }
+
+        // values for info table
+        if($user) {
+            $document->setValue('clientVal', $user->fullname);
+        }
+        $document->setValue('addressVal', 'Square des Places 1, 1700 Fribourg, Switzerland');
+        $document->setValue('regVal', '2546897');
+        $document->setValue('IBANVal', '254897546212');
+
+        if($model) {
+            $document->setValue('transactionsVal', ($model->type ? Yii::t('Front', ucfirst($model->type)) : Yii::t('Front', 'All')));
+            $document->setValue('sumVal', ($model->from_sum != '' || $model->to_sum != '') ?
+                    (
+                        (($model->from_sum != '') ? Yii::t('Front', 'from') .' '. $model->from_sum:'') .
+                        (($model->to_sum != '') ? Yii::t('Front', 'to') .' '. $model->to_sum:'')
+                    ) : '');
+            $document->setValue('keywordVal', $model->keyword);
+        }
+    }
 }

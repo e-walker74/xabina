@@ -9,7 +9,7 @@
                         'id' => 'searchForm',
                         'htmlOptions' => array(
                             'data-pdf-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'/pdf/'),
-//                            'data-doc-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'doc')),
+                            'data-doc-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'/doc'),
                             'data-csv-url' => $this->createUrl('/banking/accounts/transaction/'.$trans->id.'/csv/')
                         ),
                     )); ?>

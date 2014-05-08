@@ -40,7 +40,7 @@
             </table>
             <table class="pdf-table">
                 <tr>
-                    <th class="detail" colspan="2">Indepland - Details overschrijving</th>
+                    <th class="detail" colspan="2"><?= Yii::t('Front', 'Indepland - Details overschrijving');?></th>
                 </tr>
                 <?php foreach($trans->info->getPublicAttrs() as $label => $value): ?>
                     <tr>
