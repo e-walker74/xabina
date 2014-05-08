@@ -53,6 +53,11 @@ abstract class Form_Outgoingtransf extends CFormModel{
         'month' => 'Month(s)',
         'year'  => 'Year(s)'
     );
+	
+	public function init(){
+		$this->execution_date = date('m/d/Y', time());
+		return parent::init();
+	}
 
     /**
      * save outgoing transfer
