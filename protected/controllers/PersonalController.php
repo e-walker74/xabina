@@ -69,7 +69,7 @@ class PersonalController extends Controller
     {
 
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage email addresses'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My E-Mail addresses'))] = '';
 
 		$model_emails = new Users_Emails('editemails');
 		
@@ -83,7 +83,22 @@ class PersonalController extends Controller
             $model_emails->attributes = $_POST['Users_Emails'];
 			$model_emails->user_id = Yii::app()->user->id;
 			
+			
+			
 			if($model_emails->save()){
+			
+				$mail = new Mail;
+				$mail->send(
+					$model_emails->user, // this user
+					'emailConfirm', // sys mail code
+					array( // params
+						'{:type}' => 'emails',
+						'{:date}' => date('Y m d', time()),
+						'{:activateUrl}' => Yii::app()->getBaseUrl(true).Yii::app()->createUrl('/personal/activate', array('type' => 'emails', 'hash' => $model_emails->hash)),
+					),
+					$model_emails->email
+				);
+			
 				Yii::app()->session['flash_notify'] = array(
 					'title' => Yii::t('Front', 'Email Address'),
 					'message' => Yii::t('Front', 'New email address was added'),
@@ -102,7 +117,7 @@ class PersonalController extends Controller
 	public function actionEditmessagers(){
 	
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage instant messager services'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My instant messengers'))] = '';
 	
 		$model = new Users_Instmessagers();
 		$user = Users::model()->findByPk(Yii::app()->user->id);
@@ -124,6 +139,10 @@ class PersonalController extends Controller
 			}
 			$model->user_id = Yii::app()->user->id;
 			if($model->save()){
+				Yii::app()->session['flash_notify'] = array(
+					'title' => Yii::t('Front', 'Personal Account'),
+					'message' => Yii::t('Front', 'New instant messengers was added'),
+				);
 				$this->redirect(array('/personal/editmessagers'));
 			}
         }
@@ -131,44 +150,11 @@ class PersonalController extends Controller
         $this->render('editinstmessangers', array('model' => $model, 'user' => $user));
 	}
 
-    public function actionSaveemails()
-    {
-
-        $model_emails = new Users_Emails;
-
-        if (Yii::app()->request->isAjaxRequest) {
-
-            if (CActiveForm::validate($model_emails) == '[]') {
-
-                self::saveUsersEmails($_POST['email'], $_POST['type']);
-                self::removeUsersItems($_POST['delete'], $model_emails);
-
-                if(isset($_POST['type_edit'])){
-                    self::editTypeItems($_POST['type_edit'], $model_emails);
-                }
-
-                $html = $this->renderPartial('_emails', array(
-                        'users_emails' => self::getUsersItems($model_emails),
-                        'model_emails' => $model_emails,
-                    ), true, false
-                );
-
-                echo CJSON::encode(array('success' => true, 'html' => $html));
-            } else {
-                echo CActiveForm::validate($model_emails);
-            }
-
-            Yii::app()->end();
-
-        }
-    }
-
-
     public function actionEditphones()
     {
 
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage phones'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My phone numbers'))] = '';
 
         $model_phones = new Users_Phones('editphones');
 		$model_telephones = new Users_Telephones;
@@ -183,6 +169,12 @@ class PersonalController extends Controller
 			$model_phones->attributes = $_POST['Users_Phones'];
 			$model_phones->user_id = Yii::app()->user->id;
 			if($model_phones->save()){
+				
+				Yii::app()->session['flash_notify'] = array(
+					'title' => Yii::t('Front', 'My phone numbers'),
+					'message' => Yii::t('Front', 'New phone number was added'),
+				);
+			
 				$this->redirect(array('/personal/editphones'));
 			}
 
@@ -198,6 +190,12 @@ class PersonalController extends Controller
 			$model_telephones->attributes = $_POST['Users_Telephones'];
 			$model_telephones->user_id = Yii::app()->user->id;
 			if($model_telephones->save()){
+			
+				Yii::app()->session['flash_notify'] = array(
+					'title' => Yii::t('Front', 'Personal Cabinet'),
+					'message' => Yii::t('Front', 'New phone number was added'),
+				);
+			
 				$this->redirect(array('/personal/editphones'));
 			}
             Yii::app()->end();
@@ -248,7 +246,7 @@ class PersonalController extends Controller
     {
 
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage addresses'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My addresses'))] = '';
 	
         $model = new Users_Address('editaddress');
 		$user = Users::model()->findByPk(Yii::app()->user->id);
@@ -269,8 +267,19 @@ class PersonalController extends Controller
 			if($model->isNewRecord){
 				$model->user_id = Yii::app()->user->id;
 			}
-			
+			$model->status = 1;
             if($model->save()){
+				if(isset($_POST['Users_Address']['id'])){
+					Yii::app()->session['flash_notify'] = array(
+						'title' => Yii::t('Front', 'Email Address'),
+						'message' => Yii::t('Front', 'Address was updated'),
+					);
+				} else {
+					Yii::app()->session['flash_notify'] = array(
+						'title' => Yii::t('Front', 'Email Address'),
+						'message' => Yii::t('Front', 'Address was saved'),
+					);
+				}
 				$this->redirect(array('/personal/editaddress'));
 			}
 
@@ -280,38 +289,6 @@ class PersonalController extends Controller
         $this->render('editaddress', array('user' => $user, 'model' => $model));
     }
 
-    public function actionSaveaddress()
-    {
-
-        $model_address = new Users_Address;
-
-        if (Yii::app()->request->isAjaxRequest) {
-
-            if (CActiveForm::validate($model_address) == '[]') {
-
-                self::saveUsersAddress($_POST);
-                self::removeUsersItems($_POST['delete'], $model_address);
-
-                if(isset($_POST['type_edit'])){
-                    self::editTypeItems($_POST['type_edit'], $model_address);
-                }
-
-                $html = $this->renderPartial('_address', array(
-                        'users_address' => self::getUsersItems($model_address),
-                        'model_address' => $model_address,
-                    ), true, false
-                );
-
-                echo CJSON::encode(array('success' => true, 'html' => $html));
-            } else {
-                echo CActiveForm::validate($model_address);
-            }
-
-            Yii::app()->end();
-
-        }
-    }
-
 	public function actionEditname(){
 	
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
@@ -319,8 +296,6 @@ class PersonalController extends Controller
 	
 		//$model = Users::model()->findByPk(Yii::app()->user->id);
 
-		$files1 = Users_Files::model()->findAll('form = "editname" AND document = 1 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
-		$files2 = Users_Files::model()->findAll('form = "editname" AND document = 2 AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id));
 		$model = new Form_Editname_File;
 
 		if (Yii::app()->getRequest()->isAjaxRequest && (Yii::app()->getRequest()->getParam('ajax') == 'editname-from-1' || Yii::app()->getRequest()->getParam('ajax') == 'editname-from-2')) {
@@ -347,79 +322,16 @@ class PersonalController extends Controller
 			Yii::app()->end();
 		}
 
-		if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('success') == 'true'){
-			$success = true;
-			if(empty($files1) || empty($files1)){
-				$success = false;
-			} else {
-				foreach($files1 as $file){
-					if(!$file->document_type){
-						$success = false;
-					}
-				}
-				foreach($files2 as $file){
-					if(!$file->document_type){
-						$success = false;
-					}
-				}
-			}
-
-			if($success){
-				$personalEdit = new Users_Personal_Edit();
-				$personalEdit->user_id = Yii::app()->user->id;
-				$personalEdit->save();
-				Yii::log('User was change personal information', CLogger::LEVEL_INFO);
-				echo CJSON::encode(array('success' => true));
-			}
-			Yii::app()->end();
-		}
 		$user = Users::model()->findByPk(Yii::app()->user->id);
-		$this->render('editname', array('user' => $user, 'model' => $model, 'files1' => $files1, 'files2' => $files2));
-	}
-
-	public function actionUploadFile(){
-		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
-		$documentNum = Yii::app()->request->getParam('doc','int');
-		$countFiles = Users_Files::model()->count('form = "editname" AND document = :docNumb AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id, ':docNumb' => $documentNum));
-		if($countFiles >= 2){
-			echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Many files')));
-			Yii::app()->end();
-		}
-
-		$folder=Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/'; // folder for uploaded files
-		$allowedExtensions = array("jpg","jpeg","gif","png","pdf"); //array("jpg","jpeg","gif","exe","mov" and etc...
-		$sizeLimit = 20 *1024 * 1024; // maximum file size in bytes
-		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
-		$oldUmask = umask ();
-		umask ( 0 );
-		$res = @mkdir ( $folder, 0777, 1);
-		umask ( $oldUmask );
-		$oldUmask = umask ();
-		$uploader->setFileName(mb_substr(md5(Yii::app()->user->name . time()), 5, 10));
-		$result = $uploader->handleUpload($folder);
-		$return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-
-		$fileSize=filesize($folder.$result['filename']); //GETTING FILE SIZE
-		$fileName=$result['filename']; //GETTING FILE NAME
-
-		if($result['success'] == true){
-			$file = new Users_Files();
-			$file->user_id = Yii::app()->user->id;
-			$file->name = $result['filename'];
-			$file->ext = $uploader->getFileExt();
-			$file->form = 'editname';
-			$file->user_file_name = $uploader->getUserFileName();
-			$file->document = $documentNum;
-			if(!$file->save()){
-				dd($file->getErrors());
-			}
-		}
-
-		echo $return;// it's array
-		Yii::app()->end();
+		$this->render('editname', array('user' => $user, 'model' => $model));
 	}
 	
 	public function actionResendSms($id){
+	
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+	
 		$model = Users_Phones::model()->findByPk($id);
 		if($model->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -428,10 +340,12 @@ class PersonalController extends Controller
 		if($model->status == 1 && $model->is_master == 0 && $model->hash){
 			$model->generateHash();
 			$model->save();
+			
 			if(Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1){
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			} else {
 				echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
+				Yii::app()->end();
 			}
 		} elseif($model->status == 0 && $model->is_master == 0 && $model->hash){
 			$user = Users::model()->findByPk(Yii::app()->user->id);
@@ -441,16 +355,20 @@ class PersonalController extends Controller
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			} else {
 				echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
+				Yii::app()->end();
 			}
 
 		}
 		
 		
-		if(Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1){
+		/*if(Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1){
 			Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 		} else {
 			echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
-		}
+			Yii::app()->end();
+		}*/
+		
+		echo CJSON::encode(array('success' => false));
 	}
 	
 	public function actionResendEmail($id){
@@ -500,13 +418,14 @@ class PersonalController extends Controller
 
 	public function actionMakePrimary($type, $id){
 		$model = Users::getModelByType($type)->findByPk($id);
+
 		if(!$model || $model->user_id != Yii::app()->user->id || $model->status == 0 || $model->is_master == 1){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 
 		$reload = false;
 		$message = false;
-
+		$titleMess = false;
 		if($type == 'emails'){
 			$model->generateHash();
 			$model->save();
@@ -552,19 +471,34 @@ class PersonalController extends Controller
 			Users_Socials::model()->updateAll(array('is_master' => 0), 'user_id = :uid', array(':uid' => Yii::app()->user->id));
 			Users_Socials::model()->updateByPk($id, array('is_master' => 1));
 			$reload = true;
+			Yii::app()->session['flash_notify'] = array(
+				'title' => Yii::t('Front', 'Personal Cabinet'),
+				'message' => Yii::t('Front', 'Primary social network was changed'),
+			);
 		} elseif($type == 'instmessagers'){
 			Users_Instmessagers::model()->updateAll(array('is_master' => 0), 'user_id = :uid', array(':uid' => Yii::app()->user->id));
 			Users_Instmessagers::model()->updateByPk($id, array('is_master' => 1));
 			$reload = true;
+			Yii::app()->session['flash_notify'] = array(
+				'title' => Yii::t('Front', 'Personal Cabinet'),
+				'message' => Yii::t('Front', 'Primary instant messenger was changed'),
+			);
 		} elseif($type == 'address'){
 			Users_Address::model()->updateAll(array('is_master' => 0), 'user_id = :uid', array(':uid' => Yii::app()->user->id));
 			Users_Address::model()->updateByPk($id, array('is_master' => 1));
-			$reload = true;
+			
+			/*Yii::app()->session['flash_notify'] = array(
+				'title' => Yii::t('Front', 'Personal Cabinet'),
+				'message' => Yii::t('Front', 'Primary address was changed'),
+			);*/
+			$message = Yii::t('Front', 'Primary address was changed');
+			$titleMess = Yii::t('Front', 'Personal Cabinet');
+			//$reload = true;
 		}
 
-		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload));
+		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload, 'titleMess' => $titleMess));
 	}
-	
+
 	public function actionChangeType($type){
 		$row_id = Yii::app()->request->getParam('row_id', '', 'int');
 		$type_id = Yii::app()->request->getParam('type_id', '', 'int');
@@ -618,7 +552,19 @@ class PersonalController extends Controller
 						'close', // возможность закрыть
 						'green' //желтая рамка
 					);
+					
+					Yii::app()->session['flash_notify'] = array(
+						'title' => Yii::t('Front', 'Personal Cabinet'),
+						'message' => Yii::t('Front', 'Email \"'. $model->user->email .'\" is primary'),
+					);
+					
 				} elseif($type == 'phones') {
+				
+					Yii::app()->session['flash_notify'] = array(
+						'title' => Yii::t('Front', 'Personal Cabinet'),
+						'message' => Yii::t('Front', 'Phone \"+'. $model->user->phone .'\" is primary'),
+					);
+				
 					Yii::app()->user->addNotification(
 						'is_master_new_'.$type, //код
 						'Phone "'. $model->user->phone .'" is primary',
@@ -636,6 +582,12 @@ class PersonalController extends Controller
 			if($type == 'phones'){
 				Yii::app()->user->removeNotification('mobile_activation');
 			}
+			
+			Yii::app()->session['flash_notify'] = array(
+				'title' => Yii::t('Front', 'Personal Cabinet'),
+				'message' => Yii::t('Front', 'You have successfully activated new '.$type),
+			);
+			
 			Yii::app()->user->addNotification(
 				'activate_new_'.$model->id, //код
 				'You have successfully activated new '.$type,
@@ -762,44 +714,6 @@ class PersonalController extends Controller
         return true;
     }
 
-    /**
-     * @param array $arr_post_address
-     * @param array $arr_post_type
-     * @return bool
-     */
-    private static function saveUsersAddress(array $post)
-    {
-        foreach ($post['address'] as $k => $adr) {
-            if (!empty($adr)) {
-                $model_address = new Users_Address;
-
-                $model_address->address = $adr;
-
-                if (!empty($post['address_optional'][$k])) {
-                    $model_address->address_optional = $post['address_optional'][$k];
-                }
-                if (!empty($post['indx'][$k])) {
-                    $model_address->indx = $post['indx'][$k];
-                }
-                if (!empty($post['city'][$k])) {
-                    $model_address->city = $post['city'][$k];
-                }
-                if (!empty($post['country_id'][$k])) {
-                    $model_address->country_id = (int)$post['country_id'][$k];
-                }
-                if (!empty($post['type'][$k])) {
-                    $model_address->email_type_id = (int)$post['type'][$k];
-                }
-
-                $model_address->user_id = Yii::app()->user->id;
-
-                $model_address->save();
-            }
-        }
-        return true;
-
-    }
-
 	public function actionTestSms(){
 		
 	}
@@ -807,7 +721,7 @@ class PersonalController extends Controller
     public function actionEditSocials(){
 	
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage soccial networks'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My social networks'))] = '';
 	
 		$service = Yii::app()->request->getQuery('service');
         if (isset($service)) {
@@ -824,12 +738,20 @@ class PersonalController extends Controller
                 if ($identity->authenticate()) {
                     Yii::app()->user->login($identity);
                     if($identity->addNewSocial){
+						Yii::app()->session['flash_notify'] = array(
+							'title' => Yii::t('Front', 'Personal Account'),
+							'message' => Yii::t('Front', 'New social network was added'),
+						);
                         Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                     }
                     // special redirect with closing popup window
                     $authIdentity->redirect();
                 } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
+					Yii::app()->session['flash_notify'] = array(
+						'title' => Yii::t('Front', 'Personal Account'),
+						'message' => Yii::t('Front', 'New social network was added'),
+					);
                     $authIdentity->redirect();
                 } else {
                     // close popup window and redirect to cancelUrl
@@ -850,7 +772,7 @@ class PersonalController extends Controller
 	public function actionEditQustions(){
 	
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Manage Security Questions'))] = '';
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My security questions'))] = '';
 	
 		$model = new Users_Securityquestions();
 		$user = Users::model()->findByPk(Yii::app()->user->id);
@@ -877,6 +799,10 @@ class PersonalController extends Controller
 				Yii::app()->end();
 			}
 			if($model->save()){
+				Yii::app()->session['flash_notify'] = array(
+					'title' => Yii::t('Front', 'Email Address'),
+					'message' => Yii::t('Front', 'New security question was added'),
+				);
 				$this->redirect(array('/personal/editqustions'));
 			}
             Yii::app()->end();
@@ -891,6 +817,9 @@ class PersonalController extends Controller
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		
+		$mesTitle = false;
+		$message = false;
+		$reload = false;
 		$return = true;
 		switch($type){
 			case 'social':
@@ -899,15 +828,21 @@ class PersonalController extends Controller
 					$soc->getProvider()->delete();
 					$soc->delete();
 				}
+				$mesTitle = Yii::t('Front', 'Personal Cabinet');
+				$message = Yii::t('Front', 'Social network was deleted from your profile');
 				break;
 			case 'messager':
 				$mes = Users_Instmessagers::model()->findByPk($id);
 				$mes->delete();
+				$mesTitle = Yii::t('Front', 'Personal Cabinet');
+				$message = Yii::t('Front', 'Instant messenger was deleted from your profile');
 				break;
 			case 'phones':
 				$mes = Users_Phones::model()->findByPk($id);
 				if($mes->user->phone != $mes->phone){
 					$mes->delete();
+					$mesTitle = Yii::t('Front', 'Personal Cabinet');
+					$message = Yii::t('Front', 'Mobile Phone was deleted from your profile');
 				} else {
 					$return = false;
 				}
@@ -916,6 +851,8 @@ class PersonalController extends Controller
 				$mes = Users_Emails::model()->findByPk($id);
 				if($mes->user->email != $mes->email){
 					$mes->delete();
+					$mesTitle = Yii::t('Front', 'Personal Cabinet');
+					$message = Yii::t('Front', 'Email address was deleted from your profile');
 				} else {
 					$return = false;
 				}
@@ -924,12 +861,20 @@ class PersonalController extends Controller
 				$qust = Users_Securityquestions::model()->findByPk($id);
 				if($qust->user_id == Yii::app()->user->id){
 					$qust->delete();
+					$mesTitle = Yii::t('Front', 'Personal Cabinet');
+					$message = Yii::t('Front', 'Security question was deleted from your profile');
+				}
+				$count = Users_Securityquestions::model()->count('user_id = :uid', array(':uid' => Yii::app()->user->id));
+				if($count < 2){
+					$reload = true;
 				}
 				break;
 			case 'address':
 				$addr = Users_Address::model()->findByPk($id);
 				if($addr->user_id == Yii::app()->user->id && $addr->is_master != 1){
 					$addr->delete();
+					$mesTitle = Yii::t('Front', 'Personal Cabinet');
+					$message = Yii::t('Front', 'Address was deleted from your profile');
 				} else {
 					$return = false;
 				}
@@ -938,26 +883,28 @@ class PersonalController extends Controller
 				$telephone = Users_Telephones::model()->findByPk($id);
 				if($telephone->user_id == Yii::app()->user->id){
 					$telephone->delete();
+					$mesTitle = Yii::t('Front', 'Personal Cabinet');
+					$message = Yii::t('Front', 'Phone number was deleted from your profile');
 				} else {
 					$return = false;
 				}
 				break;
 		}
 
-		echo CJSON::encode(array('success' => $return));
+		echo CJSON::encode(array('success' => $return, 'mesTitle' => $mesTitle, 'message' => $message, 'reload' => $reload));
 	}
 	
 	public function actionEditPins(){
-	
+
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Password Settings'))] = '';
-		
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My passwords'))] = '';
+
 		$model = Users_Pins::model()->find('user_id = :uid', array(':uid' => Yii::app()->user->id));
 		if(!$model){
 			$model = new Users_Pins;
 			$model->user_id = Yii::app()->user->id;
 		}
-		
+
 		if(isset($_POST['Users_Pins'])){
 			if(isset($_POST['Users_Pins']['pin1'])){
 				$model->scenario = 'pin1';
@@ -967,12 +914,12 @@ class PersonalController extends Controller
 				$model->scenario = 'pin3';
 			}
 		}
-		
+
 		if (isset($_POST['ajax'])) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-		
+
 		if(isset($_POST['Users_Pins'])){
 			$model->attributes = $_POST['Users_Pins'];
 			if(isset($_POST['Users_Pins']['confirm_pass'])){
@@ -980,10 +927,14 @@ class PersonalController extends Controller
 			}
 
 			if($model->save()){
+				Yii::app()->session['flash_notify'] = array(
+					'title' => Yii::t('Front', 'Email Address'),
+					'message' => Yii::t('Front', 'Password was saved'),
+				);
 				$this->redirect(array('/personal/editpins'));
 			}
 		}
-	
+
 		$this->render('pins', array('model' => $model));
 	}
 
@@ -1000,8 +951,16 @@ class PersonalController extends Controller
 			$user->settings->language = $user->lang;
 			$user->settings->statement_language = $user->lang;
 			$user->settings->font_size = 14;
-			$user->settings->time_zone = 1;
-			$user->settings->currency = 1;
+			
+			$address = Users_Address::model()->find('user_id = :uid AND is_master = 1', array(':uid' => Yii::app()->user->id));
+			$user->settings->time_zone_id = 276; // NL
+			if($address){
+				$zone = Zone::model()->find('country_code = :code', array(':code' => $address->country->code));
+				if($zone){
+					$user->settings->time_zone_id = $zone->zone_id;
+				}
+			}
+			$user->settings->currency_id = 1;
 			$user->settings->save();
 		}
 		

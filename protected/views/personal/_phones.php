@@ -23,9 +23,17 @@
             
         </th>
     </tr>
+	
+	<tr class="comment-tr empty-row" <?php if(!empty($user->telephones)): ?>style="display:none"<?php endif; ?>>
+		<td colspan="3" style="line-height: 1.43!important">
+			<span class="rejected">
+			<?= Yii::t('Front', 'You have not added any phones yet. You can add new phone by clicking "Add new" button.'); ?>
+		</td>
+	</tr>
+	
     <? foreach ($user->telephones as $users_phone): ?>
-        <tr class="form-sms-tr">
-            <td>+<?= $users_phone->number ?></td>
+        <tr class="form-sms-tr phone-row">
+            <td><?= $users_phone->number ?></td>
             <td>
                 <div class="relative">
                     <!--<span class="dropdown_button types_dropdown">-->
@@ -43,18 +51,18 @@
         </tr>
     <? endforeach; ?>
 	<tr>
-			<td class="add-new-td" colspan="3">
-				<a class="table-btn" onclick="resetPage(); $(this).parents('tr').hide(); $(this).parents('form').find('.prof-form').toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
-			</td>
-		</tr>
-		<tr class="prof-form" style="overflow: hidden;">
-			<td colspan="3" class="table-form-subheader">
-				<div class="table-subheader"><?= Yii::t('Front', 'Add phone number'); ?></div>
-			</td>
-		</tr>
+		<td class="add-new-td" colspan="3">
+			<a class="table-btn" onclick="resetPage(); $(this).parents('tr').hide(); $(this).parents('form').find('.prof-form').toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
+		</td>
+	</tr>
+	<tr class="prof-form" style="overflow: hidden;">
+		<td colspan="3" class="table-form-subheader">
+			<div class="table-subheader"><?= Yii::t('Front', 'Add phone number'); ?></div>
+		</td>
+	</tr>
     <tr class="prof-form emails-form-tr">
-        <td>
-            <div class="field-row">
+        <td colspan="3">
+            <div class="field-row left-coll">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Phone'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
@@ -63,9 +71,7 @@
                     <?= $form->error($model_telephones, 'number'); ?>
                 </div>
             </div>
-        </td>
-        <td colspan="3">
-            <div class="field-row edit-select">
+			<div class="field-row right-coll edit-select">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Phone Type'); ?>
                     <span class="tooltip-icon"
@@ -82,45 +88,16 @@
 							'data-v' => 'type_id',
 							'options' => array('' => array('disabled' => true)),
                         )); ?>
+						<?= $form->error($model_telephones, 'email_type_id'); ?>
                     </div>
-                    <?= $form->error($model_telephones, 'email_type_id'); ?>
+                    
                     <span class="validation-icon"></span>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="field-row">
-                        <div class="field-lbl">
-                            <?= Yii::t('Front', 'Phone Type'); ?>
-                            <span class="tooltip-icon"
-                                  title="<?= Yii::t('Front', 'You can upload a file to one of the formats: PDF, JPG, PNG, GIF'); ?>"></span>
-                        </div>
-                        <div class="field-input ">
-                            <div class="select-custom">
-                                <span class="select-custom-label">
-                                    <?= Yii::t('Front', 'Choose'); ?>
-                                </span>
-                                <?=
-                                $form->dropDownList($model_telephones, 'email_type_id', Users_EmailTypes::all(), array(
-                                    'class' => 'country-select select-invisible item1','data-v' => 'type_id'
-                                )); ?>
-                            </div>
-                            <?= $form->error($model_telephones, 'email_type_id'); ?>
-                            <span class="validation-icon"></span>
-                        </div>
-                    </div>
-            <!--<div class="edit-add-button"
-                 onclick="js:add_temp_user_datas('<?= $this->createUrl('personal/editphones', array('ajax' => 'user_datas')) ?>', this)">
-                <?= Yii::t('Front', 'Add'); ?>
-            </div>-->
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2">
-                    <div class="field-row">
-                        <div class="field-lbl">&nbsp;</div>
-                        <div class="field-input">
-			                <input type="submit" class="violet-button-slim-square" value="<?= Yii::t('Front', 'Add'); ?>" />
-                        </div>
-                    </div>
-                </div>
             </div>
+			<div class="transaction-buttons-cont">
+				<input type="submit" class="button ok" value="" />
+				<a class="button cancel" href="javaScript:void(0)"></a>
+			</div>
         </td>
     </tr>
 </table>
@@ -138,7 +115,13 @@ $(document).ready(function(){
 		popout: true,
 		onConfirm: function(){
 			link = $(this).parents('.popover').prev('a')
-			deleteRow(link);
+			deleteRow(link, function(){
+				if($('.phone-row').length == 0){
+					$('.empty-row').show()
+				} else {
+					$('.empty-row').hide()
+				}
+			});
 			return false;
 		}
 	})

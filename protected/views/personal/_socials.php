@@ -9,9 +9,6 @@
 			<th style="width: 15%"><?= Yii::t('Front', 'Status'); ?></th>
 			<th style="width: 5%"></th>
 		</tr>
-		<tr class="comment-tr">
-			<td colspan="6"><?= Yii::t('Front', 'Description for social networks'); ?></td>
-		</tr>
 		<?php $user = Users::model()->findByPk(Yii::app()->user->id) ?>
 
 		<?php foreach($user->socials as $soc): ?>
@@ -28,12 +25,23 @@
 					<?php endif; ?>
 				</td>
 				<td class="actions-td">
+					<?php if(!$soc->is_master):?>
 					<div class="transaction-buttons-cont">
-						<a class="button delete" href="javaScript:void(0)" onclick="js:confirm('<?= Yii::t('Front', 'Are you sure you want to delete this network from profile?') ?>') ? deleteRow('<?= Yii::app()->createUrl('/personal/delete', array('type' => 'social', 'id' => $soc->id)) ?>', this) : false;" ></a>
+						<a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'social', 'id' => $soc->id)) ?>" ></a>
 					</div>
+					<?php endif;?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
+		<?php if(!$user->socials): ?>
+		<tr class="comment-tr">
+			<td colspan="6" style="line-height: 1.43!important">
+				<span class="rejected">
+					<?= Yii::t('Front', 'You have not added any social network yet. You can add new social network by clicking "Add new" button.') ?>
+				</span>
+			</td>
+		</tr>
+		<?php endif; ?>
 		<tr>
 			<td class="add-new-td" colspan="6">
 				<?php $this->widget('application.ext.eauth.EAuthWidget', array('action' => '/personal/editsocials')); ?>
@@ -47,3 +55,21 @@
 	<div class="clearfix"></div>
 </div>
 <?php Yii::app()->clientScript->registerScriptFile('http://vkontakte.ru/js/api/openapi.js'); ?>
+
+<script>
+
+$(document).ready(function(){
+
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+
+})
+
+</script>

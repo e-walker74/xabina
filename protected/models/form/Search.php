@@ -45,7 +45,7 @@ class Form_Search extends CFormModel
 	public function searchUserTransactions(){
 		$criteria=new CDbCriteria;
 		
-		$criteria->params = array(':uid' => Yii::app()->user->id, ':keyword' => '%'.$this->keyword.'%');
+		$criteria->params = array(':uid' => Yii::app()->user->id);
 		$criteria->condition = 'account.user_id = :uid
 		';
 		if($this->keyword){
@@ -58,6 +58,7 @@ class Form_Search extends CFormModel
 					info.details_of_payment LIKE :keyword
 				)
 			';
+            $criteria->params[':keyword'] = '%'.$this->keyword.'%';
 		}
 		if($this->type == 'incoming'){
 			$criteria->condition .= 'AND t.type = "positive"
@@ -66,7 +67,12 @@ class Form_Search extends CFormModel
 			$criteria->condition .= 'AND t.type = "negative"
 			';
 		}
-		
+
+        if($this->account_number){
+            $criteria->condition .= 'AND account.number = :account_number';
+            $criteria->params[':account_number'] = $this->account_number;
+        }
+
 		if($this->from_date){
 			$criteria->compare('t.created_at', '>='.strtotime($this->from_date));
 		} 

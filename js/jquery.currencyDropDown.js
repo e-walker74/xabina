@@ -95,7 +95,8 @@
             var dropDown = '<ul class="dropdown_list list-unstyled ' + options.listClass + '">';
             for ( var prop in options.list ){
 				if(options.list[prop].id){
-					dropDown += '<li><a href="#" data-id=' + options.list[prop].id +'>'+  options.list[prop].name +'</a></li>';
+                    var className = options.list[prop].class?options.list[prop].class:'';
+					dropDown += '<li><a href="#" class="'+className+'" data-id=' + options.list[prop].id +'>'+  options.list[prop].name +'</a></li>';
 				} else {
 					dropDown += '<li><a href="#">'+  options.list[prop] +'</a></li>';
 				}

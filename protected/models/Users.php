@@ -130,19 +130,20 @@ class Users extends ActiveRecord
 			'notifications_active' => array(self::HAS_MANY, 'Users_Notification', 'user_id', 'condition' => 'closed = 0'),
 			'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
             'emails' => array(self::HAS_MANY, 'Users_Emails', 'user_id'),
-			'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id'),
+			'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id', 'order' => 'is_master desc, created_at desc'),
 			'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
             'vkontakte' => array(self::HAS_MANY, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_MANY, 'Users_Providers_Facebook', 'user_id'),
             'linkedin' => array(self::HAS_MANY, 'Users_Providers_Linkedin', 'user_id'),
             'twitter' => array(self::HAS_MANY, 'Users_Providers_Twitter', 'user_id'),
-            'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id'),
-			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'created_at asc'),
+            'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id', 'order' => 'is_master desc, created_at desc'),
+			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at desc'),
 			'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
 			'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
+            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
         );
     }
 

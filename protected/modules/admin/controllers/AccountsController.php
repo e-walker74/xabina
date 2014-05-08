@@ -42,6 +42,8 @@ class AccountsController extends Controller
                 $model_address->indx = $model->zip_code;
                 $model_address->city = $model->town;
                 $model_address->country_id = $model->country_id;
+				
+				$model_address->is_master = 1;
 
                 $model_address->user_id = $model->user->id;
                 $model_address->email_type_id = 3; // set default!!!

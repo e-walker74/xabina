@@ -5,13 +5,13 @@
 	<div class="h1-header">
 		<?= Yii::t('Front', 'My personal cabinet'); ?>
 	</div>
-	<div class="subheader"><?= Yii::t('Front', 'Manage settings'); ?></div>
+	<div class="subheader"><?= Yii::t('Front', 'Account Settings'); ?></div>
 	<form name="settings-form" id="settings_form">
-	<table class="table xabina-table table-options">
+	<table class="table xabina-table table-options xabina-table-personal">
 		<tbody><tr class="table-header">
 			<th width="15%"><?= Yii::t('Front', 'Options'); ?></th>
-			<th width="80%"></th>
-			<th width="5%"></th>
+			<th width="70%"></th>
+			<th width="15%"></th>
 		</tr>
 		<tr class="user-settings-data">
 			<td><?= Yii::t('Front', 'Language'); ?></td>
@@ -30,9 +30,10 @@
 					<?= CHtml::activeDropDownList($user->settings, 'language', Languages::$languages, array('class' => 'select-invisible')) ?>
 				</div>
 			</td>
-			<td>
+			<td style="width:50px">
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -55,7 +56,8 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -74,22 +76,22 @@
 				<div class="select-custom ">
 					<span class="select-custom-label"><?= $user->settings->font_size ?>px</span>
 					<?= CHtml::activeDropDownList($user->settings, 'font_size', array(
-						'10' => '10px',
-						'12' => '12px',
 						'14' => '14px',
 						'16' => '16px',
+						'18' => '18px',
 					), array('class' => 'select-invisible')) ?>
 				</div>
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
 		<tr class="user-settings-data">
 			<td><?= Yii::t('Front', 'Time zone'); ?></td>
-			<td class="data"><?= $user->settings->time_zone ?></td>
+			<td class="data"><?= $user->settings->time_zone->zone_name ?></td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="#" class="button edit"></a>
@@ -100,16 +102,14 @@
 			<td><?= Yii::t('Front', 'Time zone'); ?></td>
 			<td>
 				<div class="select-custom ">
-					<span class="select-custom-label"><?= $user->settings->time_zone ?></span>
-					<?= CHtml::activeDropDownList($user->settings, 'time_zone', array(
-						'1' => '1',
-						'2' => '3',
-					), array('class' => 'select-invisible')) ?>
+					<span class="select-custom-label"><?= $user->settings->time_zone->zone_name ?></span>
+					<?= CHtml::activeDropDownList($user->settings, 'time_zone_id', CHtml::listData(Zone::model()->findAll(array('order' => 'zone_name asc')), 'zone_id', 'zone_name'), array('class' => 'select-invisible')) ?>
 				</div>
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -134,7 +134,8 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a href="#" class="button ok"></a>
+					<input type="submit" class="button ok" value="" />
+					<a class="button cancel" href="javaScript:void(0)"></a>
 				</div>
 			</td>
 		</tr>
@@ -152,15 +153,11 @@
 <script>
 	
 	$('.edit').click(function(){
-		reset_setings()
+		resetPage()
 		$(this).parents('tr').hide().next('.edit-block').show()
 		return false;
 	})
 	
-	var reset_setings = function(){
-		$('.edit-block').hide();
-		$('.user-settings-data').show();
-	}
 	
 	$('.ok').click(function(){
 		row = $(this).parents('tr')
@@ -170,8 +167,10 @@
 			success: function(data){
 				if(data.success){
 					successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>')
-					row.prev('.user-settings-data').find('.data').html(row.find('select option:selected').text())
-					reset_setings()
+                    var text = row.find('select option:selected').text()
+                    var datafield = row.prev('.user-settings-data').find('.data')
+                    datafield.html(text)
+					resetPage()
 				}
 			},
 			dataType: 'json',

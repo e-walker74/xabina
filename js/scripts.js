@@ -8,6 +8,23 @@ function fontScale(scale){
 	   $('body').css({'font-size': '114.3%'});
 }
 
+$.fn.extend( {
+    limiter: function(limit, elem) {
+        $(this).on("keyup focus", function() {
+            setCount(this, elem);
+        });
+        function setCount(src, elem) {
+            var chars = src.value.length;
+            if (chars > limit) {
+                src.value = src.value.substr(0, limit);
+                chars = limit;
+            }
+            elem.html( chars );
+        }
+        setCount($(this)[0], elem);
+    }
+});
+
 
 $(function(){
 	
@@ -88,8 +105,10 @@ $(function(){
 
 	$('#steps').on('click', '.remove-file.on-success', function(){
 		block = $(this).parents('.file-row')
+		backgroundBlack()
 		$.post(window.location.href, {deleteFile: $(this).parents('.file-row').find('input').val()}, function(){
 			block.remove()
+			dellBackgroundBlack()
 		})
 		
 	})
@@ -139,11 +158,12 @@ $(function(){
 	save_datas = function(url, button){
 		// удаляем  клонированные tr если на них есть класс remove
 	    $(".line-template.remove").remove();
+		backgroundBlack()
 		var form = $(button).parents('form');
 		$.ajax({
 			url: url,
 			success: function(data) {
-				//alert(data);
+				dellBackgroundBlack()
 				var response = $.parseJSON (data);
 				if(response.success){
 					$(window).unbind('beforeunload')
@@ -170,13 +190,13 @@ $(function(){
   * Временное заполенение таблицы данными о юзере
   */
   add_temp_user_datas = function(url, button){
-
+		backgroundBlack()
 		var form = jQuery(button).parents("form");
 		//alert(form.attr('id')); 
 		$.ajax({
 			url: url,
 			success: function(data) {
-				
+				dellBackgroundBlack()
 				$(window).bind('beforeunload', function(){
 					return 'Are you sure you want to leave this page? All the changes will not be saved.';
 				});
@@ -292,10 +312,12 @@ $(function(){
  	})
 	
 	uploadFile = function(button){
+		backgroundBlack()
 		var form = jQuery(button).parents('form')
 		$.ajax({
 			url: form.attr('action'),
 			success: function(data) {
+				dellBackgroundBlack()
 				var response= jQuery.parseJSON (data);
 				if(response.success){
 					form.addClass('success')
@@ -335,9 +357,11 @@ $(function(){
 			}
 		})
 		if(success){
+			backgroundBlack()
 			$.ajax({
 				url: url,
 				success: function(data) {
+				dellBackgroundBlack()
 					var response= jQuery.parseJSON (data);
 					if(response.success){
 						$(document).find("input").parent().addClass("valid")
@@ -364,7 +388,8 @@ $(function(){
 	});
 	
 	searchTransactions = function(button){
-		form = $(button).parents('form')
+		var form = $(button).parents('form');
+        form.find('.refresh-button').fadeIn();
 		$.ajax({
 			url: form.action,
 			success: function(data) {
@@ -372,6 +397,7 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html)
 				}
+                form.find('.refresh-button').fadeOut();
 			},
 			cache:false,
 			data: form.serialize(),
@@ -379,20 +405,22 @@ $(function(){
 		});
 	}
 	
-	downloadPdf = function(){
+	downloadPdf = function(e){
 		form = $('#searchForm')
-		url = form.attr('data-pdf-url') + "?" + form.serialize();
+		url = form.attr('data-'+e.target.innerText.toLowerCase()+'-url') + "?" + form.serialize();
 		window.open(url)
 	}
 	
 	makePrimary = function(url){
+		backgroundBlack()
 		$.ajax({
 			url: url,
 			success: function(data) {
+				dellBackgroundBlack()
 				var response= jQuery.parseJSON (data);
 				if(response.success){
 					if(response.message){
-						successNotify('Primary', response.message)
+						successNotify(response.titleMess, response.message)
 					}
 					if(response.reload){
 						location.reload()
@@ -405,18 +433,30 @@ $(function(){
 		});
 	}
 	
-	deleteRow = function(link){
-	
+	deleteRow = function(link, callback){
+		backgroundBlack()
 		$.ajax({
 			url: $(link).attr('data-url'),
 			success: function(data) {
+				dellBackgroundBlack()
 				var response= jQuery.parseJSON (data);
 				if(response.success){
+				
+					if(response.message){
+						successNotify(response.mesTitle, response.message, link)
+					}
+				
 					if($(link).parents('tr').prev('tr').hasClass('email-comment-tr')){
 						$(link).parents('tr').prev('tr').remove()
 					}
 					$(link).parents('tr').remove()
+					
+					
+					if(response.reload){
+						location.reload()
+					}
 				}
+				callback()
 			},
 			cache:false,
 			data: {},
@@ -426,10 +466,12 @@ $(function(){
 	
 	activatePhone = function(url, link){
 		value = $(link).parents('.field-row').find('.input-text-sms').val();
+		backgroundBlack()
 		if(value){
 			$.ajax({
 				url: url+value,
 				success: function(data) {
+					dellBackgroundBlack()
 					var response = jQuery.parseJSON (data);
 					if(response.success){
 						location.reload()
@@ -578,7 +620,21 @@ $(document).ready(function(){
 	if($('.download-button').length != 0)
 	$('.download-button').tempDropDown({
 		list: {
-		   PDF: 'PDF'
+		   PDF: {
+               id : 'pdf',
+               name : 'PDF',
+               class : 'PDF'
+           },
+           DOC : {
+               id : 'doc',
+               name : 'DOC',
+               class : 'DOC'
+           },
+           CSV : {
+               id : 'csv',
+               name : 'CSV',
+               class : 'XLS'
+           }
 		   /*,Other: 'Other'
 		   PDF : 'PDF' ,
            XLS : 'XLS' ,
@@ -593,7 +649,9 @@ $(document).ready(function(){
 	if($('#addNotes').length != 0){
 		$('#addNotes').on('submit', function(ev) {
 			var data = $('#addNotes').serialize();
+			backgroundBlack()
 			$.post($('#addNotes').attr('action'), data, function(data){
+				dellBackgroundBlack()
 				if(data.success){
 					$('#notes-list').html(data.html)
 					$('html, body').animate({
@@ -638,7 +696,7 @@ $(document).ready(function(){
 		});
 		return false;
 	})
-	
+
 	$( ".escape-dialog" ).dialog({
         autoOpen: false,
         appendTo: '#top_container .clearfix',
@@ -676,7 +734,7 @@ $(document).ready(function(){
         minHeight: 0,
         show: 'fadeIn'
     });
-	
+
 	if($('.remove-with-dialog').length != 0)
 	$('.remove-with-dialog').click(function() {
         var $dialog =  $( ".remove-dialog" );
@@ -690,31 +748,92 @@ $(document).ready(function(){
         $dialog.dialog( "open" );
         return false;
     })
-	
+
 	$('textarea').autosize();
+
+
+    var edit = false;
+
+    $('.xabina-table-personal input[type=text], .xabina-table-personal input[type=password], .xabina-table-personal textarea, .xabina-table-personal select').change(function(){
+        if(edit == false){
+            edit = true
+            $(window).bind('beforeunload', function(){
+                return 'Are you sure you want to leave this page? All the changes will not be saved.';
+            });
+        }
+    })
+
+    $('form').on('submit', function(){
+        $(window).unbind('beforeunload')
+    })
+	
 })
 
 var resetPage = function(){
+
+    $(window).unbind('beforeunload')
+
+	/* name page */
 	$(document).find('.edit-doc').hide()
 	$(document).find('.not-edit-doc').show()
+	
+	/* phones page */
 	$(document).find('.prof-form').hide()
 	$(document).find('.add-new-td').parents('tr').show()
+	
+	/* addresses page */
+	$('.address-tr').show();
+	$('.edit-address-tr').hide();
+	$('.add-new-td').parent().show()
+	$('.prof-form').hide()
+	
+	/* pins page */
+	$('.transaction-buttons-cont .edit').show()
+	$('.edit-form').hide()
+	
+	/* settings page */
+	$('.edit-block').hide();
+	$('.user-settings-data').show();
+	
+	$('form').trigger('reset')
+
+    $('form select').each(function( index ) {
+        $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
+    })
+
+    $('.checkbox-custom label').removeClass('checked')
 }
 
 $(document).on('click', '.button.cancel', function(){
 	resetPage()
 })
 
-var successNotify = function(title, message){
-	var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 45, "firstpos2": 5};
-	$.pnotify({ title: title, text: message, type: 'success', delay: 3000, width: '700px', stack: stack_context, history: false});
+var successNotify = function(title, message, element){
+
+	if(element){
+		var stack_context = {
+            "dir1": "down",
+            "dir2": "left",
+            "firstpos2": 15,
+            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top -40,
+            context: $('.col-lg-9.col-md-9.col-sm-9')
+        };
+	}else if($('.h1-header').length != 0){
+        var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 15, "firstpos1": $('.h1-header:first').position().top-40, context: $('.h1-header:first')};
+    }else {
+		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
+	}
+	$.pnotify({ /*title: title,*/ text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
+
 }
 
+/*
 $(document).bind("ajaxSend", function(){
    backgroundBlack()
 }).bind("ajaxComplete", function(){
    dellBackgroundBlack()
 });
+*/
 
 var backgroundBlack = function(){
 
@@ -730,11 +849,22 @@ var backgroundBlack = function(){
 	$('body').css({overflow: 'hidden'})
 	
 	$("#TB_overlay").fadeIn("fast");
+
 }
 
 var dellBackgroundBlack = function(){
 	$("#TB_overlay").remove();
 	$('body').css({overflow: 'auto'})
+}
+
+var chechSequrityValuesData = function(){
+	$('#Users_Securityquestions_question_id option').show().prop('disabled', false);
+	$('.question-row').each(function(){
+		$('#Users_Securityquestions_question_id option[value='+$(this).attr('data-value')+']').hide().prop('disabled', true);
+	})
+	$('#Users_Securityquestions_question_id option:not(:disabled)').first().attr('selected', true)
+	$('form .select-custom-label').html($('#Users_Securityquestions_question_id option:selected').html())
+	
 }
 
 

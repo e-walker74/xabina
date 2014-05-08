@@ -98,7 +98,7 @@
 						<tr class="table-header">
 							<th><?= Yii::t('Front', 'Add Attachments'); ?></th>
 						</tr>
-						<tr class="add-attachment-form">
+						<tr class="">
 							<td>
 								<?php $this->widget('WidgetUpload', array('inTable' => false))->html($user->personal)?>
 								

@@ -88,7 +88,7 @@
 			</td>
 		</tr>
 	<tr class="prof-form emails-form-tr">
-        <td colspan="3">
+        <td colspan="4">
             <div class="field-row inline-form">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'E-mail'); ?>
@@ -116,17 +116,12 @@
 							'options' => array('' => array('disabled' => true)),
                         )); ?>
 
-                            </div>
+					</div>
                             <?= $form->error($model_emails, 'email_type_id'); ?>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </td>
-        <td>
+				</div>
+			</div>
 			<div class="transaction-buttons-cont">
-				<input type="submit" class="button ok" value="" />
+				<input type="submit" class="button ok submit" value="" />
 				<a class="button cancel" href="javaScript:void(0)"></a>
 			</div>
         </td>
@@ -136,16 +131,3 @@
 	<a href="<?= Yii::app()->createUrl('/banking/personal') . '/' ?>"><div class="submit-button button-back"><?= Yii::t('Front', 'Back')?></div></a>   
 </div>
 <?php $this->endWidget(); ?>
-
-<script>
-$('.types_dropdown').dropDown({
-	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
-	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
-	},
-	listClass: 'type_dropdown',
-});
-</script>

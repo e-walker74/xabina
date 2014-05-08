@@ -8,7 +8,7 @@
  * @property integer $language
  * @property integer $statement_language
  * @property integer $font_size
- * @property integer $time_zone
+ * @property integer $time_zone_id
  * @property integer $currency_id
  */
 class Users_Settings extends CActiveRecord
@@ -29,11 +29,11 @@ class Users_Settings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, language, statement_language, font_size, time_zone, currency_id', 'required'),
-			array('user_id, font_size, time_zone, currency_id', 'numerical', 'integerOnly'=>true),
+			array('user_id, language, statement_language, font_size, time_zone_id, currency_id', 'required'),
+			array('user_id, font_size, time_zone_id, currency_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, language, statement_language, font_size, time_zone, currency_id', 'safe', 'on'=>'search'),
+			array('user_id, language, statement_language, font_size, time_zone_id, currency_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,6 +46,7 @@ class Users_Settings extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
+			'time_zone' => array(self::BELONGS_TO, 'Zone', 'time_zone_id'),
 		);
 	}
 
@@ -59,7 +60,7 @@ class Users_Settings extends CActiveRecord
 			'language' => 'Language',
 			'statement_language' => 'Statement Language',
 			'font_size' => 'Font Size',
-			'time_zone' => 'Time Zone',
+			'time_zone_id' => 'Time Zone',
 			'currency_id' => 'currency_id',
 		);
 	}
@@ -86,7 +87,7 @@ class Users_Settings extends CActiveRecord
 		$criteria->compare('language',$this->language);
 		$criteria->compare('statement_language',$this->statement_language);
 		$criteria->compare('font_size',$this->font_size);
-		$criteria->compare('time_zone',$this->time_zone);
+		$criteria->compare('time_zone_id',$this->time_zone_id);
 		$criteria->compare('currency_id',$this->currency_id);
 
 		return new CActiveDataProvider($this, array(

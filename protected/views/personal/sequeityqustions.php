@@ -4,7 +4,7 @@
   </div>
   <?php $this->widget('XabinaAlert'); ?>
   <div id="emails_view" class="xabina-form-container">
-		<div class="subheader"><?= Yii::t('Front', 'Security Questions'); ?></div>
+		<div class="subheader"><?= Yii::t('Front', 'My security questions'); ?></div>
 		<table class="table xabina-table-personal">
 			<tbody>
 			<tr class="table-header">
@@ -28,25 +28,6 @@
 	</div>
 </div>
 <script>
-$('.types_dropdown').tempDropDown({
-	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
-	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
-	},
-	listClass: 'type_dropdown',
-	callback: function(element, dropdown){
-		$.post(
-			'<?= Yii::app()->createUrl('/personal/changetype', array('type' => 'instmessagers')) ?>',
-			{row_id : dropdown.attr('row-id'), type_id: $(element.currentTarget).attr('data-id')},
-			function(data){
-				
-			}
-		)
-	}
-});
 
 $('.delete').confirmation({
 	title: '<?= Yii::t('Front', 'Are you sure?') ?>',
@@ -54,9 +35,19 @@ $('.delete').confirmation({
 	popout: true,
 	onConfirm: function(){
 		link = $(this).parents('.popover').prev('a')
-		deleteRow(link);
+		deleteRow(link, function(){
+			if($('.question-row').length < 5){
+				$('.comment-tr').hide()
+				$('.add-new-td').parent().show()
+			}else{
+				$('.comment-tr').show()
+				$('.add-new-td').parent().hide()
+			}
+			resetPage()
+			chechSequrityValuesData()
+		});
 		return false;
 	}
 })
-
+chechSequrityValuesData()
 </script>

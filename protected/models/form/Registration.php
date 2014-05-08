@@ -30,6 +30,7 @@ class Form_Registration extends CFormModel
 			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('phone', 'authenticatePhone'),
+			array('email', 'checkEmailUnique'),
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),
 			// password needs to be authenticated
 			array('email', 'authenticate'),
@@ -60,6 +61,14 @@ class Form_Registration extends CFormModel
 			}
 		//}
 	}
+	
+	public function checkEmailUnique($attribute, $params){
+        $this->email = trim($this->email);
+		$email = Users_Emails::model()->find('email = :email AND status=1', array(':email' => $this->email));
+        if($email){
+            $this->addError('email', Yii::t('Front', 'This E-mail is already registered'));
+        }
+    }
 
 	/**
 	 * Authenticates the password.
@@ -98,8 +107,29 @@ class Form_Registration extends CFormModel
 		$user->role = 1;
 		$user->status = Users::USER_IS_NOT_ACTIVE;
 		$user->createHash();
-		$user->lang = Yii::app()->language;
 		if($user->save()){
+		
+			if(!$user->settings){
+				$user->settings = new Users_Settings;
+				$user->settings->user_id = $user->id;
+				$user->settings->language = Yii::app()->language;
+				$user->settings->statement_language = Yii::app()->language;
+				$user->settings->font_size = 14;
+				
+				$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+				$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+				
+				$user->settings->time_zone_id = 276; // NL
+				if($country){
+					$zone = Zone::model()->find('country_code = :code', array(':code' => $country));
+					if($zone){
+						$user->settings->time_zone_id = $zone->zone_id;
+					}
+				}
+				$user->settings->currency_id = 1;
+				$user->settings->save();
+			}
+		
 			$user = Users::model()->findByPk($user->id);
 			$mail = new Mail();
 			if($mail->send(

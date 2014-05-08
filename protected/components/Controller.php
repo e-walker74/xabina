@@ -30,11 +30,16 @@ class Controller extends CController
 		if(!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(CHttpRequest::getUserHostAddress())){
 			Yii::app()->user->logout();
 		}
+
 		return parent::init();
 	}
 	
     protected function afterRender($view, &$output) {
         Yii::app()->dynamicRes->saveScheme();
+    }
+    
+    protected function cleanResponseJs() {
+        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
     }
 
 }
