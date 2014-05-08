@@ -22,19 +22,19 @@
             </div>
             <table class="extract-info-table">
                 <tr>
-                    <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Client'); ?>:</td>
+                    <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Client'); ?>:</td>
                     <td><?= $user->fullname ?></td>
                 </tr>
                 <tr>
-                    <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Address'); ?>:</td>
-                    <td>Square des Places 1, 1700 Fribourg, Switzerland</td>
+                    <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Address'); ?>:</td>
+                    <td><?= $user->primary_address ? $user->primary_address->shortAddressHtml : '';?></td>
                 </tr>
                 <tr>
-                    <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Reg #'); ?>:</td>
+                    <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Reg #'); ?>:</td>
                     <td>2546897</td>
                 </tr>
                 <tr>
-                    <td class="headers pdf-td-width-18"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
+                    <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Account number IBAN'); ?>:</td>
                     <td>254897546212ОР</td>
                 </tr>
             </table>
