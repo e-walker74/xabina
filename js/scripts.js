@@ -727,28 +727,6 @@ $(document).ready(function(){
 		return deleteTransaction(link)
     });
 
-    $( ".remove-dialog" ).dialog({
-        autoOpen: false,
-        dialogClass: 'xabina-popup-alerts',
-        height: 'auto',
-        minHeight: 0,
-        show: 'fadeIn'
-    });
-
-	if($('.remove-with-dialog').length != 0)
-	$('.remove-with-dialog').click(function() {
-        var $dialog =  $( ".remove-dialog" );
-        $dialog.dialog( "option", "appendTo", $(this));
-        $dialog.dialog( "option", "width", $(this).parents('.xabina-form-container').width());
-        $dialog.dialog( "option", "position", {
-            my: 'right+11 top+15',
-            at: 'right bottom',
-            of: $(this)
-        } );
-        $dialog.dialog( "open" );
-        return false;
-    })
-
 	$('textarea').autosize();
 
 

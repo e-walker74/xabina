@@ -66,7 +66,7 @@
 							<td width="14%"><?= $transfer->amount ?> <span class="currency-code"><?= $transfer->currency->code ?></span></td>
 							<td width="15%" style="text-align: right">
 								<a class="overview-edit" href="<?= Yii::app()->createUrl('/transfers/outgoing', array('transfer' => $transfer->id)); ?>"></a>
-								<a class="overview-remove remove-with-dialog" href="<?= Yii::app()->createUrl('/transfers/delete', array('id' => $transfer->id)); ?>"></a>
+								<a class="overview-remove" data-url="<?= Yii::app()->createUrl('/transfers/delete', array('id' => $transfer->id)); ?>" href="javaScript:void(0)"></a>
 							</td>
 						</tr>
 					</tbody></table>
@@ -85,12 +85,25 @@
 			</tr>
 			</tbody>
 		</table>
-		<div class="remove-dialog xabina-dialog">
-			<div class="arr"></div>
-			<?= Yii::t('Front', 'Are you sure you want to remove this payment?') ?>
-			<a href="#" class="no" tabindex="-1"><?= Yii::t('Front', 'No'); ?></a>
-			<a href="#"  class="yes" tabindex="-1"><?= Yii::t('Front', 'Yes'); ?></a>
-		</div>
 	</div>
 </div>
 <?php Yii::app()->clientScript->registerScriptFile('/js/transfers.js'); ?>
+
+<script>
+    $(document).ready(function(){
+
+        $('.overview-remove').confirmation({
+            title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+            singleton: true,
+            popout: true,
+            onConfirm: function(){
+                link = $(this).parents('.popover').prev('a')
+                deleteRow(link, function(){
+
+                });
+                return false;
+            }
+        })
+
+    })
+</script>
