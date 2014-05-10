@@ -170,7 +170,14 @@ $(function(){
         e.preventDefault();
         $('html,body').animate({scrollTop: $($(this).attr('href')).offset().top}, 500);
     });
-	
+
+    $('.login-tabs').tabs({
+        activate: function( event, ui ) {
+            $('#Form_Registration_role').val(ui.newTab.attr('data-item'));
+        }
+    });
+
+
 	/*delay = (function(){
 	  var timer = 0;
 	  return function(callback, ms){
