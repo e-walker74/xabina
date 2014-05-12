@@ -372,7 +372,7 @@ $(function(){
 	
 	searchTransactions = function(button){
 		var form = $(button).parents('form');
-        form.find('.refresh-button').fadeIn();
+        backgroundBlack();
 		$.ajax({
 			url: form.action,
 			success: function(data) {
@@ -380,8 +380,8 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html)
 				}
-                form.find('.refresh-button').fadeOut();
 			},
+            complete : dellBackgroundBlack,
 			cache:false,
 			data: form.serialize(),
 			type: 'GET'
