@@ -40,6 +40,7 @@ class AccountsController extends Controller
 					'deletenote',
 					'updatecategory',
 					'payments',
+                    'addcategory'
 				),
                 'roles' => array('client')
             ),
@@ -174,7 +175,9 @@ class AccountsController extends Controller
 
 		$model = new Transactions_Info_Attachments;
 
-		$this->render('transaction', array('trans' => $trans, 'model' => $model));
+        $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
+
+        $this->render('transaction', array('trans' => $trans, 'model' => $model, 'categories' => $categories));
 	}
 
 	public function actionUploadAttachemnt($id){
@@ -399,14 +402,48 @@ class AccountsController extends Controller
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		$cat = Transactions_Categories::model()->findByPk($cat_id);
-		if($cat->user_id && $cat->user_id != Yii::app()->user_id){
+		if($cat->user_id && $cat->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		Transactions_Categories_Links::model()->deleteAll('transaction_id = :id', array(':id' => $id));
 		$link = new Transactions_Categories_Links;
 		$link->transaction_id = $trans->id;
 		$link->category_id = $cat->id;
-		dd($link->save());
+
+        $response = array();
+
+		if($link->save()) {
+            $response['success'] = true;
+        } else {
+            $response['success'] = false;
+            $response['error'] = $link->errors;
+        }
+        echo json_encode($response);
+        Yii::app()->end();
 	}
+
+    public function actionAddCategory()
+    {
+        if(Yii::app()->request->isAjaxRequest && isset($_POST['title']))
+        {
+            $model = new Transactions_Categories;
+            $model->title = $_POST['title'];
+            $model->user_id = Yii::app()->user->id;
+
+            $response = array();
+
+            if($model->save()) {
+                $response['success'] = true;
+                $response['message'] = Yii::t('Front', 'Your category successfully created!');
+                $response['data'] = array('id' => $model->id, 'title' => $model->title);
+            } else {
+                $response['success'] = false;
+                $response['message'] = $model->errors;
+            }
+            echo json_encode($response);
+            Yii::app()->end();
+        }
+        throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+    }
 
 }
