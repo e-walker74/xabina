@@ -48,7 +48,7 @@
                                         </span>
                                         <select data-url="<?= Yii::app()->createUrl('/accounts/updatecategory', array('id' => $trans->id)) ?>" id="transaction-category-select" name="" class=" select-invisible country-select">
                                         <?php if(!$trans->category): ?>
-                                            <option disabled="disabled" selected="selected"><?= Yii::t('Front', 'Choose'); ?></option>
+                                            <option disabled="disabled"><?= Yii::t('Front', 'Choose'); ?></option>
                                         <?php endif; ?>
                                             <?php foreach($categories as $trCat): ?>
                                                 <option value="<?= $trCat->id ?>"><?= $trCat->title ?></option>
