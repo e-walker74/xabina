@@ -98,23 +98,22 @@
 			<tr>
 				<td>
 					<form id="addNotes" action="<?= Yii::app()->createUrl('/accounts/addnotetotransaction', array('id' => $trans->id)) ?>" method="POST">
-					<table class="inner-table">
-						<tbody><tr>
-							<td style="width: 90%">
-								<div class="form-cell">
-									<div class="form-lbl">
-										<?= Yii::t('Front', 'Note'); ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tool tip for notes'); ?>"></span>
-									</div>
-									<div class="form-input">
-										<textarea name="note-text" class="attach-textarea"></textarea>
-									</div>
-								</div>
-							</td>
-							<td style="width: 10%">
-								<input type="submit" class="add-button" value="<?= Yii::t('Front', 'Add') ?>">
-							</td>
-						</tr>
-					</tbody></table>
+
+                        <div class="add-attachment-form custom borderles">
+                            <div class="pull-right">
+                                <input type="submit" class="add-button" value="<?= Yii::t('Front', 'Add') ?>">
+                            </div>
+                            <div class="attach-wrap">
+                                <div class="form-cell">
+                                    <div class="form-lbl">
+                                        <?= Yii::t('Front', 'Note'); ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tool tip for notes'); ?>"></span>
+                                    </div>
+                                    <div class="form-input">
+                                        <textarea name="note-text" class="attach-textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 					</form>
 				</td>
 			</tr>

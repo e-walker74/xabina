@@ -146,6 +146,7 @@ class Users extends ActiveRecord
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
+            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
         );
     }
 

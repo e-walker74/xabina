@@ -1,7 +1,0 @@
-[08-May-2014 01:08:05 Europe/Minsk] PHP Fatal error:  Class 'ZipArchive' not found in /home/xabinate/subdomains/vl.xabinatest.intwall.com/protected/vendor/phpWord/PHPWord/Template.php on line 92
-[08-May-2014 01:44:46 Europe/Minsk] PHP Fatal error:  Class 'Currencies' not found in /home/xabinate/framework/db/ar/CActiveRecord.php on line 395
-[08-May-2014 03:15:48 Europe/Minsk] PHP Fatal error:  An iterator cannot be used with foreach by reference in /home/xabinate/subdomains/vl.xabinatest.intwall.com/protected/vendor/phpWord/PHPWord/Template.php on line 248
-[08-May-2014 03:21:16 Europe/Minsk] PHP Fatal error:  Cannot use object of type DOMNodeList as array in /home/xabinate/subdomains/vl.xabinatest.intwall.com/protected/vendor/phpWord/PHPWord/Template.php on line 260
-[08-May-2014 22:43:14 Europe/Minsk] PHP Fatal error:  Class 'PHPWord' not found in /home/xabinate/subdomains/vl.xabinatest.intwall.com/protected/controllers/AccountsController.php on line 348
-[08-May-2014 22:43:27 Europe/Minsk] PHP Fatal error:  Class 'PHPWord' not found in /home/xabinate/subdomains/vl.xabinatest.intwall.com/protected/controllers/AccountsController.php on line 348
-[08-May-2014 22:43:45 Europe/Minsk] PHP Fatal error:  Class 'PHPWord' not found in /home/xabinate/subdomains/vl.xabinatest.intwall.com/protected/controllers/AccountsController.php on line 348
