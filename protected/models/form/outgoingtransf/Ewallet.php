@@ -63,11 +63,13 @@ class Form_Outgoingtransf_Ewallet extends Form_Outgoingtransf{
         }
     }
 
-    public function save(){
+    public function save($transfer = false){
         if(!$this->validate()){
             return false;
         }
-        $transfer = new Transfers_Outgoing();
+        if(!$transfer){
+            $transfer = new Transfers_Outgoing();
+        }
         $transfer->attributes = $this->attributes;
         d($transfer->validate());
         d($transfer->attributes);

@@ -20,6 +20,8 @@
 		</div>
 	</div>
 
+    <form id="overview-form" action="" method="post">
+    <input type="hidden" name="User_Overview[]" value="">
 	<div class="overview-cont">
 		<div class="subheader"><?= Yii::t('Front', 'Overview'); ?></div>
 		
@@ -33,15 +35,19 @@
 				<th width="14%"><?= Yii::t('Front', 'Amount') ?></th>
 				<th width="15%"></th>
 			</tr>
+            <tr class="comment-tr" style="display: none">
+                <td colspan="6">
+                    <span class="rejected"><?= Yii::t('Front', 'No any transfers for confirmation') ?></span>
+                </td>
+            </tr>
 			<?php foreach($transfers as $transfer): ?>
-			<?php if(!isset($transGroup)) $transGroup = substr(time(), 5, 11)+$transfer->id; ?>
-			<tr>
+			<tr class="overview-tr">
 				<td class="td-cont" colspan="6">
 					<table class="inner-table">
 						<tbody><tr>
 							<td width="4%" class="with-brdr-td">
 								<div class="border-td">
-									<input name="<?= $transGroup ?>_<?= $transfer->id ?>" type="checkbox" class="overview-check">
+									<input name="User_Overview[]" value="<?= $transfer->id ?>" type="checkbox" class="overview-check">
 								</div>
 							</td>
 							<td width="23%">
@@ -80,14 +86,15 @@
 			<tr>
 				
 				<td class="td-cont overview-payment-sum" colspan="6">
-					<?= $this->renderPartial('_checked', array('transes' => array()), true, false); ?>
+					<?= $this->renderPartial('_checked', array('transes' => array(), 'valid' => $valid), true, false); ?>
 				</td>
 			</tr>
 			</tbody>
 		</table>
 	</div>
+    </form>
 </div>
-<?php Yii::app()->clientScript->registerScriptFile('/js/transfers.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile('/js/transfersv2.js'); ?>
 
 <script>
     $(document).ready(function(){
@@ -99,11 +106,17 @@
             onConfirm: function(){
                 link = $(this).parents('.popover').prev('a')
                 deleteRow(link, function(){
-
+                    if($('.overview-tr').length == 0){
+                        $('.comment-tr').show()
+                        $('.td-cont.overview-payment-sum').hide()
+                    }
                 });
                 return false;
             }
         })
-
+        if($('.overview-tr').length == 0){
+            $('.comment-tr').show()
+            $('.td-cont.overview-payment-sum').hide()
+        }
     })
 </script>

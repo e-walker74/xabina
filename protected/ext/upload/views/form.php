@@ -1,5 +1,5 @@
 <div class="add-attachment-form custom borderles">
-    <form enctype="multipart/form-data" id="<?=$this->formId?>"
+    <div enctype="multipart/form-data" id="<?=$this->formId?>"
           name="upload" class="form-file-widget"
           action="<?= Yii::app()->createUrl('file/upload', array('inTable' => $this->inTable, 'id' => (isset($model->id)) ? $model->id : Yii::app()->user->id)) ?>" method="post">
         <input type="hidden" name="type" value="<?= get_class($model) ?>">
@@ -35,5 +35,5 @@
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
