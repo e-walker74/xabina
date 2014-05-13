@@ -7,9 +7,9 @@
  */
 
 
-class Form_Outgoingtransf_Own extends Form_Outgoingtransf{
+class Form_Outgoingtransf_Quick extends Form_Outgoingtransf{
 
-    public $form_type = 'own';
+    public $form_type = false;
 
     public $to_account_number;
 
@@ -17,10 +17,9 @@ class Form_Outgoingtransf_Own extends Form_Outgoingtransf{
         return array_merge(
             parent::rules(),
             array(
-                array('account_number', 'required'),
+                array('account_number, to_account_number', 'required'),
                 array('to_account_number', 'required'),
-                array('to_account_number', 'compare', 'compareAttribute' => 'account_number', 'operator' => '!='),
-                array('to_account_number', 'checkXabinaNumber'),
+                array('account_number', 'compare', 'compareAttribute' => 'to_account_number', 'operator' => '!='),
             )
         );
     }
@@ -32,14 +31,11 @@ class Form_Outgoingtransf_Own extends Form_Outgoingtransf{
         if(!$transfer){
             $transfer = new Transfers_Outgoing();
         }
+
         $transfer->attributes = $this->attributes;
         $to_account = Accounts::model()->find('number = :num', array(':num' => $transfer->to_account_number));
         $transfer->to_account_holder = $to_account->user->fullName;
         return $transfer->save();
     }
 
-    public static function model($className=__CLASS__)
-    {
-        return new $className;
-    }
 } 

@@ -40,6 +40,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
     /* system */
     public $need_confirm = 1;
     public $is_iban = false;
+    public $external_bank_id;
 
     public static $chargesList = array(
         '1' => 'Shared (mandatory for EC payments)',

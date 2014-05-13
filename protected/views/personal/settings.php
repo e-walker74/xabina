@@ -1,7 +1,6 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
 	<div class="xabina-form-container">
-	
-	
+
 	<div class="h1-header">
 		<?= Yii::t('Front', 'My personal cabinet'); ?>
 	</div>
@@ -149,7 +148,6 @@
 	</div>
 </div>
 
-
 <script>
 	
 	$('.edit').click(function(){
@@ -161,12 +159,12 @@
 	
 	$('.ok').click(function(){
 		row = $(this).parents('tr')
-		
+
 		$.ajax({
 			type: "POST",
 			success: function(data){
 				if(data.success){
-					successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>')
+					successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>', row)
                     var text = row.find('select option:selected').text()
                     var datafield = row.prev('.user-settings-data').find('.data')
                     datafield.html(text)

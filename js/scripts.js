@@ -388,7 +388,8 @@ $(function(){
 	});
 	
 	searchTransactions = function(button){
-		form = $(button).parents('form')
+		var form = $(button).parents('form');
+        form.find('.refresh-button').fadeIn();
 		$.ajax({
 			url: form.action,
 			success: function(data) {
@@ -396,6 +397,7 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html)
 				}
+                form.find('.refresh-button').fadeOut();
 			},
 			cache:false,
 			data: form.serialize(),
@@ -725,28 +727,6 @@ $(document).ready(function(){
 		return deleteTransaction(link)
     });
 
-    $( ".remove-dialog" ).dialog({
-        autoOpen: false,
-        dialogClass: 'xabina-popup-alerts',
-        height: 'auto',
-        minHeight: 0,
-        show: 'fadeIn'
-    });
-
-	if($('.remove-with-dialog').length != 0)
-	$('.remove-with-dialog').click(function() {
-        var $dialog =  $( ".remove-dialog" );
-        $dialog.dialog( "option", "appendTo", $(this));
-        $dialog.dialog( "option", "width", $(this).parents('.xabina-form-container').width());
-        $dialog.dialog( "option", "position", {
-            my: 'right+11 top+15',
-            at: 'right bottom',
-            of: $(this)
-        } );
-        $dialog.dialog( "open" );
-        return false;
-    })
-
 	$('textarea').autosize();
 
 
@@ -764,6 +744,7 @@ $(document).ready(function(){
     $('form').on('submit', function(){
         $(window).unbind('beforeunload')
     })
+	
 })
 
 var resetPage = function(){
@@ -794,11 +775,15 @@ var resetPage = function(){
 	
 	$('form').trigger('reset')
 
-    $('form select').each(function( index ) {
+    /*$('form select').each(function( index ) {
         $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
-    })
+    })*/
 
     $('.checkbox-custom label').removeClass('checked')
+
+    /* new transfer page */
+    $('.quick-row-edit').hide()
+    $('.quick-row').show()
 }
 
 $(document).on('click', '.button.cancel', function(){
@@ -807,20 +792,39 @@ $(document).on('click', '.button.cancel', function(){
 
 var successNotify = function(title, message, element){
 
-	if(element){
-		var stack_context = {
+    if(element){
+        var stack_context = {
             "dir1": "down",
             "dir2": "left",
             "firstpos2": 15,
             "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top -40,
             context: $('.col-lg-9.col-md-9.col-sm-9')
         };
-	}else if($('.h1-header').length != 0){
+    }else if($('.h1-header').length != 0){
         var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 15, "firstpos1": $('.h1-header:first').position().top-40, context: $('.h1-header:first')};
     }else {
-		var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
-	}
-	$.pnotify({ /*title: title,*/ text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
+        var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
+    }
+    $.pnotify({ /*title: title,*/ text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
+
+}
+
+var errorNotify = function(title, message, element){
+
+    if(element){
+        var stack_context = {
+            "dir1": "down",
+            "dir2": "left",
+            "firstpos2": 15,
+            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top -40,
+            context: $('.col-lg-9.col-md-9.col-sm-9')
+        };
+    }else if($('.h1-header').length != 0){
+        var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 15, "firstpos1": $('.h1-header:first').position().top-40, context: $('.h1-header:first')};
+    }else {
+        var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
+    }
+    $.pnotify({ /*title: title,*/ text: message, type: 'error', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
 
 }
 

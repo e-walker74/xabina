@@ -36,7 +36,7 @@ class Accounts extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id', 'required'),
-			array('user_id, status, type_id', 'numerical', 'integerOnly'=>true),
+			array('user_id, status, type_id, currency_id', 'numerical', 'integerOnly'=>true),
 			array('number', 'length', 'max'=>12),
 			array('currency_id', 'length', 'max'=>3),
 			// The following rule is used by search().
@@ -64,6 +64,14 @@ class Accounts extends ActiveRecord
 	public function getBalanceInEUR(){
 		return $this->balance / $this->currency->last_value;
 	}
+
+    /**
+     * check account balance
+     */
+    public function checkBalance($amount, $currency){
+        $sum = Currencies::convert($amount, $currency, $this->currency_id);
+        return ($sum < $this->balance);
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
