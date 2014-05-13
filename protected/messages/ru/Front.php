@@ -48,13 +48,36 @@ return array(
 	'[login form PASSWORD]' => '[login form PASSWORD]',
 	'Add Your first name using latin alphabet' => 'Введите имя используя латинский алфавит',
 	'Add Your last name using latin alphabet' => 'Введите фамилию используя латинский алфавит',
+	'Add Your company name' => 'Введите название своей компании',
+	'Add Your country' => 'Введите страну',
 	'Insert Your login using latin alphabet' => 'Введите логин использую латиницу',
 	'Bank account application form' => 'Регистрация',
 	'First Name' => 'Имя',
 	'Last Name' => 'Фамилия',
 	'Mobile Phone' => 'Мобильный телефон',
+	'Company Name' => 'Название компании',
+	'Country' => 'Страна',
 	'E-mail' => 'Эл.почта',
-	'{termsConditionsText}' => 
+	'Company' => 'Компания',
+	'Open an account' => 'Открыть счет',
+	'Private Individual' => 'Физ. лицо',
+	'Already have an account?' => 'Уже есть учетная запись?',
+	'Log in' => 'Войти',
+	'I read and agree to the terms & conditions' => 'Я прочитал и согласен с условиями',
+
+    'This E-Mail is already registered' => 'Этот E-Mail уже зарегистрирован',
+    'Country is incorrect' => 'Название страны введено неверно',
+    'Company name is incorrect' => 'Название компании введено неверно',
+    'This Mobile Phone is already registered' => 'Этот мобильный телефон уже зарегистрирован',
+    'E-Mail is incorrect' => 'E-Mail введен неверно',
+    'Mobile Phone is too short' => 'Мобильный телефон слишком короткий',
+    'Mobile Phone is incorrect' => 'Неверный мобильный телефон',
+    'Mobile Phone is too long' => 'Мобильный телефон слишком длинный',
+    'Last Name is incorrect' => 'Фвамилия введена неверно',
+    'Add Your name using latin alphabet' => 'Введите свое имя используя латинский алфавит',
+    'First Name is incorrect' => 'Имя введено неверно',
+
+	'{termsConditionsText}' =>
 		'Вся информация, размещённая на данном сайте, является собственностью Xabina.
 		Xabina сохраняет за собой право изменять содержание и/или структуру сайта в любое время и без
 		предварительного уведомления.

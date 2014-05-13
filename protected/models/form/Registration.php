@@ -11,6 +11,9 @@ class Form_Registration extends CFormModel
 	public $first_name;
 	public $last_name;
 	public $phone;
+	public $country;
+	public $company_name;
+	public $role;
 
 	private $_identity;
 
@@ -34,6 +37,9 @@ class Form_Registration extends CFormModel
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),
 			// password needs to be authenticated
 			array('email', 'authenticate'),
+            array('role', 'required'),
+            array('country', 'checkCountry'),
+            array('company_name', 'checkCompany'),
 		);
 	}
 
@@ -47,6 +53,8 @@ class Form_Registration extends CFormModel
 			'first_name' => Yii::t('Front', 'First Name'),
 			'last_name' => Yii::t('Front', 'Last Name'),
 			'phone' => Yii::t('Front', 'Mobile Phone'),
+			'company_name' => Yii::t('Front', 'Company Name'),
+			'country' => Yii::t('Front', 'Country'),
 		);
 	}
 	
@@ -67,6 +75,25 @@ class Form_Registration extends CFormModel
 		$email = Users_Emails::model()->find('email = :email AND status=1', array(':email' => $this->email));
         if($email){
             $this->addError('email', Yii::t('Front', 'This E-mail is already registered'));
+        }
+    }
+
+    public function checkCompany($attribute, $params){
+        if($this->role == 2){
+            if(!$this->company_name){
+                $this->addError('company_name', Yii::t('Front', 'Company name is incorrect'));
+            }
+        }
+    }
+
+    public function checkCountry($attribute, $params){
+        if($this->role == 2){
+            $c = Countries::model()->findByAttributes(
+                array('name' => $this->country)
+            );
+            if(!$c){
+                $this->addError('country', Yii::t('Front', 'Country is incorrect'));
+            }
         }
     }
 
@@ -104,11 +131,26 @@ class Form_Registration extends CFormModel
 		$user->password = md5($pass);
 		$user->created_at = time();
 		$user->updated_at = $user->created_at;
-		$user->role = 1;
+		$user->role = $this->role;
 		$user->status = Users::USER_IS_NOT_ACTIVE;
 		$user->createHash();
+
 		if($user->save()){
-		
+
+            if($user->role == 2) {
+                $countries = new Countries;
+                $country = $countries->findByAttributes(
+                    array('name' => $this->country)
+                );
+                $company = new Companies;
+                $company->owner_id = $user->id;
+                $company->title = $this->company_name;
+                $company->country_id = $country->id;
+                $company->save();
+
+            }
+
+
 			if(!$user->settings){
 				$user->settings = new Users_Settings;
 				$user->settings->user_id = $user->id;
