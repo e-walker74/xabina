@@ -389,7 +389,7 @@ $(function(){
 	
 	searchTransactions = function(button){
 		var form = $(button).parents('form');
-        form.find('.refresh-button').fadeIn();
+        backgroundBlack();
 		$.ajax({
 			url: form.action,
 			success: function(data) {
@@ -397,8 +397,8 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html)
 				}
-                form.find('.refresh-button').fadeOut();
 			},
+            complete : dellBackgroundBlack,
 			cache:false,
 			data: form.serialize(),
 			type: 'GET'
@@ -688,13 +688,20 @@ $(document).ready(function(){
 	
 	if($("#transaction-category-select"))
 	$("#transaction-category-select").change(function(){
-		
+		var value = $(this).val();
+        var $el = $(this);
 		$.ajax({
 			type: "POST",
-			url: $("#transaction-category-select").attr('data-url'),
-			data: {category: $("#transaction-category-select").val()}
+			url: $el.attr('data-url'),
+			data: {category: value},
+            dataType : 'json',
+            success : function (res) {
+                if(res.success) {
+                    $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+                }
+            }
 		});
-		return false;
+//		return false;
 	})
 
 	$( ".escape-dialog" ).dialog({
@@ -843,7 +850,56 @@ var chechSequrityValuesData = function(){
 	$('#Users_Securityquestions_question_id option:not(:disabled)').first().attr('selected', true)
 	$('form .select-custom-label').html($('#Users_Securityquestions_question_id option:selected').html())
 	
-}
+};
 
 
+/* add new category */
+$(function() {
+    var block = $('#category-block'),
+        cancelEdit = function () {
+            block.find('div.non-edit-doc').show();
+            block.find('div.edit-doc').hide();
+            $('#category-title').val('')
+                .next('.error-message').html('').hide();
+        };
 
+    block.on('click', '.button.edit', function (e) {
+        e.preventDefault();
+        block.find('div.non-edit-doc').hide();
+        block.find('div.edit-doc').show();
+    });
+
+    block.on('click', '.button.ok', function (e) {
+        e.preventDefault();
+        backgroundBlack();
+        var $title = $('#category-title'),
+            $errorBox = $title.next('.error-message');
+        $errorBox.html('').hide();
+        $.ajax({
+            url : $title.data('url'),
+            data : {title:$title.val()},
+            type : 'post',
+            dataType : 'json',
+            success : function (res) {
+                if(res.success) {
+                    successNotify('Transaction category', res.message);
+                    block.find('#transaction-category-select')
+                        .append('<option value="'+res.data.id+'">'+res.data.title+'</option>')
+                        .val(res.data.id).trigger('change');
+                    cancelEdit();
+                } else {
+                    $errorBox.html(res.message.title.join('<br>')).slideDown('slow');
+                }
+            },
+            complete : dellBackgroundBlack
+        });
+    });
+
+    block.on('click', '.button.cancel', function (e) {
+        e.preventDefault();
+        cancelEdit();
+    });
+
+
+    cancelEdit();
+});
