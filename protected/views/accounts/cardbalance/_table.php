@@ -1,7 +1,7 @@
 <table class="table">
 	<tbody>
 		<?php foreach($transactions as $trans): ?>
-			<tr data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->id)) ?>">
+			<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->id)) ?>">
 				<td width="15%"><?= date('d.m.Y', $trans->created_at) ?></td>
 				<td width="10%">OV</td>
 				<td width="35%">
@@ -29,7 +29,7 @@
 		<?php endforeach; ?>
 		<?php if(empty($transactions)): ?>
 			<tr>
-				<td colspan="5"><?= Yii::t('Front', 'Oops. There was no transaction associated with this account.') ?></td>
+				<td colspan="5"><?= Yii::t('Front', 'No transaction match the filter criterias. Please, change the filter criterias in Advanced Search tab.') ?></td>
 			</tr>
 		<?php endif; ?>
 	</tbody>

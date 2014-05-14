@@ -172,6 +172,7 @@ $(function(){
     });
 
     $('.login-tabs').tabs({
+        active: 1,
         activate: function( event, ui ) {
             $('#Form_Registration_role').val(ui.newTab.attr('data-item'));
         }

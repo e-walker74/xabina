@@ -11,7 +11,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
 
     /* master params */
     public $amount;
-    public $amount_cent;
+    public $amount_cent = '00';
     public $currency_id;
     public $account_number;
     public $description;
@@ -70,6 +70,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
         return array(
             array('amount, account_number, currency_id, charges', 'required'),
             array('amount, amount_cent, account_number, currency_id, charges, remaining_balance, remaining_balance_cent, category_id', 'numerical'),
+            array('amount_cent', 'length', 'max' => 2),
             array('account_number', 'checkXabinaNumber'),
             array('counter_agent', 'checkXabinaUserID'),
             array('urgent, favorite', 'boolean'),
@@ -113,6 +114,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
     }
 
     public function validateBalance($attribute, $params){
+        return true;
         $acc = Accounts::model()->find('number = :account_number AND user_id = :uid',
             array(
                 ':account_number' => $this->account_number,

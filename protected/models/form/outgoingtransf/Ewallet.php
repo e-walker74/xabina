@@ -34,7 +34,7 @@ class Form_Outgoingtransf_Ewallet extends Form_Outgoingtransf{
                 array('paypall_email', 'email', 'on' => 'paypall'),
                 array('paypall_email', 'required', 'on' => 'paypall'),
                 array('webmoney_acc', 'required', 'on' => 'webmoney'),
-                array('scrill_acc', 'required', 'on' => 'scrill'),
+                array('scrill_acc', 'email', 'on' => 'scrill'),
 
                 array('to_account_number', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             )
@@ -71,9 +71,6 @@ class Form_Outgoingtransf_Ewallet extends Form_Outgoingtransf{
             $transfer = new Transfers_Outgoing();
         }
         $transfer->attributes = $this->attributes;
-        d($transfer->validate());
-        d($transfer->attributes);
-        die;
         return $transfer->save();
     }
 

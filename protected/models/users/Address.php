@@ -119,9 +119,10 @@ class Users_Address extends ActiveRecord
 		return parent::model($className);
 	}
 
-    public function getShortAddressHtml()
+    public function getAddressHtml()
     {
-        return "{$this->indx} {$this->city} ({$this->country->code})";
+        $ao = ($this->address_optional) ? $this->address_optional . "<br/>" : "";
+        return "{$this->address} <br/> {$ao} {$this->indx} {$this->city} ({$this->country->code})";
     }
 
 }

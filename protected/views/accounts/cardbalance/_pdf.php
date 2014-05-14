@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Address'); ?>:</td>
-                <td class="pdf-td-width-35"><?= $user->primary_address ? $user->primary_address->shortAddressHtml : '';?></td>
+                <td class="pdf-td-width-35"><?= $user->primary_address ? $user->primary_address->addressHtml : '';?></td>
                 <td class="headers pdf-td-width-13"><?= Yii::t('Front', 'Transactions'); ?>:</td>
                 <td class="pdf-td-width-35"><?= $model->type ? Yii::t('Front', ucfirst($model->type)) : Yii::t('Front', 'All') ; ?></td>
             </tr>

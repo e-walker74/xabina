@@ -29,6 +29,7 @@ class Form_Outgoingtransf_Own extends Form_Outgoingtransf{
         if(!$this->validate()){
             return false;
         }
+
         if(!$transfer){
             $transfer = new Transfers_Outgoing();
         }
