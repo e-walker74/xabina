@@ -7,9 +7,9 @@
 <div class="quick-transfer-form">
 <table class="quick-header">
     <tr>
-        <th style="width: 31%"><?= Yii::t('Front', 'Recipient') ?></th>
-        <th style="width: 34%"><?= Yii::t('Front', 'Value') ?></th>
-        <th style="width: 35%"><?= Yii::t('Front', 'Sender') ?></th>
+        <th style="width: 45%"><?= Yii::t('Front', 'Recipient') ?></th>
+        <th style="width: 25%"><?= Yii::t('Front', 'Value') ?></th>
+        <th style="width: 30%"><?= Yii::t('Front', 'Sender') ?></th>
     </tr>
 </table>
 <ul class="quick-transferts-list list-unstyled">
@@ -310,6 +310,7 @@
                         array('class' => 'select-invisible', 'options' => array('' => array('selected' => true, 'disabled' => true)))
                     ) ?>
                 </div>
+                <div class="clearfix"></div>
                 <?= $form->error($ownForm, 'to_account_number'); ?>
             </div>
         </div>
@@ -613,8 +614,10 @@
                 <div class="input">
                     <?= $form->textField($externalForm, 'to_account_number', array('class' => 'account-num pull-left', 'style' => 'width: 81%; min-height: 40px;')); ?>
                     <a href="#" class="account-search pull-right"></a>
+                    <div class="clearfix"></div>
+                    <?= $form->error($externalForm, 'to_account_number'); ?>
                 </div>
-                <?= $form->error($externalForm, 'to_account_number'); ?>
+
             </div>
         </div>
     </div>

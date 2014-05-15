@@ -1,6 +1,4 @@
-<div class="details-accordion ">
-<div class="accordion-header"><a href="#">Details</a></div>
-<div class="accordion-content">
+<div class="details-tabs-cont">
 <div class="xabina-tabs">
 <ul>
     <li style="width: 21%"><a href="#tab1"><?= Yii::t('Front', 'Charges & Urgency') ?></a></li>
@@ -499,5 +497,5 @@
 
 </div>
 </div>
-</div>
+<div class="clearfix"></div>
 </div>
