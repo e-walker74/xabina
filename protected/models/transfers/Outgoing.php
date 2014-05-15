@@ -4,30 +4,6 @@
  * This is the model class for table "transfers_outgoing".
  *
  * The followings are the available columns in table 'transfers_outgoing':
- * @property string $id
- * @property string $user_id
- * @property double $amount
- * @property string $currency_id
- * @property string $account_id
- * @property string $send_to
- * @property string $account_number
- * @property string $account_holder
- * @property string $country_id
- * @property string $swift
- * @property string $bank_beneficiary
- * @property string $postcode
- * @property string $description
- * @property integer $charges
- * @property integer $standing
- * @property integer $execution_time
- * @property integer $urgent
- * @property integer $each_transfer
- * @property integer $each_period
- * @property integer $start_time
- * @property integer $end_time
- * @property integer $need_confirm
- * @property integer $created_at
- * @property integer $updated_at
  */
 class Transfers_Outgoing extends ActiveRecord
 {
@@ -52,8 +28,8 @@ class Transfers_Outgoing extends ActiveRecord
 	public function rules()
 	{
         return array(
-            array('amount, account_id, account_number, currency_id, charges, form_type', 'required'),
-            array('amount, account_id, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id', 'numerical'),
+            array('amount, account_number, currency_id, charges, form_type', 'required'),
+            array('amount, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id, external_bank_id', 'numerical'),
             array('urgent, favorite, is_iban', 'boolean'),
             array('tag1, tag2, tag3, to_account_number', 'length', 'max' => 255),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
@@ -73,7 +49,7 @@ class Transfers_Outgoing extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
-			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
+			'account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);
@@ -83,6 +59,9 @@ class Transfers_Outgoing extends ActiveRecord
 		if($this->isNewRecord){
             $this->status = self::PENDING_STATUS;
 			$this->user_id = Yii::app()->user->id;
+            if($this->frequency_type == 1 && !$this->execution_date){
+                $this->execution_date = time();
+            }
 		}
 		return parent::beforeSave();
 	}
@@ -94,29 +73,6 @@ class Transfers_Outgoing extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'user_id' => 'User',
-			'amount' => 'Amount',
-			'currency_id' => 'Currency',
-			'account_id' => 'Account',
-			'send_to' => 'Send To',
-			'account_number' => 'Account Number',
-			'account_holder' => 'Account Holder',
-			'country_id' => 'Country',
-			'swift' => 'Swift',
-			'bank_beneficiary' => 'Bank Beneficiary',
-			'postcode' => 'Postcode',
-			'description' => 'Description',
-			'charges' => 'Charges',
-			'standing' => 'Standing',
-			'execution_time' => 'Execution Time',
-			'urgent' => 'Urgent',
-			'each_transfer' => 'Each Transfer',
-			'each_period' => 'Each Period',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
-			'need_confirm' => 'Need Confirm',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
 		);
 	}
 
@@ -177,19 +133,20 @@ class Transfers_Outgoing extends ActiveRecord
 	}
 	
 	public function getHtmlOperationDescription(){
-		switch($this->send_to){
+		switch($this->form_type){
 			case 'xabina':
 				return chunk_split($this->account_number, 4) . '<br>' . 
 					$this->description;
 				break;
 			case 'own':
-				return '<strong class="holder">' . $this->own_account->user->fullName . '</strong><br/>' . 
-					chunk_split($this->own_account->number, 4) . '<br>' . 
+				return
+//                    '<strong class="holder">' . $this->to_account_holder . '</strong><br/>' .
+					chunk_split($this->account_number, 4) . '<br>' .
 					$this->description;
 				break;
 			case 'external':
-				return '<strong class="holder">' . $this->bank_beneficiary . '</strong><br/>' . 
-					chunk_split($this->swift, 4) . '<br>' . 
+				return '<strong class="holder">' . $this->bank_name . '</strong><br/>' .
+					chunk_split($this->bic, 4) . '<br>' .
 					$this->description;
 				break;
 		}

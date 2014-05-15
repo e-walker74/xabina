@@ -1,5 +1,5 @@
 	$(".form-file-widget").each(function(){
-		var form = this;
+		var form = $(this);
 		$(form).find('.file-name').hide()
 		$(form).find('.file-input').change(function(){
 			var value = $(this).val()
@@ -7,64 +7,81 @@
 			$(this).parent().find('.no-file-name').hide()
 		})
 
-		form.addEventListener('submit', function(ev) {
-            		
-            backgroundBlack()
-		
-            var obj = $(ev.srcElement);
-            var formId = $(obj).attr('id');
+        form.find('button').on('click', function(button){
+
+            var f = $(button.currentTarget).parents('.form-file-widget')
+
+            var formId = f.attr('id');
             var attachmentsBlockId = formId + "-attachments-block";
             var fileId = formId + "-file-input";
-            
-			var
+
+            if(document.getElementById(fileId).files[0] == '' || document.getElementById(fileId).files[0] == undefined){
+                if(!$(f).find('.file .error-message').is(":visible")){
+                    $(f).find('.file .error-message').html('File is not selected').slideDown().delay(3000).slideUp()
+                }
+                return false
+            }
+
+            backgroundBlack()
+
+            var
                 oOutput = document.getElementById(attachmentsBlockId),
-                oData = new FormData(document.getElementById(formId));
+                oData = new FormData();
 
-			oData.append('file', document.getElementById(fileId).files[0]);
+            oData.append('file', document.getElementById(fileId).files[0]);
+            oData.append("description", f.find('.attach-textarea').val())
+            oData.append("type", f.find('input[name=type]').val())
+            oData.append("typeSuffix", f.find('input[name=typeSuffix]').val())
 
-			$(form).find('.success-popup-cont span').html('Uploading...')
-			$(form).find('.success-popup-cont').fadeIn()
+            $(f).find('.success-popup-cont span').html('Uploading...')
+            $(f).find('.success-popup-cont').fadeIn()
 
-			var oReq = new XMLHttpRequest();
-			oReq.open("POST", ev.currentTarget.action, true);
-			oReq.onload = function(oEvent) {
-				dellBackgroundBlack()
-				if (oReq.status == 200) {
-					var data = jQuery.parseJSON(oEvent.currentTarget.response)
-					if(data.success){
-						oOutput.innerHTML = data.html
-						$('html, body').animate({
-							scrollTop: $('#'+attachmentsBlockId).offset().top-50
-						}, 500);
-						successNotify('File Upload', 'File was successfully uploaded')
-					}
-					$(form).find('.success-popup-cont').fadeIn().delay(2000).fadeOut();
-					$(form).find('.success-popup span').html(data.message);
-					$(form)[0].reset()
-					$(form).find('textarea').val('').trigger('autosize.resize')
-					$(form).find('.file-name').hide()
-					$(form).find('.no-file-name').show()
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", f.attr('action'), true);
+
+            oReq.onload = function(oEvent) {
+                dellBackgroundBlack()
+                if (oReq.status == 200) {
+                    var data = jQuery.parseJSON(oEvent.currentTarget.response)
+                    if(data.success){
+                        oOutput.innerHTML = data.html
+                        $('html, body').animate({
+                            scrollTop: $('#'+attachmentsBlockId).offset().top-50
+                        }, 500);
+                        successNotify('File Upload', 'File was successfully uploaded', document.getElementById(fileId))
+                    }
+                    $(document.getElementById('file-form-file-input')).val('')
+                    $(f).find('textarea').val('').trigger('autosize.resize')
+                    $(f).find('.file-name').hide()
+                    $(f).find('.no-file-name').show()
+                    resetPage();
                     $('textarea').autosize();
                     if($('textarea.len1').length != 0)
                         $('textarea.len1').limiter('140',$('.len1-num'));
-					$('#'+attachmentsBlockId+' .delete').confirmation({
-						title: 'Are you sure?',
-						singleton: true,
-						popout: true,
-						onConfirm: function(){
-							link = $(this).parents('.popover').prev('a')
-							deletefile(link);
-							return false;
-						}
-					})
-				} else {
-					$(form).find('.success-popup span').html('error');
-				}
-			};
+                    $('#'+attachmentsBlockId+' .delete').confirmation({
+                        title: 'Are you sure?',
+                        singleton: true,
+                        popout: true,
+                        onConfirm: function(){
+                            link = $(this).parents('.popover').prev('a')
+                            deletefile(link);
+                            return false;
+                        }
+                    })
+                } else {
+                    $(f).find('.success-popup span').html('error');
+                }
+            };
 
-			oReq.send(oData);
-			ev.preventDefault();
-		}, false);
+            oReq.send(oData);
+
+            return false;
+        })
+
+//		form.addEventListener('submit', function(ev) {
+//
+//
+//		}, false);
 	});
 
 	$('.form-file-widget input[type=submit]').click(function(){

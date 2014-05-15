@@ -7,16 +7,17 @@
  */
 
 
-abstract class Form_Outgoingtransf extends CFormModel{
+abstract class Form_Incoming extends CFormModel{
 
     /* master params */
     public $amount;
     public $amount_cent = '00';
     public $currency_id;
-    public $account_number;
     public $description;
-    public $account_id;
+    public $to_account_id;
+    public $to_account_number;
     public $favorite = false;
+
     /* charges */
     public $charges;
     public $urgent;
@@ -68,16 +69,13 @@ abstract class Form_Outgoingtransf extends CFormModel{
     public function rules()
     {
         return array(
-            array('amount, account_number, currency_id, charges', 'required'),
-            array('amount, amount_cent, account_number, currency_id, charges, remaining_balance, remaining_balance_cent, category_id', 'numerical'),
+            array('amount, to_account_number, currency_id, charges', 'required'),
+            array('amount, amount_cent, to_account_number, currency_id, charges, category_id', 'numerical'),
             array('amount_cent', 'length', 'max' => 2),
-            array('account_number', 'checkXabinaNumber'),
-            array('counter_agent', 'checkXabinaUserID'),
             array('urgent, favorite', 'boolean'),
-            array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
-            array('frequency_type', 'in', 'range' => array(1, 2)),
-            array('end_date', 'validateCompareDates', 'compareAttribute' => 'start_date', 'message' => Yii::t('Front', 'Must be greater than Start Date')),
-            array('execution_date, start_date, end_date', 'validateToday', 'integerOnly' => false, 'min' => strtotime(date('m/d/Y'), time()), 'message' => Yii::t('Front', 'Date is not correct')),
+            array('to_account_number', 'checkXabinaNumber'),
+            array('favorite', 'boolean'),
+            array('counter_agent', 'checkXabinaUserID'),
             array('description, tag1, tag2, tag3', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
         );
     }
@@ -100,34 +98,12 @@ abstract class Form_Outgoingtransf extends CFormModel{
         }
     }
 
-    public function validateCompareDates($attribute, $params){
-        if($this->{$attribute} && $this->{$attribute} < $this->{$params['compareAttribute']}){
-            $this->addError($attribute, Yii::t('Front', $params['message']));
-        }
-    }
-
-    public function validateToday($attribute, $params){
-        if($this->{$attribute} && $this->{$attribute} < strtotime(date('m/d/Y'), time())){
-            $this->addError($attribute, Yii::t('Front', $params['message']));
-        }
-    }
-
     public function beforeValidate() {
         if(parent::beforeValidate()) {
-            if($this->execution_date){
-                $this->execution_date = strtotime($this->execution_date);
-            }
-            if($this->start_date){
-                $this->start_date = strtotime($this->start_date);
-            }
-            if($this->end_date){
-                $this->end_date = strtotime($this->end_date);
-            }
-            if($this->amount_cent){
-                $this->amount .= '.' . $this->amount_cent;
-            }
-            if($this->remaining_balance_cent){
-                $this->remaining_balance .= '.' . $this->remaining_balance_cent;
+            if($this->to_account_number){
+                if($acc = Accounts::model()->find('number = :n', array(':n' => $this->to_account_number))){
+                    $this->to_account_id = $acc->id;
+                }
             }
             return true;
         }

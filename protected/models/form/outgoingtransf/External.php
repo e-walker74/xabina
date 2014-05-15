@@ -27,15 +27,28 @@ class Form_Outgoingtransf_External extends Form_Outgoingtransf{
         );
     }
 
-    public function validateBankCode(){
-        return true;
+    public function validateBankCode($attribute, $params){
+        $model = Banks_Info::model()->find(
+            array(
+                'condition' => 'bic_code = :bic',
+                'params' => array(':bic' => $this->{$attribute}),
+                'select' => 'id, institution_name',
+            )
+        );
+        if(!$model){
+            $this->addError($attribute, Yii::t('Front', 'Bank name is incorrect'));
+        } else {
+            $this->external_bank_id = $model->id;
+        }
     }
 
-    public function save(){
+    public function save($transfer = false){
         if(!$this->validate()){
             return false;
         }
-        $transfer = new Transfers_Outgoing();
+        if(!$transfer){
+            $transfer = new Transfers_Outgoing();
+        }
         $transfer->attributes = $this->attributes;
         return $transfer->save();
     }

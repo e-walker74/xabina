@@ -56,7 +56,7 @@
 				<td width="30%">
 					<?= $trans->htmlOperationDescription ?>
 				</td>
-				<td width="19%" class="align-right">- <?= number_format($trans->amount, 2, ".", " ") . " " . $trans->currency->code ?></td>
+				<td width="19%" class="align-right rejected">- <?= number_format($trans->amount, 2, ".", " ") . " " . $trans->currency->code ?></td>
 				<td width="14%">
 					<?= $trans->htmlStatus ?>
 				</td>

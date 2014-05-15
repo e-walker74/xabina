@@ -3,7 +3,7 @@ $(function(){
 	updateTransactionsTable = function(select){
 		var accNumber = $(select).val()
 		$("#Form_Search_account_number").val(accNumber)
-		$(select).parents('.account-selection').find('.refresh-button').fadeIn()
+		backgroundBlack();
 		$('#search_accordion').accordion({ collapsible: true , active: false})
 		$.ajax({
 			url: window.location.pathname,
@@ -12,8 +12,8 @@ $(function(){
 				if(response.success){
 					$('.transaction-table-overflow').html(response.html);
 				}
-				$(select).parents('.account-selection').find('.refresh-button').fadeOut()
 			},
+            complete : dellBackgroundBlack,
 			cache:false,
 			data: {account: accNumber},
 			type: 'GET'

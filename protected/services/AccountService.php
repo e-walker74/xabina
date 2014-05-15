@@ -19,6 +19,9 @@ class AccountService {
 		if($checkSum == 10){
 			$checkSum = 0;
 		}
+		if(!$checkSum && $checkSum !== 0){
+			return self::generateNumber(); //TODO do not generate numbers length 11
+		}
 		$number[] = $checkSum;
 		$number = implode($number);
 		if(!self::checkNumber($number)){

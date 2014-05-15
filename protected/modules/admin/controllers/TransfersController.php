@@ -20,6 +20,20 @@ class TransfersController extends Controller
 	}
 	
 	public function actionAuthorise($id){
+
+        $model = Transfers_Outgoing::model()->findByPk($id);
+
+        if(!$model->status && !$model->need_confirm){
+            if(!$model->account->checkBalance($model->amount, $model->currency_id)){
+                die('Not enough money!');
+            }
+            $model->status = 1;
+            $admin_transfer = Admin_Transfers::model($model->form_type);
+            $admin_transfer->createOutgoingTransaction($model);
+        }
+
+        die;
+
 		$model = Transfers_Outgoing::model()->findByPk($id);
 		if(!$model->status && !$model->need_confirm){
 			$model->status = 1;
