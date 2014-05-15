@@ -173,11 +173,9 @@ class AccountsController extends Controller
                 break;
         }
 
-		$model = new Transactions_Info_Attachments;
-
         $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
 
-        $this->render('transaction', array('trans' => $trans, 'model' => $model, 'categories' => $categories));
+        $this->render('transaction', array('trans' => $trans, 'categories' => $categories));
 	}
 
 	public function actionUploadAttachemnt($id){

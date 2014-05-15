@@ -148,7 +148,6 @@ class Form_Registration extends CFormModel
                 $company->title = $this->company_name;
                 $company->country_id = $country->id;
                 $company->save();
-
             }
 
 
