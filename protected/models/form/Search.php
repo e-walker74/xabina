@@ -7,7 +7,6 @@
  */
 class Form_Search extends CFormModel
 {
-	public $account_id;
 	public $sender;
 	public $account_number;
     public $keyword;
@@ -26,7 +25,7 @@ class Form_Search extends CFormModel
 	{
 		return array(
 			array('sender, keyword, type', 'length', 'max' => 255, 'message' => Yii::t('Front', 'is to long')),
-			array('account_id, account_number, from_date, to_date, from_sum, to_sum', 'numerical', 'message' => Yii::t('Front', 'field is not numeric')),
+			array('account_number, from_date, to_date, from_sum, to_sum', 'numerical', 'message' => Yii::t('Front', 'field is not numeric')),
 			array('type, sender, keyword, account_number, from_date, to_date, from_sum, to_sum', 'safe'),
 			// password needs to be authenticated
 		);
@@ -90,6 +89,7 @@ class Form_Search extends CFormModel
 		$criteria->together = true;
 		$criteria->order = 't.created_at desc';
 
+		//d($criteria);
 		
 		return Transactions::model()->findAll($criteria);
 	}
