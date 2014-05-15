@@ -74,7 +74,6 @@ abstract class Form_Outgoingtransf extends CFormModel{
             array('account_number', 'checkXabinaNumber'),
             array('counter_agent', 'checkXabinaUserID'),
             array('urgent, favorite', 'boolean'),
-            array('amount', 'validateBalance'),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
             array('frequency_type', 'in', 'range' => array(1, 2)),
             array('end_date', 'validateCompareDates', 'compareAttribute' => 'start_date', 'message' => Yii::t('Front', 'Must be greater than Start Date')),
@@ -111,23 +110,6 @@ abstract class Form_Outgoingtransf extends CFormModel{
         if($this->{$attribute} && $this->{$attribute} < strtotime(date('m/d/Y'), time())){
             $this->addError($attribute, Yii::t('Front', $params['message']));
         }
-    }
-
-    public function validateBalance($attribute, $params){
-        return true;
-        $acc = Accounts::model()->find('number = :account_number AND user_id = :uid',
-            array(
-                ':account_number' => $this->account_number,
-                ':uid' => Yii::app()->user->id,
-            )
-        );
-        if(!$acc){
-            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-        }
-        if($acc->getBalanceInEUR() < Currencies::convert($this->amount, Currencies::model()->findByPk($this->currency_id)->code, 'EUR')){
-            $this->addError('amount', Yii::t('Front', 'Insufficient funds'));
-        }
-
     }
 
     public function beforeValidate() {
