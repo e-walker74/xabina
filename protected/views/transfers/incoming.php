@@ -3,13 +3,13 @@
 <div class="h1-header"><?= Yii::t('Front', 'Upload money') ?></div>
 <div class="transfer-accordion xabina-accordion xabina-transfer-accordion" >
 <div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Quick Upload') ?></a><span class="arr"></span></div>
-<div class="upload-table accordion-content">
+<div class="upload-table accordion-content quick-transfer-content">
     <div class="transaction-table-header">
         <table class="transaction-header">
             <tr>
-                <td width="24%">Способ</td>
-                <td width="27%">Получатель</td>
-                <td width="49%">Value</td>
+                <td width="24%"<?= Yii::t('Front', 'Method') ?></td>
+                <td width="27%"><?= Yii::t('Front', 'Receiver') ?></td>
+                <td width="49%"><?= Yii::t('Front', 'Value') ?></td>
             </tr>
         </table>
     </div>
@@ -17,7 +17,7 @@
         <table class="table">
             <tr>
                 <td width="24%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
+                    <div class="update-img-payment"><img src="/images/payment.jpg" alt=""/></div>
                     <div class="grey">xxxx xxxx xxxx 01541</div>
                 </td>
                 <td width="27%">
@@ -90,11 +90,11 @@
 <div class="electronic-methods accordion-content">
 
     <div class="own-account-form xabina-form-container">
-        <div class="form-header"><span>From</span></div>
+        <div class="form-header"><span><?= Yii::t('Front', 'To') ?></span></div>
         <div class="from-form">
             <div class="form-cell">
                 <div class="amount">
-                    <div class="lbl">Amount<span class="tooltip-icon" title="Add Your E-Mail that you will use to access online banking"></span></div>
+                    <div class="lbl"><?= Yii::t('Front', 'Amount') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_upload_ammount') ?>"></span></div>
                     <div class="input">
                         <input class="amount-sum" type="text">
                         <span class="delimitter">.</span>
@@ -142,24 +142,29 @@
                 </div>
             </div>
         </div>
-        <div class="form-header"><span>To</span></div>
-        <div class="update-about">
-            <div class="field-lbl">
-                Method
-                <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+        <div class="form-header"><span><?= Yii::t('Front', 'From') ?></span></div>
+        <div class="from-form">
+            <div class="update-about">
+                <div class="field-lbl">
+                    Method
+                    <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                </div>
             </div>
-        </div>
+            <div class="field-input">
+                <select class="selectpicker">
+                    <option value="">Select a method</option>
+                    <option value="" data-icon="icon-star">Favourite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MasterCard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xxxx xxxx xxxx 0265</option>
+                    <option value="" data-icon="icon-star">Favourite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MasterCard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xxxx xxxx xxxx 0265</option>
+                    <option value="" data-icon="icon-star">Favourite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MasterCard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xxxx xxxx xxxx 0265</option>
+                    <option value=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Credit Card</option>
+                    <option value=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iDeal</option>
+                </select>
+            </div>
 
-        <select class="selectpicker">
-            <option value="" data-icon="icon-star">Favourite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MasterCard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xxxx xxxx xxxx 0265</option>
-            <option value="" data-icon="icon-star">Favourite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MasterCard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xxxx xxxx xxxx 0265</option>
-            <option value="" data-icon="icon-star">Favourite &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MasterCard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xxxx xxxx xxxx 0265</option>
-            <option value=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Credit Card</option>
-            <option value=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iDeal</option>
-        </select>
-        <div class="details-accordion ">
-            <div class="accordion-header"><a href="#">Details</a></div>
+            <div class="details-accordion ">
+                <div class="accordion-header"><a href="#">Details</a></div>
 
+            </div>
         </div>
         <div class="form-submit transfer-controls-cont col-lg-5 col-md-5 col-sm-5 none-padding-left none-padding-right">
             <div class="submit-button button-next pull-left">Sign and send</div>
@@ -168,98 +173,152 @@
         </div>
     </div>
 </div>
-<div class="accordion-header"><a href="#" class="search-acc">Payment Request</a><span class="arr"></span></div>
+<div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Payment Request') ?></a><span class="arr"></span></div>
 <div class="payment-request accordion-content">
+    <?php $form=$this->beginWidget('CActiveForm', array(
+        'id'=>'request-form',
+        'enableAjaxValidation'=>true,
+        'enableClientValidation'=>true,
+        'errorMessageCssClass' => 'error-message',
+        'htmlOptions' => array(
+            'class' => 'form-validable',
+        ),
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'validateOnChange'=>true,
+            'errorCssClass'=>'input-error',
+            'successCssClass'=>'valid',
+            'afterValidate' => 'js:function(form, data, hasError) {
+						form.find("input").removeClass("input-error");
+						form.find("input").parent().removeClass("input-error");
+						form.find(".validation-icon").fadeIn();
+						if(hasError) {
+							for(var i in data) {
+								$("#"+i).addClass("input-error");
+								$("#"+i).parent().addClass("input-error");
+								$("#"+i).next(".validation-icon").fadeIn();
+							}
+							return false;
+						}
+						else {
+							submitTransaction(form)
+						}
+						return false;
+					}',
+            'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
+						if(hasError){
+							if(!$("#"+attribute.id).hasClass("input-error")){
+								$("#"+attribute.id+"_em_").hide().slideDown();
+							}
+							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
+							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
+							$("#"+attribute.id).next(".validation-icon").fadeIn();
+						} else {
+							if($("#"+attribute.id).hasClass("input-error")){
+								$("#"+attribute.id+"_em_").show().slideUp();
+							}
+							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
+							$("#"+attribute.id).next(".validation-icon").fadeIn();
+							$("#"+attribute.id).addClass("valid");
+						}
+					}'
+        ),
+    )); ?>
     <div class="electronic-methods">
         <div class="new-transfer-table own-account-form xabina-form-container">
             <div class="from-form">
                 <div class="form-cell">
                     <div class="amount">
-                        <div class="lbl">Amount<span class="tooltip-icon" title="" data-original-title="Add Your E-Mail that you will use to access online banking"></span></div>
+                        <div class="lbl"><?= Yii::t('Front', 'Amount') ?><span class="tooltip-icon" title="Add Your E-Mail that you will use to access online banking"></span></div>
                         <div class="input">
-                            <input class="amount-sum" type="text">
+                            <?= $form->textField($incoming_request, 'amount', array('class' => 'amount-sum')) ?>
                             <span class="delimitter">.</span>
-                            <input class="amount-cent" type="text">
-                            <div class="error-message" style="display: block;">
-                                error!!!
-                                <div class="error-message-arr"></div>
-                            </div>
+                            <?= $form->textField($incoming_request, 'amount_cent', array('class' => 'amount-cent')) ?>
+                            <?= $form->error($incoming_request, 'amount') ?>
                         </div>
                     </div>
                 </div>
                 <div class="form-cell">
                     <div class="currency">
-                        <div class="lbl">Currency<span class="tooltip-icon" title="" data-original-title="Add Your E-Mail that you will use to access online banking">
-</span></div>
+                        <div class="lbl"><?= Yii::t('Front', 'Currency') ?>
+                            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_currecncy_new_transfer'); ?>"></span>
+                        </div>
                         <div class="input">
                             <div class="select-custom currency-select">
-                                <span class="select-custom-label">EUR</span>
-                                <select name="" class=" select-invisible">
-                                    <option value="">USD</option>
-                                    <option value="">RUB</option>
-                                    <option value="">EUR</option>
-                                </select>
+                                <span class="select-custom-label"><?= $user->settings->currency->title ?></span>
+                                <?= $form->dropDownList(
+                                    $incoming_request,
+                                    'currency_id',
+                                    CHtml::listData($currencies, 'id', 'title'),
+                                    array('class' => 'select-invisible', 'options' => array($user->settings->currency_id => array('selected' => true)))
+                                ); ?>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-cell" style="float: right">
                     <div class="account">
-                        <div class="lbl">Account<span class="tooltip-icon" title="" data-original-title="tooltip text"></span></div>
+                        <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_account_new_transfer') ?>"></span></div>
                         <div class="input">
                             <div class="select-custom currency-select">
-                                <span class="select-custom-label">EUR</span>
-                                <select name="" class=" select-invisible">
-                                    <option value="">USD</option>
-                                    <option value="">RUB</option>
-                                    <option value="">EUR</option>
-                                </select>
+                                <span class="select-custom-label"><?= Yii::t('Front', 'Choose') ?></span>
+                                <?= $form->dropDownList(
+                                    $incoming_request,
+                                    'to_account_number',
+                                    CHtml::listData(
+                                        $user->accounts,
+                                        'number',
+                                        function($data){
+                                            return chunk_split($data->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($data->balance, 2, ".", " ") . "&nbsp;" . $data->currency->code;
+                                        }
+                                    ),
+                                    array('empty' => Yii::t('Front', 'Choose'), 'encode' => false, 'class' => 'select-invisible')
+                                ) ?>
                             </div>
-                            <div class="error-message" style="display: block;">
-                                error!!!
-                                <div class="error-message-arr"></div>
-                            </div>
+                            <?= $form->error($incoming_request, 'to_account_number'); ?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="field-lbl">
-                Comments
+                <?= Yii::t('Front', 'Comments') ?>
                 <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
             </div>
             <div class="field-input">
-                <textarea name="" cols="30" rows="1"></textarea>
+                <?= $form->textArea($incoming_request, 'description', array('class' => 'len3 autosize')); ?>
             </div>
             <div class="field-lbl">
-                Receiver
+                <?= Yii::t('Front', 'Transmitter') ?>
                 <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
             </div>
             <div class="col-lg-11 col-md-11 col-sm-11 none-padding-left">
                 <div class="field-input">
-                    <input type="text" class="input-text"/>
+                    <?= $form->textField($incoming_request, 'transmitter', array('class' => 'input-text')); ?>
+                    <?= $form->error($incoming_request, 'transmitter'); ?>
                 </div>
             </div>
             <div class="col-lg-1 col-md-1 col-sm-1 none-padding-right">
                 <div class="field-input">
-                    <input type="submit" class="receiver-submit" value=""/>
+                    <div type="submit" class="receiver-submit" ></div>
                 </div>
             </div>
             <div class="clearfix"></div>
             <div class="form-submit">
-                <a href="#" class="rounded-buttons upload add-more ">ADD INVOISE</a><br><br>
+                <a href="#" class="rounded-buttons upload add-more "><?= Yii::t('Front', 'ADD INVOISE') ?></a><br><br>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="details-accordion ">
-                <div class="accordion-header"><a href="#">Details</a></div>
-            </div>
+            <?php $this->renderPartial('_outgoing_details', array('model' => $incoming_request, 'form' => $form, 'categories' => $categories)); ?>
+
             <div class="form-submit">
-                <div class="submit-button button-next">Sign and send</div>
+                <input type="submit" class="submit-button button-next" value="<?= Yii::t('Front', 'Sign and send') ?>"/>
             </div>
         </div>
     </div>
+    <?php $this->endWidget(); ?>
 </div>
 </div>
 </div>
 </div>
-</div>
+
+<?php Yii::app()->clientScript->registerScriptFile('/js/incoming.js'); ?>

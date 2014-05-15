@@ -26,13 +26,11 @@ $(document).ready(function(){
 
     $('.details-accordion').accordion({
         heightStyle: "content",
-        active: false,
-        collapsible: true
+        active: 0,
+        collapsible: false
     });
 
-    $( ".xabina-tabs" ).tabs({
-
-    });
+    $( ".xabina-tabs" ).tabs();
 
     $('.favorite-check').on('click', function(){
         $(this).parent().toggleClass('active')
@@ -84,10 +82,12 @@ var submitTransaction = function(form){
         url: url,
         success: function(response) {
             if(response.success){
-                if($('.clicked-button').length != 0){
-                    successNotify('Payment', response.message, $('.clicked-button'))
-                } else {
-                    successNotify('Payment', response.message)
+                if(!form.find('.clicked-button').hasClass('button-right')){
+                    if($('.clicked-button').length != 0){
+                        successNotify('Payment', response.message, $('.clicked-button'))
+                    } else {
+                        successNotify('Payment', response.message)
+                    }
                 }
                 resetPage()
                 if(response.clean){

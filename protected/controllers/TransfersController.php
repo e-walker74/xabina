@@ -335,8 +335,55 @@ class TransfersController extends Controller
         ));
     }
 
-    public function actionIncoming(){
-        $this->render('incoming');
+    public function actionIncoming()
+    {
+
+        $this->breadcrumbs[Yii::t('Front', 'Upload money')] = '';
+
+        $user = Users::model()->with('settings')->findByPk(Yii::app()->user->id);
+        $accounts = $user->accounts;
+        if(empty($user->accounts)){
+            throw new CHttpException(404, Yii::t('Front', 'You have not any accounts'));
+        }
+
+        /*
+         * start Payment Request Form
+         */
+        $incoming_request = new Form_Incoming_Request;
+
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'request-form') {
+            echo CActiveForm::validate($incoming_request);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Form_Incoming_Request'])){
+            $incoming_request->attributes = $_POST['Form_Incoming_Request'];
+            $message = Yii::t('Front', 'Payment was saved successfully');
+            if($incoming_request->save()){
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'clean' => false,
+                    'message' => $message,
+                    'url' => Yii::app()->createUrl('/transfers/overview')
+                ));
+            } else {
+                echo CJSON::encode(array('success' => false, 'message' => ''));
+            }
+            Yii::app()->end();
+        }
+        /*
+         * end Payment Request Form
+         */
+
+        $currencies = Currencies::model()->findAll();
+        $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
+
+        $this->render('incoming', array(
+            'user'          => $user,
+            'currencies'    => $currencies,
+            'categories'    => $categories,
+            'incoming_request'=>$incoming_request,
+        ));
     }
 	
 	public function actionOverview(){

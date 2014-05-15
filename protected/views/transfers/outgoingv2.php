@@ -269,7 +269,7 @@
             <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_account_new_transfer') ?>"></span></div>
             <div class="input">
                 <div class="select-custom currency-select">
-                    <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4); ?></span>
+                    <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($selectedAcc->balance, 2, ".", " ") . "&nbsp;" . $selectedAcc->currency->code ?></span>
                     <?= $form->dropDownList(
                         $ownForm,
                         'account_number',
@@ -277,10 +277,10 @@
                             $user->accounts,
                             'number',
                             function($data){
-                                return chunk_split($data->number, 4);
+                                return chunk_split($data->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($data->balance, 2, ".", " ") . "&nbsp;" . $data->currency->code;
                             }
                         ),
-                        array('class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
+                        array('encode' => false, 'class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
                     ) ?>
                 </div>
             </div>
@@ -432,7 +432,7 @@
             <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_account_new_transfer') ?>"></span></div>
             <div class="input">
                 <div class="select-custom currency-select">
-                    <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4); ?></span>
+                    <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($selectedAcc->balance, 2, ".", " ") . "&nbsp;" . $selectedAcc->currency->code ?></span>
                     <?= $form->dropDownList(
                         $anotherForm,
                         'account_number',
@@ -440,10 +440,10 @@
                             $user->accounts,
                             'number',
                             function($data){
-                                return chunk_split($data->number, 4);
+                                return chunk_split($data->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($data->balance, 2, ".", " ") . "&nbsp;" . $data->currency->code;
                             }
                         ),
-                        array('class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
+                        array('encode' => false, 'class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
                     ) ?>
                 </div>
             </div>
@@ -578,18 +578,18 @@
                 <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_account_new_transfer') ?>"></span></div>
                 <div class="input">
                     <div class="select-custom currency-select">
-                        <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4); ?></span>
+                        <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($selectedAcc->balance, 2, ".", " ") . "&nbsp;" . $selectedAcc->currency->code ?></span>
                         <?= $form->dropDownList(
-                            $externalForm,
+                            $anotherForm,
                             'account_number',
                             CHtml::listData(
                                 $user->accounts,
                                 'number',
                                 function($data){
-                                    return chunk_split($data->number, 4);
+                                    return chunk_split($data->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($data->balance, 2, ".", " ") . "&nbsp;" . $data->currency->code;
                                 }
                             ),
-                            array('class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
+                            array('encode' => false, 'class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
                         ) ?>
                     </div>
                 </div>
@@ -752,7 +752,7 @@
                 <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_account_new_transfer') ?>"></span></div>
                 <div class="input">
                     <div class="select-custom currency-select">
-                        <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4); ?></span>
+                        <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($selectedAcc->balance, 2, ".", " ") . "&nbsp;" . $selectedAcc->currency->code ?></span>
                         <?= $form->dropDownList(
                             $ewalletForm,
                             'account_number',
@@ -760,10 +760,10 @@
                                 $user->accounts,
                                 'number',
                                 function($data){
-                                    return chunk_split($data->number, 4);
+                                    return chunk_split($data->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($data->balance, 2, ".", " ") . "&nbsp;" . $data->currency->code;
                                 }
                             ),
-                            array('class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
+                            array('encode' => false, 'class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
                         ) ?>
                     </div>
                 </div>
@@ -817,7 +817,7 @@
         <div class="disabled e-wallet-type-3">
             <div class="form-cell" style="width: 100%">
                 <div class="email">
-                    <div class="lbl"><?= Yii::t('Front', 'Scrill Account Number') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'new-transfer-receiver-email-for-paypal'); ?>"></span></div>
+                    <div class="lbl"><?= Yii::t('Front', 'Receiver E-Mail') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'new-transfer-receiver-email-for-paypal'); ?>"></span></div>
                     <div class="input">
                         <?= $form->textField($ewalletForm, 'scrill_acc'); ?>
                         <?= $form->error($ewalletForm, 'scrill_acc'); ?>
