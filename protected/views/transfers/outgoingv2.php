@@ -17,8 +17,13 @@
     <li class="quick-row">
         <div class="quick-row">
             <div class="receiver">
-                <div class="receiver-name"><?= $qtr->to_account_holder ?></div>
-                <div class="receiver-num"><?= chunk_split($qtr->to_account_number, 4) ?></div>
+				<?php if($qtr->form_type == 'ewallet'):?>
+					<div class="receiver-name"><?= $qtr->to_account_number ?> (<?= Form_Outgoingtransf_Ewallet::$ewallet_types[$qtr->ewallet_type] ?>)</div>
+					<div class="receiver-num"></div>
+				<?php else: ?>
+					<div class="receiver-name"><?= $qtr->to_account_holder ?></div>
+					<div class="receiver-num"><?= (is_numeric($qtr->to_account_number)) ? chunk_split($qtr->to_account_number, 4) : $qtr->to_account_number ?></div>
+				<?php endif; ?>
             </div>
             <div class="sum">
                 <div class="amount"><?= $qtr->amount ?></div>
