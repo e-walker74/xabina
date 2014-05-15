@@ -417,11 +417,11 @@ class TransfersController extends Controller
             $sumInEur = array();
 
             foreach($trans as $tr){
-                if(!isset($sumInEur[$tr->transfer->account_id])){
-                    $sumInEur[$tr->transfer->account_id]['balance'] = $tr->transfer->account->getBalanceInEUR();
-                    $sumInEur[$tr->transfer->account_id]['sum'] = Currencies::convert($tr->transfer->amount, $tr->transfer->currency->code, 'EUR');
+                if(!isset($sumInEur[$tr->transfer->account_number])){
+                    $sumInEur[$tr->transfer->account_number]['balance'] = $tr->transfer->account->getBalanceInEUR();
+                    $sumInEur[$tr->transfer->account_number]['sum'] = Currencies::convert($tr->transfer->amount, $tr->transfer->currency->code, 'EUR');
                 }else{
-                    $sumInEur[$tr->transfer->account_id]['sum'] = $sumInEur[$tr->transfer->account_id]['sum'] + Currencies::convert($tr->transfer->amount, $tr->transfer->currency->code, 'EUR');
+                    $sumInEur[$tr->transfer->account_number]['sum'] = $sumInEur[$tr->transfer->account_number]['sum'] + Currencies::convert($tr->transfer->amount, $tr->transfer->currency->code, 'EUR');
                 }
 
                 if(!isset($transes[$tr->transfer->currency->code])){
