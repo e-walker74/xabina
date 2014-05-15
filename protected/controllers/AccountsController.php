@@ -89,7 +89,7 @@ class AccountsController extends Controller
 		$model->account_number = $selectedAcc->number;
 		if(isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest){
 			$model->attributes = $_GET['Form_Search'];
-			$model->account_id = $selectedAcc->id;
+			$model->account_number = $selectedAcc->number;
 			$transactions = $model->searchUserTransactions();
 			$html = $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $transactions), true, false);
 			echo CJSON::encode(array('success' => true, 'html' => $html));
