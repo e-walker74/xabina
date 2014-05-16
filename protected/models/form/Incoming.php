@@ -61,6 +61,23 @@ abstract class Form_Incoming extends CFormModel{
      * @return mixed
      */
     abstract public function save();
+	
+	public function afterTransferSave($transfer){
+		if(isset($_POST['file_ids'])){
+			foreach($_POST['file_ids'] as $fId){
+				$file = Users_Files::model()->findByPk($fId);
+				if($file->user_id != Yii::app()->user->id){
+					return false;
+				}
+				if(strpos($file->form, 'Form_Incoming') !== 0){
+					return false;
+				}
+				$file->form = get_class($transfer);
+				$file->model_id = $transfer->id;
+				$file->save();
+			}
+		}
+	}
 
     /**
      * required params for all outgoing transfers
@@ -95,17 +112,6 @@ abstract class Form_Incoming extends CFormModel{
             } elseif(!Accounts::model()->find('number = :n', array(':n' => $this->{$attribute}))) {
                 $this->addError($attribute, Yii::t('Front', 'Account number is incorrect'));
             }
-        }
-    }
-
-    public function beforeValidate() {
-        if(parent::beforeValidate()) {
-            if($this->to_account_number){
-                if($acc = Accounts::model()->find('number = :n', array(':n' => $this->to_account_number))){
-                    $this->to_account_id = $acc->id;
-                }
-            }
-            return true;
         }
     }
 }

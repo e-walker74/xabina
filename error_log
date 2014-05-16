@@ -1,0 +1,14 @@
+[16-May-2014 11:32:32 Europe/Minsk] PHP Parse error:  syntax error, unexpected ';', expecting '(' in /home/evnaby/sites/xabina/protected/models/transfers/outgoing/Favorite.php on line 6
+[16-May-2014 11:32:33 Europe/Minsk] PHP Parse error:  syntax error, unexpected ';', expecting '(' in /home/evnaby/sites/xabina/protected/models/transfers/outgoing/Favorite.php on line 6
+[16-May-2014 11:32:38 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_VARIABLE in /home/evnaby/sites/xabina/protected/models/transfers/outgoing/Favorite.php on line 6
+[16-May-2014 14:04:56 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end, expecting T_VARIABLE or T_DOLLAR_OPEN_CURLY_BRACES or T_CURLY_OPEN in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 376
+[16-May-2014 14:04:57 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end, expecting T_VARIABLE or T_DOLLAR_OPEN_CURLY_BRACES or T_CURLY_OPEN in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 376
+[16-May-2014 14:04:59 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end, expecting T_VARIABLE or T_DOLLAR_OPEN_CURLY_BRACES or T_CURLY_OPEN in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 376
+[16-May-2014 14:05:00 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end, expecting T_VARIABLE or T_DOLLAR_OPEN_CURLY_BRACES or T_CURLY_OPEN in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 376
+[16-May-2014 15:23:44 Europe/Minsk] PHP Fatal error:  Class 'ClientScript' not found in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 416
+[16-May-2014 15:23:52 Europe/Minsk] PHP Fatal error:  Class 'ClientScript' not found in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 416
+[16-May-2014 15:23:55 Europe/Minsk] PHP Fatal error:  Class 'ClientScript' not found in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 416
+[16-May-2014 18:52:34 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BOOLEAN_AND in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 385
+[16-May-2014 18:52:37 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BOOLEAN_AND in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 385
+[16-May-2014 18:52:39 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BOOLEAN_AND in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 385
+[16-May-2014 18:52:40 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_BOOLEAN_AND in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 385

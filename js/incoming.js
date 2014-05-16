@@ -20,6 +20,20 @@ $(document).ready(function(){
         active: 0,
         collapsible: false
     });
+	
+	$('.selectpicker').selectpicker();
+	
+	$('#Form_Incoming_Electronic_electronic_method').change(function(){
+		$('.electronic-method-fields').hide();
+		$('.electronic-method-fields.method-'+$(this).val()).slideDown();
+	})
+	
+	$('#Form_Incoming_Electronic_creditcard_number').validateCreditCard(function(result)
+	{
+		alert('CC type: ' + result.card_type.name
+		  + '\nLength validation: ' + result.length_valid
+		  + '\nLuhn validation: + result.luhn_valid');
+	});
 })
 
 var submitTransaction = function(form){

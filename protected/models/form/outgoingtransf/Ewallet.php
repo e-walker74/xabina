@@ -71,7 +71,11 @@ class Form_Outgoingtransf_Ewallet extends Form_Outgoingtransf{
             $transfer = new Transfers_Outgoing();
         }
         $transfer->attributes = $this->attributes;
-        return $transfer->save();
+        if($transfer->save()){
+			$this->afterTransferSave($transfer);
+			return true;
+		}
+		return false;
     }
 
 }

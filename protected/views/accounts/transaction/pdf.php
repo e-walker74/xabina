@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Address'); ?>:</td>
-                    <td><?= $user->primary_address ? $user->primary_address->shortAddressHtml : '';?></td>
+                    <td><?= $user->primary_address ? $user->primary_address->addressHtml : '';?></td>
                 </tr>
                 <tr>
                     <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Reg #'); ?>:</td>

@@ -35,7 +35,11 @@ class Form_Outgoingtransf_Quick extends Form_Outgoingtransf{
         $transfer->attributes = $this->attributes;
         $to_account = Accounts::model()->find('number = :num', array(':num' => $transfer->to_account_number));
         $transfer->to_account_holder = $to_account->user->fullName;
-        return $transfer->save();
+        if($transfer->save()){
+			$this->afterTransferSave($transfer);
+			return true;
+		}
+		return false;
     }
 
 } 
