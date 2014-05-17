@@ -22,7 +22,7 @@ class Transfers_Outgoing_Favorite extends Transfers_Outgoing
 		// class name for the relations automatically generated below.
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
-			'account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
+			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);

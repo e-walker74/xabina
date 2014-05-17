@@ -225,6 +225,7 @@
 						<?= $form->textField($electronic_request, 'creditcard_number', array('class' => 'input-text')) ?>
 						<?= $form->error($electronic_request, 'creditcard_number'); ?>
 					</div>
+					<div class="creditcard-type"></div>
 				</div>
 			</div>
 			

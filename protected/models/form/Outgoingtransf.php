@@ -131,6 +131,11 @@ abstract class Form_Outgoingtransf extends CFormModel{
 
     public function beforeValidate() {
         if(parent::beforeValidate()) {
+			if($this->account_number){
+                if($acc = Accounts::model()->find('number = :n', array(':n' => $this->account_number))){
+                    $this->account_id = $acc->id;
+                }
+            }
             if($this->execution_date){
                 $this->execution_date = strtotime($this->execution_date);
             }

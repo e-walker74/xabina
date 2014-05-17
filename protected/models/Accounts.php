@@ -41,8 +41,8 @@ class Accounts extends ActiveRecord
 			array('currency_id', 'length', 'max'=>3),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('number, user_id, status, type_id, currency_id', 'safe', 'on'=>'search'),
-			array('number, user_id, status, type_id, currency_id, holderEmail', 'safe', 'on'=>'adminSearch'),
+			array('id, number, user_id, status, type_id, currency_id', 'safe', 'on'=>'search'),
+			array('id, number, user_id, status, type_id, currency_id, holderEmail', 'safe', 'on'=>'adminSearch'),
 		);
 	}
 
