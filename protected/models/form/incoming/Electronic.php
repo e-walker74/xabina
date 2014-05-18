@@ -66,9 +66,14 @@ class Form_Incoming_Electronic extends Form_Incoming{
         if(!$this->validate()){
             return false;
         }
-        $transfer = new Transfers_Incoming();
+        
+		d($this->attributes);
+		die;
+		
+		$transfer = new Transfers_Incoming();
         $transfer->attributes = $this->attributes;
 		
+		die;
         return $transfer->save();
     }
 

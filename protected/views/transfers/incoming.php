@@ -212,6 +212,7 @@
 						'empty' => Yii::t('Front', 'Select a method'),
 					)
 				); ?>
+				<?= $form->error($electronic_request, 'electronic_method'); ?>
             </div>
 		</div>
 		
@@ -295,9 +296,10 @@
 		<?php $this->renderPartial('_outgoing_details', array('model' => $electronic_request, 'form' => $form, 'categories' => $categories)); ?>
 		
         <div class="form-submit transfer-controls-cont col-lg-5 col-md-5 col-sm-5 none-padding-left none-padding-right">
-            <input type="sbumit" class="submit-button button-next pull-left" value="<?= Yii::t('Front', 'Sign and send') ?>" />
-            <div class="star-button pull-right">
-            </div>
+            <input type="submit" class="submit-button button-next pull-left" value="<?= Yii::t('Front', 'Sign and send') ?>" />
+			<label class="star-button  pull-right" onclick="$(this).toggleClass('active')">
+				<?= $form->checkbox($electronic_request, 'favorite', array('style' => 'display:none;', 'class' => 'favorite-check')); ?>
+			</label>
         </div>
     </div>
 	<?php $this->endWidget(); ?>

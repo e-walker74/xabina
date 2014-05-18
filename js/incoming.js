@@ -38,6 +38,10 @@ $(document).ready(function(){
 	}, {
 		accept: ['visa', 'mastercard', 'amex', 'maestro', 'jcb', 'discover', 'union']
 	});
+	
+	$('.favorite-check').on('click', function(){
+        $(this).parent().toggleClass('active')
+    })
 })
 
 var submitTransaction = function(form){
