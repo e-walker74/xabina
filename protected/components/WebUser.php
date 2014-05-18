@@ -230,7 +230,7 @@ class WebUser extends CWebUser {
 		$log->user_id = $user->id;
 		$log->save();
 		
-		
+        $this->initRback();
 
 		if($user->last_auth){
 			$this->setLastIp($user->last_auth->ip_address);
@@ -254,4 +254,12 @@ class WebUser extends CWebUser {
 	
 		parent::logout();
 	}
+
+    /**
+     * Download access rights for user
+     */
+    public function initRback() {
+        $user = $this->_getModel();
+        $user->getRbacSettings();
+    }
 }

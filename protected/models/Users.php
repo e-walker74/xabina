@@ -281,4 +281,8 @@ class Users extends ActiveRecord
 	public static function removeNotification($code, $user_id){
 		Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
 	}
+
+    public function getRbacSettings() {
+        
+    }
 }
