@@ -216,65 +216,108 @@
 		</div>
 		
 		<div class="method-1 electronic-method-fields">
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'creditcard_number') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_number') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'creditcard_number', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'creditcard_number'); ?>
-					</div>
+                <div class="form-line">
+                    <div class="form-cell">
+                        <div class="lbl"><?= Yii::t('Front', 'creditcard_holder') ?>
+                            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_holder') ?>"></span>
+                        </div>
+                        <div class="field-input">
+                            <?= $form->textField($electronic_request, 'creditcard_holder', array('class' => 'input-text', 'style' => 'width:100%')) ?>
+                            <?= $form->error($electronic_request, 'creditcard_holder'); ?>
+                        </div>
+                    </div>
 				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'creditcard_holder') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_holder') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'creditcard_holder', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'creditcard_holder'); ?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'from_creditcard_p_month') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'p_month'); ?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'from_creditcard_p_year') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_year') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'p_year'); ?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'from_creditcard_p_csc') ?>
+                <div class="clearfix"></div>
+                <div class="form-line" style="margin: 10px 0">
+                <div class="form-cell pull-left" style="width: 42%">
+                    <div class="lbl"><?= Yii::t('Front', 'Credit Card Number') ?>
+                        <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_number') ?>"></span>
+                    </div>
+                    <div class="field-input">
+                        <?= $form->textField($electronic_request, 'creditcard_number', array('class' => 'input-text')) ?>
+                        <?= $form->error($electronic_request, 'creditcard_number'); ?>
+                    </div>
+                </div>
+
+				<div class="form-cell pull-right" style="width: 27%">
+					<div class="lbl"><?= Yii::t('Front', 'CSC') ?>
 						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_csc') ?>"></span>
 					</div>
 					<div class="field-input">
-						<?= $form->textField($electronic_request, 'p_csc', array('class' => 'input-text')) ?>
+						<?= $form->textField($electronic_request, 'p_csc', array('class' => 'input-text card-csc')) ?>
 						<?= $form->error($electronic_request, 'p_csc'); ?>
 					</div>
 				</div>
-			</div>
+
+                    <div class="form-cell pull-right" style="width: 28%">
+                        <div class="lbl"><?= Yii::t('Front', 'Expiration Date') ?>
+                            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
+                        </div>
+                        <div class="field-input">
+                            <?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
+                            <?= $form->error($electronic_request, 'p_month'); ?>
+                            <span class="exp-delimitter">/</span>
+                            <?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
+                            <?= $form->error($electronic_request, 'p_year'); ?>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+				</div>
+            <div class="form-line">
+                <div class="form-cell" >
+                    <div class="lbl"><?= Yii::t('Front', 'Payment Type') ?>
+                        <span class="tooltip-icon" title="<?= Yii::t('Front', 'Payment Type') ?>"></span>
+                    </div>
+                    <div class="field-input">
+                        <ul class="list-inline payments-list">
+                            <li>
+                                <label>
+                                    <input type="radio">
+                                    <div class="logo master-card active">
+
+                                    </div>
+
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio">
+                                    <div class="logo jcb ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio">
+                                    <div class="logo union-pay ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio">
+                                    <div class="logo maestro ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio">
+                                    <div class="logo visa ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio">
+                                    <div class="logo american-ecspress ">
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 		</div>
 		
 		<div class="method-2 electronic-method-fields">
