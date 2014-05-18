@@ -30,9 +30,13 @@ $(document).ready(function(){
 	
 	$('#Form_Incoming_Electronic_creditcard_number').validateCreditCard(function(result)
 	{
-		alert('CC type: ' + result.card_type.name
-		  + '\nLength validation: ' + result.length_valid
-		  + '\nLuhn validation: + result.luhn_valid');
+		if(result.card_type){
+			$('.creditcard-type').html(result.card_type.name)
+		} else {
+			$('.creditcard-type').html('')
+		}
+	}, {
+		accept: ['visa', 'mastercard', 'amex', 'maestro', 'jcb', 'discover', 'union']
 	});
 })
 

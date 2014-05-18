@@ -28,8 +28,8 @@ class Transfers_Outgoing extends ActiveRecord
 	public function rules()
 	{
         return array(
-            array('amount, account_number, currency_id, charges, form_type', 'required'),
-            array('amount, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id, external_bank_id', 'numerical'),
+            array('amount, account_id, account_number, currency_id, charges, form_type', 'required'),
+            array('amount, account_id, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id, external_bank_id', 'numerical'),
             array('urgent, favorite, is_iban', 'boolean'),
             array('tag1, tag2, tag3, to_account_number', 'length', 'max' => 255),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
@@ -49,7 +49,7 @@ class Transfers_Outgoing extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
-			'account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
+			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);
