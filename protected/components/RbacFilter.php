@@ -8,7 +8,7 @@ class RbacFilter extends CFilter
 
         $executeAction = false; // false if the action should not be executed
 
-        $ca = ucwords($filterChain->controller->getId()).'.'.$filterChain->action->getId();
+        $ca = ucwords($filterChain->controller->getId()).'.'.ucwords($filterChain->action->getId());
         if(Yii::app()->user->checkRbacAccess($ca)) {
             $executeAction = true; 
         } 

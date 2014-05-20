@@ -1,21 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "zone".
+ * This is the model class for table "rbac_role_access_rights".
  *
- * The followings are the available columns in table 'zone':
- * @property integer $zone_id
- * @property string $country_code
- * @property string $zone_name
+ * The followings are the available columns in table 'rbac_role_access_rights':
+ * @property string $role_id
+ * @property string $acces_right_id
+ * @property string $additional_parameters
+ *
+ * The followings are the available model relations:
+ * @property RbacAccessRights $accesRight
+ * @property RbacRoles $role
  */
-class Zone extends CActiveRecord
+class RbacRoleAccessRights extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'zone';
+		return 'rbac_role_access_rights';
 	}
 
 	/**
@@ -26,12 +30,12 @@ class Zone extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country_code, zone_name', 'required'),
-			array('country_code', 'length', 'max'=>2),
-			array('zone_name', 'length', 'max'=>35),
+			array('role_id, acces_right_id', 'required'),
+			array('role_id, acces_right_id', 'length', 'max'=>11),
+			array('additional_parameters', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('zone_id, country_code, zone_name', 'safe', 'on'=>'search'),
+			array('role_id, acces_right_id, additional_parameters', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +47,8 @@ class Zone extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'accesRight' => array(self::BELONGS_TO, 'RbacAccessRights', 'acces_right_id'),
+			'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
 		);
 	}
 
@@ -52,9 +58,9 @@ class Zone extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'zone_id' => 'Zone',
-			'country_code' => 'Country Code',
-			'zone_name' => 'Zone Name',
+			'role_id' => 'Role',
+			'acces_right_id' => 'Acces Right',
+			'additional_parameters' => 'Additional Parameters',
 		);
 	}
 
@@ -76,9 +82,9 @@ class Zone extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('zone_id',$this->zone_id);
-		$criteria->compare('country_code',$this->country_code,true);
-		$criteria->compare('zone_name',$this->zone_name,true);
+		$criteria->compare('role_id',$this->role_id,true);
+		$criteria->compare('acces_right_id',$this->acces_right_id,true);
+		$criteria->compare('additional_parameters',$this->additional_parameters,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,7 +95,7 @@ class Zone extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Zone the static model class
+	 * @return RbacRoleAccessRights the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

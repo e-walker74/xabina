@@ -260,14 +260,27 @@ class WebUser extends CWebUser {
      */
     public function initRback() {
         $user = $this->_getModel();
-        $user->getRbacSettings();
+        $settings = $user->getRbacSettings();
+        $this->setState('__rbac', $settings);
+    }
+
+    public function getRbac() {
+        if($this->getState('__rbac') == NULL) {
+            $this->initRback();
+        }
+        return $this->getState('__rbac');
     }
 
     /**
      * check if user has access to Controller.Action
      */
     public function checkRbacAccess($ca) {
-        
-        return true;
+        $rights = $this->getRbac();
+        foreach ((array)$rights as $right) {
+            if($ca == $right['action_id']) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,21 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "zone".
+ * This is the model class for table "rbac_user_roles".
  *
- * The followings are the available columns in table 'zone':
- * @property integer $zone_id
- * @property string $country_code
- * @property string $zone_name
+ * The followings are the available columns in table 'rbac_user_roles':
+ * @property string $user_id
+ * @property string $role_id
+ * @property string $create_uid
+ * @property string $account_id
+ *
+ * The followings are the available model relations:
+ * @property RbacRoles $role
  */
-class Zone extends CActiveRecord
+class RbacUserRoles extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'zone';
+		return 'rbac_user_roles';
 	}
 
 	/**
@@ -26,12 +30,11 @@ class Zone extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('country_code, zone_name', 'required'),
-			array('country_code', 'length', 'max'=>2),
-			array('zone_name', 'length', 'max'=>35),
+			array('user_id, role_id', 'required'),
+			array('user_id, role_id, create_uid, account_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('zone_id, country_code, zone_name', 'safe', 'on'=>'search'),
+			array('user_id, role_id, create_uid, account_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +46,7 @@ class Zone extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
 		);
 	}
 
@@ -52,9 +56,10 @@ class Zone extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'zone_id' => 'Zone',
-			'country_code' => 'Country Code',
-			'zone_name' => 'Zone Name',
+			'user_id' => 'User',
+			'role_id' => 'Role',
+			'create_uid' => 'Create Uid',
+			'account_id' => 'Account',
 		);
 	}
 
@@ -76,9 +81,10 @@ class Zone extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('zone_id',$this->zone_id);
-		$criteria->compare('country_code',$this->country_code,true);
-		$criteria->compare('zone_name',$this->zone_name,true);
+		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('role_id',$this->role_id,true);
+		$criteria->compare('create_uid',$this->create_uid,true);
+		$criteria->compare('account_id',$this->account_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,7 +95,7 @@ class Zone extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Zone the static model class
+	 * @return RbacUserRoles the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

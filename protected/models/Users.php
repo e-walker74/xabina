@@ -144,6 +144,7 @@ class Users extends ActiveRecord
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
             'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'rbac_roles' => array(self::HAS_MANY, 'RbacUserRoles', 'user_id'),
         );
     }
 
@@ -284,5 +285,26 @@ class Users extends ActiveRecord
 
     public function getRbacSettings() {
         
+
+        // $criteria=new CDbCriteria;
+        // $criteria->alias = 't';
+        // $criteria->with = array('rbacUserRoles');
+        // $criteria->compare('t.id', $this->id,true);
+
+        // $dp = new CActiveDataProvider('RbacRoles', array(
+        //     'criteria'=>$criteria,
+        // ));
+        // return $dp->getData();
+
+        $userId = $this->id;
+        $buff = Yii::app()->db->createCommand(
+            "SELECT c.* 
+            FROM `rbac_user_roles` a
+            INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
+            INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
+            WHERE a.user_id = {$userId}"
+        )->queryAll();
+
+        return $buff;
     }
 }
