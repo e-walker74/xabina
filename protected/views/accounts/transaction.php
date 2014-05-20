@@ -3,7 +3,7 @@
 	<table class="xabina-table-upload transaction-table-cont" id="printTable">
 		<tbody><tr class="header-tr">
 			<td>
-				<?= Yii::t('Front', 'Transaction details') ?>
+				<?= Yii::t('Front', 'Transaction details (:account_number)', array(':account_number' => chunk_split($trans->account->number, 4))) ?>
                 <?php $form=$this->beginWidget('CActiveForm', array(
                         'method'=>'get',
                         'id' => 'searchForm',
@@ -28,7 +28,8 @@
 				<div class="transaction-info-cont">
 					<table class="transaction-info-table table">
 						<tbody>
-						<?php foreach($trans->info->getPublicAttrs() as $label => $value): ?>
+						<?php foreach($trans->transfer->getPublicAttrs() as $label => $value): ?>
+						<?php if(!$value) continue; ?>
 						<tr>
 							<td class="name" width="20%"><?= $label ?></td>
 							<td width="80%"><?= $value ?></td>
@@ -40,14 +41,14 @@
                                 <div id="category-block">
                                     <div class="select-custom select-category non-edit-doc">
                                         <span class="select-custom-label">
-                                            <?php if($trans->category): ?>
-                                                <?= $trans->category->title ?>
+                                            <?php if($trans->transfer->category): ?>
+                                                <?= $trans->transfer->category->title ?>
                                             <?php else: ?>
                                                 <?= Yii::t('Front', 'Choose'); ?>
                                             <?php endif; ?>
                                         </span>
                                         <select data-url="<?= Yii::app()->createUrl('/accounts/updatecategory', array('id' => $trans->id)) ?>" id="transaction-category-select" name="" class=" select-invisible country-select">
-                                        <?php if(!$trans->category): ?>
+                                        <?php if(!$trans->transfer->category): ?>
                                             <option disabled="disabled"><?= Yii::t('Front', 'Choose'); ?></option>
                                         <?php endif; ?>
                                             <?php foreach($categories as $trCat): ?>
@@ -74,7 +75,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<?php $this->widget('WidgetUpload')->getFilesTable($trans, Yii::app()->user->id) ?>
+								<?php $this->widget('WidgetUpload')->getFilesTable($trans->transfer, Yii::app()->user->id) ?>
 								
 								<?php $this->renderPartial('application.views.accounts._notes', array('trans' => $trans)); ?>
 							</td>
@@ -92,7 +93,7 @@
 			</tr>
 			<tr>
 				<td>
-					<?php $this->widget('WidgetUpload', array('inTable' => false))->html($trans)?>
+					<?php $this->widget('WidgetUpload', array('inTable' => false))->html($trans->transfer)?>
 				</td>
 			</tr>
 			<tr>

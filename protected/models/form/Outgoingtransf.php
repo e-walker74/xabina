@@ -61,6 +61,23 @@ abstract class Form_Outgoingtransf extends CFormModel{
      */
     abstract public function save();
 
+	public function afterTransferSave($transfer){
+		if(isset($_POST['file_ids'])){
+			foreach($_POST['file_ids'] as $fId){
+				$file = Users_Files::model()->findByPk($fId);
+				if($file->user_id != Yii::app()->user->id){
+					return false;
+				}
+				if(strpos($file->form, 'Form_Outgoingtransf') !== 0){
+					return false;
+				}
+				$file->form = get_class($transfer);
+				$file->model_id = $transfer->id;
+				$file->save();
+			}
+		}
+	}
+	
     /**
      * required params for all outgoing transfers
      * @return array
@@ -114,6 +131,11 @@ abstract class Form_Outgoingtransf extends CFormModel{
 
     public function beforeValidate() {
         if(parent::beforeValidate()) {
+			if($this->account_number){
+                if($acc = Accounts::model()->find('number = :n', array(':n' => $this->account_number))){
+                    $this->account_id = $acc->id;
+                }
+            }
             if($this->execution_date){
                 $this->execution_date = strtotime($this->execution_date);
             }

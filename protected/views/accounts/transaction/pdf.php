@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Address'); ?>:</td>
-                    <td><?= $user->primary_address ? $user->primary_address->shortAddressHtml : '';?></td>
+                    <td><?= $user->primary_address ? $user->primary_address->addressHtml : '';?></td>
                 </tr>
                 <tr>
                     <td class="headers pdf-td-width-17"><?= Yii::t('Front', 'Reg #'); ?>:</td>
@@ -42,7 +42,7 @@
                 <tr>
                     <th class="detail" colspan="2"><?= Yii::t('Front', 'Indepland - Details overschrijving');?></th>
                 </tr>
-                <?php foreach($trans->info->getPublicAttrs() as $label => $value): ?>
+                <?php foreach($trans->transfer->getPublicAttrs() as $label => $value): ?>
                     <tr>
                         <td class="detail" width="20%"><?= $label ?></td>
                         <td width="80%"><?= $value ?></td>

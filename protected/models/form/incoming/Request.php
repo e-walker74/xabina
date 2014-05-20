@@ -28,6 +28,7 @@ class Form_Incoming_Request extends Form_Incoming{
         }
         $transfer = new Transfers_Incoming();
         $transfer->attributes = $this->attributes;
+		$transfer->from_account_number = $this->transmitter;
         return $transfer->save();
     }
 

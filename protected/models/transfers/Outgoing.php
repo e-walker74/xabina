@@ -28,8 +28,8 @@ class Transfers_Outgoing extends ActiveRecord
 	public function rules()
 	{
         return array(
-            array('amount, account_number, currency_id, charges, form_type', 'required'),
-            array('amount, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id, external_bank_id', 'numerical'),
+            array('amount, account_id, account_number, currency_id, charges, form_type', 'required'),
+            array('amount, account_id, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id, external_bank_id', 'numerical'),
             array('urgent, favorite, is_iban', 'boolean'),
             array('tag1, tag2, tag3, to_account_number', 'length', 'max' => 255),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
@@ -49,8 +49,11 @@ class Transfers_Outgoing extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
-			'account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
+			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'notes' => array(self::HAS_MANY, 'Transactions_Notes', 'transaction_id', 'condition' => 'deleted = 0'),
+			'category' => array(self::BELONGS_TO, 'Transactions_Categories', 'category_id'),
+			'external_bank' => array(self::BELONGS_TO, 'Banks_Info', 'external_bank_id')
 			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);
 	}
@@ -148,6 +151,102 @@ class Transfers_Outgoing extends ActiveRecord
 				return '<strong class="holder">' . $this->bank_name . '</strong><br/>' .
 					chunk_split($this->bic, 4) . '<br>' .
 					$this->description;
+				break;
+		}
+	}
+	
+	public function getPublicAttrs($full = false){
+		switch($this->form_type){
+			case 'own':
+				return array(
+					Yii::t('Front', 'date') => date('d.m.Y', $this->created_at),
+					Yii::t('Front', 'type') => 'OV', //TODO what is the type?
+					Yii::t('Front', 'Value') => $this->amount . ' ' . $this->currency->code,
+					Yii::t('Front', 'sender_name') => $this->user->fullname,
+					Yii::t('Front', 'sender_account_number') => $this->account->number,
+					Yii::t('Front', 'recipient_name') => $this->user->fullname,
+					Yii::t('Front', 'recipient_account_number') => $this->to_account_number,
+					Yii::t('Front', 'details_of_payments') => $this->description,
+					Yii::t('Front', 'Urgent') => ($this->urgent) ? Yii::t('Front', 'Yes') : Yii::t('Front', 'No'),
+					Yii::t('Front', 'Tag 1') => $this->tag1,
+					Yii::t('Front', 'Tag 2') => $this->tag2,
+					Yii::t('Front', 'Tag 3') => $this->tag3,
+					Yii::t('Front', 'Frequency') => ($this->frequency_type == 1) ? Yii::t('Front', 'One-time') : Yii::t('Front', 'Standing'),
+				);
+				break;
+			case 'another':
+				$return = array(
+					Yii::t('Front', 'date') => date('d.m.Y', $this->created_at),
+					Yii::t('Front', 'type') => 'OV', //TODO what is the type?
+					Yii::t('Front', 'Value') => $this->amount . ' ' . $this->currency->code,
+					Yii::t('Front', 'sender_name') => $this->user->fullname,
+					Yii::t('Front', 'sender_account_number') => $this->account->number,
+					Yii::t('Front', 'recipient_name') => $this->to_account_holder,
+					Yii::t('Front', 'recipient_account_number') => $this->to_account_number,
+					Yii::t('Front', 'details_of_payments') => $this->description,
+					Yii::t('Front', 'Urgent') => ($this->urgent) ? Yii::t('Front', 'Yes') : Yii::t('Front', 'No'),
+					Yii::t('Front', 'Tag 1') => $this->tag1,
+					Yii::t('Front', 'Tag 2') => $this->tag2,
+					Yii::t('Front', 'Tag 3') => $this->tag3,
+					Yii::t('Front', 'Frequency') => ($this->frequency_type == 1) ? Yii::t('Front', 'One-time') : Yii::t('Front', 'Standing'),
+				);
+				return $return;
+				break;
+			case 'external':
+				return array(
+					Yii::t('Front', 'date') => date('d.m.Y', $this->created_at),
+					Yii::t('Front', 'type') => 'OV', //TODO what is the type?
+					Yii::t('Front', 'Value') => $this->amount . ' ' . $this->currency->code,
+					Yii::t('Front', 'sender_name') => $this->user->fullname,
+					Yii::t('Front', 'sender_account_number') => $this->account->number,
+					Yii::t('Front', 'recipient_name') => $this->to_account_holder,
+					Yii::t('Front', 'recipient_account_number') => $this->to_account_number,
+					Yii::t('Front', 'bic') => $this->bic,
+					Yii::t('Front', 'bank_name') => $this->external_bank->institution_name,
+					Yii::t('Front', 'details_of_payments') => $this->description,
+					Yii::t('Front', 'Urgent') => ($this->urgent) ? Yii::t('Front', 'Yes') : Yii::t('Front', 'No'),
+					Yii::t('Front', 'Tag 1') => $this->tag1,
+					Yii::t('Front', 'Tag 2') => $this->tag2,
+					Yii::t('Front', 'Tag 3') => $this->tag3,
+					Yii::t('Front', 'Frequency') => ($this->frequency_type == 1) ? Yii::t('Front', 'One-time') : Yii::t('Front', 'Standing'),
+				);
+				break;
+			case 'ewallet':
+				return array(
+					Yii::t('Front', 'date') => date('d.m.Y', $this->created_at),
+					Yii::t('Front', 'type') => 'OV', //TODO what is the type?
+					Yii::t('Front', 'Value') => $this->amount . ' ' . $this->currency->code,
+					Yii::t('Front', 'sender_name') => $this->user->fullname,
+					Yii::t('Front', 'sender_account_number') => $this->account->number,
+					Yii::t('Front', 'recipient_name') => $this->to_account_holder,
+					Yii::t('Front', 'ewallet_type') => Form_Outgoingtransf_Ewallet::$ewallet_types[$this->ewallet_type],
+					Yii::t('Front', 'ewallet') => $this->to_account_number,
+					Yii::t('Front', 'details_of_payments') => $this->description,
+					Yii::t('Front', 'Urgent') => ($this->urgent) ? Yii::t('Front', 'Yes') : Yii::t('Front', 'No'),
+					Yii::t('Front', 'Tag 1') => $this->tag1,
+					Yii::t('Front', 'Tag 2') => $this->tag2,
+					Yii::t('Front', 'Tag 3') => $this->tag3,
+					Yii::t('Front', 'Frequency') => ($this->frequency_type == 1) ? Yii::t('Front', 'One-time') : Yii::t('Front', 'Standing'),
+				);
+				break;
+		}
+		return array();
+	}
+	
+	public function getToAccountHolder(){
+		switch($this->form_type){
+			case 'own':
+				return $this->user->fullname;
+				break;
+			case 'another':
+				$acc = Accounts::model()->with('user')->find('number = :num', array(':num' => $this->to_account_number));
+				return $acc->user->fullname;
+				break;
+			case 'external':
+				return $this->to_account_holder;
+				break;
+			case 'ewallet':
+				return $this->to_account_number;
 				break;
 		}
 	}

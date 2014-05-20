@@ -31,10 +31,10 @@
 				'header' => Yii::t('Front', 'Account number'),
 				'value' => 'chunk_split($data->number, 4)',
 			),
-			array(
+			/*array(
 				'header' => Yii::t('Front', 'Type'),
 				'value' => 'Yii::t("Front", "[".$data->type_info->title."_account_type]");',
-			),
+			),*/
 			array(
 				'header' => Yii::t('Front', 'Owner'),
 				'value' => '$data->user->fullName',
@@ -72,11 +72,11 @@
 				'value' => 'date("d.m.Y", $data->created_at)',
 				'type' => 'html',
 			),
-			array(
+			/*array(
 				'header' => Yii::t('Front', 'Description'),
 				'value' => '"<b>" . $data->info->sender . "</b>" . "<br/>" . $data->operation',
 				'type' => 'html',
-			),
+			),*/
 			array(
 				'header' => Yii::t('Front', 'Account number'),
 				'value' => 'chunk_split($data->account->number, 4)',

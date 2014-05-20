@@ -126,6 +126,9 @@ class FileController extends Controller
 			$file->name = $result['filename'];
 			$file->ext = $uploader->getFileExt();
 			$file->form = $type;
+			if(isset($model->id)){
+				$file->model_id = $model->id;
+			}
 			$file->description = Yii::app()->request->getParam('description');
 			$file->user_file_name = $uploader->getUserFileName();
 			if(!$file->save()){

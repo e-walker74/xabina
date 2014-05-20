@@ -76,7 +76,7 @@ class TransactionsExportService
         foreach ($data as $value) {
             $line = array();
             foreach ($header as $key => $title) {
-                $line[] = $value[$key];
+                $line[] = $value[$title];
             }
             fputcsv($handle, $line, ";", "\"");
         }
@@ -114,7 +114,7 @@ class TransactionsExportService
         if($user) {
             $document->setValue('clientVal', $user->fullname);
         }
-        $document->setValue('addressVal', $user->primary_address ? $user->primary_address->shortAddressHtml : '');
+        $document->setValue('addressVal', $user->primary_address ? $user->primary_address->getAddressHtml(true) : '');
         $document->setValue('regVal', '2546897');
         $document->setValue('IBANVal', '254897546212');
 
@@ -154,7 +154,7 @@ class TransactionsExportService
             'label' => array(),
             'value' => array()
         );
-        foreach($trans->info->getPublicAttrs() as $label => $value) {
+        foreach($trans->transfer->getPublicAttrs() as $label => $value) {
             $detailTable['label'][] = $label;
             $detailTable['value'][] = $value;
         }
@@ -203,7 +203,7 @@ class TransactionsExportService
         foreach($transactions as $trans){
             $transactionsTable['date'][] = date('d.m.Y', $trans->created_at);
             $transactionsTable['type'][] = $trans->info->type;
-            $transactionsTable['detailsSender'][] = $trans->info->sender;
+            $transactionsTable['detailsSender'][] = ($trans->type == 'positive') ? $trans->info->sender : $trans->info->recipient;
             $transactionsTable['detailsExtra'][] = $trans->info->details_of_payment;
             $transactionsTable['balance'][] = number_format($trans->acc_balance, 2, ".", " ");
 

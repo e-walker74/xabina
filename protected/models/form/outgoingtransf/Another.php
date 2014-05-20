@@ -35,7 +35,11 @@ class Form_Outgoingtransf_Another extends Form_Outgoingtransf{
         $transfer->attributes = $this->attributes;
         $acc = Accounts::model()->findByAttributes(array('number' => $this->to_account_number));
         $transfer->to_account_holder = $acc->user->fullName;
-        return $transfer->save();
+        if($transfer->save()){
+			$this->afterTransferSave($transfer);
+			return true;
+		}
+		return false;
     }
 
 }
