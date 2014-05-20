@@ -40,3 +40,4 @@
 [20-May-2014 17:13:14 Europe/Minsk] PHP Fatal error:  Class 'Transfers_Incoming' not found in /home/evnaby/sites/xabina/protected/models/Transactions.php on line 89
 [20-May-2014 17:13:20 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE, expecting ')' in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 103
 [20-May-2014 17:18:18 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 102
+[20-May-2014 21:47:26 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 311

@@ -578,7 +578,7 @@ class TransfersController extends Controller
 					Yii::app()->end();
 				}elseif($confs[0]->confirm_code != (int)$_POST['Form_Smsconfirm']['code']){
 					Yii::app()->cache->set('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id, ++$smsshot, 3600);
-					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Code is incorrect')));
+					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Code is incorrect. Your code is: '.$confs[0]->confirm_code)));
 					Yii::app()->end();
 				} else{
 					foreach($confs as $conf){

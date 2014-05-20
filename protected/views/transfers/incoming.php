@@ -154,7 +154,7 @@
             </div>
         </div>
         <div class="form-header"><span><?= Yii::t('Front', 'From') ?></span></div>
-        <div class="from-form">
+        <div class="from-form" style="overflow: visible">
             <div class="update-about">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Method') ?>
@@ -174,6 +174,7 @@
 				); ?>
 				<?= $form->error($electronic_request, 'electronic_method'); ?>
             </div>
+            <div class="clearfix"></div>
 		</div>
 		
 		<div class="method-1 electronic-method-fields">
@@ -190,7 +191,7 @@
 				</div>
                 <div class="clearfix"></div>
                 <div class="form-line" style="margin: 10px 0">
-                <div class="form-cell pull-left" style="width: 42%">
+                <div class="form-cell pull-left credit-number" style="width: 42%">
                     <div class="lbl"><?= Yii::t('Front', 'Credit Card Number') ?>
                         <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_number') ?>"></span>
                     </div>
@@ -210,16 +211,16 @@
 					</div>
 				</div>
 
-                    <div class="form-cell pull-right" style="width: 28%">
+                    <div class="form-cell pull-right expiration-dates" style="width: 28%">
                         <div class="lbl"><?= Yii::t('Front', 'Expiration Date') ?>
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
                         </div>
                         <div class="field-input">
-                            <?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
-                            <?= $form->error($electronic_request, 'p_month'); ?>
+                                <?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
                             <span class="exp-delimitter">/</span>
-                            <?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
+                                <?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
                             <?= $form->error($electronic_request, 'p_year'); ?>
+                            <?= $form->error($electronic_request, 'p_month'); ?>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -283,14 +284,12 @@
 		
 		<div class="method-2 electronic-method-fields">
 			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'ideal_account_number') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'ideal_account_number', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'ideal_account_number'); ?>
-					</div>
+				<div class="lbl"><?= Yii::t('Front', 'ideal_account_number') ?>
+					<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>
+				</div>
+				<div class="field-input">
+					<?= $form->textField($electronic_request, 'ideal_account_number', array('class' => 'input-text')) ?>
+					<?= $form->error($electronic_request, 'ideal_account_number'); ?>
 				</div>
 			</div>
 		</div>

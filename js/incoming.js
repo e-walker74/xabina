@@ -13,7 +13,9 @@ $(document).ready(function(){
         }
     });
 
-    $( ".xabina-tabs" ).tabs();
+    $( ".xabina-tabs.main" ).tabs({ active: false, collapsible: true });
+	
+	$(".frequency-tab .xabina-tabs").tabs()
 
     $('.details-accordion').accordion({
         heightStyle: "content",
