@@ -10,6 +10,9 @@ class AccountsController extends Controller
     {
         return array(
             'accessControl',
+            array(
+                'application.components.RbacFilter'
+            ),
         );
     }
 
