@@ -1,10 +1,10 @@
 <?php
 
 return array(
-        'connectionString' => 'mysql:host=localhost;dbname=xabinate_db',
+        'connectionString' => 'mysql:host=localhost;dbname=admin_xabina_main',
         'emulatePrepare' => true,
-        'username' => 'root',
-        'password' => '2069709',
+        'username' => 'xabina_main',
+        'password' => 'wtuOAXdO384%',
         'charset' => 'utf8',
     )
 ?>

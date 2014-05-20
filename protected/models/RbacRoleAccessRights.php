@@ -14,6 +14,13 @@
  */
 class RbacRoleAccessRights extends CActiveRecord
 {
+	public function primaryKey(){
+		return array(
+			'role_id',
+			'acces_right_id'
+		);
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */

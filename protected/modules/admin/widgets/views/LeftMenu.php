@@ -52,4 +52,10 @@
             <li><a href="<?= Yii::app()->createUrl('/admin/rights/authItem/operations') ?>/"><?= Yii::t('Rights', 'Operations'); ?></a></li>-->
 		</ul>
 	</li>
+	<li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Rbac', 'Rbac'); ?></span></a>
+		<ul class="acc-menu">
+			<li><a href="<?= Yii::app()->createUrl('/admin/rbac/index') ?>/"><?= Yii::t('Rbac', 'List Roles'); ?></a></li>
+            <!--<li><a href="<?= Yii::app()->createUrl('/admin/rbac/index') ?>/"><?= Yii::t('Rbac', 'Rbac'); ?></a></li>-->
+		</ul>
+	</li>
 </ul>
