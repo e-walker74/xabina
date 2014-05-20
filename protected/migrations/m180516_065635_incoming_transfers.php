@@ -74,7 +74,8 @@ class m180516_065635_incoming_transfers extends CDbMigration
 			ALTER TABLE `transactions` ADD `transfer_type` ENUM('incoming','outgoing') NULL DEFAULT NULL AFTER `user_id`;
 		");
 		$this->execute("
-			ALTER TABLE `transactions` ADD `transfer_id` INT(11) UNSIGNED NULL DEFAULT NULL AFTER `transfer_type`;
+			ALTER TABLE `transactions` ADD `transfer_id` INT(11) UNSIGNED NULL 
+DEFAULT NULL AFTER `transfer_type`;
 		");
 		
 		$this->execute("

@@ -90,6 +90,9 @@ return array(
 			'/banking/personal/testsms' => 'personal/testsms',
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
+            '/banking/personal/alerts' => 'personal/alerts',
+            '/banking/personal/updatealerts/<id:\d+|new>' => 'personal/updatealerts',
+            '/banking/personal/dropalerts/<id:\d+>' => 'personal/dropalerts',
             '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
 
             '/message/save/<type:(save|send|edit|socials)>/<id:\d+>' => 'message/save',

@@ -105,5 +105,16 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Alert Settings'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Alert Settings'); ?>
+			</td>
+			<td>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/alerts') ?>" ></a>
+				</div>
+			</td>
+		</tr>
 	</table>
 </div>
