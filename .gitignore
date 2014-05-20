@@ -4,10 +4,12 @@
 /protected/config/components
 /protected/config/local.php
 /index.php
+/admin.php
 /.idea
 /.htaccess
 /protected/config/local.php
 /protected/config/components/
+/protected/config/admin/
 /documents
 /cgi-bin
 /i
