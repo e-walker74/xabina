@@ -1,7 +1,5 @@
-<div class="details-accordion ">
-<div class="accordion-header"><a href="#">Details</a></div>
-<div class="accordion-content">
-<div class="xabina-tabs">
+<div class="details-tabs-cont">
+<div class="xabina-tabs main">
 <ul>
     <li style="width: 21%"><a href="#tab1"><?= Yii::t('Front', 'Charges & Urgency') ?></a></li>
     <li style="width: 17%"><a href="#tab2"><?= Yii::t('Front', 'Attachments') ?></a></li>
@@ -61,9 +59,9 @@
             <?= Yii::t('Front', 'comment_for_attachments') ?>
         </div>
 
-        <?php //$this->widget('WidgetUpload', array('inTable' => false))->html($model)?>
+        <?php $widgetUpload = $this->widget('WidgetUpload', array('inTable' => false)); $widgetUpload->html($model)?>
 
-        <?php $this->widget('WidgetUpload')->getFilesTable($model, Yii::app()->user->id) ?>
+        <?php $widgetUpload->getFilesTable($model, Yii::app()->user->id) ?>
 
     </div>
 
@@ -196,6 +194,8 @@
                 <div class="form-cell">
                     <div class="form-lbl"><?= Yii::t('Front', 'Execution date'); ?></div>
                     <div class="form-input">
+                        <?php if(!$model->execution_date) $model->execution_date = time() ?>
+                        <?php if($model->execution_date) $model->execution_date = date('m/d/Y', $model->execution_date) ?>
                         <?= $form->textField($model, 'execution_date', array('class' => 'date-input with_datepicker')) ?>
                         <?= $form->error($model, 'execution_date'); ?>
                     </div>
@@ -263,6 +263,8 @@
                                     <span class="tooltip-icon" title="tooltip text"></span>
                                 </div>
                                 <div class="form-input ">
+                                    <?php if(!$model->start_date) $model->start_date = time() ?>
+                                    <?php if($model->start_date) $model->start_date = date('m/d/Y', $model->start_date) ?>
                                     <?= $form->textField($model, 'start_date', array('class' => 'date-input with_datepicker')) ?>
                                     <?= $form->error($model, 'start_date'); ?>
                                 </div>
@@ -273,6 +275,8 @@
                                     <span class="tooltip-icon" title="tooltip text"></span>
                                 </div>
                                 <div class="form-input ">
+                                    <?php if(!$model->end_date) $model->end_date = time()+3600*24*30 ?>
+                                    <?php if($model->end_date) $model->end_date = date('m/d/Y', $model->end_date) ?>
                                     <?= $form->textField($model, 'end_date', array('class' => 'date-input with_datepicker')) ?>
                                     <?= $form->error($model, 'end_date'); ?>
                                 </div>
@@ -493,5 +497,5 @@
 
 </div>
 </div>
-</div>
+<div class="clearfix"></div>
 </div>

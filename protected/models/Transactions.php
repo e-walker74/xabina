@@ -14,6 +14,9 @@
  */
 class Transactions extends ActiveRecord
 {
+	
+	private $_info = false;
+	
 	public $user_id;
 	public $account_number;
 
@@ -35,8 +38,8 @@ class Transactions extends ActiveRecord
 		return array(
 			array('account_number', 'checkNumber', 'on' => 'admin'),
 			array('account_number', 'length', 'max' => 12, 'min' => 12, 'on' => 'admin'),
-			array('account_id, type, sum', 'required'),
-			array('account_id', 'numerical', 'integerOnly'=>true),
+			array('account_id, type, sum, transfer_type, transfer_id', 'required'),
+			array('account_id, transfer_id', 'numerical', 'integerOnly'=>true),
 			array('sum', 'type', 'type'=>'float'),
 			array('operation', 'safe', 'on' => 'admin'),
 			array('type', 'in', 'range'=>array('positive', 'negative'), 'allowEmpty'=>false),
@@ -63,12 +66,30 @@ class Transactions extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
-			'info' => array(self::HAS_ONE, 'Transactions_Info', 'transaction_id'),
-			'attachments' => array(self::HAS_MANY, 'Transactions_Info_Attachments', 'transaction_id'),
+			'info' => array(self::BELONGS_TO, 'Transactions_Info', 'info_id'), // deleted
+			//'attachments' => array(self::HAS_MANY, 'Transactions_Info_Attachments', 'transaction_id'),
 			'notes' => array(self::HAS_MANY, 'Transactions_Notes', 'transaction_id', 'condition' => 'deleted = 0'),
 			'link' => array(self::HAS_ONE, 'Transactions_Categories_Links', 'transaction_id'),
 			'category' => array(self::HAS_ONE, 'Transactions_Categories', array('category_id' => 'id'), 'through' => 'link'),
 		);
+	}
+	
+	public function getTransfer(){
+		if($this->_info){
+			return $this->_info;
+		}
+		if(!$this->transfer_type){
+			return false;
+		}
+		switch($this->transfer_type){
+			case 'outgoing':
+				$this->_info = Transfers_Outgoing::model()->findByPk($this->transfer_id);
+				break;
+			case 'incoming':
+				$this->_info = Transfers_Incoming::model()->findByPk($this->transfer_id);
+				break;
+		}
+		return $this->_info;
 	}
 
 	/**

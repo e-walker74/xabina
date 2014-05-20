@@ -15,10 +15,16 @@ class Users_Files extends ActiveRecord
 
 	public static $fileTypes = array(
 		'Transactions' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
+		'Transfers_Outgoing' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
+		'Transfers_Incoming' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
 		'Users_Activation' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
 		'Users_Activation_1' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
 		'Users_Activation_2' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
-		'Users_Personal_Edit' => array('count' => 999, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
+		'Users_Personal_Edit' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
+        'Form_Outgoingtransf_Own' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
+        'Form_Outgoingtransf_Anather' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
+        'Form_Outgoingtransf_External' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
+        'Form_Outgoingtransf_Ewallet' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
 	);
 
 	/**

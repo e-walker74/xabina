@@ -11,7 +11,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
 
     /* master params */
     public $amount;
-    public $amount_cent;
+    public $amount_cent = '00';
     public $currency_id;
     public $account_number;
     public $description;
@@ -40,6 +40,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
     /* system */
     public $need_confirm = 1;
     public $is_iban = false;
+    public $external_bank_id;
 
     public static $chargesList = array(
         '1' => 'Shared (mandatory for EC payments)',
@@ -53,11 +54,6 @@ abstract class Form_Outgoingtransf extends CFormModel{
         'month' => 'Month(s)',
         'year'  => 'Year(s)'
     );
-	
-	public function init(){
-		$this->execution_date = date('m/d/Y', time());
-		return parent::init();
-	}
 
     /**
      * save outgoing transfer
@@ -65,6 +61,23 @@ abstract class Form_Outgoingtransf extends CFormModel{
      */
     abstract public function save();
 
+	public function afterTransferSave($transfer){
+		if(isset($_POST['file_ids'])){
+			foreach($_POST['file_ids'] as $fId){
+				$file = Users_Files::model()->findByPk($fId);
+				if($file->user_id != Yii::app()->user->id){
+					return false;
+				}
+				if(strpos($file->form, 'Form_Outgoingtransf') !== 0){
+					return false;
+				}
+				$file->form = get_class($transfer);
+				$file->model_id = $transfer->id;
+				$file->save();
+			}
+		}
+	}
+	
     /**
      * required params for all outgoing transfers
      * @return array
@@ -74,10 +87,10 @@ abstract class Form_Outgoingtransf extends CFormModel{
         return array(
             array('amount, account_number, currency_id, charges', 'required'),
             array('amount, amount_cent, account_number, currency_id, charges, remaining_balance, remaining_balance_cent, category_id', 'numerical'),
+            array('amount_cent', 'length', 'max' => 2),
             array('account_number', 'checkXabinaNumber'),
             array('counter_agent', 'checkXabinaUserID'),
             array('urgent, favorite', 'boolean'),
-            array('amount', 'validateBalance'),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
             array('frequency_type', 'in', 'range' => array(1, 2)),
             array('end_date', 'validateCompareDates', 'compareAttribute' => 'start_date', 'message' => Yii::t('Front', 'Must be greater than Start Date')),
@@ -116,25 +129,9 @@ abstract class Form_Outgoingtransf extends CFormModel{
         }
     }
 
-    public function validateBalance($attribute, $params){
-        $acc = Accounts::model()->find('number = :account_number AND user_id = :uid',
-            array(
-                ':account_number' => $this->account_number,
-                ':uid' => Yii::app()->user->id,
-            )
-        );
-        if(!$acc){
-            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-        }
-        if($acc->getBalanceInEUR() < Currencies::convert($this->amount, Currencies::model()->findByPk($this->currency_id)->code, 'EUR')){
-            $this->addError('amount', Yii::t('Front', 'Insufficient funds'));
-        }
-
-    }
-
     public function beforeValidate() {
         if(parent::beforeValidate()) {
-            if($this->account_number){
+			if($this->account_number){
                 if($acc = Accounts::model()->find('number = :n', array(':n' => $this->account_number))){
                     $this->account_id = $acc->id;
                 }

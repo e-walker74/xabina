@@ -13,6 +13,7 @@
 		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/outgoing') ?>"><?= Yii::t('Front', 'New payment') ?></a></li>
 		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/overview') ?>"><?= Yii::t('Front', 'Transfer overview') ?></a></li>
 		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/history') ?>"><?= Yii::t('Front', 'Payments overview') ?></a></li>
+		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/incoming') ?>"><?= Yii::t('Front', 'Upload') ?></a></li>
 	</ul>
 	<!--<li class="balance">
 		<a href="<?= Yii::app()->createUrl('pages/index', array('url' => 'Balance')) ?>"><?= Yii::t('Front', 'Balance') ?></a>

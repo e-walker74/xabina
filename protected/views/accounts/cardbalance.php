@@ -34,7 +34,6 @@
 			</select>
 
 		</div>
-		<a href="javaScript:void(0)" onclick="js:updateTransactionsTable(this);" class="refresh-button"></a>
 	</div>
 	
 	<div class="clearfix"></div>
@@ -56,10 +55,9 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="field-lbl"><?= $model->getAttributeLabel('keyword') ?> </div>
-						<div class="field-input keyword">
+						<div class="field-input">
 							<?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text', 'placeholder' => Yii::t('Front', 'You can filer transactions by Sender, Account number or any Keyword'))); ?>
 							<?= $form->hiddenField($model, 'account_number', array('id'=>'searchForm_account_number')); ?>
-                            <a class="refresh-button"></a>
                         </div>
 					</div>
 				</div>				

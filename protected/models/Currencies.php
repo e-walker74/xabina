@@ -39,8 +39,16 @@ class Currencies extends CActiveRecord
 	}
 	
 	public static function convert($sum, $from, $to){
-		$from = Currencies::model()->find('code = :f', array(':f' => $from));
-		$to = Currencies::model()->find('code = :f', array(':f' => $to));
+		if(is_numeric($from)){
+            $from = Currencies::model()->findByPk($from);
+        } else {
+            $from = Currencies::model()->find('code = :f', array(':f' => $from));
+        }
+        if(is_numeric($to)){
+            $to = Currencies::model()->findByPk($to);
+        } else {
+            $to = Currencies::model()->find('code = :f', array(':f' => $to));
+        }
 
 		$eurFrom = $sum / $from->last_value;
 		$return = $eurFrom * $to->last_value;

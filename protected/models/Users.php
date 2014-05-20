@@ -11,6 +11,8 @@
  * @property integer $status
  * @property integer $date_add
  * @property integer $date_edit
+ *
+ * @property Users_Address $primary_address
  */
 class Users extends ActiveRecord
 {
@@ -131,6 +133,7 @@ class Users extends ActiveRecord
 			'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
             'emails' => array(self::HAS_MANY, 'Users_Emails', 'user_id'),
 			'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id', 'order' => 'is_master desc, created_at desc'),
+            'primary_address' => array(self::HAS_ONE, 'Users_Address', 'user_id', 'condition' => 'is_master = 1'),
 			'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
             'vkontakte' => array(self::HAS_MANY, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_MANY, 'Users_Providers_Facebook', 'user_id'),
@@ -147,6 +150,11 @@ class Users extends ActiveRecord
             'rbac_roles' => array(self::HAS_MANY, 'RbacUserRoles', 'user_id'),
         );
     }
+	
+	public function getAccounts(){
+		
+		//'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+	}
 
     /**
      * @return array customized attribute labels (name=>label)

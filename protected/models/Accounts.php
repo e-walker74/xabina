@@ -4,7 +4,6 @@
  * This is the model class for table "accounts".
  *
  * The followings are the available columns in table 'accounts':
- * @property integer $id
  * @property string $number
  * @property integer $user_id
  * @property integer $status
@@ -36,8 +35,9 @@ class Accounts extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id', 'required'),
-			array('user_id, status, type_id', 'numerical', 'integerOnly'=>true),
+			array('user_id, status, type_id, currency_id', 'numerical', 'integerOnly'=>true),
 			array('number', 'length', 'max'=>12),
+			array('number', 'unique'),
 			array('currency_id', 'length', 'max'=>3),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -64,6 +64,14 @@ class Accounts extends ActiveRecord
 	public function getBalanceInEUR(){
 		return $this->balance / $this->currency->last_value;
 	}
+
+    /**
+     * check account balance
+     */
+    public function checkBalance($amount, $currency){
+        $sum = Currencies::convert($amount, $currency, $this->currency_id);
+        return ($sum < $this->balance);
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -123,10 +131,11 @@ class Accounts extends ActiveRecord
 	
 	public function beforeSave(){
 		if($this->isNewRecord){
-			for($number = AccountService::generateNumber(); 
-				Accounts::model()->find('number = :number', array(':number' => $number)); 
-				$number = AccountService::generateNumber()){
-				Yii::log('generate for user_id '.$this->user_id, CLogger::LEVEL_ERROR, 'generateAccountNumner');
+			for($number = AccountService::generateNumber();
+				Accounts::model()->find('number = :number', array(':number' => $number));
+				$number = AccountService::generateNumber())
+				{
+					Yii::log('generate for user_id '.$this->user_id, CLogger::LEVEL_ERROR, 'generateAccountNumner');
 			}
 			$this->number = $number;
 			$this->currency_id = 1;

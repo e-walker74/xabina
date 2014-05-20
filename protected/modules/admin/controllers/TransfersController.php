@@ -14,237 +14,78 @@ class TransfersController extends Controller
 		$this->render('outgoing', array('model' => $model));
 	}
 	
+	public function actionIncoming(){
+	
+		//$model = //Transfers_Outgoing::model()->findAll('status = 0 AND need_confirm = 0');
+		$model = new Transfers_Incoming('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Transfers_Incoming'])){
+			$model->attributes=$_GET['Transfers_Incoming'];
+		}
+		$this->render('incoming', array('model' => $model));
+	}
+	
+	public function actionUpdateInc($id){
+		$model = Transfers_Incoming::model()->findByPk($id);
+		$this->render('incoming/update', array('model' => $model));
+	}
+	
 	public function actionUpdate($id){
 		$model = Transfers_Outgoing::model()->findByPk($id);
 		$this->render('update', array('model' => $model));
 	}
 	
 	public function actionAuthorise($id){
-		$model = Transfers_Outgoing::model()->findByPk($id);
-		if(!$model->status && !$model->need_confirm){
-			$model->status = 1;
-			if($model->send_to == "own"){
-				$trans_from = new Transactions;
-				$trans_to = new Transactions;
-				$info_from = new Transactions_Info;
-				$info_to = new Transactions_Info;
-				
-				
-				$trans_from->account_id = $model->account_id;
-				$trans_from->operation = $model->description;
-				$trans_from->type = 'negative';
-				$trans_from->sum = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
-				$trans_from->acc_balance = ($model->account->balance - Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
-				$info_from->date = date('m.d.Y', time());
-				$info_from->type = 'OV';
-				$info_from->value = $model->amount . ' ' . $model->currency->code;
-				$info_from->bic = 'n/a';
-				$info_from->data_bank = 'n/a';
-				$info_from->sender = $model->user->fullName;
-				$info_from->details_of_payment = 'n/a';
-				$info_from->status = 'processed OK';
-				
-				$account_to = Accounts::model()->findByPk($model->own_account_id);
-				$account_from = $model->account;
-				$account_from->balance = $trans_from->acc_balance;
-				$info_from->sender_account_number = $account_from->number;
-				
-				$info_from->recipient = $account_to->user->fullName;
-				$info_from->recipient_account = $account_to->number;
-				$info_from->recipient_bic = 'n/a';
-				$info_from->charges = $model->charges;
-				$info_from->urgent = ($model->urgent) ? 'Yes' : 'No';
-				
-				
-				$account_to = Accounts::model()->findByPk($model->own_account_id);
-				$trans_to->account_id = $model->own_account_id;
-				$trans_to->operation = $model->description;
-				$trans_to->type = 'positive';
-				$trans_to->sum = Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code);
-				$trans_to->acc_balance = ($account_to->balance + Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code));
-				$info_to->date = date('m.d.Y', time());
-				$info_to->type = 'OV';
-				$info_to->value = $model->amount . ' ' . $model->currency->code;
-				$info_to->bic = 'n/a';
-				$info_to->data_bank = 'n/a';
-				$info_to->sender = $model->user->fullName;
-				$info_to->details_of_payment = 'n/a';
-				$info_to->status = 'processed OK';
-				$info_to->sender_account_number = $account_from->number;
-				$info_to->recipient = $account_to->user->fullName;
-				$info_to->recipient_account = $account_to->number;
-				$info_to->recipient_bic = 'n/a';
-				$info_to->charges = $model->charges;
-				$info_to->urgent = ($model->urgent) ? 'Yes' : 'No';
-				$account_to->balance = $trans_to->acc_balance;
 
-				$trans_from->validate();
-				$info_from->validate();
-				$trans_to->validate();
-				$info_to->validate();
-				
-				$return = true;
-				$transaction = Yii::app()->db->beginTransaction();
-				if($trans_from->save() && $trans_to->save() && $model->save()){
-					$info_from->transaction_id = $trans_from->id;
-					$info_to->transaction_id = $trans_to->id;
-					if($info_from->save() 
-						&& $info_to->save()
-						&& $account_to->save()
-						&& $account_from->save()
-						){
-						
-						$transaction->commit();
-						$return = false;
-					}
-				}
-				if($return){
-					$transaction->rollback();
-				}
-				
-				/*d($model->getErrors());
-				d($trans_from->getErrors());
-				d($trans_to->getErrors());
-				d($info_from->getErrors());
-				d($info_to->getErrors());
-				die();*/
-			} elseif($model->send_to == "xabina"){
-				$trans_from = new Transactions;
-				$trans_to = new Transactions;
-				$info_from = new Transactions_Info;
-				$info_to = new Transactions_Info;
-				
-				
-				$account_to = Accounts::model()->find('number = :numb', array(':numb' => $model->account_number));
-				if(!$account_to){
-					$this->redirect(array('/admin/transfers/outgoing'));
-					Yii::app()->end();
-				}
-				
-				
-				$trans_from->account_id = $model->account_id;
-				$trans_from->operation = $model->description;
-				$trans_from->type = 'negative';
-				$trans_from->sum = $model->amount;
-				$trans_from->acc_balance = ($model->account->balance - Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
-				$info_from->date = date('m.d.Y', time());
-				$info_from->type = 'OV';
-				$info_from->value = $model->amount . ' ' . $model->currency->code;
-				$info_from->bic = 'n/a';
-				$info_from->data_bank = 'n/a';
-				$info_from->sender = $model->user->fullName;
-				$info_from->details_of_payment = 'n/a';
-				
-				$account_from = $model->account;
-				$account_from->balance = $trans_from->acc_balance;
-				$info_from->recipient = $account_to->user->fullName;
-				$info_from->status = 'processed OK';
-				$info_from->sender_account_number = $account_from->number;
-				$info_from->recipient_account = $account_to->number;
-				$info_from->recipient_bic = 'n/a';
-				$info_from->charges = $model->charges;
-				$info_from->urgent = ($model->urgent) ? 'Yes' : 'No';
-				
-				
-				
-				//$account_to = Accounts::model()->find('number = :numb', array(':numb' => $model->account_number));
-				$trans_to->account_id = $account_to->id;
-				$trans_to->operation = $model->description;
-				$trans_to->type = 'positive';
-				$trans_to->sum = $model->amount;
-				$trans_to->acc_balance = ($account_to->balance + Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code));
-				$info_to->date = date('m.d.Y', time());
-				$info_to->type = 'OV';
-				$info_to->value = $model->amount . ' ' . $model->currency->code;
-				$info_to->bic = 'n/a';
-				$info_to->data_bank = 'n/a';
-				$info_to->sender = $model->user->fullName;
-				$info_to->details_of_payment = 'n/a';
-				
-				$info_to->recipient = $account_to->user->fullName;
-				$info_to->status = 'processed OK';
-				$info_to->sender_account_number = $account_from->number;
-				$info_to->recipient_account = $account_to->number;
-				$info_to->recipient_bic = 'n/a';
-				$info_to->charges = $model->charges;
-				$info_to->urgent = ($model->urgent) ? 'Yes' : 'No';
-				
-				$account_to->balance = $trans_to->acc_balance;
+        $model = Transfers_Outgoing::model()->findByPk($id);
 
-				$trans_from->validate();
-				$info_from->validate();
-				$trans_to->validate();
-				$info_to->validate();
-				
-				$return = true;
-				$transaction = Yii::app()->db->beginTransaction();
-				if($trans_from->save() && $trans_to->save() && $model->save()){
-					$info_from->transaction_id = $trans_from->id;
-					$info_to->transaction_id = $trans_to->id;
-					if($info_from->save() 
-						&& $info_to->save()
-						&& $account_to->save()
-						&& $account_from->save()
-						){
-						
-						$transaction->commit();
-						$return = false;
-					}
-				}
-				if($return){
-					$transaction->rollback();
-				}
-			} elseif($model->send_to == "external"){
-				$trans_from = new Transactions;
-				$trans_to = new Transactions;
-				$info_from = new Transactions_Info;
-				$info_to = new Transactions_Info;
-				
-				$trans_from->account_id = $model->account_id;
-				$trans_from->operation = $model->description;
-				$trans_from->type = 'negative';
-				$trans_from->sum = $model->amount;
-				$trans_from->acc_balance = ($model->account->balance - Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
-				$info_from->date = date('m.d.Y', time());
-				$info_from->type = 'OV';
-				$info_from->value = $model->amount . ' ' . $model->currency->code;
-				$info_from->bic = $model->swift;
-				$info_from->data_bank = $model->bank_beneficiary;
-				$info_from->sender = $model->user->fullName;
-				$info_from->details_of_payment = $model->description;
-				
-				$account_from = $model->account;
-				$account_from->balance = $trans_from->acc_balance;
-				$info_from->status = 'processed OK';
-				$info_from->sender_account_number = $account_from->number;
-				$info_from->recipient = $model->account_holder;
-				$info_from->recipient_account = $model->external_account_number;
-				$info_from->recipient_bic = $model->swift;
-				$info_from->charges = $model->charges;
-				$info_from->urgent = ($model->urgent) ? 'Yes' : 'No';
-				
-				
-				
-				$return = true;
-				$transaction = Yii::app()->db->beginTransaction();
-				if($trans_from->save() && $model->save()){
-					$info_from->transaction_id = $trans_from->id;
-					if($info_from->save() 
-						&& $account_from->save()
-						){
-						$transaction->commit();
-						$return = false;
-					}
-				}
-				if($return){
-					$transaction->rollback();
+        if(!$model->status && !$model->need_confirm){
+            if(!$model->account->checkBalance($model->amount, $model->currency_id)){
+                die('Not enough money!');
+            }
+			
+			if(isset($_POST['action'])){
+				switch($_POST['action']){
+					case 'Authorise':
+						$model->status = Transfers_Outgoing::APPROVED_STATUS;
+						$admin_transfer = Admin_Transfers::model($model->form_type);
+						$admin_transfer->createOutgoingTransaction($model);
+						break;
+					case 'Reject':
+						$model->status = Transfers_Outgoing::REJECTED_STATUS;
+						$model->save();
+						break;
 				}
 			}
-			$this->redirect(array('/admin/transfers/outgoing'));
-			Yii::app()->end();
-		}
+			
+        }
+			
 		$this->redirect(array('/admin/transfers/outgoing'));
 			Yii::app()->end();
+	}
+	
+	public function actionAuthoriseInc($id){
+
+        $model = Transfers_Incoming::model()->findByPk($id);
+
+        if(!$model->status){
+			if(isset($_POST['action'])){
+				switch($_POST['action']){
+					case 'Authorise':
+						$model->status = Transfers_Incoming::APPROVED_STATUS;
+						$admin_transfer = Admin_Transfers::model($model->form_type);
+						$admin_transfer->createIncomingTransaction($model);
+						break;
+					case 'Reject':
+						$model->status = Transfers_Incoming::REJECTED_STATUS;
+						$model->save();
+						break;
+				}
+			}
+        }
+			
+		$this->redirect(array('/admin/transfers/incoming'));
+		Yii::app()->end();
 	}
 	
 	public function actionCreate(){
