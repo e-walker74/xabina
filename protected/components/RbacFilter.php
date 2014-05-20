@@ -11,7 +11,9 @@ class RbacFilter extends CFilter
         $ca = ucwords($filterChain->controller->getId()).'.'.ucwords($filterChain->action->getId());
         if(Yii::app()->user->checkRbacAccess($ca)) {
             $executeAction = true; 
-        } 
+        } else {
+            throw new CHttpException(404,'The specified page cannot be found.');
+        }
 
         return $executeAction;
     }
