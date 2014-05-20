@@ -42,7 +42,7 @@
                 <tr>
                     <th class="detail" colspan="2"><?= Yii::t('Front', 'Indepland - Details overschrijving');?></th>
                 </tr>
-                <?php foreach($trans->info->getPublicAttrs() as $label => $value): ?>
+                <?php foreach($trans->transfer->getPublicAttrs() as $label => $value): ?>
                     <tr>
                         <td class="detail" width="20%"><?= $label ?></td>
                         <td width="80%"><?= $value ?></td>

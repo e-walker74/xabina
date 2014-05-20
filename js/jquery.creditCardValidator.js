@@ -29,47 +29,58 @@ Mountain View, California, 94041, USA.
       {
         name: 'amex',
         pattern: /^3[47]/,
-        valid_length: [15]
+        valid_length: [15],
+		css_class: 'american-ecspress'
       }, {
         name: 'diners_club_carte_blanche',
         pattern: /^30[0-5]/,
-        valid_length: [14]
+        valid_length: [14],
+		css_class: 'diners'
       }, {
         name: 'diners_club_international',
         pattern: /^36/,
-        valid_length: [14]
+        valid_length: [14],
+		css_class: 'diners'
       }, {
         name: 'union',
         pattern: /^(62|88)/,
-        valid_length: [16, 17, 18, 19]
+        valid_length: [16, 17, 18, 19],
+		css_class: 'union-pay'
       }, {
         name: 'jcb',
         pattern: /^35(2[89]|[3-8][0-9])/,
-        valid_length: [16]
+        valid_length: [16],
+		css_class: 'jcb'
       }, {
         name: 'laser',
         pattern: /^(6304|670[69]|6771)/,
-        valid_length: [16, 17, 18, 19]
+        valid_length: [16, 17, 18, 19],
+		css_class: 'laser'
       }, {
         name: 'visa_electron',
         pattern: /^(4026|417500|4508|4844|491(3|7))/,
-        valid_length: [16]
+        valid_length: [16],
+		css_class: 'visa'
       }, {
         name: 'visa',
         pattern: /^4/,
-        valid_length: [16]
+        valid_length: [16],
+		css_class: 'visa'
       }, {
         name: 'mastercard',
         pattern: /^5[1-5]/,
-        valid_length: [16]
+        valid_length: [16],
+		css_class: 'master-card'
       }, {
         name: 'maestro',
         pattern: /^(5018|5020|5038|6304|6759|676[1-3])/,
-        valid_length: [12, 13, 14, 15, 16, 17, 18, 19]
+        valid_length: [12, 13, 14, 15, 16, 17, 18, 19],
+		css_class: 'maestro'
       }, {
         name: 'discover',
         pattern: /^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)/,
-        valid_length: [16]
+        valid_length: [16],
+		css_class: 'discover'
       }
     ];
     if (options == null) {

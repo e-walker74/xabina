@@ -89,7 +89,6 @@ class AccountsController extends Controller
 		$model->account_number = $selectedAcc->number;
 		if(isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest){
 			$model->attributes = $_GET['Form_Search'];
-			$model->account_number = $selectedAcc->number;
 			$transactions = $model->searchUserTransactions();
 			$html = $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $transactions), true, false);
 			echo CJSON::encode(array('success' => true, 'html' => $html));
@@ -123,23 +122,6 @@ class AccountsController extends Controller
 		
 		if($trans->account->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
-		}		
-
-		if(isset($_POST['Transactions_Info_Attachments'])){
-
-			$file = Transactions_Info_Attachments::model();
-			$file->attributes = $_POST['Transactions_Info_Attachments'];
-			$file = Transactions_Info_Attachments::model()->find('name = :name AND user_id = :user_id', array(':name' => $file->name, ':user_id' => Yii::app()->user->id));
-			if($file){
-				$file->attributes = $_POST['Transactions_Info_Attachments'];
-				$file->transaction_id = $trans->id;
-				$file->save();
-				echo CJSON::encode(array('success' => true));
-				Yii::app()->end();
-			} else {
-				echo CJSON::encode(array('success' => false));
-				Yii::app()->end();
-			}
 		}
 
         switch ($exportType) {
@@ -154,20 +136,17 @@ class AccountsController extends Controller
                 $filename = 'transaction_'.$id.'.csv';
                 $filePath ='/tmp/'.uniqid().$filename;
                 $handle = fopen($filePath, 'w+');
-                foreach ($trans->info->getPublicAttrs() as $label => $value) {
+                foreach ($trans->transfer->getPublicAttrs() as $label => $value) {
                     $line = array($label, $value);
                     fputcsv($handle, $line, ";", "\"");
                 }
                 fclose($handle);
-
                 Yii::app()->request->sendFile($filename, file_get_contents($filePath), 'application/csv', false);
                 unlink($filePath);
 				Yii::app()->end();
                 break;
             case 'doc':
-
                 $filename = TransactionsExportService::exportDetailDoc($trans);
-
                 Yii::app()->request->sendFile("transaction_{$trans->id}.docx", file_get_contents($filename), 'application/octet-stream', true);
                 unlink($filename);
                 break;
@@ -282,23 +261,20 @@ class AccountsController extends Controller
                 throw new CHttpException(404, Yii::t('Front', 'Page not found'));
             }
 			$transactions = $model->searchUserTransactions();
-            $header = array(
-                'created_at'=>'Date',
-                'type'=>'Type',
-                'details'=>'Details',
-                'sum'=>'Sum',
-                'balance'=>'Balance',
-            );
             $data = array();
+			$header = array();
             foreach($transactions as $trans) {
-                $data[] = array(
-                    'created_at' => date('d.m.Y', $trans->created_at),
-                    'type' => $trans->info->type,
-                    'details' => $trans->info->sender . ' ' . $trans->info->details_of_payment,
-                    'sum' => ($trans->type == 'negative' ? '-':'') . number_format($trans->sum, 2, ".", " ") . ' ' . $trans->account->currency->code,
-                    'balance' => number_format($trans->acc_balance, 2, ".", " "),
-                );
+				$header = array_unique(array_merge(array_keys($trans->transfer->getPublicAttrs()), $header));
+                $data[] = $trans->transfer->getPublicAttrs();
             }
+			foreach($data as &$line){
+				foreach($header as $hline){
+					if(!isset($line[$hline])){
+						$line[$hline] = '';
+					}
+				}
+			}
+
             $filename = 'transactions_'.date('Y-m-d',strtotime($model->from_date)).'.csv';
 
             $filePath = TransactionsExportService::writeTableToCsvFile($header, $data, $filename);
@@ -403,18 +379,15 @@ class AccountsController extends Controller
 		if($cat->user_id && $cat->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
-		Transactions_Categories_Links::model()->deleteAll('transaction_id = :id', array(':id' => $id));
-		$link = new Transactions_Categories_Links;
-		$link->transaction_id = $trans->id;
-		$link->category_id = $cat->id;
+		$trans->transfer->category_id = $cat->id;
 
         $response = array();
 
-		if($link->save()) {
+		if($trans->transfer->save()) {
             $response['success'] = true;
         } else {
             $response['success'] = false;
-            $response['error'] = $link->errors;
+            $response['error'] = $trans->transfer->errors;
         }
         echo json_encode($response);
         Yii::app()->end();

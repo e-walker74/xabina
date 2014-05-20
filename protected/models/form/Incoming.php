@@ -63,6 +63,13 @@ abstract class Form_Incoming extends CFormModel{
     abstract public function save();
 	
 	public function afterTransferSave($transfer){
+		
+		if($transfer->favorite){
+			$favorite = new Transfers_Incoming_Favorite();
+			$favorite->attributes = $transfer->attributes;
+			$favorite->save();
+		}
+	
 		if(isset($_POST['file_ids'])){
 			foreach($_POST['file_ids'] as $fId){
 				$file = Users_Files::model()->findByPk($fId);
@@ -86,7 +93,7 @@ abstract class Form_Incoming extends CFormModel{
     public function rules()
     {
         return array(
-            array('amount, to_account_number, currency_id, charges', 'required'),
+            array('amount, to_account_number, to_account_id, currency_id, charges', 'required'),
             array('amount, amount_cent, to_account_number, currency_id, charges, category_id', 'numerical'),
             array('amount_cent', 'length', 'max' => 2),
             array('urgent, favorite', 'boolean'),
@@ -114,4 +121,28 @@ abstract class Form_Incoming extends CFormModel{
             }
         }
     }
+	
+	public function beforeValidate(){
+		if($this->to_account_number){
+			if($acc = Accounts::model()->find('number = :n', array(':n' => $this->to_account_number))){
+				$this->to_account_id = $acc->id;
+			}
+		}
+		if($this->execution_date){
+			$this->execution_date = strtotime($this->execution_date);
+		}
+		if($this->start_date){
+			$this->start_date = strtotime($this->start_date);
+		}
+		if($this->end_date){
+			$this->end_date = strtotime($this->end_date);
+		}
+		if($this->amount_cent){
+			$this->amount .= '.' . $this->amount_cent;
+		}
+		if($this->remaining_balance_cent){
+			$this->remaining_balance .= '.' . $this->remaining_balance_cent;
+		}
+		return parent::beforeValidate();
+	}
 }

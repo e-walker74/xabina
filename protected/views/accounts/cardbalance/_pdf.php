@@ -91,7 +91,7 @@
                 <td><?= date('d.m.Y', $trans->created_at) ?></td>
                 <td><?= $trans->info->type ?></td>
                 <td>
-                    <strong><?= $trans->info->sender ?></strong> <br>
+                    <strong><?= ($trans->type == 'positive') ? $trans->info->sender : $trans->info->recipient ?></strong> <br>
                     <?= $trans->info->details_of_payment ?>
                 </td>
                 <td class="nowrap">

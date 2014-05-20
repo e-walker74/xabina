@@ -15,6 +15,8 @@ class Users_Files extends ActiveRecord
 
 	public static $fileTypes = array(
 		'Transactions' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
+		'Transfers_Outgoing' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
+		'Transfers_Incoming' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
 		'Users_Activation' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
 		'Users_Activation_1' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),
 		'Users_Activation_2' => array('count' => 4, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => 1),

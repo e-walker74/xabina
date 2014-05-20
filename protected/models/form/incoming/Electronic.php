@@ -18,6 +18,7 @@ class Form_Incoming_Electronic extends Form_Incoming{
 	public $p_month;
 	public $p_year;
 	public $p_csc;
+	public $card_type;
 
 	// ideal params
 	public $ideal_account_number;
@@ -35,7 +36,8 @@ class Form_Incoming_Electronic extends Form_Incoming{
             parent::rules(),
             array(
                 array('electronic_method', 'required'),
-                array('p_month, p_year, p_csc, creditcard_number, creditcard_holder', 'required', 'on' => 'creditcard'),
+                array('card_type, p_month, p_year, p_csc, creditcard_number, creditcard_holder', 'required', 'on' => 'creditcard'),
+				array('ideal_account_number', 'required', 'on' => 'ideal'),
 				array('p_month', 'numerical', 'min' => 1, 'max' => 12),
 				array('p_month', 'length', 'max' => 2),
 				array('p_year', 'numerical', 'min' => date('Y'), 'max' => date('Y', time()+3600*24*365*20)),
@@ -50,8 +52,10 @@ class Form_Incoming_Electronic extends Form_Incoming{
     }
 
 	public function checkCard($attribute, $params){
-		if(!AccountService::checkNumber($this->{$attribute}, strlen($this->{$attribute}))){
-			$this->addError($attribute, Yii::t('Front', 'Card id not valid'));
+		if($this->{$attribute}){
+			if(!AccountService::checkNumber($this->{$attribute}, strlen($this->{$attribute}))){
+				$this->addError($attribute, Yii::t('Front', 'Card id not valid'));
+			}
 		}
 	}
 	
@@ -66,15 +70,23 @@ class Form_Incoming_Electronic extends Form_Incoming{
         if(!$this->validate()){
             return false;
         }
-        
-		d($this->attributes);
-		die;
-		
+
 		$transfer = new Transfers_Incoming();
         $transfer->attributes = $this->attributes;
-		
-		die;
-        return $transfer->save();
+		switch(Form_Incoming_Electronic::$methods[$this->electronic_method]){
+			case 'creditcard':
+				$transfer->from_account_number = $this->creditcard_number;
+				$transfer->from_account_holder = $this->creditcard_holder;
+				break;
+			case 'ideal':
+				$transfer->from_account_number = $this->ideal_account_number;
+				break;
+		}
+		if($transfer->save()){
+			$this->afterTransferSave($transfer);
+			return true;
+		}
+		return false;
     }
 
 }

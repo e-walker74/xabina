@@ -2,12 +2,13 @@
 <div class="new-transfer xabina-form-container">
 <div class="h1-header"><?= Yii::t('Front', 'Upload money') ?></div>
 <div class="transfer-accordion xabina-accordion xabina-transfer-accordion" >
+<?php if(count($favorite)): ?>
 <div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Quick Upload') ?></a><span class="arr"></span></div>
-<div class="upload-table accordion-content quick-transfer-content">
+<div class="upload-table accordion-content quick-transfer-content quick-transfer-form">
     <div class="transaction-table-header">
         <table class="transaction-header">
             <tr>
-                <td width="24%"<?= Yii::t('Front', 'Method') ?></td>
+                <td width="24%"><?= Yii::t('Front', 'Method') ?></td>
                 <td width="27%"><?= Yii::t('Front', 'Receiver') ?></td>
                 <td width="49%"><?= Yii::t('Front', 'Value') ?></td>
             </tr>
@@ -15,77 +16,36 @@
     </div>
     <div class="new-transfer-table">
         <table class="table">
-            <tr>
+            <?php foreach($favorite as $fav):?>
+			<tr>
                 <td width="24%">
-                    <div class="update-img-payment"><img src="/images/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
+                    <div class="update-img-payment">
+						<?php if($fav->card_type): ?>
+							<img src="/images/<?= isset(Transfers_Incoming::$card_types[$fav->card_type]) ? Transfers_Incoming::$card_types[$fav->card_type] : "" ?>.png" alt=""/>
+						<?php endif; ?>
+					</div>
+                    <div class="grey">xxxx xxxx xxxx <?= substr($fav->from_account_number, -4); ?></div>
                 </td>
                 <td width="27%">
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
+                    <div class="update-name"><strong class="holder"><?= $fav->account->user->fullName ?></strong></div>
+                    <div class="grey"><?= chunk_split($fav->to_account_number, 4); ?></div>
                 </td>
                 <td width="49%">
                     <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
+                        <a href="<?= $this->createUrl('/banking/index') ?>" class="button edit"></a>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
+                    <div class="clearfix">
+						<div class="upload-price pull-left"><?= number_format($fav->amount, 2, ".", " ") . ' ' . $fav->currency->code ?></div>
+						<a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
+					</div>
                 </td>
             </tr>
-            <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
-                </td>
-                <td width="25%">
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
-                </td>
-                <td width="50%">
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
-                </td>
-            </tr>
-            <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
-                </td>
-                <td width="25%">
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
-                </td>
-                <td width="50%">
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
-                </td>
-            </tr>
-            <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
-                </td>
-                <td width="25%">
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
-                </td>
-                <td width="50%">
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
-                </td>
-            </tr>
+			<?php endforeach; ?>
         </table>
     </div>
 </div>
+<?php endif; ?>
 <div class="accordion-header"><a href="#" class="search-acc">Electronic methods</a><span class="arr"></span></div>
 <div class="electronic-methods accordion-content">
 	<?php $form=$this->beginWidget('CActiveForm', array(
@@ -217,66 +177,108 @@
 		</div>
 		
 		<div class="method-1 electronic-method-fields">
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'creditcard_number') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_number') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'creditcard_number', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'creditcard_number'); ?>
-					</div>
-					<div class="creditcard-type"></div>
+                <div class="form-line">
+                    <div class="form-cell">
+                        <div class="lbl"><?= Yii::t('Front', 'creditcard_holder') ?>
+                            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_holder') ?>"></span>
+                        </div>
+                        <div class="field-input">
+                            <?= $form->textField($electronic_request, 'creditcard_holder', array('class' => 'input-text', 'style' => 'width:100%')) ?>
+                            <?= $form->error($electronic_request, 'creditcard_holder'); ?>
+                        </div>
+                    </div>
 				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'creditcard_holder') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_holder') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'creditcard_holder', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'creditcard_holder'); ?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'from_creditcard_p_month') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'p_month'); ?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'from_creditcard_p_year') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_year') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'p_year'); ?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'from_creditcard_p_csc') ?>
+                <div class="clearfix"></div>
+                <div class="form-line" style="margin: 10px 0">
+                <div class="form-cell pull-left" style="width: 42%">
+                    <div class="lbl"><?= Yii::t('Front', 'Credit Card Number') ?>
+                        <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_number') ?>"></span>
+                    </div>
+                    <div class="field-input">
+                        <?= $form->textField($electronic_request, 'creditcard_number', array('class' => 'input-text')) ?>
+                        <?= $form->error($electronic_request, 'creditcard_number'); ?>
+                    </div>
+                </div>
+
+				<div class="form-cell pull-right" style="width: 27%">
+					<div class="lbl"><?= Yii::t('Front', 'CSC') ?>
 						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_csc') ?>"></span>
 					</div>
 					<div class="field-input">
-						<?= $form->textField($electronic_request, 'p_csc', array('class' => 'input-text')) ?>
+						<?= $form->textField($electronic_request, 'p_csc', array('class' => 'input-text card-csc')) ?>
 						<?= $form->error($electronic_request, 'p_csc'); ?>
 					</div>
 				</div>
-			</div>
+
+                    <div class="form-cell pull-right" style="width: 28%">
+                        <div class="lbl"><?= Yii::t('Front', 'Expiration Date') ?>
+                            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
+                        </div>
+                        <div class="field-input">
+                            <?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
+                            <?= $form->error($electronic_request, 'p_month'); ?>
+                            <span class="exp-delimitter">/</span>
+                            <?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
+                            <?= $form->error($electronic_request, 'p_year'); ?>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+				</div>
+            <div class="form-line">
+                <div class="form-cell" >
+                    <div class="lbl"><?= Yii::t('Front', 'Payment Type') ?>
+                        <span class="tooltip-icon" title="<?= Yii::t('Front', 'Payment Type') ?>"></span>
+                    </div>
+                    <div class="field-input">
+                        <ul class="list-inline payments-list">
+                            <li>
+                                <label>
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="master-card" value="<?= array_search('master-card', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo master-card">
+
+                                    </div>
+
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="jcb" value="<?= array_search('jcb', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo jcb ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="union-pay" value="<?= array_search('union-pay', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo union-pay ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="maestro" value="<?= array_search('maestro', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo maestro ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+									<input type="radio" name="Form_Incoming_Electronic[card_type]" class="visa" value="<?= array_search('visa', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo visa ">
+                                    </div>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="american-ecspress" value="<?= array_search('american-ecspress', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo american-ecspress ">
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 		</div>
 		
 		<div class="method-2 electronic-method-fields">
