@@ -262,4 +262,12 @@ class WebUser extends CWebUser {
         $user = $this->_getModel();
         $user->getRbacSettings();
     }
+
+    /**
+     * check if user has access to Controller.Action
+     */
+    public function checkRbacAccess($ca) {
+        
+        return true;
+    }
 }
