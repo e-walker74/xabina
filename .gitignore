@@ -9,7 +9,6 @@
 /.htaccess
 /protected/config/local.php
 /protected/config/components/
-/protected/config/admin/
 /core
 /documents
 /framework
@@ -22,3 +21,4 @@
 /nbproject/private/
 /nbproject/
 /defines.php
+/protected/config/admin/components/db.php
