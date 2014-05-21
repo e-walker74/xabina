@@ -2,8 +2,9 @@
 <div class="new-transfer xabina-form-container">
 <div class="h1-header"><?= Yii::t('Front', 'Upload money') ?></div>
 <div class="transfer-accordion xabina-accordion xabina-transfer-accordion" >
+<?php if(count($favorite)): ?>
 <div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Quick Upload') ?></a><span class="arr"></span></div>
-<div class="upload-table accordion-content quick-transfer-content">
+<div class="upload-table accordion-content quick-transfer-content quick-transfer-form">
     <div class="transaction-table-header">
         <table class="transaction-header">
             <tr>
@@ -15,96 +16,36 @@
     </div>
     <div class="new-transfer-table">
         <table class="table">
-            <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
+            <?php foreach($favorite as $fav):?>
+			<tr>
+                <td width="24%">
+                    <div class="update-img-payment">
+						<?php if($fav->card_type): ?>
+							<img src="/images/<?= isset(Transfers_Incoming::$card_types[$fav->card_type]) ? Transfers_Incoming::$card_types[$fav->card_type] : "" ?>.png" alt=""/>
+						<?php endif; ?>
+					</div>
+                    <div class="grey">xxxx xxxx xxxx <?= substr($fav->from_account_number, -4); ?></div>
                 </td>
-                <td width="26%">
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
+                <td width="27%">
+                    <div class="update-name"><strong class="holder"><?= $fav->account->user->fullName ?></strong></div>
+                    <div class="grey"><?= chunk_split($fav->to_account_number, 4); ?></div>
                 </td>
                 <td width="51%">
                     <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
+                        <a href="<?= $this->createUrl('/banking/index') ?>" class="button edit"></a>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
+                    <div class="clearfix">
+						<div class="upload-price pull-left"><?= number_format($fav->amount, 2, ".", " ") . ' ' . $fav->currency->code ?></div>
+						<a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
+					</div>
                 </td>
             </tr>
-            <tr>
-                <td >
-                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
-                </td>
-                <td >
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
-                </td>
-                <td >
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
-                </td>
-            </tr>
-            <tr>
-                <td >
-                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
-                </td>
-                <td >
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
-                </td>
-                <td >
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
-                </td>
-            </tr>
-            <tr>
-                <td >
-                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
-                    <div class="grey">xxxx xxxx xxxx 01541</div>
-                </td>
-                <td >
-                    <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
-                    <div class="grey">0121 0101 2585 01541</div>
-                </td>
-                <td >
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button edit"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
-                </td>
-            </tr>
-            <tr>
-                <td >
-                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
-                    <input class="method-input" type="text" value="xxxx xxxx xxxx 01541"/>
-                </td>
-                <td>
-                    <input class="holder-name-input" type="text" value="Viktor Kupets"/>
-                    <input class="holder-account-input" type="text" value="0121 0101 2585 01541"/>
-                </td>
-                <td>
-                    <div class="transaction-buttons-cont">
-                        <a href="#" class="button remove"></a>
-                        <a href="#" class="button ok"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <input class="amount-input" type="text" value="1 000 000.00 EUR"/>
-                    <a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a>
-                </td>
-            </tr>
+			<?php endforeach; ?>
         </table>
     </div>
 </div>
+<?php endif; ?>
 <div class="accordion-header"><a href="#" class="search-acc">Electronic methods</a><span class="arr"></span></div>
 <div class="electronic-methods accordion-content">
 	<?php $form=$this->beginWidget('CActiveForm', array(
@@ -231,6 +172,7 @@
 						'empty' => Yii::t('Front', 'Select a method'),
 					)
 				); ?>
+				<?= $form->error($electronic_request, 'electronic_method'); ?>
             </div>
             <div class="clearfix"></div>
 		</div>
@@ -292,8 +234,8 @@
                         <ul class="list-inline payments-list">
                             <li>
                                 <label>
-                                    <input type="radio">
-                                    <div class="logo master-card active">
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="master-card" value="<?= array_search('master-card', Transfers_Incoming::$card_types) ?>">
+                                    <div class="logo master-card">
 
                                     </div>
 
@@ -301,35 +243,35 @@
                             </li>
                             <li>
                                 <label>
-                                    <input type="radio">
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="jcb" value="<?= array_search('jcb', Transfers_Incoming::$card_types) ?>">
                                     <div class="logo jcb ">
                                     </div>
                                 </label>
                             </li>
                             <li>
                                 <label>
-                                    <input type="radio">
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="union-pay" value="<?= array_search('union-pay', Transfers_Incoming::$card_types) ?>">
                                     <div class="logo union-pay ">
                                     </div>
                                 </label>
                             </li>
                             <li>
                                 <label>
-                                    <input type="radio">
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="maestro" value="<?= array_search('maestro', Transfers_Incoming::$card_types) ?>">
                                     <div class="logo maestro ">
                                     </div>
                                 </label>
                             </li>
                             <li>
                                 <label>
-                                    <input type="radio">
+									<input type="radio" name="Form_Incoming_Electronic[card_type]" class="visa" value="<?= array_search('visa', Transfers_Incoming::$card_types) ?>">
                                     <div class="logo visa ">
                                     </div>
                                 </label>
                             </li>
                             <li>
                                 <label>
-                                    <input type="radio">
+                                    <input type="radio" name="Form_Incoming_Electronic[card_type]" class="american-ecspress" value="<?= array_search('american-ecspress', Transfers_Incoming::$card_types) ?>">
                                     <div class="logo american-ecspress ">
                                     </div>
                                 </label>
@@ -342,14 +284,12 @@
 		
 		<div class="method-2 electronic-method-fields">
 			<div class="from-form">
-				<div class="form-cell">
-					<div class="lbl"><?= Yii::t('Front', 'ideal_account_number') ?>
-						<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>
-					</div>
-					<div class="field-input">
-						<?= $form->textField($electronic_request, 'ideal_account_number', array('class' => 'input-text')) ?>
-						<?= $form->error($electronic_request, 'ideal_account_number'); ?>
-					</div>
+				<div class="lbl"><?= Yii::t('Front', 'ideal_account_number') ?>
+					<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>
+				</div>
+				<div class="field-input">
+					<?= $form->textField($electronic_request, 'ideal_account_number', array('class' => 'input-text')) ?>
+					<?= $form->error($electronic_request, 'ideal_account_number'); ?>
 				</div>
 			</div>
 		</div>
@@ -357,9 +297,10 @@
 		<?php $this->renderPartial('_outgoing_details', array('model' => $electronic_request, 'form' => $form, 'categories' => $categories)); ?>
 		
         <div class="form-submit transfer-controls-cont col-lg-5 col-md-5 col-sm-5 none-padding-left none-padding-right">
-            <input type="sbumit" class="submit-button button-next pull-left" value="<?= Yii::t('Front', 'Sign and send') ?>" />
-            <div class="star-button pull-right">
-            </div>
+            <input type="submit" class="submit-button button-next pull-left" value="<?= Yii::t('Front', 'Sign and send') ?>" />
+			<label class="star-button  pull-right" onclick="$(this).toggleClass('active')">
+				<?= $form->checkbox($electronic_request, 'favorite', array('style' => 'display:none;', 'class' => 'favorite-check')); ?>
+			</label>
         </div>
     </div>
 	<?php $this->endWidget(); ?>

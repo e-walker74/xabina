@@ -21,9 +21,9 @@
 	<div class="transfer-success-cont">
 		<div class="subheader"><?= Yii::t('Front', 'Success'); ?></div>
 		<div class="xabina-bubble">
-			<span><?= Yii::t('Front', 'Thank you'); ?></span>
+			<span><?= Yii::t('Front', 'Thank You!'); ?></span>
 			<br>
-			<?= Yii::t('Front', 'The verification process was successful. <br/>You see the status of the transaction can archive transaction'); ?>
+			<?= Yii::t('Front', 'Your transaction(s) have been successfully planned and going to be proccessed soon. You can see all the planned transactions in the table below.'); ?>
 			<div class="habina-bubble-arr"></div>
 		</div>
 	</div>

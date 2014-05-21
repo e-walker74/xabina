@@ -13,7 +13,9 @@ $(document).ready(function(){
         }
     });
 
-    $( ".xabina-tabs" ).tabs();
+    $( ".xabina-tabs.main" ).tabs({ active: false, collapsible: true });
+	
+	$(".frequency-tab .xabina-tabs").tabs()
 
     $('.details-accordion').accordion({
         heightStyle: "content",
@@ -30,14 +32,19 @@ $(document).ready(function(){
 	
 	$('#Form_Incoming_Electronic_creditcard_number').validateCreditCard(function(result)
 	{
+		$('.payments-list .logo').removeClass('active')
+		$('.payments-list input[type=radion]').attr('checked', false)
 		if(result.card_type){
-			$('.creditcard-type').html(result.card_type.name)
-		} else {
-			$('.creditcard-type').html('')
+			$('.payments-list .logo.'+result.card_type.css_class).addClass('active')
+			$('.payments-list input.'+result.card_type.css_class).attr('checked', true)
 		}
 	}, {
 		accept: ['visa', 'mastercard', 'amex', 'maestro', 'jcb', 'discover', 'union']
 	});
+	
+	$('.favorite-check').on('click', function(){
+        $(this).parent().toggleClass('active')
+    })
 })
 
 var submitTransaction = function(form){
@@ -64,4 +71,22 @@ var submitTransaction = function(form){
         dataType: 'json'
     });
 
+}
+
+var send_quick_transfer = function(quick_id){
+    $.ajax({
+        success: function(response) {
+            if(response.success){
+                if(response.url)
+                    window.location.href = response.url
+            } else {
+
+            }
+        },
+        cache:false,
+        async: false,
+        data: {quick: quick_id},
+        type: 'POST',
+        dataType: 'json'
+    });
 }

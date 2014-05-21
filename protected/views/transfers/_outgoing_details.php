@@ -1,5 +1,5 @@
 <div class="details-tabs-cont">
-<div class="xabina-tabs">
+<div class="xabina-tabs main">
 <ul>
     <li style="width: 21%"><a href="#tab1"><?= Yii::t('Front', 'Charges & Urgency') ?></a></li>
     <li style="width: 17%"><a href="#tab2"><?= Yii::t('Front', 'Attachments') ?></a></li>

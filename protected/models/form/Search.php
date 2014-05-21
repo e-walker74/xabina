@@ -47,11 +47,13 @@ class Form_Search extends CFormModel
 		$criteria->params = array(':uid' => Yii::app()->user->id);
 		$criteria->condition = 'account.user_id = :uid
 		';
+
 		if($this->keyword){
 			$criteria->condition .= '
 				AND 
 				(
 					info.sender LIKE :keyword OR
+					info.recipient LIKE :keyword OR
 					info.data_bank LIKE :keyword  OR
 					info.bic LIKE :keyword  OR
 					info.details_of_payment LIKE :keyword
@@ -85,7 +87,7 @@ class Form_Search extends CFormModel
 			$criteria->compare('t.sum', '<='.$this->to_sum);
 		}
 		
-		$criteria->with = array('account','info');
+		$criteria->with = array('account', 'info');
 		$criteria->together = true;
 		$criteria->order = 't.created_at desc';
 

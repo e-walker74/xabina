@@ -23,7 +23,7 @@ abstract class Admin_Transfers extends CModel {
 
     abstract public function createOutgoingTransaction(Transfers_Outgoing $transfer);
 
-    abstract public function createInComingTransaction();
+    abstract public function createInComingTransaction(Transfers_Incoming $model);
 
     public function attributeNames(){
         return array();
