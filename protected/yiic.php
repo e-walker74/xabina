@@ -4,16 +4,18 @@
 $config=dirname(__FILE__).'/config/console.php';
 defined('YII_DEBUG') or define('YII_DEBUG',false);
 
+define('FRAMEWORK_PATH', dirname(__FILE__).'/../../framework/');
+define('CORE_PATH', dirname(__FILE__).'/../../core/');
+
 if (YII_DEBUG === true) {
-    include_once dirname(__FILE__).'/../../../core/functions.php';
+    include_once CORE_PATH.'functions.php';
 }
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
-require_once(dirname(__FILE__).'/../../../framework/yii.php');
-require_once(dirname(__FILE__) . '/../../../core/YiiBaseEx.php');
+require_once(FRAMEWORK_PATH.'yii.php');
+require_once(CORE_PATH.'YiiBaseEx.php');
 
-
-Yii::setPathOfAlias("core", dirname(__FILE__).'/../../../core');
+Yii::setPathOfAlias("core", rtrim(CORE_PATH,'/'));
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
 if(isset($config))
