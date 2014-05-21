@@ -1,4 +1,7 @@
 <?php
+
+require_once dirname(__FILE__).'/defines.php';
+
 if(isset($_GET['evna_debug'])){
 	defined('YII_DEBUG') or define('YII_DEBUG',true);
 } else {
@@ -10,9 +13,9 @@ if(isset($_GET['debug']) && $_GET['debug'] == 777){
 }
 
 // change the following paths if necessary
-$yii=dirname(__FILE__).'/framework/yii.php';
-$yiiEx  = dirname(__FILE__) . '/core/YiiBaseEx.php';
-$config=dirname(__FILE__).'/protected/config/admin/local.php';
+$yii    = FRAMEWORK_PATH.'yii.php';
+$yiiEx  = CORE_PATH.'YiiBaseEx.php';
+$config = dirname(__FILE__).'/protected/config/admin/local.php';
 
 // remove the following lines when in production mode
 
@@ -25,13 +28,13 @@ if(YII_DEBUG === true){
 
 }
 
-include_once 'core/functions.php';
+include_once CORE_PATH.'functions.php';
 
 require_once($yii);
 require_once($yiiEx);
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
-Yii::setPathOfAlias("core", dirname(__FILE__).'/core');
+Yii::setPathOfAlias("core", rtrim(CORE_PATH,'/'));
 $yii = Yii::createWebApplication($config);
 spl_autoload_unregister(array('YiiBase', 'autoload'));
 spl_autoload_register(array('YiiBaseEx', 'autoload'));
