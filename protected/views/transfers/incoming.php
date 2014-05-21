@@ -7,24 +7,24 @@
     <div class="transaction-table-header">
         <table class="transaction-header">
             <tr>
-                <td width="24%"<?= Yii::t('Front', 'Method') ?></td>
-                <td width="27%"><?= Yii::t('Front', 'Receiver') ?></td>
-                <td width="49%"><?= Yii::t('Front', 'Value') ?></td>
+                <td width="23%"<?= Yii::t('Front', 'Method') ?></td>
+                <td width="26%"><?= Yii::t('Front', 'Receiver') ?></td>
+                <td width="51%"><?= Yii::t('Front', 'Value') ?></td>
             </tr>
         </table>
     </div>
     <div class="new-transfer-table">
         <table class="table">
             <tr>
-                <td width="24%">
-                    <div class="update-img-payment"><img src="/images/payment.jpg" alt=""/></div>
+                <td width="23%">
+                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
                     <div class="grey">xxxx xxxx xxxx 01541</div>
                 </td>
-                <td width="27%">
+                <td width="26%">
                     <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
                     <div class="grey">0121 0101 2585 01541</div>
                 </td>
-                <td width="49%">
+                <td width="51%">
                     <div class="transaction-buttons-cont">
                         <a href="#" class="button edit"></a>
                     </div>
@@ -33,15 +33,15 @@
                 </td>
             </tr>
             <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
+                <td >
+                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
                     <div class="grey">xxxx xxxx xxxx 01541</div>
                 </td>
-                <td width="25%">
+                <td >
                     <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
                     <div class="grey">0121 0101 2585 01541</div>
                 </td>
-                <td width="50%">
+                <td >
                     <div class="transaction-buttons-cont">
                         <a href="#" class="button edit"></a>
                     </div>
@@ -50,15 +50,15 @@
                 </td>
             </tr>
             <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
+                <td >
+                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
                     <div class="grey">xxxx xxxx xxxx 01541</div>
                 </td>
-                <td width="25%">
+                <td >
                     <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
                     <div class="grey">0121 0101 2585 01541</div>
                 </td>
-                <td width="50%">
+                <td >
                     <div class="transaction-buttons-cont">
                         <a href="#" class="button edit"></a>
                     </div>
@@ -67,20 +67,39 @@
                 </td>
             </tr>
             <tr>
-                <td width="23%">
-                    <div class="update-img-payment"><img src="img/payment.jpg" alt=""/></div>
+                <td >
+                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
                     <div class="grey">xxxx xxxx xxxx 01541</div>
                 </td>
-                <td width="25%">
+                <td >
                     <div class="update-name"><strong class="holder">Viktor Kupets</strong></div>
                     <div class="grey">0121 0101 2585 01541</div>
                 </td>
-                <td width="50%">
+                <td >
                     <div class="transaction-buttons-cont">
                         <a href="#" class="button edit"></a>
                     </div>
                     <div class="clearfix"></div>
                     <div class="clearfix"><div class="upload-price pull-left">1 000 000.00 EUR</div><a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a></div>
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
+                    <input class="method-input" type="text" value="xxxx xxxx xxxx 01541"/>
+                </td>
+                <td>
+                    <input class="holder-name-input" type="text" value="Viktor Kupets"/>
+                    <input class="holder-account-input" type="text" value="0121 0101 2585 01541"/>
+                </td>
+                <td>
+                    <div class="transaction-buttons-cont">
+                        <a href="#" class="button remove"></a>
+                        <a href="#" class="button ok"></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <input class="amount-input" type="text" value="1 000 000.00 EUR"/>
+                    <a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a>
                 </td>
             </tr>
         </table>
