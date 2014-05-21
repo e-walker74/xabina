@@ -118,7 +118,7 @@ class AccountsController extends Controller
 	public function actionTransaction($id, $exportType=''){
 
 		$this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
-		$this->breadcrumbs[Yii::t('Front', 'Balance')] = array('/accounts/cardBalance');
+		$this->breadcrumbs[Yii::t('Front', 'Balance')] = array('/accounts/cardbalance');
 		$this->breadcrumbs[Yii::t('Front', 'Transaction details')] = '';
 
 		$trans = Transactions::model()->with('account')->findByPk($id);
