@@ -1,11 +1,11 @@
 <?php
 //apc_clear_cache();
 // change the following paths if necessary
+
+require_once dirname(__FILE__).'/../defines.php';
+
 $config=dirname(__FILE__).'/config/console.php';
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-
-define('FRAMEWORK_PATH', dirname(__FILE__).'/../../framework/');
-define('CORE_PATH', dirname(__FILE__).'/../../core/');
 
 if (YII_DEBUG === true) {
     include_once CORE_PATH.'functions.php';
