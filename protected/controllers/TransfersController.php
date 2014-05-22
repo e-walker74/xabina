@@ -36,6 +36,8 @@ class TransfersController extends Controller
 							'success', 
 							'resendsms',
 							'history',
+							'createinvoice',
+							'createinvoiceoption',
 				),
                 'roles' => array('client')
             ),
@@ -636,4 +638,28 @@ class TransfersController extends Controller
 		
 		$this->render('history', array('transfers' => $transfers));
 	}
+
+    public function actionCreateInvoice(){
+        $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
+
+        $model = new Form_Invoice;
+        $user = Users::model()->findByPk(Yii::app()->user->id);
+        $model->currency_id = $user->settings->currency_id;
+        // collect user input data
+        if (!empty($_POST['Form_Invoices'])) {
+            $model->attributes = $_POST['Form_Invoices'];
+            if($model->validate()){
+                if($model->invoices()){
+                    $this->redirect(array('/invoicesuccess'));
+                }
+            }
+        }
+
+        $this->render('create_invoice', array('model' => $model, 'user' => $user));
+    }
+
+    public function actionCreateInvoiceOption() {
+        $model = new Form_Invoice;
+        $this->renderPartial('invoice_options');
+    }
 }

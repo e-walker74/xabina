@@ -53,7 +53,7 @@ $(function(){
     function onCustomSelectChange(){
         $(this).prev('span').text($(this).find(':selected').text());
     }
-	
+
 	$('.tooltip-icon').tooltip({
         tooltipClass: 'xabina-tooltip',
 		placement: 'right',
@@ -749,7 +749,7 @@ $(document).ready(function(){
         return false;
     })
 
-	$('textarea').autosize();
+	$('textarea .autosize').autosize();
 
 
     var edit = false;
