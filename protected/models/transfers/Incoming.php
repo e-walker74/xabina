@@ -34,6 +34,7 @@ class Transfers_Incoming extends ActiveRecord
             array('amount, to_account_number, to_account_id, currency_id, form_type', 'required'),
             array('amount, to_account_number, currency_id, charges, counter_agent, category_id, electronic_method, card_type', 'numerical'),
 			//array('from_account_number', 'boolean'),
+			array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
 			array('p_month', 'numerical', 'min' => 1, 'max' => 12),
 			array('p_month', 'length', 'max' => 2),
 			array('p_year', 'numerical', 'min' => date('Y'), 'max' => date('Y', time()+3600*24*365*20)),
@@ -146,6 +147,34 @@ class Transfers_Incoming extends ActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function getHtmlOperationDescription(){
+		switch($this->form_type){
+			case 'electronic':
+				if($this->electronic_method == 1){
+					return '<strong class="holder">' . $this->from_account_number . '</strong><br/>' .
+					$this->from_account_holder . '<br>' .
+					$this->description;
+				} else {
+					return '<strong class="holder">' . $this->from_account_number . '</strong>';
+				}
+				break;
+		}
+	}
+	
+	public function getHtmlStatus(){
+		switch($this->status){
+			case self::PENDING_STATUS:
+				return '<span class="pending">'. Yii::t('Front', 'Pending') .'</span>';
+				break;
+			case self::APPROVED_STATUS:
+				return '<span class="approved">'. Yii::t('Front', 'Approved') .'</span>';
+				break;
+			case self::REJECTED_STATUS:
+				return '<span class="rejected">'. Yii::t('Front', 'Rejected') .'</span>';
+				break;
+		}
 	}
 
 	/**

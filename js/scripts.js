@@ -8,7 +8,7 @@ function fontScale(scale){
 	   $('body').css({'font-size': '114.3%'});
 }
 
-$.fn.extend( {
+$.fn.extend({
     limiter: function(limit, elem) {
         $(this).on("keyup focus", function() {
             setCount(this, elem);
@@ -434,7 +434,10 @@ $(function(){
 		});
 	}
 	
-	deleteRow = function(link, callback){
+	deleteRow = function(link, callback, parentTag){
+		if(!parentTag){
+			var parentTag = 'tr'
+		}
 		backgroundBlack()
 		$.ajax({
 			url: $(link).attr('data-url'),
@@ -447,10 +450,10 @@ $(function(){
 						successNotify(response.mesTitle, response.message, link)
 					}
 				
-					if($(link).parents('tr').prev('tr').hasClass('email-comment-tr')){
-						$(link).parents('tr').prev('tr').remove()
+					if($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')){
+						$(link).parents(parentTag).prev(parentTag).remove()
 					}
-					$(link).parents('tr').remove()
+					$(link).parents(parentTag).remove()
 					
 					
 					if(response.reload){
@@ -754,6 +757,44 @@ $(document).ready(function(){
     })
 	
 })
+
+var cancelPage = function(){
+	$(window).unbind('beforeunload')
+
+	/* name page */
+	$(document).find('.edit-doc').hide()
+	$(document).find('.not-edit-doc').show()
+	
+	/* phones page */
+	$(document).find('.prof-form').hide()
+	$(document).find('.add-new-td').parents('tr').show()
+	
+	/* addresses page */
+	$('.address-tr').show();
+	$('.edit-address-tr').hide();
+	$('.add-new-td').parent().show()
+	$('.prof-form').hide()
+	
+	/* pins page */
+	$('.transaction-buttons-cont .edit').show()
+	$('.edit-form').hide()
+	
+	/* settings page */
+	$('.edit-block').hide();
+	$('.user-settings-data').show();
+	
+	$('form').trigger('reset')
+
+    /*$('form select').each(function( index ) {
+        $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
+    })*/
+
+    $('.checkbox-custom label').removeClass('checked')
+
+    /* new transfer page */
+    $('.quick-row-edit').hide()
+    $('.quick-row').show()
+}
 
 var resetPage = function(){
 

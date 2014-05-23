@@ -87,16 +87,41 @@ abstract class Form_Outgoingtransf extends CFormModel{
         return array(
             array('amount, account_number, currency_id, charges', 'required'),
             array('amount, amount_cent, account_number, currency_id, charges, remaining_balance, remaining_balance_cent, category_id', 'numerical'),
-            array('amount_cent', 'length', 'max' => 2),
+            array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
+			array('amount_cent', 'length', 'max' => 2),
             array('account_number', 'checkXabinaNumber'),
             array('counter_agent', 'checkXabinaUserID'),
             array('urgent, favorite', 'boolean'),
+			array('each_period', 'in', 'range' => array(1,2,3,4,5,6)),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
             array('frequency_type', 'in', 'range' => array(1, 2)),
             array('end_date', 'validateCompareDates', 'compareAttribute' => 'start_date', 'message' => Yii::t('Front', 'Must be greater than Start Date')),
             array('execution_date, start_date, end_date', 'validateToday', 'integerOnly' => false, 'min' => strtotime(date('m/d/Y'), time()), 'message' => Yii::t('Front', 'Date is not correct')),
             array('description, tag1, tag2, tag3', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
         );
+    }
+	
+	public function notifyRules(){
+		return array(
+			'validateBalance',
+		);
+	}
+	
+	public function validateBalance(){
+        $acc = Accounts::model()->find('number = :account_number AND user_id = :uid',
+            array(
+                ':account_number' => $this->account_number,
+                ':uid' => Yii::app()->user->id,
+            )
+        );
+        if(!$acc){
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+        if($acc->getBalanceInEUR() < Currencies::convert($this->amount, Currencies::model()->findByPk($this->currency_id)->code, 'EUR')){
+            return array('amount_notify' => Yii::t('Front', 'Insufficient funds'));
+        } else {
+			return array();
+		}
     }
 
     public function checkXabinaUserID($attribute, $params){
@@ -154,4 +179,27 @@ abstract class Form_Outgoingtransf extends CFormModel{
             return true;
         }
     }
+	
+	/**
+	*	For ajax validation with notifications. Use in outgoing form only
+	**/
+	public function validateWithNotify($returnJSON = true){
+		$class = get_class($this);
+		if(!isset($_POST[$class])){
+			return array();
+		}
+		$this->attributes = $_POST[$class];
+		$this->validate();
+		
+		$notifications = array();
+		foreach($this->notifyRules() as $functionName){
+			$notifications = array_merge($notifications, $this->{$functionName}());
+		}
+		$errors = array();
+		foreach($this->getErrors() as $errorKey => $errorMessage){
+			$errors[$class.'_'.$errorKey] = $errorMessage;
+		}
+		$arrayRes = array_merge($errors, array('notify' => $notifications));
+		return CJSON::encode($arrayRes);
+	}
 }

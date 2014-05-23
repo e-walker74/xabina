@@ -41,3 +41,8 @@
 [20-May-2014 17:13:20 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE, expecting ')' in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 103
 [20-May-2014 17:18:18 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 102
 [20-May-2014 21:47:26 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 311
+[21-May-2014 18:04:38 Europe/Minsk] PHP Parse error:  syntax error, unexpected ';' in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 92
+[21-May-2014 18:04:39 Europe/Minsk] PHP Parse error:  syntax error, unexpected ';' in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 92
+[22-May-2014 18:52:32 Europe/Minsk] PHP Parse error:  syntax error, unexpected '<' in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 169
+[22-May-2014 18:52:34 Europe/Minsk] PHP Parse error:  syntax error, unexpected '<' in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 169
+[22-May-2014 22:56:59 Europe/Minsk] PHP Fatal error:  Call to undefined method stdClass::validate() in /home/evnaby/sites/xabina/protected/models/form/Outgoingtransf.php on line 190

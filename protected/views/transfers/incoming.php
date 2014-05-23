@@ -104,7 +104,7 @@
                 <div class="amount">
 					<div class="lbl"><?= Yii::t('Front', 'Amount') ?><span class="tooltip-icon" title="Add Your E-Mail that you will use to access online banking"></span></div>
 					<div class="input">
-						<?= $form->textField($electronic_request, 'amount', array('class' => 'amount-sum')) ?>
+						<?= $form->textField($electronic_request, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
 						<span class="delimitter">.</span>
 						<?= $form->textField($electronic_request, 'amount_cent', array('class' => 'amount-cent')) ?>
 						<?= $form->error($electronic_request, 'amount') ?>
@@ -363,7 +363,7 @@
                     <div class="amount">
                         <div class="lbl"><?= Yii::t('Front', 'Amount') ?><span class="tooltip-icon" title="Add Your E-Mail that you will use to access online banking"></span></div>
                         <div class="input">
-                            <?= $form->textField($incoming_request, 'amount', array('class' => 'amount-sum')) ?>
+                            <?= $form->textField($incoming_request, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
                             <span class="delimitter">.</span>
                             <?= $form->textField($incoming_request, 'amount_cent', array('class' => 'amount-cent')) ?>
                             <?= $form->error($incoming_request, 'amount') ?>

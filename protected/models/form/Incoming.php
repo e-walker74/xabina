@@ -21,6 +21,7 @@ abstract class Form_Incoming extends CFormModel{
     /* charges */
     public $charges;
     public $urgent;
+	
     /* frequency type */
     public $frequency_type = 1;
     public $execution_date;
@@ -95,6 +96,7 @@ abstract class Form_Incoming extends CFormModel{
         return array(
             array('amount, to_account_number, to_account_id, currency_id, charges', 'required'),
             array('amount, amount_cent, to_account_number, currency_id, charges, category_id', 'numerical'),
+			array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
             array('amount_cent', 'length', 'max' => 2),
             array('urgent, favorite', 'boolean'),
             array('to_account_number', 'checkXabinaNumber'),
