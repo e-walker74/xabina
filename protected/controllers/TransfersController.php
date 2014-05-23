@@ -34,9 +34,13 @@ class TransfersController extends Controller
                     'smsverivicaiton',
                     'smsconfirm',
                     'success',
+					'successincoming',
                     'resendsms',
                     'history',
-                    'GetBankName',
+                    'getbankname',
+					'standing',
+					'deletestanding',
+					'IncomingOverview',
 				),
                 'roles' => array('client')
             ),
@@ -55,7 +59,8 @@ class TransfersController extends Controller
      * template newtransfer_xabina_15.psd
      * codding http://nikxabina.intwall.com/layout/account/new_transfer.html
      */
-    public function actionOutgoing(){
+    public function actionOutgoing()
+	{
 
         $this->breadcrumbs[Yii::t('Front', 'New Transfer')] = '';
 
@@ -86,14 +91,29 @@ class TransfersController extends Controller
          */
 
         $number = Yii::app()->request->getParam('account', '', 'int');
-        $transfer = Yii::app()->request->getParam('transfer', '', 'int');
-
-        if($transfer && $transfer = Transfers_Outgoing::model()->findByPk($transfer)){
-            if($transfer->need_confirm == 1){
-                $number = $transfer->account_number;
-            }
-        }
-
+        $transfer = false;
+		$redirectTo = '/transfers/overview';
+		
+		if($transfer = Yii::app()->request->getParam('transfer', '', 'int')){
+			if($transfer && $transfer = Transfers_Outgoing::model()->findByPk($transfer)){
+				if($transfer->need_confirm == 1){
+					$number = $transfer->account_number;
+				}
+			}
+		}
+		
+		if(Yii::app()->request->getParam('standing', '', 'int')){
+			$transfer = Yii::app()->request->getParam('standing', '', 'int');
+			if($transfer && $transfer = Transfers_Outgoing_Standing::model()->findByPk($transfer)){
+				$number = $transfer->account_number;
+				$redirectTo = '/transfers/standing';
+			}
+		}
+		
+		if($transfer && $transfer->user_id != Yii::app()->user->id){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
         if($number){
             $selectedAcc = Accounts::model()->find('user_id = :uid AND number = :number', array(':uid' => Yii::app()->user->id, ':number' => $number));
 
@@ -117,7 +137,7 @@ class TransfersController extends Controller
         $ownForm = new Form_Outgoingtransf_Own;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'own-form') {
-            echo CActiveForm::validate($ownForm);
+            echo $ownForm->validateWithNotify();
             Yii::app()->end();
         }
 
@@ -130,7 +150,7 @@ class TransfersController extends Controller
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -150,7 +170,7 @@ class TransfersController extends Controller
         $anotherForm = new Form_Outgoingtransf_Another;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'another-form') {
-            echo CActiveForm::validate($anotherForm);
+            echo $anotherForm->validateWithNotify();
             Yii::app()->end();
         }
 
@@ -163,7 +183,7 @@ class TransfersController extends Controller
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -183,7 +203,7 @@ class TransfersController extends Controller
         $externalForm = new Form_Outgoingtransf_External;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'external-form') {
-            echo CActiveForm::validate($externalForm);
+            echo $externalForm->validateWithNotify();
             Yii::app()->end();
         }
 
@@ -196,7 +216,7 @@ class TransfersController extends Controller
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -231,7 +251,7 @@ class TransfersController extends Controller
         }
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'ewallet-form') {
-            echo CActiveForm::validate($ewalletForm);
+            echo $ewalletForm->validateWithNotify();
             Yii::app()->end();
         }
 
@@ -244,7 +264,7 @@ class TransfersController extends Controller
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -292,7 +312,7 @@ class TransfersController extends Controller
         $quickForm = new Transfers_Outgoing_Favorite();
 
         if(isset($_POST['Transfers_Outgoing_Favorite']) && strpos(Yii::app()->request->getParam('ajax'), 'quick-form') === 0){
-            echo CActiveForm::validate($quickForm);
+            echo $quickForm->validateWithNotify();
             Yii::app()->end();
         }
 
@@ -308,7 +328,7 @@ class TransfersController extends Controller
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -369,7 +389,7 @@ class TransfersController extends Controller
                     'success' => true,
                     'clean' => false,
                     'message' => $message,
-                    'url' => Yii::app()->createUrl('/banking/index')
+                    'url' => Yii::app()->createUrl('/transfers/successincoming')
                 ));
             } else {
                 echo CJSON::encode(array('success' => false, 'message' => ''));
@@ -410,7 +430,7 @@ class TransfersController extends Controller
                     'success' => true,
                     'clean' => false,
                     'message' => $message,
-                    'url' => Yii::app()->createUrl('/banking/index')
+                    'url' => Yii::app()->createUrl('/transfers/successincoming')
                 ));
 			} else {
                 echo CJSON::encode(array('success' => false, 'message' => ''));
@@ -432,12 +452,12 @@ class TransfersController extends Controller
                 $transfer->form_type = $quick->form_type;
 				$transfer->electronic_method = $quick->electronic_method;
 				$transfer->attributes = $quick->attributes;
-                if($transfer->save()){
+				if($transfer->save()){
 					Yii::app()->session['flash_notify'] = array(
 						'title' => Yii::t('Front', 'Upload'),
 						'message' => Yii::t('Front', 'Upload was successfully saved'),
 					);
-                    echo CJSON::encode(array('success' => true, 'url' => Yii::app()->createUrl('/banking/index')));
+                    echo CJSON::encode(array('success' => true, 'url' => Yii::app()->createUrl('/transfers/successincoming')));
                 }
                 Yii::app()->end();
             }
@@ -569,7 +589,7 @@ class TransfersController extends Controller
 		if(isset($_POST['Form_Smsconfirm']) && Yii::app()->request->isAjaxRequest ){
 			$confs = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			if(count($confs)){
-				$smsshot = Yii::app()->cache->get('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id);
+				$smsshot = Yii::app()->cache->get('transferSmsShot'.$confs[0]->transfer_id.Yii::app()->user->id);
 				if(!$smsshot){
 					$smsshot = 1;
 				}
@@ -577,7 +597,7 @@ class TransfersController extends Controller
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Try in a hour')));
 					Yii::app()->end();
 				}elseif($confs[0]->confirm_code != (int)$_POST['Form_Smsconfirm']['code']){
-					Yii::app()->cache->set('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id, ++$smsshot, 3600);
+					Yii::app()->cache->set('transferSmsShot'.$confs[0]->transfer_id.Yii::app()->user->id, ++$smsshot, 3600);
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Code is incorrect. Your code is: '.$confs[0]->confirm_code)));
 					Yii::app()->end();
 				} else{
@@ -590,6 +610,13 @@ class TransfersController extends Controller
                                 $favorite->attributes = $conf->transfer->attributes;
                                 $favorite->save();
                             }
+							if($conf->transfer->frequency_type == 2){
+								$standing = new Transfers_Outgoing_Standing;
+								$standing->attributes = $conf->transfer->attributes;
+								$conf->transfer->frequency_type = 1;
+								$conf->transfer->save();
+								$standing->save();
+							}
 							$conf->delete();
 						}
 					}
@@ -711,5 +738,53 @@ class TransfersController extends Controller
 		$transfers = Transfers_Outgoing::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ' OR status = 0)', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
 		
 		$this->render('history', array('transfers' => $transfers));
+	}
+	
+	public function actionStanding(){
+		$model = Transfers_Outgoing_Standing::model()->findAll(
+			array(
+				'condition' => 'user_id = :uid AND deleted = 0',
+				'params' => array(':uid' => Yii::app()->user->id),
+				'order' => 'created_at desc',
+			)
+		);
+
+		$this->render('standing', array('model' => $model));
+	}
+	
+	public function actionDeleteStanding($id){
+		$model = Transfers_Outgoing_Standing::model()->findByPk($id);
+		
+		$success = false;
+		$message = false;
+		
+		if($model->user_id = Yii::app()->user->id){
+			$model->deleted = 1;
+			if($model->save()){
+				$success = true;
+				$message = Yii::t('Front', 'Standing transfer was successfully removed');
+			}
+		}
+		
+		echo CJSON::encode(array('success' => $success, 'message' => $message));
+	}
+	
+	public function actionSuccessIncoming(){
+		$this->breadcrumbs[Yii::t('Front', 'Upload money')] = array('/transfers/incoming');
+		$this->breadcrumbs[Yii::t('Front', 'Success')] = '';
+		
+		$time = time() - 3600 * 24 * 5;
+		$transfers = Transfers_Incoming::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ')', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
+	
+		$this->render('incoming/success', array('transfers' => $transfers));
+	}
+	
+	public function actionIncomingOverview(){
+		$this->breadcrumbs[Yii::t('Front', 'Incoming overview')] = '';
+		
+		$time = time() - 3600 * 24 * 5;
+		$transfers = Transfers_Incoming::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ')', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
+	
+		$this->render('incoming/overview', array('transfers' => $transfers));
 	}
 }

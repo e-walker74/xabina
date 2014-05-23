@@ -32,4 +32,31 @@ abstract class ActiveRecord extends CActiveRecord
 		}
         return parent::beforeSave();
     }
+	
+	public function notifyRules(){
+		return array();
+	}
+	
+	/**
+	*	For ajax validation with notifications. Use in outgoing form only
+	**/
+	public function validateWithNotify($returnJSON = true){
+		$class = get_class($this);
+		if(!isset($_POST[$class])){
+			return array();
+		}
+		$this->attributes = $_POST[$class];
+		$this->validate();
+		
+		$notifications = array();
+		foreach($this->notifyRules() as $functionName){
+			$notifications = array_merge($notifications, $this->{$functionName}());
+		}
+		$errors = array();
+		foreach($this->getErrors() as $errorKey => $errorMessage){
+			$errors[$class.'_'.$errorKey] = $errorMessage;
+		}
+		$arrayRes = array_merge($errors, array('notify' => $notifications));
+		return CJSON::encode($arrayRes);
+	}
 }

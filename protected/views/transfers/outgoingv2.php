@@ -43,11 +43,8 @@
         </div>
         <div class="quick-row">
             <div class="comment">
-                <div class="comm-txt">
-                    <?= $qtr->description ?>
-                </div>
-
-            </div>
+                <div class="comm-txt"><?= $qtr->description ?></div>
+			</div>
             <div class="sign-cont">
                 <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $qtr->id ?>')" class="sign-send-button"><?= Yii::t('Front', 'SIGN AND SEND') ?></a>
             </div>
@@ -119,11 +116,12 @@
                 <?= $form->hiddenField($qtr, 'id') ?>
             </div>
             <div class="sum">
-                <?= $form->textField($qtr, 'amount', array('class' => 'sum-input')); ?>
+                <?= $form->textField($qtr, 'amount', array('class' => 'sum-input', 'maxlength' => 9)); ?>
                 <span class="delimitter">.</span>
                 <input class="sum-input-cent" type="text"/>
                 <div class="clearfix"></div>
                 <?= $form->error($qtr, 'amount'); ?>
+				<div class="amount_notify error-message notify" style="display:none;"></div>
             </div>
 
             <div class="currency">
@@ -188,7 +186,7 @@
 </div>
 </div>
 <?php endif; ?>
-<div class="accordion-header"><a href="#" class="search-acc label-own-form">Own account</a><span class="arr"></span></div>
+<div class="accordion-header"><a href="#" class="search-acc label-own-form"><?= Yii::t('Front', 'Own account') ?></a><span class="arr"></span></div>
 <div class="accordion-content">
 <div class="own-account-form xabina-form-container">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -204,40 +202,8 @@
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
         'successCssClass'=>'valid',
-        'afterValidate' => 'js:function(form, data, hasError) {
-						form.find("input").removeClass("input-error");
-						form.find("input").parent().removeClass("input-error");
-						form.find(".validation-icon").fadeIn();
-						if(hasError) {
-							for(var i in data) {
-								$("#"+i).addClass("input-error");
-								$("#"+i).parent().addClass("input-error");
-								$("#"+i).next(".validation-icon").fadeIn();
-							}
-							return false;
-						}
-						else {
-							submitTransaction(form)
-						}
-						return false;
-					}',
-        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-						if(hasError){
-							if(!$("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").hide().slideDown();
-							}
-							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-						} else {
-							if($("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").show().slideUp();
-							}
-							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-							$("#"+attribute.id).addClass("valid");
-						}
-					}'
+        'afterValidate' => 'js:afterValidate',
+        'afterValidateAttribute' => 'js:afterValidateAttribute'
     ),
 )); ?>
 <div class="form-header"><span><?= Yii::t('Front', 'From') ?></span></div>
@@ -249,10 +215,11 @@
                  title="<?= Yii::t('Front', 'tool_tip_amount_new_transfer') ?>"></span>
             </div>
             <div class="input">
-                <?= $form->textField($ownForm, 'amount', array('class' => 'amount-sum')) ?>
+                <?= $form->textField($ownForm, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
                 <span class="delimitter">.</span>
                 <?= $form->textField($ownForm, 'amount_cent', array('class' => 'amount-cent')) ?>
                 <?= $form->error($ownForm, 'amount') ?>
+				<div class="amount_notify error-message notify" style="display:none;"></div>
             </div>
         </div>
     </div>
@@ -369,40 +336,8 @@
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
         'successCssClass'=>'valid',
-        'afterValidate' => 'js:function(form, data, hasError) {
-						form.find("input").removeClass("input-error");
-						form.find("input").parent().removeClass("input-error");
-						form.find(".validation-icon").fadeIn();
-						if(hasError) {
-							for(var i in data) {
-								$("#"+i).addClass("input-error");
-								$("#"+i).parent().addClass("input-error");
-								$("#"+i).next(".validation-icon").fadeIn();
-							}
-							return false;
-						}
-						else {
-							submitTransaction(form)
-						}
-						return false;
-					}',
-        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-						if(hasError){
-							if(!$("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").hide().slideDown();
-							}
-							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-						} else {
-							if($("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").show().slideUp();
-							}
-							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-							$("#"+attribute.id).addClass("valid");
-						}
-					}'
+        'afterValidate' => 'js:afterValidate',
+        'afterValidateAttribute' => 'js:afterValidateAttribute'
     ),
 )); ?>
 <div class="from-form">
@@ -412,10 +347,11 @@
                                                                    title="<?= Yii::t('Front', 'tool_tip_amount_new_transfer') ?>"></span>
             </div>
             <div class="input">
-                <?= $form->textField($anotherForm, 'amount', array('class' => 'amount-sum')) ?>
+                <?= $form->textField($anotherForm, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
                 <span class="delimitter">.</span>
                 <?= $form->textField($anotherForm, 'amount_cent', array('class' => 'amount-cent')) ?>
                 <?= $form->error($anotherForm, 'amount') ?>
+				<div class="amount_notify error-message notify" style="display:none;"></div>
             </div>
         </div>
     </div>
@@ -514,40 +450,8 @@
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
         'successCssClass'=>'valid',
-        'afterValidate' => 'js:function(form, data, hasError) {
-						form.find("input").removeClass("input-error");
-						form.find("input").parent().removeClass("input-error");
-						form.find(".validation-icon").fadeIn();
-						if(hasError) {
-							for(var i in data) {
-								$("#"+i).addClass("input-error");
-								$("#"+i).parent().addClass("input-error");
-								$("#"+i).next(".validation-icon").fadeIn();
-							}
-							return false;
-						}
-						else {
-							submitTransaction(form)
-						}
-						return false;
-					}',
-        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-						if(hasError){
-							if(!$("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").hide().slideDown();
-							}
-							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-						} else {
-							if($("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").show().slideUp();
-							}
-							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-							$("#"+attribute.id).addClass("valid");
-						}
-					}'
+        'afterValidate' => 'js:afterValidate',
+        'afterValidateAttribute' => 'js:afterValidateAttribute'
     ),
 )); ?>
 <div class="form-header"><span><?= Yii::t('Front', 'From') ?></span></div>
@@ -558,10 +462,11 @@
                                                                        title="<?= Yii::t('Front', 'tool_tip_amount_new_transfer') ?>"></span>
                 </div>
                 <div class="input">
-                    <?= $form->textField($externalForm, 'amount', array('class' => 'amount-sum')) ?>
+                    <?= $form->textField($externalForm, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
                     <span class="delimitter">.</span>
                     <?= $form->textField($externalForm, 'amount_cent', array('class' => 'amount-cent')) ?>
                     <?= $form->error($externalForm, 'amount') ?>
+					<div class="amount_notify error-message notify" style="display:none;"></div>
                 </div>
             </div>
         </div>
@@ -688,43 +593,11 @@
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
         'successCssClass'=>'valid',
-        'afterValidate' => 'js:function(form, data, hasError) {
-						form.find("input").removeClass("input-error");
-						form.find("input").parent().removeClass("input-error");
-						form.find(".validation-icon").fadeIn();
-						if(hasError) {
-							for(var i in data) {
-								$("#"+i).addClass("input-error");
-								$("#"+i).parent().addClass("input-error");
-								$("#"+i).next(".validation-icon").fadeIn();
-							}
-							return false;
-						}
-						else {
-							submitTransaction(form)
-						}
-						return false;
-					}',
-        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-						if(hasError){
-							if(!$("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").hide().slideDown();
-							}
-							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-						} else {
-							if($("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").show().slideUp();
-							}
-							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-							$("#"+attribute.id).addClass("valid");
-						}
-					}'
+        'afterValidate' => 'js:afterValidate',
+        'afterValidateAttribute' => 'js:afterValidateAttribute'
     ),
 )); ?>
-<div class="form-header"><span>From</span></div>
+<div class="form-header"><span><?= Yii::t('Front', 'From'); ?></span></div>
     <div class="from-form">
         <div class="form-cell">
             <div class="amount">
@@ -732,10 +605,11 @@
                                                                        title="<?= Yii::t('Front', 'tool_tip_amount_new_transfer') ?>"></span>
                 </div>
                 <div class="input">
-                    <?= $form->textField($ewalletForm, 'amount', array('class' => 'amount-sum')) ?>
+                    <?= $form->textField($ewalletForm, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
                     <span class="delimitter">.</span>
                     <?= $form->textField($ewalletForm, 'amount_cent', array('class' => 'amount-cent')) ?>
                     <?= $form->error($ewalletForm, 'amount') ?>
+					<div class="amount_notify error-message notify" style="display:none;"></div>
                 </div>
             </div>
         </div>
