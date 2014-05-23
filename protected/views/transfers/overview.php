@@ -66,7 +66,10 @@
 												break;
 									} ?>
 									<br/>
-									<?=  $transfer->description ?>
+                                <div class="comm-txt">
+                                    <?=  $transfer->description ?>
+                                </div>
+
 							</td>
 							<td width="14%"><?= ($transfer->frequency_type == 1) ? date('m.d.Y', $transfer->execution_date) : Yii::t('Front', 'Start').': '. date('m.d.Y', $transfer->start_date) . ' ' . Yii::t('Front', 'End').': '. date('m.d.Y', $transfer->end_date) ?></td>
 							<td width="14%"><?= $transfer->amount ?> <span class="currency-code"><?= $transfer->currency->code ?></span></td>

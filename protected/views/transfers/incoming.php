@@ -8,41 +8,124 @@
     <div class="transaction-table-header">
         <table class="transaction-header">
             <tr>
-                <td width="23%"<?= Yii::t('Front', 'Method') ?></td>
-                <td width="26%"><?= Yii::t('Front', 'Receiver') ?></td>
-                <td width="51%"><?= Yii::t('Front', 'Value') ?></td>
+                <td width="24%"><?= Yii::t('Front', 'Method') ?></td>
+                <td width="27%"><?= Yii::t('Front', 'Receiver') ?></td>
+                <td width="49%"><?= Yii::t('Front', 'Value') ?></td>
             </tr>
         </table>
     </div>
     <div class="new-transfer-table">
-        <table class="table">
+        <ul class="list-unstyled list-quick">
             <?php foreach($favorite as $fav):?>
-			<tr>
-                <td width="24%">
-                    <div class="update-img-payment">
-						<?php if($fav->card_type): ?>
-							<img src="/images/<?= isset(Transfers_Incoming::$card_types[$fav->card_type]) ? Transfers_Incoming::$card_types[$fav->card_type] : "" ?>.png" alt=""/>
-						<?php endif; ?>
-					</div>
-                    <div class="grey">xxxx xxxx xxxx <?= substr($fav->from_account_number, -4); ?></div>
-                </td>
-                <td width="27%">
-                    <div class="update-name"><strong class="holder"><?= $fav->account->user->fullName ?></strong></div>
-                    <div class="grey"><?= chunk_split($fav->to_account_number, 4); ?></div>
-                </td>
-                <td width="51%">
-                    <div class="transaction-buttons-cont">
+			<li>
+                <div class="quick-row">
+                    <div class="update-img-payment pull-left">
+                        <?php if($fav->card_type): ?>
+                            <img height="25" src="/images/<?= isset(Transfers_Incoming::$card_types[$fav->card_type]) ? Transfers_Incoming::$card_types[$fav->card_type] : "" ?>.png" alt=""/>
+                        <?php endif; ?>
+                    </div>
+                    <div class="transaction-buttons-cont pull-right">
                         <a href="<?= $this->createUrl('/banking/index') ?>" class="button edit"></a>
                     </div>
+                    <div class="update-name pull-right">
+                        <strong class="holder"><?= $fav->account->user->fullName ?></strong>
+                    </div>
                     <div class="clearfix"></div>
-                    <div class="clearfix">
-						<div class="upload-price pull-left"><?= number_format($fav->amount, 2, ".", " ") . ' ' . $fav->currency->code ?></div>
-						<a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
-					</div>
-                </td>
-            </tr>
+                </div>
+
+                <div class="quick-row">
+                    <div class="grey acc-num pull-left">xxxx xxxx xxxx <?= substr($fav->from_account_number, -4); ?></div>
+                    <div class="grey acc-to-num pull-left"><?= chunk_split($fav->to_account_number, 4); ?></div>
+                    <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
+                    <div class="upload-price pull-right"><?= number_format($fav->amount, 2, ".", " ") . ' ' . $fav->currency->code ?></div>
+                    <div class="clearfix"></div>
+                </div>
+            </li>
 			<?php endforeach; ?>
-        </table>
+
+            <li class="row-edit">
+                <div class="quick-row">
+                    <div class="update-img-payment pull-left">
+                        <img height="25" src="/images/payment.jpg" alt=""/>
+                    </div>
+                    <div class="transaction-buttons-cont pull-right">
+                        <a href="#" class="button remove"></a>
+                        <a href="#" class="button ok"></a>
+                    </div>
+                    <div class="update-name pull-right">
+                        <input class="holder-name-input" type="text" value="Viktor Kupets"/>
+                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="quick-row">
+                    <div class="grey acc-num pull-left">
+                        <input class="method-input" type="text" value="xxxx xxxx xxxx 01541"/>
+                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                    </div>
+                    <div class="grey acc-to-num pull-left">
+                        <input class="holder-account-input" type="text" value="0121 0101 2585 01541"/>
+                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                    </div>
+                    <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
+                    <div class="upload-price pull-right">
+                        <input class="amount-input" type="text" value="1 000 000 "/>
+                        <span class="delimitter">.</span>
+                        <input class="cent-input" type="00"/>
+                        <div class="select-custom select-narrow currency-select">
+                            <span class="select-custom-label">EUR</span>
+                            <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
+                                <option value="1">USD</option>
+                                <option value="2" selected="selected">RUB</option>
+                            </select>
+
+                        </div>
+                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </li>
+
+<!--
+            <li>
+                <td >
+                    <div class="update-img-payment"><img height="25" src="/images/payment.jpg" alt=""/></div>
+                    <input class="method-input" type="text" value="xxxx xxxx xxxx 01541"/>
+                    <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                </td>
+                <td>
+                    <input class="holder-name-input" type="text" value="Viktor Kupets"/>
+                    <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                    <input class="holder-account-input" type="text" value="0121 0101 2585 01541"/>
+                    <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                </td>
+                <td>
+                    <div class="transaction-buttons-cont">
+                        <a href="#" class="button remove"></a>
+                        <a href="#" class="button ok"></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div>
+                    <div class="pull-left">
+                        <input class="amount-input" type="text" value="1 000 000 "/>
+                        <span class="delimitter">.</span>
+                        <input class="cent-input" type="00"/>
+                        <div class="select-custom select-narrow currency-select">
+                            <span class="select-custom-label">EUR</span>
+                            <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
+                                <option value="1">USD</option>
+                                <option value="2" selected="selected">RUB</option>
+                            </select>
+
+                        </div>
+                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                    </div>
+                        <a href="#" class="rounded-buttons upload pull-right select-pay">SELECT AND PAY</a>
+
+                    </div>
+                </td>
+            </li>-->
+        </ul>
     </div>
 </div>
 <?php endif; ?>
@@ -216,9 +299,29 @@
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
                         </div>
                         <div class="field-input">
-                                <?= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
+                            <div class="select-custom currency-select exp-month">
+                                <span class="select-custom-label">Month</span>
+                                <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
+                                    <option value="1">september</option>
+                                    <option value="2" selected="selected">1</option>
+                                    <option value="3">2</option>
+                                    <option value="4">3</option>
+                                    <option value="5">4</option>
+                                </select>
+                            </div>
+<!--                                --><?//= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
                             <span class="exp-delimitter">/</span>
-                                <?= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
+                            <div class="select-custom currency-select exp-year">
+                                <span class="select-custom-label">1</span>
+                                <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
+                                    <option value="1">1</option>
+                                    <option value="2" selected="selected">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+<!--                                --><?//= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
                             <?= $form->error($electronic_request, 'p_year'); ?>
                             <?= $form->error($electronic_request, 'p_month'); ?>
                         </div>
@@ -235,7 +338,7 @@
                             <li>
                                 <label>
                                     <input type="radio" name="Form_Incoming_Electronic[card_type]" class="master-card" value="<?= array_search('master-card', Transfers_Incoming::$card_types) ?>">
-                                    <div class="logo master-card">
+                                    <div class="logo master-card active">
 
                                     </div>
 
@@ -296,9 +399,9 @@
 		
 		<?php $this->renderPartial('_outgoing_details', array('model' => $electronic_request, 'form' => $form, 'categories' => $categories)); ?>
 		
-        <div class="form-submit transfer-controls-cont col-lg-5 col-md-5 col-sm-5 none-padding-left none-padding-right">
+        <div class="form-submit transfer-controls-cont col-lg-12 col-md-12 col-sm-12 none-padding-left none-padding-right">
             <input type="submit" class="submit-button button-next pull-left" value="<?= Yii::t('Front', 'Sign and send') ?>" />
-			<label class="star-button  pull-right" onclick="$(this).toggleClass('active')">
+			<label class="star-button in-star pull-left" onclick="$(this).toggleClass('active')">
 				<?= $form->checkbox($electronic_request, 'favorite', array('style' => 'display:none;', 'class' => 'favorite-check')); ?>
 			</label>
         </div>
@@ -442,7 +545,7 @@
 
             <?php $this->renderPartial('_outgoing_details', array('model' => $incoming_request, 'form' => $form, 'categories' => $categories)); ?>
 
-            <div class="form-submit">
+            <div class="form-submit transfer-controls-cont ">
                 <input type="submit" class="submit-button button-next" value="<?= Yii::t('Front', 'Sign and send') ?>"/>
             </div>
         </div>

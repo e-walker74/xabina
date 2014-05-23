@@ -66,7 +66,7 @@
             'clientOptions'=>array(
                 'validateOnSubmit'=>true,
                 'validateOnChange'=>true,
-                'errorCssClass'=>'input-error',
+                'errorCssClass'=>'',
                 'successCssClass'=>'valid',
                 'afterValidate' => 'js:function(form, data, hasError) {
 						form.find("input").removeClass("input-error");
@@ -100,7 +100,9 @@
 							$("#"+attribute.id).next(".validation-icon").fadeIn();
 						} else {
 							if($("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").show().slideUp();
+								$("#"+attribute.id+"_em_").show().slideUp(400, function(){
+								    form.find("input").parent().removeClass("input-error");
+								});
 							}
 							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
 							$("#"+attribute.id).next(".validation-icon").fadeIn();
@@ -118,6 +120,9 @@
             </div>
             <div class="sum">
                 <?= $form->textField($qtr, 'amount', array('class' => 'sum-input')); ?>
+                <span class="delimitter">.</span>
+                <input class="sum-input-cent" type="text"/>
+                <div class="clearfix"></div>
                 <?= $form->error($qtr, 'amount'); ?>
             </div>
 
