@@ -643,15 +643,27 @@ class TransfersController extends Controller
         $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
 
         $model = new Form_Invoice;
+
+        // if it is ajax validation request
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'invoice-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
         $user = Users::model()->findByPk(Yii::app()->user->id);
         $model->currency_id = $user->settings->currency_id;
-        // collect user input data
-        if (!empty($_POST['Form_Invoices'])) {
-            $model->attributes = $_POST['Form_Invoices'];
+        $model->user_id = Yii::app()->user->id;
+
+        if (!empty($_POST['Form_Invoice'])) {
+            $model->attributes = $_POST['Form_Invoice'];
+            $model->options = $_POST['Invoices_Options'];
             if($model->validate()){
-                if($model->invoices()){
-                    $this->redirect(array('/invoicesuccess'));
-                }
+                if($model->invoiceCreate()){
+                    Yii::app()->session['flash_notify'] = array(
+                        'title' => Yii::t('Front', 'Invoices'),
+                        'message' => Yii::t('Front', 'New invoice saved successful'),
+                    );
+               }
             }
         }
 
@@ -659,7 +671,7 @@ class TransfersController extends Controller
     }
 
     public function actionCreateInvoiceOption() {
-        $model = new Form_Invoice;
-        $this->renderPartial('invoice_options');
+        $model = new Invoices_Options;
+        $this->renderPartial('invoice_options', array('model' => $model));
     }
 }

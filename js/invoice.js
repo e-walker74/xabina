@@ -6,7 +6,9 @@ InvoicePage = {
         self.currencyChange();
 
         // Datapicker initialization
-        $('.datepicker').datepicker();
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
 
         // Only float selector
         $('.invoice-only-float').live('keypress', function(event) {
@@ -27,6 +29,9 @@ InvoicePage = {
 
         $('.invoice-current-currency-input').change(function () {
             self.currencyChange();
+        });
+        $('.button-save-invoice').click(function () {
+            $('#invoice-form').submit();
         });
     },
     addInvoiceOptionByClick: function () {

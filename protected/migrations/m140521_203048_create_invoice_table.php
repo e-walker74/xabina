@@ -10,10 +10,11 @@ class m140521_203048_create_invoice_table extends CDbMigration
             'currency_id' => 'int',
             'number' => 'text',
             'date' => 'DATETIME NOT NULL',
-            'due_data' => 'DATETIME NOT NULL',
+            'due_date' => 'DATETIME NOT NULL',
             'reference' => 'text',
             'email' => 'text',
             'discount' => 'float',
+            'discount_type' => 'int',
             'terms' => 'text',
             'note' => 'text'
         ));

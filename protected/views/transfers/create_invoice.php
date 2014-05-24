@@ -4,37 +4,51 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
 <div class="h1-header">Create an Invoice</div>
 <?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'registration-from',
+    'id'=>'invoice-form',
     'enableAjaxValidation'=>true,
     'enableClientValidation'=>true,
-    //'focus'=>array($model,'first_name'),
+    'errorMessageCssClass' => 'error-message',
+    'htmlOptions' => array(
+        'class' => 'form-validable',
+    ),
     'clientOptions'=>array(
         'validateOnSubmit'=>true,
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
         'afterValidate' => 'js:function(form, data, hasError) {
-                form.find("input").removeClass("input-error");
-                form.find(".validation-icon").show();
-                if(hasError) {
-                    for(var i in data) {
-                        $("#"+i).addClass("input-error");
-                        $("#"+i).next(".validation-icon").show();
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            }',
+						form.find("input").removeClass("input-error");
+						form.find("input").parent().removeClass("input-error");
+						form.find(".validation-icon").fadeIn();
+						if(hasError) {
+							for(var i in data) {
+								$("#"+i).addClass("input-error");
+								$("#"+i).parent().addClass("input-error");
+								$("#"+i).next(".validation-icon").fadeIn();
+							}
+							return false;
+						}
+						else {
+							return true;
+						}
+						return false;
+					}',
         'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-                if(hasError){
-                    $("#"+attribute.id).addClass("input-error");
-                    $("#"+attribute.id).next(".validation-icon").show();
-                } else {
-                    $("#"+attribute.id).removeClass("input-error");
-                    $("#"+attribute.id).next(".validation-icon").show();
-                }
-            }'
+						if(hasError){
+							if(!$("#"+attribute.id).hasClass("input-error")){
+								$("#"+attribute.id+"_em_").hide().slideDown();
+							}
+							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
+							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
+							$("#"+attribute.id).next(".validation-icon").fadeIn();
+						} else {
+							if($("#"+attribute.id).hasClass("input-error")){
+								$("#"+attribute.id+"_em_").show().slideUp();
+							}
+							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
+							$("#"+attribute.id).next(".validation-icon").fadeIn();
+							$("#"+attribute.id).addClass("valid");
+						}
+					}'
     ),
 )); ?>
 <div class="xabina-form-container">
@@ -77,6 +91,7 @@
                         <div class="field-input">
                             <div class="relative">
                                 <?= $form->textField($model, 'email', array('autocomplete' => 'off','class'=>'input-text')); ?>
+                                <?= $form->error($model, 'email'); ?>
                             </div>
                         </div>
                         <div class="field-lbl">
@@ -100,41 +115,45 @@
                     <td>
                         <b> <?= Yii::t('Front', 'Your information') ?></b><br>
                         <div class="field-lbl">
-                            <?= Yii::t('Front', 'Invoice number') ?>
+                            <?= $model->getAttributeLabel('number') ?>
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'Add Your invoice number') ?>"></span>
                         </div>
                         <div class="field-input">
                             <div class="relative">
                                 <?= $form->textField($model, 'number', array('autocomplete' => 'off','class'=>'input-text')); ?>
+                                <?= $form->error($model, 'number'); ?>
                             </div>
                         </div>
                         <div class="field-lbl">
-                            <?= Yii::t('Front', 'Invoice date') ?>
+                            <?= $model->getAttributeLabel('date') ?>
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'Add date') ?>"></span>
                         </div>
                         <div class="field-input">
                             <div class="relative">
                                 <?= $form->textField($model, 'date', array('autocomplete' => 'off','class'=>'input-text datepicker')); ?>
+                                <?= $form->error($model, 'date'); ?>
                                 <span class="icon"></span>
                             </div>
                         </div>
                         <div class="field-lbl">
-                            <?= Yii::t('Front', 'Due data') ?>
+                            <?= $model->getAttributeLabel('due_date') ?>
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'Add Your due data') ?>"></span>
                         </div>
                         <div class="field-input">
                             <div class="relative">
                                 <?= $form->textField($model, 'due_date', array('autocomplete' => 'off','class'=>'input-text datepicker')); ?>
+                                <?= $form->error($model, 'due_date'); ?>
                                 <span class="icon"></span>
                             </div>
                         </div>
                         <div class="field-lbl">
-                            <?= Yii::t('Front', 'Reference') ?>
+                            <?= $model->getAttributeLabel('reference') ?>
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'Add Your Reference') ?>"></span>
                         </div>
                         <div class="field-input">
                             <div class="relative">
                                 <?= $form->textField($model, 'reference', array('autocomplete' => 'off','class'=>'input-text')); ?>
+                                <?= $form->error($model, 'reference'); ?>
                             </div>
                         </div>
                         <br><br><br>
@@ -177,13 +196,14 @@
     <tr>
         <td class="none-padding-left" width=43%>
             <div class="field-lbl">
-                <?= Yii::t('Front', 'Terms and conditions') ?>
+                <?= $model->getAttributeLabel('terms') ?>
                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'Yuo can add terms and conditions') ?>"></span><br>
                 <small class="grey"><?= Yii::t('Front', 'For example: you return or cancelation policy') ?></small>
             </div>
             <div class="field-input">
                 <div class="relative">
                     <?= $form->textArea($model, 'terms', array('autocomplete' => 'off','cols'=>30, 'rows'=>1)); ?>
+                    <?= $form->error($model, 'terms'); ?>
                 </div>
                 <small class="grey"><?= Yii::t('Front', 'Caracters:') ?> 4000</small>
             </div>
@@ -191,12 +211,13 @@
 
             </div>
             <div class="field-lbl">
-                <?= Yii::t('Front', 'Note to recipient') ?>
+                <?= $model->getAttributeLabel('note') ?>
                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'Add some note to recipient') ?>"></span>
             </div>
             <div class="field-input">
                 <div class="relative">
                     <?= $form->textField($model, 'note', array('autocomplete' => 'off','class'=>'input-text')); ?>
+                    <?= $form->error($model, 'note'); ?>
                 </div>
             </div>
             <small class="grey"><?= Yii::t('Front', 'Caracters:') ?> 4000</small>
@@ -205,23 +226,23 @@
             <div class="field-lbl">
                 <?= Yii::t('Front', 'Subtotal') ?> <small class="grey">(pre-discount)</small>
                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'Subtotal, without discount') ?>"></span><br>
-                <?= Yii::t('Front', 'Discount') ?>
+                <?= $model->getAttributeLabel('discount') ?>
                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'Discount for subtotal') ?>"></span>
             </div>
             <div class="field-input">
                 <div class="relative">
                     <div class="col-lg-6 col-md-6 col-sm-6 none-padding-left none-padding-right">
                         <?= $form->textField($model, 'discount', array('autocomplete' => 'off','class'=>'input-text invoice-discount-input invoice-only-float', 'value' => 0)); ?>
+                        <?= $form->error($model, 'discount'); ?>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 none-padding-right">
                         <div class="select-custom">
                             <span class="select-custom-label">
                                 %
                             </span>
-                            <select name="country" class="country-select select-invisible invoice-discount-type-input">
-                                <option value="1">%</option>
-                                <option value="2"></option>
-                            </select>
+                            <?= CHtml::activeDropDownList($model, 'discount_type',
+                                array(1 => '%', 2 => ''),
+                                array('class' => 'country-select select-invisible invoice-discount-type-input')) ?>
                         </div>
                     </div>
                 </div>
