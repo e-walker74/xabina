@@ -277,10 +277,27 @@ class WebUser extends CWebUser {
     public function checkRbacAccess($ca) {
         $rights = $this->getRbac();
         foreach ((array)$rights as $right) {
-            if($ca == $right['action_id']) {
+            if($this->actionAllowed($ca, $right['action_id'])) {
                 return true;
             }
         }
         return false;
+    }
+
+    private function actionAllowed($controllerAction, $accessRight) {
+        
+        $res = false;
+        
+        $a = explode('.', $controllerAction);
+        $b = explode('.', $accessRight);
+
+        if($a[0] == $b[0] && $a[1] == $b[1]) {
+            $res = true;
+        } 
+        elseif($a[0] == $b[0] && $b[1] == '*') {
+            $res = true;
+        }
+        
+        return $res;
     }
 }
