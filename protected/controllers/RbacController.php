@@ -8,6 +8,6 @@ class RbacController extends Controller
 
     public function actionSwitchAccount() {
         $uid = (int)$_POST['account'];
-        
+        $this->redirect(array('/banking'));
     }
 }
