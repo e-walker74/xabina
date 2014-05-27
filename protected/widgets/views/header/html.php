@@ -34,15 +34,19 @@
         ?>
         <?php if(count($rbacAccounts)):?>
             <div style="float:left;margin-right:10px;">
-                <select>
-                    <option><?php echo Yii::app()->user->getFullName(); ?></option>
-                    <?php foreach ($rbacAccounts as $ra): ?>
-                    <option value="<?php echo $ra['id']?>"
-                        <?php if($ra['id'] == Yii::app()->user->getRbacCurrentUid()):?> selected="selected"<?php endif?>>
-                        <?php echo $ra['account_name'] ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>	
+                <form id="rbac-accounts-switcher-form" 
+                      action="<?= Yii::app()->createUrl('/rbac/switchAccount') ?>" 
+                      method="POST">
+                    <select id="rbac-accounts-switcher" name="account">
+                        <option value="<?= Yii::app()->user->getId(); ?>"><?php echo Yii::app()->user->getFullName(); ?></option>
+                        <?php foreach ($rbacAccounts as $ra): ?>
+                        <option value="<?php echo $ra['id']?>"
+                            <?php if($ra['id'] == Yii::app()->user->getRbacCurrentUid()):?> selected="selected"<?php endif?>>
+                            <?php echo $ra['account_name'] ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>	
+                </form>
             </div>
         <?php endif;?>
 		<a href="<?= Yii::app()->createUrl('/transfers/outgoing') ?>" class="rounded-buttons new-transfer"><?= Yii::t('Front', 'NEW TRANSFER') ?></a>

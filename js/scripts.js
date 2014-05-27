@@ -927,3 +927,13 @@ $(function() {
 
     cancelEdit();
 });
+
+// Rbac accounts switcher
+$(document).ready(function(){
+    $("#rbac-accounts-switcher").on('change', function(){
+       console.log($(this).val());
+       if(confirm("Вы уверены что хотите перейти в другой аккаунт?")) {
+           $("#rbac-accounts-switcher-form").submit();
+       }
+    });
+});
