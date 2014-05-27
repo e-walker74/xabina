@@ -275,7 +275,7 @@ class WebUser extends CWebUser {
      */
     public function initRback() {
         $user = $this->_getModel();
-        $settings = $user->getRbacSettings();
+        $settings = $user->getRbacSettings($this->getRbacCurrentUid());
         $accounts = $user->getRbacAllowedAccounts();
         $this->setState('__rbac', $settings);
         $this->setState('__rbac_allowed_accounts', $accounts);
@@ -297,6 +297,15 @@ class WebUser extends CWebUser {
     
     public function getRbacCurrentUid() {
         return $this->getState('__rbac_current_uid');
+    }
+    
+    public function setRbacCurrentUid($uid) {
+        $this->setState('__rbac_current_uid', $uid);
+    }
+    
+    public function switchRbacAccount($uid = NULL) {
+        $this->setRbacCurrentUid($uid);
+        $this->initRback();
     }
     
     

@@ -310,14 +310,12 @@ class Users extends ActiveRecord
         if($ownerUid) {
             $filterSql = ' AND a.create_uid = ' . (int)$ownerUid;
         }
-
-        $buff = Yii::app()->db->createCommand(
-            "SELECT c.* 
+        $sql = "SELECT c.* 
             FROM `rbac_user_roles` a
             INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
             INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
-            WHERE a.user_id = {$userId}" . $filterSql
-        )->queryAll();
+            WHERE a.user_id = {$userId}" . $filterSql;
+        $buff = Yii::app()->db->createCommand($sql)->queryAll();
 
         return $buff;
     }
