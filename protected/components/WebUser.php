@@ -221,6 +221,7 @@ class WebUser extends CWebUser {
 		$this->setThisIp(ip2long(CHttpRequest::getUserHostAddress()));
 		$this->setLanguage($user->settings->language);
         $this->setFontSize($user->settings->font_size);
+        $this->setFullName($user->getFullName());
 
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
 		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
@@ -255,13 +256,29 @@ class WebUser extends CWebUser {
 		parent::logout();
 	}
 
+    public function getFullName()
+    {
+		if(($name=$this->getState('__full_name'))!==null)
+			return $name;
+		else
+			return $this->guestName;
+	}
+    
+    public function setFullName($fullName)
+    {
+		$this->setState('__full_name', $fullName);
+	}
+    
+    
     /**
      * Download access rights for user
      */
     public function initRback() {
         $user = $this->_getModel();
         $settings = $user->getRbacSettings();
+        $accounts = $user->getRbacAllowedAccounts();
         $this->setState('__rbac', $settings);
+        $this->setState('__rbac_allowed_accounts', $accounts);
     }
 
     public function getRbac() {
@@ -270,7 +287,20 @@ class WebUser extends CWebUser {
         }
         return $this->getState('__rbac');
     }
-
+    
+    public function getRbacAllowedAccounts() {
+        if($this->getState('__rbac_allowed_accounts') == NULL) {
+            $this->initRback();
+        }
+        return $this->getState('__rbac_allowed_accounts');
+    }
+    
+    public function getRbacCurrentUid() {
+        return $this->getState('__rbac_current_uid');
+    }
+    
+    
+    
     /**
      * check if user has access to Controller.Action
      */
