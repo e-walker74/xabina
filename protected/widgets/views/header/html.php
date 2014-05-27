@@ -29,6 +29,13 @@
 <div class="header-middle clearfix">
 	<a href="<?= Yii::app()->createUrl('/banking/index') ?>" class="logo pull-left"></a>
 	<div class="pull-right header-buttons">
+		<div style="float:left;margin-right:10px;">
+			<select>
+				<option>Управляющий 1</option>
+				<option>Управляющий 2</option>
+			</select>	
+		</div>
+		
 		<a href="<?= Yii::app()->createUrl('/transfers/outgoing') ?>" class="rounded-buttons new-transfer"><?= Yii::t('Front', 'NEW TRANSFER') ?></a>
 		<a href="<?= Yii::app()->createUrl('/transfers/incoming') ?>" class="rounded-buttons upload"><?= Yii::t('Front', 'UPLOAD') ?></a>
 	</div>	
