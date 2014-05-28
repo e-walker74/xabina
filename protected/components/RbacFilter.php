@@ -12,7 +12,7 @@ class RbacFilter extends CFilter
         if(Yii::app()->user->checkRbacAccess($ca)) {
             $executeAction = true; 
         } else {
-            throw new CHttpException(404,'The specified page cannot be found.');
+            throw new CHttpException(403,'RBAC: You are not authorized to perform this action.');
         }
 
         return $executeAction;
