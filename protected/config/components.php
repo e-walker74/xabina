@@ -9,13 +9,6 @@ return array(
     'notify' => array(
         'class' => 'core.components.QUserNotify',
     ),
-    'dynamicRes'=>array(
-        'class' => 'core.extensions.DynamicRes.DynamicRes',
-        'urlConfig' => array( // Its fix Css, and convert Url to RealName
-            'baseUrl'  => '/', // Url of your Site (ending with /), modify it if you use subdomain
-            'basePath' => dirname(__FILE__).'/../../', // path of your site (ending with /) (No Change This)
-        )
-    ),
     'image' => array(
         'class' => 'core.extensions.image.CImageComponent',
         // GD or ImageMagick
