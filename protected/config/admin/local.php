@@ -1,7 +1,7 @@
 <?php
 
 return CMap::mergeArray(
-	require(dirname(__FILE__).'/../../../../../core/config/main.php'),
+	require(CORE_PATH.'config/main.php'),
 	array(
         'onBeginRequest' => function(){return true;},
         'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '../..',

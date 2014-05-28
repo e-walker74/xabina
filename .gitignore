@@ -4,6 +4,7 @@
 /protected/config/components
 /protected/config/local.php
 /index.php
+/admin.php
 /.idea
 /.htaccess
 /protected/config/local.php
@@ -20,3 +21,5 @@
 /nbproject/private/
 /nbproject/
 /error_log
+/defines.php
+/protected/config/admin/components/db.php

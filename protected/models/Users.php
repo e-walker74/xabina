@@ -147,7 +147,8 @@ class Users extends ActiveRecord
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
-			'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'rbac_roles' => array(self::HAS_MANY, 'RbacUserRoles', 'user_id'),
         );
     }
 	
@@ -290,4 +291,46 @@ class Users extends ActiveRecord
 	public static function removeNotification($code, $user_id){
 		Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
 	}
+
+    public function getRbacSettings($ownerUid = NULL) {
+        
+
+        // $criteria=new CDbCriteria;
+        // $criteria->alias = 't';
+        // $criteria->with = array('rbacUserRoles');
+        // $criteria->compare('t.id', $this->id,true);
+
+        // $dp = new CActiveDataProvider('RbacRoles', array(
+        //     'criteria'=>$criteria,
+        // ));
+        // return $dp->getData();
+
+        $userId = $this->id;
+
+        $filterSql = ' AND a.create_uid IS NULL';
+        if($ownerUid) {
+            $filterSql = ' AND a.create_uid = ' . (int)$ownerUid;
+        }
+        $sql = "SELECT c.* 
+            FROM `rbac_user_roles` a
+            INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
+            INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
+            WHERE a.user_id = {$userId}" . $filterSql;
+        $buff = Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $buff;
+    }
+
+    public function getRbacAllowedAccounts() {
+        $userId = $this->id;
+        $buff = (array)Yii::app()->db->createCommand(
+            "SELECT DISTINCT d.id, CONCAT(d.first_name, ' ', d.last_name ) account_name, d.login 
+            FROM `rbac_user_roles` a
+            INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
+            INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
+            INNER JOIN 	`users` d ON d.id = a.create_uid
+            WHERE a.user_id = {$userId} AND a.create_uid IS NOT NULL"
+        )->queryAll();
+        return $buff;
+    }
 }

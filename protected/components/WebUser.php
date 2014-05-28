@@ -221,6 +221,7 @@ class WebUser extends CWebUser {
 		$this->setThisIp(ip2long(CHttpRequest::getUserHostAddress()));
 		$this->setLanguage($user->settings->language);
         $this->setFontSize($user->settings->font_size);
+        $this->setFullName($user->getFullName());
 
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
 		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
@@ -230,7 +231,7 @@ class WebUser extends CWebUser {
 		$log->user_id = $user->id;
 		$log->save();
 		
-		
+        $this->initRback();
 
 		if($user->last_auth){
 			$this->setLastIp($user->last_auth->ip_address);
@@ -254,4 +255,117 @@ class WebUser extends CWebUser {
 	
 		parent::logout();
 	}
+
+    public function getFullName()
+    {
+		if(($name=$this->getState('__full_name'))!==null)
+			return $name;
+		else
+			return $this->guestName;
+	}
+    
+    public function setFullName($fullName)
+    {
+		$this->setState('__full_name', $fullName);
+	}
+    
+    
+    /**
+     * Download access rights for user
+     */
+    public function initRback() {
+        $user = $this->_getModel();
+        $settings = $user->getRbacSettings($this->getRbacCurrentUid());
+        $accounts = $user->getRbacAllowedAccounts();
+        $this->setState('__rbac', $settings);
+        $this->setState('__rbac_allowed_accounts', $accounts);
+    }
+
+    public function getRbac() {
+        if($this->getState('__rbac') == NULL) {
+            $this->initRback();
+        }
+        return $this->getState('__rbac');
+    }
+    
+    public function getRbacAllowedAccounts() {
+        if($this->getState('__rbac_allowed_accounts') == NULL) {
+            $this->initRback();
+        }
+        return $this->getState('__rbac_allowed_accounts');
+    }
+    
+    public function getRbacCurrentUid() {
+        return $this->getState('__rbac_current_uid');
+    }
+    
+    public function setRbacCurrentUid($uid) {
+        $this->setState('__rbac_current_uid', $uid);
+    }
+    
+    public function switchRbacAccount($uid = NULL) {
+        $this->setRbacCurrentUid($uid);
+        $this->initRback();
+    }
+    
+    public function getRbacAccountSwitcherMenu() {
+        
+        $menu = array(
+            'active' => array(),
+            'other'  => array()
+        );
+        
+        $buff = (array)$this->getRbacAllowedAccounts();
+        $me = array(
+            'id' => $this->getId(),
+            'account_name' => $this->getFullName()
+        );
+        if($this->getRbacCurrentUid() == NULL) {
+            $menu['active'] = $me;
+            foreach ($buff as $account) {
+                $menu['other'][] = $account;
+            }
+        } 
+        else {
+            $menu['other'][] = $me;
+            foreach ($buff as $account) {
+                if( $account['id'] == $this->getRbacCurrentUid()) {
+                    $menu['active'] = $account;
+                } else {
+                    $menu['other'][] = $account;
+                }
+            }
+        }
+        return $menu;
+    }
+    
+    /**
+     * check if user has access to Controller.Action
+     */
+    public function checkRbacAccess($ca) {
+        $rights = $this->getRbac();
+        foreach ((array)$rights as $right) {
+            if($this->actionAllowed($ca, $right['action_id'])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function actionAllowed($controllerAction, $accessRight) {
+        
+        $res = false;
+        
+        $a = explode('.', $controllerAction);
+        $b = explode('.', $accessRight);
+
+        if($a[0] == $b[0] && $a[1] == $b[1]) {
+            $res = true;
+        } 
+        elseif($a[0] == $b[0] && $b[1] == '*') {
+            $res = true;
+        }
+        
+        return $res;
+    }
 }

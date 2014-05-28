@@ -18,6 +18,11 @@
     <script type="text/javascript" src="/js/plax.js"></script>
 </head>
 <body class="page-404">
+    <?php if($code == 403): ?>
+    <div class="bg-404" >
+        <?php echo $message; ?>
+    </div>
+    <?php else:?>
     <div class="bg-404" >
         <img src="/images/404_main.png" class="img-404" alt=""/>
         <img src="/images/404_bg.png" class="bg-404-img" alt=""/>
@@ -29,5 +34,7 @@
         </div>
 
     </div>
+    <?php endif; ?>
+
 </body>
 </html>

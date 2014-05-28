@@ -1043,3 +1043,11 @@ function nospaces(str) {
 	return VResult  
 }
 
+// Rbac accounts switcher
+$(document).ready(function(){
+    $("#rbac-accounts-switcher-form a").on('click', function(){
+        $("#rbac-accounts-switcher-form input[name='account']").val($(this).data('uid'));
+        $("#rbac-accounts-switcher-form").submit();
+        return false;
+    });
+});
