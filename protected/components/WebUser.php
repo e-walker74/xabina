@@ -308,7 +308,31 @@ class WebUser extends CWebUser {
         $this->initRback();
     }
     
-    
+    public function getRbacAccountSwitcherMenu() {
+        $menu = array();
+        $buff = (array)$this->getRbacAllowedAccounts();
+        $me = array(
+            'id' => $this->getId(),
+            'account_name' => $this->getFullName()
+        );
+        if($this->getRbacCurrentUid() == NULL) {
+            $menu['active'] = $me;
+            foreach ($buff as $account) {
+                $menu['other'][] = $account;
+            }
+        } 
+        else {
+            $menu['other'][] = $me;
+            foreach ($buff as $account) {
+                if( $account['id'] == $this->getRbacCurrentUid()) {
+                    $menu['active'] = $account;
+                } else {
+                    $menu['other'][] = $account;
+                }
+            }
+        }
+        return $menu;
+    }
     
     /**
      * check if user has access to Controller.Action

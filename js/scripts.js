@@ -930,9 +930,9 @@ $(function() {
 
 // Rbac accounts switcher
 $(document).ready(function(){
-    $("#rbac-accounts-switcher").on('change', function(){
-       if(confirm("Вы уверены что хотите перейти в другой аккаунт?")) {
-           $("#rbac-accounts-switcher-form").submit();
-       }
+    $("#rbac-accounts-switcher-form a").on('click', function(){
+        $("#rbac-accounts-switcher-form input[name='account']").val($(this).data('uid'));
+        $("#rbac-accounts-switcher-form").submit();
+        return false;
     });
 });
