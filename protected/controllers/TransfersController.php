@@ -27,6 +27,7 @@ class TransfersController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
+<<<<<<< HEAD
                     'outgoing',
                     'incoming',
                     'overview',
@@ -41,6 +42,19 @@ class TransfersController extends Controller
 					'standing',
 					'deletestanding',
 					'IncomingOverview',
+=======
+							'outgoing',
+                            'outgoingv2',
+							'overview', 
+							'delete', 
+							'smsverivicaiton', 
+							'smsconfirm', 
+							'success', 
+							'resendsms',
+							'history',
+							'createinvoice',
+							'createinvoiceoption',
+>>>>>>> bcc240b177c1807f8b502fde66f9371c506ef085
 				),
                 'roles' => array('client')
             ),
@@ -760,6 +774,7 @@ class TransfersController extends Controller
 		
 		$this->render('history', array('transfers' => $transfers));
 	}
+<<<<<<< HEAD
 	
 	public function actionStanding(){
 		$model = Transfers_Outgoing_Standing::model()->findAll(
@@ -808,4 +823,42 @@ class TransfersController extends Controller
 	
 		$this->render('incoming/overview', array('transfers' => $transfers));
 	}
+=======
+
+    public function actionCreateInvoice(){
+        $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
+
+        $model = new Form_Invoice;
+
+        // if it is ajax validation request
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'invoice-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        $user = Users::model()->findByPk(Yii::app()->user->id);
+        $model->currency_id = $user->settings->currency_id;
+        $model->user_id = Yii::app()->user->id;
+
+        if (!empty($_POST['Form_Invoice'])) {
+            $model->attributes = $_POST['Form_Invoice'];
+            $model->options = $_POST['Invoices_Options'];
+            if($model->validate()){
+                if($model->invoiceCreate()){
+                    Yii::app()->session['flash_notify'] = array(
+                        'title' => Yii::t('Front', 'Invoices'),
+                        'message' => Yii::t('Front', 'New invoice saved successful'),
+                    );
+               }
+            }
+        }
+
+        $this->render('create_invoice', array('model' => $model, 'user' => $user));
+    }
+
+    public function actionCreateInvoiceOption() {
+        $model = new Invoices_Options;
+        $this->renderPartial('invoice_options', array('model' => $model));
+    }
+>>>>>>> bcc240b177c1807f8b502fde66f9371c506ef085
 }
