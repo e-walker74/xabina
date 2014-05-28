@@ -64,7 +64,8 @@ var submitTransaction = function(form){
 				var currency = $(form).find('.upload-price select option:selected').text()
 				
 				li.find('.acc-to-num').html(receiver)
-				li.find('.upload-price').html(amount+"."+amount_cent + " " + currency)
+				li.find('.upload-price .amount').html(amount+"."+amount_cent)
+				li.find('.upload-price .currency').html(currency)
 				
 				$('.row-edit').hide().prev('li').show()
                 if(response.url) {
@@ -84,6 +85,14 @@ var submitTransaction = function(form){
 }
 
 var quick_edit = function(button){
+	resetPage()
+	
+	var amount = nospaces($(button).parents('.quick-row').find('.amount').html())
+	var cent = amount.split('.')[1]
+	
+	$(button).parents('.quick-row').next('.row-edit').find('#Form_Incoming_Quick_amount').val(Math.floor(amount))
+	$(button).parents('.quick-row').next('.row-edit').find('#Form_Incoming_Quick_amount_cent').val(cent)
+	$(button).parents('.quick-row').hide().next('.row-edit').show()
 	$(button).parents('li').hide().next('.row-edit').show()
 }
 

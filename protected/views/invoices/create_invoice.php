@@ -1,8 +1,5 @@
-<link rel='stylesheet' type='text/css' href='/css/datepicker.css' />
-<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/js/invoice.js"></script>
 <div class="col-lg-9 col-md-9 col-sm-9" >
-<div class="h1-header">Create an Invoice</div>
+<div class="h1-header"><?= Yii::t('Front', 'Create an Invoice') ?></div>
 <?php $form=$this->beginWidget('CActiveForm', array(
     'id'=>'invoice-form',
     'enableAjaxValidation'=>true,
@@ -15,40 +12,8 @@
         'validateOnSubmit'=>true,
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
-        'afterValidate' => 'js:function(form, data, hasError) {
-						form.find("input").removeClass("input-error");
-						form.find("input").parent().removeClass("input-error");
-						form.find(".validation-icon").fadeIn();
-						if(hasError) {
-							for(var i in data) {
-								$("#"+i).addClass("input-error");
-								$("#"+i).parent().addClass("input-error");
-								$("#"+i).next(".validation-icon").fadeIn();
-							}
-							return false;
-						}
-						else {
-							return true;
-						}
-						return false;
-					}',
-        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-						if(hasError){
-							if(!$("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").hide().slideDown();
-							}
-							$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-							$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-						} else {
-							if($("#"+attribute.id).hasClass("input-error")){
-								$("#"+attribute.id+"_em_").show().slideUp();
-							}
-							$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-							$("#"+attribute.id).next(".validation-icon").fadeIn();
-							$("#"+attribute.id).addClass("valid");
-						}
-					}'
+        'afterValidate' => 'js:afterValidate',
+        'afterValidateAttribute' => 'js:afterValidateAttribute'
     ),
 )); ?>
 <div class="xabina-form-container">
@@ -66,11 +31,13 @@
                         <div class="clearfix"></div>
                         <a href="#">Add logo</a>
                         <div class="field-lbl">
-                            TRUST Media B.V. <br>
-                            Stadsring 99 <br>
-                            3811HP Amersfoort Netherlands
+                            <?= ($user->primary_address) ? $user->primary_address->getAddressHtml() : "" ?>
                         </div>
-                        <div class="field-lbl">Phone: +31 880200200</div>
+						<?php if($user->primary_phone): ?>
+                        <div class="field-lbl"><?= Yii::t('Front', 'Phone'); ?>: +
+						<?= $user->primary_phone->phone ?>
+						</div>
+						<?php endif; ?>
                         <div class="field-lbl">
                             <a href="#">Edit business information</a> <span class="grey">(Includes tax ID)</span> <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
                         </div>
@@ -125,13 +92,13 @@
                             </div>
                         </div>
                         <div class="field-lbl">
-                            <?= $model->getAttributeLabel('date') ?>
+                            <?= $model->getAttributeLabel('invoice_date') ?>
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'Add date') ?>"></span>
                         </div>
                         <div class="field-input">
                             <div class="relative">
-                                <?= $form->textField($model, 'date', array('autocomplete' => 'off','class'=>'input-text datepicker')); ?>
-                                <?= $form->error($model, 'date'); ?>
+                                <?= $form->textField($model, 'invoice_date', array('autocomplete' => 'off','class'=>'input-text datepicker')); ?>
+                                <?= $form->error($model, 'invoice_date'); ?>
                                 <span class="icon"></span>
                             </div>
                         </div>
@@ -184,13 +151,13 @@
 <tr>
 <td colspan="3">
 <div class="col-lg-11 col-md-11 col-sm-11 none-padding-left none-padding-right invoice-options">
-
+	
 </div>
 <div class="col-lg-1 col-md-1 col-sm-1">
 
     &nbsp;
 
-    <?=CHtml::link('', array('/transfers/createinvoiceoption', 'language' => Yii::app()->language), array('id' => 'add-invoice-option', 'class' => 'button add')); ?>
+    <?=CHtml::link('', array('/invoices/createoption', 'language' => Yii::app()->language), array('id' => 'add-invoice-option', 'class' => 'button add')); ?>
 </div>
 <table class="custom-options-bottom">
     <tr>
@@ -224,7 +191,7 @@
         </td>
         <td width="32%">
             <div class="field-lbl">
-                <?= Yii::t('Front', 'Subtotal') ?> <small class="grey">(pre-discount)</small>
+                <?= Yii::t('Front', 'Subtotal') ?> <small class="grey">(<?= Yii::t('Front', 'pre-discount') ?>)</small>
                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'Subtotal, without discount') ?>"></span><br>
                 <?= $model->getAttributeLabel('discount') ?>
                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'Discount for subtotal') ?>"></span>
@@ -263,18 +230,21 @@
     </tr>
     <tr>
         <td></td>
-        <td class="text-right"><b>Total:</b></td>
-        <td class="text-right none-padding-left" width="23%" style="padding-right: 47px!important;"><b><span  class="invoice-total-block">0</span><br>
+        <td class="text-right"><b><?= Yii::t('Front', 'Total'); ?>:</b></td>
+        <td class="text-right none-padding-left" width="23%" style="padding-right: 47px!important;"><b><span  class="invoice-total-block">0</span>
                 <span class="invoice-current-currency-block"></span></b></td>
     </tr>
+	<?= $form->hiddenField($model, 'subtotal'); ?>
+	<?= $form->hiddenField($model, 'total'); ?>
+    
 </table>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="form-submit">
-    <div class="submit-button button-save-invoice"><?= Yii::t('Front', 'Save and new Invoice') ?></div>
-    <div class="submit-button button-next"><?= Yii::t('Front', 'Sign and send') ?></div>
+    <input type="submit" class="submit-button button-save-invoice" name="save" value="<?= Yii::t('Front', 'Save and new Invoice') ?>" />
+    <input type="submit" onclick="change_click_button(this)" class="submit-button button-next" name="sing" value="<?= Yii::t('Front', 'Sign and send') ?>" />
 </div>
 <div class="clearfix"></div>
 </div>

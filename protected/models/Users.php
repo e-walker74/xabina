@@ -135,6 +135,7 @@ class Users extends ActiveRecord
 			'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id', 'order' => 'is_master desc, created_at desc'),
             'primary_address' => array(self::HAS_ONE, 'Users_Address', 'user_id', 'condition' => 'is_master = 1'),
 			'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
+			'primary_phone' => array(self::HAS_ONE, 'Users_Phones', 'user_id', 'condition' => 'is_master = 1'),
             'vkontakte' => array(self::HAS_MANY, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_MANY, 'Users_Providers_Facebook', 'user_id'),
             'linkedin' => array(self::HAS_MANY, 'Users_Providers_Linkedin', 'user_id'),

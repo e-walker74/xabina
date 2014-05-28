@@ -78,9 +78,15 @@
 							return false;
 						}
 						else {
+							
 						    var li = $(form).parents(".quick-row-edit").prev("li")
+							var amount = $(form).find("#Transfers_Outgoing_Favorite_amount").val()
+							if($(form).find("#Transfers_Outgoing_Favorite_amount_cent").val()){
+								amount = amount + "." + $(form).find("#Transfers_Outgoing_Favorite_amount_cent").val()
+							}
+							
 						    li.find(".comm-txt").html($(form).find("#Transfers_Outgoing_Favorite_description").val())
-						    li.find(".amount").html($(form).find("#Transfers_Outgoing_Favorite_amount").val())
+						    li.find(".amount").html(amount)
 						    li.find(".curr").html($(form).find("#Transfers_Outgoing_Favorite_currency_id option:selected").text())
 							li.find(".acc-num").html($(form).find("#Transfers_Outgoing_Favorite_account_number option:selected").text())
 							submitTransaction(form)
@@ -118,7 +124,7 @@
             <div class="sum">
                 <?= $form->textField($qtr, 'amount', array('class' => 'sum-input', 'maxlength' => 9)); ?>
                 <span class="delimitter">.</span>
-                <input class="sum-input-cent" type="text"/>
+				<?= $form->textField($qtr, 'amount_cent', array('class' => 'sum-input-cent', 'maxlength' => 2)); ?>
                 <div class="clearfix"></div>
                 <?= $form->error($qtr, 'amount'); ?>
 				<div class="amount_notify error-message notify" style="display:none;"></div>
@@ -137,7 +143,7 @@
             </div>
             <div class="quick-submit">
                 <div class="transaction-buttons-cont">
-                    <input type="submit" class="button ok" value="" />
+                    <input type="submit" onclick="change_click_button(this)" class="button ok" value="" />
                 </div>
             </div>
             <div class="account-num">
@@ -169,7 +175,7 @@
         </div>
         <div class="quick-row">
             <div class="comment">
-                <?= $form->textarea($qtr, 'description') ?>
+                <?= $form->textarea($qtr, 'description', array('maxlength' => '140')) ?>
             </div>
             <div class="sign-cont">
                 <div class="transaction-buttons-cont quick-remove">

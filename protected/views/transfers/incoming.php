@@ -17,8 +17,8 @@
     <div class="new-transfer-table">
         <ul class="list-unstyled list-quick">
             <?php foreach($favorite as $fav):?>
-			<li>
-                <div class="quick-row">
+			<li class="quick-row">
+                <div class="">
                     <div class="update-img-payment pull-left">
                         <?php if($fav->card_type): ?>
                             <img height="25" src="/images/<?= isset(Transfers_Incoming::$card_types[$fav->card_type]) ? Transfers_Incoming::$card_types[$fav->card_type] : "" ?>.png" alt=""/>
@@ -33,11 +33,11 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="quick-row">
+                <div class="">
                     <div class="grey acc-num pull-left">xxxx xxxx xxxx <?= substr($fav->from_account_number, -4); ?></div>
                     <div class="grey acc-to-num pull-left"><?= chunk_split($fav->to_account_number, 4); ?></div>
                     <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
-                    <div class="upload-price pull-right"><?= number_format($fav->amount, 2, ".", " ") . ' ' . $fav->currency->code ?></div>
+                    <div class="upload-price pull-right"><span class="amount"><?= number_format($fav->amount, 2, ".", " ") ?></span>  <span class="currency"><?= $fav->currency->code ?></span></div>
                     <div class="clearfix"></div>
                 </div>
             </li>

@@ -128,11 +128,6 @@ var send_quick_transfer = function(quick_id){
     });
 }
 
-var change_click_button = function(input){
-    $('.clicked-button').removeClass('clicked-button')
-    $(input).addClass('clicked-button');
-}
-
 $(document).ready(function(){
     $('.table-overview .table-header .overview-check').change(function(){
         if($('.table-overview .table-header .overview-check:checked').length != 0){
@@ -189,9 +184,11 @@ verifyTransfer = function(el){
 edit_quick_transfer = function(el){
     resetPage()
 	var text = $(el).parents('.quick-row').find('.comm-txt').html()
-	var amount = $(el).parents('.quick-row').find('.amount').html()
+	var amount = nospaces($(el).parents('.quick-row').find('.amount').html())
+	var cent = amount.toString().split('.')[1]
 	
-	$(el).parents('.quick-row').next('.quick-row-edit').find('#Transfers_Outgoing_Favorite_amount').val(amount)
+	$(el).parents('.quick-row').next('.quick-row-edit').find('#Transfers_Outgoing_Favorite_amount').val(Math.floor(amount))
+	$(el).parents('.quick-row').next('.quick-row-edit').find('.sum-input-cent').val(cent)
     $(el).parents('.quick-row').next('.quick-row-edit').find('#Transfers_Outgoing_Favorite_description').val(text)
 	$(el).parents('.quick-row').hide().next('.quick-row-edit').show()
 }

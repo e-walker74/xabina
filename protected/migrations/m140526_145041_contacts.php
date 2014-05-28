@@ -24,12 +24,12 @@ class m140526_145041_contacts extends CDbMigration
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 		');
 		
-		$this->execute('
+		/*$this->execute('
 			ALTER TABLE `users_contacts` ADD INDEX `user` (`user_id`);
 			ALTER TABLE `users_contacts_data` ADD INDEX `contact` (`contact_id`);
 			ALTER TABLE `users_contacts` ADD FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 			ALTER TABLE `users_contacts_data` ADD FOREIGN KEY (`contact_id`) REFERENCES `users_contacts`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-		');
+		');*/
 	}
 
 	public function down()

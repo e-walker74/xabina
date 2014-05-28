@@ -16,6 +16,8 @@
 		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/incoming') ?>"><?= Yii::t('Front', 'Upload') ?></a></li>
 		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/incomingoverview') ?>"><?= Yii::t('Front', 'Upload overview') ?></a></li>
 		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/transfers/standing') ?>"><?= Yii::t('Front', 'Standing Payments') ?></a></li>
+		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/invoices/create') ?>"><?= Yii::t('Front', 'Create Invoice') ?></a></li>
+		<li><a href="<?= Yii::app()->getBaseUrl(true) ?><?=Yii::app()->createUrl('/invoices/list') ?>"><?= Yii::t('Front', 'Invoices List') ?></a></li>
 	</ul>
 	<!--<li class="balance">
 		<a href="<?= Yii::app()->createUrl('pages/index', array('url' => 'Balance')) ?>"><?= Yii::t('Front', 'Balance') ?></a>

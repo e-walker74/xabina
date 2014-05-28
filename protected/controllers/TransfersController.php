@@ -322,7 +322,6 @@ class TransfersController extends Controller
             if(isset($_POST['Transfers_Outgoing_Favorite']['id'])){
                 $favorite = Transfers_Outgoing_Favorite::model()->findByPk($_POST['Transfers_Outgoing_Favorite']['id']);
                 $favorite->attributes = $_POST['Transfers_Outgoing_Favorite'];
-                $favorite->validate();
                 $favorite->save();
                 $message = Yii::t('Front', 'Saved');
                 if(isset($_GET['next'])){
@@ -810,40 +809,4 @@ class TransfersController extends Controller
 	
 		$this->render('incoming/overview', array('transfers' => $transfers));
 	}
-
-    public function actionCreateInvoice(){
-        $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
-
-        $model = new Form_Invoice;
-
-        // if it is ajax validation request
-        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'invoice-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-
-        $user = Users::model()->findByPk(Yii::app()->user->id);
-        $model->currency_id = $user->settings->currency_id;
-        $model->user_id = Yii::app()->user->id;
-
-        if (!empty($_POST['Form_Invoice'])) {
-            $model->attributes = $_POST['Form_Invoice'];
-            $model->options = $_POST['Invoices_Options'];
-            if($model->validate()){
-                if($model->invoiceCreate()){
-                    Yii::app()->session['flash_notify'] = array(
-                        'title' => Yii::t('Front', 'Invoices'),
-                        'message' => Yii::t('Front', 'New invoice saved successful'),
-                    );
-               }
-            }
-        }
-
-        $this->render('create_invoice', array('model' => $model, 'user' => $user));
-    }
-
-    public function actionCreateInvoiceOption() {
-        $model = new Invoices_Options;
-        $this->renderPartial('invoice_options', array('model' => $model));
-    }
 }

@@ -35,6 +35,7 @@ class Transfers_Outgoing extends ActiveRecord
             array('tag1, tag2, tag3, to_account_number', 'length', 'max' => 255),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
             array('frequency_type', 'in', 'range' => array(1, 2)),
+			array('description', 'length', 'max' => 140),
             array('description, to_account_holder, bic, bank_name, to_account_number', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             array('execution_date, start_date, end_date', 'safe'),
             array('ewallet_type', 'in', 'range' => array_keys(Form_Outgoingtransf_Ewallet::$ewallet_types)),
