@@ -309,7 +309,12 @@ class WebUser extends CWebUser {
     }
     
     public function getRbacAccountSwitcherMenu() {
-        $menu = array();
+        
+        $menu = array(
+            'active' => array(),
+            'other'  => array()
+        );
+        
         $buff = (array)$this->getRbacAllowedAccounts();
         $me = array(
             'id' => $this->getId(),
