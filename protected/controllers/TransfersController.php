@@ -27,7 +27,6 @@ class TransfersController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
-<<<<<<< HEAD
                     'outgoing',
                     'incoming',
                     'overview',
@@ -42,19 +41,8 @@ class TransfersController extends Controller
 					'standing',
 					'deletestanding',
 					'IncomingOverview',
-=======
-							'outgoing',
-                            'outgoingv2',
-							'overview', 
-							'delete', 
-							'smsverivicaiton', 
-							'smsconfirm', 
-							'success', 
-							'resendsms',
-							'history',
-							'createinvoice',
-							'createinvoiceoption',
->>>>>>> bcc240b177c1807f8b502fde66f9371c506ef085
+					'createinvoice',
+					'createinvoiceoption',
 				),
                 'roles' => array('client')
             ),
@@ -774,7 +762,6 @@ class TransfersController extends Controller
 		
 		$this->render('history', array('transfers' => $transfers));
 	}
-<<<<<<< HEAD
 	
 	public function actionStanding(){
 		$model = Transfers_Outgoing_Standing::model()->findAll(
@@ -823,7 +810,6 @@ class TransfersController extends Controller
 	
 		$this->render('incoming/overview', array('transfers' => $transfers));
 	}
-=======
 
     public function actionCreateInvoice(){
         $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
@@ -860,5 +846,4 @@ class TransfersController extends Controller
         $model = new Invoices_Options;
         $this->renderPartial('invoice_options', array('model' => $model));
     }
->>>>>>> bcc240b177c1807f8b502fde66f9371c506ef085
 }

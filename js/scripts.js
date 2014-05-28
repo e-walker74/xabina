@@ -738,9 +738,8 @@ $(document).ready(function(){
 		return deleteTransaction(link)
     });
 
-<<<<<<< HEAD
-	$('textarea').autosize();
-=======
+	$('textarea.autosize').autosize();
+
     $( ".remove-dialog" ).dialog({
         autoOpen: false,
         dialogClass: 'xabina-popup-alerts',
@@ -763,8 +762,7 @@ $(document).ready(function(){
         return false;
     })
 
-	$('textarea .autosize').autosize();
->>>>>>> bcc240b177c1807f8b502fde66f9371c506ef085
+	$('textarea.autosize').autosize();
 
 
     var edit = false;
