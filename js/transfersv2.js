@@ -234,6 +234,6 @@ afterValidateAttribute = function(form, attribute, data, hasError) {
 		$("#"+attribute.id).addClass("valid");
 	}
 	for(var i in data.notify) {
-		$(form).find("."+i).html(data.notify[i]).slideDown().delay(1500).slideUp();
+		$(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
 	}
 }

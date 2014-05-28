@@ -833,6 +833,9 @@ var resetPage = function(){
     /* new transfer page */
     $('.quick-row-edit').hide()
     $('.quick-row').show()
+	
+	/* quic upload */
+	$('.row-edit').hide().prev('li').show()
 }
 
 $(document).on('click', '.button.cancel', function(){

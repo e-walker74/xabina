@@ -7,6 +7,8 @@
  */
 class Transfers_Incoming_Favorite extends Transfers_Incoming
 {
+
+	public $favorite;
 	
 	/**
 	 * @return string the associated database table name
@@ -15,6 +17,15 @@ class Transfers_Incoming_Favorite extends Transfers_Incoming
 	{
 		return 'transfers_incoming_favorite';
 	}
+	
+	public function rules(){
+        return array_merge(
+            parent::rules(),
+            array(
+                array('to_account_id, to_account_number, currency_id, amount', 'safe', 'on' => 'quickUpdate'),
+            )
+        );
+    }
 
 	/**
 	 * Returns the static model of the specified AR class.
