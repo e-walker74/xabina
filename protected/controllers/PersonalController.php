@@ -998,12 +998,12 @@ class PersonalController extends Controller
 			$selectedAcc = $accounts[0];
 		}
 
-        $staticAlerts = Alerts::model()->with('userAlertRules')->withoutRules()->findAll();
+        $staticAlerts = Alerts::model()->with('userAlertRules')->withoutAccount()->findAll();
 
         $userAlertsRules = Users_AlertsRules::model()
             ->byAccountID($selectedAcc->id)
             ->byUserId(Yii::app()->user->id)
-            ->with('alert:withRules')
+            ->with('alert:withAccount')
             ->findAll();
         $emailAddresses = Users_Emails::model()->byUserId(Yii::app()->user->id)->findAll();
         $phones = Users_Phones::model()->byUserId(Yii::app()->user->id)->findAll();
@@ -1044,7 +1044,8 @@ class PersonalController extends Controller
                 $selectedAcc = Accounts::model()->byUserId(Yii::app()->user->id)->find('number = :number', array(':number' => $accountNumber));
             }
             if($alert && (($alert->use_rules && $selectedAcc) || !$alert->use_rules)) {
-                $userAlertsRules = Users_AlertsRules::model()->findByPk($id);// правило не принадлежит пользователю или не прикреплено к текущему аккаунту -> ошибка 404
+                $userAlertsRules = Users_AlertsRules::model()->findByPk($id);
+                // правило не принадлежит пользователю или не прикреплено к текущему аккаунту -> ошибка 404
                     if($userAlertsRules &&
                         (
                             ($userAlertsRules->user_id != Yii::app()->user->id) ||
@@ -1060,7 +1061,7 @@ class PersonalController extends Controller
                 if($selectedAcc)
                     $userAlertsRules->account_id=$selectedAcc->id;
                 $userAlertsRules->alert_id = $alert->id;
-                if($userAlertsRules->save()) {
+                if($userAlertsRules->validate() && $userAlertsRules->save()) {
                     if(isset($_POST['Users_AlertsRules']['emails'])) {
                         $userAlertsRules->saveEmails($_POST['Users_AlertsRules']['emails']);
                     }
@@ -1072,9 +1073,16 @@ class PersonalController extends Controller
             }
             if($response['success']) {
                 $response['data'] = $userAlertsRules->id;
+            } elseif(isset($userAlertsRules)) {
+                foreach($userAlertsRules->getErrors() as $attribute=>$errors)
+                    $response[CHtml::activeId($userAlertsRules,$attribute)]=$errors;
             }
             if(Yii::app()->request->isAjaxRequest) {
-                echo json_encode($response);
+                if(isset($_POST['ajax']) && $_POST['ajax'] === 'Users_AlertsRules' && isset($userAlertsRules)) {
+                    echo CActiveForm::validate($userAlertsRules);
+                } else {
+                    echo json_encode($response);
+                }
                 Yii::app()->end();
             } else {
                 $this->redirect(array('alerts'));

@@ -8,20 +8,26 @@
  * @property integer $user_id
  * @property integer $account_id
  * @property string $alert_id
- * @property string $greater
- * @property string $less
- * @property string $equal
+ * @property double $greater
+ * @property double $less
+ * @property double $equal
  *
  * The followings are the available model relations:
  * @property Users $user
  * @property Accounts $account
  * @property Alerts $alert
- * @property Users_AlertsEmail[] $emails
- * @property Users_AlertsPhone[] $phones
+ * @property Users_AlertsEmail[] $alertEmails
+ * @property Users_AlertsPhone[] $alertPhones
+ * @property Transactions[] $transactions
  */
 class Users_AlertsRules extends ActiveRecord
 {
     public $alert_code;
+
+    /** @var $emails array */
+    public $emails;
+    /** @var $phones array */
+    public $phones;
 
 	/**
 	 * @return string the associated database table name
@@ -66,13 +72,54 @@ class Users_AlertsRules extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, alert_id', 'required'),
+			array('emails, phones', 'recipientValidator'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
+            array('greater, less, equal', 'numerical'),
+            array('greater, less, equal', 'rulesValidator'),
 			array('alert_id, greater, less, equal', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, alert_id, greater, less, equal', 'safe', 'on'=>'search'),
 		);
 	}
+
+    public function recipientValidator($attribute, $params)
+    {
+        $valid = false;
+        foreach ($this->emails as $emailID => $active) {
+            if($active == 1) {
+                $valid = true;
+                break;
+            }
+        }
+        if(!$valid) {
+            foreach ($this->phones as $phoneID => $active) {
+                if($active == 1) {
+                    $valid = true;
+                    break;
+                }
+            }
+        }
+        if(!$valid) {
+            $this->addError('recipient', Yii::t('Front', 'You don\'t choose recipient'));
+        }
+    }
+
+    public function rulesValidator($attribute, $params)
+    {
+        if($this->alert && $this->alert->use_rules == 1) {
+            $emptyAttributes = array();
+            $validateAttributes = array('greater', 'less', 'equal');
+            foreach($validateAttributes as $attr) {
+                if(empty($this[$attr])) {
+                    $emptyAttributes[] = $attr;
+                }
+            }
+            if(count($validateAttributes) == count($emptyAttributes)) {
+                $this->addError($attribute, Yii::t('Front', 'Rules can not be empty'));
+            }
+        }
+    }
 
     public function scopes()
     {
@@ -96,8 +143,9 @@ class Users_AlertsRules extends ActiveRecord
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 			'alert' => array(self::BELONGS_TO, 'Alerts', 'alert_id'),
-			'emails' => array(self::HAS_MANY, 'Users_AlertsEmail', 'alert_rule_id'),
-			'phones' => array(self::HAS_MANY, 'Users_AlertsPhone', 'alert_rule_id'),
+			'alertEmails' => array(self::HAS_MANY, 'Users_AlertsEmail', 'alert_rule_id'),
+			'alertPhones' => array(self::HAS_MANY, 'Users_AlertsPhone', 'alert_rule_id'),
+			'transactions' => array(self::HAS_MANY, 'Transactions', array('account_id' => 'account_id', 'user_id' => 'user_id')),
 		);
 	}
 
@@ -108,11 +156,11 @@ class Users_AlertsRules extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'user_id' => 'ссылка на users',
-			'alert_id' => 'ссылка на alerts',
-			'greater' => 'правило "больше"',
-			'less' => 'правило "меньше"',
-			'equal' => 'правило "равно"',
+			'user_id' => Yii::t('Front', 'User'),
+			'alert_id' => Yii::t('Front', 'Alert'),
+			'greater' => Yii::t('Front', 'Greater'),
+			'less' => Yii::t('Front', 'Less'),
+			'equal' => Yii::t('Front', 'Equal'),
 		);
 	}
 
@@ -191,7 +239,7 @@ class Users_AlertsRules extends ActiveRecord
      */
     public function inEmails($email)
     {
-        foreach ($this->emails as $item) {
+        foreach ($this->alertEmails as $item) {
             if($item->email_id == $email->id)
                 return true;
         }
@@ -204,7 +252,7 @@ class Users_AlertsRules extends ActiveRecord
      */
     public function inPhones($phone)
     {
-        foreach ($this->phones as $item) {
+        foreach ($this->alertPhones as $item) {
             if($item->phone_id == $phone->id)
                 return true;
         }

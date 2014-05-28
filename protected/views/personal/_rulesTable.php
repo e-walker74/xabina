@@ -10,19 +10,34 @@
 ?>
 <?php
 $modelRule = new Users_AlertsRules();
-$form=$this->beginWidget('CActiveForm', array(
-        'action' => $this->createUrl('updatealerts', array('id'=>'new')),
-        'method' => 'post'
-    ));
+$defaultFormParams = array(
+        'method' => 'post',
+        'enableClientValidation'=>true,
+        'errorMessageCssClass' => 'error-message',
+        'htmlOptions' => array(
+            'class' => 'form-validable',
+        ),
+        'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'validateOnChange'=>true,
+            'errorCssClass'=>'input-error',
+            'successCssClass'=>'valid',
+        )
+    );
 ?>
-<table class="table table-alert">
-    <tbody>
+<div class="table table-alert">
     <?php if($userAlertsRules): ?>
         <?php foreach($userAlertsRules as $rule): ?>
-            <tr>
-                <td style="width: 20%"><?= $rule->alert->name; ?></td>
-                <td style="width: 23%">
-                    <?= CHtml::hiddenField('account', $selectedAcc->number); ?>
+            <?php $form=$this->beginWidget('CActiveForm', array_merge($defaultFormParams, array(
+                    'action' => $this->createUrl('updatealerts', array('id'=>$rule->id)),
+                    'htmlOptions' => array(
+                        'class' => 'alert-row'
+                    )
+                )));
+                 ?>
+                <div class="cell" style="width: 20%"><?= $rule->alert->name; ?></div>
+                <div class="cell" style="width: 23%">
+                    <?= CHtml::hiddenField('account', $selectedAcc->number, array('id'=>'account'.$rule->id)); ?>
                     <?= $form->hiddenField($rule, 'alert_code', array('value' => $rule->alert->code)); ?>
                     <?php if($rule->greater): ?>
                         <div class="greater not-edit-doc">
@@ -42,68 +57,81 @@ $form=$this->beginWidget('CActiveForm', array(
                             <?= $rule->equal; ?> <?= $rule->account->currency->code;?>
                         </div>
                     <?php endif; ?>
+                    <?php if($rule->alert->use_rules == 1): ?>
                     <div class="edit-doc" style="display: none;">
                         <div class="field-row">
-                            <div class="field-lbl">
-                                <?= Yii::t('Front','Higher than')?>
+                            <div class="field-input">
+                                <div class="select-custom">
+                                    <span class="select-custom-label">
+                                      <?= !empty($rule->greater) ? Yii::t('Front','Higher than') : ''; ?>
+                                      <?= !empty($rule->less) ? Yii::t('Front','Lower than') : ''; ?>
+                                      <?= !empty($rule->equal) ? Yii::t('Front','Equals to') : ''; ?>
+                                    </span>
+                                    <select class="select-invisible rule-select">
+                                        <option value="greater" <?= empty($rule->greater) ? '' : 'selected' ; ?>><?= Yii::t('Front','Higher than')?></option>
+                                        <option value="less" <?= empty($rule->less) ? '' : 'selected' ; ?>><?= Yii::t('Front','Lower than')?></option>
+                                        <option value="equal" <?= empty($rule->equal) ? '' : 'selected' ; ?>><?= Yii::t('Front','Equals to')?></option>
+                                    </select>
+                                    <span class="validation-icon"></span>
+                                </div>
                             </div>
+                        </div>
+                        <div class="field-row rule-input greater <?= $rule->greater ? '' : 'hide' ; ?>">
                             <div class="field-input">
                                 <?= $form->textField($rule, 'greater', array('class'=>'input-text'));?>
+                                <?= $form->error($rule, 'greater');?>
                                 <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
                             </div>
                         </div>
-                        <div class="field-row">
-                            <div class="field-lbl">
-                                <?= Yii::t('Front','Lower than')?>
-                            </div>
+                        <div class="field-row rule-input less <?= $rule->less ? '' : 'hide' ; ?>">
                             <div class="field-input">
                                 <?= $form->textField($rule, 'less', array('class'=>'input-text'));?>
+                                <?= $form->error($rule, 'less');?>
                                 <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
                             </div>
                         </div>
-                        <div class="field-row">
-                            <div class="field-lbl">
-                                <?= Yii::t('Front','Equals to')?>
-                            </div>
+                        <div class="field-row rule-input equal <?= $rule->equal ? '' : 'hide' ; ?>">
                             <div class="field-input">
                                 <?= $form->textField($rule, 'equal', array('class'=>'input-text'));?>
+                                <?= $form->error($rule, 'equal');?>
                                 <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
                             </div>
                         </div>
                     </div>
-                </td>
-                <td class="lh" style="width: 29%">
-                    <?php foreach($rule->emails as $alertEmail): ?>
+                    <?php endif; ?>
+                </div>
+                <div class="cell lh" style="width: 29%">
+                    <?php foreach($rule->alertEmails as $alertEmail): ?>
                         <div class="str not-edit-doc"><?= $alertEmail->email->email; ?></div>
                     <?php endforeach; ?>
                     <div class="edit-doc" style="display: none;">
                         <div class="field-row">
                             <div class="field-lbl">
-                                E-mail
+                                <?= Yii::t('Front','E-mail'); ?>
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
+                            <?php foreach ($emailAddresses as $alertEmail) : ?>
                             <div class="field-input">
-                                <?php foreach ($emailAddresses as $alertEmail) : ?>
-                                    <label>
-                                        <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array(
-                                                'class'=>'input-checkbox',
-                                                'checked' => $rule->inEmails($alertEmail)
-                                            ));?>
-                                        <?= $alertEmail->email; ?>
-                                    </label>
-                                <?php endforeach; ?>
+                                <label>
+                                    <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array(
+                                            'class'=>'input-checkbox',
+                                            'checked' => $rule->inEmails($alertEmail)
+                                        ));?>
+                                    <?= $alertEmail->email; ?>
+                                </label>
                             </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                </td>
-                <td class="lh" style="width: 15%">
-                    <?php foreach($rule->phones as $alertPhone): ?>
-                        <div class="str not-edit-doc"><?= $alertPhone->phone->phone; ?></div>
+                </div>
+                <div class="cell lh" style="width: 15%">
+                    <?php foreach($rule->alertPhones as $alertPhone): ?>
+                        <div class="str not-edit-doc">+<?= $alertPhone->phone->phone; ?></div>
                     <?php endforeach; ?>
                     <div class="edit-doc" style="display: none;">
                         <div class="field-row">
                             <div class="field-lbl">
-                                Phone
+                                <?= Yii::t('Front','Phone'); ?>
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
                             <div class="field-input">
@@ -113,113 +141,140 @@ $form=$this->beginWidget('CActiveForm', array(
                                                 'class'=>'input-checkbox',
                                                 'checked' => $rule->inPhones($alertPhone)
                                             ));?>
-                                        <?= $alertPhone->phone; ?>
+                                        +<?= $alertPhone->phone; ?>
                                     </label>
                                 <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
-                </td>
-                <td style="width: 13%" class="actions-td">
+                </div>
+                <div class="cell actions-td" style="width: 13%">
                     <div class="not-edit-doc">
                         <a href="#" class="button edit"></a>
-                        <a data-url="<?=$this->createUrl('dropalerts', array('id' => $rule->id));?>" class="button remove"></a>
+                        <a data-url="<?=$this->createUrl('dropalerts', array('id' => $rule->id));?>" class="button delete"></a>
                     </div>
                     <div class="edit-doc" style="display: none;">
                         <a href="#" data-url="<?=$this->createUrl('updatealerts', array('id' => $rule->id));?>" class="button ok"></a>
                         <a href="#" class="button cancel"></a>
                     </div>
-                </td>
-            </tr>
+                </div>
+                <div class="clearfix"></div>
+            <?php $this->endWidget(); ?>
         <?php endforeach; ?>
     <?php endif; ?>
+
     <!-- add Rule -->
-    <tr>
-        <td colspan="5" class="table-form-subheader">Add rule</td>
-    </tr>
-    <tr class="form-row">
-        <td colspan="2">
-            <?= CHtml::hiddenField('account', $selectedAcc->number); ?>
+    <div class="alert-row">
+        <div class="cell table-form-subheader" style="width: 100%;"><a href="#add-rule-form" data-toggle="collapse"><?= Yii::t('Front', 'Add rule'); ?></a></div>
+        <div class="clearfix"></div>
+    </div>
+
+    <?php $form=$this->beginWidget('CActiveForm', array_merge($defaultFormParams, array(
+            'action' => $this->createUrl('updatealerts', array('id'=>'new')),
+            'htmlOptions' => array(
+                'class' => 'alert-row form-row collapse',
+                'id' => 'add-rule-form'
+            )
+        )));
+         ?>
+        <div class="cell" style="width: 43%">
+            <?= CHtml::hiddenField('account', $selectedAcc->number, array('id'=>'accountnew')); ?>
             <div class="field-row">
                 <div class="field-lbl">
                     <?= Yii::t('Front', 'Rule'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span>
                 </div>
                 <div class="field-input ">
-                    <div class="select-custom rule-select">
+                    <div class="select-custom alert-select">
                         <span class="select-custom-label">
-                          Выберите
+                          <?= Yii::t('Front','Choose'); ?>
                         </span>
-                        <?= $form->dropDownList($modelRule, 'alert_code', array_merge(array('' => Yii::t('Front', 'Choose')),Alerts::getAlertsChoices()), array('class' => 'select-invisible')); ?>
+                        <?= $form->dropDownList($modelRule, 'alert_code',
+                            array_merge(array('' => Yii::t('Front', 'Choose')), AlertsHTMLHelper::getAlertsChoices()),
+                            array(
+                                'class' => 'select-invisible',
+                                'options' => AlertsHTMLHelper::getAlertsOptions()
+                            )
+                        ); ?>
                         <span class="validation-icon"></span>
                     </div>
                 </div>
                 <div class="underline"></div>
             </div>
-            <div class="field-row">
-                <div class="field-lbl">
-                    <?= Yii::t('Front','Higher than')?>
+            <div class="rules-row hide">
+                <div class="field-row">
+                    <div class="field-input">
+                        <div class="select-custom">
+                            <span class="select-custom-label">
+                              <?= Yii::t('Front','Higher than'); ?>
+                            </span>
+                            <select class="select-invisible rule-select">
+                                <option value="greater"><?= Yii::t('Front','Higher than')?></option>
+                                <option value="less"><?= Yii::t('Front','Lower than')?></option>
+                                <option value="equal"><?= Yii::t('Front','Equals to')?></option>
+                            </select>
+                            <span class="validation-icon"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="field-input">
-                    <?= $form->textField($modelRule, 'greater', array('class'=>'input-text'));?>
-                    <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                <div class="field-row rule-input greater">
+                    <div class="field-input">
+                        <?= $form->textField($modelRule, 'greater', array('class'=>'input-text'));?>
+                        <?= $form->error($modelRule, 'greater');?>
+                        <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                    </div>
+                </div>
+                <div class="field-row rule-input less hide">
+                    <div class="field-input">
+                        <?= $form->textField($modelRule, 'less', array('class'=>'input-text'));?>
+                        <?= $form->error($modelRule, 'less');?>
+                        <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                    </div>
+                </div>
+                <div class="field-row rule-input equal hide">
+                    <div class="field-input">
+                        <?= $form->textField($modelRule, 'equal', array('class'=>'input-text'));?>
+                        <?= $form->error($modelRule, 'equal');?>
+                        <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                    </div>
                 </div>
             </div>
             <div class="field-row">
-                <div class="field-lbl">
-                    <?= Yii::t('Front','Lower than')?>
-                </div>
-                <div class="field-input">
-                    <?= $form->textField($modelRule, 'less', array('class'=>'input-text'));?>
-                    <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
-                </div>
+                <a href="#" id="alert-add-btn" class="violet-button-slim-square"><?= Yii::t('Front','Add'); ?></a>
             </div>
+        </div>
+        <div class="cell" style="width: 29%">
             <div class="field-row">
                 <div class="field-lbl">
-                    <?= Yii::t('Front','Equals to')?>
-                </div>
-                <div class="field-input">
-                    <?= $form->textField($modelRule, 'equal', array('class'=>'input-text'));?>
-                    <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
-                </div>
-            </div>
-            <div class="field-row">
-                <a href="#" id="alert-add-btn" class="violet-button-slim-square">Add</a>
-            </div>
-        </td>
-        <td>
-            <div class="field-row">
-                <div class="field-lbl">
-                    E-mail
+                    <?= Yii::t('Front','E-mail'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span>
                 </div>
-                <div class="field-input">
                 <?php foreach ($emailAddresses as $alertEmail) : ?>
+                <div class="field-input">
                     <label>
                         <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array('class'=>'input-checkbox'));?>
                         <?= $alertEmail->email; ?>
                     </label>
-                <?php endforeach; ?>
                 </div>
+                <?php endforeach; ?>
             </div>
-        </td>
-        <td colspan="2">
+        </div>
+        <div class="cell" style="width: 28%">
             <div class="field-row">
                 <div class="field-lbl">
-                    Phone
+                    <?= Yii::t('Front','Phone'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span>
                 </div>
                 <div class="field-input">
                     <?php foreach ($phones as $alertPhone) : ?>
                         <label>
                             <?= $form->checkBox($modelRule, "phones[{$alertPhone->id}]", array('class'=>'input-checkbox'));?>
-                            <?= $alertPhone->phone; ?>
+                            +<?= $alertPhone->phone; ?>
                         </label>
                     <?php endforeach; ?>
                 </div>
             </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<?php $this->endWidget(); ?>
+        </div>
+        <div class="clearfix"></div>
+    <?php $this->endWidget(); ?>
+</div>

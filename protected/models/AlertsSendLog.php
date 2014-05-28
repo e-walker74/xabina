@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "alerts".
+ * This is the model class for table "alerts_send_log".
  *
- * The followings are the available columns in table 'alerts':
- * @property string $code
- * @property string $name
- * @property string $desc
- * @property integer $use_rules
+ * The followings are the available columns in table 'alerts_send_log':
+ * @property integer $id
+ * @property string $transaction_id
+ * @property string $start_send
+ * @property string $end_send
  *
  * The followings are the available model relations:
- * @property Users_AlertsRules[] $userAlertRules
+ * @property Transactions $transaction
  */
-class Alerts extends ActiveRecord
+class AlertsSendLog extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'alerts';
+		return 'alerts_send_log';
 	}
 
 	/**
@@ -30,12 +30,12 @@ class Alerts extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name, desc', 'required'),
-			array('use_rules', 'numerical', 'integerOnly'=>true),
-			array('code, name', 'length', 'max'=>50),
+			array('transaction_id, start_send', 'required'),
+			array('transaction_id', 'length', 'max'=>36),
+			array('end_send', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('code, name, use_rules', 'safe', 'on'=>'search'),
+			array('id, transaction_id, start_send, end_send', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,32 +47,20 @@ class Alerts extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'userAlertRules' => array(self::HAS_MANY, 'Users_AlertsRules', 'alert_id', 'scopes' => array('currentUser')),
+			'transaction' => array(self::BELONGS_TO, 'Transactions', 'transaction_id'),
 		);
 	}
 
-    public function scopes()
-    {
-        return array(
-            'withoutAccount' => array(
-                'condition' => 'required_account = 0'
-            ),
-            'withAccount' => array(
-                'condition' => 'required_account = 1'
-            )
-        );
-    }
-
-
-    /**
+	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
 	{
 		return array(
-			'code' => 'уникальный код алерта',
-			'name' => 'кириллическое имя алерта',
-			'use_rules' => 'использует ли алерт правила',
+			'id' => 'ID',
+			'transaction_id' => 'Transaction',
+			'start_send' => 'Start Send',
+			'end_send' => 'End Send',
 		);
 	}
 
@@ -94,9 +82,10 @@ class Alerts extends ActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('use_rules',$this->use_rules);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('transaction_id',$this->transaction_id,true);
+		$criteria->compare('start_send',$this->start_send,true);
+		$criteria->compare('end_send',$this->end_send,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,15 +96,10 @@ class Alerts extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Alerts the static model class
+	 * @return AlertsSendLog the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-    public function findByCode($code)
-    {
-        return $this->findByAttributes(array('code' => $code));
-    }
 }

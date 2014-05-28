@@ -7,7 +7,9 @@
  * @property integer $id
  * @property integer $account_id
  * @property string $type
- * @property integer $sum
+ * @property string $transfer_type
+ * @property double $sum
+ * @property double $acc_balance
  *
  * The followings are the available model relations:
  * @property Accounts $account
@@ -71,6 +73,7 @@ class Transactions extends ActiveRecord
 			'notes' => array(self::HAS_MANY, 'Transactions_Notes', 'transaction_id', 'condition' => 'deleted = 0'),
 			'link' => array(self::HAS_ONE, 'Transactions_Categories_Links', 'transaction_id'),
 			'category' => array(self::HAS_ONE, 'Transactions_Categories', array('category_id' => 'id'), 'through' => 'link'),
+            'alertRules' => array(self::HAS_MANY, 'Users_AlertsRules', array('account_id' => 'account_id', 'user_id' => 'user_id')),
 		);
 	}
 	
