@@ -8,10 +8,11 @@
  * @property integer $user_id
  * @property integer $status
  * @property integer $type_id
- * @property string $currency
+ * @property string $currency_id
  *
  * The followings are the available model relations:
  * @property Users $user
+ * @property Currencies $currency
  */
 class Accounts extends ActiveRecord
 {

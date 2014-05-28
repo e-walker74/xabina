@@ -70,6 +70,15 @@ abstract class ActiveRecord extends CActiveRecord
         } else {
 			throw new CHttpException(500, 'No user in this table!');
 		}
+
+    public function byUserId($userID)
+    {
+        if($this->hasAttribute('user_id')) {
+            $this->getDbCriteria()->mergeWith(array(
+                    'condition' => 'user_id = :uid',
+                    'params' => array(':uid' => $userID)
+                ));
+        }
         return $this;
     }
 }

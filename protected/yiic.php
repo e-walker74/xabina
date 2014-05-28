@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../defines.php';
 
 $config=dirname(__FILE__).'/config/console.php';
-defined('YII_DEBUG') or define('YII_DEBUG',false);
+defined('YII_DEBUG') or define('YII_DEBUG',true);
 
 if (YII_DEBUG === true) {
     include_once CORE_PATH.'functions.php';

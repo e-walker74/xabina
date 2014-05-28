@@ -46,6 +46,9 @@ class PersonalController extends Controller
 					'resendemail',
 					'editpins',
 					'settings',
+					'alerts',
+					'updatealerts',
+					'dropalerts',
                 ),
                 'roles' => array('client')
             ),
@@ -979,5 +982,137 @@ class PersonalController extends Controller
 		
 		$this->render('settings', array('user' => $user));
 	}
+
+    public function actionAlerts()
+    {
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Alerts'))] = '';
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl .'/js/alerts.js', CClientScript::POS_END);
+
+        $accounts = Accounts::model()->with('user')->byUserId(Yii::app()->user->id)->findAll();
+        if(empty($accounts)){
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+		$selectedAcc = false;
+		if($accountNumber = Yii::app()->request->getParam('account', false, 'int')){
+			$selectedAcc = Accounts::model()->byUserId(Yii::app()->user->id)->find('number = :number', array(':number' => $accountNumber));
+		}
+        if(!$selectedAcc) {
+			$selectedAcc = $accounts[0];
+		}
+
+        $staticAlerts = Alerts::model()->with('userAlertRules')->withoutAccount()->findAll();
+
+        $userAlertsRules = Users_AlertsRules::model()
+            ->byAccountID($selectedAcc->id)
+            ->byUserId(Yii::app()->user->id)
+            ->with('alert:withAccount')
+            ->findAll();
+        $emailAddresses = Users_Emails::model()->byUserId(Yii::app()->user->id)->findAll();
+        $phones = Users_Phones::model()->byUserId(Yii::app()->user->id)->findAll();
+
+        if(Yii::app()->request->isAjaxRequest){
+            $html = $this->renderPartial('_rulesTable', array(
+                    'emailAddresses' => $emailAddresses,
+                    'phones' => $phones,
+                    'selectedAcc' => $selectedAcc,
+                    'userAlertsRules' => $userAlertsRules
+                ), true, false);
+            echo CJSON::encode(array('success' => true, 'html' => $html));
+            Yii::app()->end();
+        }
+
+		$this->render('alerts', array(
+                'accounts' => $accounts,
+                'selectedAcc' => $selectedAcc,
+                'alerts' => $staticAlerts,
+                'userAlertsRules' => $userAlertsRules,
+                'emailAddresses' => $emailAddresses,
+                'phones' => $phones,
+            ));
+    }
+
+    public function actionUpdatealerts($id=null)
+    {
+        if(isset($_POST['Users_AlertsRules'])) {
+            $response = array('success' => false);
+            $code = isset($_POST['Users_AlertsRules']['alert_code']) ? $_POST['Users_AlertsRules']['alert_code'] : false;
+            $alert = null;
+            if($code){
+                $alert = Alerts::model()->findByCode($code);
+            }
+            $accountNumber = Yii::app()->request->getParam('account', false, 'int');
+            $selectedAcc = null;
+            if($accountNumber){
+                $selectedAcc = Accounts::model()->byUserId(Yii::app()->user->id)->find('number = :number', array(':number' => $accountNumber));
+            }
+            if($alert && (($alert->use_rules && $selectedAcc) || !$alert->use_rules)) {
+                $userAlertsRules = Users_AlertsRules::model()->findByPk($id);
+                // правило не принадлежит пользователю или не прикреплено к текущему аккаунту -> ошибка 404
+                    if($userAlertsRules &&
+                        (
+                            ($userAlertsRules->user_id != Yii::app()->user->id) ||
+                            ($alert->use_rules && $userAlertsRules->account_id != $selectedAcc->id)
+                        )
+                    ) {
+                        throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+                    } elseif(!$userAlertsRules) {
+                        $userAlertsRules = new Users_AlertsRules();
+                    }
+                $userAlertsRules->attributes = $_POST['Users_AlertsRules'];
+                $userAlertsRules->user_id=Yii::app()->user->id;
+                if($selectedAcc)
+                    $userAlertsRules->account_id=$selectedAcc->id;
+                $userAlertsRules->alert_id = $alert->id;
+                if($userAlertsRules->validate() && $userAlertsRules->save()) {
+                    if(isset($_POST['Users_AlertsRules']['emails'])) {
+                        $userAlertsRules->saveEmails($_POST['Users_AlertsRules']['emails']);
+                    }
+                    if(isset($_POST['Users_AlertsRules']['phones'])) {
+                        $userAlertsRules->savePhones($_POST['Users_AlertsRules']['phones']);
+                    }
+                    $response['success'] = true;
+                }
+            }
+            if($response['success']) {
+                $response['data'] = $userAlertsRules->id;
+            } elseif(isset($userAlertsRules)) {
+                foreach($userAlertsRules->getErrors() as $attribute=>$errors)
+                    $response[CHtml::activeId($userAlertsRules,$attribute)]=$errors;
+            }
+            if(Yii::app()->request->isAjaxRequest) {
+                if(isset($_POST['ajax']) && $_POST['ajax'] === 'Users_AlertsRules' && isset($userAlertsRules)) {
+                    echo CActiveForm::validate($userAlertsRules);
+                } else {
+                    echo json_encode($response);
+                }
+                Yii::app()->end();
+            } else {
+                $this->redirect(array('alerts'));
+            }
+        } else {
+            $this->redirect(array('alerts'));
+        }
+    }
+
+    public function actionDropalerts($id)
+    {
+        if(Yii::app()->request->isPostRequest) {
+            $userAlertsRules = Users_AlertsRules::model()->findByPk($id);
+            if(!$userAlertsRules || $userAlertsRules->user_id != Yii::app()->user->id) {
+                throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+            }
+            $response = array('success' => false);
+            if($userAlertsRules->delete()) {
+                $response['success'] = true;
+            }
+            if(Yii::app()->request->isAjaxRequest) {
+                echo json_encode($response);
+                Yii::app()->end();
+            }
+            $this->redirect(array('alerts'));
+        }
+        throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+    }
 	
 }
