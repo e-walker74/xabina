@@ -21,16 +21,31 @@ class WidgetUpload extends QWidget {
 	
 	public function getFilesTable($model, $user, $processOutput = false){
 		$type = get_class($model).$this->typeSuffix;
-		$files = Users_Files::model()->findAll(
-			array(
-				'condition' => 'user_id = :uid AND form = :type AND deleted = 0', 
-				'params' => array(
-					':uid' => $user,
-					':type' => $type,
-				),
-				'order' => 'created_at desc',
-			)
-		);
+		if(isset($model->id)){
+			$files = Users_Files::model()->findAll(
+				array(
+					'condition' => 'user_id = :uid AND form = :type AND model_id = :mId AND deleted = 0', 
+					'params' => array(
+						':uid' => $user,
+						':type' => $type,
+						':mId' => $model->id,
+					),
+					'order' => 'created_at desc',
+				)
+			);
+		} else {
+			$files = Users_Files::model()->findAll(
+				array(
+					'condition' => 'user_id = :uid AND form = :type AND deleted = 0', 
+					'params' => array(
+						':uid' => $user,
+						':type' => $type,
+					),
+					'order' => 'created_at desc',
+				)
+			);
+		}
+		
 		return $this->render('files', array('files' => $files), $processOutput);
 	}
 	

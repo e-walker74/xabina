@@ -44,6 +44,7 @@
                                     <a class="button cancel" href="javaScript:void(0)"></a>
                                 </div>
                             </div>
+                            <input type="hidden" name="file_ids[]" value="<?= $file->id ?>">
                         </li>
                     <?php endforeach; ?>
                 </ul>

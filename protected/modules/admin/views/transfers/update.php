@@ -48,7 +48,14 @@
 						),
 					));
 				?>
-				
+
+                <div class="form-group">
+                    <?php echo $form->labelEx($model, 'form_type', array('class' => 'col-sm-3 control-label ')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->textField($model, 'form_type', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
+                    </div>
+                </div>
+
 				<div class="form-group">
 					<?php echo $form->labelEx($model->user, 'email', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
@@ -74,74 +81,53 @@
 					<?php echo $form->labelEx($model, 'amount', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
 						<div class="input-group">
-						<span class="input-group-addon"><?= $model->account->currency->code ?></span>
+						<span class="input-group-addon"><?= $model->currency->code ?></span>
 							<?php echo $form->textField($model, 'amount', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
 						</div>
 					</div>
 				</div>
 				
-				<?php if($model->send_to == "own"): ?>
+				<?php if($model->form_type == "own"): ?>
 				<div class="form-group">
-					<?php echo $form->labelEx($model->own_account, 'number', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'to_account_number', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						<?php echo $form->textField($model->own_account, 'number', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
+						<?php echo $form->textField($model, 'to_account_number', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
 					</div>
 				</div>
-				<?php elseif($model->send_to == "xabina"): ?>
+				<?php elseif($model->form_type == "xabina"): ?>
 				<div class="form-group">
 					<?php echo $form->labelEx($model, 'account_number', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
 						<?php echo $form->textField($model, 'account_number', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
 					</div>
 				</div>
-				<?php elseif($model->send_to == "external"): ?>
+				<?php elseif($model->form_type == "external"): ?>
 				<div class="form-group">
-					<?php echo $form->labelEx($model, 'account_holder', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'to_account_holder', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						<?php echo $form->textField($model, 'account_holder', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
+						<?php echo $form->textField($model, 'to_account_holder', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<?php echo $form->labelEx($model, 'bank_beneficiary', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'external_bank_id', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						<div class="input-group">
-							<span class="input-group-addon"><?= $model->country->code ?></span>
-							<?php echo $form->textField($model, 'bank_beneficiary', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
-						</div>
+						<?php echo $form->textField($model, 'external_bank_id', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<?php echo $form->labelEx($model, 'swift', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'to_account_number', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						 <?php echo $form->textField($model, 'swift', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<?php echo $form->labelEx($model, 'external_account_number', array('class' => 'col-sm-3 control-label ')); ?>
-					<div class="col-sm-6">
-						<?php echo $form->textField($model, 'external_account_number', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<?php echo $form->labelEx($model, 'postcode', array('class' => 'col-sm-3 control-label ')); ?>
-					<div class="col-sm-6">
-						<?php echo $form->textField($model, 'postcode', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<?php echo $form->labelEx($model, 'description', array('class' => 'col-sm-3 control-label ')); ?>
-					<div class="col-sm-6">
-						<?php echo $form->textArea($model, 'description', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
+						<?php echo $form->textField($model, 'to_account_number', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<?php endif; ?>
 				
-				<?php if($model->execution_time): ?>
+				<?php if($model->frequency_type == 1): ?>
 				<div class="form-group">
-					<?php echo $form->labelEx($model, 'execution_time', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'execution_date', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						<?php $model->execution_time = date('m.d.Y', $model->execution_time); ?>
-						<?php echo $form->textField($model, 'execution_time', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
+						<?php $model->execution_date = date('m.d.Y', $model->execution_date); ?>
+						<?php echo $form->textField($model, 'execution_date', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<?php else: ?>
@@ -158,17 +144,17 @@
 				</div>
 				<?php endif; ?>
 				<div class="form-group">
-					<?php echo $form->labelEx($model, 'start_time', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'start_date', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						<?php $model->start_time = date('m.d.Y', $model->start_time); ?>
-						<?php echo $form->textField($model, 'start_time', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
+						<?php $model->start_date = date('m.d.Y', $model->start_date); ?>
+						<?php echo $form->textField($model, 'start_date', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<div class="form-group">
-					<?php echo $form->labelEx($model, 'end_time', array('class' => 'col-sm-3 control-label ')); ?>
+					<?php echo $form->labelEx($model, 'end_date', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
-						<?php $model->end_time = date('m.d.Y', $model->end_time); ?>
-						<?php echo $form->textField($model, 'end_time', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
+						<?php $model->end_date = date('m.d.Y', $model->end_date); ?>
+						<?php echo $form->textField($model, 'end_date', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -177,7 +163,9 @@
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
 							<div class="btn-toolbar">
-								<?php echo CHtml::submitButton(Yii::t('Admin', 'Authorise'), array('class' => 'btn-primary btn')); ?>
+								<?php echo CHtml::submitButton(Yii::t('Admin', 'Authorise'), array('name' => 'action', 'class' => 'btn-primary btn')); ?>
+                                <?php echo CHtml::submitButton(Yii::t('Admin', 'Reject'), array('name' => 'action', 'class' => 'btn-danger btn')); ?>
+
 							</div>
 						</div>
 					</div>

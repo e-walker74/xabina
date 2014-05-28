@@ -31,7 +31,7 @@
 								'currency.code',
 								array(
 									'header' => 'type',
-									'value' => '$data->send_to',
+									'value' => '$data->form_type',
 								),
 								//'urgent',
 								array(

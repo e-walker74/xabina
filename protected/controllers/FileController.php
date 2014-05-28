@@ -36,7 +36,7 @@ class FileController extends Controller
     }
 
 	public function actionUpload($id){
-	
+
 		if(Yii::app()->request->getParam('ajax')){
 			$file = new Users_Files;
 			$file->description = Yii::app()->request->getParam('description');
@@ -81,10 +81,13 @@ class FileController extends Controller
 				Yii::app()->end();
 			}
 		}
-		
-		$model = $typeClassName::model()->findByPk($id);
-		
+
+        $model = $typeClassName::model();
+
 		if(Users_Files::$fileTypes[$type]['user_check']){
+
+            $model = $model->findByPk($id);
+
 			if(isset($model->user_id)){
 				if($model->user_id != Yii::app()->user->id){
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Hmm... Something wrong! You a hacker?')));
@@ -115,7 +118,7 @@ class FileController extends Controller
 		$uploader->setFileName(mb_substr(md5(Yii::app()->user->name . time()), 5, 10));
 		
 		$result = $uploader->handleUpload($folder);
-		
+
 		if(isset($result['success']) && $result['success']){
 		
 			$file = new Users_Files();
@@ -123,6 +126,9 @@ class FileController extends Controller
 			$file->name = $result['filename'];
 			$file->ext = $uploader->getFileExt();
 			$file->form = $type;
+			if(isset($model->id)){
+				$file->model_id = $model->id;
+			}
 			$file->description = Yii::app()->request->getParam('description');
 			$file->user_file_name = $uploader->getUserFileName();
 			if(!$file->save()){

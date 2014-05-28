@@ -25,13 +25,21 @@ class Form_Outgoingtransf_Another extends Form_Outgoingtransf{
         );
     }
 
-    public function save(){
+    public function save($transfer = false){
         if(!$this->validate()){
             return false;
         }
-        $transfer = new Transfers_Outgoing();
+        if(!$transfer){
+            $transfer = new Transfers_Outgoing();
+        }
         $transfer->attributes = $this->attributes;
-        return $transfer->save();
+        $acc = Accounts::model()->findByAttributes(array('number' => $this->to_account_number));
+        $transfer->to_account_holder = $acc->user->fullName;
+        if($transfer->save()){
+			$this->afterTransferSave($transfer);
+			return true;
+		}
+		return false;
     }
 
 }
