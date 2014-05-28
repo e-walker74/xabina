@@ -46,3 +46,864 @@
 [22-May-2014 18:52:32 Europe/Minsk] PHP Parse error:  syntax error, unexpected '<' in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 169
 [22-May-2014 18:52:34 Europe/Minsk] PHP Parse error:  syntax error, unexpected '<' in /home/evnaby/sites/xabina/protected/models/transfers/Incoming.php on line 169
 [22-May-2014 22:56:59 Europe/Minsk] PHP Fatal error:  Call to undefined method stdClass::validate() in /home/evnaby/sites/xabina/protected/models/form/Outgoingtransf.php on line 190
+[23-May-2014 14:31:32 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_IF in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 135
+[23-May-2014 14:38:27 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_IF in /home/evnaby/sites/xabina/protected/views/transfers/incoming.php on line 135
+[23-May-2014 17:50:00 Europe/Minsk] PHP Parse error:  syntax error, unexpected $end, expecting T_STRING or T_VARIABLE or '{' or '$' in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 130
+[23-May-2014 18:59:03 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ARRAY, expecting ')' in /home/evnaby/sites/xabina/protected/config/components/log.php on line 7
+[23-May-2014 18:59:04 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ARRAY, expecting ')' in /home/evnaby/sites/xabina/protected/config/components/log.php on line 7
+[23-May-2014 18:59:10 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wTl1UdJcACFVv0lsAAAAt',
+  'REDIRECT_QS_ConnectionId' => '140086075058243245546159',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wTl1UdJcACFVv0lsAAAAt',
+  'QS_ConnectionId' => '140086075058243245546159',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55694',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860750,
+)
+[23-May-2014 18:59:12 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wUF1UdJcACFVezJ8AAAAd',
+  'REDIRECT_QS_ConnectionId' => '140086075208167029546142',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wUF1UdJcACFVezJ8AAAAd',
+  'QS_ConnectionId' => '140086075208167029546142',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55696',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860752,
+)
+[23-May-2014 18:59:59 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wf11UdJcACFZY@V4AAAAp',
+  'REDIRECT_QS_ConnectionId' => '140086079976441341546392',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wf11UdJcACFZY@V4AAAAp',
+  'QS_ConnectionId' => '140086079976441341546392',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55732',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860799,
+)
+[23-May-2014 19:00:00 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wgF1UdJcACFQoptgAAABI',
+  'REDIRECT_QS_ConnectionId' => '140086080084542772545832',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wgF1UdJcACFQoptgAAABI',
+  'QS_ConnectionId' => '140086080084542772545832',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55734',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860800,
+)
+[23-May-2014 19:00:01 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wgV1UdJcACFZf-DMAAAAx',
+  'REDIRECT_QS_ConnectionId' => '140086080160625049546399',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wgV1UdJcACFZf-DMAAAAx',
+  'QS_ConnectionId' => '140086080160625049546399',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55736',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860801,
+)
+[23-May-2014 19:00:02 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wgl1UdJcACFYz8P0AAAAH',
+  'REDIRECT_QS_ConnectionId' => '140086080225960507546355',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wgl1UdJcACFYz8P0AAAAH',
+  'QS_ConnectionId' => '140086080225960507546355',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55738',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860802,
+)
+[23-May-2014 19:00:02 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wgl1UdJcACFZl-lAAAAA5',
+  'REDIRECT_QS_ConnectionId' => '140086080266123457546405',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wgl1UdJcACFZl-lAAAAA5',
+  'QS_ConnectionId' => '140086080266123457546405',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55742',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860802,
+)
+[23-May-2014 19:00:02 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wgl1UdJcACFZf-DQAAAAx',
+  'REDIRECT_QS_ConnectionId' => '140086080282619849546399',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wgl1UdJcACFZf-DQAAAAx',
+  'QS_ConnectionId' => '140086080282619849546399',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55744',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860802,
+)
+[23-May-2014 19:00:03 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wg11UdJcACFYT5twAAAAL',
+  'REDIRECT_QS_ConnectionId' => '140086080304699411546323',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wg11UdJcACFYT5twAAAAL',
+  'QS_ConnectionId' => '140086080304699411546323',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55746',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860803,
+)
+[23-May-2014 19:00:03 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wgl1UdJcACFMkeQ8AAAAA',
+  'REDIRECT_QS_ConnectionId' => '140086080246034900545572',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wgl1UdJcACFMkeQ8AAAAA',
+  'QS_ConnectionId' => '140086080246034900545572',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55740',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860803,
+)
+[23-May-2014 19:00:18 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wkV1UdJcACFZl-lUAAAA5',
+  'REDIRECT_QS_ConnectionId' => '140086081740536257546405',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wkV1UdJcACFZl-lUAAAA5',
+  'QS_ConnectionId' => '140086081740536257546405',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55750',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860818,
+)
+[23-May-2014 19:00:19 Europe/Minsk] CException: CProfileLogRoute found a mismatching code block "system.db.CDbCommand.query(SHOW FULL COLUMNS FROM `users`)". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested. (/home/evnaby/framework/logging/CProfileLogRoute.php:165)
+#0 /home/evnaby/framework/logging/CProfileLogRoute.php(84): CProfileLogRoute->displaySummary(Array)
+#1 /home/evnaby/framework/logging/CLogRoute.php(104): CProfileLogRoute->processLogs(Array)
+#2 /home/evnaby/framework/logging/CLogRouter.php(123): CLogRoute->collectLogs(Object(CLogger), true)
+#3 /home/evnaby/framework/base/CComponent.php(561): CLogRouter->processLogs(Object(CEvent))
+#4 /home/evnaby/framework/base/CApplication.php(219): CComponent->raiseEvent('onEndRequest', Object(CEvent))
+#5 /home/evnaby/framework/base/CApplication.php(196): CApplication->onEndRequest(Object(CEvent))
+#6 /home/evnaby/framework/base/CApplication.php(744): CApplication->end(1)
+#7 [internal function]: CApplication->handleException(Object(CDbException))
+#8 {main}
+Previous exception:
+CDbException: The table "users" for active record class "Users" cannot be found in the database. (/home/evnaby/framework/db/ar/CActiveRecord.php:2362)
+#0 /home/evnaby/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Users))
+#1 /home/evnaby/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /home/evnaby/framework/db/ar/CActiveRecord.php(1485): CActiveRecord->getTableSchema()
+#3 /home/evnaby/sites/xabina/protected/controllers/TransfersController.php(363): CActiveRecord->findByPk('3')
+#4 /home/evnaby/framework/web/actions/CInlineAction.php(49): TransfersController->actionIncoming()
+#5 /home/evnaby/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/evnaby/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/evnaby/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/evnaby/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/evnaby/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/evnaby/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/evnaby/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/evnaby/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/evnaby/framework/web/CWebApplication.php(282): CController->run('incoming')
+#14 /home/evnaby/framework/web/CWebApplication.php(141): CWebApplication->runController('transfers/incom...')
+#15 /home/evnaby/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/evnaby/sites/xabina/index.php(38): CApplication->run()
+#17 {main}
+$_SERVER=array (
+  'PATH' => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
+  'PWD' => '/usr/local/cpanel/cgi-sys',
+  'SHLVL' => '0',
+  'FCGI_ROLE' => 'RESPONDER',
+  'REDIRECT_UNIQUE_ID' => 'U39wk11UdJcACFZJ9NwAAAAU',
+  'REDIRECT_QS_ConnectionId' => '140086081946866220546377',
+  'REDIRECT_STATUS' => '200',
+  'UNIQUE_ID' => 'U39wk11UdJcACFZJ9NwAAAAU',
+  'QS_ConnectionId' => '140086081946866220546377',
+  'HTTP_HOST' => 'xabina.intwall.com',
+  'HTTP_CONNECTION' => 'close',
+  'HTTP_CACHE_CONTROL' => 'max-age=0',
+  'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36',
+  'HTTP_REFERER' => 'http://xabina.intwall.com/transfers/outgoing?account=487552202474',
+  'HTTP_ACCEPT_ENCODING' => 'gzip,deflate,sdch',
+  'HTTP_ACCEPT_LANGUAGE' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,mt;q=0.2',
+  'HTTP_COOKIE' => 'YII_CSRF_TOKEN=cfe2af40792f5c20291fde2d1114e6089a3e0700; PHPSESSID=9ele802n23bq5qd52n70r9oc07',
+  'SERVER_SIGNATURE' => '',
+  'SERVER_SOFTWARE' => 'Apache',
+  'SERVER_NAME' => 'xabina.intwall.com',
+  'SERVER_ADDR' => '93.84.116.151',
+  'SERVER_PORT' => '80',
+  'REMOTE_ADDR' => '86.57.247.196',
+  'DOCUMENT_ROOT' => '/home/evnaby/sites/xabina',
+  'SERVER_ADMIN' => 'webmaster@xabina.intwall.com',
+  'SCRIPT_FILENAME' => '/home/evnaby/sites/xabina/index.php',
+  'REMOTE_PORT' => '55752',
+  'REDIRECT_URL' => '/transfers/incoming',
+  'GATEWAY_INTERFACE' => 'CGI/1.1',
+  'SERVER_PROTOCOL' => 'HTTP/1.1',
+  'REQUEST_METHOD' => 'GET',
+  'QUERY_STRING' => '',
+  'REQUEST_URI' => '/transfers/incoming',
+  'SCRIPT_NAME' => '/index.php',
+  'PHP_SELF' => '/index.php',
+  'REQUEST_TIME' => 1400860819,
+)
+[23-May-2014 19:14:19 Europe/Minsk] PHP Warning:  require_once(/home/evnaby/sites/xabinaYiiBaseEx.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory in /home/evnaby/sites/xabina/index.php on line 31
+[23-May-2014 19:14:19 Europe/Minsk] PHP Fatal error:  require_once() [<a href='function.require'>function.require</a>]: Failed opening required '/home/evnaby/sites/xabinaYiiBaseEx.php' (include_path='.:/opt/alt/php53/usr/share/pear:/opt/alt/php53/usr/share/php') in /home/evnaby/sites/xabina/index.php on line 31
+[23-May-2014 19:15:33 Europe/Minsk] PHP Fatal error:  Class 'SiteService' not found in /home/evnaby/sites/xabina/protected/views/transfers/_outgoing_details.php on line 31
+[23-May-2014 19:16:02 Europe/Minsk] PHP Fatal error:  Class 'QWidget' not found in /home/evnaby/sites/xabina/protected/ext/upload/WidgetUpload.php on line 2
+[23-May-2014 19:29:01 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE, expecting ')' in /home/evnaby/sites/xabina/protected/controllers/TransfersController.php on line 735
+[26-May-2014 22:55:07 Europe/Minsk] PHP Fatal error:  Class 'UsersContactsData' not found in /home/evnaby/framework/db/ar/CActiveRecord.php on line 395
+[26-May-2014 22:55:08 Europe/Minsk] PHP Fatal error:  Class 'UsersContactsData' not found in /home/evnaby/framework/db/ar/CActiveRecord.php on line 395
+[26-May-2014 22:55:11 Europe/Minsk] PHP Fatal error:  Class 'UsersContactsData' not found in /home/evnaby/framework/db/ar/CActiveRecord.php on line 395
+[26-May-2014 22:55:21 Europe/Minsk] PHP Fatal error:  Class 'Users_Contacts_Data' not found in /home/evnaby/framework/db/ar/CActiveRecord.php on line 395
+[26-May-2014 22:55:22 Europe/Minsk] PHP Fatal error:  Class 'Users_Contacts_Data' not found in /home/evnaby/framework/db/ar/CActiveRecord.php on line 395
+[26-May-2014 22:55:28 Europe/Minsk] PHP Fatal error:  Class 'Users_Contacts_Data' not found in /home/evnaby/framework/db/ar/CActiveRecord.php on line 395
+[26-May-2014 23:00:02 Europe/Minsk] PHP Fatal error:  Class 'Users_Contacts' not found in /home/evnaby/sites/xabina/protected/controllers/ContactController.php on line 41
+[26-May-2014 23:06:31 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting T_FUNCTION in /home/evnaby/sites/xabina/protected/models/users/Contacts.php on line 19
+[26-May-2014 23:06:33 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_VARIABLE, expecting T_FUNCTION in /home/evnaby/sites/xabina/protected/models/users/Contacts.php on line 19
+[26-May-2014 23:21:10 Europe/Minsk] PHP Parse error:  syntax error, unexpected T_ENDFOREACH in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 65
+[27-May-2014 12:32:03 Europe/Minsk] PHP Fatal error:  Class 'Widget' not found in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 12
+[27-May-2014 12:32:04 Europe/Minsk] PHP Fatal error:  Class 'Widget' not found in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 12
+[27-May-2014 12:32:14 Europe/Minsk] PHP Fatal error:  Call to undefined method QWidget::get() in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 12
+[27-May-2014 12:32:15 Europe/Minsk] PHP Fatal error:  Call to undefined method QWidget::get() in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 12
+[27-May-2014 12:33:22 Europe/Minsk] PHP Fatal error:  Call to undefined method QWidget::get() in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 12
+[27-May-2014 12:34:08 Europe/Minsk] PHP Fatal error:  Call to undefined method QWidget::get() in /home/evnaby/sites/xabina/protected/views/contact/index.php on line 12
+[27-May-2014 12:34:22 Europe/Minsk] PHP Fatal error:  Class 'WidgetsController' not found in /home/evnaby/sites/xabina/protected/widgets/Widget.php on line 17
+[27-May-2014 12:34:24 Europe/Minsk] PHP Fatal error:  Class 'WidgetsController' not found in /home/evnaby/sites/xabina/protected/widgets/Widget.php on line 17
+[27-May-2014 12:34:25 Europe/Minsk] PHP Fatal error:  Class 'WidgetsController' not found in /home/evnaby/sites/xabina/protected/widgets/Widget.php on line 17
+[27-May-2014 12:35:24 Europe/Minsk] PHP Fatal error:  Class 'ContactListWidget' not found in /home/evnaby/sites/xabina/protected/controllers/ContactController.php on line 42
+[27-May-2014 12:40:39 Europe/Minsk] PHP Parse error:  syntax error, unexpected '{' in /home/evnaby/sites/xabina/protected/ext/contactsList/ContactListWidget.php on line 16
+[27-May-2014 12:40:41 Europe/Minsk] PHP Parse error:  syntax error, unexpected '{' in /home/evnaby/sites/xabina/protected/ext/contactsList/ContactListWidget.php on line 16
+[27-May-2014 12:40:45 Europe/Minsk] PHP Parse error:  syntax error, unexpected '{' in /home/evnaby/sites/xabina/protected/ext/contactsList/ContactListWidget.php on line 16

@@ -443,7 +443,7 @@ class TransfersController extends Controller
 		 
 		/** start favorite transfers */
 		
-		$quickForm = new Transfers_Incoming_Favorite();
+		$quickForm = new Form_Incoming_Quick();
 
         if(isset($_POST['quick'])){
             $quick = Transfers_Incoming_Favorite::model()->findByPk($_POST['quick']);
@@ -463,13 +463,34 @@ class TransfersController extends Controller
             }
         }
 		
+		if(isset($_POST['Form_Incoming_Quick']) && strrpos(Yii::app()->request->getParam('ajax'), 'quick-form') === 0){
+			echo CActiveForm::validate($quickForm);
+            Yii::app()->end();
+		}
+		
+		if(isset($_POST['Form_Incoming_Quick'])){
+			if(!isset($_POST['Form_Incoming_Quick']['tid'])){
+				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+			}
+			$transaction = Transfers_Incoming_Favorite::model()->findByPk($_POST['Form_Incoming_Quick']['tid']);
+			$transaction->scenario = 'quickUpdate';
+			$quickForm->attributes = $transaction->attributes;
+			$quickForm->attributes = $_POST['Form_Incoming_Quick'];
+			if($quickForm->validate()){
+				$transaction->attributes = $quickForm->attributes;
+				$transaction->save();
+				echo CJSON::encode(array('success' => true));
+			}
+			Yii::app()->end();
+		}
+		
 		/** end favorite transfers */
 		
-		$favorite = Transfers_Incoming_Favorite::model()->findAll(
+		$favorite = Transfers_Incoming_Favorite::model()->with(array('account', 'account.user'))->findAll(
 			array(
-				'condition' => 'user_id = :uid',
+				'condition' => 't.user_id = :uid',
 				'params' => array(':uid' => Yii::app()->user->id),
-				'order' => 'created_at desc',
+				'order' => 't.created_at desc',
 			)
 		);
 

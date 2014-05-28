@@ -57,6 +57,16 @@ var submitTransaction = function(form){
         url: url,
         success: function(response) {
             if(response.success){
+				var li = $(form).parents('li').prev('li')
+				var receiver = $(form).find('.acc-to-num select option:selected').text()
+				var amount = $(form).find('input.amount-input').val()
+				var amount_cent = $(form).find('input.cent-input').val()
+				var currency = $(form).find('.upload-price select option:selected').text()
+				
+				li.find('.acc-to-num').html(receiver)
+				li.find('.upload-price').html(amount+"."+amount_cent + " " + currency)
+				
+				$('.row-edit').hide().prev('li').show()
                 if(response.url) {
                     window.location.href = response.url
                 }
@@ -73,10 +83,15 @@ var submitTransaction = function(form){
 
 }
 
+var quick_edit = function(button){
+	$(button).parents('li').hide().next('.row-edit').show()
+}
+
 var send_quick_transfer = function(quick_id){
     $.ajax({
         success: function(response) {
             if(response.success){
+				
                 if(response.url)
                     window.location.href = response.url
             } else {

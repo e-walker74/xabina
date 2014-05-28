@@ -59,4 +59,17 @@ abstract class ActiveRecord extends CActiveRecord
 		$arrayRes = array_merge($errors, array('notify' => $notifications));
 		return CJSON::encode($arrayRes);
 	}
+	
+	public function currentUser()
+    {
+        if($this->hasAttribute('user_id')) {
+            $this->getDbCriteria()->mergeWith(array(
+                    'condition' => 't.user_id = :uid',
+                    'params' => array(':uid' => Yii::app()->user->id)
+                ));
+        } else {
+			throw new CHttpException(500, 'No user in this table!');
+		}
+        return $this;
+    }
 }

@@ -396,7 +396,7 @@
         </div>
     </div>
 </div>
-<div class="form-header"><span>To</span></div>
+<div class="form-header"><span><?= Yii::t('Front', 'To') ?></span></div>
 <div class="from-form">
     <div class="form-cell" style="width: 100%">
         <div class="account-number">

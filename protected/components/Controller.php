@@ -33,13 +33,5 @@ class Controller extends CController
 
 		return parent::init();
 	}
-	
-    protected function afterRender($view, &$output) {
-        Yii::app()->dynamicRes->saveScheme();
-    }
-    
-    protected function cleanResponseJs() {
-        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
-    }
 
 }

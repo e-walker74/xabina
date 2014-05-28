@@ -25,7 +25,7 @@
                         <?php endif; ?>
                     </div>
                     <div class="transaction-buttons-cont pull-right">
-                        <a href="<?= $this->createUrl('/banking/index') ?>" class="button edit"></a>
+                        <a href="javaScript:void(0)" onclick="quick_edit(this)" class="button edit"></a>
                     </div>
                     <div class="update-name pull-right">
                         <strong class="holder"><?= $fav->account->user->fullName ?></strong>
@@ -41,51 +41,124 @@
                     <div class="clearfix"></div>
                 </div>
             </li>
-			<?php endforeach; ?>
-
             <li class="row-edit">
+				<?php $form=$this->beginWidget('CActiveForm', array(
+					'id'=>'quick-form'.$fav->id,
+					'enableAjaxValidation'=>true,
+					'enableClientValidation'=>true,
+					'errorMessageCssClass' => 'error-message',
+					'htmlOptions' => array(
+						'class' => 'form-validable',
+					),
+					'clientOptions'=>array(
+						'validateOnSubmit'=>true,
+						'validateOnChange'=>true,
+						'errorCssClass'=>'input-error',
+						'successCssClass'=>'valid',
+						'afterValidate' => 'js:function(form, data, hasError) {
+									form.find("input").removeClass("input-error");
+									form.find("input").parent().removeClass("input-error");
+									form.find(".validation-icon").fadeIn();
+									if(hasError) {
+										for(var i in data) {
+											$("#"+i).addClass("input-error");
+											$("#"+i).parent().addClass("input-error");
+											$("#"+i).next(".validation-icon").fadeIn();
+										}
+										return false;
+									}
+									else {
+										submitTransaction(form)
+									}
+									return false;
+								}',
+						'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
+									if(hasError){
+										if(!$("#"+attribute.id).hasClass("input-error")){
+											$("#"+attribute.id+"_em_").hide().slideDown();
+										}
+										$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
+										$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
+										$("#"+attribute.id).next(".validation-icon").fadeIn();
+									} else {
+										if($("#"+attribute.id).hasClass("input-error")){
+											$("#"+attribute.id+"_em_").show().slideUp();
+										}
+										$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
+										$("#"+attribute.id).next(".validation-icon").fadeIn();
+										$("#"+attribute.id).addClass("valid");
+									}
+								}'
+					),
+				)); ?>
                 <div class="quick-row">
                     <div class="update-img-payment pull-left">
-                        <img height="25" src="/images/payment.jpg" alt=""/>
+                        <?php if($fav->card_type): ?>
+                            <img height="25" src="/images/<?= isset(Transfers_Incoming::$card_types[$fav->card_type]) ? Transfers_Incoming::$card_types[$fav->card_type] : "" ?>.png" alt=""/>
+                        <?php endif; ?>
                     </div>
                     <div class="transaction-buttons-cont pull-right">
-                        <a href="#" class="button remove"></a>
-                        <a href="#" class="button ok"></a>
+                        <a href="javaScript:void(0)" onclick="resetPage(this)" class="button remove"></a>
+						<input type="submit" class="button ok" value=""/>
                     </div>
-                    <div class="update-name pull-right">
+                    <!--<div class="update-name pull-right">
                         <input class="holder-name-input" type="text" value="Viktor Kupets"/>
                         <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
-                    </div>
+                    </div>-->
                     <div class="clearfix"></div>
                 </div>
                 <div class="quick-row">
-                    <div class="grey acc-num pull-left">
-                        <input class="method-input" type="text" value="xxxx xxxx xxxx 01541"/>
-                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
-                    </div>
+					<?php $quickForm->attributes = $fav->attributes?>
+                    <div class="grey acc-num pull-left">xxxx xxxx xxxx <?= substr($fav->from_account_number, -4); ?></div>
                     <div class="grey acc-to-num pull-left">
-                        <input class="holder-account-input" type="text" value="0121 0101 2585 01541"/>
-                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+						<div class="select-custom select-narrow currency-select">
+							<span class="select-custom-label"><?= chunk_split($fav->to_account_number, 4) ?></span>
+							<?= $form->dropDownList(
+								$quickForm,
+								'to_account_number',
+								CHtml::listData(
+									$user->accounts,
+									'number',
+									function($data){
+										return chunk_split($data->number, 4);
+									}
+								),
+								array('encode' => false, 'class' => 'select-invisible')
+							) ?>
+						</div>
+                        <!--<div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>-->
                     </div>
                     <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $fav->id ?>')" class="rounded-buttons upload pull-right select-pay"><?= Yii::t('Front', 'SELECT AND PAY') ?></a>
                     <div class="upload-price pull-right">
-                        <input class="amount-input" type="text" value="1 000 000 "/>
-                        <span class="delimitter">.</span>
-                        <input class="cent-input" type="00"/>
+						<?php 
+							$Aamount = explode('.', $fav->amount);
+							$quickForm->amount = $Aamount[0]; 
+							if(isset($Aamount[1])){
+								$quickForm->amount_cent = $Aamount[1];
+							}
+						?>
+						<?= $form->textField($quickForm, 'amount', array('class' => 'amount-input', 'maxlength' => 9)) ?>
+						<span class="delimitter">.</span>
+						<?= $form->textField($quickForm, 'amount_cent', array('class' => 'cent-input')) ?>
+						
                         <div class="select-custom select-narrow currency-select">
-                            <span class="select-custom-label">EUR</span>
-                            <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
-                                <option value="1">USD</option>
-                                <option value="2" selected="selected">RUB</option>
-                            </select>
-
+                            <span class="select-custom-label"><?= $fav->currency->code ?></span>
+							<?= $form->dropDownList(
+								$quickForm,
+								'currency_id',
+								CHtml::listData($currencies, 'id', 'title'),
+								array('class' => 'select-invisible', 'options' => array($fav->currency_id => array('selected' => true)))
+							); ?>
                         </div>
-                        <div class="error-message" id="Form_Incoming_Request_transmitter_em_" style="display: block; overflow: hidden;">error</div>
+                        <?= $form->error($quickForm, 'amount') ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
+				<?php $quickForm->tid = $fav->id ?>
+				<?= $form->hiddenField($quickForm, 'tid') ?>
+				<?php $this->endWidget(); ?>
             </li>
-
+			<?php endforeach; ?>
 <!--
             <li>
                 <td >
@@ -300,28 +373,47 @@
                         </div>
                         <div class="field-input">
                             <div class="select-custom currency-select exp-month">
-                                <span class="select-custom-label">Month</span>
-                                <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
-                                    <option value="1">september</option>
-                                    <option value="2" selected="selected">1</option>
-                                    <option value="3">2</option>
-                                    <option value="4">3</option>
-                                    <option value="5">4</option>
-                                </select>
+								<span class="select-custom-label"><?= Yii::t('Front', 'Month') ?></span>
+                                <?= $form->dropDownList(
+									$electronic_request,
+									'p_month',
+									array(
+										1 => '01',
+										2 => '02',
+										3 => '03',
+										4 => '04',
+										5 => '05',
+										6 => '06',
+										7 => '07',
+										8 => '08',
+										9 => '09',
+										10 => '10',
+										11 => '11',
+										12 => '12',
+									),
+									array(
+										'class' => 'select-invisible',
+									)
+								); ?>
                             </div>
-<!--                                --><?//= $form->textField($electronic_request, 'p_month', array('class' => 'input-text exp-month')) ?>
                             <span class="exp-delimitter">/</span>
                             <div class="select-custom currency-select exp-year">
-                                <span class="select-custom-label">1</span>
-                                <select class="select-invisible" name="Form_Incoming_Electronic[currency_id]" id="Form_Incoming_Electronic_currency_id">
-                                    <option value="1">1</option>
-                                    <option value="2" selected="selected">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                                <span class="select-custom-label"><?= Yii::t('Front', 'Year') ?></span>
+								<?php 
+									$year = array();
+									for($i = 0, $y = date('Y', time()); $i <= 20; $i++, $y++ ){
+										$year[$y] = $y;
+									}
+								?>
+                                <?= $form->dropDownList(
+									$electronic_request,
+									'p_year',
+									$year,
+									array(
+										'class' => 'select-invisible',
+									)
+								); ?>
                             </div>
-<!--                                --><?//= $form->textField($electronic_request, 'p_year', array('class' => 'input-text exp-year')) ?>
                             <?= $form->error($electronic_request, 'p_year'); ?>
                             <?= $form->error($electronic_request, 'p_month'); ?>
                         </div>
