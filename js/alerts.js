@@ -90,6 +90,11 @@ $(function () {
                 complete : dellBackgroundBlack
             });
         })
+        .on('click', '#add-rule-form .cancel', function () {
+            resetPage();
+            $(this).closest('form').find('select').val('').trigger('change');
+            $(this).closest('.collapse').collapse('hide');
+        })
     ;
 
     $('#static-alerts').on('click', '[type=checkbox]', function() {

@@ -11,8 +11,8 @@
 <div class="xabina-tabs col-lg-9 col-md-9 col-sm-9">
 	<div class="h1-header"><?= Yii::t('Front', 'Alerts'); ?></div>
     <ul>
-        <li><a href="#account-alert-tab">Account Alerts</a></li>
-        <li><a href="#enviroment-alert-tab">Environment Alerts</a></li>
+        <li style="width: 50%;"><a href="#account-alert-tab">Account Alerts</a></li>
+        <li style="width: 50%;"><a href="#enviroment-alert-tab">Environment Alerts</a></li>
     </ul>
     <div id="account-alert-tab">
         <div class="account-selection">
@@ -52,9 +52,9 @@
             <table class="table table-alert-header">
                 <tbody><tr>
                     <th width="20%"><?= Yii::t('Front', 'Rule'); ?></th>
-                    <th width="23%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
+                    <th width="22%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
                     <th width="29%"><?= Yii::t('Front', 'E-mail'); ?></th>
-                    <th width="15%"><?= Yii::t('Front', 'Phone'); ?></th>
+                    <th width="16%"><?= Yii::t('Front', 'Phone'); ?></th>
                     <th width="13%" style="text-align: right"><a class="slide-but" data-toggle="collapse" href="#alerts-table"></a></th>
                 </tr>
                 </tbody>
@@ -120,7 +120,7 @@
                         <?php endforeach; ?>
                         <?php $this->endWidget(); ?>
                     </td>
-                    <td class="lh" style="width: 19%">
+                    <td class="lh" colspan="2" style="width: 28%">
                         <?php $form=$this->beginWidget('CActiveForm', array(
                                 'action' => $url,
                                 'method' => 'post',
@@ -140,7 +140,6 @@
                         <?php endforeach; ?>
                         <?php $this->endWidget(); ?>
                     </td>
-                    <td style="width: 10%" class="actions-td"></td>
                 </tr>
                 <?php endforeach; ?>
                 </tbody>

@@ -36,7 +36,7 @@ $defaultFormParams = array(
                 )));
                  ?>
                 <div class="cell" style="width: 20%"><?= $rule->alert->name; ?></div>
-                <div class="cell" style="width: 23%">
+                <div class="cell" style="width: 22%">
                     <?= CHtml::hiddenField('account', $selectedAcc->number, array('id'=>'account'.$rule->id)); ?>
                     <?= $form->hiddenField($rule, 'alert_code', array('value' => $rule->alert->code)); ?>
                     <?php if($rule->greater): ?>
@@ -60,6 +60,10 @@ $defaultFormParams = array(
                     <?php if($rule->alert->use_rules == 1): ?>
                     <div class="edit-doc" style="display: none;">
                         <div class="field-row">
+                            <div class="field-lbl">
+                                <?= Yii::t('Front', 'Rule'); ?>
+                                <span class="tooltip-icon" title="tooltip text"></span>
+                            </div>
                             <div class="field-input">
                                 <div class="select-custom">
                                     <span class="select-custom-label">
@@ -77,30 +81,42 @@ $defaultFormParams = array(
                             </div>
                         </div>
                         <div class="field-row rule-input greater <?= $rule->greater ? '' : 'hide' ; ?>">
+                            <div class="field-lbl">
+                                <?= Yii::t('Front', 'Value'); ?>
+                                <span class="tooltip-icon" title="tooltip text"></span>
+                            </div>
                             <div class="field-input">
                                 <?= $form->textField($rule, 'greater', array('class'=>'input-text'));?>
                                 <?= $form->error($rule, 'greater');?>
-                                <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                                <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
                             </div>
                         </div>
                         <div class="field-row rule-input less <?= $rule->less ? '' : 'hide' ; ?>">
+                            <div class="field-lbl">
+                                <?= Yii::t('Front', 'Value'); ?>
+                                <span class="tooltip-icon" title="tooltip text"></span>
+                            </div>
                             <div class="field-input">
                                 <?= $form->textField($rule, 'less', array('class'=>'input-text'));?>
                                 <?= $form->error($rule, 'less');?>
-                                <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                                <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
                             </div>
                         </div>
                         <div class="field-row rule-input equal <?= $rule->equal ? '' : 'hide' ; ?>">
+                            <div class="field-lbl">
+                                <?= Yii::t('Front', 'Value'); ?>
+                                <span class="tooltip-icon" title="tooltip text"></span>
+                            </div>
                             <div class="field-input">
                                 <?= $form->textField($rule, 'equal', array('class'=>'input-text'));?>
                                 <?= $form->error($rule, 'equal');?>
-                                <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                                <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
                             </div>
                         </div>
                     </div>
                     <?php endif; ?>
                 </div>
-                <div class="cell lh" style="width: 29%">
+                <div class="cell lh" style="width: 27%">
                     <?php foreach($rule->alertEmails as $alertEmail): ?>
                         <div class="str not-edit-doc"><?= $alertEmail->email->email; ?></div>
                     <?php endforeach; ?>
@@ -124,7 +140,7 @@ $defaultFormParams = array(
                         </div>
                     </div>
                 </div>
-                <div class="cell lh" style="width: 15%">
+                <div class="cell lh" style="width: 19%">
                     <?php foreach($rule->alertPhones as $alertPhone): ?>
                         <div class="str not-edit-doc">+<?= $alertPhone->phone->phone; ?></div>
                     <?php endforeach; ?>
@@ -148,7 +164,7 @@ $defaultFormParams = array(
                         </div>
                     </div>
                 </div>
-                <div class="cell actions-td" style="width: 13%">
+                <div class="cell actions-td" style="width: 12%">
                     <div class="not-edit-doc">
                         <a href="#" class="button edit"></a>
                         <a data-url="<?=$this->createUrl('dropalerts', array('id' => $rule->id));?>" class="button delete"></a>
@@ -165,7 +181,7 @@ $defaultFormParams = array(
 
     <!-- add Rule -->
     <div class="alert-row">
-        <div class="cell table-form-subheader" style="width: 100%;"><a href="#add-rule-form" data-toggle="collapse"><?= Yii::t('Front', 'Add rule'); ?></a></div>
+        <div class="cell table-form-subheader" style="width: 100%;"><a href="#add-rule-form" class="add-btn" data-toggle="collapse"><?= Yii::t('Front', 'Add rule'); ?></a></div>
         <div class="clearfix"></div>
     </div>
 
@@ -177,11 +193,11 @@ $defaultFormParams = array(
             )
         )));
          ?>
-        <div class="cell" style="width: 43%">
+        <div class="cell" style="width: 39%">
             <?= CHtml::hiddenField('account', $selectedAcc->number, array('id'=>'accountnew')); ?>
             <div class="field-row">
                 <div class="field-lbl">
-                    <?= Yii::t('Front', 'Rule'); ?>
+                    <?= Yii::t('Front', 'Alert'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span>
                 </div>
                 <div class="field-input ">
@@ -203,6 +219,10 @@ $defaultFormParams = array(
             </div>
             <div class="rules-row hide">
                 <div class="field-row">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front', 'Rule'); ?>
+                        <span class="tooltip-icon" title="tooltip text"></span>
+                    </div>
                     <div class="field-input">
                         <div class="select-custom">
                             <span class="select-custom-label">
@@ -218,29 +238,38 @@ $defaultFormParams = array(
                     </div>
                 </div>
                 <div class="field-row rule-input greater">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front', 'Value'); ?>
+                        <span class="tooltip-icon" title="tooltip text"></span>
+                    </div>
                     <div class="field-input">
                         <?= $form->textField($modelRule, 'greater', array('class'=>'input-text'));?>
                         <?= $form->error($modelRule, 'greater');?>
-                        <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                        <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
                     </div>
                 </div>
                 <div class="field-row rule-input less hide">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front', 'Value'); ?>
+                        <span class="tooltip-icon" title="tooltip text"></span>
+                    </div>
                     <div class="field-input">
                         <?= $form->textField($modelRule, 'less', array('class'=>'input-text'));?>
                         <?= $form->error($modelRule, 'less');?>
-                        <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                        <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
                     </div>
                 </div>
                 <div class="field-row rule-input equal hide">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front', 'Value'); ?>
+                        <span class="tooltip-icon" title="tooltip text"></span>
+                    </div>
                     <div class="field-input">
                         <?= $form->textField($modelRule, 'equal', array('class'=>'input-text'));?>
                         <?= $form->error($modelRule, 'equal');?>
-                        <div class="curr-lbl"><?= $selectedAcc->currency->code; ?></div>
+                        <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
                     </div>
                 </div>
-            </div>
-            <div class="field-row">
-                <a href="#" id="alert-add-btn" class="violet-button-slim-square"><?= Yii::t('Front','Add'); ?></a>
             </div>
         </div>
         <div class="cell" style="width: 29%">
@@ -259,7 +288,7 @@ $defaultFormParams = array(
                 <?php endforeach; ?>
             </div>
         </div>
-        <div class="cell" style="width: 28%">
+        <div class="cell" style="width: 20%">
             <div class="field-row">
                 <div class="field-lbl">
                     <?= Yii::t('Front','Phone'); ?>
@@ -273,6 +302,12 @@ $defaultFormParams = array(
                         </label>
                     <?php endforeach; ?>
                 </div>
+            </div>
+        </div>
+        <div class="cell" style="width: 12%">
+            <div class="field-row">
+                <a href="#" id="alert-add-btn" class="button ok"></a>
+                <a href="#" class="button cancel"></a>
             </div>
         </div>
         <div class="clearfix"></div>
