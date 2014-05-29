@@ -331,6 +331,7 @@ class Users extends ActiveRecord
             INNER JOIN 	`users` d ON d.id = a.create_uid
             WHERE a.user_id = {$userId} AND a.create_uid IS NOT NULL"
         )->queryAll();
+		
         return $buff;
     }
 }

@@ -268,6 +268,14 @@ class WebUser extends CWebUser {
     {
 		$this->setState('__full_name', $fullName);
 	}
+	
+	public function getCurrentId(){
+		if(!Yii::app()->user->getRbacCurrentUid()){
+			return Yii::app()->user->id;
+		} else {
+			return Yii::app()->user->getRbacCurrentUid();
+		}
+	}
     
     
     /**
@@ -344,6 +352,7 @@ class WebUser extends CWebUser {
      */
     public function checkRbacAccess($ca) {
         $rights = $this->getRbac();
+		
         foreach ((array)$rights as $right) {
             if($this->actionAllowed($ca, $right['action_id'])) {
                 return true;
@@ -358,14 +367,13 @@ class WebUser extends CWebUser {
         
         $a = explode('.', $controllerAction);
         $b = explode('.', $accessRight);
-
+		
         if($a[0] == $b[0] && $a[1] == $b[1]) {
             $res = true;
         } 
         elseif($a[0] == $b[0] && $b[1] == '*') {
             $res = true;
         }
-        
         return $res;
     }
 }

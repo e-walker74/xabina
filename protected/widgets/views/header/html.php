@@ -70,7 +70,7 @@
 	</div>
 </div>*/?>
 <div class="header-middle clearfix">
-    <a href="/" class="logo pull-left"></a>
+    <a href="<?= Yii::app()->createUrl('/banking/index') ?>" class="logo pull-left"></a>
     <div class="person-select-cont">
         <?php 
             $rbacMenu = Yii::app()->user->getRbacAccountSwitcherMenu();        
@@ -120,7 +120,7 @@
                             </a>
                         </li>
                         <li class="address-book">
-                            <a href="#">
+                            <a href="<?= Yii::app()->createUrl('/contact/index'); ?>">
                                 <div class="app-ico"></div>
                                 <div class="app-name">Address book</div>
                             </a>
@@ -138,9 +138,9 @@
                             </a>
                         </li>
                         <li class="profile">
-                            <a href="#">
+                            <a href="<?= Yii::app()->createUrl('/personal/index') ?>">
                                 <div class="app-ico"></div>
-                                <div class="app-name">Profile</div>
+                                <div class="app-name"><?= Yii::t('Front', 'Profile') ?></div>
                             </a>
                         </li>
                     </ul>
@@ -148,25 +148,25 @@
             </div>
         </li>
         <li class="messaging">
-            <a href="#">
+            <a href="<?= Yii::app()->createUrl('/message/index') ?>">
                 <div class="menu-ico">
                     <span class="messages-count">1</span>
                 </div>
-                <div class="menu-name">Messaging</div>
+                <div class="menu-name"><?= Yii::t('Front', 'Messaging') ?></div>
             </a>
 
 
         </li>
         <li class="invoicing">
-            <a href="#">
+            <a href="<?= Yii::app()->createUrl('/invoices/list') ?>">
                 <div class="menu-ico"></div>
-                <div class="menu-name">Invoicing</div>
+                <div class="menu-name"><?= Yii::t('Front', 'Invoicing') ?></div>
             </a>
         </li>
         <li class="alerts">
-            <a href="#">
+            <a href="<?= Yii::app()->createUrl('/personal/alerts') ?>">
                 <div class="menu-ico"></div>
-                <div class="menu-name">Alerts</div>
+                <div class="menu-name"><?= Yii::t('Front', 'Alerts') ?></div>
             </a>
         </li>
         <li class="dialogues">

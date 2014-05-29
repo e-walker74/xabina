@@ -72,17 +72,17 @@ class AccountsController extends Controller
     }
 
 	public function actionCardBalance(){
-
+		
 		$this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
 		$this->breadcrumbs[Yii::t('Front', 'Balance')] = '';
 
-		$accounts = Accounts::model()->with('user')->findAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
+		$accounts = Accounts::model()->with('user')->currentUser()->findAll();
 		if(empty($accounts)){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		$selectedAcc = false;
 		if($accountNumber = Yii::app()->request->getParam('account', false, 'int')){
-			$selectedAcc = Accounts::model()->find('user_id = :uid AND number = :number', array(':uid' => Yii::app()->user->id, ':number' => $accountNumber));
+			$selectedAcc = Accounts::model()->currentUser()->find('number = :number', array(':number' => $accountNumber));
 		} elseif(!$selectedAcc) {
 			$selectedAcc = $accounts[0];
 		}

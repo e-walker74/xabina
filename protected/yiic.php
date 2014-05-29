@@ -13,9 +13,8 @@ if (YII_DEBUG === true) {
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
 require_once(FRAMEWORK_PATH.'yii.php');
-require_once(CORE_PATH.'YiiBaseEx.php');
+require_once dirname(__FILE__).'/../YiiBaseEx.php';
 
-Yii::setPathOfAlias("core", rtrim(CORE_PATH,'/'));
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
 if(isset($config))
