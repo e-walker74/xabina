@@ -51,8 +51,8 @@
         <div class="table-alert-header-cont">
             <table class="table table-alert-header">
                 <tbody><tr>
-                    <th width="20%"><?= Yii::t('Front', 'Rule'); ?></th>
-                    <th width="22%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
+                    <th width="18%"><?= Yii::t('Front', 'Rule'); ?></th>
+                    <th width="24%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
                     <th width="29%"><?= Yii::t('Front', 'E-mail'); ?></th>
                     <th width="16%"><?= Yii::t('Front', 'Phone'); ?></th>
                     <th width="13%" style="text-align: right"><a class="slide-but" data-toggle="collapse" href="#alerts-table"></a></th>

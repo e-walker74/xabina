@@ -29,6 +29,14 @@ class Users_AlertsRules extends ActiveRecord
     /** @var $phones array */
     public $phones;
 
+    public $greater;
+    public $less;
+    public $equal;
+
+    public $greater_cent;
+    public $less_cent;
+    public $equal_cent;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -63,6 +71,18 @@ class Users_AlertsRules extends ActiveRecord
         return $this;
     }
 
+    protected function beforeValidate()
+    {
+        if(parent::beforeValidate()) {
+            $this->greater = $this->greater ? floor($this->greater)+($this->greater_cent/100) : '';
+            $this->less = $this->less ? floor($this->less)+($this->less_cent/100) : '';
+            $this->equal = $this->equal ? floor($this->equal)+($this->equal_cent/100) : '';
+            return true;
+        }
+        return false;
+    }
+
+
     /**
 	 * @return array validation rules for model attributes.
 	 */
@@ -74,9 +94,10 @@ class Users_AlertsRules extends ActiveRecord
 			array('user_id, alert_id', 'required'),
 			array('emails, phones', 'recipientValidator'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
-            array('greater, less, equal', 'numerical'),
+            array('greater, less, equal, greater_cent, less_cent, equal_cent', 'numerical'),
             array('greater, less, equal', 'rulesValidator'),
-			array('alert_id, greater, less, equal', 'length', 'max'=>50),
+			array('greater, less, equal', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
+			array('greater_cent, less_cent, equal_cent', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, alert_id, greater, less, equal', 'safe', 'on'=>'search'),
@@ -111,7 +132,7 @@ class Users_AlertsRules extends ActiveRecord
             $emptyAttributes = array();
             $validateAttributes = array('greater', 'less', 'equal');
             foreach($validateAttributes as $attr) {
-                if(empty($this[$attr])) {
+                if(empty($this->{$attr})) {
                     $emptyAttributes[] = $attr;
                 }
             }

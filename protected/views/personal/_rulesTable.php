@@ -12,6 +12,7 @@
 $modelRule = new Users_AlertsRules();
 $defaultFormParams = array(
         'method' => 'post',
+        'enableAjaxValidation'=>true,
         'enableClientValidation'=>true,
         'errorMessageCssClass' => 'error-message',
         'htmlOptions' => array(
@@ -20,6 +21,7 @@ $defaultFormParams = array(
         'clientOptions'=>array(
             'validateOnSubmit'=>true,
             'validateOnChange'=>true,
+            'validateOnType'=>true,
             'errorCssClass'=>'input-error',
             'successCssClass'=>'valid',
         )
@@ -35,26 +37,26 @@ $defaultFormParams = array(
                     )
                 )));
                  ?>
-                <div class="cell" style="width: 20%"><?= $rule->alert->name; ?></div>
-                <div class="cell" style="width: 22%">
+                <div class="cell" style="width: 18%"><?= $rule->alert->name; ?></div>
+                <div class="cell" style="width: 24%">
                     <?= CHtml::hiddenField('account', $selectedAcc->number, array('id'=>'account'.$rule->id)); ?>
                     <?= $form->hiddenField($rule, 'alert_code', array('value' => $rule->alert->code)); ?>
                     <?php if($rule->greater): ?>
                         <div class="greater not-edit-doc">
                             <b><?= Yii::t('Front','Higher than')?>:</b> <br>
-                            <?= $rule->greater; ?> <?= $rule->account->currency->code;?>
+                            <?= number_format($rule->greater, 2, '.', ' '); ?> <?= $rule->account->currency->code;?>
                         </div>
                     <?php endif; ?>
                     <?php if($rule->less): ?>
                         <div class="lower not-edit-doc">
                             <b><?= Yii::t('Front','Lower than')?>:</b> <br>
-                            <?= $rule->less; ?> <?= $rule->account->currency->code;?>
+                            <?= number_format($rule->less, 2, '.', ' '); ?> <?= $rule->account->currency->code;?>
                         </div>
                     <?php endif; ?>
                     <?php if($rule->equal): ?>
                         <div class="equal not-edit-doc">
                             <b><?= Yii::t('Front','Equals to')?>:</b> <br>
-                            <?= $rule->equal; ?> <?= $rule->account->currency->code;?>
+                            <?= number_format($rule->equal, 2, '.', ' '); ?> <?= $rule->account->currency->code;?>
                         </div>
                     <?php endif; ?>
                     <?php if($rule->alert->use_rules == 1): ?>
@@ -86,9 +88,17 @@ $defaultFormParams = array(
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
                             <div class="field-input">
-                                <?= $form->textField($rule, 'greater', array('class'=>'input-text'));?>
-                                <?= $form->error($rule, 'greater');?>
+                                <?= $form->textField($rule, 'greater', array(
+                                        'class'=>'input-text',
+                                        'maxlength' => 9,
+                                        'value'=>intval($rule->greater)
+                                    ));?>.
+                                <?= $form->textField($rule, 'greater_cent', array('class'=>'input-text cent',
+                                        'value'=>($rule->greater*100) % 100 ? : ''
+                                    ));?>
                                 <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
+                                <?= $form->error($rule, 'greater');?>
+                                <?= $form->error($rule, 'greater_cent');?>
                             </div>
                         </div>
                         <div class="field-row rule-input less <?= $rule->less ? '' : 'hide' ; ?>">
@@ -97,9 +107,18 @@ $defaultFormParams = array(
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
                             <div class="field-input">
-                                <?= $form->textField($rule, 'less', array('class'=>'input-text'));?>
-                                <?= $form->error($rule, 'less');?>
+                                <?= $form->textField($rule, 'less', array(
+                                        'class'=>'input-text',
+                                        'maxlength' => 9,
+                                        'value'=>intval($rule->less)
+                                    ));?>.
+                                <?= $form->textField($rule, 'less_cent', array(
+                                        'class'=>'input-text cent',
+                                        'value'=>($rule->less*100) % 100 ? : ''
+                                    ));?>
                                 <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
+                                <?= $form->error($rule, 'less');?>
+                                <?= $form->error($rule, 'less_cent');?>
                             </div>
                         </div>
                         <div class="field-row rule-input equal <?= $rule->equal ? '' : 'hide' ; ?>">
@@ -108,9 +127,18 @@ $defaultFormParams = array(
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
                             <div class="field-input">
-                                <?= $form->textField($rule, 'equal', array('class'=>'input-text'));?>
-                                <?= $form->error($rule, 'equal');?>
+                                <?= $form->textField($rule, 'equal', array(
+                                        'class'=>'input-text',
+                                        'maxlength' => 9,
+                                        'value'=>intval($rule->equal)
+                                    ));?>.
+                                <?= $form->textField($rule, 'equal_cent', array(
+                                        'class'=>'input-text cent',
+                                        'value'=>($rule->equal*100) % 100 ? : ''
+                                    ));?>
                                 <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
+                                <?= $form->error($rule, 'equal');?>
+                                <?= $form->error($rule, 'equal_cent');?>
                             </div>
                         </div>
                     </div>
@@ -243,9 +271,11 @@ $defaultFormParams = array(
                         <span class="tooltip-icon" title="tooltip text"></span>
                     </div>
                     <div class="field-input">
-                        <?= $form->textField($modelRule, 'greater', array('class'=>'input-text'));?>
-                        <?= $form->error($modelRule, 'greater');?>
+                        <?= $form->textField($modelRule, 'greater', array('class'=>'input-text','maxlength' => 9));?>.
+                        <?= $form->textField($modelRule, 'greater_cent', array('class'=>'input-text cent'));?>
                         <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
+                        <?= $form->error($modelRule, 'greater');?>
+                        <?= $form->error($modelRule, 'greater_cent');?>
                     </div>
                 </div>
                 <div class="field-row rule-input less hide">
@@ -254,9 +284,11 @@ $defaultFormParams = array(
                         <span class="tooltip-icon" title="tooltip text"></span>
                     </div>
                     <div class="field-input">
-                        <?= $form->textField($modelRule, 'less', array('class'=>'input-text'));?>
-                        <?= $form->error($modelRule, 'less');?>
+                        <?= $form->textField($modelRule, 'less', array('class'=>'input-text','maxlength' => 9));?>.
+                        <?= $form->textField($modelRule, 'less_cent', array('class'=>'input-text cent'));?>
                         <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
+                        <?= $form->error($modelRule, 'less');?>
+                        <?= $form->error($modelRule, 'less_cent');?>
                     </div>
                 </div>
                 <div class="field-row rule-input equal hide">
@@ -265,9 +297,11 @@ $defaultFormParams = array(
                         <span class="tooltip-icon" title="tooltip text"></span>
                     </div>
                     <div class="field-input">
-                        <?= $form->textField($modelRule, 'equal', array('class'=>'input-text'));?>
-                        <?= $form->error($modelRule, 'equal');?>
+                        <?= $form->textField($modelRule, 'equal', array('class'=>'input-text','maxlength' => 9));?>.
+                        <?= $form->textField($modelRule, 'equal_cent', array('class'=>'input-text cent'));?>
                         <span class="curr-lbl"><?= $selectedAcc->currency->code; ?></span>
+                        <?= $form->error($modelRule, 'equal');?>
+                        <?= $form->error($modelRule, 'equal_cent');?>
                     </div>
                 </div>
             </div>
