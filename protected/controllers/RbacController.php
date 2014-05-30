@@ -24,10 +24,10 @@ class RbacController extends Controller
     }
     
     public function actionAddRole() {
-        
+        $this->render('add_role');
     }
     
     public function actionAddUser() {
-        
+        $this->render('add_user');
     }
 }
