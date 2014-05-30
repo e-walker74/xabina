@@ -24,6 +24,10 @@ class RbacController extends Controller
     }
     
     public function actionAddRole() {
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Add new role'))] = '';
+        
+        
         $this->render('add_role');
     }
     
