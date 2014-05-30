@@ -110,6 +110,11 @@ return array(
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
 			'page/<url>' => 'pages/index',
+            
+            /**
+             * RBAC
+             */
+            '/settings/roles' => 'rbac/roles',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

@@ -18,4 +18,16 @@ class RbacController extends Controller
         }
         $this->redirect(array('/banking'));
     }
+    
+    public function actionRoles() {
+        $this->render('roles_management');
+    }
+    
+    public function actionAddRole() {
+        
+    }
+    
+    public function actionAddUser() {
+        
+    }
 }
