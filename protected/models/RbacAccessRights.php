@@ -10,7 +10,7 @@
  * @property string $additional_parameters
  * @property string $action_id
  */
-class RbacAccessRights extends CActiveRecord
+class RbacAccessRights extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -101,4 +101,26 @@ class RbacAccessRights extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
+    public function getAccessRightsTree() {
+        $rightsTree = array();
+        $rights = Yii::app()->db->createCommand()->select('*')->from($this->tableName())->queryAll();
+        $buff = array();
+        foreach ($rights as $r) {
+            $buff[(int)$r['parent_id']][] = $r;
+        }        
+        $rightsTree = $this->_createTree($buff, $buff[0]);
+        return $rightsTree;
+    }
+    
+    private function _createTree(&$list, $parent) {
+        $tree = array();
+        foreach ($parent as $k => $l){
+            if( isset($list[$l['id']]) ){
+                $l['children'] = $this->_createTree($list, $list[$l['id']]);
+            }
+            $tree[] = $l;
+        } 
+        return $tree;
+    }
 }

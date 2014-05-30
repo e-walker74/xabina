@@ -27,7 +27,8 @@ class RbacController extends Controller
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Add new role'))] = '';
         
-        
+        $rightsTree = RbacAccessRights::model()->getAccessRightsTree();
+        var_dump($rightsTree);
         $this->render('add_role');
     }
     
