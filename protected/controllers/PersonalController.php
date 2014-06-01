@@ -987,7 +987,9 @@ class PersonalController extends Controller
     {
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Alerts'))] = '';
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl .'/js/alerts.js', CClientScript::POS_END);
+        if(!Yii::app()->request->isAjaxRequest) {
+        	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl .'/js/alerts.js', CClientScript::POS_END);
+        }
 
         $accounts = Accounts::model()->with('user')->byUserId(Yii::app()->user->id)->findAll();
         if(empty($accounts)){
@@ -1012,12 +1014,18 @@ class PersonalController extends Controller
         $phones = Users_Phones::model()->byUserId(Yii::app()->user->id)->findAll();
 
         if(Yii::app()->request->isAjaxRequest){
+			$cs=Yii::app()->clientScript;
+			$cs->scriptMap=array(
+			    'jquery.js'=>false,
+			    'jquery.ui.js' => false,
+			    'jquery.yiiactiveform.js'=>false
+			);
             $html = $this->renderPartial('_rulesTable', array(
                     'emailAddresses' => $emailAddresses,
                     'phones' => $phones,
                     'selectedAcc' => $selectedAcc,
                     'userAlertsRules' => $userAlertsRules
-                ), true, false);
+                ), true, true);
             echo CJSON::encode(array('success' => true, 'html' => $html));
             Yii::app()->end();
         }

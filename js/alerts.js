@@ -27,10 +27,10 @@ $(function () {
         e.preventDefault();
         var $form = $(this).closest('.alert-row'), settings = $form.data('settings'),
             elHiddenId = $form.find('input[type=hidden][id]').attr('id');
-        settings.submitting = true;
+        if(settings)
+            settings.submitting = true;
         backgroundBlack();
         $.fn.yiiactiveform.validate($form, function (res) {
-            console.log(res);
             if(res.success) {
                 refreshTable(function(){
                     successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
@@ -78,10 +78,10 @@ $(function () {
             e.preventDefault();
             var $form = $(this).closest('.alert-row'), settings = $form.data('settings'),
                 elHiddenId = $form.find('input[type=hidden][id]').attr('id');
-            settings.submitting = true;
+            if(settings)
+                settings.submitting = true;
             backgroundBlack();
             $.fn.yiiactiveform.validate($form, function (res) {
-                console.log(res);
                 if(res.success) {
                     refreshTable(function(){
                         successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
