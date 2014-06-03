@@ -5,7 +5,7 @@
 <?php $letter = ''; ?>
 <?php foreach($model as $contact): ?>
 	<?php
-		$firstLet = substr($contact->fullname, 0, 1);
+		$firstLet = mb_strtoupper(substr($contact->fullname, 0, 1));
 	?>
 	<?php if($letter && $firstLet != $letter): ?>			
 			</ul>
@@ -14,7 +14,7 @@
 	
 	<?php if($firstLet != $letter): ?>
 		<div class="letter-block">
-			<div class="letter-header letter_<?= mb_strtoupper($firstLet) ?>"><?= $firstLet ?></div>
+			<div class="letter-header letter_<?= $firstLet ?>"><?= $firstLet ?></div>
 			<ul class="contact-list list-unstyled">
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
@@ -29,7 +29,10 @@
 			<div class="clearfix"></div>
 		</li>
 <?php endforeach; ?>
-</div>
+<?php if(!empty($model)): ?>
+		</ul>
+	</div>
+<?php endif; ?>
 
 <?php if(!Yii::app()->request->isAjaxRequest): ?>
 </div>

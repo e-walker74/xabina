@@ -10,9 +10,9 @@ class ContactController extends Controller
     {
         return array(
             'accessControl',
-            array(
+            /*array(
             	'application.components.RbacFilter'
-        	),
+        	),*/
         );
     }
 	
@@ -37,6 +37,8 @@ class ContactController extends Controller
                 'actions' => array(
 					'index',
 					'search',
+					'searchholders',
+					'searchtransfers',
 				),
                 'roles' => array('client')
             ),
@@ -55,6 +57,18 @@ class ContactController extends Controller
 		$q = Yii::app()->request->getParam('query');
 		$html = Widget::create('ContactListWidget', 'ContactListWidget')->renderContactList(true);
 		echo CJSON::encode(array('success' => true, 'html' => $html));
+		Yii::app()->end();
+	}
+	
+	public function actionSearchHolders(){
+		$q = Yii::app()->request->getParam('query');
+		echo CJSON::encode(Widget::create('ContactListWidget', 'ContactListWidget', array('type' => 'searchHolders'))->renderSearchHolders(true));
+		Yii::app()->end();
+	}
+	
+	public function actionSearchTransfers(){
+		$q = Yii::app()->request->getParam('query');
+		echo CJSON::encode(Widget::create('ContactListWidget', 'ContactListWidget', array('type' => 'searchtransfers'))->renderSearchTransfers(true));
 		Yii::app()->end();
 	}
 }
