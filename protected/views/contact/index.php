@@ -6,7 +6,7 @@
 		<a class="add-contact-but rounded-buttons" href="#"><?= Yii::t('Front', 'Add Contact') ?></a>
 	</div>
 	<div class="contacts-list-cont">
-		<?php Widget::get('contactListWidget')->html() ?>
+		<?php Widget::create('ContactListWidget', 'ContactListWidget', array('type' => 'contactList'))->html() ?>
 	</div>
 </div>
 <script>

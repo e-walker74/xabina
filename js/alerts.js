@@ -25,26 +25,30 @@ $(function () {
     var $alertsTable = $('#alerts-table');
     $alertsTable.on('click', '#alert-add-btn', function (e) {
         e.preventDefault();
-        var $form = $(this).closest('.alert-row'),
-            elHiddenId = $form.find('input[type=hidden][id]').attr('id'),
-            data = $form.serialize();
+        var $form = $(this).closest('.alert-row'), settings = $form.data('settings'),
+            elHiddenId = $form.find('input[type=hidden][id]').attr('id');
+        if(settings)
+            settings.submitting = true;
         backgroundBlack();
-
-        $.ajax({
-            url : $form.attr('action'),
-            type : 'post',
-            data : data,
-            dataType : 'json',
-            complete : dellBackgroundBlack,
-            success : function (res) {
-                if(res.success) {
-                    refreshTable(function(){
-                        successNotify('Create alert', 'Alert was successfully added', $alertsTable.find('#'+elHiddenId).parent());
-                    });
+        $.fn.yiiactiveform.validate($form, function (res) {
+            if(res.success) {
+                refreshTable(function(){
+                    successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
+                });
+            }
+            if(!$.isEmptyObject(res)){
+                for(attr in res) {
+                    if(res.hasOwnProperty(attr)){
+                        $.fn.yiiactiveform.updateInput(attr, res[attr], $form);
+                    }
                 }
             }
+            dellBackgroundBlack();
         });
     })
+        .on('click', '.add-btn', function(){
+            $(this).closest('.alert-row').hide();
+        })
         .on('change', '.select-invisible', function () {
             $(this).siblings('.select-custom-label').html($(this).find('option[selected]').text());
         })
@@ -72,23 +76,32 @@ $(function () {
         })
         .on('click', '.edit-doc .button.ok', function (e) {
             e.preventDefault();
-            var $form = $(this).closest('.alert-row'),
+            var $form = $(this).closest('.alert-row'), settings = $form.data('settings'),
                 elHiddenId = $form.find('input[type=hidden][id]').attr('id');
+            if(settings)
+                settings.submitting = true;
             backgroundBlack();
-            $.ajax({
-                url : $(this).data('url'),
-                data : $form.serialize(),
-                type : 'post',
-                dataType : 'json',
-                success : function (res) {
-                    if(res.success) {
-                        refreshTable(function(){
-                            successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
-                        });
+            $.fn.yiiactiveform.validate($form, function (res) {
+                if(res.success) {
+                    refreshTable(function(){
+                        successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
+                    });
+                }
+                if(!$.isEmptyObject(res)){
+                    for(attr in res) {
+                        if(res.hasOwnProperty(attr)){
+                            $.fn.yiiactiveform.updateInput(attr, res[attr], $form);
+                        }
                     }
-                },
-                complete : dellBackgroundBlack
+                }
+                dellBackgroundBlack();
             });
+        })
+        .on('click', '#add-rule-form .cancel', function () {
+            resetPage();
+            $(this).closest('form').find('select').val('').trigger('change');
+            $(this).closest('.collapse').collapse('hide');
+            $alertsTable.find('.add-btn').closest('.alert-row').show();
         })
     ;
 

@@ -181,7 +181,7 @@
                 <div class="transaction-buttons-cont quick-remove">
                     <a href="javaScript:void(0)" onclick="resetPage()" class="button remove"></a>
                 </div>
-                <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $qtr->id ?>')" class="sign-send-button" >SIGN AND SEND</a>
+                <a href="javaScript:void(0)" onclick="send_quick_transfer('<?= $qtr->id ?>')" class="sign-send-button" ><?= Yii::t('Front', 'SIGN AND SEND'); ?></a>
             </div>
 
         </div>
@@ -192,7 +192,7 @@
 </div>
 </div>
 <?php endif; ?>
-<div class="accordion-header"><a href="#" class="search-acc label-own-form"><?= Yii::t('Front', 'Own account') ?></a><span class="arr"></span></div>
+<div class="accordion-header"><a href="#" class="search-acc label-own-form"><?= Yii::t('Front', 'Own Account') ?></a><span class="arr"></span></div>
 <div class="accordion-content">
 <div class="own-account-form xabina-form-container">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -323,124 +323,8 @@
 </div>
 <?php $this->endWidget(); ?>
 </div>
-
 </div>
-<div class="accordion-header"><a href="#" class="search-acc label-another-form"><?= Yii::t('Front', 'Another Xabina account'); ?></a><span class="arr"></span></div>
-<div class="accordion-content">
-<div class="own-account-form xabina-form-container">
-<div class="form-header"><span><?= Yii::t('Front', 'From'); ?></span></div>
-<?php $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'another-form',
-    'enableAjaxValidation'=>true,
-    'enableClientValidation'=>true,
-    'errorMessageCssClass' => 'error-message',
-    'htmlOptions' => array(
-        'class' => 'form-validable',
-    ),
-    'clientOptions'=>array(
-        'validateOnSubmit'=>true,
-        'validateOnChange'=>true,
-        'errorCssClass'=>'input-error',
-        'successCssClass'=>'valid',
-        'afterValidate' => 'js:afterValidate',
-        'afterValidateAttribute' => 'js:afterValidateAttribute'
-    ),
-)); ?>
-<div class="from-form">
-    <div class="form-cell">
-        <div class="amount">
-            <div class="lbl"><?= Yii::t('Front', 'Amount') ?><span class="tooltip-icon"
-                                                                   title="<?= Yii::t('Front', 'tool_tip_amount_new_transfer') ?>"></span>
-            </div>
-            <div class="input">
-                <?= $form->textField($anotherForm, 'amount', array('class' => 'amount-sum', 'maxlength' => 9)) ?>
-                <span class="delimitter">.</span>
-                <?= $form->textField($anotherForm, 'amount_cent', array('class' => 'amount-cent')) ?>
-                <?= $form->error($anotherForm, 'amount') ?>
-				<div class="amount_notify error-message notify" style="display:none;"></div>
-            </div>
-        </div>
-    </div>
-    <div class="form-cell">
-        <div class="currency">
-            <div class="lbl"><?= Yii::t('Front', 'Currency'); ?><span class="tooltip-icon"
-                                                                      title="<?= Yii::t('Front', 'tooltip_currecncy_new_transfer'); ?>">
-    </span></div>
-            <div class="input">
-                <div class="select-custom currency-select">
-                    <span class="select-custom-label"><?= $user->settings->currency->title ?></span>
-                    <?= $form->dropDownList(
-                        $anotherForm,
-                        'currency_id',
-                        CHtml::listData($currencies, 'id', 'title'),
-                        array('class' => 'select-invisible', 'options' => array($user->settings->currency_id => array('selected' => true)))
-                    ); ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-cell" style="float: right">
-        <div class="account">
-            <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_account_new_transfer') ?>"></span></div>
-            <div class="input">
-                <div class="select-custom currency-select">
-                    <span class="select-custom-label"><?= chunk_split($selectedAcc->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($selectedAcc->balance, 2, ".", " ") . "&nbsp;" . $selectedAcc->currency->code ?></span>
-                    <?= $form->dropDownList(
-                        $anotherForm,
-                        'account_number',
-                        CHtml::listData(
-                            $user->accounts,
-                            'number',
-                            function($data){
-                                return chunk_split($data->number, 4) . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . number_format($data->balance, 2, ".", " ") . "&nbsp;" . $data->currency->code;
-                            }
-                        ),
-                        array('encode' => false, 'class' => 'select-invisible', 'options' => array($selectedAcc->number => array('selected' => true)))
-                    ) ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="form-header"><span><?= Yii::t('Front', 'To') ?></span></div>
-<div class="from-form">
-    <div class="form-cell" style="width: 100%">
-        <div class="account-number">
-            <div class="lbl"><?= Yii::t('Front', 'Account') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tootltip_new_transfer_another_xabina_account') ?>"></span></div>
-            <div class="input" style="min-height: 40px">
-                <?= $form->textField($anotherForm, 'to_account_number', array('class' => 'account-num pull-left')); ?>
-                <a href="#" class="account-search pull-right"></a>
-            </div>
-            <?= $form->error($anotherForm, 'to_account_number'); ?>
-        </div>
-    </div>
-    <div class="form-cell" style="width: 100%">
-        <div class="description">
-            <div class="lbl"><?= Yii::t('Front', 'Description'); ?><span class="qtity">(<span class="len2-num">0</span>/140)</span><span class="tooltip-icon"
-                                                                                                                                         title="<?= Yii::t('Front', 'tooltip_description_own_new_transfer'); ?>"></span></div>
-            <div class="input">
-                <?= $form->textArea($anotherForm, 'description', array('class' => 'len2')); ?>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-    <?php $this->renderPartial('_outgoing_details', array('model' => $anotherForm, 'form' => $form, 'categories' => $categories)); ?>
-
-    <div class="transfer-controls-cont">
-
-        <input type="submit" onclick="change_click_button(this)" class="button-left save pull-left" value="<?= Yii::t('Front', 'SAVE AND NEW TRANSFER') ?>">
-        <input type="submit" onclick="change_click_button(this)" class="button-right send pull-left" value="<?= Yii::t('Front', 'Sign and send') ?>">
-        <label class="star-button  pull-right" onclick="$(this).toggleClass('active')">
-            <?= $form->checkbox($anotherForm, 'favorite', array('style' => 'display:none;', 'class' => 'favorite-check')); ?>
-        </label>
-        <div class="clearfix"></div>
-    </div>
-<?php $this->endWidget(); ?>
-</div>
-</div>
-<div class="accordion-header"><a href="#" class="search-acc label-external-form">External bank transfer</a><span class="arr"></span></div>
+<div class="accordion-header"><a href="#" class="search-acc label-external-form"><?= Yii::t('Front', 'Bank Transfer') ?></a><span class="arr"></span></div>
 <div class="accordion-content">
 <div class="own-account-form xabina-form-container">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -516,33 +400,51 @@
                 </div>
             </div>
         </div>
+		
     </div>
 <div class="form-header"><span><?= Yii::t('Front', 'To') ?></span></div>
 <div class="from-form">
-    <div class="form-line">
-        <div class="form-cell" style="width:42%">
+	<div class="form-line">
+		<div class="form-cell" style="width: 54%">
+			<div class="account-number ">
+				<div class="lbl"><?= Yii::t('Front', 'Account Number') ?><span class="tooltip-icon" title="tooltip text"></span></div>
+				<div class="input">
+					<?= $form->textField($externalForm, 'to_account_number', array('class' => 'account-num pull-left', 'style' => 'width: 81%;')); ?>
+					<a href="#" class="account-search button-search pull-right"></a>
+					<div class="clearfix"></div>
+					<?= $form->error($externalForm, 'to_account_number'); ?>
+				</div>
+			</div>
+		</div>
+		<div class="form-cell pull-right" style="width:42%">
             <div class="account-holder">
-                <div class="lbl"><?= Yii::t('Front', 'Account Holder') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_new_transfer_account_holder') ?>"></span></div>
+                <div class="lbl"><?= Yii::t('Front', 'Account Holder') ?>
+					<span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_new_transfer_account_holder') ?>"></span>
+				</div>
                 <div class="input">
                     <?= $form->textField($externalForm, 'to_account_holder'); ?>
                     <?= $form->error($externalForm, 'to_account_holder'); ?>
                 </div>
             </div>
         </div>
-        <div class="form-cell pull-right" style="width: 54%">
-            <div class="account-number ">
-                <div class="lbl"><?= Yii::t('Front', 'Account Number') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'new_transfer_account_number_external') ?>"></span></div>
-                <div class="input">
-                    <?= $form->textField($externalForm, 'to_account_number', array('class' => 'account-num pull-left', 'style' => 'width: 81%; min-height: 40px;')); ?>
-                    <a href="#" class="account-search pull-right"></a>
-                    <div class="clearfix"></div>
-                    <?= $form->error($externalForm, 'to_account_number'); ?>
-                </div>
-
-            </div>
-        </div>
-    </div>
+	</div>
     <div class="clearfix"></div>
+	<?php Widget::get('searchWidget')->html() ?>
+	<?php Widget::get('searchTransfers')->html() ?>
+	<script>
+		$(document).ready(function(){
+			
+			$('.account-search.button-search').searchContactButton({
+				url: '<?= Yii::app()->createUrl('/contact/searchholders') ?>'
+			})
+			
+			clientListSearchTransfers({
+				url: '<?= Yii::app()->createUrl('/contact/searchtransfers') ?>',
+				qholder: '#Form_Outgoingtransf_External_to_account_holder',
+				qnumber: '#Form_Outgoingtransf_External_to_account_number'
+			})
+		})
+	</script>
     <div class="form-line">
         <div class="form-cell" style="width: 42%">
             <div class="swift">
@@ -565,6 +467,16 @@
 
         </div>
     </div>
+	<div class="form-line">
+		<div class="form-cell" style="width: 100%">
+			<div class="description">
+				<div class="lbl"><?= Yii::t('Front', 'Description'); ?><span class="qtity">(<span class="len2-num">0</span>/140)</span><span class="tooltip-icon" title="" data-original-title="tooltip_description_own_new_transfer"></span></div>
+				<div class="input">
+					<?= $form->textArea($externalForm, 'description', array('class' => 'len2')); ?>
+				</div>
+			</div>
+		</div>
+	</div>
     <div class="clearfix"></div>
 </div>
 
@@ -583,7 +495,7 @@
     <?php $this->endWidget(); ?>
 </div>
 </div>
-<div class="accordion-header"><a href="#" class="search-acc label-ewallet-form">E-wallet</a><span class="arr"></span></div>
+<div class="accordion-header"><a href="#" class="search-acc label-ewallet-form"><?= Yii::t('Front', 'E-wallet') ?></a><span class="arr"></span></div>
 <div class="accordion-content">
 <div class="own-account-form xabina-form-container">
 <?php $form=$this->beginWidget('CActiveForm', array(

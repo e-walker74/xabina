@@ -147,16 +147,6 @@
                 </div>
             </div>
         </li>
-        <li class="messaging">
-            <a href="<?= Yii::app()->createUrl('/message/index') ?>">
-                <div class="menu-ico">
-                    <span class="messages-count">1</span>
-                </div>
-                <div class="menu-name"><?= Yii::t('Front', 'Messaging') ?></div>
-            </a>
-
-
-        </li>
         <li class="invoicing">
             <a href="<?= Yii::app()->createUrl('/invoices/list') ?>">
                 <div class="menu-ico"></div>
