@@ -12,14 +12,6 @@ abstract class ActiveRecord extends CActiveRecord
         return $this->_oldAttributes;
     }
     
-    public static function model($className = __CLASS__, $new = false)
-    {
-        if($new){
-            return new $className();
-        }
-        return parent::model($className);
-    }
-	
 	protected function beforeSave()
     {
         if ($this->getIsNewRecord()) {
