@@ -1,6 +1,6 @@
 <?php
 
-class m180516_065635_incoming_transfers extends CDbMigration
+class m140518_065635_incoming_transfers extends CDbMigration
 {
 	public function up()
 	{

@@ -66,7 +66,6 @@ class TransfersController extends Controller
      */
     public function actionOutgoing()
 	{
-
         $this->breadcrumbs[Yii::t('Front', 'New Transfer')] = '';
 
         $user = Users::model()->with('settings')->findByPk(Yii::app()->user->id);
@@ -178,7 +177,7 @@ class TransfersController extends Controller
             echo $anotherForm->validateWithNotify();
             Yii::app()->end();
         }
-
+		
         if(isset($_POST['Form_Outgoingtransf_Another'])){
             $anotherForm->attributes = $_POST['Form_Outgoingtransf_Another'];
             $message = Yii::t('Front', 'Payment was saved successfully');
@@ -344,6 +343,20 @@ class TransfersController extends Controller
         $currencies = Currencies::model()->findAll();
         $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
 
+		$searchTransfers = Widget::create('ContactListWidget', 'searchTransfers', 
+			array(
+				'type' => 'searchTransfers',
+				'withAlphabet' => false,
+			)
+		);
+		
+		$search = Widget::create('ContactListWidget', 'searchWidget', 
+			array(
+				'type' => 'searchHolders',
+				'withAlphabet' => true,
+			)
+		);
+		
         $this->render('outgoingv2', array(
             'user'          => $user,
             'selectedAcc'   => $selectedAcc,
@@ -356,6 +369,7 @@ class TransfersController extends Controller
             'transfer'      => $transfer,
             'quickTransfers'=> $quickTransfers,
             'quickForm'     => $quickForm,
+			'searchTransfers'=>$searchTransfers,
         ));
     }
 
@@ -684,7 +698,6 @@ class TransfersController extends Controller
 		if(count($newConfirmations)){
 			Transfers_Confirmation::model()->deleteAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			Transfers_Confirmation::model()->updateAll(array('confirm_code' => $code, 'active' => 1), 'user_id = :uid AND active = 0', array(':uid' => Yii::app()->user->id));
-			
 			if(Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1){
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			}
