@@ -1051,3 +1051,20 @@ $(document).ready(function(){
         return false;
     });
 });
+
+
+$(function(){
+
+    $('.details-accordion').accordion({
+        heightStyle: "content",
+        active: 0,
+        collapsible: true
+    });
+    
+    $('.show-users').accordion({
+        heightStyle: "content",
+        active: 1,
+        collapsible: true
+    });
+
+});
