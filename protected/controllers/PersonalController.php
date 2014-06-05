@@ -1117,35 +1117,23 @@ class PersonalController extends Controller
     
     /**
      * actionPaymentInstuments
+     * 
      * User favorite payment instuments list
+     * Add user favorite payment instuments list
      */
     public function actionPaymentInstuments()
     {
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment Instuments'))] = '';
-        $paymentInstruments = Users_PaymentInstruments::model()->findAllByAttributes(Array(
-            'user_id'=>Yii::app()->user->id,
-        ));
-        $this->render('paymentInstuments/list', compact('paymentInstruments'));
-    }
-	
-    /**
-     * actionAddPaymentInstument
-     * Add user favorite payment instuments list
-     */
-    public function actionAddPaymentInstument()
-    {
-        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Add Payment Instument'))] = '';
-
+        // Add user`s favorite payment instuments list
         $modelName = 'Users_PaymentInstruments';
         $model = new $modelName;
         if (
                isset($_POST[$modelName]) 
             && isset($_POST[$modelName]['electronic_method'])
-            && isset(Form_Incoming_Electronic::$methods[$_POST[$modelName]['electronic_method']])
+            && isset(PaymentService::$methods[$_POST[$modelName]['electronic_method']])
         )
-            $model->scenario = Form_Incoming_Electronic::$methods[$_POST[$modelName]['electronic_method']];
+            $model->scenario = PaymentService::$methods[$_POST[$modelName]['electronic_method']];
 
         if (
                Yii::app()->getRequest()->isAjaxRequest
@@ -1158,22 +1146,27 @@ class PersonalController extends Controller
         if (isset($_POST[$modelName])) {
             $model->attributes = $_POST[$modelName];
             if ($model->save()) {
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'Payment instrument'),
-                    'message' => Yii::t('Front', 'Payment instrument was successfully saved'),
-                );
                 echo CJSON::encode(array(
                     'success' => true,
                     'clean' => false,
                     'message' => Yii::t('Front', 'Payment instrument was saved successfully'),
-                    'url' => Yii::app()->createUrl('//')
+                    'html'=>$this->renderPartial('paymentInstuments/row', Array('paymentInstrument'=>$model), TRUE)
                 ));
             } else {
-                echo CJSON::encode(array('success' => false, 'message' => ''));
+                echo CJSON::encode(array(
+                    'success' => false,
+                    'message' => ''
+                ));
             }
             Yii::app()->end();
         }
-        
-        $this->render('paymentInstuments/add', compact('model'));
+        // User`s favorite payment instuments list
+        $paymentInstruments = Users_PaymentInstruments::model()->findAllByAttributes(Array(
+            'user_id'=>Yii::app()->user->id,
+        ));
+        $this->render('paymentInstuments/list', Array(
+            'paymentInstruments'=>$paymentInstruments,
+            'model'=>$model,
+        ));
     }
 }

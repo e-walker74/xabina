@@ -4,6 +4,11 @@ class PaymentService
     const PENDING_STATUS = 0;
     const APPROVED_STATUS = 1;
     const REJECTED_STATUS = 2;
+    
+    public static $methods = array(
+        1 => 'creditcard',
+        2 => 'ideal',
+    );
 
     /**
      * getHtmlStatus

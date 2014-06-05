@@ -19,10 +19,6 @@
  */
 class Users_PaymentInstruments extends ActiveRecord
 {
-    const PENDING_STATUS = 0;
-    const APPROVED_STATUS = 1;
-    const REJECTED_STATUS = 2;
-
     // creditcard params
     public $creditcard_holder;
     public $creditcard_number;
@@ -135,7 +131,7 @@ class Users_PaymentInstruments extends ActiveRecord
 
     public function beforeSave()
     {
-        switch(Form_Incoming_Electronic::$methods[$this->electronic_method]){
+        switch (PaymentService::$methods[$this->electronic_method]) {
             case 'creditcard':
                 $this->from_account_number = $this->creditcard_number;
                 $this->from_account_holder = $this->creditcard_holder;
@@ -145,10 +141,22 @@ class Users_PaymentInstruments extends ActiveRecord
                 break;
         }
         if ($this->isNewRecord) {
-            $this->status = self::PENDING_STATUS;
+            $this->status = PaymentService::PENDING_STATUS;
             $this->user_id = Yii::app()->user->id;
         }
 
         return parent::beforeSave();
     }
+    
+
+    /**
+     * getHtmlStatus
+     * TODO: перевести везде где встречается $this->htmlStatus на PaymentService::getHtmlStatus($this->status);
+     * @return string
+     */
+    public function getHtmlStatus()
+    {
+        return PaymentService::getHtmlStatus($this->status);
+    }
+
 }
