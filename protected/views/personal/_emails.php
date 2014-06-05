@@ -21,8 +21,8 @@
         <th width="28%"><?= Yii::t('Front', 'Status'); ?></th>
         <th width="8%" class="edit-th"></th>
     </tr>
-    <? foreach ($users_emails as $users_email): ?>
-		<? if($users_email->status == 0 && $users_email->is_master == 0):?>
+    <?php foreach ($users_emails as $users_email): ?>
+		<?php if($users_email->status == 0 && $users_email->is_master == 0):?>
 		<tr class="email-comment-tr border-yellow">
 			<td colspan="4">
 				<div class="comment-bg">
@@ -33,7 +33,7 @@
 				<div class="comment-arr"></div>
 			</td>
 		</tr>
-		<? elseif ($users_email->status == 1 && $users_email->is_master == 0 && $users_email->hash):?>
+		<?php elseif ($users_email->status == 1 && $users_email->is_master == 0 && $users_email->hash):?>
 		<tr class="email-comment-tr border-yellow">
 			<td colspan="4">
 				<div class="comment-bg">
@@ -54,15 +54,15 @@
             </td>
             <td>
             	
-                <? if($users_email->status == 0 && $users_email->is_master == 0):?>
+                <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                 	<span class="verify"><?= Yii::t('Front', 'Unverified') ?></span>
-                <? elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
+                <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
 					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
-                <? elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
+                <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
                 <span class="primary">
 					<b><?= Yii::t('Front', 'Primary'); ?></b>
 				</span>
-                <? endif;?>
+                <?php endif;?>
             </td>
 			<?php if(!$users_email->is_master): ?>
             <td class="remove-td actions-td">
@@ -76,7 +76,7 @@
             <input type="hidden" name="delete[<?= $users_email->id ?>]" class="delete" value="0"/>
             <input type="hidden" name="type_edit[<?= $users_email->id ?>]" class="type_edit" value="0"/>
         </tr>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 	<tr>
 			<td class="add-new-td" colspan="4">
 				<a class="table-btn" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>

@@ -1,9 +1,9 @@
-<? // $form->errorSummary($model); ?>
+<?php // $form->errorSummary($model); ?>
 <div class="col-lg-9 col-md-9 col-sm-9">
   <div class="h1-header">
     <?= Yii::app()->controller->action ->id == 'new' ? Yii::t('Front', 'New message') :   Yii::t('Front', 'Received messages');?>
   </div>
-  <? $this->widget('MessagesMenu'); ?>
+  <?php $this->widget('MessagesMenu'); ?>
   <div class="reply-container">
     <div class="message-headers">
     
@@ -72,9 +72,9 @@
       </div>
     </div>
   </div>
-  <? if(!empty($dialogs)):?>
+  <?php if(!empty($dialogs)):?>
   	<?php $this->renderPartial('_dialogs', array('dialogs' => $dialogs)); ?>
-  <? endif;?>
+  <?php endif;?>
 </div>
 <script>
 $(window).bind('beforeunload', function(){

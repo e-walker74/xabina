@@ -10,10 +10,12 @@
                 <th><?=Yii::t('Front', 'Status')?></th>
                 <th>&nbsp;</th>
             </tr>
-            <?php foreach ($paymentInstruments as $paymentInstrument) { ?>
+            <?php foreach ($paymentInstruments as $paymentInstrument) {?>
                 <tr>
                     <td>
-                        <img src="/images/<?=Transfers_Incoming::$card_types[$paymentInstrument->card_type]?>.png" alt="">
+                        <?php if (!empty($paymentInstrument->card_type) && isset(Transfers_Incoming::$card_types[$paymentInstrument->card_type])) {?>
+                            <img src="/images/<?=Transfers_Incoming::$card_types[$paymentInstrument->card_type]?>.png">
+                        <?php }?>
                     </td>
                     <td><span class="grey"><?=$paymentInstrument->from_account_number?></span></td>
                     <td><span class="approved"><?=PaymentService::getHtmlStatus($paymentInstrument->status)?></span></td>

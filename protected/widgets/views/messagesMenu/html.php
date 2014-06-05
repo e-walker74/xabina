@@ -1,4 +1,4 @@
-<? 
+<?php 
 $action = Yii::app()->controller->action ->id;
 $type = Yii::app()->getRequest()->getQuery('type');
 ?>
