@@ -1,7 +1,8 @@
 <?php
-class AccountService {
-
-	public static function generateNumber(){
+class AccountService
+{
+	public static function generateNumber()
+    {
 		$sum = 0;
 		$number = array();
 		for($i = 1; $i <= 11; $i++){
@@ -30,7 +31,8 @@ class AccountService {
 		return $number;
 	}
 	
-	public static function checkNumber($number, $len = 12){
+	public static function checkNumber($number, $len = 12)
+    {
 		$sum = 0;
 		$number = str_split($number);
 		if(count($number) != $len){
@@ -55,7 +57,8 @@ class AccountService {
 		}
 	}
 
-	public static function checkNumberCard($number){
+	public static function checkNumberCard($number)
+    {
 		$sum = 0;
 		$number = str_split($number);
 		if(count($number) != 16){

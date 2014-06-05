@@ -7,8 +7,18 @@
  */
 class Transfers_Incoming_Favorite extends Transfers_Incoming
 {
-
 	public $favorite;
+
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return TransfersOutgoing the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 	
 	/**
 	 * @return string the associated database table name
@@ -18,7 +28,7 @@ class Transfers_Incoming_Favorite extends Transfers_Incoming
 		return 'transfers_incoming_favorite';
 	}
 	
-	public function rules(){
+	public function rules() {
         return array_merge(
             parent::rules(),
             array(
@@ -26,15 +36,16 @@ class Transfers_Incoming_Favorite extends Transfers_Incoming
             )
         );
     }
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return TransfersOutgoing the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    
+    public function scopes()
+    {
+        $alias = $this->getTableAlias(false, false);
+        return Array(
+            'own' => Array(
+                'condition' => "$alias.user_id = :uid",
+                'params' => array(':uid' => Yii::app()->user->id),
+                'order' => "$alias.created_at desc",
+            ),
+        );
+    }
 }

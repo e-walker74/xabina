@@ -6,9 +6,8 @@
  * Time: 19:48
  */
 
-
-abstract class Form_Incoming extends CFormModel{
-
+abstract class Form_Incoming extends CFormModel
+{
     /* master params */
     public $amount;
     public $amount_cent = '00';
@@ -63,21 +62,21 @@ abstract class Form_Incoming extends CFormModel{
      */
     abstract public function save();
 	
-	public function afterTransferSave($transfer){
-		
-		if($transfer->favorite){
+	public function afterTransferSave($transfer)
+    {
+		if ($transfer->favorite) {
 			$favorite = new Transfers_Incoming_Favorite();
 			$favorite->attributes = $transfer->attributes;
 			$favorite->save();
 		}
 	
-		if(isset($_POST['file_ids'])){
-			foreach($_POST['file_ids'] as $fId){
+		if (isset($_POST['file_ids'])) {
+			foreach ($_POST['file_ids'] as $fId) {
 				$file = Users_Files::model()->findByPk($fId);
-				if($file->user_id != Yii::app()->user->id){
+				if ($file->user_id != Yii::app()->user->id) {
 					return false;
 				}
-				if(strpos($file->form, 'Form_Incoming') !== 0){
+				if (strpos($file->form, 'Form_Incoming') !== 0) {
 					return false;
 				}
 				$file->form = get_class($transfer);
@@ -106,43 +105,46 @@ abstract class Form_Incoming extends CFormModel{
         );
     }
 
-    public function checkXabinaUserID($attribute, $params){
-        if($this->{$attribute}){
-            if(!Users::model()->find('login = :n', array(':n' => $this->{$attribute}))) {
+    public function checkXabinaUserID($attribute, $params)
+    {
+        if ($this->{$attribute}) {
+            if (!Users::model()->find('login = :n', array(':n' => $this->{$attribute}))) {
                 $this->addError($attribute, Yii::t('Front', 'User ID is incorrect'));
             }
         }
     }
 
-    public function checkXabinaNumber($attribute, $params){
-        if($this->{$attribute}){
-            if(!AccountService::checkNumber($this->{$attribute})){
+    public function checkXabinaNumber($attribute, $params)
+    {
+        if ($this->{$attribute}) {
+            if (!AccountService::checkNumber($this->{$attribute})) {
                 $this->addError($attribute, Yii::t('Front', 'Account number is incorrect'));
-            } elseif(!Accounts::model()->find('number = :n', array(':n' => $this->{$attribute}))) {
+            } elseif (!Accounts::model()->find('number = :n', array(':n' => $this->{$attribute}))) {
                 $this->addError($attribute, Yii::t('Front', 'Account number is incorrect'));
             }
         }
     }
 	
-	public function beforeValidate(){
-		if($this->to_account_number){
-			if($acc = Accounts::model()->find('number = :n', array(':n' => $this->to_account_number))){
+	public function beforeValidate()
+    {
+		if ($this->to_account_number) {
+			if ($acc = Accounts::model()->find('number = :n', array(':n' => $this->to_account_number))) {
 				$this->to_account_id = $acc->id;
 			}
 		}
-		if($this->execution_date){
+		if ($this->execution_date) {
 			$this->execution_date = strtotime($this->execution_date);
 		}
-		if($this->start_date){
+		if ($this->start_date) {
 			$this->start_date = strtotime($this->start_date);
 		}
-		if($this->end_date){
+		if ($this->end_date) {
 			$this->end_date = strtotime($this->end_date);
 		}
-		if($this->amount_cent){
+		if ($this->amount_cent) {
 			$this->amount .= '.' . $this->amount_cent;
 		}
-		if($this->remaining_balance_cent){
+		if ($this->remaining_balance_cent) {
 			$this->remaining_balance .= '.' . $this->remaining_balance_cent;
 		}
 		return parent::beforeValidate();

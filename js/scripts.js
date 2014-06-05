@@ -286,7 +286,7 @@ $(function(){
 	* Контроллер Personal
 	* Сброс значений полей формы
 	*/ 
-	function reset_values(form){	
+	function reset_values(form) {
 		$(form)[0].reset();
 		//$(form).val('');
 		//form.find("span.select-custom-label").text(form.find("select option:first").text());
@@ -690,23 +690,23 @@ $(document).ready(function(){
 		return false;
 	})
 	
-	if($("#transaction-category-select"))
-	$("#transaction-category-select").change(function(){
-		var value = $(this).val();
-        var $el = $(this);
-		$.ajax({
-			type: "POST",
-			url: $el.attr('data-url'),
-			data: {category: value},
-            dataType : 'json',
-            success : function (res) {
-                if(res.success) {
-                    $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+	if ($("#transaction-category-select"))
+	    $("#transaction-category-select").change(function() {
+		    var value = $(this).val();
+            var $el = $(this);
+		    $.ajax({
+			    type: "POST",
+			    url: $el.attr('data-url'),
+			    data: {category: value},
+                dataType : 'json',
+                success : function (res) {
+                    if(res.success) {
+                        $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+                    }
                 }
-            }
-		});
-//		return false;
-	})
+		    });
+    //		return false;
+	    })
 
 	$( ".escape-dialog" ).dialog({
         autoOpen: false,

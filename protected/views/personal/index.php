@@ -105,14 +105,25 @@
 				</div>
 			</td>
 		</tr>
+        <tr>
+            <td class="header"><?= Yii::t('Front', 'Alert Settings'); ?></td>
+            <td>
+                <?= Yii::t('Front', 'Alert Settings'); ?>
+            </td>
+            <td>
+                <div class="transaction-buttons-cont">
+                    <a class="button edit" href="<?= Yii::app()->createUrl('/personal/alerts') ?>" ></a>
+                </div>
+            </td>
+        </tr>
 		<tr>
-			<td class="header"><?= Yii::t('Front', 'Alert Settings'); ?></td>
+			<td class="header"><?= Yii::t('Front', 'Favorite Payment Instuments'); ?></td>
 			<td>
-				<?= Yii::t('Front', 'Alert Settings'); ?>
+				<?= Yii::t('Front', 'Favorite Payment Instuments'); ?>
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/alerts') ?>" ></a>
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/paymentInstuments') ?>" ></a>
 				</div>
 			</td>
 		</tr>

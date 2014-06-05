@@ -7,15 +7,36 @@
  */
 class Transfers_Incoming extends ActiveRecord
 {
-
     public $need_confirm = 1;
 
-	public static $charges = array('1' => 'Shared (mandatory for EC payments)', 2 => 'Receiver pays the fees', 3 => 'Sender pays the fees');
-	public static $card_types = array('1' => 'master-card', '2' => 'jcb', '3' => 'union-pay', '4' => 'maestro', '5' => 'visa', '6' => 'american-ecspress');
+	public static $charges = array(
+        '1' => 'Shared (mandatory for EC payments)',
+        '2' => 'Receiver pays the fees',
+        '3' => 'Sender pays the fees'
+    );
+	public static $card_types = array(
+        '1' => 'master-card',
+        '2' => 'jcb',
+        '3' => 'union-pay',
+        '4' => 'maestro',
+        '5' => 'visa',
+        '6' => 'american-ecspress'
+    );
 	
 	const PENDING_STATUS = 0;
 	const APPROVED_STATUS = 1;
 	const REJECTED_STATUS = 2;
+
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return TransfersOutgoing the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 	
 	/**
 	 * @return string the associated database table name
@@ -52,8 +73,6 @@ class Transfers_Incoming extends ActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
 			'account' => array(self::BELONGS_TO, 'Accounts', 'to_account_id'),
@@ -64,14 +83,16 @@ class Transfers_Incoming extends ActiveRecord
 		);
 	}
 
-	public function beforeSave(){
-		if($this->isNewRecord){
+	public function beforeSave()
+    {
+		if ($this->isNewRecord) {
             $this->status = self::PENDING_STATUS;
 			$this->user_id = Yii::app()->user->id;
 		}
+
 		return parent::beforeSave();
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -81,8 +102,9 @@ class Transfers_Incoming extends ActiveRecord
 			'id' => 'ID',
 		);
 	}
-	
-	public function getPublicAttrs($full = false){
+
+	public function getPublicAttrs($full = false)
+    {
 		switch($this->form_type){
 			case 'electronic':
 				$return = array(
@@ -113,8 +135,9 @@ class Transfers_Incoming extends ActiveRecord
 		}
 		return array();
 	}
-	
-	public function getFromHolder(){
+
+	public function getFromHolder()
+    {
 		switch($this->form_type){
 			case 'request':
 				return Users::model()->find('login = :login', array(':login' => $this->from_account_number))->fullname;
@@ -131,10 +154,9 @@ class Transfers_Incoming extends ActiveRecord
 				break;
 		}
 	}
-	
+
 	public function search()
 	{
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('t.status',0);
@@ -148,43 +170,19 @@ class Transfers_Incoming extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	
-	public function getHtmlOperationDescription(){
-		switch($this->form_type){
-			case 'electronic':
-				if($this->electronic_method == 1){
-					return '<strong class="holder">' . $this->from_account_number . '</strong><br/>' .
-					$this->from_account_holder . '<br>' .
-					$this->description;
-				} else {
-					return '<strong class="holder">' . $this->from_account_number . '</strong>';
-				}
-				break;
-		}
-	}
-	
-	public function getHtmlStatus(){
-		switch($this->status){
-			case self::PENDING_STATUS:
-				return '<span class="pending">'. Yii::t('Front', 'Pending') .'</span>';
-				break;
-			case self::APPROVED_STATUS:
-				return '<span class="approved">'. Yii::t('Front', 'Approved') .'</span>';
-				break;
-			case self::REJECTED_STATUS:
-				return '<span class="rejected">'. Yii::t('Front', 'Rejected') .'</span>';
-				break;
-		}
-	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return TransfersOutgoing the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    public function getHtmlOperationDescription()
+    {
+        switch($this->form_type){
+            case 'electronic':
+                if($this->electronic_method == 1){
+                    return '<strong class="holder">' . $this->from_account_number . '</strong><br/>' .
+                    $this->from_account_holder . '<br>' .
+                    $this->description;
+                } else {
+                    return '<strong class="holder">' . $this->from_account_number . '</strong>';
+                }
+                break;
+        }
+    }
 }

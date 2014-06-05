@@ -44,15 +44,17 @@ class Form_Incoming_Quick extends Form_Incoming{
         );
     }
 
-	public function checkCard($attribute, $params){
-		if($this->{$attribute}){
-			if(!AccountService::checkNumber($this->{$attribute}, strlen($this->{$attribute}))){
+	public function checkCard($attribute, $params)
+    {
+		if ($this->{$attribute}) {
+			if (!AccountService::checkNumber($this->{$attribute}, strlen($this->{$attribute}))){
 				$this->addError($attribute, Yii::t('Front', 'Card id not valid'));
 			}
 		}
 	}
 
-	public function beforeValidate(){
+	public function beforeValidate()
+    {
 		if($this->electronic_method){
 			$this->scenario = Form_Incoming_Electronic::$methods[$this->electronic_method];
 		}
