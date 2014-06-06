@@ -62,6 +62,8 @@
             </div>
             <?php endforeach;?>
         </div>*/?>
-        
+        <div class="form-submit">
+            <input class="rounded-buttons save" type="submit" value="Save"/>
+        </div>
     </div>
 </div>
