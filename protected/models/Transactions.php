@@ -76,9 +76,9 @@ class Transactions extends ActiveRecord
             'alertRules' => array(self::HAS_MANY, 'Users_AlertsRules', array('account_id' => 'account_id', 'user_id' => 'user_id')),
 		);
 	}
-	
+
 	public function getTransfer(){
-		if($this->_info){
+		if($this->_info !== false){
 			return $this->_info;
 		}
 		if(!$this->transfer_type){
@@ -93,6 +93,21 @@ class Transactions extends ActiveRecord
 				break;
 		}
 		return $this->_info;
+	}
+	
+	public function getFromInformation(){
+		$this->getTransfer();
+		switch($this->transfer_type){
+			case 'outgoing':
+				break;
+			case 'incoming':
+				$this->_info = Transfers_Incoming::model()->findByPk($this->transfer_id);
+				break;
+		}
+	}
+	
+	public function getToInformation(){
+		
 	}
 
 	/**

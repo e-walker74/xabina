@@ -19,14 +19,22 @@
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
 		<li>
-			<div class="photo-cont pull-left">
-				<img src="/images/contact_no_foto.png" alt=""/>
-			</div>
-			<div class="contact-info pull-left">
-				<div class="contact-name"><?= $contact->fullname ?></div>
-				<div class="contact-extra-info"><?= implode(' - ', $contact->getDataValues('account_number')) ?></div>
-			</div>
-			<div class="clearfix"></div>
+			<a href="<?= Yii::app()->createUrl('/contact/view', array('id' => $contact->id)) ?>">
+				<div class="photo-cont pull-left">
+					<img src="/images/contact_no_foto.png" alt=""/>
+				</div>
+				<div class="contact-info pull-left">
+					<div class="contact-name"><?= $contact->fullname ?></div>
+					<div class="contact-extra-info">
+						<?php $accArr = array(); ?>
+						<?php foreach($contact->getDataByType('account') as $account): ?>
+							<?php $accArr[] = $account->account_number ?>
+						<?php endforeach; ?>
+						<?= implode(' - ', $accArr); ?>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</a>
 		</li>
 <?php endforeach; ?>
 <?php if(!empty($model)): ?>

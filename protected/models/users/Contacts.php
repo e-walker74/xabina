@@ -17,6 +17,7 @@ class Users_Contacts extends ActiveRecord
 {
 
 	protected $_contacts_data = array();
+	private $_transactions = false;
 
 	/**
 	 * @return string the associated database table name
@@ -39,7 +40,8 @@ class Users_Contacts extends ActiveRecord
 			
 			array('user_id, fullname', 'required'),
 			array('user_id, xabina_id', 'numerical', 'integerOnly'=>true),
-			array('fullname', 'length', 'max'=>60),
+			array('fullname', 'length', 'max'=>255),
+			array('first_name, last_name, company, nickname', 'length', 'max'=>123),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, xabina_id, fullname', 'safe', 'on'=>'search'),
@@ -55,7 +57,7 @@ class Users_Contacts extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'data' => array(self::HAS_MANY, 'Users_Contacts_Data', 'contact_id'),
+			'data' => array(self::HAS_MANY, 'Users_Contacts_Data', 'contact_id', 'order' => 'is_primary desc'),
 		);
 	}
 
@@ -111,7 +113,7 @@ class Users_Contacts extends ActiveRecord
 		return parent::model($className);
 	}
 	
-	public function getDataValues($type){
+	public function getDataByType($type){
 		if(isset($this->_contacts_data[$type])){
 			return $this->_contacts_data[$type];
 		}
@@ -123,8 +125,87 @@ class Users_Contacts extends ActiveRecord
 			if($data->once){
 				$this->_contacts_data[$data->data_type] = $data->value;
 			} else {
-				$this->_contacts_data[$data->data_type][] = $data->value;
+				$this->_contacts_data[$data->data_type][] = $data->getParamsModel();
 			}
 		}
+	}
+	
+	public function getTransactionsArray(){
+	
+		if($this->_transactions !== false){
+			return $this->_transactions;
+		}
+		
+		$sql = "
+			SELECT 
+				t.id, 
+				t.sum,
+				t.type,
+				t.acc_balance,
+				t.created_at,
+				t.transfer_type,
+				acc.number user_account_number,
+				cur.code currency,
+				tout.form_type outgoing_form_type,
+				tout.account_number,
+				tout.to_account_number out_to_account_number,
+				tout.to_account_holder,
+				tout.bic,
+				tout.bank_name,
+				tout.description,
+				tinc.form_type incoming_form_type,
+				tinc.from_account_number,
+				tinc.from_account_holder,
+				tinc.to_account_number inc_to_account_number,
+				tinc.electronic_method,
+				tinc.card_type,
+				ti.sender,
+				ti.recipient
+			FROM 
+				`transactions` t
+			INNER JOIN accounts acc on (t.account_id = acc.id AND acc.user_id = {$this->user_id})
+			INNER JOIN currencies cur on (acc.currency_id = cur.id)
+			INNER JOIN transactions_info ti on (t.info_id = ti.id)
+			LEFT JOIN transfers_outgoing tout on (tout.id = t.transfer_id and t.transfer_type = 'outgoing')
+			LEFT JOIN transfers_incoming tinc on (tinc.id = t.transfer_id and t.transfer_type = 'incoming')
+			WHERE t.user_id = {$this->user_id}  and (tinc.counter_agent = {$this->id} or tout.counter_agent = {$this->id}) limit 5;
+		";
+		
+		$connection=Yii::app()->db;
+		
+		$command=$connection->createCommand($sql);
+		$rows = $command->queryAll();
+		$this->_transactions = array();
+
+		foreach($rows as $trans){
+			$this->_transactions[$trans['id']]['amount'] = $trans['sum'];
+			$this->_transactions[$trans['id']]['type'] = $trans['type'];
+			$this->_transactions[$trans['id']]['acc_balance'] = $trans['acc_balance'];
+			$this->_transactions[$trans['id']]['created_at'] = $trans['created_at'];
+			$this->_transactions[$trans['id']]['currency'] = $trans['currency'];
+			$this->_transactions[$trans['id']]['outgoing_form_type'] = $trans['outgoing_form_type'];
+			$this->_transactions[$trans['id']]['account_number'] = $trans['account_number'];
+			$this->_transactions[$trans['id']]['description'] = $trans['description'];
+			$this->_transactions[$trans['id']]['incoming_form_type'] = $trans['incoming_form_type'];
+			$this->_transactions[$trans['id']]['from_account_number'] = $trans['from_account_number'];
+			$this->_transactions[$trans['id']]['from_account_holder'] = $trans['from_account_holder'];
+			$this->_transactions[$trans['id']]['electronic_method'] = $trans['electronic_method'];
+			$this->_transactions[$trans['id']]['card_type'] = $trans['card_type'];
+			$this->_transactions[$trans['id']]['from_holder'] = $trans['recipient'];
+			$this->_transactions[$trans['id']]['to_holder'] = $trans['sender'];
+			
+			if($trans['transfer_type'] == 'outgoing'){
+				if($trans['type'] == 'negative'){
+					$this->_transactions[$trans['id']]['to_number'] = $trans['out_to_account_number'];
+					$this->_transactions[$trans['id']]['from_number'] = $trans['user_account_number'];
+				}
+				
+			} elseif($trans['transfer_type'] == 'incoming'){
+				$this->_transactions[$trans['id']]['from_number'] = $trans['from_account_number'];
+				$this->_transactions[$trans['id']]['to_number'] = $trans['inc_to_account_number'];
+			}
+			//$this->_transactions[$trans['id']] = 
+		}		
+		return $this->_transactions;
 	}
 }

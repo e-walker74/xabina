@@ -14,8 +14,7 @@ $('.alphabet li a').click(function(){
 	if($('.letter_'+$(this).html()).length != 0){
 		$('.alphabet li').removeClass('active')
 		$(this).parent().addClass('active')
-		$('.letter-block').hide()
-		$('.letter_'+$(this).html()).parents('.letter-block').show();
+		$(this).parents('.scroll-block').scrollTo( $('.letter_'+$(this).html()), 600, {margin:true});
 	}
 	return false;
 })
@@ -70,8 +69,8 @@ jQuery.fn.searchContactButton = function(options, callback){
 		updateElements: {
 			'data-amount': '#Form_Outgoingtransf_External_amount',
 			'data-cent': '#Form_Outgoingtransf_External_amount_cent',
-			'data-number': '#Form_Outgoingtransf_External_to_account_number',
 			'data-currency': '#Form_Outgoingtransf_External_currency_id',
+			'data-number': '#Form_Outgoingtransf_External_to_account_number',
 			'data-holder': '#Form_Outgoingtransf_External_to_account_holder',
 			'data-description': '#Form_Outgoingtransf_External_description'
 		}
@@ -86,10 +85,60 @@ jQuery.fn.searchContactButton = function(options, callback){
 		return false;
 	})
 	
-	$(options.parentSelector).on('click', 'li.accout-pay-accordion', function(){
-		//$('li.accout-pay-accordion').removeClass('opened')
-		$(this).toggleClass('opened').toggleClass('open')
+	$(options.parentSelector).on('click', 'li.transfer-data', function(e){
+		updateParams(this, options.updateElements, function(){
+			$(options.parentSelector).slideToggle()
+			return false;
+		})
 	})
+	
+	$(options.parentSelector).on('click', '.account-resourse-cont', function(e){
+		updateParams($(this).parents('li'), options.updateElements, function(){
+			$(options.parentSelector).slideToggle()
+			return false;
+		})
+	})
+	
+	$(options.parentSelector).on('click', 'li.accout-pay-accordion a', function(){
+		var add = true;
+		
+		li_selector = $(this).parents('li.accout-pay-accordion')
+		
+		if($(li_selector).hasClass('opened')){
+			add = false
+		}
+		$('li.accout-pay-accordion').removeClass('opened').removeClass('open')
+		if(add){
+			if(!$(li_selector).hasClass('uploaded')){
+				gettransfers($(li_selector))
+			}
+			$(li_selector).addClass('opened').addClass('open')
+		} else {
+			$(li_selector).removeClass('opened').removeClass('open')
+		}
+		return false;
+	})
+	
+	var gettransfers = function(liObj){
+		backgroundBlack()
+		$.ajax({
+			url: options.url,
+			success: function(response) {
+				liObj.addClass('uploaded')
+				if(response.success){
+					liObj.find('.pay-list.list-unstyled').html(response.html)
+				}
+			},
+			cache:false,
+			data: {
+					qAccountNumber: liObj.attr('data-number'), 
+					qAccountEType: liObj.attr('data-account-type')
+				},
+			dataType: 'json',
+			complete : dellBackgroundBlack,
+			type: 'GET'
+		});
+	}
 	
 	$(options.searchLineSelector).on('keyup', function(e){
 		if (pressTimeout) clearTimeout(pressTimeout);
@@ -188,14 +237,21 @@ var clientListSearchTransfers = function(options, callback){
 	}
 	
 	$('#contactsList-searchTransfers').on('click', 'li', function(e){
-		updateParams(this, options.updateElements)
+		updateParams(this, options.updateElements, function(){
+			$("#contactsList-searchTransfers").parent().hide()
+		})
 	})
 };
 
-var updateParams = function(element, datas){
+var updateParams = function(element, datas, callback){
 	el = $(element)
 	jQuery.each(datas, function(i, val) {
-		$(val).val(el.attr(i))
-		$("#contactsList-searchTransfers").parent().hide()
+		if(el.attr(i)){
+			$(val).val(el.attr(i))
+		}
 	});
+	if(callback){
+		callback()
+	}
+	
 }

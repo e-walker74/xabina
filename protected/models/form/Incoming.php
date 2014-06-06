@@ -99,9 +99,9 @@ abstract class Form_Incoming extends CFormModel{
 			array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
             array('amount_cent', 'length', 'max' => 2),
             array('urgent, favorite', 'boolean'),
-            array('to_account_number', 'checkXabinaNumber'),
+            array('to_account_number', 'ext.validators.XabinaNumberValidator'),
             array('favorite', 'boolean'),
-            array('counter_agent', 'checkXabinaUserID'),
+            array('counter_agent', 'ext.validators.ContactValidator'),
             array('description, tag1, tag2, tag3', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
         );
     }
@@ -123,7 +123,7 @@ abstract class Form_Incoming extends CFormModel{
             }
         }
     }
-	
+
 	public function beforeValidate(){
 		if($this->to_account_number){
 			if($acc = Accounts::model()->find('number = :n', array(':n' => $this->to_account_number))){

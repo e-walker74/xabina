@@ -9,7 +9,7 @@
 	</div>
 	<div class="clearfix"></div>
 </div>
-<div class="account-search-results-cont">
+<div class="account-search-results-cont scroll-block">
 <?php $this->render('contactsList/alphabet', array()); ?>
 <div id="contactsList" >
 <?php endif; ?>
@@ -39,40 +39,26 @@
 			</div>
 			<div class="account-data pull-left">
 				<div class="account-name"><?= $contact->fullname ?></div>
-				<div class="account-info">NUMBER</div>
+				<div class="account-info"></div>
 			</div>
 			<div class="account-details-button pull-right">
-
 			</div>
 			<div class="clearfix"></div>
 			</div>
+			<?php if($contact->data): ?>
 			<ul class="account-resourses list-unstyled">
-				<li>
-					<div class="account-resourse-cont">
-						X1231 1231 1231
-					</div>
-				</li>
-				<li class="accout-pay-accordion">
-					<div class="account-resourse-cont">
-						X1231 1231 1231
-					</div>
-					<ul class="pay-list list-unstyled">
-						<li><span class="date">(03.03.2014) </span> <span class="name">Cum sociis natoque penatibus et magnis</span>  <span class="sum">8 000 EUR</span></li>
-						<li><span class="date">(03.03.2014) </span> <span class="name">Cum sociis natoque penatibus et magnis</span>  <span class="sum">12 000 EUR</span></li>
-						<li><span class="date">(03.03.2014) </span> <span class="name">Cum sociis natoque penatibus et magnis</span>  <span class="sum">300 EUR</span></li>
-					</ul>
-				</li>
-				<li class="open">
-					<div class="account-resourse-cont">
-						X1231 1231 1231
-					</div>
-					<ul class="pay-list list-unstyled">
-						<li><span class="date">(03.03.2014) </span> <span class="name">Cum sociis natoque penatibus et magnis</span>  <span class="sum">8 000 EUR</span></li>
-						<li><span class="date">(03.03.2014) </span> <span class="name">Cum sociis natoque penatibus et magnis</span>  <span class="sum">12 000 EUR</span></li>
-						<li><span class="date">(03.03.2014) </span> <span class="name">Cum sociis natoque penatibus et magnis</span>  <span class="sum">300 EUR</span></li>
-					</ul>
-				</li>
+				<?php foreach($contact->getDataByType('account') as $data): ?>
+					<li class="accout-pay-accordion" data-number="<?= $data->account_number ?>" data-account-type="<?= $data->account_type ?>" >
+						<div class="account-resourse-cont">
+							<a href="" class="account-resourse-link">&nbsp;</a>
+							<?= $data->account_number; ?>
+						</div>
+						<ul class="pay-list list-unstyled">
+						</ul>
+					</li>
+				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
 		</li>
 	<?php endforeach; ?>
 	<?php if(!empty($model)): ?>

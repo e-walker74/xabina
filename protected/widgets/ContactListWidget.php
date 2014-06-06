@@ -14,6 +14,7 @@ class ContactListWidget extends QWidget {
 			$assets_path = dirname(__FILE__).DIRECTORY_SEPARATOR.'assets';
 			$url = Yii::app()->assetManager->publish($assets_path, false, -1, YII_DEBUG);
 			$cs->registerScriptFile($url.'/contactList.js', CClientScript::POS_END);
+			$cs->registerScriptFile('/js/jquery.scrollTo.min.js', CClientScript::POS_END);
 		}
     }
 	
@@ -36,15 +37,28 @@ class ContactListWidget extends QWidget {
 	}
 	
 	public function renderSearchHolders($return = false, $processOutput = false){
+
 		$this->_criteria->order = 'fullname asc';
+		$this->_criteria->compare('data.data_type', 'account');
+		$this->_criteria->together = true;
+		$this->_criteria->with = 'data';
 		if($qname = Yii::app()->request->getParam('qname')){
 			$this->_criteria->compare('fullname', $qname, true);
 		}
+		
 		$model = Users_Contacts::model()->currentUser()->with('data')->findAll($this->_criteria);
 		if($return){
 			return array('success' => !empty($model), 'html' => $this->render('contactsList/searchHolders', array('model' => $model), $return, $processOutput));
 		} else {
 			$this->render('contactsList/searchHolders', array('model' => $model), $return, $processOutput);
+		}
+	}
+	
+	public function renderTransfersByAccount($model, $return = false, $processOutput = false){
+		if($return){
+			return array('success' => !empty($model), 'html' => $this->render('contactsList/transfersByAccount', array('model' => $model), $return, $processOutput));
+		} else {
+			$this->render('contactsList/transfersByAccount', array('model' => $model), $return, $processOutput);
 		}
 	}
 	

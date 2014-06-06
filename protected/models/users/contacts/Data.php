@@ -14,6 +14,20 @@
  */
 class Users_Contacts_Data extends ActiveRecord
 {
+
+	public static $typesMap = array(
+		'phone' => 'Users_Contacts_Data_Phone',
+		'email' => 'Users_Contacts_Data_Email',
+		'account' => 'Users_Contacts_Data_Account',
+		'address' => 'Users_Contacts_Data_Address',
+		'social' => 'Users_Contacts_Data_Social',
+		'default' => 'Users_Contacts_Data_Default',
+		'instmessaging' => 'Users_Contacts_Data_Instmessaging',
+		'contact' => 'Users_Contacts_Data_Contact',
+		'urls' => 'Users_Contacts_Data_Urls',
+		'dates' => 'Users_Contacts_Data_Dates',
+	);
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -101,5 +115,18 @@ class Users_Contacts_Data extends ActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function getParamsModel(){
+		if(!isset(self::$typesMap[$this->data_type])){
+			return false;
+		}
+		
+		$model = new self::$typesMap[$this->data_type];
+		$model->attributes = unserialize($this->value);
+		$model->id = $this->id;
+		$model->setDbModel($this);
+		
+		return $model;
 	}
 }

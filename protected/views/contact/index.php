@@ -5,7 +5,7 @@
 		<a class="contact-search-but" href="#"></a>
 		<a class="add-contact-but rounded-buttons" href="#"><?= Yii::t('Front', 'Add Contact') ?></a>
 	</div>
-	<div class="contacts-list-cont">
+	<div class="contacts-list-cont scroll-block">
 		<?php Widget::create('ContactListWidget', 'ContactListWidget', array('type' => 'contactList'))->html() ?>
 	</div>
 </div>

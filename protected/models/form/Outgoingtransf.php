@@ -90,7 +90,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
             array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
 			array('amount_cent', 'length', 'max' => 2),
             array('account_number', 'checkXabinaNumber'),
-            array('counter_agent', 'checkXabinaUserID'),
+            array('counter_agent', 'ext.validators.ContactValidator'),
             array('urgent, favorite', 'boolean'),
 			array('each_period', 'in', 'range' => array(1,2,3,4,5,6)),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
@@ -123,7 +123,7 @@ abstract class Form_Outgoingtransf extends CFormModel{
 			return array();
 		}
     }
-
+	
     public function checkXabinaUserID($attribute, $params){
         if($this->{$attribute}){
             if(!Users::model()->find('login = :n', array(':n' => $this->{$attribute}))) {
