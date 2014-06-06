@@ -4,7 +4,7 @@
  * @var Users_AlertsRules[] $userAlertsRules
  * @var Users_Emails[] $emailAddresses
  * @var Users_Phones[] $phones
- * @var CActiveForm $form
+ * @var $form CActiveForm
  * @var Accounts $selectedAcc
  */
 ?>
@@ -31,6 +31,7 @@ $defaultFormParams = array(
     <?php if($userAlertsRules): ?>
         <?php foreach($userAlertsRules as $rule): ?>
             <?php $form=$this->beginWidget('CActiveForm', array_merge($defaultFormParams, array(
+                    'id' => 'alert-form-'.$rule->id,
                     'action' => $this->createUrl('updatealerts', array('id'=>$rule->id)),
                     'htmlOptions' => array(
                         'class' => 'alert-row'
@@ -166,6 +167,8 @@ $defaultFormParams = array(
                             </div>
                             <?php endforeach; ?>
                         </div>
+                        <input type="hidden" id="<?= Chtml::activeId($rule, 'emails'); ?>"/>
+                        <?= $form->error($rule, 'emails'); ?>
                     </div>
                 </div>
                 <div class="cell lh" style="width: 19%">
@@ -320,6 +323,8 @@ $defaultFormParams = array(
                     </label>
                 </div>
                 <?php endforeach; ?>
+                <input type="hidden" id="<?= Chtml::activeId($modelRule, 'emails'); ?>"/>
+                <?= $form->error($modelRule, 'emails'); ?>
             </div>
         </div>
         <div class="cell" style="width: 20%">

@@ -55,7 +55,7 @@
                     <th width="24%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
                     <th width="29%"><?= Yii::t('Front', 'E-mail'); ?></th>
                     <th width="16%"><?= Yii::t('Front', 'Phone'); ?></th>
-                    <th width="13%" style="text-align: right"><a class="slide-but" data-toggle="collapse" href="#alerts-table"></a></th>
+                    <th width="13%" style="text-align: right"></th>
                 </tr>
                 </tbody>
             </table>
@@ -77,7 +77,7 @@
                     <th width="43%"><?= Yii::t('Front', 'Options'); ?></th>
                     <th width="29%"><?= Yii::t('Front', 'E-mail'); ?></th>
                     <th width="18%"><?= Yii::t('Front', 'Phone'); ?></th>
-                    <th width="10%" style="text-align: right"><a class="slide-but" data-toggle="collapse" href="#static-alerts"></a></th>
+                    <th width="10%" style="text-align: right"></th>
                 </tr>
                 </tbody>
             </table>
