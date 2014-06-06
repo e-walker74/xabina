@@ -25,7 +25,7 @@ $(function () {
     var $alertsTable = $('#alerts-table');
     $alertsTable.on('click', '#alert-add-btn', function (e) {
         e.preventDefault();
-        var $form = $(this).closest('.alert-row'), settings = $form.data('settings'),
+        var $form = $(this).closest('form'), settings = $form.data('settings'),
             elHiddenId = $form.find('input[type=hidden][id]').attr('id');
         if(settings)
             settings.submitting = true;
@@ -39,7 +39,7 @@ $(function () {
             if(!$.isEmptyObject(res)){
                 for(attr in res) {
                     if(res.hasOwnProperty(attr)){
-                        $.fn.yiiactiveform.updateInput(attr, res[attr], $form);
+                        $.fn.yiiactiveform.updateInput({inputID:attr,id:attr,errorID:attr+'_em_'}, res, $form);
                     }
                 }
             }
@@ -76,7 +76,7 @@ $(function () {
         })
         .on('click', '.edit-doc .button.ok', function (e) {
             e.preventDefault();
-            var $form = $(this).closest('.alert-row'), settings = $form.data('settings'),
+            var $form = $(this).closest('form'), settings = $form.data('settings'),
                 elHiddenId = $form.find('input[type=hidden][id]').attr('id');
             if(settings)
                 settings.submitting = true;
@@ -90,7 +90,7 @@ $(function () {
                 if(!$.isEmptyObject(res)){
                     for(attr in res) {
                         if(res.hasOwnProperty(attr)){
-                            $.fn.yiiactiveform.updateInput(attr, res[attr], $form);
+                            $.fn.yiiactiveform.updateInput({inputID:attr,id:attr,errorID:attr+'_em_'}, res, $form);
                         }
                     }
                 }

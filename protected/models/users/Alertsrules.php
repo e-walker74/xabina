@@ -74,9 +74,9 @@ class Users_AlertsRules extends ActiveRecord
     protected function beforeValidate()
     {
         if(parent::beforeValidate()) {
-            $this->greater = $this->greater ? floor($this->greater)+($this->greater_cent/100) : '';
-            $this->less = $this->less ? floor($this->less)+($this->less_cent/100) : '';
-            $this->equal = $this->equal ? floor($this->equal)+($this->equal_cent/100) : '';
+            $this->greater = $this->greater != '' ? floor($this->greater)+($this->greater_cent/100) : '';
+            $this->less = $this->less != '' ? floor($this->less)+($this->less_cent/100) : '';
+            $this->equal = $this->equal != '' ? floor($this->equal)+($this->equal_cent/100) : '';
             return true;
         }
         return false;
@@ -122,7 +122,7 @@ class Users_AlertsRules extends ActiveRecord
             }
         }
         if(!$valid) {
-            $this->addError('recipient', Yii::t('Front', 'You don\'t choose recipient'));
+            $this->addError('emails', Yii::t('Front', 'You don\'t choose recipient'));
         }
     }
 
