@@ -5,6 +5,7 @@ var submitForm = function(form) {
         success: function(response) {
             if (response.success){
                 $('#add-more').before(response.html);
+                $('.prof-form').css('display', 'none');
                 if (response.url) {
                     window.location.href = response.url;
                 }
