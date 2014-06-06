@@ -1121,12 +1121,12 @@ class PersonalController extends Controller
      * User favorite payment instuments list
      * Add user favorite payment instuments list
      */
-    public function actionPaymentInstuments()
+    public function actionPaymentinstuments()
     {
-        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
-        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment Instuments'))] = '';
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal account'))] = array('/personal/index');
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment instuments'))] = '';
         // Add user`s favorite payment instuments list
-        $modelName = 'Users_PaymentInstruments';
+        $modelName = 'Users_Paymentinstruments';
         $model = new $modelName;
         if (
                isset($_POST[$modelName]) 
@@ -1161,7 +1161,7 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
         // User`s favorite payment instuments list
-        $paymentInstruments = Users_PaymentInstruments::model()->findAllByAttributes(Array(
+        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
             'user_id'=>Yii::app()->user->id,
         ));
         $this->render('paymentInstuments/list', Array(

@@ -17,7 +17,7 @@
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Users_PaymentInstruments extends ActiveRecord
+class Users_Paymentinstruments extends ActiveRecord
 {
     // creditcard params
     public $creditcard_holder;
