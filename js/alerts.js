@@ -42,18 +42,27 @@ $(function () {
         backgroundBlack();
         $.fn.yiiactiveform.validate($form, function (res) {
             if(res.success) {
-                refreshTable(function(){
-                    successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
+                $.ajax({
+                    url:$form.attr('action'),
+                    data:$form.serialize(),
+                    type:'post',
+                    dataType:'json',
+                    success : function (res) {
+                        refreshTable(function(){
+                            successNotify('Update alert', 'Alert was successfully created', $alertsTable.find('#'+elHiddenId).parent());
+                        });
+                    }
                 });
-            }
-            if(!$.isEmptyObject(res)){
-                for(attr in res) {
-                    if(res.hasOwnProperty(attr)){
-                        updateInput(attr, $form, res);
+            } else {
+                if(!$.isEmptyObject(res)){
+                    for(attr in res) {
+                        if(res.hasOwnProperty(attr)){
+                            updateInput(attr, $form, res);
+                        }
                     }
                 }
+                dellBackgroundBlack();
             }
-            dellBackgroundBlack();
         });
     })
         .on('click', '.add-btn', function(){
@@ -96,15 +105,16 @@ $(function () {
                     refreshTable(function(){
                         successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
                     });
-                }
-                if(!$.isEmptyObject(res)){
-                    for(attr in res) {
-                        if(res.hasOwnProperty(attr)){
-                            updateInput(attr, $form, res);
+                } else {
+                    if(!$.isEmptyObject(res)){
+                        for(attr in res) {
+                            if(res.hasOwnProperty(attr)){
+                                updateInput(attr, $form, res);
+                            }
                         }
                     }
+                    dellBackgroundBlack();
                 }
-                dellBackgroundBlack();
             });
         })
         .on('click', '#add-rule-form .cancel', function () {

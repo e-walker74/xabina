@@ -1072,13 +1072,15 @@ class PersonalController extends Controller
                 if($selectedAcc)
                     $userAlertsRules->account_id=$selectedAcc->id;
                 $userAlertsRules->alert_id = $alert->id;
-                if($userAlertsRules->validate() && $userAlertsRules->save()) {
-                    if(isset($_POST['Users_AlertsRules']['emails'])) {
-                        $userAlertsRules->saveEmails($_POST['Users_AlertsRules']['emails']);
-                    }
-                    if(isset($_POST['Users_AlertsRules']['phones'])) {
-                        $userAlertsRules->savePhones($_POST['Users_AlertsRules']['phones']);
-                    }
+                if($userAlertsRules->validate()) {
+                	if(!isset($_POST['ajax']) && $userAlertsRules->save()) {
+	                    if(isset($_POST['Users_AlertsRules']['emails'])) {
+	                        $userAlertsRules->saveEmails($_POST['Users_AlertsRules']['emails']);
+	                    }
+	                    if(isset($_POST['Users_AlertsRules']['phones'])) {
+	                        $userAlertsRules->savePhones($_POST['Users_AlertsRules']['phones']);
+	                    }
+	                }
                     $response['success'] = true;
                 }
             } else {
