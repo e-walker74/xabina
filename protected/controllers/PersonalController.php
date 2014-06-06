@@ -1081,6 +1081,9 @@ class PersonalController extends Controller
                     }
                     $response['success'] = true;
                 }
+            } else {
+                $userAlertsRules = new Users_AlertsRules();
+                $userAlertsRules->addError('alert_code', Yii::t('Front', 'Choose alert'));
             }
             if($response['success']) {
                 $response['data'] = $userAlertsRules->id;

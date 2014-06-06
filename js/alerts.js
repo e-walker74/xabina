@@ -21,6 +21,16 @@ $(function () {
     }
 
     $('#account-number-select').change(refreshTable);
+    var updateInput = function updateInput(attr, $form, res) {
+        var attribute = {inputID:attr,id:attr,errorID:attr+'_em_'};
+        $.fn.yiiactiveform.updateInput(attribute, res, $form);
+        var cont = $form.find('#' + attribute.inputID).closest('div.block-box');
+        cont.find(':input').on('click change blur', function (e) {
+            if(this.value != '') {
+                $form.find('#'+attribute.errorID).hide();
+            }
+        });
+    };
 
     var $alertsTable = $('#alerts-table');
     $alertsTable.on('click', '#alert-add-btn', function (e) {
@@ -39,7 +49,7 @@ $(function () {
             if(!$.isEmptyObject(res)){
                 for(attr in res) {
                     if(res.hasOwnProperty(attr)){
-                        $.fn.yiiactiveform.updateInput({inputID:attr,id:attr,errorID:attr+'_em_'}, res, $form);
+                        updateInput(attr, $form, res);
                     }
                 }
             }
@@ -77,7 +87,7 @@ $(function () {
         .on('click', '.edit-doc .button.ok', function (e) {
             e.preventDefault();
             var $form = $(this).closest('form'), settings = $form.data('settings'),
-                elHiddenId = $form.find('input[type=hidden][id]').attr('id');
+                elHiddenId = $form.find('input[type=hidden][id]:first').attr('id');
             if(settings)
                 settings.submitting = true;
             backgroundBlack();
@@ -90,7 +100,7 @@ $(function () {
                 if(!$.isEmptyObject(res)){
                     for(attr in res) {
                         if(res.hasOwnProperty(attr)){
-                            $.fn.yiiactiveform.updateInput({inputID:attr,id:attr,errorID:attr+'_em_'}, res, $form);
+                            updateInput(attr, $form, res);
                         }
                     }
                 }
@@ -140,7 +150,7 @@ $(function () {
                     success: function(data){
                         if(data.success){
                             var tr = $(self).closest('.alert-row');
-                            successNotify('Delete alert', 'Alert was successfully deleted', tr.prev());
+                            successNotify('Delete alert', 'Alert was successfully deleted', tr.siblings('.alert-row:first'));
                             tr.remove();
                         }
                     },
