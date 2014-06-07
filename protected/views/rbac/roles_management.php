@@ -13,19 +13,22 @@
                 <th width="40%">Used by</th>
                 <th>&nbsp;</th>
             </tr>
+            <?php foreach($roles as $role): ?>
             <tr>
                 <td>
-                    <b>Стандарт для партнеров</b>
+                    <b><?php echo $role->name; ?></b>
                 </td>
                 <td>
-                    3 users <br>
+                    <?php echo count($role->rbacUserRoles); ?> users <br>
                     <div class="show-users">
-                        <div class="accordion-header"><a href="#">Show users</a></div>
+                        <div class="accordion-header"><?php if(count($role->rbacUserRoles)): ?><a href="#">Show users</a><?php endif; ?></div>
+                        <?php if(count($role->rbacUserRoles)): ?>
                         <div class="users-content">
-                            <a href="#">Name user №1</a><br>
-                            <a href="#">Name user №2</a><br>
-                            <a href="#">Name user №3</a><br>
+                            <?php foreach($role->rbacUserRoles as $ur): ?>
+                            <a href="#"><?php echo $ur->user->getFullName(); ?></a><br>
+                            <?php endforeach; ?>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </td>
 
@@ -36,84 +39,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <b>Для клиентов</b>
-                </td>
-                <td>
-                    1 user <br>
-                    <div class="details-accordion show-users">
-                        <div class="accordion-header"><a href="#">Show user</a></div>
-                    </div>
-                </td>
-
-                <td>
-                    <div class="transaction-buttons-cont">
-                        <a class="button edit" href="#"></a>
-                        <a class="button delete" href="#"></a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Минимальные возможности</b>
-                </td>
-                <td>
-                    2 users <br>
-                    <div class="details-accordion show-users">
-                        <div class="accordion-header"><a href="#">Show users</a></div>
-                    </div>
-                </td>
-
-                <td>
-                    <div class="transaction-buttons-cont">
-                        <a class="button edit" href="#"></a>
-                        <a class="button delete" href="#"></a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Стандарт для партнеров</b>
-                </td>
-                <td>
-                    3 users <br>
-                    <div class="details-accordion show-users">
-                        <div class="accordion-header"><a href="#">Show users</a></div>
-                    </div>
-                </td>
-
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Для клиентов</b>
-                </td>
-                <td>
-                    1 user <br>
-                    <div class="details-accordion show-users">
-                        <div class="accordion-header"><a href="#">Show user</a></div>
-                    </div>
-                </td>
-
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Минимальные возможности</b>
-                </td>
-                <td>
-                    2 users <br>
-                    <div class="details-accordion show-users">
-                        <div class="accordion-header"><a href="#">Show users</a></div>
-                    </div>
-                </td>
-
-                <td>
-                </td>
-            </tr>
+            <?php endforeach; ?>
             </tbody></table>
         <div class="form-submit">
             <a href="<?=Yii::app()->createUrl("/settings/roles/add") ?>" class="rounded-buttons upload add-more">ADD NEW ROLE</a>

@@ -20,7 +20,8 @@ class RbacController extends Controller
     }
     
     public function actionRoles() {
-        $this->render('roles_management');
+        $roles = RbacRoles::model()->findAllByAttributes(array('create_uid' => Yii::app()->user->getId()));
+        $this->render('roles_management', array('roles' => $roles));
     }
     
     public function actionAddRole() {

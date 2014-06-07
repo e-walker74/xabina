@@ -108,4 +108,5 @@ class RbacRoles extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
 }

@@ -35,7 +35,7 @@ class AjaxController extends Controller
     }
     
     public function actionGetRoleRights($roleId) {
-        $rights = RbacRoleAccessRights::model()->findAll('role_id='. intval($roleId));
+        $rights = RbacRoleAccessRights::model()->findAllByAttributes(array('role_id' => intval($roleId)));
         echo CJSON::encode($rights);
     }
 }

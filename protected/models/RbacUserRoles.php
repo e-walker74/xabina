@@ -47,6 +47,7 @@ class RbacUserRoles extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
+            'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
