@@ -5,23 +5,7 @@ class AccessRightsTree extends QWidget {
 
     public function run()
     {
-        // foreach ($this->rightsTree as $right) {
-        //     echo $right['name'].'<br/>';
-        //     if(isset($right['children'])) {
-        //         $this->tree($right['children']);
-        //     }
-        // }        
-        $this->render('accessRightsTree/html');
+        $this->render('accessRightsTree/html', array('rightsTree' => $this->rightsTree));
     }
-    
-    private function tree($children) {
-        // foreach ($children as $right) {
-        //     echo '--'.$right['name'].'<br/>';
-        //     if(isset($right['children'])) {
-        //         $this->tree($right['children']);
-        //     }
-        // }
-    }
-    
     
 }
