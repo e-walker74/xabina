@@ -32,20 +32,15 @@ class RbacController extends Controller
             $role->create_uid = Yii::app()->user->getId();
             $role->save();
             
-            $query = "INSERT INTO rbac_role_access_rights(role_id, acces_right_id) VALUES";
-            foreach ($_POST['RbacRoles']['rights'] as $rid => $v) {
-                $query .= '(' . $role->id . ', ' . intval($rid). '),';
-            }
-            $query = rtrim($query, ",");
-            $command = Yii::app()->db->createCommand($query);
-            $command->execute();
+            RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']);
         }
         
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Add new role'))] = '';
         
+        $roles = RbacRoles::model()->findAll('is_system=1 or create_uid = ' . Yii::app()->user->getId());
         $rightsTree = RbacAccessRights::model()->getAccessRightsTree();
-        $this->render('add_role', array('rightsTree' => $rightsTree));
+        $this->render('add_role', array('rightsTree' => $rightsTree, 'roles'=>$roles));
     }
     
     public function actionAddUser() {

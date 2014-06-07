@@ -108,4 +108,14 @@ class RbacRoleAccessRights extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
+    public static function saveRoleRights($roleId, $rights) {
+        $query = "INSERT INTO rbac_role_access_rights(role_id, acces_right_id) VALUES";
+        foreach ($rights as $rid => $v) {
+            $query .= '(' . $roleId . ', ' . intval($rid). '),';
+        }
+        $query = rtrim($query, ",");
+        $command = Yii::app()->db->createCommand($query);
+        return $command->execute();
+    }
 }

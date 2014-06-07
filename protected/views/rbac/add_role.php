@@ -10,6 +10,24 @@
             active: 0,
             collapsible: true
         });
+        $('.country-select').change(event, function(){
+            $.ajax({url: "<?php echo Yii::app()->createUrl('ajax/getRoleRights'); ?>",
+                data: {"roleId": this.value },
+                type: 'get',
+                success: function(response){
+                    response = eval(response);
+                    $('div.xabina-accordion').find('input:checkbox').each(function() {
+                        $(this).attr('checked', false);
+                        $(this).parent().removeClass('checked');
+                    });
+                    for(i=0; i<response.length; i++) {
+                        $checkbox = $('.xabina-accordion').find('input:checkbox[name="RbacRoles[rights]['+response[i].acces_right_id+']"]');
+                        $checkbox.attr('checked', true);
+                        $checkbox.parent().addClass('checked');
+                    }
+                }
+            });
+        });
     });
 </script>
 <form action="<?php echo Yii::app()->createUrl('rbac/addRole'); ?>" method="post">
@@ -41,10 +59,9 @@
                         <span class="select-custom-label">Выберите </span>
                         <select name="country" class="country-select select-invisible">
                             <option value="">Выберите</option>
-                            <option value="1">США</option>
-                            <option value="2">Бельгия</option>
-                            <option value="3">Нидерланды</option>
-                            <option value="4">Люксембург</option>
+                            <?php foreach ($roles as $role): ?>
+                                <option value="<?php echo $role->id; ?>"><?php echo $role->name; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="error-message" style="display: block;">error  <div class="error-message-arr"></div></div>
