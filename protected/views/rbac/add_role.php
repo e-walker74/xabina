@@ -12,6 +12,7 @@
         });
     });
 </script>
+<form action="<?php echo Yii::app()->createUrl('rbac/addRole'); ?>" method="post">
 <div class="col-lg-9 col-md-9 col-sm-9" >
     <div class="h1-header">Add a new role</div>
     <div class="role-form xabina-form-container">
@@ -22,7 +23,7 @@
                     <span class="tooltip-icon" title="Add Your mobile phone in an international format (e.g. +3100000000)"></span>
                 </div>
                 <div class="field-input">
-                    <input  class="input-text jquery-live-validation-on input-error" type="text">
+                    <input name="RbacRoles[name]" class="input-text jquery-live-validation-on input-error" type="text">
                     <span class="validation-icon" style="display: inline;"></span>
                     <div class="error-message" style="display: block;">
                         Mobile Phone is incorrect
@@ -51,19 +52,9 @@
             </div>
         </div>
         <?php $this->widget('AccessRightsTree', array('rightsTree' => $rightsTree));?>
-        <?php /*
-        <div class="xabina-accordion transfer-accordion xabina-narrow-accordion" >
-            <?php foreach ($rightsTree as $topRight):?>
-            <div class="accordion-header">
-                <a href="#" class="search-acc"><?php echo $topRight['name']?></a>
-                <span class="arr"></span>
-            </div>
-            <div class="accordion-content ">
-            </div>
-            <?php endforeach;?>
-        </div>*/?>
         <div class="form-submit">
             <input class="rounded-buttons save" type="submit" value="Save"/>
         </div>
     </div>
 </div>
+</form>

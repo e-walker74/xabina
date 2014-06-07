@@ -20,10 +20,6 @@
     <div class="accordion-content "> 
         <?php if(isset($r['children'])):?>
             <?php $this->render('accessRightsTree/right', array('rightsTree' => $r['children']));?>
-        <?php else:?>
-            <div class="accordion-content ">  
-                mm
-            </div>
         <?php endif;?>
     </div>
     <?php endforeach;?>
