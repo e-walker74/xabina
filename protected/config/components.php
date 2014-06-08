@@ -116,6 +116,7 @@ return array(
              */
             '/settings/roles' => 'rbac/roles',
             '/settings/roles/add' => 'rbac/addRole',
+            '/settings/users/add' => 'rbac/addUser',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
