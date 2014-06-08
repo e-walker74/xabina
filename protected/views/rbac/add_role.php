@@ -42,11 +42,11 @@
                 </div>
                 <div class="field-input">
                     <input name="RbacRoles[name]" class="input-text jquery-live-validation-on input-error" type="text">
-                    <span class="validation-icon" style="display: inline;"></span>
+                    <?php /*<span class="validation-icon" style="display: inline;"></span>
                     <div class="error-message" style="display: block;">
                         Mobile Phone is incorrect
                         <div class="error-message-arr"></div>
-                    </div>
+                    </div>*/?>
                 </div>
             </div>
             <div class="col-lg-7 col-md-7 col-sm-7">
@@ -64,7 +64,10 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <?php /*
                     <div class="error-message" style="display: block;">error  <div class="error-message-arr"></div></div>
+                     * 
+                     */?>
                 </div>
             </div>
         </div>
