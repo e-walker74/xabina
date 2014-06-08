@@ -45,6 +45,7 @@ class RbacController extends Controller
     }
     
     public function actionAddUser() {
+        
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'User management'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Adding a new user'))] = '';
@@ -61,9 +62,16 @@ class RbacController extends Controller
 			$selectedAcc = $accounts[0];
 		}
         
+        $roles = RbacRoles::model()->findAll('is_system=1 or create_uid = ' . Yii::app()->user->getId());
+        
+        $rightsTree = RbacAccessRights::model()->getAccessRightsTree();
+        
         $this->render('add_user', array(
             'accounts' => $accounts,
             'selectedAcc' => $selectedAcc,
+            'roles' => $roles,
+            'rightsTree' => $rightsTree
         ));
+        
     }
 }
