@@ -101,4 +101,18 @@ class RbacUserAccessRights extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
+    public static function saveUserRights($userRole, $rights) {
+        
+        $query = "INSERT INTO rbac_user_access_rights (`user_id`, `role_id`, "
+                . "`access_right_id`, `account_id`) VALUES";
+        foreach ($rights as $rid => $v) {
+            $buff = array($userRole->user_id, $userRole->role_id, $rid, $userRole->account_id);
+            $query .= '('. implode(',', $buff). '),';
+        }
+        $query = rtrim($query, ",");
+        $command = Yii::app()->db->createCommand($query);
+        
+        return $command->execute();
+    }
 }

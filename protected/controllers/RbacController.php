@@ -47,7 +47,9 @@ class RbacController extends Controller
     public function actionAddUser() {
         
         if(isset($_POST['data'])) {
-            if( RbacUserRoles::model()->addUserRole($_POST['data']) ) {
+            if( ($userRole = RbacUserRoles::model()->addUserRole($_POST['data'])) ) {
+                RbacUserAccessRights::model()->saveUserRights($userRole, $_POST['RbacRoles']['rights']);
+            } else {
                 
             }
         }
