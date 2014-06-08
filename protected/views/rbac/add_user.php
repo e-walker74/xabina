@@ -43,7 +43,7 @@
                 <span class="select-custom-label">
                     <?php $this->widget('AccountInfo', array('account' => $selectedAcc));?>
                 </span>
-                <select name="" class=" select-invisible">
+                <select name="data[account]" class=" select-invisible">
                     <?php foreach($accounts as $acc): ?>
                     <option <?php if($acc->number == $selectedAcc->number): ?>selected<?php endif; ?> 
                             value="<?= $acc->number ?>">
@@ -61,7 +61,7 @@
                     <span class="tooltip-icon" title="Add Your mobile phone in an international format (e.g. +3100000000)"></span>
                 </div>
                 <div class="field-input">
-                    <input  class="input-text jquery-live-validation-on <?php /*input-error" */?> type="text">
+                    <input  name="data[user]" class="input-text jquery-live-validation-on <?php /*input-error" */?> type="text">
                     <?php /*<span class="validation-icon" style="display: inline;"></span>*/?>
                     <?php /*<div class="error-message" style="display: block;">
                         User Id is incorrect
@@ -77,7 +77,7 @@
                 <div class="field-input">
                     <div class="select-custom">
                         <span class="select-custom-label">Выберите </span>
-                        <select name="role_id" class="role-select select-invisible">
+                        <select name="data[role]" class="role-select select-invisible">
                             <option value="">Выберите</option>
                             <?php foreach ($roles as $role): ?>
                                 <option value="<?php echo $role->id; ?>"><?php echo $role->name; ?></option>

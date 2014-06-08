@@ -1,25 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "rbac_user_roles".
+ * This is the model class for table "rbac_user_access_rights".
  *
- * The followings are the available columns in table 'rbac_user_roles':
+ * The followings are the available columns in table 'rbac_user_access_rights':
  * @property string $user_id
  * @property string $role_id
- * @property string $create_uid
+ * @property string $access_right_id
  * @property string $account_id
- *
- * The followings are the available model relations:
- * @property RbacRoles $role
+ * @property string $additional_parameters
  */
-class RbacUserRoles extends CActiveRecord
+class RbacUserAccessRights extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'rbac_user_roles';
+		return 'rbac_user_access_rights';
 	}
 
 	/**
@@ -30,11 +28,12 @@ class RbacUserRoles extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, role_id', 'required'),
-			array('user_id, role_id, create_uid, account_id', 'length', 'max'=>11),
+			array('user_id, role_id, access_right_id', 'required'),
+			array('user_id, role_id, access_right_id, account_id', 'length', 'max'=>11),
+			array('additional_parameters', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, role_id, create_uid, account_id', 'safe', 'on'=>'search'),
+			array('user_id, role_id, access_right_id, account_id, additional_parameters', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,8 +45,6 @@ class RbacUserRoles extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
-            'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
@@ -59,8 +56,9 @@ class RbacUserRoles extends CActiveRecord
 		return array(
 			'user_id' => 'User',
 			'role_id' => 'Role',
-			'create_uid' => 'Create Uid',
+			'access_right_id' => 'Access Right',
 			'account_id' => 'Account',
+			'additional_parameters' => 'Additional Parameters',
 		);
 	}
 
@@ -84,8 +82,9 @@ class RbacUserRoles extends CActiveRecord
 
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('role_id',$this->role_id,true);
-		$criteria->compare('create_uid',$this->create_uid,true);
+		$criteria->compare('access_right_id',$this->access_right_id,true);
 		$criteria->compare('account_id',$this->account_id,true);
+		$criteria->compare('additional_parameters',$this->additional_parameters,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -96,20 +95,10 @@ class RbacUserRoles extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return RbacUserRoles the static model class
+	 * @return RbacUserAccessRights the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-    
-    public function addUserRole($data) {
-        $userRole = new RbacUserRoles();
-        $userRole->account_id = Accounts::model()->findByAttributes(array('number' => $data['account']))->id;
-        $userRole->create_uid = Yii::app()->user->getId();
-        $userRole->user_id    = Users::model()->findByAttributes(array('login' => $data['user']))->id;
-        $userRole->role_id    = $data['role'];
-        $userRole->save();
-        return $userRole;
-    }
 }

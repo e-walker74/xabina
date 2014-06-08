@@ -46,6 +46,12 @@ class RbacController extends Controller
     
     public function actionAddUser() {
         
+        if(isset($_POST['data'])) {
+            if( RbacUserRoles::model()->addUserRole($_POST['data']) ) {
+                
+            }
+        }
+        
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'User management'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Adding a new user'))] = '';
