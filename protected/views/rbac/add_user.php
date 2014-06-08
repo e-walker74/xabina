@@ -5,53 +5,16 @@
             <span class="select-lbl pull-left">Счет</span>
             <div class="select-custom account-select pull-right" style="width: 92%!important">
                 <span class="select-custom-label">
-                    Виктор Купец
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    0185 2156 4657
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    10 000 EUR
+                    <?php $this->widget('AccountInfo', array('account' => $selectedAcc));?>
                 </span>
                 <select name="" class=" select-invisible">
-                    <option value="">
-                        Виктор Купец
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        0185 2156 4657
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        10 000 EUR
+                    <?php foreach($accounts as $acc): ?>
+                    <option <?php if($acc->number == $selectedAcc->number): ?>selected<?php endif; ?> 
+                            value="<?= $acc->number ?>">
+                        <?php $this->widget('AccountInfo', array('account' => $acc));?>
                     </option>
-                    <option value="">
-                        Виктор Купец
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        0185 2156 4657
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        10 000 EUR
-                    </option>
-                    <option value="">
-                        Виктор Купец
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        0185 2156 4657
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        10 000 EUR
-                    </option>
-                    <option value="">
-                        Виктор Купец
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        0185 2156 4657
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        10 000 EUR
-                    </option>
+                    <?php endforeach; ?>                    
                 </select>
-
             </div>
         </div>
     </div>

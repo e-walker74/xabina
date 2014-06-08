@@ -48,6 +48,22 @@ class RbacController extends Controller
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'User management'))] = '';
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Adding a new user'))] = '';
-        $this->render('add_user');
+        
+        $accounts = Accounts::model()->with('user')->currentUser()->findAll();
+		if(empty($accounts)){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+        
+        $selectedAcc = NULL;
+		if($accountNumber = Yii::app()->request->getParam('account', false, 'int')){
+			$selectedAcc = Accounts::model()->currentUser()->find('number = :number', array(':number' => $accountNumber));
+		} elseif(!$selectedAcc) {
+			$selectedAcc = $accounts[0];
+		}
+        
+        $this->render('add_user', array(
+            'accounts' => $accounts,
+            'selectedAcc' => $selectedAcc,
+        ));
     }
 }
