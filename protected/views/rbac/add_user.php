@@ -35,6 +35,7 @@
 </script>
 <div class="col-lg-9 col-md-9 col-sm-9" >
     <div class="h1-header">Аdding a new user</div>
+    <form action="<?=Yii::app()->createUrl('rbac/addUser'); ?>" method="post">
     <div class="role-form xabina-form-container">
         <div class="account-selection" >
             <span class="select-lbl pull-left">Счет</span>
@@ -91,12 +92,13 @@
             <div class="accordion-header"><a href="#">Details</a></div>
             <div class="accordion-content">
                 <?php $this->widget('AccessRightsTree', array('rightsTree' => $rightsTree));?>
-            </div>
-            <div class="form-submit">
-                <input class="rounded-buttons save" type="submit" value="Save"/>
-            </div>
+            </div>            
         </div>
         
+        <div class="form-submit">
+            <input class="rounded-buttons save" type="submit" value="Save"/>
+        </div>
     </div>
+    </form>
 </div>
 
