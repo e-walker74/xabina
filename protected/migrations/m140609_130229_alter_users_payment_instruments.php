@@ -5,18 +5,14 @@ class m140609_130229_alter_users_payment_instruments extends CDbMigration
 	public function up()
 	{
         $this->execute('
-            ALTER TABLE `users_payment_instruments` (
-                ADD COLUMN deleted tinyint(1)
-            );
+            ALTER TABLE `users_payment_instruments` ADD COLUMN deleted tinyint(1);
         ');
 	}
 
 	public function down()
 	{
 	    $this->execute('
-            ALTER TABLE `users_payment_instruments` (
-                DROP COLUMN deleted
-            );
+            ALTER TABLE `users_payment_instruments` DROP COLUMN deleted;
         ');
 
 		return false;
