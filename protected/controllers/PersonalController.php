@@ -49,7 +49,6 @@ class PersonalController extends Controller
 					'updatealerts',
                     'dropalerts',
                     'paymentInstuments',
-					'addPaymentInstument',
                 ),
                 'roles' => array('client')
             ),
@@ -1125,16 +1124,44 @@ class PersonalController extends Controller
     {
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal account'))] = array('/personal/index');
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment instuments'))] = '';
-        // Add user`s favorite payment instuments list
+        
+        $method = Yii::app()->request->getQuery('method');
+        if (!is_null($method))
+            // Add or update user`s favorite payment instuments list
+            $this->_createUpdatePaymentInstument($method);
+
+        // User`s favorite payment instuments list
+        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
+            'user_id'=>Yii::app()->user->id,
+        ));
+        $this->render('paymentInstuments/list', Array(
+            'paymentInstruments'=>$paymentInstruments,
+        ));
+    }
+    
+    /**
+     * _AddUpdatePaymentInstument
+     * 
+     * @param $method string
+     */
+    private function _createUpdatePaymentInstument($method)
+    {
         $modelName = 'Users_Paymentinstruments';
-        $model = new $modelName;
+        if (!isset($_POST[$modelName]))
+            return FALSE;
+
+        if ($method=='create')
+            $model = new $modelName;
+        else if ($method=='update')
+            $model = $modelName::model()->findByPk($_POST[$modelName]['id']);
+
         if (
-               isset($_POST[$modelName]) 
-            && isset($_POST[$modelName]['electronic_method'])
+               isset($_POST[$modelName]['electronic_method'])
             && isset(PaymentService::$methods[$_POST[$modelName]['electronic_method']])
         )
             $model->scenario = PaymentService::$methods[$_POST[$modelName]['electronic_method']];
 
+        // валидация модели
         if (
                Yii::app()->getRequest()->isAjaxRequest
             && Yii::app()->getRequest()->getParam('ajax')=='electronic-form'
@@ -1143,30 +1170,21 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
 
-        if (isset($_POST[$modelName])) {
-            $model->attributes = $_POST[$modelName];
-            if ($model->save()) {
-                echo CJSON::encode(array(
-                    'success' => true,
-                    'clean' => false,
-                    'message' => Yii::t('Front', 'Payment instrument was saved successfully'),
-                    'html'=>$this->renderPartial('paymentInstuments/row', Array('paymentInstrument'=>$model), TRUE)
-                ));
-            } else {
-                echo CJSON::encode(array(
-                    'success' => false,
-                    'message' => ''
-                ));
-            }
-            Yii::app()->end();
+        // сохраняем модель
+        $model->attributes = $_POST[$modelName];
+        if ($model->save()) {
+            echo CJSON::encode(array(
+                'success' => true,
+                'clean' => false,
+                'message' => Yii::t('Front', 'Payment instrument was saved successfully'),
+                'html'=>$this->renderPartial('paymentInstuments/row', Array('model'=>$model), TRUE)
+            ));
+        } else {
+            echo CJSON::encode(array(
+                'success' => false,
+                'message' => $model->errors
+            ));
         }
-        // User`s favorite payment instuments list
-        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
-            'user_id'=>Yii::app()->user->id,
-        ));
-        $this->render('paymentInstuments/list', Array(
-            'paymentInstruments'=>$paymentInstruments,
-            'model'=>$model,
-        ));
+        Yii::app()->end();
     }
 }

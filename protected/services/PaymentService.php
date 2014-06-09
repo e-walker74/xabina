@@ -5,9 +5,12 @@ class PaymentService
     const APPROVED_STATUS = 1;
     const REJECTED_STATUS = 2;
     
+    const METHOD_CREDITCARD = 1;
+    const METHOD_IDEAL = 2;
+    
     public static $methods = array(
-        1 => 'creditcard',
-        2 => 'ideal',
+        self::METHOD_CREDITCARD => 'creditcard',
+        self::METHOD_IDEAL => 'ideal',
     );
 
     /**
