@@ -46,6 +46,7 @@
                 return false;
             });
             $('.button.edit').click(function() {
+                hideEditForm();
                 hideAddNewForm();
                 var tr = $(this).parents('tr');
                 tr.next('tr').toggle('slow');
