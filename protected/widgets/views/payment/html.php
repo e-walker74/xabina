@@ -5,25 +5,28 @@
             <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_electronic_methods')?>"></span>
         </div>
     </div>
-    <div class="field-input">
-        <?php
-        echo $form->dropDownList(
-            $model,
-            "electronic_method",
-            Form_Incoming_Electronic::$methods,
-            array(
-                'class' => 'selectpicker',
+    
+    <div class="form-input">
+         <span class="select-custom-label"></span>
+         <div class="select-custom select-narrow ">
+            <span class="select-custom-label"></span>
+            <?=$form->dropDownList(
+                $model,
+                'electronic_method',
+                Form_Incoming_Electronic::$methods,
+                array(
+                'class' => 'select-invisible', 
                 'id'=>"{$this->modelName}_electronic_method_{$this->formId}",
-                'empty' => Yii::t('Front', 'Select a method'),
-            )
-        );
-        echo $form->error($model, 'electronic_method');
-        ?>
+                'options' => array($model->electronic_method => array('selected' => true)),
+                'empty' => Yii::t('Front', 'Select a method')
+                )
+            ); ?>
+         </div>
     </div>
     <div class="clearfix"></div>
 </div>
 
-<div class="method-1 electronic-method-fields" <?php if (!isset($model->electronic_method) || $model->electronic_method!=PaymentService::METHOD_CREDITCARD) {?>style="display:none;"<?php }?>>
+<div class="method-1 electronic-method-fields" style="<?php if (!isset($model->electronic_method) || $model->electronic_method!=PaymentService::METHOD_CREDITCARD) {?>display:none;<?php } else {?>display:block;<?php }?>">
     <div class="form-line">
         <div class="form-cell">
             <div class="lbl"><?=Yii::t('Front', 'Creditcard holder')?>
@@ -177,7 +180,7 @@
     </div>
 </div>
 
-<div class="method-2 electronic-method-fields"<?php if (!isset($model->electronic_method) || $model->electronic_method!=PaymentService::METHOD_IDEAL) {?> style="display:none;"<?php }?>>
+<div class="method-2 electronic-method-fields" style="<?php if (!isset($model->electronic_method) || $model->electronic_method!=PaymentService::METHOD_IDEAL) {?>display:none;<?php } else {?>display:block;<?php }?>">
     <div class="from-form">
         <div class="lbl"><?= Yii::t('Front', 'ideal_account_number') ?>
             <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>

@@ -131,7 +131,7 @@ class Users_Paymentinstruments extends ActiveRecord
 
     public function beforeSave()
     {
-        if ($this->scenario != 'delete')
+        if ($this->scenario!='delete')
             switch (PaymentService::$methods[$this->electronic_method]) {
                 case 'creditcard':
                     $this->from_account_number = $this->creditcard_number;
