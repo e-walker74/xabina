@@ -67,4 +67,10 @@
         //--></script>
     </div>
 </div>
-<?php Yii::app()->clientScript->registerScriptFile('/js/paymentInstruments.js'); ?>
+<?php 
+$cs = Yii::app()->clientScript;
+$cs->registerScriptFile('/js/paymentInstruments.js');
+$cs->registerScriptFile('/js/deleteButton.js');
+$cs->registerScript('deleteButton', 'deleteButtonEnable();');
+
+

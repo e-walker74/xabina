@@ -49,6 +49,7 @@ class PersonalController extends Controller
 					'updatealerts',
                     'dropalerts',
                     'paymentInstuments',
+                    'deletePaymentInstument',
                 ),
                 'roles' => array('client')
             ),
@@ -1164,7 +1165,7 @@ class PersonalController extends Controller
         // валидация модели
         if (
                Yii::app()->getRequest()->isAjaxRequest
-            && Yii::app()->getRequest()->getParam('ajax')=='electronic-form'
+            && substr(Yii::app()->getRequest()->getParam('ajax'), 0, 16)=='electronic-form-'
         ) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -1186,5 +1187,25 @@ class PersonalController extends Controller
             ));
         }
         Yii::app()->end();
+    }
+    
+    public function actionDeletePaymentInstument($id)
+    {
+        $model = Users_Paymentinstruments::model()->findByPk($id);
+        $success = false;
+        $message = false;
+        if ($model->user_id = Yii::app()->user->id) {
+            $model->deleted = 1;
+            $model->scenario = 'delete';
+            if ($model->save()) {
+                $success = true;
+                $message = Yii::t('Front', 'Payment instrument was successfully removed');
+            }
+        }
+        
+        echo CJSON::encode(array(
+            'success' => $success,
+            'message' => $message
+        ));
     }
 }

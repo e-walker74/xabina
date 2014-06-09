@@ -12,6 +12,7 @@ var submitForm = function(form, method) {
                     $('#add-more').before(response.html);
                     $('#add-more').css('display', 'table-row');
                     $('.add-new-form').css('display', 'none');
+                    deleteButtonEnable();
                 }  else {
                     $('.edit-payment-tr').css('display', 'none');
                     $('.view-payment-tr').css('display', 'table-row');

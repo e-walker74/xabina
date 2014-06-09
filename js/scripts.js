@@ -435,32 +435,31 @@ $(function(){
 	}
 	
 	deleteRow = function(link, callback, parentTag){
-		if(!parentTag){
-			var parentTag = 'tr'
+		if (!parentTag) {
+			var parentTag = 'tr';
 		}
-		backgroundBlack()
+		backgroundBlack();
 		$.ajax({
 			url: $(link).attr('data-url'),
 			success: function(data) {
-				dellBackgroundBlack()
-				var response= jQuery.parseJSON (data);
-				if(response.success){
+				dellBackgroundBlack();
+				var response = jQuery.parseJSON(data);
+				if (response.success) {
 				
-					if(response.message){
-						successNotify(response.mesTitle, response.message, link)
+					if (response.message) {
+						successNotify(response.mesTitle, response.message, link);
 					}
 				
-					if($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')){
-						$(link).parents(parentTag).prev(parentTag).remove()
+					if ($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')) {
+						$(link).parents(parentTag).prev(parentTag).remove();
 					}
-					$(link).parents(parentTag).remove()
+					$(link).parents(parentTag).remove();
 					
-					
-					if(response.reload){
-						location.reload()
+					if (response.reload) {
+						location.reload();
 					}
 				}
-				callback()
+				callback();
 			},
 			cache:false,
 			data: {},

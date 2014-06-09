@@ -8,9 +8,9 @@
     <td><span class="approved"><?=$model->htmlStatus?></span></td>
     <td>
         <div class="transaction-buttons-cont">
-            <a class="button share" href="#"></a>
-            <a class="button edit" href="#"></a>
-            <a class="button delete" href="#"></a>
+            <a class="button share" title="share" href="#"></a>
+            <a class="button edit" title="edit" href="#"></a>
+            <a class="button delete" title="<?php echo Yii::t('Front', 'Are you sure?');?>" data-url="/personal/deletePaymentInstument/<?=$model->id?>"></a>
         </div>
     </td>
 </tr>

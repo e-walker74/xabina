@@ -131,15 +131,17 @@ class Users_Paymentinstruments extends ActiveRecord
 
     public function beforeSave()
     {
-        switch (PaymentService::$methods[$this->electronic_method]) {
-            case 'creditcard':
-                $this->from_account_number = $this->creditcard_number;
-                $this->from_account_holder = $this->creditcard_holder;
-                break;
-            case 'ideal':
-                $this->from_account_number = $this->ideal_account_number;
-                break;
-        }
+        if ($this->scenario != 'delete')
+            switch (PaymentService::$methods[$this->electronic_method]) {
+                case 'creditcard':
+                    $this->from_account_number = $this->creditcard_number;
+                    $this->from_account_holder = $this->creditcard_holder;
+                    break;
+                case 'ideal':
+                    $this->from_account_number = $this->ideal_account_number;
+                    break;
+            }
+
         if ($this->isNewRecord) {
             $this->status = PaymentService::PENDING_STATUS;
             $this->user_id = Yii::app()->user->id;
