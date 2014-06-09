@@ -48,7 +48,7 @@ class PersonalController extends Controller
 					'alerts',
 					'updatealerts',
                     'dropalerts',
-                    'paymentInstuments',
+                    'paymentinstuments',
                     'deletePaymentInstument',
                 ),
                 'roles' => array('client')
@@ -1116,7 +1116,7 @@ class PersonalController extends Controller
     }
     
     /**
-     * actionPaymentInstuments
+     * actionPaymentinstuments
      * 
      * User favorite payment instuments list
      * Add user favorite payment instuments list
@@ -1125,7 +1125,7 @@ class PersonalController extends Controller
     {
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal account'))] = array('/personal/index');
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment instuments'))] = '';
-        
+
         $method = Yii::app()->request->getQuery('method');
         if (!is_null($method))
             // Add or update user`s favorite payment instuments list

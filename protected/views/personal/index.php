@@ -123,7 +123,7 @@
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/paymentInstuments') ?>" ></a>
+					<a class="button edit" href="<?= Yii::app()->createUrl('/personal/paymentinstuments') ?>" ></a>
 				</div>
 			</td>
 		</tr>
