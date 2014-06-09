@@ -11,6 +11,7 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 	public $index;
 	public $country_id;
 	public $country_code;
+	public $category;
 	
 	/**
 	 * @return array validation rules for model attributes.
@@ -20,8 +21,8 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('address', 'required'),
-			array('address, index', 'length', 'max' => 255),
+			array('address, country_id', 'required'),
+			array('address, index, category', 'length', 'max' => 255),
 			array('country_id', 'numerical'),
 		);
 	}
@@ -31,6 +32,7 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 			'address',
 			'index',
 			'country_id',
+			'category',
 		);
 	}
 

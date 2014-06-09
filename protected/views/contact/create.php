@@ -1,0 +1,134 @@
+<div class="col-lg-9 col-md-9 col-sm-9" >
+	<div class="h1-header"><?= Yii::t('Front', 'Edit contact'); ?></div>
+	<div class="edit-contact-cont ">
+		<div class="edit-tabs ">
+			<div class=" xabina-form-narrow">
+				<?php $form=$this->beginWidget('CActiveForm', array(
+					'id'=>'contact-form',
+					'enableAjaxValidation'=>true,
+					'enableClientValidation'=>true,
+					'errorMessageCssClass' => 'error-message',
+					'htmlOptions' => array(
+						'class' => 'form-validable',
+						'enctype' => 'multipart/form-data',
+					),
+					'clientOptions'=>array(
+						'validateOnSubmit'=>true,
+						'validateOnChange'=>true,
+						'errorCssClass'=>'input-error',
+						'successCssClass'=>'valid',
+						'afterValidate' => 'js:function(form, data, hasError) {
+							form.find("input").removeClass("input-error");
+							form.find("input").parent().removeClass("input-error");
+							form.find(".validation-icon").fadeIn();
+							for(var i in data.notify) {
+								$(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
+							}
+							if(hasError) {
+								for(var i in data) {
+									$("#"+i).addClass("input-error");
+									$("#"+i).parent().addClass("input-error");
+									$("#"+i).next(".validation-icon").fadeIn();
+								}
+								return false;
+							}
+							else {
+								return true;
+							}
+							
+						}',
+						'afterValidateAttribute' => 'js:afterValidateAttribute'
+					),
+				)); ?>
+				<div class="contact-edit-form">
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'First Name') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'first_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($model, 'first_name', array('class' => 'input-text')) ?>
+									<?= $form->error($model, 'first_name') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Last Name') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'last_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($model, 'last_name', array('class' => 'input-text')) ?>
+									<?= $form->error($model, 'last_name') ?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Company') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($model, 'company', array('class' => 'input-text')) ?>
+									<?= $form->error($model, 'company') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Nickname') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'nickname_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($model, 'nickname', array('class' => 'input-text')) ?>
+									<?= $form->error($model, 'nickname') ?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Xabina User ID') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'xabina_id_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($model, 'xabina_id', array('class' => 'input-text')) ?>
+									<?= $form->error($model, 'xabina_id') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'User Photo') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<label class="file-label">
+										<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
+										<?= Yii::t('Front', 'Upload user photo') ?>
+										<?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-narrow-submit">
+					<a href="<?= Yii::app()->createUrl('/contact/index') ?>" class="xabina-submit left back"><?= Yii::t('Front', 'Back'); ?></a>
+					<input class="xabina-submit left save" value="<?= Yii::t('Front', 'Save'); ?>" type="submit"/>
+				</div>
+				<?php $this->endWidget(); ?>
+			</div>
+		</div>
+	</div>
+</div>

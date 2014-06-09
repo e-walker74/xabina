@@ -34,4 +34,8 @@ class Controller extends CController
 		return parent::init();
 	}
 
+	protected function cleanResponseJs() {
+        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+    }
+	
 }

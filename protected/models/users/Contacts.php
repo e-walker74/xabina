@@ -16,6 +16,8 @@
 class Users_Contacts extends ActiveRecord
 {
 
+	const AVATAR_PATH = '/images/contacts/';
+
 	protected $_contacts_data = array();
 	private $_transactions = false;
 
@@ -38,14 +40,35 @@ class Users_Contacts extends ActiveRecord
 		
 			// TODO trim and filter fullname
 			
-			array('user_id, fullname', 'required'),
+			array('fullname', 'requiredOne'),
 			array('user_id, xabina_id', 'numerical', 'integerOnly'=>true),
-			array('fullname', 'length', 'max'=>255),
+			array('fullname, photo', 'length', 'max'=>255),
+			array('photo', 'file', 'types'=>'jpg, gif, png', 'safe'=>false, 'allowEmpty' => true),
+			array('xabina_id', 'ext.validators.XabinaUserIdValidator'),
 			array('first_name, last_name, company, nickname', 'length', 'max'=>123),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, xabina_id, fullname', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	public function requiredOne(){
+		if(!$this->fullname){
+			$this->addError('nickname', Yii::t('Front', 'Name is incorrect'));
+		}
+	}
+	
+	public function beforeValidate(){
+		if($this->nickname){
+			$this->fullname = $this->nickname;
+		} elseif($this->first_name && $this->last_name){
+			$this->fullname = $this->last_name . ' ' . $this->first_name; 
+		} elseif($this->first_name || $this->last_name){
+			$this->fullname = $this->last_name . $this->first_name; 
+		} elseif($this->company){
+			$this->fullname = $this->company;
+		}
+		return true;
 	}
 
 	/**
@@ -128,6 +151,14 @@ class Users_Contacts extends ActiveRecord
 				$this->_contacts_data[$data->data_type][] = $data->getParamsModel();
 			}
 		}
+	}
+	
+	public function getAvatarUrl(){
+		if(!$this->photo){
+			return false;
+		}
+		$imgUrl = self::AVATAR_PATH . $this->user_id . '/' . $this->id . '/' . $this->photo;
+		return $imgUrl;
 	}
 	
 	public function getTransactionsArray(){

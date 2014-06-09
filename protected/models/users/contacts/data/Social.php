@@ -9,6 +9,22 @@ class Users_Contacts_Data_Social extends Users_Contacts_Data_Model
 
 	public $social;
 	public $url;
+	
+	public static $socials = array(
+		'fb' => 'Facebook',
+		'google' => 'Google+',
+		'linkedin' => 'LinkedIn',
+		'twitter' => 'Twitter',
+		'vk' => 'VKontakte',
+	);
+	
+	public static $socialsImages = array(
+		'fb' => '/images/soc_img_03.png',
+		'google' => 'Google+',
+		'linkedin' => '/images/soc_img_09.png',
+		'twitter' => '/images/soc_img_06.png',
+		'vk' => 'VKontakte',
+	);
 
 	/**
 	 * @return array validation rules for model attributes.

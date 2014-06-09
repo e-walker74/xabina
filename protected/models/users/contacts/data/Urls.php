@@ -26,7 +26,7 @@ class Users_Contacts_Data_Urls extends Users_Contacts_Data_Model
 	
 	public function attributeNames(){
 		return array(
-			'phone',
+			'category',
 			'url',
 		);
 	}

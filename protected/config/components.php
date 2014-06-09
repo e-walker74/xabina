@@ -10,7 +10,7 @@ return array(
         'class' => 'core.components.QUserNotify',
     ),
     'image' => array(
-        'class' => 'core.extensions.image.CImageComponent',
+        'class' => 'ext.image.CImageComponent',
         // GD or ImageMagick
         'driver' => 'GD',
         // ImageMagick setup path

@@ -29,6 +29,10 @@ class Users_Contacts_Data_Contact extends Users_Contacts_Data_Model
 			'category',
 		);
 	}
+	
+	public function getContactInfo(){
+		return Users_Contacts::model()->currentUser()->findByPk($this->contact_id);
+	}
 
 	/**
 	 * Returns the static model of the specified AR class.

@@ -1,10 +1,17 @@
 $(document).ready(function(){
-	$(".xabina-tabs" ).tabs({
+	$( ".xabina-tabs , .edit-tabs" ).tabs({
 
-	});
+    });
 	
 	$('#analytics-form').on('change', 'input, select', function(){
 		searchAnalytics($('#analytics-form'))
+	})
+	
+	$('.edit-contact-cont').on('click', '.button.edit, .upload.add-more', function(){
+		resetPage()
+		
+		$(this).parents('tr').hide().next('.edit-row').show()
+		return false;
 	})
 
 })
@@ -15,6 +22,29 @@ var searchAnalytics = function(form){
 		success: function(response) {
 			if(response.success){
 				$('.analytics-results').html(response.html)
+			}
+		},
+		cache:false,
+		async: false,
+		data: form.serialize(),
+		type: 'POST',
+		dataType: 'json'
+	});
+}
+
+var updateContact = function(form){
+	$.ajax({
+		url: $(form).attr('action'),
+		success: function(response) {
+			if(response.success){
+				resetPage()
+				if(response.html){
+					$(form).parents('.tab').html(response.html)
+					$('.select-invisible').each(onCustomSelectChange);
+					function onCustomSelectChange(){
+						$(this).prev('span').text($(this).find(':selected').text());
+					}
+				}
 			}
 		},
 		cache:false,
@@ -41,7 +71,12 @@ afterValidate = function(form, data, hasError) {
 		return false;
 	}
 	else {
-		searchAnalytics(form)
+		if($('.analytics-results').length !== 0){
+			searchAnalytics(form)
+		} else {
+			updateContact(form)
+			return false;
+		}
 	}
 	return false;
 }

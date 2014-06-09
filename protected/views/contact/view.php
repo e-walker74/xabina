@@ -11,20 +11,20 @@
 					<a class="button list" href="#"></a>
 					<button class="list-caret" data-toggle="dropdown"></button>
 					<ul class="dropdown-menu">
-						<li>
-							<a class="button send" href="#"></a>
+						<!--<li>
+							<a class="button send" href="javaScript:void(0)"></a>
 						</li>
 						<li>
-							<a class="button print" href="#"></a>
+							<a class="button print" href="javaScript:void(0)"></a>
 						</li>
 						<li>
-							<a class="button pdf" href="#"></a>
+							<a class="button pdf" href="javaScript:void(0)"></a>
+						</li>-->
+						<li>
+							<a class="button edit" href="<?= Yii::app()->createUrl('/contact/update', array('id' => $model->id)); ?>"></a>
 						</li>
 						<li>
-							<a class="button edit" href="#"></a>
-						</li>
-						<li>
-							<a class="button delete" href="#"></a>
+							<a class="button delete" href="javaScript:void(0)"></a>
 						</li>
 					</ul>
 				</div>
@@ -143,7 +143,7 @@
 									</td>
 									<td class="values"  style="width: 52%">
 										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>"><?= $account->account_number ?></span> <br>
-										<?= $account->account_type ?><br>
+										<?= $account->getPaementSystemModel()->name ?><br>
 									</td>
 									<td  style="width: 6%">
 										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
@@ -235,8 +235,11 @@
 						<td colspan="2">
 							<table class="table inner">
 								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('contact') as $account): 
+								<?php foreach($model->getDataByType('contact') as $contact): 
 								$i++; ?>
+								<?php $contInfo = $contact->getContactInfo();
+										if(!$contInfo) continue;
+								?>
 								<tr>
 									<td class="names" style="width: 42%">
 										<?php if($i == 1): ?>
@@ -246,13 +249,17 @@
 									<td class="values"  style="width: 52%">
 										<div class="liniking-photo">
 											<span class="valid-status error"></span>
-											<img src="/images/account_no_photo.png" alt=""/>
+											<?php if($contInfo->photo): ?>
+												<img width="40" src="<?= $contInfo->getAvatarUrl() ?>" alt=""/>
+											<?php else: ?>
+												<img width="40" src="/images/contact_no_foto.png" alt="">
+											<?php endif; ?>
 										</div>
-										<span class="strong"><?= $account->contact_id ?></span> <br>
-										<?= $account->category ?> <br>
+										<span class="strong"><?= $contInfo->fullname ?></span> <br>
+										<?= $contact->category ?> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+										<a class="acc-ico <?= ($contact->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -326,8 +333,8 @@
 										<?php endif; ?>
 									</td>
 									<td class="values"  style="width: 52%">
-										<span class="strong"><?= date('d.m.Y', $account->date) ?></span> <br>
-										<?= $account->category ?> <br>
+										<span class="strong"><?= $account->date ?></span> <br>
+										<?= Yii::t('Front', Users_Contacts_Data_Dates::$categories[$account->category]) ?> <br>
 									</td>
 									<td  style="width: 6%">
 										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>

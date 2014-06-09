@@ -49,7 +49,9 @@ $(function(){
     });
 
     $('.container').on('change', '.select-invisible', onCustomSelectChange);
-
+	
+	$('.select-invisible').each(onCustomSelectChange);
+	
     function onCustomSelectChange(){
         $(this).prev('span').text($(this).find(':selected').text());
     }
@@ -576,11 +578,12 @@ $(document).ready(function(){
 		}
 	}
 	
-	if($('.with_datepicker').length != 0)
-	$(".with_datepicker").datepicker({
+	if($('form .with_datepicker').length != 0)
+	$("form .with_datepicker").datepicker({
         showOn:"button",
         buttonImage: '/images/calendar_ico.png',
-        buttonImageOnly:true
+        buttonImageOnly:true,
+		dateFormat: 'dd.mm.yy'
     });
 	
 	if($('#bg-404-gold').length){
@@ -843,8 +846,8 @@ var resetPage = function(){
 	$('.edit-form').hide()
 	
 	/* settings page */
-	$('.edit-block').hide();
-	$('.user-settings-data').show();
+	$('.edit-block, tr.edit-row').hide();
+	$('.user-settings-data, tr.data-row').show();
 	
 	$('form').trigger('reset')
 

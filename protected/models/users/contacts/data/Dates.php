@@ -9,6 +9,11 @@ class Users_Contacts_Data_Dates extends Users_Contacts_Data_Model
 
 	public $date;
 	public $category;
+	
+	public static $categories = array(
+		1 => 'bithday',
+		2 => 'victory_day',
+	);
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -18,7 +23,8 @@ class Users_Contacts_Data_Dates extends Users_Contacts_Data_Model
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date', 'date', 'format' => 'dd.mm.YYYY'),
+			array('date', 'required'),
+			array('date', 'date', 'format' => 'dd.mm.yyyy'),
 			array('category', 'length', 'max' => 140),
 		);
 	}

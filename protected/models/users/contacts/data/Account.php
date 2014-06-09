@@ -18,6 +18,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 	public $p_year;
 	public $p_month;
 	public $p_csc;
+	public $bank_name;
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -28,7 +29,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 		// will receive user inputs.
 		return array(
 			array('account_type, account_number', 'required'),
-			array('account_type', 'in', 'range' => Form_Outgoingtransf_Ewallet::$ewallet_types), //TODO another account types
+			array('account_type', 'in', 'range' => CHtml::listData(PaymentSystems::model()->findAll(), 'id', 'id')), //TODO another account types
 			array('p_month', 'numerical', 'min' => 1, 'max' => 12),
 			array('p_month', 'length', 'max' => 2),
 			array('p_year', 'numerical', 'min' => date('Y'), 'max' => date('Y', time()+3600*24*365*20)),
@@ -62,5 +63,9 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function getPaementSystemModel(){
+		return PaymentSystems::model()->findByPk($this->account_type);
 	}
 }

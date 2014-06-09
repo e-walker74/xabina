@@ -3,7 +3,7 @@
 	<div class="contact-search-cont">
 		<input class="contact-input" type="text" />
 		<a class="contact-search-but" href="#"></a>
-		<a class="add-contact-but rounded-buttons" href="#"><?= Yii::t('Front', 'Add Contact') ?></a>
+		<a class="add-contact-but rounded-buttons" href="<?= Yii::app()->createUrl('/contact/create') ?>"><?= Yii::t('Front', 'Add Contact') ?></a>
 	</div>
 	<div class="contacts-list-cont scroll-block">
 		<?php Widget::create('ContactListWidget', 'ContactListWidget', array('type' => 'contactList'))->html() ?>

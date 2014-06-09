@@ -58,6 +58,54 @@ jQuery.fn.clientListSearch = function(options, callback){
 	}
 };
 
+var searchByName = function(elementUl, text){
+	elementUl.find('.contact-name').each(function(){
+		if($(this).text().toLowerCase().indexOf(text.toLowerCase())+1){
+			$(this).parents('li').show().parents('.letter-block').show()
+		} else {
+			$(this).parents('li').hide()
+			if($(this).parents('.letter-block').find('li:visible').length == 0){
+				$(this).parents('.letter-block').hide()
+			}
+		}
+	})
+	alphabetEach()
+}
+
+jQuery.fn.searchContactButtonByName = function(options, callback){
+	
+	var pressTimeout = false,
+	searchButton = $(this),
+	el_input,
+	_options = {
+		searchLineSelector: '.account-search-input',
+		parentSelector: '.search-by-name-block',
+		classForResultsUl: 'ul.contact-list',
+		inputSelectorForName: '.inputSelectorForName',
+		inputSelectorForID: '.inputSelectorForID'
+	}
+	
+	options = $.extend(_options, options)
+	
+	el_input = $(options.searchLineSelector)
+	
+	$(searchButton).click(function(){
+		$(options.parentSelector).slideToggle()
+		return false;
+	})
+	
+	$(options.parentSelector).on('click', '.contact-list li', function(e){
+		$(options.parentSelector).slideUp()
+		$(options.inputSelectorForName).val($(this).find('.contact-name').text())
+		$(options.inputSelectorForID).val($(this).attr('data-id'))
+		return false
+	})
+	
+	$(options.searchLineSelector).on('keyup', function(e){
+		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
+	})
+}
+
 jQuery.fn.searchContactButton = function(options, callback){
 	
 	var pressTimeout = false,
