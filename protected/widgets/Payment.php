@@ -3,8 +3,9 @@ class Payment extends CWidget
 {
     public $form;
     public $model;
+    public $formId;
     protected $modelName;
-    protected $formId;
+    protected $cs;
 
     /**
      * Initializes the widget.
@@ -14,19 +15,23 @@ class Payment extends CWidget
      */
     public function init()
     {
-        $cs = Yii::app()->clientScript;
-        $cs->registerCssFile('http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css');
-        $cs->registerScriptFile('http://silviomoreto.github.io/bootstrap-select/javascripts/bootstrap-select.js', CClientScript::POS_HEAD);
-        $cs->registerScriptFile('/js/jquery.creditCardValidator.js', CClientScript::POS_HEAD);
+        $this->cs = Yii::app()->clientScript;
+        $this->cs->registerCssFile('http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css');
+        $this->cs->registerScriptFile('http://silviomoreto.github.io/bootstrap-select/javascripts/bootstrap-select.js', CClientScript::POS_HEAD);
+        $this->cs->registerScriptFile('/js/jquery.creditCardValidator.js', CClientScript::POS_HEAD);
 
-        $this->formId = substr(md5(microtime()), 0, 8);
         $this->modelName = get_class($this->model);
-        $cs->registerScript('payment', "$(document).ready(function() {
-            $('#{$this->modelName}_electronic_method_{$this->formId}').change(function() {
-                $('.electronic-method-fields').hide();
-                $('.electronic-method-fields.method-' + $(this).val()).slideDown();
+    }
+
+    public function run()
+    {
+        $formId = $this->form->id;
+        $this->cs->registerScript("payment_$formId", "$(document).ready(function() {
+            $('#$formId #{$this->modelName}_electronic_method').change(function() {
+                $('.electronic-method-fields').css('display','none');
+                $('.electronic-method-fields.method-' + $(this).val()).css('display','block');
             })
-            $('#{$this->modelName}_creditcard_number_{$this->formId}').validateCreditCard(function(result) {
+            $('#$formId #{$this->modelName}_creditcard_number').validateCreditCard(function(result) {
                 $('.payments-list .logo').removeClass('active');
                 $('.payments-list input[type=radion]').attr('checked', false);
                 if (result.card_type) {
@@ -38,10 +43,7 @@ class Payment extends CWidget
             });
             $('.selectpicker').selectpicker();
         });");
-    }
 
-    public function run()
-    {
         $this->render('payment/html', Array(
             'form' => $this->form,
             'model'=> $this->model,

@@ -5,7 +5,7 @@
             <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_electronic_methods')?>"></span>
         </div>
     </div>
-    
+
     <div class="form-input">
          <span class="select-custom-label"></span>
          <div class="select-custom select-narrow ">
@@ -15,10 +15,10 @@
                 'electronic_method',
                 Form_Incoming_Electronic::$methods,
                 array(
-                'class' => 'select-invisible', 
-                'id'=>"{$this->modelName}_electronic_method_{$this->formId}",
-                'options' => array($model->electronic_method => array('selected' => true)),
-                'empty' => Yii::t('Front', 'Select a method')
+                    'class' => 'select-invisible', 
+                    'id'=>"{$this->modelName}_electronic_method",
+                    'options' => array($model->electronic_method => array('selected' => true)),
+                    'empty' => Yii::t('Front', 'Select a method')
                 )
             ); ?>
          </div>
@@ -26,7 +26,7 @@
     <div class="clearfix"></div>
 </div>
 
-<div class="method-1 electronic-method-fields" style="<?php if (!isset($model->electronic_method) || $model->electronic_method!=PaymentService::METHOD_CREDITCARD) {?>display:none;<?php } else {?>display:block;<?php }?>">
+<div class="method-1 electronic-method-fields" style="<?php if (isset($model->electronic_method) && $model->electronic_method==PaymentService::METHOD_CREDITCARD) {?>display:block;<?php } else {?>display:none;<?php }?>">
     <div class="form-line">
         <div class="form-cell">
             <div class="lbl"><?=Yii::t('Front', 'Creditcard holder')?>
@@ -44,85 +44,85 @@
     </div>
     <div class="clearfix"></div>
     <div class="form-line" style="margin: 10px 0">
-    <div class="form-cell pull-left credit-number" style="width: 42%">
-        <div class="lbl"><?=Yii::t('Front', 'Credit Card Number')?>
-            <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_creditcard_number')?>"></span>
-        </div>
-        <div class="field-input">
-            <?=$form->textField($model, 'creditcard_number', array(
-                'class' => 'input-text',
-                'value'=>$model->from_account_number,
-                'id'=>"{$this->modelName}_creditcard_number_{$this->formId}",
-            ))?>
-            <?=$form->error($model, 'creditcard_number')?>
-        </div>
-    </div>
-
-    <div class="form-cell pull-right" style="width: 27%">
-        <div class="lbl"><?=Yii::t('Front', 'CSC')?>
-            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_csc') ?>"></span>
-        </div>
-        <div class="field-input">
-            <?=$form->textField($model, 'p_csc', array('class' => 'input-text card-csc')) ?>
-            <?=$form->error($model, 'p_csc'); ?>
-        </div>
-    </div>
-
-    <div class="form-cell pull-right expiration-dates" style="width: 28%">
-        <div class="lbl"><?=Yii::t('Front', 'Expiration Date')?>
-            <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_creditcard_p_month')?>"></span>
-        </div>
-        <div class="field-input">
-            <div class="select-custom currency-select exp-month">
-                <span class="select-custom-label"><?=Yii::t('Front', 'Month')?></span>
-                <?=$form->dropDownList(
-                    $model,
-                    'p_month',
-                    array(
-                        1 => '01',
-                        2 => '02',
-                        3 => '03',
-                        4 => '04',
-                        5 => '05',
-                        6 => '06',
-                        7 => '07',
-                        8 => '08',
-                        9 => '09',
-                        10 => '10',
-                        11 => '11',
-                        12 => '12',
-                    ),
-                    array(
-                        'options' => array($model->p_month=>array('selected'=>true)),
-                        'class' => 'select-invisible',
-                    )
-                ); ?>
+        <div class="form-cell pull-left credit-number" style="width: 42%">
+            <div class="lbl"><?=Yii::t('Front', 'Credit Card Number')?>
+                <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_creditcard_number')?>"></span>
             </div>
-            <span class="exp-delimitter">/</span>
-            <div class="select-custom currency-select exp-year">
-                <span class="select-custom-label"><?=Yii::t('Front', 'Year')?></span>
-                <?php 
-                $year = array();
-                for ($i = 0, $y = date('Y', time()); $i <= 20; $i++, $y++ ){
-                    $year[$y] = $y;
-                }
-                echo $form->dropDownList(
-                    $model,
-                    'p_year',
-                    $year,
-                    array(
-                        'class' => 'select-invisible',
-                        'options' => array($model->p_year=>array('selected'=>true)),
-                    )
-                );
-                ?>
+            <div class="field-input">
+                <?=$form->textField($model, 'creditcard_number', array(
+                    'class' => 'input-text',
+                    'value'=>$model->from_account_number,
+                    'id'=>"{$this->modelName}_creditcard_number",
+                ))?>
+                <?=$form->error($model, 'creditcard_number')?>
             </div>
-            <?= $form->error($model, 'p_year');?>
-            <?= $form->error($model, 'p_month');?>
         </div>
+
+        <div class="form-cell pull-right" style="width: 27%">
+            <div class="lbl"><?=Yii::t('Front', 'CSC')?>
+                <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_csc') ?>"></span>
+            </div>
+            <div class="field-input">
+                <?=$form->textField($model, 'p_csc', array('class' => 'input-text card-csc')) ?>
+                <?=$form->error($model, 'p_csc'); ?>
+            </div>
+        </div>
+
+        <div class="form-cell pull-right expiration-dates" style="width: 28%">
+            <div class="lbl"><?=Yii::t('Front', 'Expiration Date')?>
+                <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_creditcard_p_month')?>"></span>
+            </div>
+            <div class="field-input">
+                <div class="select-custom currency-select exp-month">
+                    <span class="select-custom-label"><?=Yii::t('Front', 'Month')?></span>
+                    <?=$form->dropDownList(
+                        $model,
+                        'p_month',
+                        array(
+                            1 => '01',
+                            2 => '02',
+                            3 => '03',
+                            4 => '04',
+                            5 => '05',
+                            6 => '06',
+                            7 => '07',
+                            8 => '08',
+                            9 => '09',
+                            10 => '10',
+                            11 => '11',
+                            12 => '12',
+                        ),
+                        array(
+                            'options' => array($model->p_month=>array('selected'=>true)),
+                            'class' => 'select-invisible',
+                        )
+                    ); ?>
+                </div>
+                <span class="exp-delimitter">/</span>
+                <div class="select-custom currency-select exp-year">
+                    <span class="select-custom-label"><?=Yii::t('Front', 'Year')?></span>
+                    <?php 
+                    $year = array();
+                    for ($i = 0, $y = date('Y', time()); $i <= 20; $i++, $y++ ){
+                        $year[$y] = $y;
+                    }
+                    echo $form->dropDownList(
+                        $model,
+                        'p_year',
+                        $year,
+                        array(
+                            'class' => 'select-invisible',
+                            'options' => array($model->p_year=>array('selected'=>true)),
+                        )
+                    );
+                    ?>
+                </div>
+                <?= $form->error($model, 'p_year');?>
+                <?= $form->error($model, 'p_month');?>
+            </div>
+        </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="clearfix"></div>
-</div>
     <div class="form-line">
         <div class="form-cell" >
             <div class="lbl"><?= Yii::t('Front', 'Payment Type') ?>
@@ -180,13 +180,13 @@
     </div>
 </div>
 
-<div class="method-2 electronic-method-fields" style="<?php if (!isset($model->electronic_method) || $model->electronic_method!=PaymentService::METHOD_IDEAL) {?>display:none;<?php } else {?>display:block;<?php }?>">
+<div class="method-2 electronic-method-fields" style="<?php if (isset($model->electronic_method) && $model->electronic_method==PaymentService::METHOD_IDEAL) {?>display:block;<?php } else {?>display:none;<?php }?>">
     <div class="from-form">
-        <div class="lbl"><?= Yii::t('Front', 'ideal_account_number') ?>
-            <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>
+        <div class="lbl"><?=Yii::t('Front', 'Ideal account number')?>
+            <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_ideal_account_number')?>"></span>
         </div>
         <div class="field-input">
-            <?= $form->textField($model, 'ideal_account_number', array('class' => 'input-text')) ?>
+            <?= $form->textField($model, 'ideal_account_number', array('class'=>'input-text')) ?>
             <?= $form->error($model, 'ideal_account_number'); ?>
         </div>
     </div>
