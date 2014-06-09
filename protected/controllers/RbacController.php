@@ -24,16 +24,29 @@ class RbacController extends Controller
         $this->render('roles_management', array('roles' => $roles));
     }
     
+    protected function performAjaxValidation($model)
+    {
+        if(isset($_POST['ajax']) && $_POST['ajax']==='add-role-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+    
     public function actionAddRole() {
         
+        $role = new RbacRoles();
+        $this->performAjaxValidation($role);
+        
         if(isset($_POST['RbacRoles'])) {
-            $role = new RbacRoles();
+            
             $role->name = $_POST['RbacRoles']['name'];
             $role->is_system = 0;
             $role->create_uid = Yii::app()->user->getId();
-            $role->save();
-            
-            RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']);
+            if($role->validate()) {
+                $role->save();
+                RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']);
+            }
         }
         
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
@@ -41,7 +54,7 @@ class RbacController extends Controller
         
         $roles = RbacRoles::model()->findAll('is_system=1 or create_uid = ' . Yii::app()->user->getId());
         $rightsTree = RbacAccessRights::model()->getAccessRightsTree();
-        $this->render('add_role', array('rightsTree' => $rightsTree, 'roles'=>$roles));
+        $this->render('add_role', array('rightsTree' => $rightsTree, 'roles'=>$roles, 'role' => $role));
     }
     
     public function actionAddUser() {

@@ -999,8 +999,8 @@ $(function() {
 afterValidate = function(form, data, hasError) {
 	form.find("input").removeClass("input-error");
 	form.find("input").parent().removeClass("input-error");
-	form.find(".validation-icon").fadeIn();
-	if(hasError) {
+	form.find(".validation-icon").fadeOut();
+    if(hasError) {
 		for(var i in data) {
 			$("#"+i).addClass("input-error");
 			$("#"+i).parent().addClass("input-error");
@@ -1022,12 +1022,13 @@ afterValidateAttribute = function(form, attribute, data, hasError) {
 		$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
 		$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
 		$("#"+attribute.id).next(".validation-icon").fadeIn();
+        $("#"+attribute.id+"_em_").append('<div class="error-message-arr"></div>');
 	} else {
 		if($("#"+attribute.id).hasClass("input-error")){
 			$("#"+attribute.id+"_em_").show().slideUp();
 		}
 		$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-		$("#"+attribute.id).next(".validation-icon").fadeIn();
+		$("#"+attribute.id).next(".validation-icon").fadeOut();
 		$("#"+attribute.id).addClass("valid");
 	}
 }

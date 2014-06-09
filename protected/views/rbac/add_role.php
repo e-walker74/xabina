@@ -30,7 +30,26 @@
         });
     });
 </script>
-<form action="<?php echo Yii::app()->createUrl('rbac/addRole'); ?>" method="post">
+
+<?php $form = $this->beginWidget('CActiveForm', array(
+    'id'=>'add-role-form',
+    'enableAjaxValidation'=>true,
+    'enableClientValidation'=>true,
+    'action' => Yii::app()->createUrl('rbac/addRole'),
+    'method' => 'post',
+    'errorMessageCssClass' => 'error-message',
+    'htmlOptions' => array(
+        'class' => 'form-validable',
+    ),
+    'clientOptions'=>array(
+        'validateOnSubmit'=>true,
+        'validateOnChange'=>true,
+        'errorCssClass'=>'input-error',
+        'afterValidate' => 'js:afterValidate',
+        'afterValidateAttribute' => 'js:afterValidateAttribute'
+    ),
+)); ?>
+
 <div class="col-lg-9 col-md-9 col-sm-9" >
     <div class="h1-header">Add a new role</div>
     <div class="role-form xabina-form-container">
@@ -41,12 +60,9 @@
                     <span class="tooltip-icon" title="Add Your mobile phone in an international format (e.g. +3100000000)"></span>
                 </div>
                 <div class="field-input">
-                    <input name="RbacRoles[name]" class="input-text jquery-live-validation-on input-error" type="text">
-                    <?php /*<span class="validation-icon" style="display: inline;"></span>
-                    <div class="error-message" style="display: block;">
-                        Mobile Phone is incorrect
-                        <div class="error-message-arr"></div>
-                    </div>*/?>
+                    <?= $form->textField($role, 'name', array('autocomplete' => 'off','class'=>'input-text')); ?>
+                    <span class="validation-icon" style="display: none;"></span>
+                    <?= $form->error($role, 'name', array('style' => 'display:none;')); ?>
                 </div>
             </div>
             <div class="col-lg-7 col-md-7 col-sm-7">
@@ -77,4 +93,4 @@
         </div>
     </div>
 </div>
-</form>
+<?php $this->endWidget(); ?>
