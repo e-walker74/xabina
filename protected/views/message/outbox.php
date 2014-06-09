@@ -1,11 +1,11 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
     <div class="h1-header"><?= Yii::t('Front', 'Outbox'); ?></div>
 	<?php $this->widget('XabinaAlert'); ?>
-    <? $this->widget('MessagesMenu'); ?>
+    <?php $this->widget('MessagesMenu'); ?>
     <div class="messages-cont">
         <table class="xabina-messages-table ">
             <tbody>
-            <? foreach ($messages as $k => $v): ?>
+            <?php foreach ($messages as $k => $v): ?>
                 <tr class="no-read">
                     <td width="76%">
                         <div class="message-header read">
@@ -28,10 +28,10 @@
 						)) ?>', this, '<?=Yii::t('Front', 'Are you sure?')?>')"></span>
                     </td>
                 </tr>
-            <? endforeach;?>
+            <?php endforeach;?>
             </tbody>
         </table>
-        <? $this->widget('CLinkPager', array(
+        <?php $this->widget('CLinkPager', array(
             'pages' => $pages,
         ))?>
     </div>

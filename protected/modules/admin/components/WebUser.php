@@ -52,10 +52,10 @@ class WebUser extends CWebUser {
         $this->id = $identity->getId();
         $user = $this->_getModel();
 
-		$this->setThisIp(ip2long(CHttpRequest::getUserHostAddress()));
+		$this->setThisIp(ip2long(Yii::app()->request->getUserHostAddress()));
 
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+		$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
 		$log = new Admin_Users_Log;
 		$log->region = $country;
 		$log->type = 'login';
@@ -75,7 +75,7 @@ class WebUser extends CWebUser {
 		$user = $this->_getModel();
 
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+		$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
 		$log = new Admin_Users_Log;
 		$log->region = $country;
 		$log->type = 'logout';

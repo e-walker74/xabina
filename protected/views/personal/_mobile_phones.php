@@ -24,7 +24,7 @@
             
         </th>
     </tr>
-    <? foreach ($users_phones as $users_phone): ?>
+    <?php foreach ($users_phones as $users_phone): ?>
 		<?php if($users_phone->hash): ?>
 		<tr class="email-comment-tr sms-comment-tr  border-yellow">
 			<td colspan="4">
@@ -47,7 +47,7 @@
                </div>
             </td>
             <td>
-                <? if($users_phone->status == 0 && $users_phone->is_master == 0):?>
+                <?php if($users_phone->status == 0 && $users_phone->is_master == 0):?>
 					<div class="field-row">
 						<div class="field-lbl">SMS code<span class="tooltip-icon" title="tooltip text"></span>
 						</div>
@@ -57,7 +57,7 @@
 						<a href="javaScript:void(0)" class="button ok" onclick="activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
 					</div>
 					<div class="error-message"></div>
-                <? elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
+                <?php elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
 					<?php if($users_phone->hash): ?>
 					<div class="field-row">
 						<div class="field-lbl">SMS code<span class="tooltip-icon" title="tooltip text"></span>
@@ -71,9 +71,9 @@
 					<?php else: ?>
 					<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
 					<?php endif; ?>
-                <? elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
+                <?php elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
                 <span class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
-                <? endif;?>
+                <?php endif;?>
             </td>
 			<?php if(!$users_phone->is_master): ?>
             <td class="remove-td actions-td">
@@ -87,7 +87,7 @@
             <input type="hidden" name="delete[<?= $users_phone->id ?>]" class="delete" value="0"/>
             <input type="hidden" name="type_edit[<?= $users_phone->id ?>]" class="type_edit" value="0"/>
         </tr>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 	<tr>
 			<td class="add-new-td" colspan="4">
 				<a class="table-btn" onclick="resetPage(); $(this).parents('tr').hide(); $(this).parents('form').find('.prof-form').toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
@@ -170,11 +170,11 @@ var resendSms = function(link){
 
 $('.types_dropdown').dropDown({
 	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
+		<?php foreach(Users_EmailTypes::all() as $k => $v):?>
+		<?php if(!empty($k) && !empty($v)):?>
 	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
+		<?php endif; ?>
+		<?php endforeach;?>
 	},
 	listClass: 'type_dropdown',
 });

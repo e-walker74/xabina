@@ -288,7 +288,7 @@ $(function(){
 	* Контроллер Personal
 	* Сброс значений полей формы
 	*/ 
-	function reset_values(form){	
+	function reset_values(form) {
 		$(form)[0].reset();
 		//$(form).val('');
 		//form.find("span.select-custom-label").text(form.find("select option:first").text());
@@ -437,32 +437,31 @@ $(function(){
 	}
 	
 	deleteRow = function(link, callback, parentTag){
-		if(!parentTag){
-			var parentTag = 'tr'
+		if (!parentTag) {
+			var parentTag = 'tr';
 		}
-		backgroundBlack()
+		backgroundBlack();
 		$.ajax({
 			url: $(link).attr('data-url'),
 			success: function(data) {
-				dellBackgroundBlack()
-				var response= jQuery.parseJSON (data);
-				if(response.success){
+				dellBackgroundBlack();
+				var response = jQuery.parseJSON(data);
+				if (response.success) {
 				
-					if(response.message){
-						successNotify(response.mesTitle, response.message, link)
+					if (response.message) {
+						successNotify(response.mesTitle, response.message, link);
 					}
 				
-					if($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')){
-						$(link).parents(parentTag).prev(parentTag).remove()
+					if ($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')) {
+						$(link).parents(parentTag).prev(parentTag).remove();
 					}
-					$(link).parents(parentTag).remove()
+					$(link).parents(parentTag).remove();
 					
-					
-					if(response.reload){
-						location.reload()
+					if (response.reload) {
+						location.reload();
 					}
 				}
-				callback()
+				callback();
 			},
 			cache:false,
 			data: {},
@@ -693,23 +692,23 @@ $(document).ready(function(){
 		return false;
 	})
 	
-	if($("#transaction-category-select"))
-	$("#transaction-category-select").change(function(){
-		var value = $(this).val();
-        var $el = $(this);
-		$.ajax({
-			type: "POST",
-			url: $el.attr('data-url'),
-			data: {category: value},
-            dataType : 'json',
-            success : function (res) {
-                if(res.success) {
-                    $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+	if ($("#transaction-category-select"))
+	    $("#transaction-category-select").change(function() {
+		    var value = $(this).val();
+            var $el = $(this);
+		    $.ajax({
+			    type: "POST",
+			    url: $el.attr('data-url'),
+			    data: {category: value},
+                dataType : 'json',
+                success : function (res) {
+                    if(res.success) {
+                        $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+                    }
                 }
-            }
-		});
-//		return false;
-	})
+		    });
+    //		return false;
+	    })
 
 	$( ".escape-dialog" ).dialog({
         autoOpen: false,

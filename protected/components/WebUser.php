@@ -218,13 +218,13 @@ class WebUser extends CWebUser {
 		$this->setEmail($user->email);
 		$this->setPhone($user->phone);
 		$this->setStatus($user->status);
-		$this->setThisIp(ip2long(CHttpRequest::getUserHostAddress()));
+		$this->setThisIp(ip2long(Yii::app()->request->getUserHostAddress()));
 		$this->setLanguage($user->settings->language);
         $this->setFontSize($user->settings->font_size);
         $this->setFullName($user->getFullName());
 
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+		$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
 		$log = new Users_Log;
 		$log->region = $country;
 		$log->type = 'login';
@@ -242,11 +242,12 @@ class WebUser extends CWebUser {
 		
     }
 
-	public function logout(){
+	public function logout($destroySession=true)
+    {
 		$user = $this->_getModel();
 	
 		$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-		$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+		$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
 		$log = new Users_Log;
 		$log->region = $country; 
 		$log->type = 'logout';

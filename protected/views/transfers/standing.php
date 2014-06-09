@@ -25,7 +25,7 @@
 						</div>
 						<div class="transaction-buttons-cont">
 							<a href="<?= Yii::app()->createUrl('/transfers/outgoing', array('standing' => $m->id)) ?>" class="button edit"></a>
-							<a data-url="<?= Yii::app()->createUrl('/transfers/deletestanding', array('id' => $m->id)) ?>" class="button delete"></a>
+							<a data-url="<?= Yii::app()->createUrl('/transfers/deletestanding', array('id' => $m->id)) ?>" class="button delete" title="<?=Yii::t('Front', 'Are you sure?')?>"></a>
 						</div>
 						<div class="more-info">
 							<div class="more-line">
@@ -49,18 +49,7 @@
 		</tr>
 	</table>
 </div>
-<script>
-    $(document).ready(function(){
-
-        $('.button.delete').confirmation({
-            title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-            singleton: true,
-            popout: true,
-            onConfirm: function(){
-                link = $(this).parents('.popover').prev('a')
-                deleteRow(link, function(){}, 'li');
-                return false;
-            }
-        })
-    })
+<script type="text/javascript" src="/js/deleteButton.js"></script>
+<script type="text/javascript">
+    deleteButtonEnable('li');
 </script>

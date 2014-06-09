@@ -76,5 +76,10 @@ class Text
         if ($die != null)
             die('Сарботал die');
     }
+    
+    public static function rand_str($len=8)
+    {
+        return substr( md5( microtime() ), 0, $len );
+    }
 
 }
