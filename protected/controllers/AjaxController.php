@@ -33,4 +33,17 @@ class AjaxController extends Controller
             echo $resStr;
         }
     }
+
+    public function actionSetManagerWidgetState() {
+        if (isset($_GET['state'])) {
+            $model = new UsersPersonalManagers();
+            $model->updateAll(array('widget_state' => $_GET['state']),'user_id="'.Yii::app()->user->id.'"');
+        }
+    }
+
+    public function actionGetManagerWidgetState() {
+        $model = new UsersPersonalManagers();
+        $ret = $model->find('user_id = '.Yii::app()->user->id);
+        echo $ret['widget_state'];
+    }
 }

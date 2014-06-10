@@ -144,6 +144,8 @@ class Users extends ActiveRecord
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
             'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
+            'personalManagers' => array(self::HAS_MANY, 'PersonalManagers', 'manager_id', 'through' => 'usersPersonalManagers'),
         );
     }
 
@@ -164,7 +166,7 @@ class Users extends ActiveRecord
             'updated_at'    => Yii::t('Front', 'Date Edit'),
             'repassword'   => Yii::t('Front', 'Повторите'),
             'old_password' => Yii::t('Front', 'Старый пароль'),
-			'phone' 	   => Yii::t('Front', 'Мобильный'),
+			'phone' 	   => Yii::t('Front', 'Мобильный')
         );
     }
 

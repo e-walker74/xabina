@@ -15,6 +15,12 @@
 			<li ><a href="<?= Yii::app()->createUrl('/admin/users/create/') ?>/"><?= Yii::t('Users', 'Create User'); ?></a></li>
 		</ul>
 	</li>
+    <li ><a href="javascript:;"><i class="fa fa-group"></i> <span><?= Yii::t('Personal managers', 'Personal managers'); ?></span></a>
+        <ul class="acc-menu">
+            <li ><a href="<?= Yii::app()->createUrl('/admin/PersonalManagers/manage/') ?>/"><?= Yii::t('Personal managers', 'Manage Managers'); ?></a></li>
+            <li ><a href="<?= Yii::app()->createUrl('/admin/PersonalManagers/create/') ?>/"><?= Yii::t('Personal managers', 'Create Manager'); ?></a></li>
+        </ul>
+    </li>
 	<li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Mailer', 'Mailer'); ?></span></a>
 		<ul class="acc-menu">
 			<li><a href="<?= Yii::app()->createUrl('/admin/mailer/mails/') ?>/"><?= Yii::t('Mailer', 'Templates'); ?></a></li>
