@@ -1173,6 +1173,9 @@ class PersonalController extends Controller
 
         // сохраняем модель
         $model->attributes = $_POST[$modelName];
+        if (!$model->isNewRecord && $model->user_id!=Yii::app()->user->id)
+            return;
+
         if ($model->save()) {
             echo CJSON::encode(array(
                 'success' => true,
@@ -1194,7 +1197,7 @@ class PersonalController extends Controller
         $model = Users_Paymentinstruments::model()->findByPk($id);
         $success = false;
         $message = false;
-        if ($model->user_id = Yii::app()->user->id) {
+        if ($model->user_id==Yii::app()->user->id) {
             $model->deleted = 1;
             $model->scenario = 'delete';
             if ($model->save()) {

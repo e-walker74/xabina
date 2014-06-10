@@ -150,7 +150,6 @@ class Users_Paymentinstruments extends ActiveRecord
         return parent::beforeSave();
     }
     
-
     /**
      * getHtmlStatus
      * TODO: перевести везде где встречается $this->htmlStatus на PaymentService::getHtmlStatus($this->status);

@@ -13,6 +13,7 @@ var submitForm = function(form, method) {
                     $('#add-more').css('display', 'table-row');
                     $('.add-new-form').css('display', 'none');
                     deleteButtonEnable();
+                    editButtonEnable();
                 }  else {
                     $('.edit-payment-tr').css('display', 'none');
                     $('.view-payment-tr').css('display', 'table-row');

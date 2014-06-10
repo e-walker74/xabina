@@ -45,14 +45,17 @@
                 hideAddNewForm();
                 return false;
             });
-            $('.button.edit').click(function() {
-                hideEditForm();
-                hideAddNewForm();
-                var tr = $(this).parents('tr');
-                tr.next('tr').toggle('slow');
-                tr.hide()
-                return false;
-            });
+            var editButtonEnable = function() {
+                $('.button.edit').click(function() {
+                    hideEditForm();
+                    hideAddNewForm();
+                    var tr = $(this).parents('tr');
+                    tr.next('tr').toggle('slow');
+                    tr.hide()
+                    return false;
+                });
+            };
+            editButtonEnable();
             $('.edit-payment-tr .button.cancel').click(function() {
                 hideEditForm();
                 return false;
