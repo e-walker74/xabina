@@ -1,13 +1,14 @@
-<div class="popup-register-cont">
-    <div class="popup-register-block success">
-        <div class="popup-register-header">
-            <?= Yii::t('Front', 'Xabina'); ?>
+<div class="popup-login">
+    <a href="<?= Yii::app()->createUrl('site/registration') ?>" class="popup-btn-wrapper open-account">
+        <div class="popup-btn">
+            <div class="img"></div>
+            <div class="text"><?= Yii::t('Front', 'Open Account'); ?></div>
         </div>
-        <!--<div class="success-ico"></div>-->
-        <div class="congratulations-msg">
-            <a href="<?= Yii::app()->createUrl('site/registration') ?>"><?= Yii::t('Front', 'Open Account'); ?></a>
-			<a href="<?= Yii::app()->createUrl('/site/login') ?>"><?= Yii::t('Front', 'Online Banking'); ?></a>
+    </a>
+    <a href="<?= Yii::app()->createUrl('/site/login') ?>" class="popup-btn-wrapper account-login">
+        <div class="popup-btn">
+            <div class="img"></div>
+            <div class="text"><?= Yii::t('Front', 'Account Login'); ?></div>
         </div>
-    </div>
+    </a>
 </div>
-
