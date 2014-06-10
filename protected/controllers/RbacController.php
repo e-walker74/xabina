@@ -37,16 +37,22 @@ class RbacController extends Controller
         
         $role = new RbacRoles();
         $this->performAjaxValidation($role);
+        $tplVars = array();
         
         if(isset($_POST['RbacRoles'])) {
             
             $role->name = $_POST['RbacRoles']['name'];
             $role->is_system = 0;
             $role->create_uid = Yii::app()->user->getId();
-            if($role->validate()) {
+            if($role->validate() && isset($_POST['RbacRoles']['rights']) ) {
                 $role->save();
-                RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']);
+                if( RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']) ) {
+                    $this->redirect("/settings/roles");
+                };
+            } else if (!isset ($_POST['RbacRoles']['rights'])) {
+                $tplVars['rightsError'] = "Select access right.";
             }
+            
         }
         
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
@@ -54,14 +60,19 @@ class RbacController extends Controller
         
         $roles = RbacRoles::model()->findAll('is_system=1 or create_uid = ' . Yii::app()->user->getId());
         $rightsTree = RbacAccessRights::model()->getAccessRightsTree();
-        $this->render('add_role', array('rightsTree' => $rightsTree, 'roles'=>$roles, 'role' => $role));
+
+        $tplVars['rightsTree'] = $rightsTree;
+        $tplVars['roles']      = $roles;
+        $tplVars['role']       = $role;
+
+        $this->render('add_role', $tplVars);
     }
     
     public function actionAddUser() {
         
         if(isset($_POST['data'])) {
             if( ($userRole = RbacUserRoles::model()->addUserRole($_POST['data'])) ) {
-                RbacUserAccessRights::model()->saveUserRights($userRole, $_POST['RbacRoles']['rights']);
+                RbacUserRolesrAccessRights::model()->saveUserRights($userRole, $_POST['RbacRoles']['rights']);
             } else {
                 
             }
