@@ -1132,9 +1132,11 @@ class PersonalController extends Controller
             $this->_createUpdatePaymentInstument($method);
 
         // User`s favorite payment instuments list
-        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
-            'user_id'=>Yii::app()->user->id,
-        ));
+        $paymentInstruments = Users_Paymentinstruments::model()
+            ->active()
+            ->own()
+            ->findAll();
+
         $this->render('paymentInstuments/list', Array(
             'paymentInstruments'=>$paymentInstruments,
         ));

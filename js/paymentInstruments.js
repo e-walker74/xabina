@@ -14,7 +14,7 @@ var submitForm = function(form, method) {
                     $('.add-new-form').css('display', 'none');
                     deleteButtonEnable();
                     editButtonEnable();
-                }  else {
+                } else {
                     $('.edit-payment-tr').css('display', 'none');
                     $('.view-payment-tr').css('display', 'table-row');
                 }

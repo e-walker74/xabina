@@ -160,4 +160,17 @@ class Users_Paymentinstruments extends ActiveRecord
         return PaymentService::getHtmlStatus($this->status);
     }
 
+
+    public function scopes()
+    {
+        $alias = $this->getTableAlias(false, false);
+        return Array(
+            'active' => Array(
+                'condition' => "$alias.deleted=0",
+            ),
+            'own' => Array(
+                'condition' => "$alias.user_id=" . Yii::app()->user->id,
+            ),
+        );
+    }
 }
