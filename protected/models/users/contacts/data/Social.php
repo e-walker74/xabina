@@ -38,6 +38,7 @@ class Users_Contacts_Data_Social extends Users_Contacts_Data_Model
 			array('url', 'socialUrlValidate'),
 			array('url', 'url'),
 			array('social', 'in', 'range' => array_keys(self::$socials)),
+			array('url', 'length', 'max' => 140),
 		);
 	}
 	

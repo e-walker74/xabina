@@ -20,6 +20,7 @@ class Users_Contacts_Data_Email extends Users_Contacts_Data_Model
 		return array(
 			array('email', 'email'),
 			array('email, category', 'required'),
+			array('email, category', 'length', 'max' => 140),
 		);
 	}
 	

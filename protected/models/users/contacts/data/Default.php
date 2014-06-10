@@ -26,6 +26,7 @@ class Users_Contacts_Data_Default extends Users_Contacts_Data_Model
 		return array(
 			array('type, value', 'required'),
 			array('type', 'in', 'range' => array('currency', 'details', 'category')),
+			array('value', 'length', 'max' => 140),
 			array('value', 'checkValue'),
 		);
 	}

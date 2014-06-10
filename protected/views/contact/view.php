@@ -313,7 +313,9 @@
 										<?php endif; ?>
 									</td>
 									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $account->url ?></span> <br>
+										<span class="strong">
+											<a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($account->url))) ?>"><?= $account->url ?></a>
+										</span> <br>
 										<?= $account->category ?> <br>
 									</td>
 									<td  style="width: 6%">

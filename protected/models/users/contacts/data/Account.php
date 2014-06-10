@@ -48,6 +48,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 			array('bic', 'validateBankCode'),
 			array('scrill_acc', 'required', 'on' => 'scrill_acc'),
 			array('webmoney_acc', 'required', 'on' => 'webmoney_acc'),
+			array('webmoney_acc, scrill_acc, bic, paypal_acc, account_holder, account_number', 'length', 'max' => 140),
 			array('account_type', 'in', 'range' => array_keys(self::$contacts_account_types)), //TODO another account types
 			/*array('p_month', 'numerical', 'min' => 1, 'max' => 12),
 			array('p_month', 'length', 'max' => 2),

@@ -21,7 +21,8 @@ class Users_Contacts_Data_Instmessaging extends Users_Contacts_Data_Model
 		return array(
 			array('messanger, name', 'required'),
 			array('messanger', 'ext.validators.InstMessangersValidator'),
-			array('category, name', 'length', 'max' => 255),
+			array('category, name', 'length', 'max' => 140),
+			
 		);
 	}
 	

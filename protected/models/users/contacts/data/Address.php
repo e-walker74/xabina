@@ -22,7 +22,7 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 		// will receive user inputs.
 		return array(
 			array('address, country_id', 'required'),
-			array('address, index, category', 'length', 'max' => 255),
+			array('address, index, category', 'length', 'max' => 140),
 			array('country_id', 'numerical'),
 		);
 	}
