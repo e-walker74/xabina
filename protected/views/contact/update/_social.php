@@ -8,7 +8,7 @@
 		<?php foreach($model->getDataByType('social') as $model): ?>
 		<tr class="data-row">
 			<td>
-				<?php if($model->social): ?>
+				<?php if($model->social && isset(Users_Contacts_Data_Social::$socialsImages[$model->social])): ?>
 					<img src="<?= Users_Contacts_Data_Social::$socialsImages[$model->social] ?>" alt=""/>
 				<?php endif; ?>
 			</td>
@@ -48,7 +48,7 @@
 								<div class="select-img">
 									<div class="select-custom select-soocnet "  data-toggle="dropdown">
 									<span class="select-custom-label selected-img">
-										<?php if($model->social): ?>
+										<?php if($model->social && isset(Users_Contacts_Data_Social::$socialsImages[$model->social])): ?>
 											<img src="<?= Users_Contacts_Data_Social::$socialsImages[$model->social] ?>" alt=""/>
 										<?php endif; ?>
 									</span>

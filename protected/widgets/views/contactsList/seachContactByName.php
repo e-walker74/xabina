@@ -1,5 +1,5 @@
 
-	<div class="col-lg-12 col-md-12 col-sm-12 search-by-name-block" style="display:none;">
+	<div class="col-lg-12 col-md-12 col-sm-12 search-by-name-block">
 		<div class="link-search">
 			<div class="account-number">
 				<div class="input">
