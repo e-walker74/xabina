@@ -1,10 +1,10 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 52%"><?= Yii::t('Front', 'Address'); ?></th>
-			<th style="width: 23%"><?= Yii::t('Front', 'Category'); ?></th>
-			<th style="width: 25%"><?= Yii::t('Front', 'Status'); ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 38%"><?= Yii::t('Front', 'Address'); ?></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Category'); ?></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Status'); ?></th>
+			<th style="width: 20%"></th>
 		</tr>
 		<?php foreach($model->getDataByType('address') as $address): ?>
 		<tr class="data-row">
@@ -17,6 +17,7 @@
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'address', 'id' => $address->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
@@ -62,8 +63,20 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'country_id', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'country_id') ?>
+									<div class="select-custom select-narrow ">
+										<span class="select-custom-label"></span>
+										<?= $form->dropDownList(
+											$address,
+											'country_id',
+											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
+											array(
+												'class' => 'select-invisible country-select',
+												'options' => array($address->country_id => array('selected' => true)),
+												'empty' => Yii::t('Front', 'Select')
+											)
+										); ?>
+									</div>
+									<?= $form->error($address, 'country_id'); ?>
 								</div>
 							</div>
 						</div>
@@ -94,7 +107,7 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_address_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'category', array('class' => 'input-text bg')) ?>
+									<?= $form->textField($address, 'category', array('class' => 'input-text')) ?>
 									<?= $form->error($address, 'category') ?>
 								</div>
 							</div>
@@ -155,8 +168,20 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'country_id', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'country_id') ?>
+									<div class="select-custom select-narrow ">
+										<span class="select-custom-label"></span>
+										<?= $form->dropDownList(
+											$address,
+											'country_id',
+											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
+											array(
+												'class' => 'select-invisible country-select',
+												'options' => array($address->country_id => array('selected' => true)),
+												'empty' => Yii::t('Front', 'Select')
+											)
+										); ?>
+									</div>
+									<?= $form->error($address, 'country_id'); ?>
 								</div>
 							</div>
 						</div>
@@ -187,7 +212,7 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_address_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'category', array('class' => 'input-text bg')) ?>
+									<?= $form->textField($address, 'category', array('class' => 'input-text')) ?>
 									<?= $form->error($address, 'category') ?>
 								</div>
 							</div>
@@ -202,3 +227,16 @@
 		</tr>
 	</table>
 </div>
+<script>
+$(document).ready(function(){
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+})
+</script>

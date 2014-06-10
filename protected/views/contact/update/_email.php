@@ -1,10 +1,10 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 52%"><?= Yii::t('Front', 'E-Mail') ?></th>
-			<th style="width: 23%"><?= Yii::t('Front', 'Category') ?></th>
-			<th style="width: 25%"><?= Yii::t('Front', 'Status') ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 38%"><?= Yii::t('Front', 'E-Mail') ?></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Category') ?></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Status') ?></th>
+			<th style="width: 20%"></th>
 		</tr>
 		<?php foreach($model->getDataByType('email') as $model): ?>
 		<tr class="data-row">
@@ -14,6 +14,7 @@
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'email', 'id' => $model->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
@@ -141,3 +142,16 @@
 		</tr>
 	</table>
 </div>
+<script>
+$(document).ready(function(){
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+})
+</script>

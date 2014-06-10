@@ -167,7 +167,7 @@
 														<img width="22" src="<?= $model->getAvatarUrl() ?>" alt=""/>
 													<?php endif; ?>
 													<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
-													<?= Yii::t('Front', 'Upload user photo') ?>
+													<span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
 													<?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
 													<?php if($model->photo): ?>
 														<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>
@@ -219,7 +219,7 @@
 			</div>
 		</div>
 		<div class="form-narrow-submit clearfix">
-			<a href="<?= Yii::app()->createUrl('/contact/index') ?>" class="xabina-submit left back">Back</a>
+			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $model->url)) ?>" class="xabina-submit button-back"><?= Yii::t('Front', 'Back') ?></a>
 		</div>
 	</div>
 </div>

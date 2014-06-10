@@ -1,9 +1,9 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 54%"><?= Yii::t('Front', 'URL') ?></th>
-			<th style="width: 46%"><?= Yii::t('Front', 'Category') ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 44%"><?= Yii::t('Front', 'URL') ?></th>
+			<th style="width: 36%"><?= Yii::t('Front', 'Category') ?></th>
+			<th style="width: 20%"></th>
 		</tr>
 		<?php foreach($model->getDataByType('urls') as $model): ?>
 		<tr class="data-row">
@@ -12,6 +12,7 @@
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'urls', 'id' => $model->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
@@ -163,3 +164,16 @@
 		</tr>
 	</table>
 </div>
+<script>
+$(document).ready(function(){
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+})
+</script>

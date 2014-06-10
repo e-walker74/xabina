@@ -26,6 +26,7 @@ class Users_Contacts_Data_Dates extends Users_Contacts_Data_Model
 			array('date', 'required'),
 			array('date', 'date', 'format' => 'dd.mm.yyyy'),
 			array('category', 'length', 'max' => 140),
+			array('date', 'length', 'max' => 10),
 		);
 	}
 	

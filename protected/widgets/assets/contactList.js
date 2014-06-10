@@ -94,12 +94,14 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 		return false;
 	})
 	
-	$(options.parentSelector).on('click', '.contact-list li', function(e){
-		$(options.parentSelector).slideUp()
-		$(options.inputSelectorForName).val($(this).find('.contact-name').text())
-		$(options.inputSelectorForID).val($(this).attr('data-id'))
-		return false
-	})
+	if($(options.inputSelectorForID).length != 0){
+		$(options.parentSelector).on('click', '.contact-list li', function(e){
+			$(options.parentSelector).slideUp()
+			$(options.inputSelectorForName).val($(this).find('.contact-name').text())
+			$(options.inputSelectorForID).val($(this).attr('data-id'))
+			return false
+		})
+	}
 	
 	$(options.searchLineSelector).on('keyup', function(e){
 		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())

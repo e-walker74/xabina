@@ -1,19 +1,20 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 52%"><?= Yii::t('Front', 'Phone'); ?></th>
-			<th style="width: 23%"><?= Yii::t('Front', 'Category'); ?></th>
-			<th style="width: 25%"><?= Yii::t('Front', 'Status'); ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 38%"><?= Yii::t('Front', 'Phone'); ?></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Category'); ?></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Status'); ?></th>
+			<th style="width: 20%"></th>
 		</tr>
 		<?php foreach($model->getDataByType('phone') as $model): ?>
 		<tr class="data-row">
-			<td>+<?= $model->phone ?></td>
+			<td><?= $model->phone ?></td>
 			<td><?= $model->category ?></td>
 			<td><span class="primary"><?= ($model->getDbModel()->is_primary) ? 'Primary' : '' ?></span></td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'phone', 'id' => $model->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
@@ -47,7 +48,7 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'phone', array('class' => 'input-text')) ?>
+									<?= $form->textField($model, 'phone', array('class' => 'input-text phone numeric')) ?>
 									<?= $form->error($model, 'phone') ?>
 								</div>
 							</div>
@@ -112,7 +113,7 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'phone', array('class' => 'input-text')) ?>
+									<?= $form->textField($model, 'phone', array('class' => 'input-text phone numeric')) ?>
 									<?= $form->error($model, 'phone') ?>
 								</div>
 							</div>
@@ -142,3 +143,16 @@
 		</tr>
 	</table>
 </div>
+<script>
+$(document).ready(function(){
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+})
+</script>

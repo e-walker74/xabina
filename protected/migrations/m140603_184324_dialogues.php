@@ -6,7 +6,7 @@ class m140603_184324_dialogues extends CDbMigration
 	{
 		$this->execute('
 			CREATE  TABLE IF NOT EXISTS `dialogues_messages` (
-			  `id` INT NOT NULL AUTO_INCREMENT ,
+			  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
 			  `dialog_id` INT UNSIGNED NOT NULL ,
 			  `user_id` INT UNSIGNED NULL ,
 			  `status` TINYINT(2) UNSIGNED NOT NULL ,

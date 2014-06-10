@@ -70,6 +70,13 @@ class Users_Contacts extends ActiveRecord
 		}
 		return true;
 	}
+	
+	public function beforeSave(){
+		if($this->isNewRecord){
+			$this->url = md5($this->fullname . time());
+		}
+		return parent::beforeSave();
+	}
 
 	/**
 	 * @return array relational rules.
@@ -209,6 +216,7 @@ class Users_Contacts extends ActiveRecord
 		$this->_transactions = array();
 
 		foreach($rows as $trans){
+			$this->_transactions[$trans['id']]['id'] = $trans['id'];
 			$this->_transactions[$trans['id']]['amount'] = $trans['sum'];
 			$this->_transactions[$trans['id']]['type'] = $trans['type'];
 			$this->_transactions[$trans['id']]['acc_balance'] = $trans['acc_balance'];

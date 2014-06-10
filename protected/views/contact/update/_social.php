@@ -2,18 +2,21 @@
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
 			<th style="width: 14%"><?= Yii::t('Front', 'Social'); ?></th>
-			<th style="width: 86%"><?= Yii::t('Front', 'URL address'); ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 66%"><?= Yii::t('Front', 'URL address'); ?></th>
+			<th style="width: 20%"></th>
 		</tr>
-		<?php foreach($model->getDataByType('urls') as $model): ?>
+		<?php foreach($model->getDataByType('social') as $model): ?>
 		<tr class="data-row">
 			<td>
-				<img src="<?= $model->social ?>" alt=""/>
+				<?php if($model->social): ?>
+					<img src="<?= Users_Contacts_Data_Social::$socialsImages[$model->social] ?>" alt=""/>
+				<?php endif; ?>
 			</td>
 			<td><?= $model->url ?></td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'social', 'id' => $model->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
@@ -42,29 +45,32 @@
 					<div class="col-lg-2 col-md-2  col-sm-2">
 						<div class="form-cell">
 							<div class="form-input" style="margin: 0; position: relative">
-								<div class="select-custom select-soocnet"  data-toggle="dropdown">
-									<span class="select-custom-label">
-										<img src="/images/soc_img_03.png" alt=""/>
+								<div class="select-img">
+									<div class="select-custom select-soocnet "  data-toggle="dropdown">
+									<span class="select-custom-label selected-img">
+										<?php if($model->social): ?>
+											<img src="<?= Users_Contacts_Data_Social::$socialsImages[$model->social] ?>" alt=""/>
+										<?php endif; ?>
 									</span>
+									<?= $form->hiddenField($model, 'social', array('class' => 'socnet-select')); ?>
+									</div>
+									<ul class="dropdown-menu socnet-dropdown img-dropdown" role="menu" >
+										<?php foreach(Users_Contacts_Data_Social::$socialsImages as $key => $img): ?>
+										<li>
+											<a href="#" data-id="<?= $key ?>" ><img src="<?= $img ?>" alt=""/></a>
+										</li>
+										<?php endforeach; ?>
+									</ul>
 								</div>
-								<ul class="dropdown-menu socnet-dropdown" role="menu" >
-									<li>
-										<a href="javaScript:void(0)"><img src="/images/soc_img_06.png" alt=""/></a>
-									</li>
-									<li>
-										<a href="javaScript:void(0)"><img src="/images/soc_img_09.png" alt=""/></a>
-									</li>
-								</ul>
+								<?= $form->error($model, 'social'); ?>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-7 col-md-7 col-sm-7">
 						<div class="form-cell">
 							<div class="form-input">
-								<div class="form-input">
-									<?= $form->textField($model, 'url', array('class' => 'input-text')) ?>
-									<?= $form->error($model, 'url') ?>
-								</div>
+								<?= $form->textField($model, 'url', array('class' => 'input-text social-url-input')) ?>
+								<?= $form->error($model, 'url') ?>
 							</div>
 						</div>
 					</div>
@@ -109,26 +115,29 @@
 					<div class="col-lg-2 col-md-2  col-sm-2">
 						<div class="form-cell">
 							<div class="form-input" style="margin: 0; position: relative">
-								<div class="select-custom select-soocnet"  data-toggle="dropdown">
-									<span class="select-custom-label">
+								<div class="select-img">
+									<div class="select-custom select-soocnet "  data-toggle="dropdown">
+									<span class="select-custom-label selected-img">
 										<img src="/images/soc_img_03.png" alt=""/>
 									</span>
+									<?= $form->hiddenField($model, 'social', array('class' => 'socnet-select')); ?>
+									</div>
+									<ul class="dropdown-menu socnet-dropdown img-dropdown" role="menu" >
+										<?php foreach(Users_Contacts_Data_Social::$socialsImages as $key => $img): ?>
+										<li>
+											<a href="#" data-id="<?= $key ?>" ><img src="<?= $img ?>" alt=""/></a>
+										</li>
+										<?php endforeach; ?>
+									</ul>
 								</div>
-								<ul class="dropdown-menu socnet-dropdown" role="menu" >
-									<li>
-										<a href="javaScript:void(0)"><img src="/images/soc_img_06.png" alt=""/></a>
-									</li>
-									<li>
-										<a href="javaScript:void(0)"><img src="/images/soc_img_09.png" alt=""/></a>
-									</li>
-								</ul>
+								<?= $form->error($model, 'social'); ?>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-7 col-md-7 col-sm-7">
 						<div class="form-cell">
 							<div class="form-input">
-								<?= $form->textField($model, 'url', array('class' => 'input-text')) ?>
+								<?= $form->textField($model, 'url', array('class' => 'input-text social-url-input')) ?>
 								<?= $form->error($model, 'url') ?>
 							</div>
 						</div>
@@ -145,3 +154,16 @@
 		</tr>
 	</table>
 </div>
+<script>
+$(document).ready(function(){
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			deleteRow($(this).parents('.popover').prev('a'));
+			return false;
+		}
+	})
+})
+</script>

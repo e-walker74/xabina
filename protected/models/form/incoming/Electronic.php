@@ -46,7 +46,7 @@ class Form_Incoming_Electronic extends Form_Incoming
 				array('p_csc', 'length', 'max' => 3, 'min' => 3),
 				array('ideal_account_number', 'numerical'),
 				array('creditcard_number', 'match', 'pattern'=>'/^((34)|(35)|(37)|(4)|(62[0-5]0)|(5[0-6])|(62)|(88))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
-				array('creditcard_number', 'Card'),
+				array('creditcard_number', 'ext.validators.Card'),
             )
         );
     }

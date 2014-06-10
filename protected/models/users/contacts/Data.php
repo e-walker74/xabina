@@ -157,21 +157,23 @@ class Users_Contacts_Data extends ActiveRecord
 		return CActiveForm::validate($model);
 	}
 	
-	public function saveData(){
+	public function saveData($contact_id){
 		$model = self::getModelByPost();
 		if(!$model){
 			return CJSON::encode(array('success' => false));
 		}
+		
 		$dbModel = $model->getDbModel();
 		if(!$dbModel){
 			$dbModel = new Users_Contacts_Data;
-			$dbModel->contact_id = Yii::app()->request->getParam('id');
+			$dbModel->contact_id = $contact_id;
 			$dbModel->data_type = array_search(get_class($model), self::$typesMap);
 		}
+		$model->validate();
 		$dbModel->value = serialize($model->attributes);
 		
 		if($dbModel->save()){
-			$contact = Users_Contacts::model()->findByPk(Yii::app()->request->getParam('id'));
+			$contact = Users_Contacts::model()->findByPk($contact_id);
 			return CJSON::encode(
 				array(
 					'success' => true,

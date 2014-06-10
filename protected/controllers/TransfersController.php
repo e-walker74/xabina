@@ -751,7 +751,6 @@ class TransfersController extends Controller
         } else {
             echo CJSON::encode(array('success' => false));
         }
-
     }
 	
 	public function actionResendSms()

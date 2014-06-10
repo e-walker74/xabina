@@ -782,6 +782,46 @@ $(document).ready(function(){
         $(window).unbind('beforeunload')
     })
 	
+	$('.bank-swift').change(function(){
+		var swift_input = $(this)
+		var bank_name_input = $(this).parents('form').find('.bankinfo-name')
+        $.ajax({
+            url: swift_input.attr('data-url'),
+            success: function(response) {
+                if(response.success){
+                    bank_name_input.val(response.name)
+                } else {
+                    bank_name_input.val('')
+                }
+            },
+            cache:false,
+            async: false,
+            data: {bic: swift_input.val()},
+            type: 'POST',
+            dataType: 'json'
+        });
+    })
+	
+	$(document).on('keyup', '.numeric', function() {
+		var input = $(this),
+		text = input.val().replace(/[^0-9+\s]/g, "");
+		if(/_|\s/.test(text)) {
+			text = text.replace(/_|\s/g, "");
+			// logic to notify user of replacement
+		}
+		input.val(text);
+	})
+	
+	$(document).on('keyup', '.phone', function(){
+        if(!$(this).val()){
+            $(this).val('+');
+        }
+    }).on('input', '.phone', function(){
+        if( !~($(this).val().indexOf('+') )){
+            $(this).val( '+' + $(this).val() );
+        }
+    });
+	
 })
 
 var cancelPage = function(){
@@ -1016,4 +1056,27 @@ $(document).ready(function(){
         $("#rbac-accounts-switcher-form").submit();
         return false;
     });
+});
+
+
+$(function(){
+
+    $('.details-accordion').accordion({
+        heightStyle: "content",
+        active: 0,
+        collapsible: true
+    });
+    
+    $('.show-users').accordion({
+        heightStyle: "content",
+        active: 1,
+        collapsible: true
+    });
+	
+	$('.xabina-accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+
 });

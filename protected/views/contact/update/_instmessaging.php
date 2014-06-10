@@ -18,7 +18,7 @@
 			<td><span class="primary"><?= ($model->getDbModel()->is_primary) ? 'Primary' : '' ?></span></td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/delete', array('type' => 'instmessaging', 'id' => $model->id)) ?>" ></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'instmessaging', 'id' => $model->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>

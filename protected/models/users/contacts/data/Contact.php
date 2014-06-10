@@ -18,6 +18,7 @@ class Users_Contacts_Data_Contact extends Users_Contacts_Data_Model
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('contact_id', 'required', 'message' => Yii::t('Front', 'Contact is incorrect')),
 			array('contact_id', 'ext.validators.ContactValidator'),
 			array('category', 'length', 'max' => 255),
 		);

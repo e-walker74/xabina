@@ -20,7 +20,7 @@
 			<td><?= $model->category ?></td>
 			<td>
 				<div class="transaction-buttons-cont">
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/delete', array('type' => 'contact', 'id' => $model->id)) ?>" ></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'contact', 'id' => $model->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
@@ -70,6 +70,11 @@
 							<input type="submit" class="button ok" value="" />
 							<a href="javaScript:void(0)" class="button cancel"></a>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-10 col-md-10 col-sm-10">
+						<?= $form->error($model, 'contact_id') ?>
 					</div>
 				</div>
 				<div class="row">

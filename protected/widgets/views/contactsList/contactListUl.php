@@ -15,7 +15,7 @@
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
 		<li data-id="<?= $contact->id ?>">
-			<a href="<?= Yii::app()->createUrl('/contact/view', array('id' => $contact->id)) ?>">
+			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 				<div class="photo-cont pull-left">
 					<?php if($contact->photo): ?>
 						<img width="40" src="<?= $contact->getAvatarUrl() ?>" alt=""/>
@@ -26,11 +26,17 @@
 				<div class="contact-info pull-left">
 					<div class="contact-name"><?= $contact->fullname ?></div>
 					<div class="contact-extra-info">
-						<?php $accArr = array(); ?>
-						<?php foreach($contact->getDataByType('account') as $account): ?>
-							<?php $accArr[] = $account->account_number ?>
-						<?php endforeach; ?>
-						<?= implode(' - ', $accArr); ?>
+						<?php if($contact->nickname): ?>
+							<?= $contact->first_name ?> <?= $contact->last_name ?>
+						<?php endif; ?>
+						<?php if($contact->company && $contact->fullname != $contact->company): ?>
+							<?php if(!$contact->nickname): ?>
+								<?= $contact->company; ?>
+							<?php else: ?>
+								(<?= $contact->company; ?>)
+							<?php endif; ?>
+							
+						<?php endif; ?>
 					</div>
 				</div>
 				<div class="clearfix"></div>

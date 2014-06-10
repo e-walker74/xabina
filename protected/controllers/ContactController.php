@@ -44,6 +44,7 @@ class ContactController extends Controller
 					'analytics',
 					'create',
 					'delete',
+					'DeleteData',
 				),
                 'roles' => array('client')
             ),
@@ -109,11 +110,17 @@ class ContactController extends Controller
 		
 	}
 	
-	public function actionView($id){
+	public function actionView($url){
 		Yii::app()->clientScript->registerScriptFile('/js/contacts.js');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My contact'))] = array('/contact/index');
 		
-		$model = Users_Contacts::model()->currentUser()->with('data')->findByPk($id);
+		$model = Users_Contacts::model()->currentUser()->with('data')->findByAttributes(array('url' => $url));
+		
+		if(!$model){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+		$id = $model->id;
 		
 		$this->breadcrumbs[$model->fullname] = '';
 		
@@ -147,18 +154,20 @@ class ContactController extends Controller
 		$this->render('create', array('model' => $model));
 	}
 		
-	public function actionUpdate($id){
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My contact'))] = array('/contact/index');
-		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Edit contact'))] = '';
-		
+	public function actionUpdate($url){
 		Yii::app()->clientScript->registerScriptFile('/js/contacts.js');
 		
-		$model = Users_Contacts::model()->currentUser()->findByPk($id);
+		$model = Users_Contacts::model()->currentUser()->with('data')->findByAttributes(array('url' => $url));
 		
 		if(!$model){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My contact'))] = array('/contact/index');
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', $model->fullname))] = array('/contact/view', 'url' => $model->url);
+		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Edit'))] = '';
+		
+		$id = $model->id;
 		if(Yii::app()->request->getParam('ajax') == 'contact-form' && isset($_POST['Users_Contacts'])){
 			echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -176,7 +185,7 @@ class ContactController extends Controller
 		
 		if(count($_POST) && Yii::app()->request->isAjaxRequest){
 			$this->cleanResponseJs();
-			echo Users_Contacts_Data::saveData();
+			echo Users_Contacts_Data::saveData($id);
 			Yii::app()->end();
 		}
 	
@@ -193,7 +202,7 @@ class ContactController extends Controller
 				$image->resize(80, 80, Image::MAX)->crop(80, 80)->quality(75);
 				$folder = Yii::app()->getBasePath(true) . '/../images/contacts/'.$model->user_id.'/'.$model->id.'/';
 				$name = md5(time()).'.'.$image->getImageExt();
-				mkdir($folder, 0775, 1);
+				@mkdir($folder, 0775, 1);
 				$image->save($folder.$name);
 				$model->photo = $name;
 				$model->save();
@@ -207,7 +216,23 @@ class ContactController extends Controller
 	}
 	
 	public function actionDelete($id){
-		$type = Yii::app()->request->getParam('type', '', 'list', array('instmessaging','contact'));
+		Users_Contacts::model()->currentUser()->deleteByPk($id);
+		$this->redirect(array('/contact/index'));
+	}
+	
+	public function actionDeleteData($id){
+		$type = Yii::app()->request->getParam('type', '', 'list', array(
+			'instmessaging',
+			'contact',
+			'account',
+			'email',
+			'phone',
+			'address',
+			'default',
+			'social',
+			'urls',
+			'dates',
+		));
 		$model = Users_Contacts_Data::model()->with('contact')->findByAttributes(
 			array(
 				'id' => $id,

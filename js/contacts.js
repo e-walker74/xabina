@@ -13,6 +13,55 @@ $(document).ready(function(){
 		$(this).parents('tr').hide().next('.edit-row').show()
 		return false;
 	})
+	
+	$('#Users_Contacts_photo').on('change', function(){
+		var name = $(this).val().split(/(\\|\/)/g).pop()
+		$(this).parents('.file-label').find('.filename').html(name)
+	})
+	
+	$('.account_type_fields').hide()
+	$('.account_type_fields.selected').show()
+	
+	$('.accout_type_select').on('change', function(){
+		var form = $(this).parents('form')
+		form.find('.account_type_fields').hide()
+		form.find('.account_type_fields.data_'+$(this).val()).show()
+	})
+	
+	$('.select-img').on('click', '.img-dropdown a', function(e){
+        var $context = $(e.delegateTarget);
+        $context.find('input[type=hidden]').val($(this).data('id'));
+		updateInputSocNet($context.find('input[type=hidden]'))
+        $context.find('.selected-img img').attr('src', $(this).find('img').attr('src'));
+        e.preventDefault();
+    })
+	
+	var getSelectSocialNetforInput = function(input){
+		var select = input.parents('form').find('.socnet-select')
+		switch(select.val()){
+			case 'fb':
+				return 'https://www.facebook.com/';
+			case 'linkedin':
+				return 'https://www.linkedin.com/';
+			case 'twitter':
+				return 'https://twitter.com/';
+		}
+	}
+	var updateInputSocNet = function(select){
+		var input = $(select).parents('form').find('.social-url-input')
+		input.val(getSelectSocialNetforInput(input))
+	}
+	
+	$(".social-url-input").on('focus', function(){
+        if(!$(this).val()){
+            $(this).val(getSelectSocialNetforInput($(this)));
+        }
+    });
+    $(".social-url-input").on('input', function(){
+        if( !~($(this).val().indexOf(getSelectSocialNetforInput($(this)))) ){
+            $(this).val( getSelectSocialNetforInput($(this)) + $(this).val() );
+        }
+    });
 
 })
 
@@ -44,6 +93,7 @@ var updateContact = function(form){
 					function onCustomSelectChange(){
 						$(this).prev('span').text($(this).find(':selected').text());
 					}
+					successNotify('Contact','Entity was successfully updated')
 				}
 			}
 		},
