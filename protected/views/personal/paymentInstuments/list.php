@@ -3,7 +3,7 @@
         <div class="h1-header">
             <?=Yii::t('Front', 'Favorite Payment Instuments')?>
         </div>
-        <table class="xabina-table-personal table middle">
+        <table class="xabina-table table middle payment-instruments">
             <tr class="table-header">
                 <th><?=Yii::t('Front', 'Method')?></th>
                 <th><?=Yii::t('Front', 'Account')?></th>
