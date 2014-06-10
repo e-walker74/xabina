@@ -62,7 +62,7 @@ class Admin_Users_Log extends ActiveRecord
 
 	public function beforeSave(){
 //		$browser = get_browser(null, true);
-		$this->ip_address = ip2long(CHttpRequest::getUserHostAddress());
+		$this->ip_address = ip2long(Yii::app()->request->getUserHostAddress());
 //		$this->browser = $browser['browser'];
 //		$this->os = $browser['platform'];
 //		$this->browser_version = $browser['version'];

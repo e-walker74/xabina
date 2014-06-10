@@ -26,12 +26,17 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
 	
-	public function init(){
-		if(!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(CHttpRequest::getUserHostAddress())){
+	public function init()
+    {
+		if(!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(Yii::app()->request->getUserHostAddress())){
 			Yii::app()->user->logout();
 		}
 
 		return parent::init();
 	}
 
+	protected function cleanResponseJs() {
+        Yii::app()->clientScript->scriptMap['jquery.js'] = false;
+    }
+	
 }

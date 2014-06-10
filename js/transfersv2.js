@@ -45,24 +45,6 @@ $(document).ready(function(){
         changeEWalletType(this)
     })
 
-    $('#Form_Outgoingtransf_External_bic').change(function(){
-        $.ajax({
-            url: $('#Form_Outgoingtransf_External_bic').attr('data-url'),
-            success: function(response) {
-                if(response.success){
-                    $('#Form_Outgoingtransf_External_bank_name').val(response.name)
-                } else {
-                    $('#Form_Outgoingtransf_External_bank_name').val('')
-                }
-            },
-            cache:false,
-            async: false,
-            data: {bic: $('#Form_Outgoingtransf_External_bic').val()},
-            type: 'POST',
-            dataType: 'json'
-        });
-    })
-
 })
 
 var changeEWalletType = function(select){

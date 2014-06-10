@@ -450,7 +450,7 @@
             <div class="swift">
                 <div class="lbl"><?= Yii::t('Front', 'BIC (SWIFT Address)') ?><span class="tooltip-icon" title="<?= Yii::t('Front', 'new_transfer_externa_bic'); ?>"></span></div>
                 <div class="input">
-                    <?= $form->textField($externalForm, 'bic', array('data-url' => Yii::app()->createUrl('/transfers/GetBankName'))); ?>
+                    <?= $form->textField($externalForm, 'bic', array('data-url' => Yii::app()->createUrl('/transfers/GetBankName'), 'class' => 'bank-swift')); ?>
                     <?= $form->error($externalForm, 'bic'); ?>
                 </div>
             </div>
@@ -460,7 +460,7 @@
             <div class="bank-name">
                 <div class="lbl"><?= Yii::t('Front', 'Bank Name'); ?> <span class="tooltip-icon" title="<?= Yii::t('Front', 'new_transfer_externa_bank_name'); ?>"></span></div>
                 <div class="input">
-                    <?= $form->textField($externalForm, 'bank_name', array('disabled' => 'disabled')); ?>
+                    <?= $form->textField($externalForm, 'bank_name', array('disabled' => 'disabled', 'class' => 'bankinfo-name')); ?>
                     <?= $form->error($externalForm, 'bank_name'); ?>
                 </div>
             </div>

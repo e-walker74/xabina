@@ -19,7 +19,7 @@
 		</tr>
 		<?php else: ?>
 			<?php foreach($model->getTransactionsArray() as $trans): ?>
-				<tr>
+				<tr class="clickable-row" data-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans['id'])) ?>">
 					<td width="16%"><?= date('d.m.Y', $trans['created_at']) ?></td>
 					<td width="28%">
 						<strong class="holder"><?= $trans['from_holder'] ?></strong><br>

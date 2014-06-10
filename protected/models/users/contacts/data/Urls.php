@@ -20,13 +20,13 @@ class Users_Contacts_Data_Urls extends Users_Contacts_Data_Model
 		return array(
 			array('url', 'url'),
 			array('url', 'required'),
-			array('category', 'length', 'max' => 255),
+			array('category, url', 'length', 'max' => 140),
 		);
 	}
 	
 	public function attributeNames(){
 		return array(
-			'phone',
+			'category',
 			'url',
 		);
 	}

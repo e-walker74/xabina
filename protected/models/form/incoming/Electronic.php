@@ -6,9 +6,8 @@
  * Time: 19:48
  */
 
-
-class Form_Incoming_Electronic extends Form_Incoming{
-
+class Form_Incoming_Electronic extends Form_Incoming
+{
 	public $from_account_number;
 	public $from_account_holder;
 	
@@ -31,7 +30,8 @@ class Form_Incoming_Electronic extends Form_Incoming{
     public $form_type = 'electronic';
 	public $electronic_method = '';
 
-    public function rules(){
+    public function rules()
+    {
         return array_merge(
             parent::rules(),
             array(
@@ -46,34 +46,28 @@ class Form_Incoming_Electronic extends Form_Incoming{
 				array('p_csc', 'length', 'max' => 3, 'min' => 3),
 				array('ideal_account_number', 'numerical'),
 				array('creditcard_number', 'match', 'pattern'=>'/^((34)|(35)|(37)|(4)|(62[0-5]0)|(5[0-6])|(62)|(88))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
-				array('creditcard_number', 'checkCard'),
+				array('creditcard_number', 'ext.validators.Card'),
             )
         );
     }
 
-	public function checkCard($attribute, $params){
-		if($this->{$attribute}){
-			if(!AccountService::checkNumber($this->{$attribute}, strlen($this->{$attribute}))){
-				$this->addError($attribute, Yii::t('Front', 'Card id not valid'));
-			}
-		}
-	}
-	
-	public function beforeValidate(){
-		if($this->electronic_method){
-			$this->scenario = Form_Incoming_Electronic::$methods[$this->electronic_method];
+	public function beforeValidate()
+    {
+		if ($this->electronic_method) {
+			$this->scenario = self::$methods[$this->electronic_method];
 		}
 		return parent::beforeValidate();
 	}
 
-    public function save(){
-        if(!$this->validate()){
+    public function save()
+    {
+        if (!$this->validate()) {
             return false;
         }
 
 		$transfer = new Transfers_Incoming();
         $transfer->attributes = $this->attributes;
-		switch(Form_Incoming_Electronic::$methods[$this->electronic_method]){
+		switch(self::$methods[$this->electronic_method]){
 			case 'creditcard':
 				$transfer->from_account_number = $this->creditcard_number;
 				$transfer->from_account_holder = $this->creditcard_holder;

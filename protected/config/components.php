@@ -10,7 +10,7 @@ return array(
         'class' => 'core.components.QUserNotify',
     ),
     'image' => array(
-        'class' => 'core.extensions.image.CImageComponent',
+        'class' => 'ext.image.CImageComponent',
         // GD or ImageMagick
         'driver' => 'GD',
         // ImageMagick setup path
@@ -110,6 +110,16 @@ return array(
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
 			'page/<url>' => 'pages/index',
+			'/contact' => 'contact/index',
+			'/contact/<url>' => 'contact/view',
+			'/contact/update/<url>' => 'contact/update',
+            
+            /**
+             * RBAC
+             */
+            '/settings/roles' => 'rbac/roles',
+            '/settings/roles/add' => 'rbac/addRole',
+            '/settings/users/add' => 'rbac/addUser',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

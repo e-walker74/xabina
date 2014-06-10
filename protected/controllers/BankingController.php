@@ -2,7 +2,6 @@
 
 class BankingController extends Controller
 {
-
     public $layout = 'banking';
     public $title  = '';
 
@@ -29,7 +28,13 @@ class BankingController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'accountsactivation','uploadactivationfile','accountsactivationback', 'savefiles'),
+                'actions' => array(
+						'index', 
+						'accountsactivation',
+						'uploadactivationfile',
+						'accountsactivationback', 
+						'savefiles'
+				),
                 'roles' => array('client'),
             ),
             array('deny', // deny everybody else
@@ -55,7 +60,8 @@ class BankingController extends Controller
 		$this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
     }
 
-	public function actionAccountsActivation(){
+	public function actionAccountsActivation()
+    {
 		
 		$this->breadcrumbs[Yii::t('Front', 'Overview')] = array('/banking/index');
 		$this->breadcrumbs[Yii::t('Front', 'Account activation')] = '';
@@ -99,8 +105,9 @@ class BankingController extends Controller
 			throw new CHttpException(404, Yii::t('Font', 'Page not found'));
 		}
 	}
-	
-	protected function activationStepOne($activation, $partial = false){
+
+	protected function activationStepOne($activation, $partial = false)
+    {
 		$activationForm = new Form_Activation();
 		$activationForm->attributes = $activation->attributes;
 		$activationForm->setUserId(Yii::app()->user->id);
@@ -147,7 +154,8 @@ class BankingController extends Controller
 		
 	}
 	
-	protected function activationStepTwo($activation, $partial = false){
+	protected function activationStepTwo($activation, $partial = false)
+    {
 		if($activation->step != 2 || $activation->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
@@ -177,7 +185,8 @@ class BankingController extends Controller
 		$this->render('activation', array('activation' => $activation, 'model' => $model));
 	}
 	
-	public function activationStepThree($activation, $partial = false){
+	public function activationStepThree($activation, $partial = false)
+    {
 		// term and conditions from
 		$activation->scenario = 'terms';
 		
@@ -214,7 +223,8 @@ class BankingController extends Controller
 		$this->render('activation', array('activation' => $activation));
 	}
 	
-	public function activationStepFour($activation, $partial = false){
+	public function activationStepFour($activation, $partial = false)
+    {
 		Yii::app()->user->removeNotification('activate_your_account');
 		Yii::log('User was loging and confirm email. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
 		if($partial){
@@ -225,8 +235,9 @@ class BankingController extends Controller
 		}
 		$this->render('activation', array('activation' => $activation));
 	}
-	
-	public function actionUploadActivationFile(){
+
+	public function actionUploadActivationFile()
+    {
 		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
 		$documentNum = Yii::app()->request->getParam('doc','int');
 		$countFiles = Users_Files::model()->count('form = "activation" AND document = :docNumb AND user_id = :user_id AND deleted = 0', array(':user_id' => Yii::app()->user->id, ':docNumb' => $documentNum));
@@ -267,8 +278,9 @@ class BankingController extends Controller
 		echo $return;// it's array
 		Yii::app()->end();
 	}
-	
-	public function actionSaveFiles(){
+
+	public function actionSaveFiles()
+    {
 		$model = new Form_Activation_File;
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'activation-from-two') {
             echo CActiveForm::validate($model);
@@ -301,8 +313,9 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 	}
-	
-	public function actionAccountsActivationBack(){
+
+	public function actionAccountsActivationBack()
+    {
 		if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
@@ -316,5 +329,4 @@ class BankingController extends Controller
 			Yii::app()->end();
 		}
 	}    
-    
 }

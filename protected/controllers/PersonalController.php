@@ -15,7 +15,6 @@ class PersonalController extends Controller
         );
     }
 
-
     public function accessRules()
     {
         return array(
@@ -48,7 +47,9 @@ class PersonalController extends Controller
 					'settings',
 					'alerts',
 					'updatealerts',
-					'dropalerts',
+                    'dropalerts',
+                    'paymentinstuments',
+                    'deletePaymentInstument',
                 ),
                 'roles' => array('client')
             ),
@@ -58,22 +59,15 @@ class PersonalController extends Controller
         );
     }
 
-
     public function actionIndex()
     {
-	
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
-	
 		$model = Users::model()->findByPk(Yii::app()->user->id);
-
-        $this->render('index', array(
-			'model' => $model,
-        ));
+        $this->render('index', compact('model'));
     }
 
     public function actionEditemails()
     {
-
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My E-Mail addresses'))] = '';
 
@@ -120,8 +114,8 @@ class PersonalController extends Controller
         ));
     }
 	
-	public function actionEditmessagers(){
-	
+	public function actionEditmessagers()
+    {
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My instant messengers'))] = '';
 	
@@ -158,7 +152,6 @@ class PersonalController extends Controller
 
     public function actionEditphones()
     {
-
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My phone numbers'))] = '';
 
@@ -217,7 +210,6 @@ class PersonalController extends Controller
 
     public function actionSavephones()
     {
-
         $model_phones = new Users_Phones;
 
         if (Yii::app()->request->isAjaxRequest) {
@@ -247,10 +239,8 @@ class PersonalController extends Controller
         }
     }
 
-
     public function actionEditaddress()
     {
-
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My addresses'))] = '';
 	
@@ -295,8 +285,8 @@ class PersonalController extends Controller
         $this->render('editaddress', array('user' => $user, 'model' => $model));
     }
 
-	public function actionEditname(){
-	
+	public function actionEditname()
+    {
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My personal information'))] = '';
 	
@@ -332,8 +322,8 @@ class PersonalController extends Controller
 		$this->render('editname', array('user' => $user, 'model' => $model));
 	}
 	
-	public function actionResendSms($id){
-	
+	public function actionResendSms($id)
+    {
 		if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
@@ -377,7 +367,8 @@ class PersonalController extends Controller
 		echo CJSON::encode(array('success' => false));
 	}
 	
-	public function actionResendEmail($id){
+	public function actionResendEmail($id)
+    {
 		$model = Users_Emails::model()->findByPk($id);
 		if($model->user_id != Yii::app()->user->id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -422,7 +413,8 @@ class PersonalController extends Controller
 		}
 	}
 
-	public function actionMakePrimary($type, $id){
+	public function actionMakePrimary($type, $id)
+    {
 		$model = Users::getModelByType($type)->findByPk($id);
 
 		if(!$model || $model->user_id != Yii::app()->user->id || $model->status == 0 || $model->is_master == 1){
@@ -505,7 +497,8 @@ class PersonalController extends Controller
 		echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload, 'titleMess' => $titleMess));
 	}
 
-	public function actionChangeType($type){
+	public function actionChangeType($type)
+    {
 		$row_id = Yii::app()->request->getParam('row_id', '', 'int');
 		$type_id = Yii::app()->request->getParam('type_id', '', 'int');
 		
@@ -516,7 +509,8 @@ class PersonalController extends Controller
 		echo CJSON::encode(array('success' => true));
 	}
 
-    public function actionActivate($type){
+    public function actionActivate($type)
+    {
 		/*if(!Yii::app()->request->isAjaxRequest){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}*/
@@ -610,7 +604,6 @@ class PersonalController extends Controller
 		Yii::app()->end();
     }
 
-
     /**
      * @param $model
      * @param array $fields какие поля выводить
@@ -646,8 +639,6 @@ class PersonalController extends Controller
         }
         return true;
     }
-
-
 
     private static function editTypeItems(array $arr_post_type, $model)
     {
@@ -720,12 +711,13 @@ class PersonalController extends Controller
         return true;
     }
 
-	public function actionTestSms(){
+	public function actionTestSms()
+    {
 		
 	}
 
-    public function actionEditSocials(){
-	
+    public function actionEditSocials()
+    {
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My social networks'))] = '';
 	
@@ -735,7 +727,6 @@ class PersonalController extends Controller
             $authIdentity = Yii::app()->eauth->getIdentity($service);
             $authIdentity->redirectUrl = $this->createAbsoluteUrl('/personal/editsocials');
             $authIdentity->cancelUrl = $this->createAbsoluteUrl('/personal/editsocials');
-
 
             if ($authIdentity->authenticate()) {
                 $identity = new EAuthUserIdentity($authIdentity);
@@ -775,8 +766,8 @@ class PersonalController extends Controller
         $this->render('editSocials');
     }
 	
-	public function actionEditQustions(){
-	
+	public function actionEditQustions()
+    {
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My security questions'))] = '';
 	
@@ -817,7 +808,8 @@ class PersonalController extends Controller
         $this->render('sequeityqustions', array('model' => $model, 'user' => $user));
 	}
 	
-	public function actionDelete($id){
+	public function actionDelete($id)
+    {
 		$type = Yii::app()->request->getParam('type', '', 'list', array('social','messager','phones','question', 'emails', 'address', 'telephones'));
 		if(!$type && !$id){
 			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -900,8 +892,8 @@ class PersonalController extends Controller
 		echo CJSON::encode(array('success' => $return, 'mesTitle' => $mesTitle, 'message' => $message, 'reload' => $reload));
 	}
 	
-	public function actionEditPins(){
-
+	public function actionEditPins()
+    {
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My passwords'))] = '';
 
@@ -944,8 +936,8 @@ class PersonalController extends Controller
 		$this->render('pins', array('model' => $model));
 	}
 
-	public function actionsettings(){
-	
+	public function actionsettings()
+    {
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = array('/personal/index');
 		$this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Account Settings'))] = '';
 	
@@ -1122,5 +1114,98 @@ class PersonalController extends Controller
         }
         throw new CHttpException(404, Yii::t('Front', 'Page not found'));
     }
-	
+    
+    /**
+     * actionPaymentinstuments
+     * 
+     * User favorite payment instuments list
+     * Add user favorite payment instuments list
+     */
+    public function actionPaymentinstuments()
+    {
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal account'))] = array('/personal/index');
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment instuments'))] = '';
+
+        $method = Yii::app()->request->getQuery('method');
+        if (!is_null($method))
+            // Add or update user`s favorite payment instuments list
+            $this->_createUpdatePaymentInstument($method);
+
+        // User`s favorite payment instuments list
+        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
+            'user_id'=>Yii::app()->user->id,
+        ));
+        $this->render('paymentInstuments/list', Array(
+            'paymentInstruments'=>$paymentInstruments,
+        ));
+    }
+    
+    /**
+     * _AddUpdatePaymentInstument
+     * 
+     * @param $method string
+     */
+    private function _createUpdatePaymentInstument($method)
+    {
+        $modelName = 'Users_Paymentinstruments';
+        if (!isset($_POST[$modelName]))
+            return FALSE;
+
+        if ($method=='create')
+            $model = new $modelName;
+        else if ($method=='update')
+            $model = $modelName::model()->findByPk($_POST[$modelName]['id']);
+
+        if (
+               isset($_POST[$modelName]['electronic_method'])
+            && isset(PaymentService::$methods[$_POST[$modelName]['electronic_method']])
+        )
+            $model->scenario = PaymentService::$methods[$_POST[$modelName]['electronic_method']];
+
+        // валидация модели
+        if (
+               Yii::app()->getRequest()->isAjaxRequest
+            && substr(Yii::app()->getRequest()->getParam('ajax'), 0, 16)=='electronic-form-'
+        ) {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        // сохраняем модель
+        $model->attributes = $_POST[$modelName];
+        if ($model->save()) {
+            echo CJSON::encode(array(
+                'success' => true,
+                'clean' => false,
+                'message' => Yii::t('Front', 'Payment instrument was saved successfully'),
+                'html'=>$this->renderPartial('paymentInstuments/row', Array('model'=>$model), TRUE)
+            ));
+        } else {
+            echo CJSON::encode(array(
+                'success' => false,
+                'message' => $model->errors
+            ));
+        }
+        Yii::app()->end();
+    }
+    
+    public function actionDeletePaymentInstument($id)
+    {
+        $model = Users_Paymentinstruments::model()->findByPk($id);
+        $success = false;
+        $message = false;
+        if ($model->user_id = Yii::app()->user->id) {
+            $model->deleted = 1;
+            $model->scenario = 'delete';
+            if ($model->save()) {
+                $success = true;
+                $message = Yii::t('Front', 'Payment instrument was successfully removed');
+            }
+        }
+        
+        echo CJSON::encode(array(
+            'success' => $success,
+            'message' => $message
+        ));
+    }
 }

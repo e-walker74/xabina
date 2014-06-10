@@ -47,6 +47,7 @@ class RbacUserRoles extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
+            'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
@@ -101,4 +102,14 @@ class RbacUserRoles extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+    
+    public function addUserRole($data) {
+        $userRole = new RbacUserRoles();
+        $userRole->account_id = Accounts::model()->findByAttributes(array('number' => $data['account']))->id;
+        $userRole->create_uid = Yii::app()->user->getId();
+        $userRole->user_id    = Users::model()->findByAttributes(array('login' => $data['user']))->id;
+        $userRole->role_id    = $data['role'];
+        $userRole->save();
+        return $userRole;
+    }
 }

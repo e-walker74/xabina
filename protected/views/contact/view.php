@@ -2,32 +2,38 @@
 	<div class="contact-cont ">
 		<div class="contact-header">
 			<div class="contact-photo">
-				<img src="/images/contact-photo-big.png" alt=""/>
+				<?php if($model->photo): ?>
+					<img width="40" src="<?= $model->getAvatarUrl() ?>" alt=""/>
+				<?php else: ?>
+					<img width="40" src="/images/contact_no_foto.png" alt="">
+				<?php endif; ?>
 				<span class="valid-status ok"></span>
 			</div>
 			<div class="contact-name"><?= $model->fullname ?></div>
 			<div class="contact-actions transaction-buttons-cont">
-				<div class="btn-group">
+				<a class="button edit" href="<?= Yii::app()->createUrl('/contact/update', array('id' => $model->url)); ?>"></a>
+				<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/delete', array('id' => $model->id)) ?>" ></a>
+				<!--<div class="btn-group">
 					<a class="button list" href="#"></a>
 					<button class="list-caret" data-toggle="dropdown"></button>
 					<ul class="dropdown-menu">
 						<li>
-							<a class="button send" href="#"></a>
+							<a class="button send" href="javaScript:void(0)"></a>
 						</li>
 						<li>
-							<a class="button print" href="#"></a>
+							<a class="button print" href="javaScript:void(0)"></a>
 						</li>
 						<li>
-							<a class="button pdf" href="#"></a>
+							<a class="button pdf" href="javaScript:void(0)"></a>
 						</li>
 						<li>
-							<a class="button edit" href="#"></a>
+							<a class="button edit" href="<?= Yii::app()->createUrl('/contact/update', array('id' => $model->id)); ?>"></a>
 						</li>
 						<li>
-							<a class="button delete" href="#"></a>
+							<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/delete', array('id' => $model->id)) ?>" ></a>
 						</li>
 					</ul>
-				</div>
+				</div>-->
 
 			</div>
 			<div class="clearfix"></div>
@@ -143,7 +149,7 @@
 									</td>
 									<td class="values"  style="width: 52%">
 										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>"><?= $account->account_number ?></span> <br>
-										<?= $account->account_type ?><br>
+										<?= $account->getPaementSystemModel()->name ?><br>
 									</td>
 									<td  style="width: 6%">
 										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
@@ -235,8 +241,11 @@
 						<td colspan="2">
 							<table class="table inner">
 								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('contact') as $account): 
+								<?php foreach($model->getDataByType('contact') as $contact): 
 								$i++; ?>
+								<?php $contInfo = $contact->getContactInfo();
+										if(!$contInfo) continue;
+								?>
 								<tr>
 									<td class="names" style="width: 42%">
 										<?php if($i == 1): ?>
@@ -246,13 +255,17 @@
 									<td class="values"  style="width: 52%">
 										<div class="liniking-photo">
 											<span class="valid-status error"></span>
-											<img src="/images/account_no_photo.png" alt=""/>
+											<?php if($contInfo->photo): ?>
+												<img width="40" src="<?= $contInfo->getAvatarUrl() ?>" alt=""/>
+											<?php else: ?>
+												<img width="40" src="/images/contact_no_foto.png" alt="">
+											<?php endif; ?>
 										</div>
-										<span class="strong"><?= $account->contact_id ?></span> <br>
-										<?= $account->category ?> <br>
+										<span class="strong"><?= $contInfo->fullname ?></span> <br>
+										<?= $contact->category ?> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+										<a class="acc-ico <?= ($contact->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -300,7 +313,9 @@
 										<?php endif; ?>
 									</td>
 									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $account->url ?></span> <br>
+										<span class="strong">
+											<a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($account->url))) ?>"><?= $account->url ?></a>
+										</span> <br>
 										<?= $account->category ?> <br>
 									</td>
 									<td  style="width: 6%">
@@ -326,8 +341,10 @@
 										<?php endif; ?>
 									</td>
 									<td class="values"  style="width: 52%">
-										<span class="strong"><?= date('d.m.Y', $account->date) ?></span> <br>
-										<?= $account->category ?> <br>
+										<span class="strong"><?= $account->date ?></span> <br>
+										<?php if($account->category): ?>
+											<?= Yii::t('Front', Users_Contacts_Data_Dates::$categories[$account->category]) ?> <br>
+										<?php endif; ?>
 									</td>
 									<td  style="width: 6%">
 										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
@@ -374,4 +391,19 @@
 			</div>
 		</div>
 	</div>
+	<?php Widget::create('DialoguesWidget', 'DialoguesWidget', array('entity_type' => get_class($model), 'entity_id' => $model->id))->html() ?>
 </div>
+
+<script>
+$(document).ready(function(){
+	$('.transaction-buttons-cont .delete').confirmation({
+		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+		singleton: true,
+		popout: true,
+		onConfirm: function(){
+			window.location = $(this).parents('.popover').prev('a').attr('data-url')
+			return false;
+		}
+	})
+})
+</script>

@@ -29,8 +29,8 @@
 				   </div>
 				</td>
 				<td>
-					<a <? if($addr->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'address', 'id' => $addr->id)) ?>', changePrimaryRow(this))"><?= Yii::t('Front', 'Make primary'); ?></a>
-					<span <? if($addr->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+					<a <?php if($addr->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'address', 'id' => $addr->id)) ?>', changePrimaryRow(this))"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<span <?php if($addr->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
 				</td>
 				<td class="actions-td">
 					<div class="transaction-buttons-cont">

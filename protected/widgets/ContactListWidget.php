@@ -79,4 +79,13 @@ class ContactListWidget extends QWidget {
 			$this->render('contactsList/searchTransfers', array('model' => $model), $return, $processOutput);
 		}
 	}
+	
+	public function renderSeachContactByName($return = false, $processOutput = false){
+		$model = array();
+		$this->_criteria->order = 'fullname asc';
+		$this->_criteria->together = true;
+		$this->_criteria->with = 'data';
+		$model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
+		$this->render('contactsList/seachContactByName', array('model' => $model), $return, $processOutput);
+	}
 }

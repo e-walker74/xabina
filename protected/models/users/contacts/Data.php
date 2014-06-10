@@ -61,7 +61,7 @@ class Users_Contacts_Data extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'contact' => array(self::BELONGS_TO, 'UsersContacts', 'contact_id'),
+			'contact' => array(self::BELONGS_TO, 'Users_Contacts', 'contact_id'),
 		);
 	}
 
@@ -128,5 +128,64 @@ class Users_Contacts_Data extends ActiveRecord
 		$model->setDbModel($this);
 		
 		return $model;
+	}
+	
+	protected static function getModelByPost(){
+		$paramsModel = false;
+		foreach(self::$typesMap as $modelName){
+			if(isset($_POST[$modelName])){
+				if(isset($_POST[$modelName]['id']) && $_POST[$modelName]['id']){
+					$model = self::model()->with('contact')->findByPk($_POST[$modelName]['id']);
+					if($model->contact->user_id != Yii::app()->user->getCurrentId()){
+						return false;
+					}
+					$paramsModel = $model->getParamsModel();
+					$paramsModel->attributes = $_POST[$modelName];
+				}else{
+					$paramsModel = new $modelName;
+					$paramsModel->attributes = $_POST[$modelName];
+				}
+				break;
+			}
+			$model = false;
+		}
+		return $paramsModel;
+	}
+	
+	public function validateData(){
+		$model = self::getModelByPost();
+		return CActiveForm::validate($model);
+	}
+	
+	public function saveData($contact_id){
+		$model = self::getModelByPost();
+		if(!$model){
+			return CJSON::encode(array('success' => false));
+		}
+		
+		$dbModel = $model->getDbModel();
+		if(!$dbModel){
+			$dbModel = new Users_Contacts_Data;
+			$dbModel->contact_id = $contact_id;
+			$dbModel->data_type = array_search(get_class($model), self::$typesMap);
+		}
+		$model->validate();
+		$dbModel->value = serialize($model->attributes);
+		
+		if($dbModel->save()){
+			$contact = Users_Contacts::model()->findByPk($contact_id);
+			return CJSON::encode(
+				array(
+					'success' => true,
+					'html' => $this->renderPartial(
+						'update/_'.array_search(get_class($model), self::$typesMap),
+						array('model' => $contact),
+						true,
+						true
+					)
+				)
+			);
+		}
+		return CJSON::encode(array('success' => false));
 	}
 }

@@ -30,6 +30,7 @@ class SiteController extends Controller {
 					'SMSConfirm',
 					'SMSPhoneChange',
 					'resendloginsms',
+					'disclaime',
 				),
                 'users' => array('*')
             ),
@@ -46,6 +47,11 @@ class SiteController extends Controller {
             ),
         );
     }
+	
+	public function actionDisclaime($tourl){
+		$this->layout = 'main';
+		$this->render('disclaime');
+	}
 
     public function actionIndex(){
 		$this->render('index');

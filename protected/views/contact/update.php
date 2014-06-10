@@ -1,725 +1,225 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
-	<div class="breadcrumbs-cont">
-		<a class="breadcrumbs " href="#">Home</a>
-		<a class="breadcrumbs prev" href="#">My contact</a>
-		<a class="breadcrumbs " href="#">John Doe</a>
-	</div>
-	<div class="contact-cont ">
-		<div class="contact-header">
-			<div class="contact-photo">
-				<img src="img/contact-photo-big.png" alt=""/>
-				<span class="valid-status ok"></span>
-			</div>
-			<div class="contact-name">John Doe</div>
-			<div class="contact-actions transaction-buttons-cont">
-				<div class="btn-group">
-					<a class="button list" href="#"></a>
-					<button class="list-caret" data-toggle="dropdown"></button>
-					<ul class="dropdown-menu">
-						<li>
-							<a class="button send" href="#"></a>
-						</li>
-						<li>
-							<a class="button print" href="#"></a>
-						</li>
-						<li>
-							<a class="button pdf" href="#"></a>
-						</li>
-						<li>
-							<a class="button edit" href="#"></a>
-						</li>
-						<li>
-							<a class="button delete" href="#"></a>
-						</li>
-					</ul>
-				</div>
-
-			</div>
-			<div class="clearfix"></div>
-		</div>
-
-		<div class="xabina-tabs personal-tabs">
+	<div class="h1-header"><?= Yii::t('Front', 'Edit contact'); ?></div>
+	<div class="edit-contact-cont ">
+		<div class="edit-tabs ">
 			<ul class="list-unstyled">
-				<li style="width: 25%"><a href="#tab1">General Info</a></li>
-				<li style="width: 25%"><a href="#tab2">Defaults</a></li>
-				<li style="width: 25%"><a href="#tab3"> Linked Transfers</a></li>
-				<li style="width: 25%"><a href="#tab4">Analytics</a></li>
+				<li style="width:20%;"><a href="#tab1"><?= Yii::t('Front', 'Personal Info'); ?></a></li>
+				<li style="width:20%;"><a href="#tab2"><?= Yii::t('Front', 'Accounts'); ?></a></li>
+				<li style="width:20%;"><a href="#tab3"><?= Yii::t('Front', 'E-Mail'); ?></a></li>
+				<li style="width:20%;"><a href="#tab4"><?= Yii::t('Front', 'Phone'); ?></a></li>
+				<li style="width:19%;border-right: 1px solid #9a9aa1;"><a href="#tab5"><?= Yii::t('Front', 'Address'); ?></a></li>
+				<li style="clear: both; width:0;" class="clearfix"></li>
+				<li style="width:16%;"><a href="#tab6"><?= Yii::t('Front', 'Default'); ?></a></li>
+				<li style="width:18%;"><a href="#tab7"><?= Yii::t('Front', 'Social Networks'); ?></a></li>
+				<li style="width:16%;"><a href="#tab8"><?= Yii::t('Front', 'Linking'); ?></a></li>
+				<li style="width:19%;"><a href="#tab9"><?= Yii::t('Front', 'Instant Messaging'); ?></a></li>
+				<li style="width:15%;"><a href="#tab10"><?= Yii::t('Front', 'URLs'); ?></a></li>
+				<li style="width:15%;"><a href="#tab11"><?= Yii::t('Front', 'Date'); ?></a></li>
 			</ul>
-			<div class="clearfix"></div>
 			<div id="tab1">
-
-				<table class="table xabina-table-personal table-contact">
+				<div class=" xabina-form-narrow">
+				<table class="table xabina-table-contacts">
 					<tr class="table-header">
-						<th style="width: 42%">Section</th>
-						<th style="width: 58%">Description</th>
+						<th style="width: 20%"><?= Yii::t('Front', 'Photo'); ?></th>
+						<th style="width: 49%"><?= Yii::t('Front', 'Contact Name'); ?></th>
+						<th style="width: 31%"><?= Yii::t('Front', 'Xabina User ID'); ?></th>
+						<th style="width: 0"></th>
 					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table inner personal-info">
-								<tr>
-									<td class="names" style="width: 42%">
-										Personal Info
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">John Doe</span> <br>
-										First Name / Last Name <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">John Doe</span> <br>
-										First Name / Last Name <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">John Doe</span> <br>
-										First Name / Last Name <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">13001@xabina.com</span> <br>
-										System E-Mail <br>
-									</td>
-									<td  style="width: 6%">
-										<a class="mail-ico" href="#"></a>
-									</td>
-								</tr>
-							</table>
+					<tr class="data-row">
+						<td>
+							<?php if($model->photo): ?>
+								<img width="40" src="<?= $model->getAvatarUrl() ?>" alt=""/>
+							<?php else: ?>
+								<img width="40" src="/images/contact_no_foto.png" alt="">
+							<?php endif; ?>
+						</td>
+						<td><?= $model->fullname ?></td>
+						<td><?= $model->xabina_id ?></td>
+						<td>
+							<div class="transaction-buttons-cont">
+								<a href="#" class="button edit"></a>
+							</div>
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										Account Number
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="account-number">NL**ABNA0000000000</span> <br>
-										Paypal <br>
-									</td>
-									<td  style="width: 6%">
-										<a class="acc-ico priamry"  href="#"></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">NL**ABNA0000000000</span> <br>
-										Qiwi <br>
-									</td>
-									<td  style="width: 6%">
-										<a class="acc-ico" href="#"></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">NL**ABNA0000005789</span> <br>
-										Qiwi <br>
-									</td>
-									<td  style="width: 6%">
-										<a class="acc-ico" href="#"></a>
-									</td>
-								</tr>
-
-							</table>
-						</td>
-					</tr>
-
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										E-Mail
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="account-number">konstantin@blaustein.nl</span>
-									</td>
-									<td  style="width: 6%">
-										<a class="mail-ico priamry"  href="#"></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">test@gmail,com</span>
-									</td>
-									<td  style="width: 6%">
-										<a class="mail-ico" href="#"></a>
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">ya@yandex.ru</span>
-									</td>
-									<td  style="width: 6%">
-										<a class="mail-ico" href="#"></a>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										Phone
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="account-number">+35 2345 234 523</span>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">+35 666 666 666</span>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										Adress
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="account-number">Stadsring 99,<br>
-										HP Amersfoort</span>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										Linkining
-									</td>
-									<td class="values"  style="width: 52%">
-										<div class="liniking-photo">
-											<span class="valid-status error"></span>
-											<img src="img/account_no_photo.png" alt=""/>
+					<tr class="edit-row">
+						<td colspan="4">
+							<?php $form=$this->beginWidget('CActiveForm', array(
+								'id'=>'contact-form',
+								'enableAjaxValidation'=>true,
+								'enableClientValidation'=>true,
+								'errorMessageCssClass' => 'error-message',
+								'htmlOptions' => array(
+									'class' => 'form-validable',
+									'enctype' => 'multipart/form-data',
+								),
+								'clientOptions'=>array(
+									'validateOnSubmit'=>true,
+									'validateOnChange'=>true,
+									'errorCssClass'=>'input-error',
+									'successCssClass'=>'valid',
+									'afterValidate' => 'js:function(form, data, hasError) {
+										form.find("input").removeClass("input-error");
+										form.find("input").parent().removeClass("input-error");
+										form.find(".validation-icon").fadeIn();
+										for(var i in data.notify) {
+											$(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
+										}
+										if(hasError) {
+											for(var i in data) {
+												$("#"+i).addClass("input-error");
+												$("#"+i).parent().addClass("input-error");
+												$("#"+i).next(".validation-icon").fadeIn();
+											}
+											return false;
+										}
+										else {
+											return true;
+										}
+										
+									}',
+									'afterValidateAttribute' => 'js:afterValidateAttribute'
+								),
+							)); ?>
+							<div class=" xabina-form-narrow">
+								<div class="row">
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-cell">
+											<div class="form-lbl">
+												<?= Yii::t('Front', 'First Name') ?>
+												<span class="tooltip-icon" title="<?= Yii::t('Front', 'first_name_contact') ?>"></span>
+											</div>
+											<div class="form-input">
+												<?= $form->textField($model, 'first_name', array('class' => 'input-text')) ?>
+												<?= $form->error($model, 'first_name') ?>
+											</div>
 										</div>
-										<span class="strong">Konstantin Konstantinovskiy</span> <br>
-										Father <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										Instant Messaging
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">John_Doe</span> <br>
-										Viber <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										URLs
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">www.company.com</span> <br>
-										Company <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">www.abramovich.ru</span> <br>
-										Sponsor <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
+									</div>
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-cell">
+											<div class="form-lbl">
+												<?= Yii::t('Front', 'Last Name') ?>
+												<span class="tooltip-icon" title="<?= Yii::t('Front', 'last_name_contact') ?>"></span>
+											</div>
+											<div class="form-input">
+												<?= $form->textField($model, 'last_name', array('class' => 'input-text')) ?>
+												<?= $form->error($model, 'last_name') ?>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-2 col-sm-2 ">
+										<div class="transaction-buttons-cont edit-submit-cont">
+											<input type="submit" class="button ok" value="" />
+											<a href="javaScript:void(0)" class="button cancel"></a>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-cell">
+											<div class="form-lbl">
+												<?= Yii::t('Front', 'Company') ?>
+												<span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
+											</div>
+											<div class="form-input">
+												<?= $form->textField($model, 'company', array('class' => 'input-text')) ?>
+												<?= $form->error($model, 'company') ?>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-cell">
+											<div class="form-lbl">
+												<?= Yii::t('Front', 'Nickname') ?>
+												<span class="tooltip-icon" title="<?= Yii::t('Front', 'nickname_name_contact') ?>"></span>
+											</div>
+											<div class="form-input">
+												<?= $form->textField($model, 'nickname', array('class' => 'input-text')) ?>
+												<?= $form->error($model, 'nickname') ?>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-2 col-sm-2 ">
 
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<tr>
-									<td class="names" style="width: 42%">
-										Data
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">01-jan-2000</span> <br>
-										Birthday
-										<br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<tr>
-									<td class="names" style="width: 42%">
-										&nbsp;
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">09-may-1945</span> <br>
-										V-Day<br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div class="messaging-actions">
-								<a href="#" class="messaging-button fb"></a>
-								<a href="#" class="messaging-button tw"></a>
-								<a href="#" class="messaging-button in"></a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-cell">
+											<div class="form-lbl">
+												<?= Yii::t('Front', 'Xabina User ID') ?>
+												<span class="tooltip-icon" title="<?= Yii::t('Front', 'xabina_id_name_contact') ?>"></span>
+											</div>
+											<div class="form-input">
+												<?= $form->textField($model, 'xabina_id', array('class' => 'input-text')) ?>
+												<?= $form->error($model, 'xabina_id') ?>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-5 col-md-5 col-sm-5">
+										<div class="form-cell">
+											<div class="form-lbl">
+												<?= Yii::t('Front', 'User Photo') ?>
+												<span class="tooltip-icon" title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
+											</div>
+											<div class="form-input">
+												<label class="file-label <?= ($model->photo) ? 'uploaded' : '' ?>">
+													<?php if($model->photo): ?>
+														<img width="22" src="<?= $model->getAvatarUrl() ?>" alt=""/>
+													<?php endif; ?>
+													<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
+													<span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
+													<?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
+													<?php if($model->photo): ?>
+														<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>
+													<?php endif; ?>
+												</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-2 col-sm-2 ">
+
+									</div>
+								</div>
 							</div>
+							<?php $this->endWidget(); ?>
 						</td>
-					</tr>
-
-				</table>
-
-			</div>
-			<div id="tab2">
-				<table class="table xabina-table-personal table-defaults">
-					<tr class="table-header">
-						<th style="width: 42%">Section</th>
-						<th style="width: 58%">Description</th>
-					</tr>
-					<tr >
-						<td>Currency</td>
-						<td>EUR</td>
-					</tr>
-					<tr>
-						<td>Details of payment</td>
-						<td>Payment for flowers</td>
-					</tr>
-					<tr>
-						<td>Category</td>
-						<td>Business expenses</td>
 					</tr>
 				</table>
-			</div>
-			<div id="tab3">
-				<div class="transaction-table-header">
-					<table class="transaction-header table xabina-table-personal  table-defaults">
-						<tr class="table-header">
-							<th width="15%">Date</th>
-							<th width="27%">From</th>
-							<th width="35%">To</th>
-							<th width="23%">Value</th>
-							<th width="0%"> </th>
-						</tr>
-					</table>
-				</div>
-				<div class="transaction-table-overflow">
-					<table class="table">
-						<tr >
-							<td width="16%">12.01.2014</td>
-							<td width="28%">
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td width="35%">
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td width="21%"><span class="sum-inc">+250</span> EUR</td>
-							<td width="0%"><a class="attachment-button" href="#"></a></td>
-						</tr>
-						<tr>
-							<td>12.01.2014</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td><span class="sum-inc">+250</span> EUR</td>
-							<td><a class="attachment-button" href="#"></a></td>
-						</tr>
-						<tr>
-							<td>12.01.2014</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td><span class="sum-dec">-250</span> EUR</td>
-							<td><a class="attachment-button" href="#"></a></td>
-						</tr>
-						<tr>
-							<td>12.01.2014</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong><br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td><span class="sum-dec">-250</span> EUR</td>
-							<td><a class="attachment-button" href="#"></a></td>
-						</tr>
-						<tr>
-							<td>12.01.2014</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong> <br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td>
-								<strong class="holder">WMBNL B.V. </strong> <br>
-								LV34RTMB00006 <br>
-								opernstaande facturen
-							</td>
-							<td><span class="sum-dec">-250</span> EUR</td>
-							<td><a class="attachment-button" href="#"></a></td>
-						</tr>
-					</table>
 				</div>
 			</div>
-			<div id="tab4">
-				<div class="analytics-form xabina-form-container">
-					<div class="input-cell">
-						<div class="field-lbl">
-							Category
-						</div>
-						<div class="field-input">
-							<div class="select-custom select-narrow account-select">
-								<span class="select-custom-label">Outgoung payments</span>
-								<select name="" class=" select-invisible country-select">
-									<option value="">2525 65985 65895 3589</option>
-									<option value="">2525 65985 65595 6589</option>
-									<option value="">2525 62985 65895 6589</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-6 col-md-6 col-sm-6">
-							<div class="input-cell">
-								<div class="field-lbl">
-									Date From
-								</div>
-								<div class="field-input">
-									<input class="date-input with_datepicker  " type="text" value="" >
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6">
-							<div class="input-cell">
-								<div class="field-lbl">
-									Date To
-								</div>
-								<div class="field-input">
-									<input class="date-input with_datepicker  " type="text" value="" >
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="analytics-results">
-					<table class="table xabina-table-personal table-defaults">
-						<tr class="table-header">
-							<th style="width: 30%">Quantity</th>
-							<th style="width: 35%">Value</th>
-							<th style="width: 35%">Average</th>
-						</tr>
-						<tr class="color" >
-							<td>28</td>
-							<td><span class="sum-inc">+ 3 602.12</span> EUR</td>
-							<td><span class="sum-inc">+ 128.64</span> EUR</td>
-						</tr>
-					</table>
-				</div>
+			<div id="tab2" class="account tab">
+				<?php $this->renderPartial('update/_account', array('model' => $model)); ?>
+			</div>
+			<div id="tab3" class="email tab">
+				<?php $this->renderPartial('update/_email', array('model' => $model)); ?>
+			</div>
+			<div id="tab4" class="phone tab">
+				<?php $this->renderPartial('update/_phone', array('model' => $model)); ?>
+			</div>
+			<div id="tab5" class="address tab">
+				<?php $this->renderPartial('update/_address', array('model' => $model)); ?>
+			</div>
+			<div id="tab6" class="default tab">
+				<?php $this->renderPartial('update/_default', array('model' => $model)); ?>
+			</div>
+			<div id="tab7" class="social tab">
+				<?php $this->renderPartial('update/_social', array('model' => $model)); ?>
+			</div>
+			<div id="tab8" class="linking tab">
+				<?php $this->renderPartial('update/_contact', array('model' => $model)); ?>
+			</div>
+			<div id="tab9" class="instmessaging tab">
+				<?php $this->renderPartial('update/_instmessaging', array('model' => $model)); ?>
+			</div>
+			<div id="tab10" class="urls tab">
+				<?php $this->renderPartial('update/_urls', array('model' => $model)); ?>
+			</div>
+			<div id="tab11" class="dates tab">
+				<?php $this->renderPartial('update/_dates', array('model' => $model)); ?>
 			</div>
 		</div>
-		<div class="xabina-accordion transfer-accordion xabina-narrow-accordion" >
-			<div class="accordion-header"><a href="#" class="search-acc">Dialogues</a><span class="arr"></span></div>
-			<div class="accordion-content ">
-			<div class="messaging-list-cont">
-				<div class="messaging-menu">
-					<div class="select-custom select-narrow select-type ">
-						<span class="select-custom-label">General</span>
-						<select name="" class=" select-invisible country-select">
-							<option value="">Day(s)</option>
-							<option value="">Week(s)</option>
-							<option value="">Year(s)</option>
-						</select>
-						<span class="quantity">1</span>
-					</div>
-					<a href="#" class="rounded-buttons add-grey">
-						Добавить разговор
-					</a>
-					<div class="show-select">
-						Show:
-						<a href="#" class="show-dropdown"><span>only attachments</span></a>
-					</div>
-				</div>
-				<div class="clearfix"></div>
-				<ul class="messaging-list list-unstyled">
-					<li class="request">
-						<div class="message-header">
-							<table class="table">
-								<tr>
-									<td style="width: 21%"><span class="datetime">17.05.2014 16:00</span></td>
-									<td style="width: 19%"><a class="edit" href="#">Редактировать</a></td>
-									<td style="width: 14%"><a href="#" class="delete">Удалить</a></td>
-									<td style="width: 20%"><a class="download" href="#">Скачать файл</a></td>
-									<td style="width: 26%; text-align: right">
-													<span class="contact">
-														Виктор Андреевич
-														<img src="img/messaging-nophoto.png" alt=""/>
-													</span>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="message-body reply">
-							<div class="arr"></div>
-							<div class="message-text">
-								<div class="text">
-									Invoice.doc <br>
-									<span class="file-status">Файл отправлен</span>
-								</div>
-								<img class="file-img" src="img/uploaded.jpg" alt=""/>
-							</div>
-						</div>
-					</li>
-					<li class="response">
-						<div class="message-header">
-							<table class="table">
-								<tr>
-									<td style="width: 26%">
-													<span class="contact">
-														<img src="img/messaging-nophoto.png" alt=""/>
-														Виктор Андреевич
-													</span>
-									</td>
-									<td style="width: 21%"><span class="datetime">17.05.2014 16:00</span></td>
-									<td style="width: 19%"><a class="edit" href="#">Редактировать</a></td>
-									<td style="width: 14%"><a href="#" class="delete">Удалить</a></td>
-									<td style="width: 20%"><a class="download" href="#">Скачать файл</a></td>
-								</tr>
-							</table>
-						</div>
-						<div class="message-body sent">
-							<div class="arr"></div>
-							<div class="message-text">
-								Перевод поступит на счет в течении 3 дней
-							</div>
-						</div>
-					</li>
-					<li class="request">
-						<div class="message-header">
-							<table class="table">
-								<tr>
-									<td style="width: 21%"><span class="datetime">17.05.2014 16:00</span></td>
-									<td style="width: 19%"><a class="edit" href="#">Редактировать</a></td>
-									<td style="width: 14%"><a href="#" class="delete">Удалить</a></td>
-									<td style="width: 20%"><a class="download" href="#">Скачать файл</a></td>
-									<td style="width: 26%; text-align: right">
-													<span class="contact">
-														Виктор Андреевич
-														<img src="img/messaging-nophoto.png" alt=""/>
-													</span>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="message-body reply">
-							<div class="arr"></div>
-							<div class="message-text">
-								<div class="text">
-									Invoice.doc <br>
-									<span class="file-status">Файл отправлен</span>
-								</div>
-								<img class="file-img" src="img/uploaded.jpg" alt=""/>
-							</div>
-						</div>
-					</li>
-					<li class="response">
-						<div class="message-header">
-							<table class="table">
-								<tr>
-									<td style="width: 26%">
-													<span class="contact">
-														<img src="img/messaging-nophoto.png" alt=""/>
-														Виктор Андреевич
-													</span>
-									</td>
-									<td style="width: 21%"><span class="datetime">17.05.2014 16:00</span></td>
-									<td style="width: 19%"><a class="edit" href="#">Редактировать</a></td>
-									<td style="width: 14%"><a href="#" class="delete">Удалить</a></td>
-									<td style="width: 20%"><a class="download" href="#">Скачать файл</a></td>
-								</tr>
-							</table>
-						</div>
-						<div class="message-body sent">
-							<div class="arr"></div>
-							<div class="message-text">
-								Перевод поступит на счет в течении 3 дней
-							</div>
-						</div>
-					</li>
-					<li class="response">
-						<div class="message-header">
-							<table class="table">
-								<tr>
-									<td style="width: 26%">
-													<span class="contact">
-														<img src="img/messaging-nophoto.png" alt=""/>
-														Виктор Андреевич
-													</span>
-									</td>
-									<td style="width: 21%"><span class="datetime">17.05.2014 16:00</span></td>
-									<td style="width: 19%"><a class="edit" href="#">Редактировать</a></td>
-									<td style="width: 14%"><a href="#" class="delete">Удалить</a></td>
-									<td style="width: 20%"><a class="download" href="#">Скачать файл</a></td>
-								</tr>
-							</table>
-						</div>
-						<div class="message-body sent">
-							<div class="arr"></div>
-							<div class="message-text">
-								Перевод поступит на счет в течении 3 дней
-							</div>
-						</div>
-					</li>
-					<li class="response">
-						<div class="message-header">
-							<table class="table">
-								<tr>
-									<td style="width: 26%">
-													<span class="contact">
-														<img src="img/messaging-nophoto.png" alt=""/>
-														Виктор Андреевич
-													</span>
-									</td>
-									<td style="width: 21%"><span class="datetime">17.05.2014 16:00</span></td>
-									<td style="width: 19%"><a class="edit" href="#">Редактировать</a></td>
-									<td style="width: 14%"><a href="#" class="delete">Удалить</a></td>
-									<td style="width: 20%"><a class="download" href="#">Скачать файл</a></td>
-								</tr>
-							</table>
-						</div>
-						<div class="message-body waiting">
-							<div class="arr"></div>
-							<div class="message-text">
-								Перевод поступит на счет в течении 3 дней
-							</div>
-						</div>
-					</li>
-				</ul>
-				<div class="messaging-form xabina-form-container">
-					<div class="field-lbl">
-						Comments
-						<span class="tooltip-icon" title="Add Your mobile phone in an international format (e.g. +3100000000)"></span>
-						<a class="plus" href="#">+</a>
-					</div>
-					<div class="field-input">
-						<div class="pull-left" style="width: 75%">
-							<input class="input-text input-error" type="text">
-							<div class="error-message" style="display: block;">
-								Mobile Phone is incorrect
-								<div class="error-message-arr"></div>
-							</div>
-						</div>
-						<div class="pull-right form-submit">
-							<input type="submit" value="Send" class="submit-button button-next yellow"/>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-		</div>
+		<div class="form-narrow-submit clearfix">
+			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $model->url)) ?>" class="xabina-submit button-back"><?= Yii::t('Front', 'Back') ?></a>
 		</div>
 	</div>
 </div>

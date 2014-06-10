@@ -35,7 +35,11 @@
 		<li class="opened">
 			<div class="bg-color">
 			<div class="account-photo pull-left">
-				<img src="/images/contact_no_foto.png" alt=""/>
+				<?php if($contact->photo): ?>
+					<img width="40" src="<?= $contact->getAvatarUrl() ?>" alt=""/>
+				<?php else: ?>
+					<img src="/images/contact_no_foto.png" alt=""/>
+				<?php endif; ?>
 			</div>
 			<div class="account-data pull-left">
 				<div class="account-name"><?= $contact->fullname ?></div>

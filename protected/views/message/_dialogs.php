@@ -2,7 +2,7 @@
   <div class="messages-history">
     <ul class="history-list list-unstyled">
 		
-      <? foreach ($dialogs as $dialog):?>
+      <?php foreach ($dialogs as $dialog):?>
       <li>
         <div class="message-headers">
           <table class="message-headers-table">
@@ -10,11 +10,11 @@
               <tr>
                 <td width="12%"><?= Yii::t('Front', 'From:'); ?></td>
                 <td width="88%" class="from">
-					<? if($dialog->from_id == (int)Yii::app()->user->id):?>
+					<?php if($dialog->from_id == (int)Yii::app()->user->id):?>
 						<?= Yii::t('Front', 'Me'); ?>
-                    <? else: ?> 
+                    <?php else: ?> 
                          <?=$dialog->from?>  
-                    <? endif;?>
+                    <?php endif;?>
                 </td>
               </tr>
               <tr>
@@ -36,7 +36,7 @@
           <?=$dialog->message?>
         </div>
       </li>
-      <? endforeach;?>
+      <?php endforeach;?>
     </ul>
   </div>
 </div>
