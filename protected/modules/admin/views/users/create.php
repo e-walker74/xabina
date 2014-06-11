@@ -101,6 +101,15 @@
 					<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'gift'); ?></div></div>
 				</div>
 
+                <div class="form-group">
+                    <?php echo $form->labelEx(UsersPersonalManagers::model(), 'manager_id', array('class' => 'col-sm-3 control-label')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->dropDownList(UsersPersonalManagers::model(), 'manager_id', CHtml::listData(PersonalManagers::model()->findAll(), 'id', 'manager_name'), array('class' => 'form-control')); ?>
+
+                    </div>
+                    <div class="col-md-3"><div class="help-block"><?php echo $form->error(UsersPersonalManagers::model(), 'manager_id'); ?></div></div>
+                </div>
+
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">

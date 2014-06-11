@@ -37,8 +37,9 @@
 				<div class="col-lg-3 col-md-3  col-sm-3 sidebar-container" >
 					<div class="sidebar-shadow-container">
 						<div class="sidebar-shadow"></div>
-						<?php $this->widget('LeftMenu'); ?>	
-						<?php $this->widget('ContactsBlock'); ?>								
+						<?php $this->widget('LeftMenu'); ?>
+                        <?php $this->widget('PersonalManager'); ?>
+                        <?php $this->widget('ContactsBlock'); ?>
 					</div>
 				</div>
                 <div class="col-lg-9 col-md-9 col-sm-9">

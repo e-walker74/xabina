@@ -29,6 +29,13 @@ class UsersController extends Controller
 			}
 
 			if(!count($model->getErrors()) && $model->validate() && $model->save()){
+                $UsersPersonalManagers = new UsersPersonalManagers();
+                $UsersPersonalManagers->atributs (array(
+                    'user_id' => Yii::app()->db->lastInsertID,
+                    'manager_id' => $_POST['UsersPersonalManagers']['manager_id'],
+                    'widget_state' => 1
+                ));
+
 				if($model->email){
 					$mail = new Mail();
 					if($mail->send(

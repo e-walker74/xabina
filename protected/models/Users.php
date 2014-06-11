@@ -146,7 +146,13 @@ class Users extends ActiveRecord
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
+<<<<<<< HEAD
 			'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+=======
+            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
+            'personalManagers' => array(self::HAS_MANY, 'PersonalManagers', 'manager_id', 'through' => 'usersPersonalManagers'),
+>>>>>>> 663e7c6a0e5bcbf04bd501929ed491ddc768dc8f
         );
     }
 	
@@ -172,7 +178,7 @@ class Users extends ActiveRecord
             'updated_at'    => Yii::t('Front', 'Date Edit'),
             'repassword'   => Yii::t('Front', 'Повторите'),
             'old_password' => Yii::t('Front', 'Старый пароль'),
-			'phone' 	   => Yii::t('Front', 'Мобильный'),
+			'phone' 	   => Yii::t('Front', 'Мобильный')
         );
     }
 
