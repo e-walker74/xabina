@@ -14,7 +14,7 @@ $('.alphabet li a').click(function(){
 	if($('.letter_'+$(this).html()).length != 0){
 		$('.alphabet li').removeClass('active')
 		$(this).parent().addClass('active')
-		$(this).parents('.scroll-block').scrollTo( $('.letter_'+$(this).html()), 600, {margin:true});
+		$(this).parents('.scroll-cont').find('.scroll-block').scrollTo( $('.letter_'+$(this).html()), 600, {margin:true});
 	}
 	return false;
 })
