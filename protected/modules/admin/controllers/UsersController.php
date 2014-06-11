@@ -89,6 +89,7 @@ class UsersController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+
 		//$model->scenario = 'admin';
 		
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'users-form') {
@@ -96,12 +97,12 @@ class UsersController extends Controller
             Yii::app()->end();
         }
 		
-		if(!$model->profile){
-			$profile = new Users_Profile();
-			$profile->user_id = $model->id;
-			$model->profile = $profile;
-			$model->profile->save();
-		}
+//		if(!$model->profile){
+//			$profile = new Users_Profile();
+//			$profile->user_id = $model->id;
+//			$model->profile = $profile;
+//			$model->profile->save();
+//		}
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -113,6 +114,11 @@ class UsersController extends Controller
 				unset($model->login);
 			}
 			if($model->save()){
+                $UsersPersonalManagers = new UsersPersonalManagers();
+                $UsersPersonalManagers->user_id = $id;
+                $UsersPersonalManagers->manager_id = $_POST['UsersPersonalManagers']['manager_id'];
+                $UsersPersonalManagers->save();
+
 				$this->redirect(array('/admin/users/admin/'));
 			}
 		}
@@ -130,7 +136,7 @@ class UsersController extends Controller
 			$logs->attributes=$_GET['Users_Log'];
 		}
 		$logs->user_id = $model->id;
-		
+
 		$this->render('update',array(
 			'model'=>$model,
 			'accounts' => $accounts,

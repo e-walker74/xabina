@@ -216,11 +216,11 @@ class Users extends ActiveRecord
         return true;
     }
 
-    public function afterDelete()
-    {
-        $this->profile->delete();
-        parent::afterDelete();
-    }
+//    public function afterDelete()
+//    {
+//        $this->profile->delete();
+//        parent::afterDelete();
+//    }
 
 	public function getFullName(){
 		$res = $this->login;
