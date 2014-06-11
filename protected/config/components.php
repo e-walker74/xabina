@@ -111,8 +111,8 @@ return array(
 			'/login' => '/site/login',
 			'page/<url>' => 'pages/index',
 			'/contact' => 'contact/index',
-			'/contact/<url>' => 'contact/view',
-			'/contact/update/<url>' => 'contact/update',
+			'/contact/<url:[\w]{32}>' => 'contact/view',
+			'/contact/update/<url:[\w]{32}>' => 'contact/update',
             
             /**
              * RBAC

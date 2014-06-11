@@ -8,10 +8,12 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 {
 
 	public $address;
+	public $address_line_2;
 	public $index;
 	public $country_id;
 	public $country_code;
 	public $category;
+	public $city;
 	
 	/**
 	 * @return array validation rules for model attributes.
@@ -22,7 +24,7 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 		// will receive user inputs.
 		return array(
 			array('address, country_id', 'required'),
-			array('address, index, category', 'length', 'max' => 140),
+			array('address, address_line_2, city, index, category', 'length', 'max' => 140),
 			array('country_id', 'numerical'),
 		);
 	}
@@ -33,6 +35,8 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
 			'index',
 			'country_id',
 			'category',
+			'city',
+			'address_line_2',
 		);
 	}
 

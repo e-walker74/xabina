@@ -123,9 +123,7 @@ $(function(){
     });
 
 
-    $('.clear-input-but').on('click', function(e){
-        $(this).parents('.clear-input-cont').find('input').val('');
-    });
+    
 
     // progressbar styling
 
@@ -927,8 +925,25 @@ var successNotify = function(title, message, element){
     }else {
         var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
     }
-    $.pnotify({ /*title: title,*/ text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
-
+    $.pnotify(
+		{ 
+			/*title: title,*/ 
+			text: message, 
+			type: 'success', 
+			delay: 3000, 
+			width: $('.col-lg-9').width()+'px', 
+			stack: stack_context, 
+			history: false,
+			mouse_reset: false
+		});
+		
+	$('html').one('click', function() {
+		if(!$(event.target).closest('.ui-pnotify').length) {
+			if($('.ui-pnotify').is(":visible")) {
+				$('.ui-pnotify').fadeOut()
+			}
+		}  
+	})
 }
 
 var errorNotify = function(title, message, element){

@@ -24,6 +24,9 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 	public $scrill_acc;
 	public $webmoney_acc;
 	
+	public $category;
+	public $details;
+	
 	public static $contacts_account_types = array(
 		1 => 'bank_account',
 		2 => 'paypal_acc',
@@ -48,7 +51,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 			array('bic', 'validateBankCode'),
 			array('scrill_acc', 'required', 'on' => 'scrill_acc'),
 			array('webmoney_acc', 'required', 'on' => 'webmoney_acc'),
-			array('webmoney_acc, scrill_acc, bic, paypal_acc, account_holder, account_number', 'length', 'max' => 140),
+			array('webmoney_acc, scrill_acc, bic, paypal_acc, account_holder, account_number, details, category', 'length', 'max' => 140),
 			array('account_type', 'in', 'range' => array_keys(self::$contacts_account_types)), //TODO another account types
 			/*array('p_month', 'numerical', 'min' => 1, 'max' => 12),
 			array('p_month', 'length', 'max' => 2),
@@ -56,7 +59,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 			array('p_year', 'length', 'is' => 4, 'max' => 4),
 			array('p_csc', 'numerical'),
 			array('p_csc', 'length', 'max' => 3, 'min' => 3),*/
-			array('account_number, account_holder, bic', 'length', 'max' => 255),
+			//array('account_number, account_holder, bic', 'length', 'max' => 255),
 			array('
 				account_type, 
 				account_number, 
@@ -124,6 +127,8 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 			'paypal_acc',
 			'scrill_acc',
 			'webmoney_acc',
+			'category',
+			'details',
 		);
 	}
 

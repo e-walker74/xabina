@@ -23,7 +23,6 @@ class PersonalController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                //'actions' => array('index', 'save', 'activate'),
                 'actions' => array(
                     'index',
                     'editemails',
@@ -1132,9 +1131,11 @@ class PersonalController extends Controller
             $this->_createUpdatePaymentInstument($method);
 
         // User`s favorite payment instuments list
-        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
-            'user_id'=>Yii::app()->user->id,
-        ));
+        $paymentInstruments = Users_Paymentinstruments::model()
+            ->active()
+            ->own()
+            ->findAll();
+
         $this->render('paymentInstuments/list', Array(
             'paymentInstruments'=>$paymentInstruments,
         ));
@@ -1173,6 +1174,9 @@ class PersonalController extends Controller
 
         // сохраняем модель
         $model->attributes = $_POST[$modelName];
+        if (!$model->isNewRecord && $model->user_id!=Yii::app()->user->id)
+            return;
+
         if ($model->save()) {
             echo CJSON::encode(array(
                 'success' => true,
@@ -1194,7 +1198,7 @@ class PersonalController extends Controller
         $model = Users_Paymentinstruments::model()->findByPk($id);
         $success = false;
         $message = false;
-        if ($model->user_id = Yii::app()->user->id) {
+        if ($model->user_id==Yii::app()->user->id) {
             $model->deleted = 1;
             $model->scenario = 'delete';
             if ($model->save()) {

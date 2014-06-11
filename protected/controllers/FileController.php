@@ -10,9 +10,6 @@ class FileController extends Controller
     {
         return array(
             'accessControl',
-            array(
-            	'application.components.RbacFilter'
-        	),
         );
     }
 
@@ -21,8 +18,7 @@ class FileController extends Controller
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules()
-    {
+    public function accessRules(){
         return array(
 			array('allow', // allow readers only access to the view file
                 'actions' => array(''),
@@ -102,7 +98,6 @@ class FileController extends Controller
 					Yii::app()->end();
 				}
 			}
-			
 		}
 
 		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
