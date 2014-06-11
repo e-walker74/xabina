@@ -51,6 +51,18 @@
 				)); ?>
 				<?php $model = new Users_Contacts_Data_Contact; ?>
 				<div class="table-subheader"><?= Yii::t('Front', 'Link new contact'); ?></div>
+				
+				<div class="row">
+					<?php Widget::create('ContactListWidget')->renderSeachContactByName() ?>
+				</div>
+				<script>
+					$(document).ready(function(){
+						$('.account-search').searchContactButtonByName({
+							inputSelectorForName : '#linkName',
+							inputSelectorForID : '#Users_Contacts_Data_Contact_contact_id'
+						})
+					})
+				</script>
 				<div class="row">
 					<div class="col-lg-10 col-md-10 col-sm-10">
 						<div class="form-cell">
@@ -77,17 +89,6 @@
 						<?= $form->error($model, 'contact_id') ?>
 					</div>
 				</div>
-				<div class="row">
-					<?php Widget::create('ContactListWidget')->renderSeachContactByName() ?>
-				</div>
-				<script>
-					$(document).ready(function(){
-						$('.account-search').searchContactButtonByName({
-							inputSelectorForName : '#linkName',
-							inputSelectorForID : '#Users_Contacts_Data_Contact_contact_id'
-						})
-					})
-				</script>
 				<div class="row" style="margin-top: 15px">
 					<div class="col-lg-12 col-md-12  col-sm-12 ">
 						<div class="form-cell">

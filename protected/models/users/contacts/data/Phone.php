@@ -20,7 +20,8 @@ class Users_Contacts_Data_Phone extends Users_Contacts_Data_Model
 		return array(
 			array('phone', 'required'),
 			array('phone', 'numerical'),
-			array('category, phone', 'length', 'max' => 140),
+			array('category', 'length', 'max' => 140),
+			array('phone', 'length', 'max' => 20),
 		);
 	}
 
