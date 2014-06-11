@@ -65,29 +65,29 @@
 	</div>
 	
 	<!--<div class="form-group">
-		<?php echo $form->labelEx($model->profile, 'name', array('class' => 'col-sm-3 control-label')); ?>
+		<?//php echo $form->labelEx($model->profile, 'name', array('class' => 'col-sm-3 control-label')); ?>
 		<div class="col-sm-6">
-			<?php echo $form->textField($model->profile, 'name', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+			<?//php echo $form->textField($model->profile, 'name', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
 			
 		</div>
-		<div class="col-md-3"><?php echo $form->error($model->profile, 'name'); ?></div>
+		<div class="col-md-3"><?//php echo $form->error($model->profile, 'name'); ?></div>
 	</div>
 
     <div class="form-group">
-		<?php echo $form->labelEx($model->profile, 'surname', array('class' => 'col-sm-3 control-label')); ?>
+		<?//php echo $form->labelEx($model->profile, 'surname', array('class' => 'col-sm-3 control-label')); ?>
 		<div class="col-sm-6">
-			<?php echo $form->textField($model->profile, 'surname', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+			<?//php echo $form->textField($model->profile, 'surname', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
 			
 		</div>
-		<div class="col-md-3"><?php echo $form->error($model->profile, 'surname'); ?></div>
+		<div class="col-md-3"><?//php echo $form->error($model->profile, 'surname'); ?></div>
 	</div>
 
     <div class="form-group">
-		<?php echo $form->labelEx($model->profile, 'sex', array('class' => 'col-sm-3 control-label')); ?>
+		<?//php echo $form->labelEx($model->profile, 'sex', array('class' => 'col-sm-3 control-label')); ?>
 		<div class="col-sm-6">
-			<?php echo $form->dropDownList($model->profile, 'sex', Users_Profile::$sexs, array('class' => 'form-control')); ?>
+			<?//php echo $form->dropDownList($model->profile, 'sex', Users_Profile::$sexs, array('class' => 'form-control')); ?>
 		</div>
-		<div class="col-md-3"><?php echo $form->error($model->profile, 'sex'); ?></div>
+		<div class="col-md-3"><?//php echo $form->error($model->profile, 'sex'); ?></div>
 	</div>-->
 
 	<div class="form-group">
@@ -120,6 +120,16 @@
 			<?php echo $form->textField($model, 'updated_at', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control', 'readonly' => 'readonly')); ?>
 		</div>
 	</div>
+
+    <div class="form-group">
+        <? $personalManagerModel = PersonalManagers::model(); ?>
+        <? $usersPersonalManagerModel = UsersPersonalManagers::model()->find('user_id = '.$model->id); ?>
+        <?php echo $form->labelEx($usersPersonalManagerModel, 'manager_id', array('class' => 'col-sm-3 control-label')); ?>
+        <div class="col-sm-6">
+            <?php echo $form->dropDownList($usersPersonalManagerModel, 'manager_id', CHtml::listData($personalManagerModel->findAll(), 'id', 'manager_name'), array('class' => 'form-control')); ?>
+        </div>
+        <div class="col-md-3"><div class="help-block"><?php echo $form->error($usersPersonalManagerModel, 'manager_id'); ?></div></div>
+    </div>
 	
 	<div class="panel-footer">
 		<div class="row">

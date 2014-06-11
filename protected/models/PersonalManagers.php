@@ -12,6 +12,7 @@
  * @property string $language
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $is_default
  *
  * The followings are the available model relations:
  * @property UsersPersonalManagers[] $usersPersonalManagers
@@ -34,7 +35,7 @@ class PersonalManagers extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('manager_name, phone, email, language', 'required'),
+            array('manager_name, phone, email, language, is_default', 'required'),
             array('manager_state', 'numerical', 'integerOnly'=>true),
             array('email', 'email'),
             array('manager_name, phone, email', 'safe'),
@@ -70,6 +71,7 @@ class PersonalManagers extends ActiveRecord
 			'language' => 'Language',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
+			'is_default' => 'Default manager',
 		);
 	}
 
@@ -99,6 +101,7 @@ class PersonalManagers extends ActiveRecord
 		$criteria->compare('language',$this->language,true);
 		$criteria->compare('created_at',$this->created_at);
 		$criteria->compare('updated_at',$this->updated_at);
+		$criteria->compare('is_default',$this->is_default);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

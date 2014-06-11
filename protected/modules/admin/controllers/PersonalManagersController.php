@@ -37,6 +37,9 @@
 
             if(isset($_POST['PersonalManagers']))
             {
+                if ($_POST['PersonalManagers']['is_default']) {
+                    $model->updateAll(array('is_default' => 0, 'is_default = 1'));
+                }
                 $model->attributes=$_POST['PersonalManagers'];
                 if($model->save()){
                     $this->redirect(array('/admin/personalManagers/manage/'));
