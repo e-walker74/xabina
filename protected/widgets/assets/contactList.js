@@ -396,5 +396,4 @@ var updateParams = function(element, datas, callback){
 	if(callback){
 		callback()
 	}
-	
 }
