@@ -13,10 +13,15 @@
  * @property integer $status
  * @property integer $is_master
  * @property string $address
+ * @property string $address_optional
+ * @property string $city
+ * @property string $indx
+ * @property integer $country_id
  *
  * The followings are the available model relations:
  * @property Users $user
  * @property EmailTypes $emailType
+ * @property Countries $country
  */
 class Users_Address extends ActiveRecord
 {
@@ -114,5 +119,16 @@ class Users_Address extends ActiveRecord
 		return parent::model($className);
 	}
 
+    public function getAddressHtml($doc = false)
+    {
+		$br = "<br/>";
+		if($doc){
+			$br = "\n\r";
+		}
+        $ao = ($this->address_optional) ? $this->address_optional . $br : "";
+        $html = "{$this->address} {$br} {$ao} {$this->indx} {$this->city} ({$this->country->code})";
+		
+		return $html;
+    }
 
 }

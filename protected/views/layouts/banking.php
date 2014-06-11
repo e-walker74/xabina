@@ -13,6 +13,7 @@
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
     <script type="text/javascript" src="/js/less.min.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
     <script type="text/javascript" src="/js/jquery.currencyDropDown.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-tooltip.js"></script>

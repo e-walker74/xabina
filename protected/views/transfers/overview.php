@@ -20,6 +20,8 @@
 		</div>
 	</div>
 
+    <form id="overview-form" action="" method="post">
+    <input type="hidden" name="User_Overview[]" value="">
 	<div class="overview-cont">
 		<div class="subheader"><?= Yii::t('Front', 'Overview'); ?></div>
 		
@@ -33,15 +35,19 @@
 				<th width="14%"><?= Yii::t('Front', 'Amount') ?></th>
 				<th width="15%"></th>
 			</tr>
+            <tr class="comment-tr" style="display: none">
+                <td colspan="6">
+                    <span class="rejected"><?= Yii::t('Front', 'No any transfers for confirmation') ?></span>
+                </td>
+            </tr>
 			<?php foreach($transfers as $transfer): ?>
-			<?php if(!isset($transGroup)) $transGroup = substr(time(), 5, 11)+$transfer->id; ?>
-			<tr>
+			<tr class="overview-tr">
 				<td class="td-cont" colspan="6">
 					<table class="inner-table">
 						<tbody><tr>
 							<td width="4%" class="with-brdr-td">
 								<div class="border-td">
-									<input name="<?= $transGroup ?>_<?= $transfer->id ?>" type="checkbox" class="overview-check">
+									<input name="User_Overview[]" value="<?= $transfer->id ?>" type="checkbox" class="overview-check">
 								</div>
 							</td>
 							<td width="23%">
@@ -60,13 +66,16 @@
 												break;
 									} ?>
 									<br/>
-									<?=  $transfer->description ?>
+                                <div class="comm-txt">
+                                    <?=  $transfer->description ?>
+                                </div>
+
 							</td>
-							<td width="14%"><?= ($transfer->frequency_type == 1) ? date('m.d.Y', $transfer->execution_date) : Yii::t('Front', 'Start').': '. date('m.d.Y', $transfer->start_time) . ' ' . Yii::t('Front', 'End').': '. date('m.d.Y', $transfer->end_time) ?></td>
+							<td width="14%"><?= ($transfer->frequency_type == 1) ? date('m.d.Y', $transfer->execution_date) : Yii::t('Front', 'Start').': '. date('m.d.Y', $transfer->start_date) . ' ' . Yii::t('Front', 'End').': '. date('m.d.Y', $transfer->end_date) ?></td>
 							<td width="14%"><?= $transfer->amount ?> <span class="currency-code"><?= $transfer->currency->code ?></span></td>
 							<td width="15%" style="text-align: right">
 								<a class="overview-edit" href="<?= Yii::app()->createUrl('/transfers/outgoing', array('transfer' => $transfer->id)); ?>"></a>
-								<a class="overview-remove remove-with-dialog" href="<?= Yii::app()->createUrl('/transfers/delete', array('id' => $transfer->id)); ?>"></a>
+								<a class="overview-remove" data-url="<?= Yii::app()->createUrl('/transfers/delete', array('id' => $transfer->id)); ?>" href="javaScript:void(0)"></a>
 							</td>
 						</tr>
 					</tbody></table>
@@ -80,17 +89,37 @@
 			<tr>
 				
 				<td class="td-cont overview-payment-sum" colspan="6">
-					<?= $this->renderPartial('_checked', array('transes' => array()), true, false); ?>
+					<?= $this->renderPartial('_checked', array('transes' => array(), 'valid' => $valid), true, false); ?>
 				</td>
 			</tr>
 			</tbody>
 		</table>
-		<div class="remove-dialog xabina-dialog">
-			<div class="arr"></div>
-			<?= Yii::t('Front', 'Are you sure you want to remove this payment?') ?>
-			<a href="#" class="no" tabindex="-1"><?= Yii::t('Front', 'No'); ?></a>
-			<a href="#"  class="yes" tabindex="-1"><?= Yii::t('Front', 'Yes'); ?></a>
-		</div>
 	</div>
+    </form>
 </div>
-<?php Yii::app()->clientScript->registerScriptFile('/js/transfers.js'); ?>
+<?php Yii::app()->clientScript->registerScriptFile('/js/transfersv2.js'); ?>
+
+<script>
+    $(document).ready(function(){
+
+        $('.overview-remove').confirmation({
+            title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+            singleton: true,
+            popout: true,
+            onConfirm: function(){
+                link = $(this).parents('.popover').prev('a')
+                deleteRow(link, function(){
+                    if($('.overview-tr').length == 0){
+                        $('.comment-tr').show()
+                        $('.td-cont.overview-payment-sum').hide()
+                    }
+                });
+                return false;
+            }
+        })
+        if($('.overview-tr').length == 0){
+            $('.comment-tr').show()
+            $('.td-cont.overview-payment-sum').hide()
+        }
+    })
+</script>

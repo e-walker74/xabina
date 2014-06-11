@@ -25,13 +25,26 @@ class Form_Outgoingtransf_Own extends Form_Outgoingtransf{
         );
     }
 
-    public function save(){
+    public function save($transfer = false){
         if(!$this->validate()){
             return false;
         }
-        $transfer = new Transfers_Outgoing();
+
+        if(!$transfer){
+            $transfer = new Transfers_Outgoing();
+        }
         $transfer->attributes = $this->attributes;
-        return $transfer->save();
+        $to_account = Accounts::model()->find('number = :num', array(':num' => $transfer->to_account_number));
+        $transfer->to_account_holder = $to_account->user->fullName;
+		if($transfer->save()){
+			$this->afterTransferSave($transfer);
+			return true;
+		}
+		return false;
     }
 
+    public static function model($className=__CLASS__)
+    {
+        return new $className;
+    }
 } 

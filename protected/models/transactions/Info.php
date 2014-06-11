@@ -4,7 +4,6 @@
  * This is the model class for table "transactions_info".
  *
  * The followings are the available columns in table 'transactions_info':
- * @property integer $transaction_id
  * @property integer $date
  * @property string $type
  * @property string $sender
@@ -35,13 +34,12 @@ class Transactions_Info extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date, type, sender', 'required'),
-			array('transaction_id', 'numerical', 'integerOnly'=>true),
+			array('sender', 'required'),
 			array('type, sender, bic, data_bank, costs', 'length', 'max'=>255),
 			array('details_of_payment', 'safe', 'on' => 'admin'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('transaction_id, date, type, sender, value, bic, data_bank, costs', 'safe', 'on'=>'search'),
+			array('id, date, type, sender, value, bic, data_bank, costs', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +60,7 @@ class Transactions_Info extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'transaction_id' => 'Transaction',
+			'id' => 'id',
 			'date' => 'Date',
 			'type' => 'Type',
 			'sender' => 'Sender',
@@ -77,7 +75,7 @@ class Transactions_Info extends CActiveRecord
 	public function getPublicAttrs(){
 		$attrs = array();
 		foreach($this->attributes as $key => $value){
-			if($key != 'transaction_id' && $key != 'charges' && $value){
+			if($key != 'id' && $key != 'charges' && $value){
 				$attrs[$this->getAttributeLabel($key)] = $value;
 			}
 			if($key == 'charges' && $value){

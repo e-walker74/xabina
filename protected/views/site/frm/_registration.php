@@ -105,16 +105,6 @@
             <div id="company_tab">
                 <div class="form-line">
                     <div class="form-block">
-                        <div class="form-lbl"><?= $model->getAttributeLabel('company_name') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', 'Add Your company name'); ?>"></span></div>
-                        <div class="form-input">
-                            <?= $form->textField($model, 'company_name', array('autocomplete' => 'off')); ?>
-                            <span class="validation-icon"></span>
-                        </div>
-                        <div class="form-alert">
-                            <?= $form->error($model, 'company_name'); ?>
-                        </div>
-                    </div>
-                    <div class="form-block">
                         <div class="form-lbl"><?= $model->getAttributeLabel('country') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', 'Add Your country'); ?>"></span></div>
                         <div class="form-input">
                             <?$this->widget('CAutoComplete',
@@ -129,6 +119,16 @@
                         </div>
                         <div class="form-alert">
                             <?= $form->error($model, 'country'); ?>
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <div class="form-lbl"><?= $model->getAttributeLabel('company_name') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', 'Add Your company name'); ?>"></span></div>
+                        <div class="form-input">
+                            <?= $form->textField($model, 'company_name', array('autocomplete' => 'off')); ?>
+                            <span class="validation-icon"></span>
+                        </div>
+                        <div class="form-alert">
+                            <?= $form->error($model, 'company_name'); ?>
                         </div>
                     </div>
                     <div class="form-block"></div>

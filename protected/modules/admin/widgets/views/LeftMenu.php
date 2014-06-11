@@ -41,6 +41,7 @@
 		<ul class="acc-menu">
 			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/create/') ?>/"><?= Yii::t('Transfers', 'Create'); ?></a></li>
 			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/outgoing/') ?>/"><?= Yii::t('Transfers', 'Outgoing'); ?></a></li>
+			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/incoming/') ?>/"><?= Yii::t('Transfers', 'Incoming'); ?></a></li>
 		</ul>
 	</li>
     <li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Admins', 'Admins'); ?></span></a>

@@ -38,6 +38,7 @@ class Form_Registration extends CFormModel
 			// password needs to be authenticated
 			array('email', 'authenticate'),
             array('role', 'required'),
+            array('role', 'in', 'range' => array(1, 2)),
             array('country', 'checkCountry'),
             array('company_name', 'checkCompany'),
 		);
@@ -147,7 +148,6 @@ class Form_Registration extends CFormModel
                 $company->title = $this->company_name;
                 $company->country_id = $country->id;
                 $company->save();
-
             }
 
 
