@@ -31,11 +31,17 @@ class Controller extends CController
 		if(!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(Yii::app()->request->getUserHostAddress())){
 			Yii::app()->user->logout();
 		}
-
+        $this->registerGlobalStyles();
 		return parent::init();
 	}
 
-	protected function cleanResponseJs() {
+    protected function registerGlobalStyles() {
+        if($this->id !== "rbac") {
+             Yii::app()->clientScript->registerCssFile("/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css");
+        }
+    }
+
+    protected function cleanResponseJs() {
         Yii::app()->clientScript->scriptMap['jquery.js'] = false;
     }
 	

@@ -6,7 +6,6 @@
 	<link rel="stylesheet" href="/css/jquery.pnotify.default.css" />
     <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
-	<link rel="stylesheet" href="/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
 	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
     <link rel="stylesheet" href="/css/media.css" />
 	<link rel="stylesheet" href="/css/bg.css" />
