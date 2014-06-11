@@ -234,11 +234,11 @@
                                 </div>
                                 <div class="form-input " style="width: 30%; margin:0 7px 0 0;">
                                     <div class="select-custom select-narrow ">
-                                        <span class="select-custom-label"><?= Yii::t('Front', 'Choose') ?></span>
+                                        <span class="select-custom-label">1</span>
                                         <?= $form->dropDownList(
                                             $model,
                                             'each_period',
-                                            array('' => Yii::t('Front', 'Choose')) + array(1,2,3,4),
+                                            array(1 => 1,2,3,4,5,6),
                                             array('class' => 'select-invisible')
                                         ); ?>
                                     </div>

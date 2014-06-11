@@ -29,7 +29,6 @@ class AdminModule extends CWebModule
 			'admin.components.*',
 			'application.components.*',
             'admin.services.*',
-			'core.widgets.*',
 			'admin.widgets.*',
 		));
 	}

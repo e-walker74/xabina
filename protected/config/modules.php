@@ -4,14 +4,14 @@ return array(
     // uncomment the following to enable the Gii tool
     'gii' => array(
         'class' => 'system.gii.GiiModule',
-        'password' => '234254',
+        'password' => 'pass',
         // If removed, Gii defaults to localhost only. Edit carefully to taste.
         'ipFilters' => array(
             '91.187.3.193',
 			'86.57.147.222',
 			'93.84.11.20',
 			'91.187.24.230',
-			'93.84.28.73',
+			'86.57.247.196',
             '::1',
             '127.0.0.1'
 		),

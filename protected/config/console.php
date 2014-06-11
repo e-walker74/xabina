@@ -4,18 +4,10 @@
 // Any writable CConsoleApplication properties can be configured here.
 return array(
     'import' => array(
-        'core.models.api.*',
-		'core.models.*',
-        'core.services.*',
         'application.models.mongo.*',
 		'application.models.*',
-        'core.components.*',
-        'core.components.ConsoleCommand',
-        'core.extensions.yiiRestSuite.*',
-        'core.extensions.YiiMongoDbSuite.*',
-        'core.extensions.YiiMongoDbSuite.extra.*',
-		'core.extensions.googleAnalytics.*',
-		'core.extensions.siteMapRenderer.*',
+        'application.components.*',
+        'application.components.ConsoleCommand',
     ),
 	'preload'=>array('log'),
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',

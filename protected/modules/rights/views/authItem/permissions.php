@@ -14,9 +14,9 @@
 				</div>
 			</div>
 			<div class="panel-body collapse in">
-                <!--<p><?php echo CHtml::link(Rights::t('core', 'Generate items for controller actions'), array('authItem/generate'), array(
+                <p><?php echo CHtml::link(Rights::t('core', 'Generate items for controller actions'), array('authItem/generate'), array(
                     'class'=>'generator-link',
-                )); ?></p>-->
+                )); ?></p>
 				<?php $this->widget('zii.widgets.grid.CGridView', array(
                     'dataProvider'=>$dataProvider,
                     'template'=>'{items}',

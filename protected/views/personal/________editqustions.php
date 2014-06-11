@@ -156,11 +156,11 @@
 <script>
 $('.types_dropdown').tempDropDown({
 	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
+		<?php foreach(Users_EmailTypes::all() as $k => $v):?>
+		<?php if(!empty($k) && !empty($v)):?>
 	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
+		<?php endif; ?>
+		<?php endforeach;?>
 	},
 	listClass: 'type_dropdown',
 	callback: function(element, dropdown){

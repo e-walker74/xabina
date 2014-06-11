@@ -198,6 +198,7 @@ class AuthItemController extends RController
 	{
 		// Get the generator and authorizer
 		$generator = $this->module->getGenerator();
+		d($generator);
 
 		// Createh the form model
 		$model = new GenerateForm();
@@ -225,7 +226,7 @@ class AuthItemController extends RController
 							$items['operations'][] = $itemname;
 					}
 				}
-
+				
 				// Add the items to the generator as tasks and operations and run the generator.
 				$generator->addItems($items['tasks'], CAuthItem::TYPE_TASK);
 				$generator->addItems($items['operations'], CAuthItem::TYPE_OPERATION);
@@ -236,6 +237,9 @@ class AuthItemController extends RController
 					);
 					$this->redirect(array('authItem/permissions'));
 				}
+				dd($generator->run());
+				d($items);
+				die;
 			}
 		}
 

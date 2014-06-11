@@ -21,9 +21,9 @@ class Mail extends CModel{
 		$params['{:userFullName}'] = $user->fullName;
 		$params['{:userEmail}'] = $user->email;
 		$params['{:userLogin}'] = ($user->login) ? $user->login : $user->email;
-		$params['{:xabinaBaseUrl}'] = Yii::app()->getBaseUrl(true);
+        $params['{:xabinaBaseUrl}'] = Yii::app()->params['baseUrl'];
 
-		$mailer = Yii::app()->mailer;
+        $mailer = Yii::app()->mailer;
 		$mailer->IsSMTP();
 		$mailer->ClearAddresses();
 		$mailer->AddAddress(($anotherEmail) ? $anotherEmail : $user->email);
@@ -32,7 +32,7 @@ class Mail extends CModel{
         $mailer->Subject = $mailTemplate->subject;
 		$mailer->SingleTo = true;
 		$mailer->Mailer = 'smtp';
-		$mailer->Hostname = Yii::app()->getBaseUrl(true);
+		$mailer->Hostname = Yii::app()->params['baseUrl'];
 		$mailer->Sender = $mailTemplate->sender;
 
 		try {

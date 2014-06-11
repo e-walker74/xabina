@@ -10,4 +10,5 @@ return array(
 			'ru'=>'Russian',
         ),
         'defaultLanguage'=>'en',
+		'baseUrl' => 'http://xabina.com/',
 );

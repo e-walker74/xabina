@@ -4,6 +4,7 @@ class Transfers_Outgoing_Favorite extends Transfers_Outgoing
 {
 
 	public $favorite;
+	public $amount_cent;
 	
 	/**
 	 * @return string the associated database table name
@@ -12,6 +13,15 @@ class Transfers_Outgoing_Favorite extends Transfers_Outgoing
 	{
 		return 'transfers_outgoing_favorite';
 	}
+	
+	public function rules(){
+        return array_merge(
+            parent::rules(),
+            array(
+                array('amount_cent', 'numerical'),
+            )
+        );
+    }
 
 	/**
 	 * @return array relational rules.
@@ -38,5 +48,14 @@ class Transfers_Outgoing_Favorite extends Transfers_Outgoing
 	{
 		return parent::model($className);
 	}
+	
+	public function beforeValidate() {
+        if(parent::beforeValidate()) {
+            if($this->amount_cent){
+                $this->amount .= '.' . $this->amount_cent;
+            }
+            return true;
+        }
+    }
 
 }
