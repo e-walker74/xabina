@@ -44,7 +44,7 @@ class Form_Search extends CFormModel
 	public function searchUserTransactions(){
 		$criteria=new CDbCriteria;
 		
-		$criteria->params = array(':uid' => Yii::app()->user->id);
+		$criteria->params = array(':uid' => Yii::app()->user->getCurrentId());
 		$criteria->condition = 'account.user_id = :uid
 		';
 

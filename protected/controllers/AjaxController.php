@@ -40,10 +40,15 @@ class AjaxController extends Controller
             $model->updateAll(array('widget_state' => $_GET['state']),'user_id="'.Yii::app()->user->id.'"');
         }
     }
-
+	
     public function actionGetManagerWidgetState() {
         $model = new UsersPersonalManagers();
         $ret = $model->find('user_id = '.Yii::app()->user->id);
         echo $ret['widget_state'];
+	}
+    
+    public function actionGetRoleRights($roleId) {
+        $rights = RbacRoleAccessRights::model()->findAllByAttributes(array('role_id' => intval($roleId)));
+        echo CJSON::encode($rights);
     }
 }

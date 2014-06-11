@@ -1,11 +1,10 @@
 <?php
-class WidgetUpload extends QWidget {
+class WidgetUpload extends CWidget {
 	
 	public $inTable = true;
 	public $showDialog = true;
 	public $formId = 'file-form';
 	public $typeSuffix = '';
-
 
     public function run()
     {
@@ -19,7 +18,8 @@ class WidgetUpload extends QWidget {
 		$cs->registerScriptFile($url.'/upload.js',CClientScript::POS_END);
     }
 	
-	public function getFilesTable($model, $user, $processOutput = false){
+	public function getFilesTable($model, $user, $processOutput = false)
+    {
 		$type = get_class($model).$this->typeSuffix;
 		if(isset($model->id)){
 			$files = Users_Files::model()->findAll(
@@ -49,7 +49,8 @@ class WidgetUpload extends QWidget {
 		return $this->render('files', array('files' => $files), $processOutput);
 	}
 	
-	public function html($model){
+	public function html($model)
+    {
 		$this->render('form', array('model' => $model));
 	}
 }

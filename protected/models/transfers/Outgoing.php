@@ -31,9 +31,11 @@ class Transfers_Outgoing extends ActiveRecord
             array('amount, account_id, account_number, currency_id, charges, form_type', 'required'),
             array('amount, account_id, account_number, currency_id, charges, remaining_balance, counter_agent, each_period, category_id, external_bank_id', 'numerical'),
             array('urgent, favorite, is_iban', 'boolean'),
+			array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
             array('tag1, tag2, tag3, to_account_number', 'length', 'max' => 255),
             array('period', 'in', 'range' => array('day', 'week', 'month', 'year')),
             array('frequency_type', 'in', 'range' => array(1, 2)),
+			array('description', 'length', 'max' => 140),
             array('description, to_account_holder, bic, bank_name, to_account_number', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             array('execution_date, start_date, end_date', 'safe'),
             array('ewallet_type', 'in', 'range' => array_keys(Form_Outgoingtransf_Ewallet::$ewallet_types)),
@@ -264,4 +266,27 @@ class Transfers_Outgoing extends ActiveRecord
 				break;
 		}
 	}
+	
+	public function notifyRules(){
+		return array(
+			'validateBalance',
+		);
+	}
+	
+	public function validateBalance(){
+        $acc = Accounts::model()->find('number = :account_number AND user_id = :uid',
+            array(
+                ':account_number' => $this->account_number,
+                ':uid' => Yii::app()->user->id,
+            )
+        );
+        if(!$acc){
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+        if($acc->getBalanceInEUR() < Currencies::convert($this->amount, Currencies::model()->findByPk($this->currency_id)->code, 'EUR')){
+            return array('amount_notify' => Yii::t('Front', 'Insufficient funds'));
+        } else {
+			return array();
+		}
+    }
 }

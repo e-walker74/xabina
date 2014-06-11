@@ -8,7 +8,7 @@
  * @property integer $user_id
  * @property integer $currency_id
  * @property string $number
- * @property string $date
+ * @property string $invoice_date
  * @property string $due_date
  * @property string $reference
  * @property string $email
@@ -17,7 +17,7 @@
  * @property string $terms
  * @property string $note
  */
-class Invoices extends CActiveRecord
+class Invoices extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -35,10 +35,10 @@ class Invoices extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date, due_date', 'required'),
+			array('user_id, currency_id, number, subtotal, total', 'required'),
 			array('user_id, currency_id', 'numerical', 'integerOnly'=>true),
-			array('discount', 'numerical'),
-			array('discount_type', 'numerical'),
+			array('discount, subtotal, total', 'numerical'),
+			array('discount_type, invoice_date, due_date', 'numerical'),
 			array('number, reference, email, terms, note', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -54,6 +54,8 @@ class Invoices extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
 		);
 	}
 
@@ -99,7 +101,7 @@ class Invoices extends CActiveRecord
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('currency_id',$this->currency_id);
 		$criteria->compare('number',$this->number,true);
-		$criteria->compare('date',$this->date,true);
+		$criteria->compare('invoice_date',$this->invoice_date,true);
 		$criteria->compare('due_date',$this->due_date,true);
 		$criteria->compare('reference',$this->reference,true);
 		$criteria->compare('email',$this->email,true);
@@ -121,5 +123,15 @@ class Invoices extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function beforeValidate(){
+		if($this->invoice_date){
+			$this->invoice_date = strtotime($this->invoice_date);
+		}
+		if($this->due_date){
+			$this->due_date = strtotime($this->due_date);
+		}
+		return parent::beforeValidate();
 	}
 }

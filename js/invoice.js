@@ -30,9 +30,9 @@ InvoicePage = {
         $('.invoice-current-currency-input').change(function () {
             self.currencyChange();
         });
-        $('.button-save-invoice').click(function () {
+        /*$('.button-save-invoice').click(function () {
             $('#invoice-form').submit();
-        });
+        });*/
     },
     addInvoiceOptionByClick: function () {
         var self = this;
@@ -83,6 +83,7 @@ InvoicePage = {
             subtotalAmount = subtotalAmount + parseFloat($(this).text());
         })
         $('.invoice-subtotal-block').text(subtotalAmount.toFixed(2));
+		$('#Form_Invoice_subtotal').val(subtotalAmount.toFixed(2))
 
         if ( $('.invoice-discount-type-input').val() == '1') {
             discount = subtotalAmount * (parseFloat($('.invoice-discount-input').val())/100);
@@ -92,6 +93,7 @@ InvoicePage = {
 
         $('.invoice-discount-block').text(parseFloat(discount).toFixed(2));
         $('.invoice-total-block').text((subtotalAmount - parseFloat(discount)).toFixed(2));
+		$('#Form_Invoice_total').val((subtotalAmount - parseFloat(discount)).toFixed(2))
     },
     currencyChange: function () {
         var currencyTitle = $('.invoice-current-currency-input option:selected').text();
@@ -120,9 +122,75 @@ InvoicePage = {
                 }
             }
         });
-    }
+    },
+	
+	submitInvoice: function(form){
+		url = form.attr('action')
+		if(form.find('.clicked-button').hasClass('button-next')){
+			url = url + '?next=1'
+		}
+
+		$.ajax({
+			url: url,
+			success: function(response) {
+				if(response.success){
+					successNotify('Invoice', response.message, $('.button-save-invoice'))
+					resetPage()
+					InvoicePage.currencyChange();
+					InvoicePage.countAmountAll();
+					if(response.url) {
+						window.location.href = response.url
+					}
+				} else if(response.message){
+					errorNotify('Invoice', response.message, $('.button-save-invoice'))
+				}
+			},
+			cache:false,
+			async: false,
+			data: form.serialize(),
+			type: 'POST',
+			dataType: 'json'
+		});
+	}
 }
 
 $(function(){
     InvoicePage.init();
 });
+
+afterValidate = function(form, data, hasError) {
+	form.find("input").removeClass("input-error");
+	form.find("input").parent().removeClass("input-error");
+	form.find(".validation-icon").fadeIn();
+	if(hasError) {
+		for(var i in data) {
+			$("#"+i).addClass("input-error");
+			$("#"+i).parent().addClass("input-error");
+			$("#"+i).next(".validation-icon").fadeIn();
+		}
+		return false;
+	}
+	else {
+		InvoicePage.submitInvoice(form)
+		return false;
+	}
+	return false;
+}
+
+afterValidateAttribute = function(form, attribute, data, hasError) {
+	if(hasError){
+		if(!$("#"+attribute.id).hasClass("input-error")){
+			$("#"+attribute.id+"_em_").hide().slideDown();
+		}
+		$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
+		$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
+		$("#"+attribute.id).next(".validation-icon").fadeIn();
+	} else {
+		if($("#"+attribute.id).hasClass("input-error")){
+			$("#"+attribute.id+"_em_").show().slideUp();
+		}
+		$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
+		$("#"+attribute.id).next(".validation-icon").fadeIn();
+		$("#"+attribute.id).addClass("valid");
+	}
+}

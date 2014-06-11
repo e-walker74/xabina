@@ -9,15 +9,8 @@ return array(
     'notify' => array(
         'class' => 'core.components.QUserNotify',
     ),
-    'dynamicRes'=>array(
-        'class' => 'core.extensions.DynamicRes.DynamicRes',
-        'urlConfig' => array( // Its fix Css, and convert Url to RealName
-            'baseUrl'  => '/', // Url of your Site (ending with /), modify it if you use subdomain
-            'basePath' => dirname(__FILE__).'/../../', // path of your site (ending with /) (No Change This)
-        )
-    ),
     'image' => array(
-        'class' => 'core.extensions.image.CImageComponent',
+        'class' => 'ext.image.CImageComponent',
         // GD or ImageMagick
         'driver' => 'GD',
         // ImageMagick setup path
@@ -33,7 +26,7 @@ return array(
         'class' => 'WebUser',
         'loginUrl' => array('login'),
         'defaultRole' => 'guest',
-		'authTimeout' => 60 * 15,
+		'authTimeout' => 60 * 75,
 		'autoRenewCookie' => true,
     ),
     'authManager' => array(
@@ -90,6 +83,9 @@ return array(
 			'/banking/personal/testsms' => 'personal/testsms',
             '/banking/personal/saveaddress' => 'personal/saveaddress',
             '/banking/personal/editaddress' => 'personal/editaddress',
+            '/banking/personal/alerts' => 'personal/alerts',
+            '/banking/personal/updatealerts/<id:\d+|new>' => 'personal/updatealerts',
+            '/banking/personal/dropalerts/<id:\d+>' => 'personal/dropalerts',
             '/banking/personal/activate/<type:(email|address|phone)>/<hash:\w+>' => 'personal/activate',
 
             '/message/save/<type:(save|send|edit|socials)>/<id:\d+>' => 'message/save',
@@ -114,6 +110,16 @@ return array(
 			'/account/' => 'site/registration',
 			'/login' => '/site/login',
 			'page/<url>' => 'pages/index',
+			'/contact' => 'contact/index',
+			'/contact/<url>' => 'contact/view',
+			'/contact/update/<url>' => 'contact/update',
+            
+            /**
+             * RBAC
+             */
+            '/settings/roles' => 'rbac/roles',
+            '/settings/roles/add' => 'rbac/addRole',
+            '/settings/users/add' => 'rbac/addUser',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

@@ -30,7 +30,9 @@ $(document).ready(function(){
         collapsible: false
     });
 
-    $( ".xabina-tabs" ).tabs();
+    $( ".xabina-tabs.main" ).tabs({ active: false, collapsible: true });
+	
+	$(".frequency-tab .xabina-tabs").tabs()
 
     $('.favorite-check').on('click', function(){
         $(this).parent().toggleClass('active')
@@ -41,24 +43,6 @@ $(document).ready(function(){
 
     $('#Form_Outgoingtransf_Ewallet_ewallet_type').change(function(){
         changeEWalletType(this)
-    })
-
-    $('#Form_Outgoingtransf_External_bic').change(function(){
-        $.ajax({
-            url: $('#Form_Outgoingtransf_External_bic').attr('data-url'),
-            success: function(response) {
-                if(response.success){
-                    $('#Form_Outgoingtransf_External_bank_name').val(response.name)
-                } else {
-                    $('#Form_Outgoingtransf_External_bank_name').val('')
-                }
-            },
-            cache:false,
-            async: false,
-            data: {bic: $('#Form_Outgoingtransf_External_bic').val()},
-            type: 'POST',
-            dataType: 'json'
-        });
     })
 
 })
@@ -126,11 +110,6 @@ var send_quick_transfer = function(quick_id){
     });
 }
 
-var change_click_button = function(input){
-    $('.clicked-button').removeClass('clicked-button')
-    $(input).addClass('clicked-button');
-}
-
 $(document).ready(function(){
     $('.table-overview .table-header .overview-check').change(function(){
         if($('.table-overview .table-header .overview-check:checked').length != 0){
@@ -186,5 +165,54 @@ verifyTransfer = function(el){
 
 edit_quick_transfer = function(el){
     resetPage()
-    $(el).parents('.quick-row').hide().next('.quick-row-edit').show()
+	var text = $(el).parents('.quick-row').find('.comm-txt').html()
+	var amount = nospaces($(el).parents('.quick-row').find('.amount').html())
+	var cent = amount.toString().split('.')[1]
+	
+	$(el).parents('.quick-row').next('.quick-row-edit').find('#Transfers_Outgoing_Favorite_amount').val(Math.floor(amount))
+	$(el).parents('.quick-row').next('.quick-row-edit').find('.sum-input-cent').val(cent)
+    $(el).parents('.quick-row').next('.quick-row-edit').find('#Transfers_Outgoing_Favorite_description').val(text)
+	$(el).parents('.quick-row').hide().next('.quick-row-edit').show()
+}
+
+afterValidate = function(form, data, hasError) {
+	form.find("input").removeClass("input-error");
+	form.find("input").parent().removeClass("input-error");
+	form.find(".validation-icon").fadeIn();
+	for(var i in data.notify) {
+		$(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
+	}
+	if(hasError) {
+		for(var i in data) {
+			$("#"+i).addClass("input-error");
+			$("#"+i).parent().addClass("input-error");
+			$("#"+i).next(".validation-icon").fadeIn();
+		}
+		return false;
+	}
+	else {
+		submitTransaction(form)
+	}
+	return false;
+}
+
+afterValidateAttribute = function(form, attribute, data, hasError) {
+	if(hasError){
+		if(!$("#"+attribute.id).hasClass("input-error")){
+			$("#"+attribute.id+"_em_").hide().slideDown();
+		}
+		$("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
+		$("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
+		$("#"+attribute.id).next(".validation-icon").fadeIn();
+	} else {
+		if($("#"+attribute.id).hasClass("input-error")){
+			$("#"+attribute.id+"_em_").show().slideUp();
+		}
+		$("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
+		$("#"+attribute.id).next(".validation-icon").fadeIn();
+		$("#"+attribute.id).addClass("valid");
+	}
+	for(var i in data.notify) {
+		$(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
+	}
 }

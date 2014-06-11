@@ -9,16 +9,17 @@ class Form_Invoice extends CFormModel
     public $email;
     public $number;
     public $user_id;
-	public $date;
+	public $invoice_date;
     public $due_date;
     public $reference;
     public $currency_id;
-    public $options;
+    public $options = array();
     public $terms;
     public $note;
     public $discount;
     public $discount_type;
-
+	public $subtotal;
+	public $total;
 
 	/**
 	 * Declares the validation rules.
@@ -32,9 +33,10 @@ class Form_Invoice extends CFormModel
             array('email', 'email', 'message' => Yii::t('Front', 'E-Mail is incorrect')),
             array('currency_id', 'required', 'message' => Yii::t('Front', 'Currenciy required')),
             array('number', 'required', 'message' => Yii::t('Front', 'Number is require')),
-            array('date', 'date', 'format' => 'yyyy-mm-dd', 'message' => Yii::t('Front', 'Date is incorrect')),
-            array('due_date', 'date', 'format' => 'yyyy-mm-dd', 'message' => Yii::t('Front', 'Due date is incorrect')),
-            array('discount', 'numerical', 'message' => Yii::t('Front', 'Discount not numerical')),
+			array('subtotal, total', 'required'),
+            array('invoice_date', 'date', 'format' => 'mm/dd/yyyy', 'message' => Yii::t('Front', 'Date is incorrect')),
+            array('due_date', 'date', 'format' => 'mm/dd/yyyy', 'message' => Yii::t('Front', 'Due date is incorrect')),
+            array('discount, discount_type', 'numerical', 'message' => Yii::t('Front', 'Discount not numerical')),
 
             array('reference, terms, note', 'safe'),
 
@@ -64,7 +66,8 @@ class Form_Invoice extends CFormModel
         $invoice->attributes = $this->attributes;
 
         if (!$invoice->save()) {
-            Yii::log('invoice fail '.print_r($invoice->attributes, 1), CLogger::LEVEL_ERROR, 'error');
+			d($invoice->getErrors());
+            Yii::log('invoice fail '.print_r($invoice->getErrors(), 1), CLogger::LEVEL_ERROR, 'error');
         } else {
             $invoiceId = Yii::app()->db->getLastInsertID();
             foreach($this->options as $item){
@@ -76,7 +79,6 @@ class Form_Invoice extends CFormModel
 
             return true;
         }
-
     }
 
 }

@@ -10,7 +10,7 @@
 						<?php if($trans->type == 'positive'): ?>
 							<?= $trans->info->sender ?>
 						<?php elseif($trans->type == 'negative'): ?>
-							<?= $trans->info->recipient //$trans->info->getToAccountHolder() ?>
+							<?= ($trans->info) ? $trans->info->recipient : ""?>
 						<?php endif; ?>
 						</b>
 						<br/>
@@ -40,7 +40,7 @@
 					<td width="35%">
 						<b>
 						<?php if($trans->type == 'positive'): ?>
-							<?= $trans->info->sender ?>
+							<?= ($trans->info) ? $trans->info->sender : ""?>
 						<?php endif; ?>
 						</b>
 						<br/>

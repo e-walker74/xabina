@@ -159,7 +159,7 @@ class Form_Registration extends CFormModel
 				$user->settings->font_size = 14;
 				
 				$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-				$country = $SxGeo->getCountry(CHttpRequest::getUserHostAddress());
+				$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
 				
 				$user->settings->time_zone_id = 276; // NL
 				if($country){

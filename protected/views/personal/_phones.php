@@ -31,7 +31,7 @@
 		</td>
 	</tr>
 	
-    <? foreach ($user->telephones as $users_phone): ?>
+    <?php foreach ($user->telephones as $users_phone): ?>
         <tr class="form-sms-tr phone-row">
             <td><?= $users_phone->number ?></td>
             <td>
@@ -49,7 +49,7 @@
             <input type="hidden" name="delete[<?= $users_phone->id ?>]" class="delete" value="0"/>
             <input type="hidden" name="type_edit[<?= $users_phone->id ?>]" class="type_edit" value="0"/>
         </tr>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 	<tr>
 		<td class="add-new-td" colspan="3">
 			<a class="table-btn" onclick="resetPage(); $(this).parents('tr').hide(); $(this).parents('form').find('.prof-form').toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
@@ -132,11 +132,11 @@ $(document).ready(function(){
 
 $('.types_dropdown').dropDown({
 	list: {
-		<? foreach(Users_EmailTypes::all() as $k => $v):?>
-		<? if(!empty($k) && !empty($v)):?>
+		<?php foreach(Users_EmailTypes::all() as $k => $v):?>
+		<?php if(!empty($k) && !empty($v)):?>
 	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<? endif; ?>
-		<? endforeach;?>
+		<?php endif; ?>
+		<?php endforeach;?>
 	},
 	listClass: 'type_dropdown',
 });

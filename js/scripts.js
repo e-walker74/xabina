@@ -8,7 +8,7 @@ function fontScale(scale){
 	   $('body').css({'font-size': '114.3%'});
 }
 
-$.fn.extend( {
+$.fn.extend({
     limiter: function(limit, elem) {
         $(this).on("keyup focus", function() {
             setCount(this, elem);
@@ -49,7 +49,9 @@ $(function(){
     });
 
     $('.container').on('change', '.select-invisible', onCustomSelectChange);
-
+	
+	$('.select-invisible').each(onCustomSelectChange);
+	
     function onCustomSelectChange(){
         $(this).prev('span').text($(this).find(':selected').text());
     }
@@ -120,6 +122,10 @@ $(function(){
        !~($(this).val().indexOf('+')) && $(this).val( '+' + $(this).val() );
     });
 
+
+    $('.clear-input-but').on('click', function(e){
+        $(this).parents('.clear-input-cont').find('input').val('');
+    });
 
     // progressbar styling
 
@@ -286,7 +292,7 @@ $(function(){
 	* Контроллер Personal
 	* Сброс значений полей формы
 	*/ 
-	function reset_values(form){	
+	function reset_values(form) {
 		$(form)[0].reset();
 		//$(form).val('');
 		//form.find("span.select-custom-label").text(form.find("select option:first").text());
@@ -434,30 +440,32 @@ $(function(){
 		});
 	}
 	
-	deleteRow = function(link, callback){
-		backgroundBlack()
+	deleteRow = function(link, callback, parentTag){
+		if (!parentTag) {
+			var parentTag = 'tr';
+		}
+		backgroundBlack();
 		$.ajax({
 			url: $(link).attr('data-url'),
 			success: function(data) {
-				dellBackgroundBlack()
-				var response= jQuery.parseJSON (data);
-				if(response.success){
+				dellBackgroundBlack();
+				var response = jQuery.parseJSON(data);
+				if (response.success) {
 				
-					if(response.message){
-						successNotify(response.mesTitle, response.message, link)
+					if (response.message) {
+						successNotify(response.mesTitle, response.message, link);
 					}
 				
-					if($(link).parents('tr').prev('tr').hasClass('email-comment-tr')){
-						$(link).parents('tr').prev('tr').remove()
+					if ($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')) {
+						$(link).parents(parentTag).prev(parentTag).remove();
 					}
-					$(link).parents('tr').remove()
+					$(link).parents(parentTag).remove();
 					
-					
-					if(response.reload){
-						location.reload()
+					if (response.reload) {
+						location.reload();
 					}
 				}
-				callback()
+				callback();
 			},
 			cache:false,
 			data: {},
@@ -573,11 +581,12 @@ $(document).ready(function(){
 		}
 	}
 	
-	if($('.with_datepicker').length != 0)
-	$(".with_datepicker").datepicker({
+	if($('form .with_datepicker').length != 0)
+	$("form .with_datepicker").datepicker({
         showOn:"button",
         buttonImage: '/images/calendar_ico.png',
-        buttonImageOnly:true
+        buttonImageOnly:true,
+		dateFormat: 'dd.mm.yy'
     });
 	
 	if($('#bg-404-gold').length){
@@ -687,23 +696,23 @@ $(document).ready(function(){
 		return false;
 	})
 	
-	if($("#transaction-category-select"))
-	$("#transaction-category-select").change(function(){
-		var value = $(this).val();
-        var $el = $(this);
-		$.ajax({
-			type: "POST",
-			url: $el.attr('data-url'),
-			data: {category: value},
-            dataType : 'json',
-            success : function (res) {
-                if(res.success) {
-                    $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+	if ($("#transaction-category-select"))
+	    $("#transaction-category-select").change(function() {
+		    var value = $(this).val();
+            var $el = $(this);
+		    $.ajax({
+			    type: "POST",
+			    url: $el.attr('data-url'),
+			    data: {category: value},
+                dataType : 'json',
+                success : function (res) {
+                    if(res.success) {
+                        $el.siblings('.select-custom-label').html($el.find('option[selected]').html());
+                    }
                 }
-            }
-		});
-//		return false;
-	})
+		    });
+    //		return false;
+	    })
 
 	$( ".escape-dialog" ).dialog({
         autoOpen: false,
@@ -752,11 +761,50 @@ $(document).ready(function(){
         $(window).unbind('beforeunload')
     })
 	
+	$('.bank-swift').change(function(){
+		var swift_input = $(this)
+		var bank_name_input = $(this).parents('form').find('.bankinfo-name')
+        $.ajax({
+            url: swift_input.attr('data-url'),
+            success: function(response) {
+                if(response.success){
+                    bank_name_input.val(response.name)
+                } else {
+                    bank_name_input.val('')
+                }
+            },
+            cache:false,
+            async: false,
+            data: {bic: swift_input.val()},
+            type: 'POST',
+            dataType: 'json'
+        });
+    })
+	
+	$(document).on('keyup', '.numeric', function() {
+		var input = $(this),
+		text = input.val().replace(/[^0-9+\s]/g, "");
+		if(/_|\s/.test(text)) {
+			text = text.replace(/_|\s/g, "");
+			// logic to notify user of replacement
+		}
+		input.val(text);
+	})
+	
+	$(document).on('keyup', '.phone', function(){
+        if(!$(this).val()){
+            $(this).val('+');
+        }
+    }).on('input', '.phone', function(){
+        if( !~($(this).val().indexOf('+') )){
+            $(this).val( '+' + $(this).val() );
+        }
+    });
+	
 })
 
-var resetPage = function(){
-
-    $(window).unbind('beforeunload')
+var cancelPage = function(){
+	$(window).unbind('beforeunload')
 
 	/* name page */
 	$(document).find('.edit-doc').hide()
@@ -791,6 +839,48 @@ var resetPage = function(){
     /* new transfer page */
     $('.quick-row-edit').hide()
     $('.quick-row').show()
+}
+
+var resetPage = function(){
+
+    $(window).unbind('beforeunload')
+
+	/* name page */
+	$(document).find('.edit-doc').hide()
+	$(document).find('.not-edit-doc').show()
+	
+	/* phones page */
+	$(document).find('.prof-form').hide()
+	$(document).find('.add-new-td').parents('tr').show()
+	
+	/* addresses page */
+	$('.address-tr').show();
+	$('.edit-address-tr').hide();
+	$('.add-new-td').parent().show()
+	$('.prof-form').hide()
+	
+	/* pins page */
+	$('.transaction-buttons-cont .edit').show()
+	$('.edit-form').hide()
+	
+	/* settings page */
+	$('.edit-block, tr.edit-row').hide();
+	$('.user-settings-data, tr.data-row').show();
+	
+	$('form').trigger('reset')
+
+    /*$('form select').each(function( index ) {
+        $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
+    })*/
+
+    $('.checkbox-custom label').removeClass('checked')
+
+    /* new transfer page */
+    $('.quick-row-edit').hide()
+    $('.quick-row').show()
+	
+	/* quic upload */
+	$('.row-edit').hide().prev('li').show()
 }
 
 $(document).on('click', '.button.cancel', function(){
@@ -925,4 +1015,47 @@ $(function() {
 
 
     cancelEdit();
+});
+
+var change_click_button = function(input){
+    $('.clicked-button').removeClass('clicked-button')
+    $(input).addClass('clicked-button');
+}
+
+function nospaces(str) {  
+	var VRegExp = new RegExp(/(\s|\u00A0)+/g);  
+	var VResult = str.replace(VRegExp, '');  
+	return VResult  
+}
+
+// Rbac accounts switcher
+$(document).ready(function(){
+    $("#rbac-accounts-switcher-form a").on('click', function(){
+        $("#rbac-accounts-switcher-form input[name='account']").val($(this).data('uid'));
+        $("#rbac-accounts-switcher-form").submit();
+        return false;
+    });
+});
+
+
+$(function(){
+
+    $('.details-accordion').accordion({
+        heightStyle: "content",
+        active: 0,
+        collapsible: true
+    });
+    
+    $('.show-users').accordion({
+        heightStyle: "content",
+        active: 1,
+        collapsible: true
+    });
+	
+	$('.xabina-accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+
 });

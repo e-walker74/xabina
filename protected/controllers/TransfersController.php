@@ -10,6 +10,9 @@ class TransfersController extends Controller
     {
         return array(
             'accessControl',
+            array(
+            	'application.components.RbacFilter'
+        	),
         );
     }
 
@@ -34,9 +37,13 @@ class TransfersController extends Controller
                     'smsverivicaiton',
                     'smsconfirm',
                     'success',
+					'successincoming',
                     'resendsms',
                     'history',
-                    'GetBankName',
+                    'getbankname',
+					'standing',
+					'deletestanding',
+					'IncomingOverview',
 					'createinvoice',
 					'createinvoiceoption',
 				),
@@ -48,7 +55,8 @@ class TransfersController extends Controller
         );
     }
 	
-	public function init(){
+	public function init()
+    {
 		
 	}
 
@@ -57,13 +65,13 @@ class TransfersController extends Controller
      * template newtransfer_xabina_15.psd
      * codding http://nikxabina.intwall.com/layout/account/new_transfer.html
      */
-    public function actionOutgoing(){
-
+    public function actionOutgoing()
+	{
         $this->breadcrumbs[Yii::t('Front', 'New Transfer')] = '';
 
         $user = Users::model()->with('settings')->findByPk(Yii::app()->user->id);
         $accounts = $user->accounts;
-        if(empty($user->accounts)){
+        if (empty($user->accounts)) {
             throw new CHttpException(404, Yii::t('Front', 'You have not any accounts'));
         }
 
@@ -71,12 +79,12 @@ class TransfersController extends Controller
          * Start save Quick transfer
          */
 
-        if(isset($_POST['quick'])){
+        if (isset($_POST['quick'])) {
             $quick = Transfers_Outgoing_Favorite::model()->findByPk($_POST['quick']);
-            if($quick->user_id == Yii::app()->user->id){
+            if ($quick->user_id == Yii::app()->user->id) {
                 $transfer = new Transfers_Outgoing();
                 $transfer->attributes = $quick->attributes;
-                if($transfer->save()){
+                if ($transfer->save()) {
                     echo CJSON::encode(array('success' => true, 'url' => Yii::app()->createUrl('/transfers/overview')));
                 }
                 Yii::app()->end();
@@ -88,23 +96,38 @@ class TransfersController extends Controller
          */
 
         $number = Yii::app()->request->getParam('account', '', 'int');
-        $transfer = Yii::app()->request->getParam('transfer', '', 'int');
-
-        if($transfer && $transfer = Transfers_Outgoing::model()->findByPk($transfer)){
-            if($transfer->need_confirm == 1){
-                $number = $transfer->account_number;
-            }
-        }
-
-        if($number){
+        $transfer = false;
+		$redirectTo = '/transfers/overview';
+		
+		if ($transfer = Yii::app()->request->getParam('transfer', '', 'int')) {
+			if ($transfer && $transfer = Transfers_Outgoing::model()->findByPk($transfer)) {
+				if ($transfer->need_confirm == 1) {
+					$number = $transfer->account_number;
+				}
+			}
+		}
+		
+		if (Yii::app()->request->getParam('standing', '', 'int')) {
+			$transfer = Yii::app()->request->getParam('standing', '', 'int');
+			if ($transfer && $transfer = Transfers_Outgoing_Standing::model()->findByPk($transfer)) {
+				$number = $transfer->account_number;
+				$redirectTo = '/transfers/standing';
+			}
+		}
+		
+		if ($transfer && $transfer->user_id != Yii::app()->user->id) {
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		
+        if ($number) {
             $selectedAcc = Accounts::model()->find('user_id = :uid AND number = :number', array(':uid' => Yii::app()->user->id, ':number' => $number));
 
-            if(!$selectedAcc)
+            if (!$selectedAcc)
                 throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         } else {
             $selectedAcc = $accounts[0];
-            foreach($accounts as $acc){
-                if($acc->balance > 0){
+            foreach($accounts as $acc) {
+                if ($acc->balance > 0) {
                     $this->redirect(array('/transfers/outgoing', 'account' => $acc->number));
                     Yii::app()->end();
                 }
@@ -119,20 +142,20 @@ class TransfersController extends Controller
         $ownForm = new Form_Outgoingtransf_Own;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'own-form') {
-            echo CActiveForm::validate($ownForm);
+            echo $ownForm->validateWithNotify();
             Yii::app()->end();
         }
 
-        if(isset($_POST['Form_Outgoingtransf_Own'])){
+        if (isset($_POST['Form_Outgoingtransf_Own'])) {
             $ownForm->attributes = $_POST['Form_Outgoingtransf_Own'];
             $message = Yii::t('Front', 'Payment was saved successfully');
-            if($ownForm->save($transfer)){
-                if(isset($_GET['next'])){
+            if ($ownForm->save($transfer)) {
+                if (isset($_GET['next'])) {
                     echo CJSON::encode(array(
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -152,20 +175,20 @@ class TransfersController extends Controller
         $anotherForm = new Form_Outgoingtransf_Another;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'another-form') {
-            echo CActiveForm::validate($anotherForm);
+            echo $anotherForm->validateWithNotify();
             Yii::app()->end();
         }
-
+		
         if(isset($_POST['Form_Outgoingtransf_Another'])){
             $anotherForm->attributes = $_POST['Form_Outgoingtransf_Another'];
             $message = Yii::t('Front', 'Payment was saved successfully');
-            if($anotherForm->save($transfer)){
-                if(isset($_GET['next'])){
+            if ($anotherForm->save($transfer)) {
+                if (isset($_GET['next'])) {
                     echo CJSON::encode(array(
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -185,20 +208,20 @@ class TransfersController extends Controller
         $externalForm = new Form_Outgoingtransf_External;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'external-form') {
-            echo CActiveForm::validate($externalForm);
+            echo $externalForm->validateWithNotify();
             Yii::app()->end();
         }
 
-        if(isset($_POST['Form_Outgoingtransf_External'])){
+        if (isset($_POST['Form_Outgoingtransf_External'])) {
             $externalForm->attributes = $_POST['Form_Outgoingtransf_External'];
             $message = Yii::t('Front', 'Payment was saved successfully');
-            if($externalForm->save($transfer)){
-                if(isset($_GET['next'])){
+            if ($externalForm->save($transfer)) {
+                if (isset($_GET['next'])) {
                     echo CJSON::encode(array(
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -217,9 +240,9 @@ class TransfersController extends Controller
          */
         $ewalletForm = new Form_Outgoingtransf_Ewallet;
 
-        if(isset($_POST['Form_Outgoingtransf_Ewallet'])){
+        if (isset($_POST['Form_Outgoingtransf_Ewallet'])) {
             $ewalletForm->attributes = $_POST['Form_Outgoingtransf_Ewallet'];
-            switch($ewalletForm->ewallet_type){
+            switch($ewalletForm->ewallet_type) {
                 case 1:
                     $ewalletForm->scenario = 'paypall';
                     break;
@@ -233,20 +256,20 @@ class TransfersController extends Controller
         }
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'ewallet-form') {
-            echo CActiveForm::validate($ewalletForm);
+            echo $ewalletForm->validateWithNotify();
             Yii::app()->end();
         }
 
-        if(isset($_POST['Form_Outgoingtransf_Ewallet'])){
+        if (isset($_POST['Form_Outgoingtransf_Ewallet'])) {
             $ewalletForm->attributes = $_POST['Form_Outgoingtransf_Ewallet'];
             $message = Yii::t('Front', 'Payment was saved successfully');
-            if($ewalletForm->save($transfer)){
-                if(isset($_GET['next'])){
+            if ($ewalletForm->save($transfer)) {
+                if (isset($_GET['next'])) {
                     echo CJSON::encode(array(
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -263,8 +286,8 @@ class TransfersController extends Controller
         /**
          * Update transfer
          */
-        if($transfer){
-            switch($transfer->form_type){
+        if ($transfer) {
+            switch($transfer->form_type) {
                 case 'own':
                     $ownForm->attributes = $transfer->attributes;
                     break;
@@ -293,24 +316,23 @@ class TransfersController extends Controller
 
         $quickForm = new Transfers_Outgoing_Favorite();
 
-        if(isset($_POST['Transfers_Outgoing_Favorite']) && strpos(Yii::app()->request->getParam('ajax'), 'quick-form') === 0){
-            echo CActiveForm::validate($quickForm);
+        if (isset($_POST['Transfers_Outgoing_Favorite']) && strpos(Yii::app()->request->getParam('ajax'), 'quick-form') === 0) {
+            echo $quickForm->validateWithNotify();
             Yii::app()->end();
         }
 
-        if(isset($_POST['Transfers_Outgoing_Favorite'])){
-            if(isset($_POST['Transfers_Outgoing_Favorite']['id'])){
+        if (isset($_POST['Transfers_Outgoing_Favorite'])) {
+            if (isset($_POST['Transfers_Outgoing_Favorite']['id'])) {
                 $favorite = Transfers_Outgoing_Favorite::model()->findByPk($_POST['Transfers_Outgoing_Favorite']['id']);
                 $favorite->attributes = $_POST['Transfers_Outgoing_Favorite'];
-                $favorite->validate();
                 $favorite->save();
                 $message = Yii::t('Front', 'Saved');
-                if(isset($_GET['next'])){
+                if (isset($_GET['next'])) {
                     echo CJSON::encode(array(
                         'success' => true,
                         'clean' => false,
                         'message' => $message,
-                        'url' => Yii::app()->createUrl('/transfers/overview')
+                        'url' => Yii::app()->createUrl($redirectTo)
                     ));
                 } else {
                     echo CJSON::encode(array('success' => true, 'clean' => true, 'message' => $message));
@@ -322,6 +344,20 @@ class TransfersController extends Controller
         $currencies = Currencies::model()->findAll();
         $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
 
+		$searchTransfers = Widget::create('ContactListWidget', 'searchTransfers', 
+			array(
+				'type' => 'searchTransfers',
+				'withAlphabet' => false,
+			)
+		);
+		
+		$search = Widget::create('ContactListWidget', 'searchWidget', 
+			array(
+				'type' => 'searchHolders',
+				'withAlphabet' => true,
+			)
+		);
+		
         $this->render('outgoingv2', array(
             'user'          => $user,
             'selectedAcc'   => $selectedAcc,
@@ -334,17 +370,17 @@ class TransfersController extends Controller
             'transfer'      => $transfer,
             'quickTransfers'=> $quickTransfers,
             'quickForm'     => $quickForm,
+			'searchTransfers'=>$searchTransfers,
         ));
     }
 
     public function actionIncoming()
     {
-
         $this->breadcrumbs[Yii::t('Front', 'Upload money')] = '';
 
         $user = Users::model()->with('settings')->findByPk(Yii::app()->user->id);
         $accounts = $user->accounts;
-        if(empty($user->accounts)){
+        if (empty($user->accounts)) {
             throw new CHttpException(404, Yii::t('Front', 'You have not any accounts'));
         }
 
@@ -358,20 +394,19 @@ class TransfersController extends Controller
             Yii::app()->end();
         }
 
-        if(isset($_POST['Form_Incoming_Request'])){
+        if (isset($_POST['Form_Incoming_Request'])) {
             $incoming_request->attributes = $_POST['Form_Incoming_Request'];
             $message = Yii::t('Front', 'Payment was saved successfully');
-            if($incoming_request->save()){
+            if ($incoming_request->save()) {
 				Yii::app()->session['flash_notify'] = array(
 					'title' => Yii::t('Front', 'Upload'),
 					'message' => Yii::t('Front', 'Upload was successfully saved'),
 				);
-			
                 echo CJSON::encode(array(
                     'success' => true,
                     'clean' => false,
                     'message' => $message,
-                    'url' => Yii::app()->createUrl('/banking/index')
+                    'url' => Yii::app()->createUrl('/transfers/successincoming')
                 ));
             } else {
                 echo CJSON::encode(array('success' => false, 'message' => ''));
@@ -381,28 +416,28 @@ class TransfersController extends Controller
         /*
          * end Payment Request Form
          */
-		 
-		 /*
+
+		/*
          * start Electronic Form
          */
         $electronic_request = new Form_Incoming_Electronic;
 
-		if(isset($_POST['Form_Incoming_Electronic']) 
+		if (   isset($_POST['Form_Incoming_Electronic']) 
 			&& isset($_POST['Form_Incoming_Electronic']['electronic_method'])
 			&& isset(Form_Incoming_Electronic::$methods[$_POST['Form_Incoming_Electronic']['electronic_method']])
-			){
+		) {
 			$electronic_request->scenario = Form_Incoming_Electronic::$methods[$_POST['Form_Incoming_Electronic']['electronic_method']];
 		}
 		
-        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'electronic-form') {
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax')=='electronic-form') {
             echo CActiveForm::validate($electronic_request);
             Yii::app()->end();
         }
 
-        if(isset($_POST['Form_Incoming_Electronic'])){
+        if (isset($_POST['Form_Incoming_Electronic'])) {
             $electronic_request->attributes = $_POST['Form_Incoming_Electronic'];
             $message = Yii::t('Front', 'Payment was saved successfully');
-            if($electronic_request->save()){
+            if ($electronic_request->save()) {
 				Yii::app()->session['flash_notify'] = array(
 					'title' => Yii::t('Front', 'Upload'),
 					'message' => Yii::t('Front', 'Upload was successfully saved'),
@@ -412,81 +447,99 @@ class TransfersController extends Controller
                     'success' => true,
                     'clean' => false,
                     'message' => $message,
-                    'url' => Yii::app()->createUrl('/banking/index')
+                    'url' => Yii::app()->createUrl('/transfers/successincoming')
                 ));
 			} else {
                 echo CJSON::encode(array('success' => false, 'message' => ''));
             }
             Yii::app()->end();
         }
-        /*
-         * end Electronic Form
-         */
-		 
-		/** start favorite transfers */
-		
-		$quickForm = new Transfers_Incoming_Favorite();
+        /* end Electronic Form */
 
-        if(isset($_POST['quick'])){
+        /*
+         * start favorite transfers
+         */
+		$quickForm = new Form_Incoming_Quick();
+
+        if (isset($_POST['quick'])) {
             $quick = Transfers_Incoming_Favorite::model()->findByPk($_POST['quick']);
-            if($quick->user_id == Yii::app()->user->id){
+            if ($quick->user_id == Yii::app()->user->id) {
                 $transfer = new Transfers_Incoming();
                 $transfer->form_type = $quick->form_type;
 				$transfer->electronic_method = $quick->electronic_method;
 				$transfer->attributes = $quick->attributes;
-                if($transfer->save()){
+				if ($transfer->save()) {
 					Yii::app()->session['flash_notify'] = array(
 						'title' => Yii::t('Front', 'Upload'),
 						'message' => Yii::t('Front', 'Upload was successfully saved'),
 					);
-                    echo CJSON::encode(array('success' => true, 'url' => Yii::app()->createUrl('/banking/index')));
+                    echo CJSON::encode(array('success' => true, 'url' => Yii::app()->createUrl('/transfers/successincoming')));
                 }
                 Yii::app()->end();
             }
         }
 		
+		if (isset($_POST['Form_Incoming_Quick']) && strrpos(Yii::app()->request->getParam('ajax'), 'quick-form') === 0) {
+			echo CActiveForm::validate($quickForm);
+            Yii::app()->end();
+		}
+		
+		if (isset($_POST['Form_Incoming_Quick'])) {
+			if (!isset($_POST['Form_Incoming_Quick']['tid'])) {
+				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+			}
+			$transaction = Transfers_Incoming_Favorite::model()->findByPk($_POST['Form_Incoming_Quick']['tid']);
+			$transaction->scenario = 'quickUpdate';
+			$quickForm->attributes = $transaction->attributes;
+			$quickForm->attributes = $_POST['Form_Incoming_Quick'];
+			if ($quickForm->validate()) {
+				$transaction->attributes = $quickForm->attributes;
+				$transaction->save();
+				echo CJSON::encode(array('success' => true));
+			}
+			Yii::app()->end();
+		}
+		
 		/** end favorite transfers */
 		
-		$favorite = Transfers_Incoming_Favorite::model()->findAll(
-			array(
-				'condition' => 'user_id = :uid',
-				'params' => array(':uid' => Yii::app()->user->id),
-				'order' => 'created_at desc',
-			)
-		);
+		$favorites = Transfers_Incoming_Favorite::model()
+            ->with(array('account', 'account.user'))
+            ->own()
+            ->findAll();
 
         $currencies = Currencies::model()->findAll();
         $categories = Transactions_Categories::model()->findAll('user_id = :uid OR user_id = 0', array(':uid' => Yii::app()->user->id));
 
-        $this->render('incoming', array(
-            'user'          		=> $user,
-			'favorite'				=> $favorite,
-            'currencies'    		=> $currencies,
-            'categories'    		=> $categories,
-            'incoming_request'		=> $incoming_request,
-			'electronic_request'	=> $electronic_request,
-			'quickForm'				=> $quickForm,
+        $this->render('incoming', compact(
+            'user',
+			'favorites',
+            'currencies',
+            'categories',
+            'incoming_request',
+			'electronic_request',
+			'quickForm'
         ));
     }
 	
-	public function actionOverview(){
+	public function actionOverview()
+    {
 		$transfers = Transfers_Outgoing::model()->findAll('user_id = :uid AND need_confirm = 1', array('uid' => Yii::app()->user->id));
 		
 		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = array('/transfers/outgoing');
 		$this->breadcrumbs[Yii::t('Front', 'Transfers overview')] = '';
 
-        if(isset($_POST['User_Overview'])){
+        if (isset($_POST['User_Overview'])) {
             Transfers_Confirmation::model()->deleteAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
             $success = true;
-            foreach($_POST['User_Overview'] as $trans_id){
-                if(!$trans_id)
+            foreach($_POST['User_Overview'] as $trans_id) {
+                if (!$trans_id)
                     continue;
                 $confirmation = new Transfers_Confirmation;
                 $confirmation->group_id = 0;
                 $confirmation->transfer_id = $trans_id;
                 $confirmation->user_id = Yii::app()->user->id;
                 $confirmation->active = 0;
-                if(!$confirmation->save()){
+                if (!$confirmation->save()) {
                     $success = false;
                 }
             }
@@ -499,15 +552,15 @@ class TransfersController extends Controller
              */
             $sumInEur = array();
 
-            foreach($trans as $tr){
-                if(!isset($sumInEur[$tr->transfer->account_number])){
+            foreach($trans as $tr) {
+                if (!isset($sumInEur[$tr->transfer->account_number])) {
                     $sumInEur[$tr->transfer->account_number]['balance'] = $tr->transfer->account->getBalanceInEUR();
                     $sumInEur[$tr->transfer->account_number]['sum'] = Currencies::convert($tr->transfer->amount, $tr->transfer->currency->code, 'EUR');
                 }else{
                     $sumInEur[$tr->transfer->account_number]['sum'] = $sumInEur[$tr->transfer->account_number]['sum'] + Currencies::convert($tr->transfer->amount, $tr->transfer->currency->code, 'EUR');
                 }
 
-                if(!isset($transes[$tr->transfer->currency->code])){
+                if (!isset($transes[$tr->transfer->currency->code])) {
                     $transes[$tr->transfer->currency->code] = array(
                         'amount' => $tr->transfer->amount,
                         'count' => 1,
@@ -521,8 +574,8 @@ class TransfersController extends Controller
             }
 
             $valid = true;
-            foreach($sumInEur as $acc => $ar){
-                if($ar['balance'] < $ar['sum']){
+            foreach($sumInEur as $acc => $ar) {
+                if ($ar['balance'] < $ar['sum']) {
                     $valid = false;
                 }
             }
@@ -536,8 +589,8 @@ class TransfersController extends Controller
 		$this->render('overview', array('transfers' => $transfers, 'valid' => true));
 	}
 	
-	public function actionSuccess(){
-	
+	public function actionSuccess()
+    {
 		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = array('/transfers/outgoing');
 		$this->breadcrumbs[Yii::t('Front', 'SMS-verification')] = '';
 		$this->breadcrumbs[Yii::t('Front', 'Success')] = '';
@@ -548,9 +601,10 @@ class TransfersController extends Controller
 		$this->render('success', array('transfers' => $transfers));
 	}
 	
-	public function actionDelete($id){
+	public function actionDelete($id)
+    {
 		$transfers = Transfers_Outgoing::model()->findByPk($id);
-		if($transfers && $transfers->user_id == Yii::app()->user->id && $transfers->need_confirm == 1){
+		if ($transfers && $transfers->user_id == Yii::app()->user->id && $transfers->need_confirm == 1) {
 			$transfers->delete();
 			echo CJSON::encode(array('success' => true));
 			Yii::app()->end();
@@ -558,8 +612,8 @@ class TransfersController extends Controller
 		echo CJSON::encode(array('success' => false));
 	}
 	
-	public function actionSmsConfirm(){
-	
+	public function actionSmsConfirm()
+    {
 		$this->breadcrumbs[Yii::t('Front', 'New Transfer')] = array('/transfers/outgoing');
 		$this->breadcrumbs[Yii::t('Front', 'SMS-verification')] = '';
 	
@@ -568,37 +622,44 @@ class TransfersController extends Controller
             echo CActiveForm::validate($form);
             Yii::app()->end();
         }
-		if(isset($_POST['Form_Smsconfirm']) && Yii::app()->request->isAjaxRequest ){
+		if (isset($_POST['Form_Smsconfirm']) && Yii::app()->request->isAjaxRequest ) {
 			$confs = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
-			if(count($confs)){
-				$smsshot = Yii::app()->cache->get('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id);
-				if(!$smsshot){
+			if (count($confs)) {
+				$smsshot = Yii::app()->cache->get('transferSmsShot'.$confs[0]->transfer_id.Yii::app()->user->id);
+				if (!$smsshot) {
 					$smsshot = 1;
 				}
-				if($smsshot >= 3){
+				if ($smsshot >= 3) {
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Try in a hour')));
 					Yii::app()->end();
-				}elseif($confs[0]->confirm_code != (int)$_POST['Form_Smsconfirm']['code']){
-					Yii::app()->cache->set('transferSmsShot'.$confs[0]->group_id.Yii::app()->user->id, ++$smsshot, 3600);
+				}elseif ($confs[0]->confirm_code != (int)$_POST['Form_Smsconfirm']['code']) {
+					Yii::app()->cache->set('transferSmsShot'.$confs[0]->transfer_id.Yii::app()->user->id, ++$smsshot, 3600);
 					echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Code is incorrect. Your code is: '.$confs[0]->confirm_code)));
 					Yii::app()->end();
 				} else{
-					foreach($confs as $conf){
-						if($conf->confirm_code == (int)$_POST['Form_Smsconfirm']['code']){
+					foreach($confs as $conf) {
+						if ($conf->confirm_code == (int)$_POST['Form_Smsconfirm']['code']) {
 							$conf->transfer->need_confirm = 0;
 							$conf->transfer->save();
-                            if($conf->transfer->favorite){
+                            if ($conf->transfer->favorite) {
                                 $favorite = new Transfers_Outgoing_Favorite();
                                 $favorite->attributes = $conf->transfer->attributes;
                                 $favorite->save();
                             }
+							if ($conf->transfer->frequency_type == 2) {
+								$standing = new Transfers_Outgoing_Standing;
+								$standing->attributes = $conf->transfer->attributes;
+								$conf->transfer->frequency_type = 1;
+								$conf->transfer->save();
+								$standing->save();
+							}
 							$conf->delete();
 						}
 					}
 					echo CJSON::encode(array('success' => true, 'url' => $this->createUrl('/transfers/success')));
 					Yii::app()->end();
 				}
-				if(!$smsshot){
+				if (!$smsshot) {
 					$smsshot = 1;
 				} else {
 					$smsshot++;
@@ -610,10 +671,10 @@ class TransfersController extends Controller
 		
 		$code = rand(1000, 9999);
 		$user = Users::model()->findByPk(Yii::app()->user->id);
-		if(Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('type') == 'all'){
+		if (Yii::app()->request->isAjaxRequest && Yii::app()->request->getParam('type') == 'all') {
 			Transfers_Confirmation::model()->deleteAll('user_id = :uid', array(':uid' => Yii::app()->user->id));
 			$transfers = Transfers_Outgoing::model()->findAll('user_id = :uid AND need_confirm = 1', array(':uid' => Yii::app()->user->id));
-			foreach($transfers as $transfer){
+			foreach($transfers as $transfer) {
 				$ntc = new Transfers_Confirmation;
 				$ntc->group_id = substr(time()+$code, 5, 11);
 				$ntc->transfer_id = $transfer->id;
@@ -623,7 +684,7 @@ class TransfersController extends Controller
 				$ntc->save();
 			}
 
-			if(Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1){
+			if (Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1) {
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			}
 			echo CJSON::encode(array('success' => true));
@@ -631,16 +692,15 @@ class TransfersController extends Controller
 		}
 	
 		$newConfirmations = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 0', array(':uid' => Yii::app()->user->id));
-		if(count($newConfirmations)){
+		if (count($newConfirmations)) {
 			Transfers_Confirmation::model()->deleteAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			Transfers_Confirmation::model()->updateAll(array('confirm_code' => $code, 'active' => 1), 'user_id = :uid AND active = 0', array(':uid' => Yii::app()->user->id));
-			
 			if(Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1){
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			}
 		} else {
 			$confirmations = Transfers_Confirmation::model()->findAll('user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
-			if(empty($confirmations)){
+			if (empty($confirmations)) {
 				throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 			}
 		}
@@ -650,8 +710,8 @@ class TransfersController extends Controller
 		
 		$transes = array();
 
-		foreach($confirmations as $tr){
-			if(!isset($transes[$tr->transfer->currency->code])){
+		foreach($confirmations as $tr) {
+			if (!isset($transes[$tr->transfer->currency->code])) {
 				$transes[$tr->transfer->currency->code] = array(
 					'amount' => $tr->transfer->amount,
 					'count' => 1,
@@ -676,7 +736,8 @@ class TransfersController extends Controller
      * @param $bic
      * @return JSON
      */
-    public function actionGetBankName(){
+    public function actionGetBankName()
+    {
         $bic = Yii::app()->request->getParam('bic', '', 'string');
         $model = Banks_Info::model()->find(
             array(
@@ -685,69 +746,86 @@ class TransfersController extends Controller
                 'select' => 'institution_name',
             )
         );
-        if($model){
+        if ($model) {
             echo CJSON::encode(array('success' => true, 'name' => $model->institution_name));
         } else {
             echo CJSON::encode(array('success' => false));
         }
-
     }
 	
-	public function actionResendSms(){
+	public function actionResendSms()
+    {
 		$trans = Transfers_Confirmation::model()->with('transfer')->find('t.user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
-		if($trans){
+		if ($trans) {
 			$code = rand(1000, 9999);
 			Transfers_Confirmation::model()->updateAll(array('confirm_code' => $code), 'user_id = :uid AND active = 1', array(':uid' => Yii::app()->user->id));
 			$user = Users::model()->findByPk(Yii::app()->user->id);
 			
-			if(Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1){
+			if (Yii::app()->sms->to($user->phone)->body('Confirmation code for transfer: {code}', array('{code}' => $code))->send() != 1) {
 				Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 			}
 			echo CJSON::encode(array('success' => true));
 		}
 	}
 	
-	public function actionHistory(){
+	public function actionHistory()
+    {
 		$this->breadcrumbs[Yii::t('Front', 'Payments Overview')] = '';
 		$time = time() - 3600 * 24 * 30;
 		$transfers = Transfers_Outgoing::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ' OR status = 0)', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
 		
 		$this->render('history', array('transfers' => $transfers));
 	}
+	
+	public function actionStanding()
+    {
+		$model = Transfers_Outgoing_Standing::model()->findAll(
+			array(
+				'condition' => 'user_id = :uid AND deleted = 0',
+				'params' => array(':uid' => Yii::app()->user->id),
+				'order' => 'created_at desc',
+			)
+		);
 
-    public function actionCreateInvoice(){
-        $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
-
-        $model = new Form_Invoice;
-
-        // if it is ajax validation request
-        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'invoice-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-
-        $user = Users::model()->findByPk(Yii::app()->user->id);
-        $model->currency_id = $user->settings->currency_id;
-        $model->user_id = Yii::app()->user->id;
-
-        if (!empty($_POST['Form_Invoice'])) {
-            $model->attributes = $_POST['Form_Invoice'];
-            $model->options = $_POST['Invoices_Options'];
-            if($model->validate()){
-                if($model->invoiceCreate()){
-                    Yii::app()->session['flash_notify'] = array(
-                        'title' => Yii::t('Front', 'Invoices'),
-                        'message' => Yii::t('Front', 'New invoice saved successful'),
-                    );
-               }
-            }
-        }
-
-        $this->render('create_invoice', array('model' => $model, 'user' => $user));
-    }
-
-    public function actionCreateInvoiceOption() {
-        $model = new Invoices_Options;
-        $this->renderPartial('invoice_options', array('model' => $model));
-    }
+		$this->render('standing', array('model' => $model));
+	}
+	
+	public function actionDeleteStanding($id)
+    {
+		$model = Transfers_Outgoing_Standing::model()->findByPk($id);
+		
+		$success = false;
+		$message = false;
+		
+		if ($model->user_id = Yii::app()->user->id) {
+			$model->deleted = 1;
+			if ($model->save()) {
+				$success = true;
+				$message = Yii::t('Front', 'Standing transfer was successfully removed');
+			}
+		}
+		
+		echo CJSON::encode(array('success' => $success, 'message' => $message));
+	}
+	
+	public function actionSuccessIncoming()
+    {
+		$this->breadcrumbs[Yii::t('Front', 'Upload money')] = array('/transfers/incoming');
+		$this->breadcrumbs[Yii::t('Front', 'Success')] = '';
+		
+		$time = time() - 3600 * 24 * 5;
+		$transfers = Transfers_Incoming::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ')', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
+	
+		$this->render('incoming/success', array('transfers' => $transfers));
+	}
+	
+	public function actionIncomingOverview()
+    {
+		$this->breadcrumbs[Yii::t('Front', 'Incoming overview')] = '';
+		
+		$time = time() - 3600 * 24 * 5;
+		$transfers = Transfers_Incoming::model()->findAll(array('condition' => 'user_id = :uid AND (created_at > ' . $time . ')', 'params' => array(':uid' => Yii::app()->user->id), 'order' => 'created_at desc'));
+	
+		$this->render('incoming/overview', array('transfers' => $transfers));
+	}
 }

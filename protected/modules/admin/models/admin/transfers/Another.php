@@ -36,7 +36,7 @@ class Admin_Transfers_Another extends Admin_Transfers{
 		$trans_to->account_id = $account_to->id;
 		$trans_to->operation = $model->description;
 		$trans_to->type = 'positive';
-		$trans_to->user_id = $model->user_id;
+		$trans_to->user_id = $account_to->user_id;
 		$trans_to->transfer_type = 'outgoing';
 		$trans_to->transfer_id = $model->id;
 		$trans_to->sum = Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code);
