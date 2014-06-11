@@ -190,3 +190,30 @@ afterValidate = function(form, data, hasError) {
 	}
 	return false;
 }
+
+$('#add_logo').click(function() {
+    $('#Users_Files_name').click();
+    return false;
+});
+var logoSpanText = $('#invoice-logo div').html();
+$('#Users_Files_name').on('change', function() {
+    var name = $(this).val().split(/(\\|\/)/g).pop()
+    $('#invoice-logo div').html(name);
+    $('#Users_Files_user_file_name').html(name);
+    var input = $(this)[0];
+    if (input.files && input.files[0]) {
+        if (input.files[0].type.match('image.*')) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#invoice-logo img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            $('#invoice-logo img').show();
+        } else {
+            $('#invoice-logo img').hide();
+            $('#invoice-logo div').html(logoSpanText);
+            console.log('is not image mime type');
+        }
+    } else
+        console.log('not isset files data or files API not suport');
+});
