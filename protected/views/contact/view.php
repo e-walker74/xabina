@@ -56,6 +56,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
+							
 							<table class="table inner personal-info">
 								<?php $i = 0; ?>
 								<?php if($model->first_name || $model->last_name): 
@@ -246,7 +247,7 @@
 								<?php $contInfo = $contact->getContactInfo();
 										if(!$contInfo) continue;
 								?>
-								<tr>
+								<tr class="clickable-row" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contInfo->url)); ?>">
 									<td class="names" style="width: 42%">
 										<?php if($i == 1): ?>
 											<?= Yii::t('Front', 'Linkining'); ?>

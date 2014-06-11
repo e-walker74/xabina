@@ -114,9 +114,16 @@
 								</div>
 								<div class="form-input">
 									<label class="file-label">
+										<span id="image-mini" style="display:none">
+											<img width="22" src="" alt=""/>
+										</span>
 										<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
-										<?= Yii::t('Front', 'Upload user photo') ?>
+										<span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
 										<?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
+										<span class="delete-photo" style="display:none;">
+											<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>
+											<?= $form->hiddenField($model, 'delete') ?>
+										</span>
 									</label>
 								</div>
 							</div>

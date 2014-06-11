@@ -20,6 +20,8 @@ class Users_Contacts extends ActiveRecord
 
 	protected $_contacts_data = array();
 	private $_transactions = false;
+	
+	public $delete; //flag for delete image
 
 	/**
 	 * @return string the associated database table name
@@ -49,6 +51,7 @@ class Users_Contacts extends ActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, xabina_id, fullname', 'safe', 'on'=>'search'),
+			array('delete', 'safe'),
 		);
 	}
 	

@@ -102,7 +102,6 @@ class FileController extends Controller
 					Yii::app()->end();
 				}
 			}
-			
 		}
 
 		Yii::import("application.ext.EAjaxUpload.qqFileUploader");
