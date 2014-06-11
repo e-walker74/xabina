@@ -125,31 +125,45 @@ InvoicePage = {
     },
 	
 	submitInvoice: function(form){
-		url = form.attr('action')
-		if(form.find('.clicked-button').hasClass('button-next')){
+        url = form.attr('action')
+		if (form.find('.clicked-button').hasClass('button-next')) {
 			url = url + '?next=1'
 		}
-
-		$.ajax({
-			url: url,
-			success: function(response) {
-				if(response.success){
-					successNotify('Invoice', response.message, $('.button-save-invoice'))
-					resetPage()
-					InvoicePage.currencyChange();
-					InvoicePage.countAmountAll();
-					if(response.url) {
-						window.location.href = response.url
-					}
-				} else if(response.message){
-					errorNotify('Invoice', response.message, $('.button-save-invoice'))
-				}
-			},
-			cache:false,
+		
+        var data = new FormData();
+        var formData = form.serializeArray();
+        for (var key in formData) {
+            obj = formData[key];
+            data.append(obj.name, obj.value);
+        }
+        form.find('input[type="file"]').each(function() {
+            var files = this.files;
+            $.each(files, function(key, value) {
+                data.append('file', value);
+            });
+        });
+        $.ajax({
+            url: url,
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+			cache: false,
 			async: false,
-			data: form.serialize(),
-			type: 'POST',
-			dataType: 'json'
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+                    successNotify('Invoice', response.message, $('.button-save-invoice'))
+                    resetPage();
+                    InvoicePage.currencyChange();
+                    InvoicePage.countAmountAll();
+                    if (response.url) {
+                        window.location.href = response.url
+                    }
+                } else if (response.message) {
+                    errorNotify('Invoice', response.message, $('.button-save-invoice'))
+                }
+            },
 		});
 	}
 }

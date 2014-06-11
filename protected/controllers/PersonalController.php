@@ -23,7 +23,6 @@ class PersonalController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                //'actions' => array('index', 'save', 'activate'),
                 'actions' => array(
                     'index',
                     'editemails',
