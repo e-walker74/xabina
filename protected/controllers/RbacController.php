@@ -24,9 +24,9 @@ class RbacController extends Controller
         $this->render('roles_management', array('roles' => $roles));
     }
     
-    protected function performAjaxValidation($model)
+    protected function performAjaxValidation($model, $formId)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='add-role-form')
+        if(isset($_POST['ajax']) && $_POST['ajax']===$formId)
         {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -36,7 +36,7 @@ class RbacController extends Controller
     public function actionAddRole() {
         
         $role = new RbacRoles();
-        $this->performAjaxValidation($role);
+        $this->performAjaxValidation($role, 'add-role-form');
         $tplVars = array();
         
         if(isset($_POST['RbacRoles'])) {
@@ -70,12 +70,20 @@ class RbacController extends Controller
     
     public function actionAddUser() {
         
-        if(isset($_POST['data'])) {
-            if( ($userRole = RbacUserRoles::model()->addUserRole($_POST['data'])) ) {
-                RbacUserRolesrAccessRights::model()->saveUserRights($userRole, $_POST['RbacRoles']['rights']);
-            } else {
-                
-            }
+        $addUserForm = new RbacAddUserForm();
+        $this->performAjaxValidation($addUserForm, 'add-user-form');
+        
+        if(isset($_POST['RbacAddUserForm'])) {
+            $data = $_POST['RbacAddUserForm'];
+            $addUserForm->scenario = 'save';
+            $addUserForm->account = $data['account'];
+            $addUserForm->user    = $data['user'];
+            $addUserForm->role    = $data['role'];
+            $addUserForm->rights  = isset($_POST['RbacRoles']['rights']) ? $_POST['RbacRoles']['rights'] : NULL;
+            if($addUserForm->validate()) {
+                $addUserForm->save();
+                $this->redirect("/settings/roles");
+            } 
         }
         
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
@@ -102,7 +110,8 @@ class RbacController extends Controller
             'accounts' => $accounts,
             'selectedAcc' => $selectedAcc,
             'roles' => $roles,
-            'rightsTree' => $rightsTree
+            'rightsTree' => $rightsTree,
+            'addUserForm' => $addUserForm
         ));
         
     }
