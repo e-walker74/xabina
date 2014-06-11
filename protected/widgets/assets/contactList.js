@@ -14,7 +14,7 @@ $('.alphabet li a').click(function(){
 	if($('.letter_'+$(this).html()).length != 0){
 		$('.alphabet li').removeClass('active')
 		$(this).parent().addClass('active')
-		$(this).parents('.scroll-block').scrollTo( $('.letter_'+$(this).html()), 600, {margin:true});
+		$(this).parents('.scroll-cont').find('.scroll-block').scrollTo( $('.letter_'+$(this).html()), 600, {margin:true});
 	}
 	return false;
 })
@@ -173,8 +173,14 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 	}
 	
 	var selectChange = function(){
-		if($(options.parentSelector).find('.list-focus').length == 1){
-			$(options.parentSelector).find('.list-focus').click()
+		if($(options.inputSelectorForID).length != 0){
+			if($(options.parentSelector).find('.list-focus').length == 1){
+				$(options.parentSelector).find('.list-focus').click()
+			}
+		} else {
+			if($(options.parentSelector).find('.list-focus').length == 1){
+				$(options.parentSelector).find('.list-focus a')[0].click()
+			}
 		}
 	}
 	
