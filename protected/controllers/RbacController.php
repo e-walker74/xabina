@@ -24,16 +24,35 @@ class RbacController extends Controller
         $this->render('roles_management', array('roles' => $roles));
     }
     
+    protected function performAjaxValidation($model, $formId)
+    {
+        if(isset($_POST['ajax']) && $_POST['ajax']===$formId)
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+    
     public function actionAddRole() {
         
+        $role = new RbacRoles();
+        $this->performAjaxValidation($role, 'add-role-form');
+        $tplVars = array();
+        
         if(isset($_POST['RbacRoles'])) {
-            $role = new RbacRoles();
+            
             $role->name = $_POST['RbacRoles']['name'];
             $role->is_system = 0;
             $role->create_uid = Yii::app()->user->getId();
-            $role->save();
+            if($role->validate() && isset($_POST['RbacRoles']['rights']) ) {
+                $role->save();
+                if( RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']) ) {
+                    $this->redirect("/settings/roles");
+                };
+            } else if (!isset ($_POST['RbacRoles']['rights'])) {
+                $tplVars['rightsError'] = "Select access right.";
+            }
             
-            RbacRoleAccessRights::model()->saveRoleRights($role->id, $_POST['RbacRoles']['rights']);
         }
         
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
@@ -41,17 +60,30 @@ class RbacController extends Controller
         
         $roles = RbacRoles::model()->findAll('is_system=1 or create_uid = ' . Yii::app()->user->getId());
         $rightsTree = RbacAccessRights::model()->getAccessRightsTree();
-        $this->render('add_role', array('rightsTree' => $rightsTree, 'roles'=>$roles));
+
+        $tplVars['rightsTree'] = $rightsTree;
+        $tplVars['roles']      = $roles;
+        $tplVars['role']       = $role;
+
+        $this->render('add_role', $tplVars);
     }
     
     public function actionAddUser() {
         
-        if(isset($_POST['data'])) {
-            if( ($userRole = RbacUserRoles::model()->addUserRole($_POST['data'])) ) {
-                RbacUserAccessRights::model()->saveUserRights($userRole, $_POST['RbacRoles']['rights']);
-            } else {
-                
-            }
+        $addUserForm = new RbacAddUserForm();
+        $this->performAjaxValidation($addUserForm, 'add-user-form');
+        
+        if(isset($_POST['RbacAddUserForm'])) {
+            $data = $_POST['RbacAddUserForm'];
+            $addUserForm->scenario = 'save';
+            $addUserForm->account = $data['account'];
+            $addUserForm->user    = $data['user'];
+            $addUserForm->role    = $data['role'];
+            $addUserForm->rights  = isset($_POST['RbacRoles']['rights']) ? $_POST['RbacRoles']['rights'] : NULL;
+            if($addUserForm->validate()) {
+                $addUserForm->save();
+                $this->redirect("/settings/roles");
+            } 
         }
         
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Settings'))] = '';
@@ -78,7 +110,8 @@ class RbacController extends Controller
             'accounts' => $accounts,
             'selectedAcc' => $selectedAcc,
             'roles' => $roles,
-            'rightsTree' => $rightsTree
+            'rightsTree' => $rightsTree,
+            'addUserForm' => $addUserForm
         ));
         
     }
