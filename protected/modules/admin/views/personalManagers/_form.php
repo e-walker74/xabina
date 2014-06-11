@@ -79,7 +79,7 @@ $form = $this->beginWidget('CActiveForm', array(
     })
 </script>
 
-
+pers
     <div class="form-group">
         <?php echo $form->labelEx($model, 'language', array('class' => 'col-sm-3 control-label')); ?>
         <div class="col-sm-6">
@@ -87,6 +87,15 @@ $form = $this->beginWidget('CActiveForm', array(
 
         </div>
         <div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'language'); ?></div></div>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model, 'is_default', array('class' => 'col-sm-3 control-label')); ?>
+        <div class="col-sm-6">
+            <?php echo $form->dropDownList($model, 'is_default', array(0 => 'no', 1 => 'yes'), array('class' => 'form-control')); ?>
+
+        </div>
+        <div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'is_default'); ?></div></div>
     </div>
 
 <div class="panel-footer">
