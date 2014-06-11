@@ -3,7 +3,7 @@
         <div class="h1-header">
             <?=Yii::t('Front', 'Favorite Payment Instuments')?>
         </div>
-        <table class="table xabina-table middle">
+        <table class="xabina-table table middle payment-instruments">
             <tr class="table-header">
                 <th><?=Yii::t('Front', 'Method')?></th>
                 <th><?=Yii::t('Front', 'Account')?></th>
@@ -45,13 +45,17 @@
                 hideAddNewForm();
                 return false;
             });
-            $('.button.edit').click(function() {
-                hideAddNewForm();
-                var tr = $(this).parents('tr');
-                tr.next('tr').toggle('slow');
-                tr.hide()
-                return false;
-            });
+            var editButtonEnable = function() {
+                $('.button.edit').click(function() {
+                    hideEditForm();
+                    hideAddNewForm();
+                    var tr = $(this).parents('tr');
+                    tr.next('tr').toggle('slow');
+                    tr.hide()
+                    return false;
+                });
+            };
+            editButtonEnable();
             $('.edit-payment-tr .button.cancel').click(function() {
                 hideEditForm();
                 return false;

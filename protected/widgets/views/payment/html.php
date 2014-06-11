@@ -186,11 +186,11 @@
             <span class="tooltip-icon" title="<?=Yii::t('Front', 'tooltip_ideal_account_number')?>"></span>
         </div>
         <div class="field-input">
-            <?= $form->textField($model, 'ideal_account_number', array(
+            <?=$form->textField($model, 'ideal_account_number', array(
                 'class'=>'input-text',
                 'value'=>$model->from_account_number,
-            )) ?>
-            <?= $form->error($model, 'ideal_account_number'); ?>
+            ))?>
+            <?=$form->error($model, 'ideal_account_number');?>
         </div>
     </div>
 </div>

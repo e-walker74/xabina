@@ -123,9 +123,7 @@ $(function(){
     });
 
 
-    $('.clear-input-but').on('click', function(e){
-        $(this).parents('.clear-input-cont').find('input').val('');
-    });
+    
 
     // progressbar styling
 

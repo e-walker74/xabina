@@ -21,8 +21,7 @@ class FileController extends Controller
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules()
-    {
+    public function accessRules(){
         return array(
 			array('allow', // allow readers only access to the view file
                 'actions' => array(''),

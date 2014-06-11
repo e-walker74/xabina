@@ -114,6 +114,11 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
 	})
 	
+	$('.clear-input-but').on('click', function(e){
+        $(this).parents('.clear-input-cont').find('input').val('');
+		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
+    });
+	
 	var focusNextItem = function(){
 		var element_for_focus = false;
 		if($(options.parentSelector).find('.list-focus').length != 0){
@@ -170,7 +175,6 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 	var selectChange = function(){
 		if($(options.parentSelector).find('.list-focus').length == 1){
 			$(options.parentSelector).find('.list-focus').click()
-			$(options.inputSelectorForID).change()
 		}
 	}
 	
