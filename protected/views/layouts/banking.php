@@ -3,12 +3,12 @@
 <head>
     <title>Xabina</title>
     <meta charset="utf-8" />
-	<link rel="stylesheet" href="/css/jquery.pnotify.default.css" />
+	<?php /*<link rel="stylesheet" href="/css/jquery.pnotify.default.css" />
     <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
-	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
     <link rel="stylesheet" href="/css/media.css" />
-	<link rel="stylesheet" href="/css/bg.css" />
+	<link rel="stylesheet" href="/css/bg.css" /> */?>
+	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
     <script type="text/javascript" src="/js/less.min.js"></script>

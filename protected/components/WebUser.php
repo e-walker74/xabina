@@ -369,6 +369,7 @@ class WebUser extends CWebUser {
         $a = explode('.', $controllerAction);
         $b = explode('.', $accessRight);
 		
+		
         if($a[0] == $b[0] && $a[1] == $b[1]) {
             $res = true;
         } 

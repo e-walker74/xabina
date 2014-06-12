@@ -10,9 +10,9 @@ class TransfersController extends Controller
     {
         return array(
             'accessControl',
-            array(
+            /*array(
             	'application.components.RbacFilter'
-        	),
+        	),*/
         );
     }
 
@@ -54,11 +54,6 @@ class TransfersController extends Controller
             ),
         );
     }
-	
-	public function init()
-    {
-		
-	}
 
     /**
      * outgoing new version

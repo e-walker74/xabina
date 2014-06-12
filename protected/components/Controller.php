@@ -36,12 +36,20 @@ class Controller extends CController
 	}
 
     protected function registerGlobalStyles() {
-        if($this->id !== "rbac") {
-             Yii::app()->clientScript->registerCssFile("/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css");
-        }
+		if(!Yii::app()->request->isAjaxRequest){
+			Yii::app()->clientScript->registerCssFile("/css/jquery.pnotify.default.css");
+			Yii::app()->clientScript->registerCssFile("/default/css/bootstrap.min.css");
+			Yii::app()->clientScript->registerCssFile("/css/fonts.css");
+			Yii::app()->clientScript->registerCssFile("/css/media.css");
+			if($this->id !== 'rbac'){
+				Yii::app()->clientScript->registerCssFile("/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css");
+			}
+			Yii::app()->clientScript->registerCssFile("/css/bg.css");
+		}
     }
 
     protected function cleanResponseJs() {
+		Yii::app()->clientScript->scriptMap["jquery-ui-1.10.4.custom.min.css"] = false;
         Yii::app()->clientScript->scriptMap['jquery.js'] = false;
     }
 	

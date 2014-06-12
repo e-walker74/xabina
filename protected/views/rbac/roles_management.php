@@ -1,9 +1,4 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
-    <div class="breadcrumbs-cont">
-        <a class="breadcrumbs" href="#">Home</a>
-        <a class="breadcrumbs prev" href="#">Settings</a>
-        <a class="breadcrumbs" href="#">Role Management</a>
-    </div>
     <div class="xabina-form-container">
         <div class="h1-header">Role Management</div>
         <div class="h4"><b>My role</b></div>
@@ -34,7 +29,7 @@
 
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button edit" href="#"></a>
+                        <a class="button edit" href="<?= Yii::app()->createUrl('/rbac/adduser') ?>"></a>
                         <a class="button delete" href="#"></a>
                     </div>
                 </td>
@@ -43,6 +38,7 @@
             </tbody></table>
         <div class="form-submit">
             <a href="<?=Yii::app()->createUrl("/settings/roles/add") ?>" class="rounded-buttons upload add-more">ADD NEW ROLE</a>
+			<a href="<?=Yii::app()->createUrl("/settings/users/add") ?>" class="rounded-buttons upload add-more">ADD NEW User</a>
         </div>
     </div>
 </div>
