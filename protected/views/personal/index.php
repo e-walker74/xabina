@@ -127,5 +127,16 @@
 				</div>
 			</td>
 		</tr>
+        <tr>
+            <td class="header"><?= Yii::t('Front', 'RBAC'); ?></td>
+            <td>
+                <?= Yii::t('Front', 'RBAC'); ?>
+            </td>
+            <td>
+                <div class="transaction-buttons-cont">
+                    <a class="button edit" href="<?= Yii::app()->createUrl('/rbac/roles') ?>" ></a>
+                </div>
+            </td>
+        </tr>
 	</table>
 </div>

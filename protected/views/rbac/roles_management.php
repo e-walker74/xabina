@@ -1,9 +1,4 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
-    <div class="breadcrumbs-cont">
-        <a class="breadcrumbs" href="#">Home</a>
-        <a class="breadcrumbs prev" href="#">Settings</a>
-        <a class="breadcrumbs" href="#">Role Management</a>
-    </div>
     <div class="xabina-form-container">
         <div class="h1-header">Role Management</div>
         <div class="h4"><b>My role</b></div>
@@ -42,7 +37,8 @@
             <?php endforeach; ?>
             </tbody></table>
         <div class="form-submit">
-            <a href="<?=Yii::app()->createUrl("/settings/roles/add") ?>" class="rounded-buttons upload add-more">ADD NEW ROLE</a>
+            <a href="<?=Yii::app()->createUrl("/rbac/addrole") ?>" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'ADD NEW ROLE') ?></a>
+            <a href="<?=Yii::app()->createUrl("/rbac/adduser") ?>" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'ADD NEW User') ?></a>
         </div>
     </div>
 </div>

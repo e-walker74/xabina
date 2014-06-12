@@ -51,6 +51,7 @@ class QHttpRequest extends CHttpRequest
 		
         public function getParam($Name, $Default = "", $type = null, $list = array())
         {
+
             $r = $Default;
             if (isset($_GET [$Name])) {
                 $r = $_GET [$Name];
@@ -62,7 +63,6 @@ class QHttpRequest extends CHttpRequest
             }else{
                 $r = self::toTypeConvert($r, $type, $list);
             }
-
             return $r;
         }
 
@@ -76,7 +76,11 @@ class QHttpRequest extends CHttpRequest
         private function toTypeConvert($value = null, $type = null) {
             switch ($type) {
                 case 'int':
-                    $value = intval($value);
+                    if($value >= 2147483647){
+                        $value = (double) $value;
+                    } else {
+                        $value = intval($value);
+                    }
                     break;
                 case 'str':
                     $value = strval($value);
