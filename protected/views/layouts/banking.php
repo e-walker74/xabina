@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="/css/fonts.css" />
     <link rel="stylesheet" href="/css/media.css" />
 	<link rel="stylesheet" href="/css/bg.css" /> */?>
-    <link rel="stylesheet/less" type="text/css" href="/css/style.less" />
-    <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
-    <?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
+	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
+	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
     <script type="text/javascript" src="/js/less.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>

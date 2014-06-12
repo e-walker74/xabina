@@ -9,9 +9,6 @@ class MessageController extends Controller
     {
         return array(
             'accessControl',
-            array(
-            	'application.components.RbacFilter'
-        	),
         );
     }
 

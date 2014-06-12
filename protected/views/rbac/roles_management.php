@@ -29,7 +29,7 @@
 
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button edit" href="#"></a>
+                        <a class="button edit" href="<?= Yii::app()->createUrl('/rbac/adduser') ?>"></a>
                         <a class="button delete" href="#"></a>
                     </div>
                 </td>
