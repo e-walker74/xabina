@@ -77,6 +77,13 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 	var pressTimeout = false,
 	searchButton = $(this),
 	el_input,
+	key_codes = {
+		ENTER: 13,
+		UP: 38,
+		DOWN: 40,
+		ESC: 27
+		
+	},
 	_options = {
 		searchLineSelector: '.account-search-input',
 		parentSelector: '.search-by-name-block',
@@ -105,6 +112,98 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 	
 	$(options.searchLineSelector).on('keyup', function(e){
 		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
+	})
+	
+	$('.clear-input-but').on('click', function(e){
+        $(this).parents('.clear-input-cont').find('input').val('');
+		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
+    });
+	
+	var focusNextItem = function(){
+		var element_for_focus = false;
+		if($(options.parentSelector).find('.list-focus').length != 0){
+			var flag_next = false;
+			$(options.parentSelector + " .one-contact:visible").each(function(){
+				if(flag_next == true){
+					element_for_focus = $(this)
+					return false;
+				}
+				if($(this).hasClass('list-focus')){
+					flag_next = true
+				}
+			})
+		} else {
+			element_for_focus = $(options.parentSelector).find('.one-contact:visible:first')
+		}
+		if(element_for_focus.length == 1){
+			$(options.parentSelector).find('.list-focus').removeClass('list-focus')
+			element_for_focus.addClass('list-focus')
+			$(element_for_focus).parents('.scroll-block').scrollTo( element_for_focus, 200, {margin:true});
+		} else {
+			$(options.parentSelector).find('.list-focus').removeClass('list-focus')
+			focusNextItem()
+		}
+	}
+	
+	var focusPrevItem = function(){
+		var element_for_focus = false;
+		if($(options.parentSelector).find('.list-focus').length != 0){
+			var flag_prev = false;
+			$(options.parentSelector + " .one-contact:visible").each(function(){
+				if($(this).hasClass('list-focus')){
+					flag_prev = true
+					return false;
+				}
+				element_for_focus = $(this)
+			})
+			if(!flag_prev){
+				element_for_focus = false
+			}
+		} else {
+			element_for_focus = $(options.parentSelector).find('.one-contact:visible:last')
+		}
+		if(element_for_focus.length == 1){
+			$(options.parentSelector).find('.list-focus').removeClass('list-focus')
+			element_for_focus.addClass('list-focus')
+			$(element_for_focus).parents('.scroll-block').scrollTo( element_for_focus, 200, {margin:true});
+		} else {
+			$(options.parentSelector).find('.list-focus').removeClass('list-focus')
+			focusPrevItem()
+		}
+	}
+	
+	var selectChange = function(){
+		if($(options.inputSelectorForID).length != 0){
+			if($(options.parentSelector).find('.list-focus').length == 1){
+				$(options.parentSelector).find('.list-focus').click()
+			}
+		} else {
+			if($(options.parentSelector).find('.list-focus').length == 1){
+				$(options.parentSelector).find('.list-focus a')[0].click()
+			}
+		}
+	}
+	
+	el_input.on('keypress', function(e){
+		if (e.which == '13') {
+            e.preventDefault();
+        }
+	})
+	
+	el_input.on('keyup', function(e){
+		if(e.keyCode == key_codes.DOWN){
+			focusNextItem()
+			$(this)[0].selectionStart = $(this)[0].selectionEnd = $(this).val().length;
+			return false;
+		} else if(e.keyCode == key_codes.UP){
+			focusPrevItem()
+			$(this)[0].selectionStart = $(this)[0].selectionEnd = $(this).val().length;
+			return false;
+		} else if(e.keyCode == key_codes.ENTER){
+			selectChange()
+			return false;
+		}
+		return false;
 	})
 }
 
@@ -303,5 +402,4 @@ var updateParams = function(element, datas, callback){
 	if(callback){
 		callback()
 	}
-	
 }

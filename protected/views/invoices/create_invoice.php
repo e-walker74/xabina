@@ -1,18 +1,19 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
 <div class="h1-header"><?= Yii::t('Front', 'Create an Invoice') ?></div>
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form = $this->beginWidget('CActiveForm', array(
     'id'=>'invoice-form',
     'enableAjaxValidation'=>true,
     'enableClientValidation'=>true,
     'errorMessageCssClass' => 'error-message',
     'htmlOptions' => array(
         'class' => 'form-validable',
+        'enctype' => 'multipart/form-data',
     ),
     'clientOptions'=>array(
         'validateOnSubmit'=>true,
         'validateOnChange'=>true,
         'errorCssClass'=>'input-error',
-        'afterValidate' => 'js:afterValidate',
+        'afterValidate' => 'js:afterValidate', 
         'afterValidateAttribute' => 'js:afterValidateAttribute'
     ),
 )); ?>
@@ -23,19 +24,50 @@
             <table class="table xabina-table-personal">
                 <tr>
                     <td>
-                        <b><?= Yii::t('Front', 'Your business information') ?></b><br>
-                        <div class="invoice-logo">
-                            Your logo <br>
-                            (JPG, GIF, PNG, BMP)
+                        <b><?=Yii::t('Front', 'Your business information') ?></b><br>
+                        <div class="invoice-logo" id="invoice-logo">
+                            <img src="" style="display: none;" />
+                            <div>Your logo <br />
+                            (JPG, GIF, PNG, BMP)</div>
                         </div>
                         <div class="clearfix"></div>
-                        <a href="#">Add logo</a>
+                        <?=$form->fileField($file, 'name', array('style'=>'visibility:hidden;height:0')); ?>
+                        <?=$form->hiddenField($file, 'user_file_name'); ?>
+                        <a href="#" id="add_logo">Add logo</a>
+                        <script language="JavaScript"><!--
+                        $('#add_logo').click(function() {
+                            $('#Users_Files_name').click();
+                            return false;
+                        });
+                        var logoSpanText = $('#invoice-logo div').html();
+                        $('#Users_Files_name').on('change', function() {
+                            var name = $(this).val().split(/(\\|\/)/g).pop()
+                            $('#invoice-logo div').html(name);
+                            $('#Users_Files_user_file_name').html(name);
+                            var input = $(this)[0];
+                            if (input.files && input.files[0]) {
+                                if (input.files[0].type.match('image.*')) {
+                                    var reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        $('#invoice-logo img').attr('src', e.target.result);
+                                    }
+                                    reader.readAsDataURL(input.files[0]);
+                                    $('#invoice-logo img').show();
+                                } else {
+                                    $('#invoice-logo img').hide();
+                                    $('#invoice-logo div').html(logoSpanText);
+                                    console.log('is not image mime type');
+                                }
+                            } else
+                                console.log('not isset files data or files API not suport');
+                        })
+                        //--></script>
                         <div class="field-lbl">
-                            <?= ($user->primary_address) ? $user->primary_address->getAddressHtml() : "" ?>
+                            <?=($user->primary_address) ? $user->primary_address->getAddressHtml() : "" ?>
                         </div>
 						<?php if($user->primary_phone): ?>
                         <div class="field-lbl"><?= Yii::t('Front', 'Phone'); ?>: +
-						<?= $user->primary_phone->phone ?>
+						<?=$user->primary_phone->phone ?>
 						</div>
 						<?php endif; ?>
                         <div class="field-lbl">

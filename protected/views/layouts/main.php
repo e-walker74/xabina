@@ -5,7 +5,6 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 	<link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
     <link rel="stylesheet" href="/css/main_style.css"/>
     <link rel="stylesheet" href="/js/vegas/jquery.vegas.min.css"/>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>

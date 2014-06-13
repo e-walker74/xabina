@@ -1,4 +1,5 @@
 
+
 function fontScale(scale){
    if(scale == 1)
 	   $('body').css({'font-size': '100%'});
@@ -123,9 +124,7 @@ $(function(){
     });
 
 
-    $('.clear-input-but').on('click', function(e){
-        $(this).parents('.clear-input-cont').find('input').val('');
-    });
+    
 
     // progressbar styling
 
@@ -544,11 +543,10 @@ $(document).ready(function(){
 
 	if($('.calendar-input').length != 0)
 	$(".calendar-input").datepicker({
-		showOn:"both",
+		showOn:"button",
 		buttonImage: '/images/calendar_ico.png',
-        buttonImageOnly:true,
-        dateFormat: 'dd.mm.yy'
-	}).inputmask('dd.mm.yyyy');
+		buttonImageOnly:true
+	});
 	
 	$('select.language-select').on('change', function(){
 		window.location.href=$(this).val()
@@ -584,11 +582,11 @@ $(document).ready(function(){
 	
 	if($('form .with_datepicker').length != 0)
 	$("form .with_datepicker").datepicker({
-        showOn:"both",
+        showOn:"button",
         buttonImage: '/images/calendar_ico.png',
-		dateFormat: 'dd.mm.yy',
-        buttonImageOnly:true
-    }).inputmask('dd.mm.yyyy');
+        buttonImageOnly:true,
+		dateFormat: 'dd.mm.yy'
+    });
 	
 	if($('#bg-404-gold').length){
 		$('#bg-404-gold').plaxify({"xRange":30,"yRange":30});
@@ -610,18 +608,16 @@ $(document).ready(function(){
 	
 	if($('.calendar-input, .with_datepicker').length)
     $(".calendar-input, .with_datepicker").datepicker({
-        showOn:"both",
+        showOn:"button",
         buttonImage: '/images/calendar_ico.png',
-        buttonImageOnly:true,
-        dateFormat: 'dd.mm.yy'
-    }).inputmask('dd.mm.yyyy');
+        buttonImageOnly:true
+    });
     if($('.calendar-input-2').length)
     $(".calendar-input-2").datepicker({
-        showOn:"both",
+        showOn:"button",
         buttonImage: '/images/calendar_ico_2.png',
-        buttonImageOnly:true,
-        dateFormat: 'dd.mm.yy'
-    }).inputmask('dd.mm.yyyy');
+        buttonImageOnly:true
+    });
 	
 	/*if($('input.button-find').length)
 	$(document).keyup(function(event){
@@ -930,8 +926,25 @@ var successNotify = function(title, message, element){
     }else {
         var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
     }
-    $.pnotify({ /*title: title,*/ text: message, type: 'success', delay: 3000, width: $('.col-lg-9').width()+'px', stack: stack_context, history: false});
-
+    $.pnotify(
+		{ 
+			/*title: title,*/ 
+			text: message, 
+			type: 'success', 
+			delay: 3000, 
+			width: $('.col-lg-9').width()+'px', 
+			stack: stack_context, 
+			history: false,
+			mouse_reset: false
+		});
+		
+	$('html').one('click', function() {
+		if(!$(event.target).closest('.ui-pnotify').length) {
+			if($('.ui-pnotify').is(":visible")) {
+				$('.ui-pnotify').fadeOut()
+			}
+		}  
+	})
 }
 
 var errorNotify = function(title, message, element){

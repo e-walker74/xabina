@@ -41,10 +41,10 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
+				<?= $form->hiddenField($address, 'id') ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
-							<?= $form->hiddenField($address, 'id') ?>
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address') ?>
@@ -59,24 +59,12 @@
 						<div class="col-lg-5 col-md-5 col-sm-5">
 							<div class="form-cell">
 								<div class="form-lbl">
-									<?= Yii::t('Front', 'Country') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<?= Yii::t('Front', 'Address Line 2') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<div class="select-custom select-narrow ">
-										<span class="select-custom-label"></span>
-										<?= $form->dropDownList(
-											$address,
-											'country_id',
-											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
-											array(
-												'class' => 'select-invisible country-select',
-												'options' => array($address->country_id => array('selected' => true)),
-												'empty' => Yii::t('Front', 'Select')
-											)
-										); ?>
-									</div>
-									<?= $form->error($address, 'country_id'); ?>
+									<?= $form->textField($address, 'address_line_2', array('class' => 'input-text')) ?>
+									<?= $form->error($address, 'address_line_2') ?>
 								</div>
 							</div>
 						</div>
@@ -103,12 +91,53 @@
 						<div class="col-lg-5 col-md-5 col-sm-5">
 							<div class="form-cell">
 								<div class="form-lbl">
+									<?= Yii::t('Front', 'City') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'city_address_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($address, 'city', array('class' => 'input-text')) ?>
+									<?= $form->error($address, 'city') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2 ">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
 									<?= Yii::t('Front', 'Category') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_address_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($address, 'category', array('class' => 'input-text')) ?>
 									<?= $form->error($address, 'category') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Country') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<div class="select-custom select-narrow ">
+										<span class="select-custom-label"></span>
+										<?= $form->dropDownList(
+											$address,
+											'country_id',
+											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
+											array(
+												'class' => 'select-invisible country-select',
+												'options' => array($address->country_id => array('selected' => true)),
+												'empty' => Yii::t('Front', 'Select')
+											)
+										); ?>
+									</div>
+									<?= $form->error($address, 'country_id'); ?>
 								</div>
 							</div>
 						</div>
@@ -164,24 +193,12 @@
 						<div class="col-lg-5 col-md-5 col-sm-5">
 							<div class="form-cell">
 								<div class="form-lbl">
-									<?= Yii::t('Front', 'Country') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<?= Yii::t('Front', 'Address Line 2') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<div class="select-custom select-narrow ">
-										<span class="select-custom-label"></span>
-										<?= $form->dropDownList(
-											$address,
-											'country_id',
-											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
-											array(
-												'class' => 'select-invisible country-select',
-												'options' => array($address->country_id => array('selected' => true)),
-												'empty' => Yii::t('Front', 'Select')
-											)
-										); ?>
-									</div>
-									<?= $form->error($address, 'country_id'); ?>
+									<?= $form->textField($address, 'address_line_2', array('class' => 'input-text')) ?>
+									<?= $form->error($address, 'address_line_2') ?>
 								</div>
 							</div>
 						</div>
@@ -208,12 +225,53 @@
 						<div class="col-lg-5 col-md-5 col-sm-5">
 							<div class="form-cell">
 								<div class="form-lbl">
+									<?= Yii::t('Front', 'City') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'city_address_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($address, 'city', array('class' => 'input-text')) ?>
+									<?= $form->error($address, 'city') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2 ">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
 									<?= Yii::t('Front', 'Category') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_address_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($address, 'category', array('class' => 'input-text')) ?>
 									<?= $form->error($address, 'category') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Country') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<div class="select-custom select-narrow ">
+										<span class="select-custom-label"></span>
+										<?= $form->dropDownList(
+											$address,
+											'country_id',
+											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
+											array(
+												'class' => 'select-invisible country-select',
+												'options' => array($address->country_id => array('selected' => true)),
+												'empty' => Yii::t('Front', 'Select')
+											)
+										); ?>
+									</div>
+									<?= $form->error($address, 'country_id'); ?>
 								</div>
 							</div>
 						</div>

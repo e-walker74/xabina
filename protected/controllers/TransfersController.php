@@ -51,11 +51,6 @@ class TransfersController extends Controller
             ),
         );
     }
-	
-	public function init()
-    {
-		
-	}
 
     /**
      * outgoing new version

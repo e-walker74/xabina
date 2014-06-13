@@ -163,14 +163,17 @@
 											</div>
 											<div class="form-input">
 												<label class="file-label <?= ($model->photo) ? 'uploaded' : '' ?>">
-													<?php if($model->photo): ?>
+													<span id="image-mini" <?php if(!$model->photo): ?>style="display:none"<?php endif; ?>>
 														<img width="22" src="<?= $model->getAvatarUrl() ?>" alt=""/>
-													<?php endif; ?>
+													</span>
 													<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
 													<span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
 													<?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
 													<?php if($model->photo): ?>
+													<span class="delete-photo">
 														<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>
+														<?= $form->hiddenField($model, 'delete') ?>
+													</span>
 													<?php endif; ?>
 												</label>
 											</div>

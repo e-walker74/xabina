@@ -9,9 +9,6 @@ class InvoicesController extends Controller
     {
         return array(
             'accessControl',
-            /*array(
-            	'application.components.RbacFilter'
-        	),*/
         );
     }
 
@@ -20,8 +17,7 @@ class InvoicesController extends Controller
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules()
-    {
+    public function accessRules() {
         return array(
 			array('allow', // allow readers only access to the view file
                 'actions' => array(''),
@@ -30,7 +26,7 @@ class InvoicesController extends Controller
             array('allow', // allow readers only access to the view file
                 'actions' => array(
 					'create',
-					'createoption',
+					'createOption',
 					'list',
 				),
                 'roles' => array('client')
@@ -40,37 +36,37 @@ class InvoicesController extends Controller
             ),
         );
     }
-	
-	public function init(){
-		
+
+	public function init() {
 	}
 	
-	public function actionCreate(){
+	public function actionCreate() {
 		Yii::app()->clientScript->registerScriptFile('/js/invoice.js', CClientScript::POS_END);
 
         $this->breadcrumbs[Yii::t('Front', 'Create an Invoice')] = '';
 
         $model = new Form_Invoice;
-
         // if it is ajax validation request
-        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'invoice-form') {
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax')=='invoice-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-
+        
         $user = Users::model()->findByPk(Yii::app()->user->id);
         $model->currency_id = $user->settings->currency_id;
         $model->user_id = Yii::app()->user->id;
-
+        
+        $file = new Users_Files;
         if (!empty($_POST['Form_Invoice'])) {
+
             $model->attributes = $_POST['Form_Invoice'];
             $model->options = $_POST['Invoices_Options'];
-            if($model->validate() && $model->invoiceCreate()){
+            if ($model->validate() && $model->invoiceCreate()) {
 				$aRes = array(
 					'success' => true, 
 					'message' => Yii::t('Front', 'New invoice saved successful')
 				);
-				if(isset($_GET['next'])){
+				if (isset($_GET['next'])) {
 					$aRes['url'] = $this->createUrl('/invoices/list');
 				}
 				echo CJSON::encode($aRes);
@@ -82,10 +78,14 @@ class InvoicesController extends Controller
 			}
 			Yii::app()->end();
         }
-// Вывод ошибок
-// Редирект или нотификация при сохранении формы
-// Страница списка с инвойсами
-        $this->render('create_invoice', array('model' => $model, 'user' => $user));
+        // Вывод ошибок
+        // Редирект или нотификация при сохранении формы
+        // Страница списка с инвойсами
+        $this->render('create_invoice', array(
+            'model' => $model,
+            'user' => $user,
+            'file' => $file,
+        ));
     }
 
     public function actionCreateOption() {

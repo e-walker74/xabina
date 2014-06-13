@@ -127,5 +127,27 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td class="header"><?= Yii::t('Front', 'Roles'); ?></td>
+			<td>
+				<?= Yii::t('Front', 'Roles'); ?>
+			</td>
+			<td>
+				<div class="transaction-buttons-cont">
+					<a class="button edit" href="<?= Yii::app()->createUrl('/rbac/roles') ?>" ></a>
+				</div>
+			</td>
+		</tr>
+        <tr>
+            <td class="header"><?= Yii::t('Front', 'Users Managment'); ?></td>
+            <td>
+                <?= Yii::t('Front', 'Users Managment'); ?>
+            </td>
+            <td>
+                <div class="transaction-buttons-cont">
+                    <a class="button edit" href="<?= Yii::app()->createUrl('/rbac/manageusers') ?>" ></a>
+                </div>
+            </td>
+        </tr>
 	</table>
 </div>

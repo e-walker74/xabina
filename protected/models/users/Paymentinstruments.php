@@ -150,7 +150,6 @@ class Users_Paymentinstruments extends ActiveRecord
         return parent::beforeSave();
     }
     
-
     /**
      * getHtmlStatus
      * TODO: перевести везде где встречается $this->htmlStatus на PaymentService::getHtmlStatus($this->status);
@@ -161,4 +160,17 @@ class Users_Paymentinstruments extends ActiveRecord
         return PaymentService::getHtmlStatus($this->status);
     }
 
+
+    public function scopes()
+    {
+        $alias = $this->getTableAlias(false, false);
+        return Array(
+            'active' => Array(
+                'condition' => "$alias.deleted=0",
+            ),
+            'own' => Array(
+                'condition' => "$alias.user_id=" . Yii::app()->user->id,
+            ),
+        );
+    }
 }

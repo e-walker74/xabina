@@ -150,6 +150,10 @@ class Form_Registration extends CFormModel
                 $company->save();
             }
 
+            $rbac = new RbacUserRoles();
+            $rbac->user_id = $user->id;
+            $rbac->role_id = 1; //TODO get default role for the new user
+            $rbac->save();
 
 			if(!$user->settings){
 				$user->settings = new Users_Settings;

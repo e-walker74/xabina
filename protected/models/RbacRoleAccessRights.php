@@ -37,8 +37,8 @@ class RbacRoleAccessRights extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role_id, acces_right_id', 'required'),
-			array('role_id, acces_right_id', 'length', 'max'=>11),
+			array('role_id, access_right_id', 'required'),
+			array('role_id, access_right_id', 'length', 'max'=>11),
 			array('additional_parameters', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -110,11 +110,14 @@ class RbacRoleAccessRights extends CActiveRecord
 	}
     
     public static function saveRoleRights($roleId, $rights) {
-        $query = "INSERT INTO rbac_role_access_rights(role_id, acces_right_id) VALUES";
+        $query = "
+        DELETE FROM rbac_role_access_rights WHERE role_id = {$roleId};
+        INSERT INTO rbac_role_access_rights(role_id, acces_right_id) VALUES ";
+        $queryArr = array();
         foreach ($rights as $rid => $v) {
-            $query .= '(' . $roleId . ', ' . intval($rid). '),';
+            $queryArr[] = '(' . $roleId . ', ' . intval($rid). ')';
         }
-        $query = rtrim($query, ",");
+        $query .= implode(',', $queryArr);
         $command = Yii::app()->db->createCommand($query);
         return $command->execute();
     }

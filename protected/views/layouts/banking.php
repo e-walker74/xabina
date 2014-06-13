@@ -3,25 +3,22 @@
 <head>
     <title>Xabina</title>
     <meta charset="utf-8" />
-	<link rel="stylesheet" href="/css/jquery.pnotify.default.css" />
+    <?php /*<link rel="stylesheet" href="/css/jquery.pnotify.default.css" />
     <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/fonts.css" />
-	<link rel="stylesheet" href="/js/jquery-ui-1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
-	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
     <link rel="stylesheet" href="/css/media.css" />
-	<link rel="stylesheet" href="/css/bg.css" />
+	<link rel="stylesheet" href="/css/bg.css" /> */?>
+	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
     <script type="text/javascript" src="/js/less.min.js"></script>
-	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.inputmask.js"></script>
-	<script type="text/javascript" src="/js/jquery.inputmask.date.extensions.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
     <script type="text/javascript" src="/js/jquery.currencyDropDown.js"></script>
-	<script type="text/javascript" src="/js/bootstrap-tooltip.js"></script>
-	<script type="text/javascript" src="/js/bootstrap-confirmation.js"></script>
-	<script type="text/javascript" src="/js/jquery.autosize-min.js"></script>
-	<script type="text/javascript" src="/js/jquery.pnotify.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-tooltip.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-confirmation.js"></script>
+    <script type="text/javascript" src="/js/jquery.autosize-min.js"></script>
+    <script type="text/javascript" src="/js/jquery.pnotify.min.js"></script>
 </head>
 <body>
 <div class="main-bg" >

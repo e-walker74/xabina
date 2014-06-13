@@ -14,7 +14,7 @@ if(isset($_GET['debug']) && $_GET['debug'] == 777){
 
 // change the following paths if necessary
 $yii    = FRAMEWORK_PATH.'yii.php';
-$yiiEx  = dirname(__FILE__).'/YiiBaseEx.php';
+$yiiEx  = dirname(__FILE__).'/Yii.php';
 $config = dirname(__FILE__).'/protected/config/admin/local.php';
 
 // remove the following lines when in production mode

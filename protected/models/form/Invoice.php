@@ -64,7 +64,6 @@ class Form_Invoice extends CFormModel
     public function invoiceCreate() {
         $invoice = new Invoices();
         $invoice->attributes = $this->attributes;
-
         if (!$invoice->save()) {
 			d($invoice->getErrors());
             Yii::log('invoice fail '.print_r($invoice->getErrors(), 1), CLogger::LEVEL_ERROR, 'error');
@@ -75,6 +74,34 @@ class Form_Invoice extends CFormModel
                 $invoicesOptions->attributes = $item;
                 $invoicesOptions->invoice_id = $invoiceId;
                 $invoicesOptions->save();
+            }
+
+            // create folder to save file
+            $oldUmask = umask();
+            umask(0);
+            $folder = Yii::app()->getBasePath(true) . '/../documents/'.Yii::app()->user->id.'/';
+            $res = @mkdir($folder, 0777, 1);
+            umask($oldUmask);
+            $oldUmask = umask();
+            // save file to disk
+            Yii::import("application.ext.EAjaxUpload.qqFileUploader");
+            $type = 'Form_Invoice';
+            $allowedExtensions = Users_Files::$fileTypes[$type]['ext'];
+            $sizeLimit = Users_Files::$fileTypes[$type]['fileSize']; // maximum file size in bytes
+            $uploader = new UploadedFile($allowedExtensions, $sizeLimit);
+            $uploader->setFileName(mb_substr(md5(Yii::app()->user->name . time()), 5, 10));
+            $result = $uploader->handleUpload($folder);
+            // save file to DB 
+            if (isset($result['success']) && $result['success']) {
+                $file = new Users_Files;
+                $file->user_id = Yii::app()->user->id;
+                $file->name = $result['filename'];
+                $file->ext = $uploader->getFileExt();
+                $file->form = $type;
+                $file->model_id = $invoiceId;
+                $file->description = '';
+                $file->user_file_name = $uploader->getUserFileName();
+                $file->save();
             }
 
             return true;

@@ -7,12 +7,12 @@ class RbacFilter extends CFilter
         // logic being applied before the action is executed
 
         $executeAction = false; // false if the action should not be executed
-
         $ca = ucwords($filterChain->controller->getId()).'.'.ucwords($filterChain->action->getId());
         if(Yii::app()->user->checkRbacAccess($ca)) {
+            Yii::app()->user->checkRbacAccess($ca);
             $executeAction = true; 
         } else {
-            throw new CHttpException(403,'RBAC: You are not authorized to perform this action.');
+            throw new CHttpException(403,   Yii::t('Front', 'RBAC: You are not authorized to perform this action.'));
         }
 
         return $executeAction;

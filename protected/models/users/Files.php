@@ -12,7 +12,6 @@
  */
 class Users_Files extends ActiveRecord
 {
-
 	public static $fileTypes = array(
 		'Transactions' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
 		'Transfers_Outgoing' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => 1),
@@ -25,6 +24,7 @@ class Users_Files extends ActiveRecord
         'Form_Outgoingtransf_Anather' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
         'Form_Outgoingtransf_External' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
         'Form_Outgoingtransf_Ewallet' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png","pdf","txt","doc","docx"), 'user_check' => false),
+        'Form_Invoice' => array('count' => 0, 'fileSize' => 20971520, 'ext' => array("jpg","jpeg","gif","png"), 'user_check' => false),
 	);
 
 	/**

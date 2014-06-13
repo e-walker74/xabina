@@ -17,6 +17,29 @@ $(document).ready(function(){
 	$('#Users_Contacts_photo').on('change', function(){
 		var name = $(this).val().split(/(\\|\/)/g).pop()
 		$(this).parents('.file-label').find('.filename').html(name)
+		$('input[type=hidden]').val(0)
+		
+		var input = $(this)[0];
+		if ( input.files && input.files[0] ) {
+			if ( input.files[0].type.match('image.*') ) {
+				var reader = new FileReader();
+				reader.onload = function(e) { $('#image-mini img').attr('src', e.target.result); }
+				reader.readAsDataURL(input.files[0]);
+				$('#image-mini').show()
+				$('.delete-photo').show()
+			} else {
+				$('#image-mini').hide() 
+				$('.delete-photo').hide()
+				console.log('is not image mime type');
+			}
+		} else console.log('not isset files data or files API not supordet');
+	})
+	
+	$('.delete-photo').click(function(){
+		$(this).find('input[type=hidden]').val(1)
+		$('#image-mini').hide() 
+		$(this).hide();
+		return false;
 	})
 	
 	$('.account_type_fields').hide()
