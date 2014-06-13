@@ -10,9 +10,9 @@ class TransfersController extends Controller
     {
         return array(
             'accessControl',
-            /*array(
-            	'application.components.RbacFilter'
-        	),*/
+            array(
+                'application.components.RbacFilter'
+            ),
         );
     }
 

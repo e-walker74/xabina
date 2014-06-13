@@ -14,8 +14,8 @@
             'validateOnSubmit'=>true,
             'validateOnChange'=>true,
             'errorCssClass'=>'input-error',
-            'afterValidate' => 'js:afterValidate',
-            'afterValidateAttribute' => 'js:afterValidateAttribute'
+            'afterValidate' => 'js:RBAC.afterValidate',
+            'afterValidateAttribute' => 'js:RBAC.afterValidateAttribute'
         ),
     )); ?>
     <div class="role-form xabina-form-container">
@@ -43,9 +43,9 @@
                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'user_id_tooltip'); ?>"></span>
                 </div>
                 <div class="field-input">
-                    <?php echo $form->textField($addUserForm, 'user', array('autocomplete' => 'off','class'=>'input-text')); ?>
+                    <?= $form->textField($addUserForm, 'user', array('autocomplete' => 'off', 'class'=>'input-text')); ?>
                     <span class="validation-icon" style="display: none;"></span>
-                    <?php  echo $form->error($addUserForm, 'user', array('style' => 'display:none;')); ?>
+                    <?= $form->error($addUserForm, 'user'); ?>
                 </div>
             </div>
             <div class="col-lg-7 col-md-7 col-sm-7">
@@ -90,5 +90,5 @@
 </div>
 
 <script>
-    RBACK.addRolePage()
+    RBAC.addRolePage()
 </script>

@@ -8,17 +8,6 @@ class WebUser extends CWebUser
     private $_model = null;
     private $_id = null;
 
-    /**
-     * @return Users
-     */
-    private function _getModel()
-    {
-        if (!$this->isGuest && $this->_model === null && $this->id) {
-            $this->_model = Users::model()->findByPk($this->id /* array('select' => 'role') */);
-        }
-        return $this->_model;
-    }
-
     public function getNotifications()
     {
         if ($this->_notifications !== false) {
@@ -34,6 +23,17 @@ class WebUser extends CWebUser
             return $this->_notifications;
         } else
             return $this->_notifications;
+    }
+
+    /**
+     * @return Users
+     */
+    private function _getModel()
+    {
+        if (!$this->isGuest && $this->_model === null && $this->id) {
+            $this->_model = Users::model()->findByPk($this->id /* array('select' => 'role') */);
+        }
+        return $this->_model;
     }
 
     public function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
@@ -84,6 +84,16 @@ class WebUser extends CWebUser
             return $this->defaultRole;
     }
 
+    /**
+     * Sets the unique identifier for the user (e.g. username).
+     * @param string $value the user name.
+     * @see getName
+     */
+    public function setRole($value)
+    {
+        $this->setState('__role', $value);
+    }
+
     public function getEmail()
     {
         if (($name = $this->getState('__email')) !== null)
@@ -96,6 +106,11 @@ class WebUser extends CWebUser
             return $this->getEmail();
         } else
             return false;
+    }
+
+    public function setEmail($value)
+    {
+        $this->setState('__email', $value);
     }
 
     public function getPhone()
@@ -112,6 +127,11 @@ class WebUser extends CWebUser
             return false;
     }
 
+    public function setPhone($value)
+    {
+        $this->setState('__phone', $value);
+    }
+
     public function getStatus()
     {
         if (($name = $this->getState('__status')) !== null)
@@ -126,6 +146,11 @@ class WebUser extends CWebUser
             return false;
     }
 
+    public function setStatus($value)
+    {
+        $this->setState('__status', $value);
+    }
+
     public function getLastIp()
     {
         if (($name = $this->getState('__last_ip')) !== null)
@@ -133,6 +158,8 @@ class WebUser extends CWebUser
 
         return '';
     }
+
+    /************* SETTERS **************/
 
     public function getThisIp()
     {
@@ -176,60 +203,6 @@ class WebUser extends CWebUser
         return '';
     }
 
-    /************* SETTERS **************/
-
-    /**
-     * Sets the unique identifier for the user (e.g. username).
-     * @param string $value the user name.
-     * @see getName
-     */
-    public function setRole($value)
-    {
-        $this->setState('__role', $value);
-    }
-
-    public function setEmail($value)
-    {
-        $this->setState('__email', $value);
-    }
-
-    public function setPhone($value)
-    {
-        $this->setState('__phone', $value);
-    }
-
-    public function setLastIp($value)
-    {
-        $this->setState('__last_ip', $value);
-    }
-
-    public function setThisIp($value)
-    {
-        $this->setState('__this_ip', $value);
-    }
-
-    public function setLastTime($value)
-    {
-        $this->setState('__last_time', $value);
-    }
-
-    public function setStatus($value)
-    {
-        $this->setState('__status', $value);
-    }
-
-    public function setLanguage($value)
-    {
-        $this->setState('__language', $value);
-        return $this;
-    }
-
-    public function setFontSize($value)
-    {
-        $this->setState('__font_size', $value);
-        return $this;
-    }
-
     public function login($identity, $duration = 0)
     {
         $this->id = $identity->getId();
@@ -263,6 +236,55 @@ class WebUser extends CWebUser
 
     }
 
+    public function setThisIp($value)
+    {
+        $this->setState('__this_ip', $value);
+    }
+
+    public function setLanguage($value)
+    {
+        $this->setState('__language', $value);
+        return $this;
+    }
+
+    public function setFontSize($value)
+    {
+        $this->setState('__font_size', $value);
+        return $this;
+    }
+
+    public function setFullName($fullName)
+    {
+        $this->setState('__full_name', $fullName);
+    }
+
+    /**
+     * Download access rights for user
+     */
+    public function initRback()
+    {
+        $user = $this->_getModel();
+        $settings = $user->getRbacSettings($this->getRbacCurrentUid());
+        $accounts = $user->getRbacAllowedAccounts();
+        $this->setState('__rbac', $settings);
+        $this->setState('__rbac_allowed_accounts', $accounts);
+    }
+
+    public function getRbacCurrentUid()
+    {
+        return $this->getState('__rbac_current_uid');
+    }
+
+    public function setLastIp($value)
+    {
+        $this->setState('__last_ip', $value);
+    }
+
+    public function setLastTime($value)
+    {
+        $this->setState('__last_time', $value);
+    }
+
     public function logout($destroySession = true)
     {
         $user = $this->_getModel();
@@ -278,19 +300,6 @@ class WebUser extends CWebUser
         parent::logout();
     }
 
-    public function getFullName()
-    {
-        if (($name = $this->getState('__full_name')) !== null)
-            return $name;
-        else
-            return $this->guestName;
-    }
-
-    public function setFullName($fullName)
-    {
-        $this->setState('__full_name', $fullName);
-    }
-
     public function getCurrentId()
     {
         if (!Yii::app()->user->getRbacCurrentUid()) {
@@ -300,51 +309,15 @@ class WebUser extends CWebUser
         }
     }
 
-
-    /**
-     * Download access rights for user
-     */
-    public function initRback()
+    public function switchRbacAccount($uid = NULL)
     {
-        $user = $this->_getModel();
-        $settings = $user->getRbacSettings($this->getRbacCurrentUid());
-//        d($settings);
-//        die;
-        $accounts = $user->getRbacAllowedAccounts();
-        $this->setState('__rbac', $settings);
-        $this->setState('__rbac_allowed_accounts', $accounts);
-    }
-
-    public function getRbac()
-    {
-        if ($this->getState('__rbac') == NULL) {
-            $this->initRback();
-        }
-        return $this->getState('__rbac');
-    }
-
-    public function getRbacAllowedAccounts()
-    {
-        if ($this->getState('__rbac_allowed_accounts') == NULL) {
-            $this->initRback();
-        }
-        return $this->getState('__rbac_allowed_accounts');
-    }
-
-    public function getRbacCurrentUid()
-    {
-        return $this->getState('__rbac_current_uid');
+        $this->setRbacCurrentUid($uid);
+        $this->initRback();
     }
 
     public function setRbacCurrentUid($uid)
     {
         $this->setState('__rbac_current_uid', $uid);
-    }
-
-    public function switchRbacAccount($uid = NULL)
-    {
-        $this->setRbacCurrentUid($uid);
-        $this->initRback();
     }
 
     public function getRbacAccountSwitcherMenu()
@@ -378,11 +351,28 @@ class WebUser extends CWebUser
         return $menu;
     }
 
+    public function getRbacAllowedAccounts()
+    {
+        if ($this->getState('__rbac_allowed_accounts') == NULL) {
+            $this->initRback();
+        }
+        return $this->getState('__rbac_allowed_accounts');
+    }
+
+    public function getFullName()
+    {
+        if (($name = $this->getState('__full_name')) !== null)
+            return $name;
+        else
+            return $this->guestName;
+    }
+
     /**
      * check if user has access to Controller.Action
      */
     public function checkRbacAccess($ca)
     {
+        $ca = strtolower($ca);
         $rights = $this->getRbac();
 
         foreach ((array)$rights as $right) {
@@ -393,6 +383,15 @@ class WebUser extends CWebUser
         return false;
     }
 
+    public function getRbac()
+    {
+//        if ($this->getState('__rbac') == NULL) {
+            $this->initRback(); //TODO put rbac to cache, and drop cache on update
+//        }
+
+        return $this->getState('__rbac');
+    }
+
     private function actionAllowed($controllerAction, $accessRight)
     {
 
@@ -401,11 +400,15 @@ class WebUser extends CWebUser
         $a = explode('.', $controllerAction);
         $b = explode('.', $accessRight);
 
-        if($a[0] == $b[0] && $a[1] == $b[1]) {
+
+        if ($controllerAction == $accessRight) {
+            $res = true;
+        } elseif ($a[0] == $b[0] && $a[1] == $b[1]) {
             $res = true;
         } elseif ($a[0] == $b[0] && $b[1] == '*') {
             $res = true;
         }
+
         return $res;
     }
 }
