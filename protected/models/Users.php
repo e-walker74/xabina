@@ -35,14 +35,38 @@ class Users extends ActiveRecord
         return parent::model($className, true);
     }
 
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return Users the static model class
-     */
-    public static function model($className = __CLASS__)
+    public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
     {
-        return parent::model($className);
+        if (!$user_id) {
+            $user_id = Yii::app()->user->id;
+            $user = Users::model()->findByPk($user_id);
+        } else {
+            $user = Users::model()->findByPk(Yii::app()->user->id);
+        }
+
+        $notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
+            'code' => $code,
+            ':uid' => $user_id,
+        ));
+        if ($notify) {
+            return false;
+        }
+        $notify = new Users_Notification();
+        $notify->user_id = $user_id;
+        $notify->code = $code;
+        $notify->message = $message;
+        $notify->type = $type;
+        $notify->style = $style;
+        if ($notify->save()) {
+            //$this->_notifications = false;
+            return true;
+        }
+        return false;
+    }
+
+    public static function removeNotification($code, $user_id)
+    {
+        Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
     }
 
     /**
@@ -87,6 +111,8 @@ class Users extends ActiveRecord
         );
     }
 
+//        fsockopen("mx1.hotmail.com", 25, $errno , $errstr, 15)
+
     public function authenticatePhone($attribute, $params)
     {
         //if(!$this->hasErrors())
@@ -103,7 +129,16 @@ class Users extends ActiveRecord
         //}
     }
 
-//        fsockopen("mx1.hotmail.com", 25, $errno , $errstr, 15)
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return Users the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
     public function compareOldPass()
     {
         if ($this->password) {
@@ -246,18 +281,6 @@ class Users extends ActiveRecord
         return $res;
     }
 
-    public function createHash()
-    {
-        $this->hash = md5(crc32('xabina was here' . $this->id . $this->email . time()));
-    }
-
-    public function sendEmailConfirm()
-    {
-        $mail = new Mail();
-        $this->createHash();
-        //$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
-    }
-
     /*public function addNotification($message, $type = 'close', $style = 'green'){
         $notify = new Users_Notification;
         $notify->message = $message;
@@ -267,38 +290,16 @@ class Users extends ActiveRecord
         $notify->save();
     }*/
 
-    public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
+    public function sendEmailConfirm()
     {
-        if (!$user_id) {
-            $user_id = Yii::app()->user->id;
-            $user = Users::model()->findByPk($user_id);
-        } else {
-            $user = Users::model()->findByPk(Yii::app()->user->id);
-        }
-
-        $notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
-            'code' => $code,
-            ':uid' => $user_id,
-        ));
-        if ($notify) {
-            return false;
-        }
-        $notify = new Users_Notification();
-        $notify->user_id = $user_id;
-        $notify->code = $code;
-        $notify->message = $message;
-        $notify->type = $type;
-        $notify->style = $style;
-        if ($notify->save()) {
-            //$this->_notifications = false;
-            return true;
-        }
-        return false;
+        $mail = new Mail();
+        $this->createHash();
+        //$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
     }
 
-    public static function removeNotification($code, $user_id)
+    public function createHash()
     {
-        Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
+        $this->hash = md5(crc32('eugene was here' . $this->id . $this->email . time()));
     }
 
     public function getRbacSettings($ownerUid = NULL)
@@ -314,7 +315,7 @@ class Users extends ActiveRecord
         $sql = "SELECT c.*
             FROM `rbac_user_roles` a
             INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
-            INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
+            INNER JOIN  `rbac_access_rights`c ON c.id = b.access_right_id
             WHERE a.user_id = {$userId}" . $filterSql;
 
         $buff = Yii::app()->db->createCommand($sql)->queryAll();
@@ -329,7 +330,7 @@ class Users extends ActiveRecord
             "SELECT DISTINCT d.id, CONCAT(d.first_name, ' ', d.last_name ) account_name, d.login 
             FROM `rbac_user_roles` a
             INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
-            INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
+            INNER JOIN  `rbac_access_rights`c ON c.id = b.access_right_id
             INNER JOIN 	`users` d ON d.id = a.create_uid
             WHERE a.user_id = {$userId} AND a.create_uid IS NOT NULL"
         )->queryAll();

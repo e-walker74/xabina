@@ -18,20 +18,22 @@
             'afterValidateAttribute' => 'js:RBAC.afterValidateAttribute'
         ),
     )); ?>
+    <?php if($addUserForm->role): ?>
+        <?= $form->hiddenField($addUserForm, 'access_id'); ?>
+    <?php endif; ?>
     <div class="role-form xabina-form-container">
         <div class="account-selection" >
             <span class="select-lbl pull-left"><?= Yii::t('Front', 'Account'); ?></span>
             <div class="select-custom account-select pull-right" style="width: 92%!important">
-                <span class="select-custom-label">
-                    <?php $this->widget('AccountInfo', array('account' => $selectedAcc));?>
-                </span>
+                <span class="select-custom-label"></span>
                 <select name="RbacAddUserForm[account]" class=" select-invisible">
                     <?php foreach($accounts as $acc): ?>
-                    <option <?php if($acc->number == $selectedAcc->number): ?>selected<?php endif; ?> 
+                    <option <?php if($acc->id == $addUserForm->account): ?>selected<?php endif; ?>
                             value="<?= $acc->number ?>">
                         <?php $this->widget('AccountInfo', array('account' => $acc));?>
                     </option>
-                    <?php endforeach; ?>                    
+                    <?php endforeach; ?>
+
                 </select>
             </div>
         </div>
@@ -56,16 +58,16 @@
                 <div class="field-input">
                     <div class="select-custom">
                         <span class="select-custom-label"><?= Yii::t('Front', 'Select') ?></span>
-                        <?= CHtml::dropDownList(
-                            'RbacAddUserForm[role]',
-                            '',
+                        <?= $form->dropDownList(
+                            $addUserForm,
+                            'role',
                             CHtml::listData($roles, 'id', 'name'),
                             array(
-                                'empty' =>Yii::t('Front', 'Select'),
                                 'class' => 'country-select select-role-type select-invisible',
+                                'empty' =>Yii::t('Front', 'Select'),
                                 'data-url' => Yii::app()->createUrl('ajax/getRoleRights'),
                             )
-                        )?>
+                        ); ?>
                     </div>
                     <?php  echo $form->error($addUserForm, 'role', array('style' => 'display:none;')); ?>
                 </div>
@@ -90,5 +92,9 @@
 </div>
 
 <script>
-    RBAC.addRolePage()
+    RBAC.addRolePage().bindCheckRoleRights()
+
+    <?php if($addUserForm->role): ?>
+    RBAC.getUserAccessRights('<?= Yii::app()->createUrl('ajax/getUserRights') ?>')
+    <?php endif; ?>
 </script>

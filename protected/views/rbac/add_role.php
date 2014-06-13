@@ -74,7 +74,7 @@
 <?php $this->endWidget(); ?>
 
 <script>
-    RBAC.addRolePage()
+    RBAC.addRolePage().bindCheckRoleRights()
     <?php if(!$role->isNewRecord): ?>
         RBAC.getRoleRigths(<?= $role->id ?>)
     <?php endif; ?>

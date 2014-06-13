@@ -40,13 +40,14 @@ class RbacUserAccessRights extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
+    public function relations()
+    {
+        return array(
+            'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
+            'user' => array(self::BELONGS_TO, 'users', 'user_id'),
+            'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
+        );
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -103,14 +104,17 @@ class RbacUserAccessRights extends CActiveRecord
 	}
     
     public static function saveUserRights($userRole, $rights) {
-        
-        $query = "INSERT INTO rbac_user_access_rights (`user_id`, `role_id`, "
-                . "`access_right_id`, `account_id`) VALUES";
+
+        $query = "
+        DELETE FROM rbac_user_access_rights WHERE role_id = {$userRole->role_id} AND user_id = {$userRole->user_id} AND account_id = {$userRole->account_id};
+        INSERT INTO rbac_user_access_rights (`user_id`, `role_id`, "
+            . "`access_right_id`, `account_id`) VALUES ";
+        $queryArr = array();
         foreach ($rights as $rid => $v) {
             $buff = array($userRole->user_id, $userRole->role_id, $rid, $userRole->account_id);
-            $query .= '('. implode(',', $buff). '),';
+            $queryArr[] = '('. implode(',', $buff). ')';
         }
-        $query = rtrim($query, ",");
+        $query .= implode(',', $queryArr);
         $command = Yii::app()->db->createCommand($query);
         
         return $command->execute();

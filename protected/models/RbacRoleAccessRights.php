@@ -37,8 +37,8 @@ class RbacRoleAccessRights extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('role_id, acces_right_id', 'required'),
-			array('role_id, acces_right_id', 'length', 'max'=>11),
+			array('role_id, access_right_id', 'required'),
+			array('role_id, access_right_id', 'length', 'max'=>11),
 			array('additional_parameters', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

@@ -11,6 +11,7 @@ class RbacAddUserForm extends CFormModel
 	public $user;
 	public $role;
     public $rights;
+    public $access_id;
 
     private $account_id;
     private $user_id;
@@ -25,9 +26,23 @@ class RbacAddUserForm extends CFormModel
             array('user', 'checkUser', 'message' => Yii::t('Front', 'User not exists')),
             array('role', 'required', 'message' => Yii::t('Front', 'Role is incorrect')),
             array('role', 'checkRole', 'message' => Yii::t('Front', 'Role not exists')),
+            array('access_id', 'numerical'),
+            array('access_id', 'checkAccess'),
             array('rights', 'checkRights', 'on'=>'save', 'message' => Yii::t('Front', 'Select at least one access right')),
 		);
 	}
+
+    public function checkAccess($attribute,$params){
+        if($this->$attribute){
+            $userRole = RbacUserRoles::model()->findByPk($this->$attribute);
+            if($userRole && $userRole->create_uid == Yii::app()->user->id){
+                return true;
+            } else {
+                $this->addError($attribute, Yii::t('Front', 'Access is incorrect'));
+            }
+        }
+
+    }
     
     public function checkAccount($attribute,$params) {
         $account = Accounts::model()->findByAttributes(array('number' => $this->account));
@@ -63,7 +78,16 @@ class RbacAddUserForm extends CFormModel
     }
     
     public function save() {
-        $userRole = new RbacUserRoles();
+        if($this->access_id){
+            $userRole = RbacUserRoles::model()->findByAttributes(
+                array(
+                    'id' => $this->access_id,
+                    'create_uid' => Yii::app()->user->id,
+                )
+            );
+        } else {
+            $userRole = new RbacUserRoles();
+        }
         $userRole->account_id = $this->account_id;
         $userRole->user_id    = $this->user_id;
         $userRole->role_id    = $this->role_id;

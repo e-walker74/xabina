@@ -42,7 +42,6 @@
             </tbody></table>
         <div class="form-submit">
             <a href="<?=Yii::app()->createUrl("/rbac/addrole") ?>" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'ADD NEW ROLE') ?></a>
-            <a href="<?=Yii::app()->createUrl("/rbac/adduser") ?>" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'ADD NEW User') ?></a>
         </div>
     </div>
 </div>

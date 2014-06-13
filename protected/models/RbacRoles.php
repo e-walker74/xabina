@@ -95,9 +95,10 @@ class RbacRoles extends ActiveRecord
     public function deleteRoleWithRelations()
     {
         $query = "
-        DELETE rr, rrar, rur FROM rbac_roles rr
+        DELETE rr, rrar, rur, ruar FROM rbac_roles rr
         LEFT JOIN rbac_role_access_rights rrar on (rrar.role_id = rr.id)
         LEFT JOIN rbac_user_roles rur on (rur.role_id = rr.id)
+        LEFT JOIN rbac_user_access_rights ruar on (ruar.role_id = rr.id)
         where rr.id = {$this->id};";
 
         Yii::app()->db->createCommand($query)->execute();

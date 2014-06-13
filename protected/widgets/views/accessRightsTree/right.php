@@ -1,5 +1,5 @@
 <?php foreach ($rightsTree as $r):?>
-    <div class="xabina-accordion accordion-inner" >        
+    <div class="xabina-accordion accordion-inner head-of-param" >
         <div class="accordion-header">
             <div class="checkbox-custom narrow">
                 <label class="">
@@ -16,6 +16,5 @@
             <?php $this->render('accessRightsTree/right', array('rightsTree' => $r['children']));?>
         </div>
         <?php endif;?>
-
     </div>
 <?php endforeach;?>

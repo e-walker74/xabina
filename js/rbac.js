@@ -6,19 +6,26 @@ RBAC = {
     init: function () {
 
     },
+    bindCheckRoleRights: function(){
+        $('.select-role-type').change(event, function () {
+            RBAC.getRoleRigths($('.select-role-type').val())
+        });
+//        self.getRoleRigths($('.select-role-type').val())
+    },
+
     addRolePage: function () {
 
         var self = this;
-
-        self.getRoleRigths($('.select-role-type').val())
 
         $('.checkbox-custom').on('click', 'label', function (e) {
             if ($(this).find('input').prop('checked')) {
                 $(this).addClass('checked');
                 e.stopPropagation();
+                self.checkParentsOn(this)
             } else {
                 $(this).removeClass('checked');
                 e.stopPropagation();
+                self.checkParentsOff(this)
             }
         });
 
@@ -32,23 +39,46 @@ RBAC = {
             active: 0,
             collapsible: true
         });
-        $('.select-role-type').change(event, function () {
-            self.getRoleRigths($('.select-role-type').val())
-        });
+
         $('input[type=checkbox]').on('change', this.changeRightsArr)
+
+        return this;
     },
-    getRoleRigths: function(role_id){
-        $.ajax({url: $('.select-role-type').attr('data-url'),
-            data: {"roleId": role_id },
+    bindCheckUsersForAccount: function(){
+        $('#usersForAccount').on('change', RBAC.getUsersForAccount)
+        return this;
+    },
+    getUsersForAccount: function () {
+        backgroundBlack()
+        $.ajax(
+            {
+                data: {"acc_id": $('#usersForAccount').val() },
+                type: 'get',
+                dataType: 'json',
+                success: function (response) {
+                    if(response.success){
+                        $('#ajax-users-table').html(response.html)
+                    }
+                },
+                complete : function(){
+                    dellBackgroundBlack()
+                }
+            });
+    },
+    getUserAccessRights: function(url){
+        $.ajax(
+        {
+            url: url,
+            data: $('.select-role-type').parents('form').serialize(),
             type: 'get',
+            dataType: 'json',
             success: function (response) {
-                response = eval(response);
                 $('div.xabina-accordion').find('input:checkbox').each(function () {
                     $(this).attr('checked', false);
                     $(this).parent().removeClass('checked');
                 });
                 for (i = 0; i < response.length; i++) {
-                    $checkbox = $('.xabina-accordion').find('input:checkbox[name="RbacRoles[rights][' + response[i].acces_right_id + ']"]');
+                    $checkbox = $('.xabina-accordion').find('input:checkbox[name="RbacRoles[rights][' + response[i].access_right_id + ']"]');
                     $checkbox.attr('checked', true);
                     $checkbox.parent().addClass('checked');
                 }
@@ -56,27 +86,48 @@ RBAC = {
             }
         });
     },
-    changeRightsArr: function(){
-        if($('#RbacRoles_parent_id').val() !== ''){
+    getRoleRigths: function (role_id) {
+        $.ajax(
+            {
+                url: $('.select-role-type').attr('data-url'),
+                data: {"roleId": role_id },
+                type: 'get',
+                success: function (response) {
+                    response = eval(response);
+                    $('div.xabina-accordion').find('input:checkbox').each(function () {
+                        $(this).attr('checked', false);
+                        $(this).parent().removeClass('checked');
+                    });
+                    for (i = 0; i < response.length; i++) {
+                        $checkbox = $('.xabina-accordion').find('input:checkbox[name="RbacRoles[rights][' + response[i].access_right_id + ']"]');
+                        $checkbox.attr('checked', true);
+                        $checkbox.parent().addClass('checked');
+                    }
+                    RBAC.changeRightsArr()
+                }
+            });
+    },
+    changeRightsArr: function () {
+        if ($('#RbacRoles_parent_id').val() !== '') {
             $('#RbacRoles_rightsArr').val(1)
-        } else if($('input[type=checkbox]:checked').length != 0){
+        } else if ($('input[type=checkbox]:checked').length != 0) {
             $('#RbacRoles_rightsArr').val(1)
         } else {
             $('#RbacRoles_rightsArr').val('')
         }
     },
-    afterValidate: function(form, data, hasError) {
+    afterValidate: function (form, data, hasError) {
         form.find("input").removeClass("input-error");
         form.find("input").parent().removeClass("input-error");
         form.find(".validation-icon").fadeIn();
-        for(var i in data.notify) {
-            $(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
+        for (var i in data.notify) {
+            $(form).find("." + i).html(data.notify[i]).slideDown().delay(3000).slideUp();
         }
-        if(hasError) {
-            for(var i in data) {
-                $("#"+i).addClass("input-error");
-                $("#"+i).parent().addClass("input-error");
-                $("#"+i).next(".validation-icon").fadeIn();
+        if (hasError) {
+            for (var i in data) {
+                $("#" + i).addClass("input-error");
+                $("#" + i).parent().addClass("input-error");
+                $("#" + i).next(".validation-icon").fadeIn();
             }
             return false;
         }
@@ -85,25 +136,48 @@ RBAC = {
         }
         return false;
     },
-    afterValidateAttribute: function(form, attribute, data, hasError) {
-        if(hasError){
-            if(!$("#"+attribute.id).hasClass("input-error")){
-                $("#"+attribute.id+"_em_").hide().slideDown();
+    afterValidateAttribute: function (form, attribute, data, hasError) {
+        if (hasError) {
+            if (!$("#" + attribute.id).hasClass("input-error")) {
+                $("#" + attribute.id + "_em_").hide().slideDown();
             }
-            $("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-            $("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-            $("#"+attribute.id).next(".validation-icon").fadeIn();
+            $("#" + attribute.id).removeClass("valid").parent().removeClass("valid");
+            $("#" + attribute.id).addClass("input-error").parent().addClass("input-error");
+            $("#" + attribute.id).next(".validation-icon").fadeIn();
         } else {
-            if($("#"+attribute.id).hasClass("input-error")){
-                $("#"+attribute.id+"_em_").show().slideUp();
+            if ($("#" + attribute.id).hasClass("input-error")) {
+                $("#" + attribute.id + "_em_").show().slideUp();
             }
-            $("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
-            $("#"+attribute.id).next(".validation-icon").fadeIn();
-            $("#"+attribute.id).addClass("valid");
+            $("#" + attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error");
+            $("#" + attribute.id).next(".validation-icon").fadeIn();
+            $("#" + attribute.id).addClass("valid");
         }
-        for(var i in data.notify) {
-            $(form).find("."+i).html(data.notify[i]).slideDown().delay(3000).slideUp();
+        for (var i in data.notify) {
+            $(form).find("." + i).html(data.notify[i]).slideDown().delay(3000).slideUp();
         }
+    },
+    checkParentsOff: function(elem){
+
+    },
+    checkParentsOn: function(elem){
+
+//        $(elem)
+//            .parents('.head-of-param')
+//            .find('input[type=checkbox]:first')
+//            .attr('checked','checked')
+//            .parent()
+//            .addClass('checked')
+//
+//        $(elem).parents('.top-right').prev('.head-accordion-param').find('input[type=hidden]:first').val(1)
+
+        var head = $(elem).parents('.head-of-param').each(function(){
+            if($(this).hasClass('top-right')){
+                $(this).prev('.head-accordion-param').find('input[type=hidden]:first').val(1)
+            } else {
+                el = $(this).find('input[type=checkbox]:first')
+                el.attr('checked','checked').parent().addClass('checked')
+            }
+        })
     }
 }
 
