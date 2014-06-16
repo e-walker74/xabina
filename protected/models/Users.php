@@ -39,7 +39,7 @@ class Users extends ActiveRecord
      * @param string $className active record class name.
      * @return Users the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -147,6 +147,11 @@ class Users extends ActiveRecord
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
+<<<<<<< HEAD
+=======
+			'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+>>>>>>> 0ee15ee78692bbf74dcdc670735f4ebc4f38a009
             'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
             'personalManagers' => array(self::HAS_MANY, 'PersonalManagers', 'manager_id', 'through' => 'usersPersonalManagers'),
             'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
@@ -295,7 +300,7 @@ class Users extends ActiveRecord
 	}
 
     public function getRbacSettings($ownerUid = NULL) {
-        
+
 
         // $criteria=new CDbCriteria;
         // $criteria->alias = 't';
@@ -313,7 +318,7 @@ class Users extends ActiveRecord
         if($ownerUid) {
             $filterSql = ' AND a.create_uid = ' . (int)$ownerUid;
         }
-        $sql = "SELECT c.* 
+        $sql = "SELECT c.*
             FROM `rbac_user_roles` a
             INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
             INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
@@ -326,14 +331,14 @@ class Users extends ActiveRecord
     public function getRbacAllowedAccounts() {
         $userId = $this->id;
         $buff = (array)Yii::app()->db->createCommand(
-            "SELECT DISTINCT d.id, CONCAT(d.first_name, ' ', d.last_name ) account_name, d.login 
+            "SELECT DISTINCT d.id, CONCAT(d.first_name, ' ', d.last_name ) account_name, d.login
             FROM `rbac_user_roles` a
             INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
             INNER JOIN  `rbac_access_rights`c ON c.id = b.acces_right_id
             INNER JOIN 	`users` d ON d.id = a.create_uid
             WHERE a.user_id = {$userId} AND a.create_uid IS NOT NULL"
         )->queryAll();
-		
+
         return $buff;
-    }
+	}
 }
