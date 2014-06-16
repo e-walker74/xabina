@@ -38,11 +38,13 @@ class Accounts extends ActiveRecord
 			array('user_id', 'required'),
 			array('user_id, status, type_id, currency_id', 'numerical', 'integerOnly'=>true),
 			array('number', 'length', 'max'=>12),
-			array('number', 'unique'),
-			array('currency_id', 'length', 'max'=>3),
+            array('number', 'unique'),
+            array('name', 'length', 'max'=>25),
+            array('currency_id', 'length', 'max'=>3),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, number, user_id, status, type_id, currency_id', 'safe', 'on'=>'search'),
+			array('id, number, user_id, status, type_id, currency_id', 'safe', 'on'=>'save'),
 			array('id, number, user_id, status, type_id, currency_id, holderEmail', 'safe', 'on'=>'adminSearch'),
 		);
 	}
@@ -139,8 +141,8 @@ class Accounts extends ActiveRecord
 					Yii::log('generate for user_id '.$this->user_id, CLogger::LEVEL_ERROR, 'generateAccountNumner');
 			}
 			$this->number = $number;
-			$this->currency_id = 1;
-			$this->type_id = 1;
+			//$this->currency_id = 1;
+			//$this->type_id = 1;
 			$this->status = 1;
 		}
 		return parent::beforeSave();

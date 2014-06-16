@@ -30,21 +30,23 @@ class AccountsController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
-                    'index',
-                    'cardbalance',
-                    'transaction',
-                    'uploadattachemnt',
-                    'getattach',
-                    'transactionsonpdf',
-                    'transactionsondoc',
-                    'transactionsoncsv',
-                    'getpdf',
-                    'addnotetotransaction',
-                    'deletenote',
-                    'updatecategory',
-                    'payments',
-                    'addcategory'
-                ),
+					'index',
+					'cardbalance',
+					'transaction',
+					'uploadattachemnt',
+					'getattach',
+					'transactionsonpdf', 
+					'transactionsondoc',
+					'transactionsoncsv',
+					'getpdf',
+					'addnotetotransaction',
+					'deletenote',
+					'updatecategory',
+					'payments',
+                    'addcategory',
+                    'opennewaccount',
+                    'getnewaccountstypes'
+				),
                 'roles' => array('client')
             ),
             array('deny', // deny everybody else
@@ -432,5 +434,53 @@ class AccountsController extends Controller
         }
         throw new CHttpException(404, Yii::t('Front', 'Page not found'));
     }
+
+    public function actionOpenNewAccount() {
+        Yii::app()->clientScript->registerScriptFile('/js/create-new-account.js', CClientScript::POS_END);
+        $model = new Accounts;
+;
+        $model->user_id = Yii::app()->user->id;
+
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'new-account-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if (!empty($_POST['Accounts'])) {
+            $model->attributes = $_POST['Accounts'];
+            if($model->validate() && $model->save()){
+                $aRes = array(
+                    'success' => true,
+                    'message' => Yii::t('Front', 'New account saved successful')
+                );
+                if(isset($_GET['next'])){
+                    $aRes['url'] = $this->createUrl('/accounts/opennewaccount');
+                }
+                echo CJSON::encode($aRes);
+            } else {
+                echo CJSON::encode(array(
+                    'success' => false,
+                    'message' => Yii::t('Front', 'Something is incorrect')
+                ));
+            }
+            Yii::app()->end();
+        }
+		
+        $this->render('open_new_account', array('model' => $model));
+    }
+
+    public function actionGetNewAccountsTypes() {
+        if (isset($_GET['currencyId']) && $_GET['categoryId']) {
+            $model = new AccountsTypes;
+            $types = $model->findAll(array(
+                'condition' => 'currency_id=:currency_id AND category_id=:category_id',
+                'params' => array(':currency_id' => $_GET['currencyId'], ':category_id' => $_GET['categoryId']),
+            ));
+
+            $this->renderPartial('open_new_account/new_accounts_types', array('types' => $types));
+        }
+    }
+
+
 
 }

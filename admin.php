@@ -13,9 +13,9 @@ if(isset($_GET['debug']) && $_GET['debug'] == 777){
 }
 
 // change the following paths if necessary
-$yii    = FRAMEWORK_PATH.'yii.php';
-$yiiEx  = dirname(__FILE__).'/Yii.php';
-$config = dirname(__FILE__).'/protected/config/admin/local.php';
+$yiiBase=dirname(__FILE__).'/../../framework/YiiBase.php';
+$yiiEx  = dirname(__FILE__) . '/Yii.php';
+$config=dirname(__FILE__).'/protected/config/admin/local.php';
 
 // remove the following lines when in production mode
 
@@ -30,11 +30,14 @@ if(YII_DEBUG === true){
 
 include_once dirname(__FILE__).'/functions.php';
 
-require_once($yii);
+require_once($yiiBase);
 require_once($yiiEx);
+
+$yii = Yii::createWebApplication($config);
+
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
-$yii = Yii::createWebApplication($config);
+
 spl_autoload_unregister(array('YiiBase', 'autoload'));
-spl_autoload_register(array('YiiBaseEx', 'autoload'));
+spl_autoload_register(array('Yii', 'autoload'));
 $yii->run();

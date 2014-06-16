@@ -100,7 +100,6 @@
 					</div>
 					<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'gift'); ?></div></div>
 				</div>
-
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
