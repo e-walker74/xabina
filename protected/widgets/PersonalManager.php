@@ -3,7 +3,7 @@ class PersonalManager extends QWidget {
 	
     public function run()
     {
-        $manager = null;//Yii::app()->cache->get('managerWidget_'.Yii::app()->user->id);
+        $manager = Yii::app()->cache->get('managerWidget_'.Yii::app()->user->id);
         if (!$manager) {
             $model = new Users();
             $manager = $model->findByPk(Yii::app()->user->id)->personalManagers;
@@ -11,14 +11,16 @@ class PersonalManager extends QWidget {
                 $manager = $manager[0];
                 Yii::app()->cache->set('managerWidget_'.Yii::app()->user->id, $manager, 3600*24);
             } else {
-                $defManagerModel = PersonalManagers::model()->findAll('is_default = 1');
-                $usersPersonalManagers = new UsersPersonalManagers;
-                $usersPersonalManagers->user_id = Yii::app()->user->id;
-                $usersPersonalManagers->manager_id = $defManagerModel[0]['id'];
-                $usersPersonalManagers->widget_state = 1;
-                $usersPersonalManagers->save();
+                $defManagerModel = PersonalManagers::model()->find('is_default = 1');
+                if ($defManagerModel) {
+                    $usersPersonalManagers = new UsersPersonalManagers;
+                    $usersPersonalManagers->user_id = Yii::app()->user->id;
+                    $usersPersonalManagers->manager_id = $defManagerModel['id'];
+                    $usersPersonalManagers->widget_state = 1;
+                    $usersPersonalManagers->save();
+                }
 
-                $manager = $defManagerModel[0];
+                $manager = $defManagerModel;
             }
         }
 
