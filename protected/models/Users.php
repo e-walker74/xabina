@@ -35,40 +35,6 @@ class Users extends ActiveRecord
         return parent::model($className, true);
     }
 
-    public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
-    {
-        if (!$user_id) {
-            $user_id = Yii::app()->user->id;
-            $user = Users::model()->findByPk($user_id);
-        } else {
-            $user = Users::model()->findByPk(Yii::app()->user->id);
-        }
-
-        $notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
-            'code' => $code,
-            ':uid' => $user_id,
-        ));
-        if ($notify) {
-            return false;
-        }
-        $notify = new Users_Notification();
-        $notify->user_id = $user_id;
-        $notify->code = $code;
-        $notify->message = $message;
-        $notify->type = $type;
-        $notify->style = $style;
-        if ($notify->save()) {
-            //$this->_notifications = false;
-            return true;
-        }
-        return false;
-    }
-
-    public static function removeNotification($code, $user_id)
-    {
-        Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
-    }
-
     /**
      * @return string the associated database table name
      */
@@ -179,13 +145,15 @@ class Users extends ActiveRecord
             'linkedin' => array(self::HAS_MANY, 'Users_Providers_Linkedin', 'user_id'),
             'twitter' => array(self::HAS_MANY, 'Users_Providers_Twitter', 'user_id'),
             'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id', 'order' => 'is_master desc, created_at desc'),
-            'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at desc'),
-            'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
-            'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
-            'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
-            'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
-            'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
-            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at desc'),
+			'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
+			'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
+			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
+			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
+			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
+			'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
+            'personalManagers' => array(self::HAS_MANY, 'PersonalManagers', 'manager_id', 'through' => 'usersPersonalManagers'),
             'rbac_roles' => array(self::HAS_MANY, 'RbacUserRoles', 'user_id'),
         );
     }
@@ -262,48 +230,70 @@ class Users extends ActiveRecord
         $this->save();
         return true;
     }
+	
+	public function getFullName(){
+		$res = $this->login;
+		if($this->first_name && $this->last_name){
+			$res = $this->first_name;
+			if($this->last_name){
+				$res .= ' ' . $this->last_name;
+			}
+		}
+		return $res;
+	}
 
-    public function afterDelete()
-    {
-        $this->profile->delete();
-        parent::afterDelete();
-    }
+	public function createHash(){
+		$this->hash = md5(crc32('xabina was here' . $this->id . $this->email . time()));
+	}
 
-    public function getFullName()
-    {
-        $res = $this->login;
-        if ($this->first_name && $this->last_name) {
-            $res = $this->first_name;
-            if ($this->last_name) {
-                $res .= ' ' . $this->last_name;
-            }
-        }
-        return $res;
-    }
+	public function sendEmailConfirm(){
+		$mail = new Mail();
+		$this->createHash();
+		//$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
+	}
 
-    /*public function addNotification($message, $type = 'close', $style = 'green'){
-        $notify = new Users_Notification;
-        $notify->message = $message;
-        $notify->type = $type;
-        $notify->style = $style;
-        $notify->user_id = $this->id;
-        $notify->save();
-    }*/
+	/*public function addNotification($message, $type = 'close', $style = 'green'){
+		$notify = new Users_Notification;
+		$notify->message = $message;
+		$notify->type = $type;
+		$notify->style = $style;
+		$notify->user_id = $this->id;
+		$notify->save();
+	}*/
+	
+	public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false){
+		if(!$user_id){
+			$user_id = Yii::app()->user->id;
+			$user = Users::model()->findByPk($user_id);
+		} else {
+			$user = Users::model()->findByPk(Yii::app()->user->id);
+		}
+		
+		$notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
+			'code' => $code,
+			':uid' => $user_id,
+		));
+		if($notify){
+			return false;
+		}
+		$notify = new Users_Notification();
+		$notify->user_id = $user_id;
+		$notify->code = $code;
+		$notify->message = $message;
+		$notify->type = $type;
+		$notify->style = $style;
+		if($notify->save()){
+			//$this->_notifications = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public static function removeNotification($code, $user_id){
+		Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
+	}
 
-    public function sendEmailConfirm()
-    {
-        $mail = new Mail();
-        $this->createHash();
-        //$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
-    }
-
-    public function createHash()
-    {
-        $this->hash = md5(crc32('eugene was here' . $this->id . $this->email . time()));
-    }
-
-    public function getRbacSettings($ownerUid = NULL)
-    {
+    public function getRbacSettings($ownerUid = NULL) {
 
         $userId = $this->id;
 
@@ -327,7 +317,7 @@ class Users extends ActiveRecord
     {
         $userId = $this->id;
         $buff = (array)Yii::app()->db->createCommand(
-            "SELECT DISTINCT d.id, CONCAT(d.first_name, ' ', d.last_name ) account_name, d.login 
+            "SELECT DISTINCT d.id, CONCAT(d.first_name, ' ', d.last_name ) account_name, d.login
             FROM `rbac_user_roles` a
             INNER JOIN  `rbac_role_access_rights` b ON b.role_id = a.role_id
             INNER JOIN  `rbac_access_rights`c ON c.id = b.access_right_id
@@ -336,5 +326,5 @@ class Users extends ActiveRecord
         )->queryAll();
 
         return $buff;
-    }
+	}
 }
