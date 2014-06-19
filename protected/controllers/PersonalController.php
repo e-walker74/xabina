@@ -9,9 +9,6 @@ class PersonalController extends Controller
     {
         return array(
             'accessControl',
-             array(
-                'application.components.RbacFilter'
-            ),
         );
     }
 
@@ -23,7 +20,6 @@ class PersonalController extends Controller
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
-                //'actions' => array('index', 'save', 'activate'),
                 'actions' => array(
                     'index',
                     'editemails',
@@ -1064,15 +1060,20 @@ class PersonalController extends Controller
                 if($selectedAcc)
                     $userAlertsRules->account_id=$selectedAcc->id;
                 $userAlertsRules->alert_id = $alert->id;
-                if($userAlertsRules->validate() && $userAlertsRules->save()) {
-                    if(isset($_POST['Users_AlertsRules']['emails'])) {
-                        $userAlertsRules->saveEmails($_POST['Users_AlertsRules']['emails']);
-                    }
-                    if(isset($_POST['Users_AlertsRules']['phones'])) {
-                        $userAlertsRules->savePhones($_POST['Users_AlertsRules']['phones']);
-                    }
+                if($userAlertsRules->validate()) {
+                	if(!isset($_POST['ajax']) && $userAlertsRules->save()) {
+	                    if(isset($_POST['Users_AlertsRules']['emails'])) {
+	                        $userAlertsRules->saveEmails($_POST['Users_AlertsRules']['emails']);
+	                    }
+	                    if(isset($_POST['Users_AlertsRules']['phones'])) {
+	                        $userAlertsRules->savePhones($_POST['Users_AlertsRules']['phones']);
+	                    }
+	                }
                     $response['success'] = true;
                 }
+            } else {
+                $userAlertsRules = new Users_AlertsRules();
+                $userAlertsRules->addError('alert_code', Yii::t('Front', 'Choose alert'));
             }
             if($response['success']) {
                 $response['data'] = $userAlertsRules->id;
@@ -1132,9 +1133,11 @@ class PersonalController extends Controller
             $this->_createUpdatePaymentInstument($method);
 
         // User`s favorite payment instuments list
-        $paymentInstruments = Users_Paymentinstruments::model()->findAllByAttributes(Array(
-            'user_id'=>Yii::app()->user->id,
-        ));
+        $paymentInstruments = Users_Paymentinstruments::model()
+            ->active()
+            ->own()
+            ->findAll();
+
         $this->render('paymentInstuments/list', Array(
             'paymentInstruments'=>$paymentInstruments,
         ));
@@ -1173,6 +1176,9 @@ class PersonalController extends Controller
 
         // сохраняем модель
         $model->attributes = $_POST[$modelName];
+        if (!$model->isNewRecord && $model->user_id!=Yii::app()->user->id)
+            return;
+
         if ($model->save()) {
             echo CJSON::encode(array(
                 'success' => true,
@@ -1194,7 +1200,7 @@ class PersonalController extends Controller
         $model = Users_Paymentinstruments::model()->findByPk($id);
         $success = false;
         $message = false;
-        if ($model->user_id = Yii::app()->user->id) {
+        if ($model->user_id==Yii::app()->user->id) {
             $model->deleted = 1;
             $model->scenario = 'delete';
             if ($model->save()) {

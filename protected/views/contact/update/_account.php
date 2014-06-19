@@ -75,6 +75,34 @@
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Details of Payments') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'details_account_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($account, 'details', array('class' => 'input-text')) ?>
+									<?= $form->error($account, 'details') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Category') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($account, 'category', array('class' => 'input-text')) ?>
+									<?= $form->error($account, 'category') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2 ">
+						</div>
+					</div>
 					<div class="account_type_fields data_1 <?= ($account->account_type == '1') ? "selected" : "" ?>">
 						<div class="row">
 							<div class="col-lg-5 col-md-5 col-sm-5">
@@ -256,6 +284,34 @@
 								<input type="submit" class="button ok" value=""/>
 								<a href="javaScript:void(0)" class="button cancel"></a>
 							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Details of Payments') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'details_account_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($account, 'details', array('class' => 'input-text')) ?>
+									<?= $form->error($account, 'details') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-5 col-md-5 col-sm-5">
+							<div class="form-cell">
+								<div class="form-lbl">
+									<?= Yii::t('Front', 'Category') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_contact') ?>"></span>
+								</div>
+								<div class="form-input">
+									<?= $form->textField($account, 'category', array('class' => 'input-text')) ?>
+									<?= $form->error($account, 'category') ?>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2 ">
 						</div>
 					</div>
 					<div class="account_type_fields data_1">

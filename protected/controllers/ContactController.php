@@ -10,9 +10,6 @@ class ContactController extends Controller
     {
         return array(
             'accessControl',
-            /*array(
-            	'application.components.RbacFilter'
-        	),*/
         );
     }
 	
@@ -207,11 +204,16 @@ class ContactController extends Controller
 				$model->photo = $name;
 				$model->save();
 			}
+			if($model->delete == 1){
+				$model->photo = '';
+				$model->save();
+			}
+
 			Yii::app()->session['flash_notify'] = array(
 				'title' => Yii::t('Front', 'Edit Contact'),
 				'message' => Yii::t('Front', 'Contact successfully saved'),
 			);
-			$this->redirect(array('/contact/update', 'id' => $model->id));
+			$this->redirect(array('/contact/update', 'url' => $model->url));
 		}
 	}
 	

@@ -14,7 +14,7 @@
 			<ul class="contact-list list-unstyled">
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
-		<li data-id="<?= $contact->id ?>">
+		<li class="one-contact" data-id="<?= $contact->id ?>">
 			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 				<div class="photo-cont pull-left">
 					<?php if($contact->photo): ?>

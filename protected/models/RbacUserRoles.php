@@ -4,15 +4,15 @@
  * This is the model class for table "rbac_user_roles".
  *
  * The followings are the available columns in table 'rbac_user_roles':
- * @property string $user_id
- * @property string $role_id
- * @property string $create_uid
- * @property string $account_id
+ * @property int $user_id
+ * @property int $role_id
+ * @property int $create_uid
+ * @property int $account_id
  *
  * The followings are the available model relations:
  * @property RbacRoles $role
  */
-class RbacUserRoles extends CActiveRecord
+class RbacUserRoles extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -48,6 +48,7 @@ class RbacUserRoles extends CActiveRecord
 		return array(
 			'role' => array(self::BELONGS_TO, 'RbacRoles', 'role_id'),
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+            'account' => array(self::BELONGS_TO, 'Accounts', 'account_id'),
 		);
 	}
 
@@ -111,5 +112,9 @@ class RbacUserRoles extends CActiveRecord
         $userRole->role_id    = $data['role'];
         $userRole->save();
         return $userRole;
+    }
+
+    public function deleteWithAccessRights(){
+
     }
 }

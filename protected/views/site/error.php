@@ -18,23 +18,19 @@
     <script type="text/javascript" src="/js/plax.js"></script>
 </head>
 <body class="page-404">
-    <?php if($code == 403): ?>
-    <div class="bg-404" >
-        <?php echo $message; ?>
-    </div>
-    <?php else:?>
     <div class="bg-404" >
         <img src="/images/404_main.png" class="img-404" alt=""/>
         <img src="/images/404_bg.png" class="bg-404-img" alt=""/>
         <img src="/images/404_gold_bg.png" id="bg-404-gold" class="gold-404" alt=""/>
         <div class="comments-404-container">
-            <div class="comments-404"><?= Yii::t('Front', 'Sorry! The page you’re looking for cannot be found.') ?></div>
+            <div class="comments-404">
+                <?= Yii::t('Front', 'Sorry! The page you’re looking for cannot be found.') ?><br/>
+                <?= $message; ?>
+            </div>
             <div class="comments-links"><?= Yii::t('Front', 'Go back <a href=":baseUrl">xabina.com</a> or <a href="#">contact us</a> about a problem ', array(':baseUrl' => Yii::app()->getBaseUrl(true))) ?></div>
             <div class="logo-404"></div>
         </div>
 
     </div>
-    <?php endif; ?>
-
 </body>
 </html>

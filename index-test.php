@@ -1,7 +1,7 @@
 <?php
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
-$yiiEx  = dirname(__FILE__) . '/protected/YiiBaseEx.php';
+$yiiEx  = dirname(__FILE__) . '/protected/Yii.php';
 $config=dirname(__FILE__).'/protected/config/test.php';
 
 if(YII_DEBUG === true){

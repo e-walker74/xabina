@@ -7,13 +7,13 @@ require_once dirname(__FILE__).'/../defines.php';
 $config=dirname(__FILE__).'/config/console.php';
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 
-if (YII_DEBUG === true) {
-    include_once CORE_PATH.'functions.php';
-}
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
-require_once(FRAMEWORK_PATH.'yii.php');
-require_once dirname(__FILE__).'/../YiiBaseEx.php';
+require_once(FRAMEWORK_PATH.'YiiBase.php');
+
+require_once '../Yii.php';
+
+
 
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
@@ -26,7 +26,7 @@ else
 	$app=Yii::createConsoleApplication(array('basePath'=>dirname(__FILE__).'/cli'));
 
 spl_autoload_unregister(array('YiiBase', 'autoload'));
-spl_autoload_register(array('YiiBaseEx', 'autoload'));
+spl_autoload_register(array('Yii', 'autoload'));
 
 
 

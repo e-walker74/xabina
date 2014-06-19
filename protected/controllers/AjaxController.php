@@ -34,6 +34,19 @@ class AjaxController extends Controller
         }
     }
 
+    public function actionGetRoleRights($roleId) {
+        $rights = RbacRoleAccessRights::model()->with('role')->findAll(
+            array(
+                'condition' => 't.role_id = :rid AND role.create_uid = :cuid',
+                'params' => array(
+                    ':rid' => Yii::app()->request->getParam('roleId', '', 'int'),
+                    ':cuid' => Yii::app()->user->id,
+                ),
+            )
+        );
+        echo CJSON::encode($rights);
+	}
+
     public function actionSetManagerWidgetState() {
         if (isset($_GET['state'])) {
             $model = new UsersPersonalManagers();
@@ -45,13 +58,39 @@ class AjaxController extends Controller
         $model = new UsersPersonalManagers();
         $ret = $model->find('user_id = '.Yii::app()->user->id);
         echo $ret['widget_state'];
-<<<<<<< HEAD
 	}
     
     public function actionGetRoleRights($roleId) {
         $rights = RbacRoleAccessRights::model()->findAllByAttributes(array('role_id' => intval($roleId)));
         echo CJSON::encode($rights);
-=======
->>>>>>> 0ee15ee78692bbf74dcdc670735f4ebc4f38a009
+    }
+
+    public function actionGetUserRights() {
+        $addUserForm = new RbacAddUserForm();
+        if(isset($_GET['RbacAddUserForm'])){
+            $addUserForm->attributes = $_GET['RbacAddUserForm'];
+            if($addUserForm->validate()){
+
+                $query = "SELECT
+                t.*,
+                account.number
+                FROM `rbac_user_access_rights` `t`
+                LEFT OUTER JOIN `users` `user` ON (`t`.`user_id`=`user`.`id`)
+                LEFT OUTER JOIN `accounts` `account` ON (`t`.`account_id`=`account`.`id`)
+                LEFT OUTER JOIN `rbac_roles` `role` ON (`t`.`role_id`=`role`.`id`)
+                WHERE (
+                t.role_id = {$addUserForm->role}
+                AND role.create_uid = ".Yii::app()->user->id."
+                AND account.number = {$addUserForm->account}
+                AND user.login = {$addUserForm->user}
+                )";
+
+                $command = Yii::app()->db->createCommand($query);
+                echo CJSON::encode($command->queryAll());
+                Yii::app()->end();
+            }
+        }
+        echo CJSON::encode(array('success' => false));
+
     }
 }
