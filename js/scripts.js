@@ -482,6 +482,7 @@ $(function(){
 					dellBackgroundBlack()
 					var response = jQuery.parseJSON (data);
 					if(response.success){
+                        $(window).unbind('beforeunload')
 						location.reload()
 					} else {
 						$(link).parents('td').find('.error-message').html(response.message).fadeIn()

@@ -105,7 +105,7 @@
                     <?= Yii::t('Front', 'Phone'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
                 <div class="field-input">
-                    <?= $form->textField($model_phones, 'phone', array('class' => 'input-text item0', 'data-v' => 'phone')); ?>
+                    <?= $form->textField($model_phones, 'phone', array('class' => 'input-text item0 numeric phone', 'data-v' => 'phone')); ?>
                     <?= $form->error($model_phones, 'phone'); ?>
                 </div>
             </div>

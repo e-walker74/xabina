@@ -453,12 +453,12 @@ class PersonalController extends Controller
 					$model->is_master = 1;
 					$model->hash = '';
 					$model->save();
-					Yii::app()->user->addNotification(
-						'activate_new_'.$model->id, //код
-						'You have successfully change primary '.$type,
-						'close', // возможность закрыть
-						'green' //желтая рамка
-					);
+//					Yii::app()->user->addNotification(
+//						'activate_new_'.$model->id, //код
+//						'You have successfully change primary '.$type,
+//						'close', // возможность закрыть
+//						'green' //желтая рамка
+//					);
 				}
 			}
 		} elseif($type == 'socials'){
@@ -542,12 +542,12 @@ class PersonalController extends Controller
 				}
 				$model->save();
 				if($type == 'emails'){
-					Yii::app()->user->addNotification(
-						'is_master_new_'.$type, //код
-						$type.' "'. $model->user->email .'" is primary',
-						'close', // возможность закрыть
-						'green' //желтая рамка
-					);
+//					Yii::app()->user->addNotification(
+//						'is_master_new_'.$type, //код
+//						$type.' "'. $model->user->email .'" is primary',
+//						'close', // возможность закрыть
+//						'green' //желтая рамка
+//					);
 					
 					Yii::app()->session['flash_notify'] = array(
 						'title' => Yii::t('Front', 'Personal Cabinet'),
@@ -561,12 +561,12 @@ class PersonalController extends Controller
 						'message' => Yii::t('Front', 'Phone \"+'. $model->user->phone .'\" is primary'),
 					);
 				
-					Yii::app()->user->addNotification(
-						'is_master_new_'.$type, //код
-						'Phone "'. $model->user->phone .'" is primary',
-						'close', // возможность закрыть
-						'green' //желтая рамка
-					);
+//					Yii::app()->user->addNotification(
+//						'is_master_new_'.$type, //код
+//						'Phone "'. $model->user->phone .'" is primary',
+//						'close', // возможность закрыть
+//						'green' //желтая рамка
+//					);
 				}
 
 			}
@@ -576,7 +576,7 @@ class PersonalController extends Controller
 			$model->is_master = 0;
 			$model->save();
 			if($type == 'phones'){
-				Yii::app()->user->removeNotification('mobile_activation');
+//				Yii::app()->user->removeNotification('mobile_activation');
 			}
 			
 			Yii::app()->session['flash_notify'] = array(
@@ -584,12 +584,12 @@ class PersonalController extends Controller
 				'message' => Yii::t('Front', 'You have successfully activated new '.$type),
 			);
 			
-			Yii::app()->user->addNotification(
-				'activate_new_'.$model->id, //код
-				'You have successfully activated new '.$type,
-				'close', // возможность закрыть
-				'green'
-			);
+//			Yii::app()->user->addNotification(
+//				'activate_new_'.$model->id, //код
+//				'You have successfully activated new '.$type,
+//				'close', // возможность закрыть
+//				'green'
+//			);
 		}
 
 		if(Yii::app()->request->isAjaxRequest){
