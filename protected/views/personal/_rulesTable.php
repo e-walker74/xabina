@@ -67,7 +67,7 @@ $defaultFormParams = array(
                                 <?= Yii::t('Front', 'Rule'); ?>
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
-                            <div class="field-input">
+                            <div class="field-input block-box">
                                 <div class="select-custom">
                                     <span class="select-custom-label">
                                       <?= !empty($rule->greater) ? Yii::t('Front','Higher than') : ''; ?>
@@ -88,7 +88,7 @@ $defaultFormParams = array(
                                 <?= Yii::t('Front', 'Value'); ?>
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
-                            <div class="field-input">
+                            <div class="field-input block-box">
                                 <?= $form->textField($rule, 'greater', array(
                                         'class'=>'input-text',
                                         'maxlength' => 9,
@@ -107,7 +107,7 @@ $defaultFormParams = array(
                                 <?= Yii::t('Front', 'Value'); ?>
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
-                            <div class="field-input">
+                            <div class="field-input block-box">
                                 <?= $form->textField($rule, 'less', array(
                                         'class'=>'input-text',
                                         'maxlength' => 9,
@@ -127,7 +127,7 @@ $defaultFormParams = array(
                                 <?= Yii::t('Front', 'Value'); ?>
                                 <span class="tooltip-icon" title="tooltip text"></span>
                             </div>
-                            <div class="field-input">
+                            <div class="field-input block-box">
                                 <?= $form->textField($rule, 'equal', array(
                                         'class'=>'input-text',
                                         'maxlength' => 9,
@@ -145,52 +145,54 @@ $defaultFormParams = array(
                     </div>
                     <?php endif; ?>
                 </div>
-                <div class="cell lh" style="width: 27%">
-                    <?php foreach($rule->alertEmails as $alertEmail): ?>
-                        <div class="str not-edit-doc"><?= $alertEmail->email->email; ?></div>
-                    <?php endforeach; ?>
-                    <div class="edit-doc" style="display: none;">
-                        <div class="field-row">
-                            <div class="field-lbl">
-                                <?= Yii::t('Front','E-mail'); ?>
-                                <span class="tooltip-icon" title="tooltip text"></span>
-                            </div>
-                            <?php foreach ($emailAddresses as $alertEmail) : ?>
-                            <div class="field-input">
-                                <label>
-                                    <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array(
-                                            'class'=>'input-checkbox',
-                                            'checked' => $rule->inEmails($alertEmail)
-                                        ));?>
-                                    <?= $alertEmail->email; ?>
-                                </label>
-                            </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <input type="hidden" id="<?= Chtml::activeId($rule, 'emails'); ?>"/>
-                        <?= $form->error($rule, 'emails'); ?>
-                    </div>
-                </div>
-                <div class="cell lh" style="width: 19%">
-                    <?php foreach($rule->alertPhones as $alertPhone): ?>
-                        <div class="str not-edit-doc">+<?= $alertPhone->phone->phone; ?></div>
-                    <?php endforeach; ?>
-                    <div class="edit-doc" style="display: none;">
-                        <div class="field-row">
-                            <div class="field-lbl">
-                                <?= Yii::t('Front','Phone'); ?>
-                                <span class="tooltip-icon" title="tooltip text"></span>
-                            </div>
-                            <div class="field-input">
-                                <?php foreach ($phones as $alertPhone) : ?>
+                <div class="block-box">
+                    <div class="cell lh" style="width: 27%">
+                        <?php foreach($rule->alertEmails as $alertEmail): ?>
+                            <div class="str not-edit-doc"><?= $alertEmail->email->email; ?></div>
+                        <?php endforeach; ?>
+                        <div class="edit-doc" style="display: none;">
+                            <div class="field-row">
+                                <div class="field-lbl">
+                                    <?= Yii::t('Front','E-mail'); ?>
+                                    <span class="tooltip-icon" title="tooltip text"></span>
+                                </div>
+                                <?php foreach ($emailAddresses as $alertEmail) : ?>
+                                <div class="field-input">
                                     <label>
-                                        <?= $form->checkBox($rule, "phones[{$alertPhone->id}]", array(
+                                        <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array(
                                                 'class'=>'input-checkbox',
-                                                'checked' => $rule->inPhones($alertPhone)
+                                                'checked' => $rule->inEmails($alertEmail)
                                             ));?>
-                                        +<?= $alertPhone->phone; ?>
+                                        <?= $alertEmail->email; ?>
                                     </label>
+                                </div>
                                 <?php endforeach; ?>
+                            </div>
+                            <input type="hidden" id="<?= Chtml::activeId($rule, 'emails'); ?>"/>
+                            <?= $form->error($rule, 'emails'); ?>
+                        </div>
+                    </div>
+                    <div class="cell lh" style="width: 19%">
+                        <?php foreach($rule->alertPhones as $alertPhone): ?>
+                            <div class="str not-edit-doc">+<?= $alertPhone->phone->phone; ?></div>
+                        <?php endforeach; ?>
+                        <div class="edit-doc" style="display: none;">
+                            <div class="field-row">
+                                <div class="field-lbl">
+                                    <?= Yii::t('Front','Phone'); ?>
+                                    <span class="tooltip-icon" title="tooltip text"></span>
+                                </div>
+                                <div class="field-input">
+                                    <?php foreach ($phones as $alertPhone) : ?>
+                                        <label>
+                                            <?= $form->checkBox($rule, "phones[{$alertPhone->id}]", array(
+                                                    'class'=>'input-checkbox',
+                                                    'checked' => $rule->inPhones($alertPhone)
+                                                ));?>
+                                            +<?= $alertPhone->phone; ?>
+                                        </label>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,7 +233,7 @@ $defaultFormParams = array(
                     <?= Yii::t('Front', 'Alert'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span>
                 </div>
-                <div class="field-input ">
+                <div class="field-input block-box">
                     <div class="select-custom alert-select">
                         <span class="select-custom-label">
                           <?= Yii::t('Front','Choose'); ?>
@@ -244,12 +246,13 @@ $defaultFormParams = array(
                             )
                         ); ?>
                         <span class="validation-icon"></span>
+                        <?= $form->error($modelRule, 'alert_code');?>
                     </div>
                 </div>
                 <div class="underline"></div>
             </div>
             <div class="rules-row hide">
-                <div class="field-row">
+                <div class="field-row block-box">
                     <div class="field-lbl">
                         <?= Yii::t('Front', 'Rule'); ?>
                         <span class="tooltip-icon" title="tooltip text"></span>
@@ -268,7 +271,7 @@ $defaultFormParams = array(
                         </div>
                     </div>
                 </div>
-                <div class="field-row rule-input greater">
+                <div class="field-row rule-input greater block-box">
                     <div class="field-lbl">
                         <?= Yii::t('Front', 'Value'); ?>
                         <span class="tooltip-icon" title="tooltip text"></span>
@@ -281,7 +284,7 @@ $defaultFormParams = array(
                         <?= $form->error($modelRule, 'greater_cent');?>
                     </div>
                 </div>
-                <div class="field-row rule-input less hide">
+                <div class="field-row rule-input less hide block-box">
                     <div class="field-lbl">
                         <?= Yii::t('Front', 'Value'); ?>
                         <span class="tooltip-icon" title="tooltip text"></span>
@@ -294,7 +297,7 @@ $defaultFormParams = array(
                         <?= $form->error($modelRule, 'less_cent');?>
                     </div>
                 </div>
-                <div class="field-row rule-input equal hide">
+                <div class="field-row rule-input equal hide block-box">
                     <div class="field-lbl">
                         <?= Yii::t('Front', 'Value'); ?>
                         <span class="tooltip-icon" title="tooltip text"></span>
@@ -309,37 +312,39 @@ $defaultFormParams = array(
                 </div>
             </div>
         </div>
-        <div class="cell" style="width: 29%">
-            <div class="field-row">
-                <div class="field-lbl">
-                    <?= Yii::t('Front','E-mail'); ?>
-                    <span class="tooltip-icon" title="tooltip text"></span>
-                </div>
-                <?php foreach ($emailAddresses as $alertEmail) : ?>
-                <div class="field-input">
-                    <label>
-                        <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array('class'=>'input-checkbox'));?>
-                        <?= $alertEmail->email; ?>
-                    </label>
-                </div>
-                <?php endforeach; ?>
-                <input type="hidden" id="<?= Chtml::activeId($modelRule, 'emails'); ?>"/>
-                <?= $form->error($modelRule, 'emails'); ?>
-            </div>
-        </div>
-        <div class="cell" style="width: 20%">
-            <div class="field-row">
-                <div class="field-lbl">
-                    <?= Yii::t('Front','Phone'); ?>
-                    <span class="tooltip-icon" title="tooltip text"></span>
-                </div>
-                <div class="field-input">
-                    <?php foreach ($phones as $alertPhone) : ?>
+        <div class="block-box">
+            <div class="cell" style="width: 29%">
+                <div class="field-row">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front','E-mail'); ?>
+                        <span class="tooltip-icon" title="tooltip text"></span>
+                    </div>
+                    <?php foreach ($emailAddresses as $alertEmail) : ?>
+                    <div class="field-input">
                         <label>
-                            <?= $form->checkBox($modelRule, "phones[{$alertPhone->id}]", array('class'=>'input-checkbox'));?>
-                            +<?= $alertPhone->phone; ?>
+                            <?= $form->checkBox($modelRule, "emails[{$alertEmail->id}]", array('class'=>'input-checkbox'));?>
+                            <?= $alertEmail->email; ?>
                         </label>
+                    </div>
                     <?php endforeach; ?>
+                    <input type="hidden" id="<?= Chtml::activeId($modelRule, 'emails'); ?>"/>
+                    <?= $form->error($modelRule, 'emails'); ?>
+                </div>
+            </div>
+            <div class="cell" style="width: 20%">
+                <div class="field-row">
+                    <div class="field-lbl">
+                        <?= Yii::t('Front','Phone'); ?>
+                        <span class="tooltip-icon" title="tooltip text"></span>
+                    </div>
+                    <div class="field-input">
+                        <?php foreach ($phones as $alertPhone) : ?>
+                            <label>
+                                <?= $form->checkBox($modelRule, "phones[{$alertPhone->id}]", array('class'=>'input-checkbox'));?>
+                                +<?= $alertPhone->phone; ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>
