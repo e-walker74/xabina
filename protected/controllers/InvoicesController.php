@@ -36,9 +36,6 @@ class InvoicesController extends Controller
             ),
         );
     }
-
-	public function init() {
-	}
 	
 	public function actionCreate() {
 		Yii::app()->clientScript->registerScriptFile('/js/invoice.js', CClientScript::POS_END);

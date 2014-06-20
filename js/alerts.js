@@ -21,6 +21,16 @@ $(function () {
     }
 
     $('#account-number-select').change(refreshTable);
+    var updateInput = function updateInput(attr, $form, res) {
+        var attribute = {inputID:attr,id:attr,errorID:attr+'_em_'};
+        $.fn.yiiactiveform.updateInput(attribute, res, $form);
+        var cont = $form.find('#' + attribute.inputID).closest('div.block-box');
+        cont.find(':input').on('click change blur', function (e) {
+            if(this.value != '') {
+                $form.find('#'+attribute.errorID).hide();
+            }
+        });
+    };
 
     var $alertsTable = $('#alerts-table');
     $alertsTable.on('click', '#alert-add-btn', function (e) {
@@ -32,18 +42,27 @@ $(function () {
         backgroundBlack();
         $.fn.yiiactiveform.validate($form, function (res) {
             if(res.success) {
-                refreshTable(function(){
-                    successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
+                $.ajax({
+                    url:$form.attr('action'),
+                    data:$form.serialize(),
+                    type:'post',
+                    dataType:'json',
+                    success : function (res) {
+                        refreshTable(function(){
+                            successNotify('Update alert', 'Alert was successfully created', $alertsTable.find('#'+elHiddenId).parent());
+                        });
+                    }
                 });
-            }
-            if(!$.isEmptyObject(res)){
-                for(attr in res) {
-                    if(res.hasOwnProperty(attr)){
-                        $.fn.yiiactiveform.updateInput({inputID:attr,id:attr,errorID:attr+'_em_'}, res, $form);
+            } else {
+                if(!$.isEmptyObject(res)){
+                    for(attr in res) {
+                        if(res.hasOwnProperty(attr)){
+                            updateInput(attr, $form, res);
+                        }
                     }
                 }
+                dellBackgroundBlack();
             }
-            dellBackgroundBlack();
         });
     })
         .on('click', '.add-btn', function(){
@@ -69,6 +88,7 @@ $(function () {
             }
         })
         .on('click', '.button.edit', function(e) {
+            resetPage()
             e.preventDefault();
             var tr = $(this).closest('.alert-row');
             tr.find('.edit-doc').show();
@@ -77,24 +97,33 @@ $(function () {
         .on('click', '.edit-doc .button.ok', function (e) {
             e.preventDefault();
             var $form = $(this).closest('form'), settings = $form.data('settings'),
-                elHiddenId = $form.find('input[type=hidden][id]').attr('id');
+                elHiddenId = $form.find('input[type=hidden][id]:first').attr('id');
             if(settings)
                 settings.submitting = true;
             backgroundBlack();
             $.fn.yiiactiveform.validate($form, function (res) {
                 if(res.success) {
-                    refreshTable(function(){
-                        successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
+                    $.ajax({
+                        url:$form.attr('action'),
+                        data:$form.serialize(),
+                        type:'post',
+                        dataType:'json',
+                        success : function (res) {
+                            refreshTable(function(){
+                                successNotify('Update alert', 'Alert was successfully created', $alertsTable.find('#'+elHiddenId).parent());
+                            });
+                        }
                     });
-                }
-                if(!$.isEmptyObject(res)){
-                    for(attr in res) {
-                        if(res.hasOwnProperty(attr)){
-                            $.fn.yiiactiveform.updateInput({inputID:attr,id:attr,errorID:attr+'_em_'}, res, $form);
+                } else {
+                    if(!$.isEmptyObject(res)){
+                        for(attr in res) {
+                            if(res.hasOwnProperty(attr)){
+                                updateInput(attr, $form, res);
+                            }
                         }
                     }
+                    dellBackgroundBlack();
                 }
-                dellBackgroundBlack();
             });
         })
         .on('click', '#add-rule-form .cancel', function () {
@@ -102,6 +131,11 @@ $(function () {
             $(this).closest('form').find('select').val('').trigger('change');
             $(this).closest('.collapse').collapse('hide');
             $alertsTable.find('.add-btn').closest('.alert-row').show();
+            return false;
+        })
+        .on('click', '.cancel', function () {
+            resetPage();
+            return false;
         })
     ;
 
@@ -140,7 +174,7 @@ $(function () {
                     success: function(data){
                         if(data.success){
                             var tr = $(self).closest('.alert-row');
-                            successNotify('Delete alert', 'Alert was successfully deleted', tr.prev());
+                            successNotify('Delete alert', 'Alert was successfully deleted', tr.siblings('.alert-row:first'));
                             tr.remove();
                         }
                     },

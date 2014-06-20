@@ -361,7 +361,7 @@
 							<td colspan="2">
 								<div class="messaging-actions">
 									<?php foreach($model->getDataByType('social') as $soc): ?>
-										<a href="<?= $soc->url ?>" class="messaging-button <?= $soc->social ?>"></a>
+										<a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => $soc->url)) ?>" class="messaging-button <?= $soc->social ?>"></a>
 									<?php endforeach; ?>
 								</div>
 							</td>

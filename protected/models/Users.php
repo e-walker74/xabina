@@ -13,6 +13,7 @@
  * @property integer       $date_edit
  *
  * @property Users_Address $primary_address
+ * @property Users_Settings $settings
  */
 class Users extends ActiveRecord
 {

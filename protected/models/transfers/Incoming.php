@@ -57,9 +57,8 @@ class Transfers_Incoming extends ActiveRecord
 			//array('from_account_number', 'boolean'),
 			array('amount', 'length', 'max' => 12, 'tooLong' => Yii::t('Front', 'Max lenght is 9')),
 			array('p_month', 'numerical', 'min' => 1, 'max' => 12),
-			array('p_month', 'length', 'max' => 2),
-			array('p_year', 'numerical', 'min' => date('Y'), 'max' => date('Y', time()+3600*24*365*20)),
-			array('p_year', 'length', 'is' => 4, 'max' => 4),
+			array('p_month, p_year', 'length', 'max' => 2),
+			array('p_year', 'numerical', 'min' => date('y'), 'max' => date('y', time()+3600*24*365*20)),
 			array('p_csc', 'numerical'),
 			array('p_csc', 'length', 'max' => 3, 'min' => 3),
             array('urgent, favorite', 'boolean'),
@@ -182,6 +181,20 @@ class Transfers_Incoming extends ActiveRecord
                 } else {
                     return '<strong class="holder">' . $this->from_account_number . '</strong>';
                 }
+                break;
+        }
+    }
+
+    public function getHtmlStatus(){
+        switch($this->status){
+            case self::PENDING_STATUS:
+                return '<span class="pending">Pending</span>';
+                break;
+            case self::APPROVED_STATUS:
+                return '<span class="approved">Approved</span>';
+                break;
+            case self::REJECTED_STATUS:
+                return '<span class="rejected">Rejected</span>';
                 break;
         }
     }
