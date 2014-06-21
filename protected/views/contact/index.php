@@ -2,7 +2,7 @@
 	<div class="h1-header"><?= Yii::t('Front', 'My contact') ?></div>
 	<div class="contact-search-cont">
 		<span class="clear-input-cont">
-			<input class="contact-input" placeholder="<?= Yii::t('Front', 'Search...') ?>" type="text" id="linkName" />
+			<input class="contact-input" style="width: 100%" placeholder="<?= Yii::t('Front', 'Search...') ?>" type="text" id="linkName" />
 			<span class="clear-input-but"></span>
 		</span>
 		<a class="contact-search-but" href="#" style="display:none;"></a>

@@ -171,13 +171,12 @@
 	</table>
 </div>
 <script>
-	$("form .with_datepicker").datepicker({
-        showOn:"button",
+    $("form .with_datepicker, .calendar-input").datepicker({
+        showOn:"both",
         buttonImage: '/images/calendar_ico.png',
         buttonImageOnly:true,
-		constrainInput: true,
-		dateFormat: 'dd.mm.yy'
-    });
+        dateFormat: 'dd.mm.yy'
+    }).inputmask("d.m.y");;
 </script>
 <script>
 $(document).ready(function(){

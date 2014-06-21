@@ -542,12 +542,12 @@ $(document).ready(function(){
 		window.location.href=url
 	})
 
-	if($('.calendar-input').length != 0)
-	$(".calendar-input").datepicker({
-		showOn:"button",
-		buttonImage: '/images/calendar_ico.png',
-		buttonImageOnly:true
-	});
+//	if($('.calendar-input').length != 0)
+//	$(".calendar-input").datepicker({
+//		showOn:"button",
+//		buttonImage: '/images/calendar_ico.png',
+//		buttonImageOnly:true
+//	});
 	
 	$('select.language-select').on('change', function(){
 		window.location.href=$(this).val()
@@ -581,14 +581,14 @@ $(document).ready(function(){
 		}
 	}
 	
-	if($('form .with_datepicker').length != 0)
-	$("form .with_datepicker").datepicker({
-        showOn:"button",
+	if($('form .with_datepicker, .calendar-input').length != 0)
+	$("form .with_datepicker, .calendar-input").datepicker({
+        showOn:"both",
         buttonImage: '/images/calendar_ico.png',
         buttonImageOnly:true,
 		dateFormat: 'dd.mm.yy'
-    });
-	
+    }).inputmask("d.m.y");
+
 	if($('#bg-404-gold').length){
 		$('#bg-404-gold').plaxify({"xRange":30,"yRange":30});
 		$.plax.enable();
@@ -607,18 +607,18 @@ $(document).ready(function(){
 	
 	
 	
-	if($('.calendar-input, .with_datepicker').length)
-    $(".calendar-input, .with_datepicker").datepicker({
-        showOn:"button",
-        buttonImage: '/images/calendar_ico.png',
-        buttonImageOnly:true
-    });
-    if($('.calendar-input-2').length)
-    $(".calendar-input-2").datepicker({
-        showOn:"button",
-        buttonImage: '/images/calendar_ico_2.png',
-        buttonImageOnly:true
-    });
+//	if($('.calendar-input, .with_datepicker').length)
+//    $(".calendar-input, .with_datepicker").datepicker({
+//        showOn:"button",
+//        buttonImage: '/images/calendar_ico.png',
+//        buttonImageOnly:true
+//    });
+//    if($('.calendar-input-2').length)
+//    $(".calendar-input-2").datepicker({
+//        showOn:"button",
+//        buttonImage: '/images/calendar_ico_2.png',
+//        buttonImageOnly:true
+//    });
 	
 	/*if($('input.button-find').length)
 	$(document).keyup(function(event){

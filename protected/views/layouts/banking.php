@@ -19,8 +19,8 @@
     <script type="text/javascript" src="/js/bootstrap-confirmation.js"></script>
     <script type="text/javascript" src="/js/jquery.autosize-min.js"></script>
     <script type="text/javascript" src="/js/jquery.pnotify.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.pnotify.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.pnotify.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.inputmask.js"></script>
+    <script type="text/javascript" src="/js/jquery.inputmask.date.extensions.js"></script>
 </head>
 <body>
 <div class="main-bg" >

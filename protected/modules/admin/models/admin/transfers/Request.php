@@ -22,7 +22,8 @@ class Admin_Transfers_Request extends Admin_Transfers{
 		$trans_to->user_id = $model->user_id;
 		$trans_to->transfer_type = 'incoming';
 		$trans_to->transfer_id = $model->id;
-		$trans_to->sum = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
+        $trans_to->incoming_id = $model->id;
+		$trans_to->amount = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
 		$trans_to->acc_balance = ($model->account->balance + Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
 		
 		$account_to = $model->account;

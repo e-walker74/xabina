@@ -18,7 +18,8 @@ class Admin_Transfers_Ewallet extends Admin_Transfers{
 		$trans_from->user_id = $model->user_id;
 		$trans_from->transfer_type = 'outgoing';
 		$trans_from->transfer_id = $model->id;
-		$trans_from->sum = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
+        $trans_from->outgoing_id = $model->id;
+		$trans_from->amount = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
 		$trans_from->acc_balance = ($model->account->balance - Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
 		
 		$account_from = $model->account;

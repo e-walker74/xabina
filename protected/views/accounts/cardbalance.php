@@ -108,11 +108,11 @@
 	</div>
 
 	<div class="subheader"><?= Yii::t('Front', 'Transaction'); ?>
-	<div class="relative pull-right transaction-actions">
-		<a class="relative button download-button dropdown_button" href="#"></a>
-		<a class="button send-button" href="#"></a>
-		<a class="button print-button" href="#"></a>
-	</div>
+        <div class="relative pull-right transaction-actions">
+            <a class="relative button download-button dropdown_button" href="#"></a>
+            <a class="button send-button" href="#"></a>
+            <a class="button print-button" href="#"></a>
+        </div>
 	</div>
 	<div class="transaction-table-header">
 		<table class="transaction-header">
