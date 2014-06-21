@@ -405,14 +405,14 @@ class PHPMailer {
     }
     $address = trim($address);
     $name = trim(preg_replace('/[\r\n]+/', '', $name)); //Strip breaks and trim
-    if (!self::ValidateAddress($address)) {
-      $this->SetError($this->Lang('invalid_address').': '. $address);
-      if ($this->exceptions) {
-        throw new phpmailerException($this->Lang('invalid_address').': '.$address);
-      }
-      echo $this->Lang('invalid_address').': '.$address;
-      return false;
-    }
+//    if (!self::ValidateAddress($address)) {
+//      $this->SetError($this->Lang('invalid_address').': '. $address);
+//      if ($this->exceptions) {
+//        throw new phpmailerException($this->Lang('invalid_address').': '.$address);
+//      }
+//      echo $this->Lang('invalid_address').': '.$address;
+//      return false;
+//    }
   if ($kind != 'ReplyTo') {
     if (!isset($this->all_recipients[strtolower($address)])) {
         array_push($this->$kind, array($address, $name));
