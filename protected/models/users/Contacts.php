@@ -180,7 +180,7 @@ class Users_Contacts extends ActiveRecord
 		$sql = "
 			SELECT 
 				t.id, 
-				t.sum,
+				t.amount,
 				t.type,
 				t.acc_balance,
 				t.created_at,
@@ -220,7 +220,7 @@ class Users_Contacts extends ActiveRecord
 
 		foreach($rows as $trans){
 			$this->_transactions[$trans['id']]['id'] = $trans['id'];
-			$this->_transactions[$trans['id']]['amount'] = $trans['sum'];
+			$this->_transactions[$trans['id']]['amount'] = $trans['amount'];
 			$this->_transactions[$trans['id']]['type'] = $trans['type'];
 			$this->_transactions[$trans['id']]['acc_balance'] = $trans['acc_balance'];
 			$this->_transactions[$trans['id']]['created_at'] = $trans['created_at'];

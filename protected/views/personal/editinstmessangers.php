@@ -90,7 +90,9 @@
 					</td>
 					<td class="actions-td">
 						<div class="transaction-buttons-cont">
+                            <?php if(!$mes->is_master): ?>
 							<a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)) ?>" ></a>
+                            <?php endif; ?>
 						</div>
 					</td>
 				</tr>

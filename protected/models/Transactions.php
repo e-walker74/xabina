@@ -8,7 +8,9 @@
  * @property integer $account_id
  * @property string $type
  * @property string $transfer_type
- * @property double $sum
+ * @property int     $outgoing_id
+ * @property int     $incoming_id
+ * @property double $amount
  * @property double $acc_balance
  *
  * The followings are the available model relations:
@@ -40,14 +42,14 @@ class Transactions extends ActiveRecord
 		return array(
 			array('account_number', 'checkNumber', 'on' => 'admin'),
 			array('account_number', 'length', 'max' => 12, 'min' => 12, 'on' => 'admin'),
-			array('account_id, type, sum, transfer_type, transfer_id', 'required'),
+			array('account_id, type, amount, transfer_type, transfer_id', 'required'),
 			array('account_id, transfer_id', 'numerical', 'integerOnly'=>true),
-			array('sum', 'type', 'type'=>'float'),
+			array('amount', 'type', 'type'=>'float'),
 			array('operation', 'safe', 'on' => 'admin'),
 			array('type', 'in', 'range'=>array('positive', 'negative'), 'allowEmpty'=>false),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, account_id, type, sum', 'safe', 'on'=>'search'),
+			array('id, account_id, type, amount', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -119,7 +121,7 @@ class Transactions extends ActiveRecord
 			'id' => 'ID',
 			'account_id' => 'Account',
 			'type' => 'Type',
-			'sum' => 'Sum',
+			'amount' => 'amount',
 		);
 	}
 
@@ -165,4 +167,11 @@ class Transactions extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    /**
+     * TODO: rename field sum to amount
+     */
+    public function getSum(){
+        return $this->amount;
+    }
 }

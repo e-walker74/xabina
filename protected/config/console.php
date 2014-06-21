@@ -4,7 +4,6 @@
 // Any writable CConsoleApplication properties can be configured here.
 return array(
     'import' => array(
-        'application.models.mongo.*',
 		'application.models.*',
         'application.components.*',
         'application.components.ConsoleCommand',

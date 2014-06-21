@@ -17,9 +17,10 @@ class Admin_Transfers_Own extends Admin_Transfers{
 		$trans_from->user_id = $model->user_id;
 		$trans_from->transfer_type = 'outgoing';
 		$trans_from->transfer_id = $model->id;
+        $trans_from->outgoing_id = $model->id;
         $trans_from->operation = $model->description;
         $trans_from->type = 'negative';
-        $trans_from->sum = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
+        $trans_from->amount = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
         $trans_from->acc_balance = ($model->account->balance - Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
         /* TODO::right check balance */
 
@@ -34,7 +35,8 @@ class Admin_Transfers_Own extends Admin_Transfers{
 		$trans_to->user_id = $model->user_id;
 		$trans_to->transfer_type = 'outgoing';
 		$trans_to->transfer_id = $model->id;
-        $trans_to->sum = Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code);
+        $trans_to->outgoing_id = $model->id;
+        $trans_to->amount = Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code);
         $trans_to->acc_balance = ($account_to->balance + Currencies::convert($model->amount, $model->currency->code, $account_to->currency->code));
         
         $account_to->balance = $trans_to->acc_balance;

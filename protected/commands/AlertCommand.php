@@ -1,6 +1,6 @@
 <?php
 
-class AlertCommand extends CConsoleCommand
+class AlertCommand extends ConsoleCommand
 {
     public function actionIndex()
     {

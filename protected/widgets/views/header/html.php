@@ -82,7 +82,7 @@
             <div class="person-select clearfix" onclick="$(this).next().toggleClass('show')">
                 <div class="select-lbl"><?php echo $rbacMenu['active']['account_name']; ?></div>
                 <div class="select-arr">
-                    <span class="alert">!</span>
+                    <!--<span class="alert">!</span>-->
                 </div>
             </div>
             <?php if(count($rbacMenu['other'])):?>

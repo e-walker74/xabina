@@ -58,7 +58,7 @@ class Mail extends CModel{
         return $result;
     }
 
-    /*sendMandrill*/
+    /*sendMandrill test*/
     public function sendMandrill(Users $user, $template, $params = array(), $anotherEmail = false)
 	{
 
