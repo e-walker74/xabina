@@ -116,7 +116,6 @@ class PersonalController extends Controller
 
 
             if ($model_emails->save()) {
-
                 $mail = new Mail;
                 $mail->send(
                     $model_emails->user, // this user

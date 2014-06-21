@@ -1,8 +1,12 @@
 <tr class="view-payment-tr">
     <td>
-        <?php if (!empty($model->card_type) && isset(Transfers_Incoming::$card_types[$model->card_type])) {?>
+        <?php if (
+            isset(Form_Incoming_Electronic::$methods[$model->electronic_method])
+        &&  Form_Incoming_Electronic::$methods[$model->electronic_method] == 'creditcard'
+        &&  !empty($model->card_type) && isset(Transfers_Incoming::$card_types[$model->card_type])):
+        ?>
             <img src="/images/<?=Transfers_Incoming::$card_types[$model->card_type]?>.png">
-        <?php }?>
+        <?php endif; ?>
     </td>
     <td><span class="grey"><?=$model->from_account_number?></span></td>
     <td><span class="approved"><?=$model->htmlStatus?></span></td>
@@ -16,7 +20,7 @@
 </tr>
 <tr class="edit-payment-tr" style="display:none;">
     <td colspan="4">
-        <?php $this->renderPartial('//personal/paymentInstuments/_form', Array(
+        <?php $this->renderPartial('paymentInstuments/_form', Array(
             'method'=>'update',
             'model'=>$model
         ));?>

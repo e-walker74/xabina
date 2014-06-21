@@ -14,7 +14,7 @@
     <div class="form-input">
         <span class="select-custom-label"></span>
 
-        <div class="select-custom select-narrow ">
+        <div class="select-custom">
             <span class="select-custom-label"></span>
             <?=
             $form->dropDownList(
@@ -28,7 +28,9 @@
                     'empty' => Yii::t('Front', 'Select a method')
                 )
             ); ?>
+
         </div>
+        <?= $form->error($model, 'electronic_method'); ?>
     </div>
     <div class="clearfix"></div>
 </div>

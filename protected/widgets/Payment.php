@@ -28,21 +28,21 @@ class Payment extends CWidget
         $formId = $this->form->id;
         $this->cs->registerScript("payment_$formId", "$(document).ready(function() {
             $('#$formId #{$this->modelName}_electronic_method').change(function() {
-                $('.electronic-method-fields').css('display','none');
-                $('.electronic-method-fields.method-' + $(this).val()).css('display','block');
+                $('#$formId').find('.electronic-method-fields').css('display','none');
+                $('#$formId').find('.electronic-method-fields.method-' + $(this).val()).css('display','block');
             })
             $('#$formId #{$this->modelName}_creditcard_number').validateCreditCard(function(result) {
-                $('.payments-list .logo').removeClass('active');
-                $('.payments-list input[type=radion]').attr('checked', false);
+                $('#$formId').find('.payments-list .logo').removeClass('active');
+                $('#$formId').find('.payments-list input[type=radion]').attr('checked', false);
                 if (result.card_type) {
-                    $('.payments-list .logo.'+result.card_type.css_class).addClass('active');
-                    $('.payments-list input.'+result.card_type.css_class).attr('checked', true);
+                    $('#$formId').find('.payments-list .logo.'+result.card_type.css_class).addClass('active');
+                    $('#$formId').find('.payments-list input.'+result.card_type.css_class).attr('checked', true);
                 }
             }, {
                 accept: ['visa', 'mastercard', 'amex', 'maestro', 'jcb', 'discover', 'union']
             });
             $('.selectpicker').selectpicker();
-        });");
+        });", CClientScript::POS_END);
 
         $this->render('payment/html', Array(
             'form' => $this->form,

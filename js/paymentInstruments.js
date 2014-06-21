@@ -1,24 +1,23 @@
 var submitForm = function(form, method) {
     url = form.attr('action');
     var formId = form.attr('id');
+    backgroundBlack()
     $.ajax({
         url: url,
         success: function(response) {
             if (response.success) {
                 if (response.url)
                     window.location.href = response.url;
-
-                if (method=='create') {
+                successNotify('Favorite payments', response.message, form)
+                if (response.html) {
                     $('#paymentsList').html(response.html);
-                    deleteButtonEnable();
-                    editButtonEnable();
-                    bindButtons()
                 }
-
             }
+            setAllSelectedValues()
+            dellBackgroundBlack()
         },
         cache: false,
-        async: false,
+        async: true,
         data: form.serialize(),
         type: 'POST',
         dataType: 'json'
@@ -34,7 +33,12 @@ var deleteButtonEnable = function(parentTag) {
         popout: true,
         onConfirm: function() {
             link = $(this).parents('.popover').prev('a');
-            deleteRow(link, function(){}, parentTag);
+            editTr = link.parents(parentTag).next('.edit-payment-tr')
+            deleteRow(link, function(response){
+                if(response.success){
+                    editTr.remove()
+                }
+            }, parentTag);
             return false;
         }
     });
@@ -47,16 +51,15 @@ var hideAddNewForm = function() {
 };
 var hideEditForm = function() {
     $('.edit-payment-tr').hide();
-    $('.edit-payment-tr').prev('tr').show('slow');
+    $('.edit-payment-tr').prev('tr.view-payment-tr').show('slow');
 };
 
 var editButtonEnable = function() {
     $('.button.edit').click(function() {
         hideEditForm();
         hideAddNewForm();
-        var tr = $(this).parents('tr');
-        tr.next('tr').toggle('slow');
-        tr.hide()
+        $(this).parents('tr').hide().next('.edit-payment-tr').show();
+
         return false;
     });
 };
