@@ -933,7 +933,7 @@ var successNotify = function (title, message, element, type) {
         {
             /*title: title,*/
             text: message,
-            type: 'success',
+            type: type,
             delay: 3000,
             width: $('.col-lg-9').width() + 'px',
             stack: stack_context,
