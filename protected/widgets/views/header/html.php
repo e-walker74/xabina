@@ -101,7 +101,7 @@
         <li class="apps">
             <a href="#">
                 <div class="menu-ico"></div>
-                <div class="menu-name">Apps</div>
+                <div class="menu-name"><?= Yii::t('Front', 'Apps'); ?></div>
             </a>
             <div class="apps-dropdown-cont">
                 <div class="apps-arr"></div>
@@ -110,37 +110,49 @@
                         <li class="drive">
                             <a href="#">
                                 <div class="app-ico"></div>
-                                <div class="app-name">Drive</div>
+                                <div class="app-name"><?= Yii::t('Front', 'Drive'); ?></div>
                             </a>
                         </li>
                         <li class="analytic">
                             <a href="#">
                                 <div class="app-ico"></div>
-                                <div class="app-name">Analytic</div>
+                                <div class="app-name"><?= Yii::t('Front', 'Analytic'); ?></div>
                             </a>
                         </li>
                         <li class="address-book">
                             <a href="<?= Yii::app()->createUrl('/contact/index'); ?>">
                                 <div class="app-ico"></div>
-                                <div class="app-name">Address book</div>
+                                <div class="app-name"><?= Yii::t('Front', 'Address book'); ?></div>
                             </a>
                         </li>
                         <li class="loans">
                             <a href="#">
                                 <div class="app-ico"></div>
-                                <div class="app-name">Loans</div>
+                                <div class="app-name"><?= Yii::t('Front', 'Loans'); ?></div>
                             </a>
                         </li>
                         <li class="cards">
                             <a href="#">
                                 <div class="app-ico"></div>
-                                <div class="app-name">Cards</div>
+                                <div class="app-name"><?= Yii::t('Front', 'Cards'); ?></div>
                             </a>
                         </li>
                         <li class="profile">
                             <a href="<?= Yii::app()->createUrl('/personal/index') ?>">
                                 <div class="app-ico"></div>
                                 <div class="app-name"><?= Yii::t('Front', 'Profile') ?></div>
+                            </a>
+                        </li>
+                        <li class="profile">
+                            <a href="<?= Yii::app()->createUrl('/rbac/manageusers') ?>">
+                                <div class="app-ico"></div>
+                                <div class="app-name"><?= Yii::t('Front', 'Users Management') ?></div>
+                            </a>
+                        </li>
+                        <li class="profile">
+                            <a href="<?= Yii::app()->createUrl('settings/roles') ?>">
+                                <div class="app-ico"></div>
+                                <div class="app-name"><?= Yii::t('Front', 'Roles') ?></div>
                             </a>
                         </li>
                     </ul>
