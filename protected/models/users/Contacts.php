@@ -43,7 +43,7 @@ class Users_Contacts extends ActiveRecord
 			// TODO trim and filter fullname
 			
 			array('fullname', 'requiredOne'),
-			array('user_id, xabina_id', 'numerical', 'integerOnly'=>true),
+			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('fullname, photo', 'length', 'max'=>255),
 			array('photo', 'file', 'types'=>'jpg, gif, png', 'safe'=>false, 'allowEmpty' => true),
 			array('xabina_id', 'ext.validators.XabinaUserIdValidator'),

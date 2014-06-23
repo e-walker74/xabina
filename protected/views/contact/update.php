@@ -20,10 +20,10 @@
 				<div class=" xabina-form-narrow">
 				<table class="table xabina-table-contacts">
 					<tr class="table-header">
-						<th style="width: 20%"><?= Yii::t('Front', 'Photo'); ?></th>
-						<th style="width: 49%"><?= Yii::t('Front', 'Contact Name'); ?></th>
+						<th style="width: 16%"><?= Yii::t('Front', 'Photo'); ?></th>
+						<th style="width: 45%"><?= Yii::t('Front', 'Contact Name'); ?></th>
 						<th style="width: 31%"><?= Yii::t('Front', 'Xabina User ID'); ?></th>
-						<th style="width: 0"></th>
+						<th style="width: 8%"></th>
 					</tr>
 					<tr class="data-row">
 						<td>

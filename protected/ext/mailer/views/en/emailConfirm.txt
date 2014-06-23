@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>mail</title>
+	<title>E-Mail confirmation at XABINA.COM</title>
     <style>* { border: none; }</style>
 </head>
 <body style="font-family: 'arial';">
@@ -36,27 +36,21 @@
                         <td colspan="3" align="center">
                             <table cellpadding="0" cellspacing="0" border="0" style="background: white; width: 600px; border-collapse: collapse;">
                                 <tr style="height: 90px;">
-                                    <td style="padding: 0 20px; color: #534a76; font-size: 22px;">Здравствуйте, Konstantin Petrov!</td>
+                                    <td style="padding: 0 20px; color: #534a76; font-size: 22px;">Hello, {:userFullName}!</td>
                                 </tr>
                                 <tr style="height: 32px;">
-                                    <td style="padding: 0 20px; font-weight: bold; vertical-align: top; color: #777777; font-size: 13px;">Вы успешно зарегистрировались на сайте <a style="font-weight: normal; color: #1b75bc;" href="http://xabina.com">xabina.com</a></td>
+                                    <td style="padding: 0 20px; font-weight: bold; vertical-align: top; color: #777777; font-size: 13px;">You have added {:type} to your account. Please, finalize the activation procedure by open the following URL:</td>
                                 </tr>
                                 <tr style="vertical-align: center; height: 72px; line-height: 25px;">
-                                	<td style="padding: 0 20px; font-size: 13px; color: #777777;border-top: 2px solid #f2f2f2;border-bottom: 2px solid #f2f2f2;">Ваш логин: <span style="font-weight: bold;">kiberkarlson@mail.ru</span><br>
-                                	Ваш пароль: <span style="font-weight: bold;">9cab62</span>
-
-                                	</td>
-                                </tr>
-                                <tr style="height: 70px;">
-                                	<td style="padding: 0 20px; line-height: 20px; font-style: italic; font-size: 12px; color: #777777;">Вы можете сменить пароль в личном кабинете. Никогда не передавайте данные о пароле 
-третьим лицам.</td>
+									<td style="padding: 0 20px; font-weight: bold; font-size: 13px; color: #777777; line-height: 20px;" >
+										<a href="{:activateUrl}">{:activateUrl}</a>
+									</td>
                                 </tr>
                                 <tr style="height: 60px;">
-                                	<td style="padding: 0 20px; font-weight: bold; font-size: 13px; color: #777777; line-height: 20px;">Для активации вашей учётной записи, пожалуйста, перейдите по ссылке:
-<a style="font-weight: normal; color: #1b75bc;" href="#">http://xabina.intwall.com/emailconfirm/vchbvbo8y78876785cvsd</a></td>
+                                	<td style="padding: 0 20px; font-weight: bold; font-size: 13px; color: #777777; line-height: 20px;">If you have any questions or experience problems, you can e-mail us at: support@xabina.com</td>
                                 </tr>
                                 <tr style="height: 60px;">
-                                	<td style="padding: 0 20px; line-height: 20px; font-size: 11px; color: #777777;">С уважением, команда xabina</td>
+                                	<td style="padding: 0 20px; line-height: 20px; font-size: 11px; color: #777777;">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></td>
                                 </tr>
 
                                 <tr>
@@ -123,7 +117,7 @@ distribution of this e-mail by anyone other than the intended recipient is prohi
                 <!--footer-->
                 <table cellpadding="0" cellspacing="0" border="0" style="text-align: center; font-size: 11px;border-collapse: collapse; width: 600px; paddung: 20px;">
                     <tr>
-                        <td style="padding: 20px;">Это письмо сгенерировано автоматически. Отвечать на него не нужно.</td>
+                        <td style="padding: 20px;">\u042D\u0442\u043E \u043F\u0438\u0441\u044C\u043C\u043E \u0441\u0433\u0435\u043D\u0435\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438. \u041E\u0442\u0432\u0435\u0447\u0430\u0442\u044C \u043D\u0430 \u043D\u0435\u0433\u043E \u043D\u0435 \u043D\u0443\u0436\u043D\u043E.</td>
                     </tr>
                 </table>
                 <!--footer end-->

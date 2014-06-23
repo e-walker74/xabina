@@ -11,6 +11,13 @@ abstract class ActiveRecord extends CActiveRecord
     {
         return $this->_oldAttributes;
     }
+
+    public function beforeValidate(){
+        foreach($this->attributes as $key => $value){
+            $this->$key = strip_tags($value);
+        }
+        return parent::beforeValidate();
+    }
     
 	protected function beforeSave()
     {

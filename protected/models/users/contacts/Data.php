@@ -156,35 +156,39 @@ class Users_Contacts_Data extends ActiveRecord
 		$model = self::getModelByPost();
 		return CActiveForm::validate($model);
 	}
+
+    public function renderContactData($contact_id, $data_type){
+        $contact = Users_Contacts::model()->findByPk($contact_id);
+        return CJSON::encode(
+            array(
+                'success' => true,
+                'html' => Yii::app()->controller->renderPartial(
+                        'update/_'.$data_type,
+                        array('model' => $contact),
+                        true,
+                        true
+                    )
+            )
+        );
+    }
 	
 	public function saveData($contact_id){
-		$model = self::getModelByPost();
+		$model = Users_Contacts_Data::getModelByPost();
 		if(!$model){
 			return CJSON::encode(array('success' => false));
 		}
-		
+
 		$dbModel = $model->getDbModel();
 		if(!$dbModel){
 			$dbModel = new Users_Contacts_Data;
 			$dbModel->contact_id = $contact_id;
-			$dbModel->data_type = array_search(get_class($model), self::$typesMap);
+			$dbModel->data_type = array_search(get_class($model), Users_Contacts_Data::$typesMap);
 		}
 		$model->validate();
 		$dbModel->value = serialize($model->attributes);
 		
 		if($dbModel->save()){
-			$contact = Users_Contacts::model()->findByPk($contact_id);
-			return CJSON::encode(
-				array(
-					'success' => true,
-					'html' => $this->renderPartial(
-						'update/_'.array_search(get_class($model), self::$typesMap),
-						array('model' => $contact),
-						true,
-						true
-					)
-				)
-			);
+            return $this->renderContactData($contact_id, $dbModel->data_type);
 		}
 		return CJSON::encode(array('success' => false));
 	}

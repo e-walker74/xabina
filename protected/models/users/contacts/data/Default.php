@@ -12,8 +12,8 @@ class Users_Contacts_Data_Default extends Users_Contacts_Data_Model
 	
 	public static $types = array(
 		1 => 'currency',
-		2 => 'Details of payment',
-		3 => 'Category',
+//		2 => 'Details of payment',
+//		3 => 'Category',
 	);
 
 	/**

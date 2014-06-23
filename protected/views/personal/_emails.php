@@ -10,7 +10,9 @@
         'validateOnSubmit' => true,
         'validateOnChange' => true,
         'errorCssClass' => 'input-error',
-        'successCssClass' => 'valid'
+        'successCssClass' => 'valid',
+        'afterValidate' => 'js:Personal.afterValidate',
+        'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
     ),
 )); ?>
 
@@ -28,7 +30,7 @@
 				<div class="comment-bg">
 				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
 				<br>
-					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){successNotify('<?= Yii::t('Front', 'Email Address') ?>', '<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))"><?= Yii::t('Front', 'Send new activation link'); ?></a>
+					<a href="javaScript:void(0)" onclick="resendActivationEmail('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Send new activation link'); ?></a>
 				</div>
 				<div class="comment-arr"></div>
 			</td>
@@ -37,9 +39,9 @@
 		<tr class="email-comment-tr border-yellow">
 			<td colspan="4">
 				<div class="comment-bg">
-				<?= Yii::t('Front', 'We have sent a message to this E-Mail address with an activation link. Please, click on an activation link to verify the E-Mail address'); ?>
+				<?= Yii::t('Front', 'We have sent a message to primary E-Mail address with a confirmation link. Please, click on the link to confirm the E-Mail address'); ?>
 				<br>
-					<a href="javaScript:void($.post('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', function(data){if(jQuery.parseJSON(data).success){alert('<?= Yii::t('Front', 'Email with activation link was sent') ?>')}}))"><?= Yii::t('Front', 'Send new activation link'); ?></a>
+                    <a href="javaScript:void(0)" onclick="resendActivationEmail('<?= $this->createUrl('/personal/resendemail', array('id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Send new confirmation link'); ?></a>
 				</div>
 				<div class="comment-arr"></div>
 			</td>
@@ -57,7 +59,7 @@
                 <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                 	<span class="verify"><?= Yii::t('Front', 'Unverified') ?></span>
                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
                 <span class="primary">
 					<b><?= Yii::t('Front', 'Primary'); ?></b>

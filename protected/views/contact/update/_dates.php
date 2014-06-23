@@ -5,27 +5,28 @@
 			<th style="width: 36%"><?= Yii::t('Front', 'Category') ?></th>
 			<th style="width: 20%"></th>
 		</tr>
-		<?php foreach($model->getDataByType('dates') as $model): ?>
+		<?php foreach($model->getDataByType('dates') as $m): ?>
 		<tr class="data-row">
-			<td><?= $model->date ?></td>
+			<td><?= $m->date ?></td>
 			<td>
-				<?php if(isset(Users_Contacts_Data_Dates::$categories[$model->category])):?>
-				<?= Yii::t('Front', Users_Contacts_Data_Dates::$categories[$model->category]) ?>
+				<?php if(isset(Users_Contacts_Data_Dates::$categories[$m->category])):?>
+				<?= Yii::t('Front', Users_Contacts_Data_Dates::$categories[$m->category]) ?>
 				<?php else: ?>
-				<?= $model->category ?>
+				<?= $m->category ?>
 				<?php endif; ?>
 			</td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'dates', 'id' => $model->id)) ?>" ></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'dates', 'id' => $m->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
 		<tr class="edit-row">
 			<td colspan="3">
 				<?php $form=$this->beginWidget('CActiveForm', array(
-					'id'=>'dataform-form-dates'.$model->id,
+					'id'=>'dataform-form-dates'.$m->id,
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -45,15 +46,15 @@
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
-							<?= $form->hiddenField($model, 'id') ?>
+							<?= $form->hiddenField($m, 'id') ?>
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Choose Day') ?>
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'date_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'date', array('class' => 'date-input with_datepicker', 'id' => '')) ?>
-									<?= $form->error($model, 'date') ?>
+									<?= $form->textField($m, 'date', array('class' => 'date-input input-text with_datepicker', 'id' => '')) ?>
+									<?= $form->error($m, 'date') ?>
 								</div>
 							</div>
 						</div>
@@ -68,12 +69,12 @@
 								<div class="select-custom select-narrow ">
 									<span class="select-custom-label"></span>
 									<?= $form->dropDownList(
-										$model,
+										$m,
 										'category',
 										Users_Contacts_Data_Dates::$categories,
 										array(
 											'class' => 'select-invisible country-select', 
-											'options' => array($model->category => array('selected' => true)),
+											'options' => array($m->category => array('selected' => true)),
 											'empty' => Yii::t('Front', 'Select')
 										)
 									); ?>
@@ -102,6 +103,7 @@
 			<td colspan="3">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-dates',
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -118,7 +120,7 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
-				<?php $model = new Users_Contacts_Data_Dates; ?>
+				<?php $m = new Users_Contacts_Data_Dates; ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
@@ -128,8 +130,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'date_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'date', array('class' => 'date-input with_datepicker', 'id' => '')) ?>
-									<?= $form->error($model, 'date') ?>
+									<?= $form->textField($m, 'date', array('class' => 'date-input input-text with_datepicker', 'id' => '')) ?>
+									<?= $form->error($m, 'date') ?>
 								</div>
 							</div>
 						</div>
@@ -144,12 +146,12 @@
 									<div class="select-custom select-narrow ">
 										<span class="select-custom-label"></span>
 										<?= $form->dropDownList(
-											$model,
+											$m,
 											'category',
 											Users_Contacts_Data_Dates::$categories,
 											array(
 												'class' => 'select-invisible country-select', 
-												'options' => array($model->category => array('selected' => true)),
+												'options' => array($m->category => array('selected' => true)),
 												'empty' => Yii::t('Front', 'Select')
 											)
 										); ?>

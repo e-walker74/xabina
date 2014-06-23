@@ -33,6 +33,9 @@ class Controller extends CController
             Yii::app()->user->logout();
         }
         $this->registerGlobalStyles();
+        if(Yii::request()->isAjaxRequest){
+            $this->cleanResponseJs();
+        }
         return parent::init();
     }
 

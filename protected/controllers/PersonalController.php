@@ -5,40 +5,41 @@ class PersonalController extends Controller
     public $layout = 'banking';
     public $title = '';
 
-    /**
-     * Сохранение емейлов
-     * @param array $arr_post_email POST емейлов
-     * @param array $arr_post_type  POST типов емейла
-     * @return bool
-     */
-    private static function saveUsersEmails(array $arr_post_email, array $arr_post_type)
-    {
-        foreach ($arr_post_email as $k => $email) {
-            if (!empty($email)) {
-                $model_emails = new Users_Emails;
-                $model_emails->email = $email;
-                $model_emails->user_id = Yii::app()->user->id;
-                $model_emails->email_type_id = (int)$arr_post_type[$k];
-                //$model_emails->save();
-                if ($model_emails->save()) {
-                    $mail = new Mail;
-                    $mail->send(
-                        $model_emails->user, // this user
-                        'emailConfirm', // sys mail code
-                        array( // params
-                            '{:type}' => 'emails',
-                            '{:date}' => date('Y m d', time()),
-                            '{:activateUrl}' => Yii::app()->getBaseUrl(true) . Yii::app()->createUrl('/personal/activate', array('type' => 'emails', 'hash' => $model_emails->hash)),
-                        ),
-                        $model_emails->email
-                    );
-
-                }
-
-            }
-        }
-        return true;
-    }
+//    /**
+//     * Сохранение емейлов
+//     * @param array $arr_post_email POST емейлов
+//     * @param array $arr_post_type  POST типов емейла
+//     * @return bool
+//        TODO delete this function if all right
+//     */
+//    private static function saveUsersEmails(array $arr_post_email, array $arr_post_type)
+//    {
+//        foreach ($arr_post_email as $k => $email) {
+//            if (!empty($email)) {
+//                $model_emails = new Users_Emails;
+//                $model_emails->email = $email;
+//                $model_emails->user_id = Yii::app()->user->id;
+//                $model_emails->email_type_id = (int)$arr_post_type[$k];
+//                //$model_emails->save();
+//                if ($model_emails->save()) {
+//                    $mail = new Mail;
+//                    $mail->send(
+//                        $model_emails->user, // this user
+//                        'emailConfirm', // sys mail code
+//                        array( // params
+//                            '{:type}' => 'emails',
+//                            '{:date}' => date('Y m d', time()),
+//                            '{:activateUrl}' => Yii::app()->getBaseUrl(true) . Yii::app()->createUrl('/personal/activate', array('type' => 'emails', 'hash' => $model_emails->hash)),
+//                        ),
+//                        $model_emails->email
+//                    );
+//
+//                }
+//
+//            }
+//        }
+//        return true;
+//    }
 
     public function filters()
     {
@@ -90,6 +91,12 @@ class PersonalController extends Controller
         );
     }
 
+    public function init()
+    {
+        Yii::app()->clientScript->registerScriptFile('/js/personal.js');
+        return parent::init();
+    }
+
     public function actionIndex()
     {
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
@@ -128,12 +135,27 @@ class PersonalController extends Controller
                     $model_emails->email
                 );
 
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'Email Address'),
-                    'message' => Yii::t('Front', 'New email address was added'),
-                );
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_emails',
+                            array(
+                                'users_emails' => self::getUsersItems($model_emails),
+                                'model_emails' => $model_emails,
+                            ),
+                            true,
+                            true
+                        ),
+                    'message' => Yii::t('Front', 'We sent confirmation email to :email', array(':email' => $model_emails->email)),
+                ));
+                Yii::app()->end();
 
-                $this->redirect(array('/personal/editemails'));
+//                Yii::app()->session['flash_notify'] = array(
+//                    'title' => Yii::t('Front', 'Email Address'),
+//                    'message' => Yii::t('Front', 'New email address was added'),
+//                );
+
+//                $this->redirect(array('/personal/editemails'));
             }
         }
 
@@ -186,11 +208,22 @@ class PersonalController extends Controller
             }
             $model->user_id = Yii::app()->user->id;
             if ($model->save()) {
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'Personal Account'),
-                    'message' => Yii::t('Front', 'New instant messengers was added'),
-                );
-                $this->redirect(array('/personal/editmessagers'));
+
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_instmessangers_form',
+                            array(
+                                'model' => new Users_Instmessagers(),
+                                'user' => Users::model()->findByPk(Yii::app()->user->id),
+                            ),
+                            true,
+                            true
+                        ),
+                    'message' => Yii::t('Front', 'Inst Messenger was saved'),
+                ));
+                Yii::app()->end();
+
             }
         }
 
@@ -214,14 +247,33 @@ class PersonalController extends Controller
         if (isset($_POST['Users_Phones'])) {
             $model_phones->attributes = $_POST['Users_Phones'];
             $model_phones->user_id = Yii::app()->user->id;
+            $phone = $model_phones->phone;
             if ($model_phones->save()) {
 
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'My phone numbers'),
-                    'message' => Yii::t('Front', 'New phone number was added'),
-                );
+                if (Yii::app()->sms->to($phone)->body('Your activate code: {code}', array('{code}' => $model_phones->hash))->send() != 1) {
+                    Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+                }
 
-                $this->redirect(array('/personal/editphones'));
+                $model_phones = new Users_Phones('editphones');
+                $this->cleanResponseJs();
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_mobile_phones',
+                            array(
+                                'users_phones' => self::getUsersItems($model_phones),
+                                'model_telephones' => $model_telephones,
+                                'user' => $user,
+                                'model_phones' => $model_phones,
+                            ),
+                            true,
+                            true
+                        ),
+                    'message' => Yii::t('Front', 'We sent confirmation sms to :phone', array(':phone' => $phone)),
+                ));
+                Yii::app()->end();
+
+//                $this->redirect(array('/personal/editphones'));
             }
 
             Yii::app()->end();
@@ -231,18 +283,32 @@ class PersonalController extends Controller
             echo CActiveForm::validate($model_telephones);
             Yii::app()->end();
         }
-
         if (isset($_POST['Users_Telephones'])) {
             $model_telephones->attributes = $_POST['Users_Telephones'];
             $model_telephones->user_id = Yii::app()->user->id;
             if ($model_telephones->save()) {
 
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'Personal Cabinet'),
-                    'message' => Yii::t('Front', 'New phone number was added'),
-                );
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_phones',
+                            array(
+                                'model_telephones' => new Users_Telephones(),
+                                'user' => $user,
+                            ),
+                            true,
+                            true
+                        ),
+                    'message' => Yii::t('Front', 'New telephone was successfully saved'),
+                ));
+                Yii::app()->end();
 
-                $this->redirect(array('/personal/editphones'));
+//                Yii::app()->session['flash_notify'] = array(
+//                    'title' => Yii::t('Front', 'Personal Cabinet'),
+//                    'message' => Yii::t('Front', 'New phone number was added'),
+//                );
+//
+//                $this->redirect(array('/personal/editphones'));
             }
             Yii::app()->end();
         }
@@ -255,54 +321,54 @@ class PersonalController extends Controller
         ));
     }
 
-    public function actionSavephones()
-    {
-        $model_phones = new Users_Phones;
+//    public function actionSavephones()
+//    {
+//        $model_phones = new Users_Phones;
+//
+//        if (Yii::app()->request->isAjaxRequest) {
+//
+//            if (CActiveForm::validate($model_phones) == '[]') {
+//
+//                self::saveUsersPhones($_POST['phone'], $_POST['type']);
+//                self::removeUsersItems($_POST['delete'], $model_phones);
+//
+//                if (isset($_POST['type_edit'])) {
+//                    self::editTypeItems($_POST['type_edit'], $model_phones);
+//                }
+//
+//                $html = $this->renderPartial('_phones', array(
+//                        'users_phones' => self::getUsersItems($model_phones),
+//                        'model_phones' => $model_phones,
+//                    ), true, false
+//                );
+//
+//                echo CJSON::encode(array('success' => true, 'html' => $html));
+//            } else {
+//                echo CActiveForm::validate($model_phones);
+//            }
+//
+//            Yii::app()->end();
+//
+//        }
+//    }
 
-        if (Yii::app()->request->isAjaxRequest) {
-
-            if (CActiveForm::validate($model_phones) == '[]') {
-
-                self::saveUsersPhones($_POST['phone'], $_POST['type']);
-                self::removeUsersItems($_POST['delete'], $model_phones);
-
-                if (isset($_POST['type_edit'])) {
-                    self::editTypeItems($_POST['type_edit'], $model_phones);
-                }
-
-                $html = $this->renderPartial('_phones', array(
-                        'users_phones' => self::getUsersItems($model_phones),
-                        'model_phones' => $model_phones,
-                    ), true, false
-                );
-
-                echo CJSON::encode(array('success' => true, 'html' => $html));
-            } else {
-                echo CActiveForm::validate($model_phones);
-            }
-
-            Yii::app()->end();
-
-        }
-    }
-
-    private static function saveUsersPhones(array $arr_post_phone, array $arr_post_type)
-    {
-        foreach ($arr_post_phone as $k => $phone) {
-            if (!empty($phone)) {
-                $model_phones = new Users_Phones;
-                $model_phones->phone = $phone;
-                $model_phones->user_id = Yii::app()->user->id;
-                $model_phones->email_type_id = (int)$arr_post_type[$k];
-                if ($model_phones->save()) {
-                    if (Yii::app()->sms->to($model_phones->phone)->body('Your activate code: {code}', array('{code}' => $model_phones->hash))->send() != 1) {
-                        Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
-                    }
-                }
-            }
-        }
-        return true;
-    }
+//    private static function saveUsersPhones(array $arr_post_phone, array $arr_post_type)
+//    {
+//        foreach ($arr_post_phone as $k => $phone) {
+//            if (!empty($phone)) {
+//                $model_phones = new Users_Phones;
+//                $model_phones->phone = $phone;
+//                $model_phones->user_id = Yii::app()->user->id;
+//                $model_phones->email_type_id = (int)$arr_post_type[$k];
+//                if ($model_phones->save()) {
+//                    if (Yii::app()->sms->to($model_phones->phone)->body('Your activate code: {code}', array('{code}' => $model_phones->hash))->send() != 1) {
+//                        Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+//                    }
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * @param array $arr_post_delete
@@ -366,18 +432,23 @@ class PersonalController extends Controller
             }
             $model->status = 1;
             if ($model->save()) {
-                if (isset($_POST['Users_Address']['id'])) {
-                    Yii::app()->session['flash_notify'] = array(
-                        'title' => Yii::t('Front', 'Email Address'),
-                        'message' => Yii::t('Front', 'Address was updated'),
-                    );
-                } else {
-                    Yii::app()->session['flash_notify'] = array(
-                        'title' => Yii::t('Front', 'Email Address'),
-                        'message' => Yii::t('Front', 'Address was saved'),
-                    );
-                }
-                $this->redirect(array('/personal/editaddress'));
+
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_address_table',
+                            array(
+                                'model' => new Users_Address(),
+                                'user' => $user,
+                            ),
+                            true,
+                            true
+                        ),
+                    'message' => Yii::t('Front', 'Address was successfully saved'),
+                ));
+                Yii::app()->end();
+
+//                $this->redirect(array('/personal/editaddress'));
             }
 
             Yii::app()->end();
@@ -441,17 +512,17 @@ class PersonalController extends Controller
             if (Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1) {
                 Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
             } else {
-                echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
+                echo CJSON::encode(array('success' => true, 'message' => Yii::t('Front', 'Sms was sent to number :number. Hash code is :hashCode', array(':number' => $model->user->phone, ':hashCode' => $model->hash))));
                 Yii::app()->end();
             }
         } elseif ($model->status == 0 && $model->is_master == 0 && $model->hash) {
             $user = Users::model()->findByPk(Yii::app()->user->id);
             $model->generateHash();
             $model->save();
-            if (Yii::app()->sms->to($user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1) {
+            if (Yii::app()->sms->to($model->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1) {
                 Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
             } else {
-                echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
+                echo CJSON::encode(array('success' => true, 'message' => Yii::t('Front', 'Sms was sent to number :number. Hash code is :hashCode', array(':number' => $model->phone, ':hashCode' => $model->hash))));
                 Yii::app()->end();
             }
 
@@ -465,7 +536,7 @@ class PersonalController extends Controller
             Yii::app()->end();
         }*/
 
-        echo CJSON::encode(array('success' => false));
+        echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Undefined error')));
     }
 
     public function actionResendEmail($id)
@@ -493,7 +564,7 @@ class PersonalController extends Controller
                 )
 
             );
-            echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
+            echo CJSON::encode(array('success' => true, 'hash' => $model->hash, 'message' => Yii::t('Front', 'We sent you a confirmation to email :email', array(':email' => $model->email))));
         } elseif ($model->status == 0 && $model->is_master == 0 && $model->hash) {
             $user = Users::model()->findByPk(Yii::app()->user->id);
             $model->generateHash();
@@ -509,7 +580,7 @@ class PersonalController extends Controller
                 ),
                 $model->email
             );
-            echo CJSON::encode(array('success' => true, 'hash' => $model->hash));
+            echo CJSON::encode(array('success' => true, 'hash' => $model->hash, 'message' => Yii::t('Front', 'We sent you an activation email')));
 
         }
     }
@@ -525,6 +596,7 @@ class PersonalController extends Controller
         $reload = false;
         $message = false;
         $titleMess = false;
+        $html = false;
         if ($type == 'emails') {
             $model->generateHash();
             $model->save();
@@ -547,12 +619,22 @@ class PersonalController extends Controller
         } elseif ($type == 'phones') {
             $model->generateHash();
             $model->save();
-            $reload = true;
+            $reload = false;
             if (count($model->user->phones) > 1) {
                 if (Yii::app()->sms->to($model->user->phone)->body('Confirmation code: {code}', array('{code}' => $model->hash))->send() != 1) {
                     Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
                 }
                 $message = Yii::t('Front', 'We sent you a confirmation sms to mobile');
+                $html = $this->renderPartial(
+                    '_mobile_phones',
+                    array(
+                        'users_phones' => self::getUsersItems($model),
+                        'user' => Users::model()->findByPk(Yii::app()->user->id),
+                        'model_phones' => $model,
+                    ),
+                    true,
+                    true
+                );
             } else {
                 if ($model->status == 1 && $model->is_master == 0) {
                     $model->is_master = 1;
@@ -592,10 +674,27 @@ class PersonalController extends Controller
             );*/
             $message = Yii::t('Front', 'Primary address was changed');
             $titleMess = Yii::t('Front', 'Personal Cabinet');
+            $html = $this->renderPartial(
+                '_address_table',
+                array(
+                    'model' => new Users_Address(),
+                    'user' => $model->user,
+                ),
+                true,
+                true
+            );
             //$reload = true;
         }
 
-        echo CJSON::encode(array('success' => true, 'message' => $message, 'reload' => $reload, 'titleMess' => $titleMess));
+        echo CJSON::encode(
+            array(
+                'success' => true,
+                'message' => $message,
+                'reload' => $reload,
+                'titleMess' => $titleMess,
+                'html' => $html
+            )
+        );
     }
 
     public function actionChangeType($type)
@@ -615,6 +714,9 @@ class PersonalController extends Controller
         /*if(!Yii::app()->request->isAjaxRequest){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }*/
+        if (!Yii::app()->request->getParam('hash')) {
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
         $model = Users::getModelByType($type)
             ->find('user_id = :user_id AND hash = :hash',
                 array(
@@ -642,6 +744,7 @@ class PersonalController extends Controller
             }
             if ($model->user->save()) {
                 if ($master) {
+                    $master->hash = '';
                     $master->is_master = 0;
                     $master->save();
                 }
@@ -698,7 +801,26 @@ class PersonalController extends Controller
         }
 
         if (Yii::app()->request->isAjaxRequest) {
-            echo CJSON::encode(array('success' => true));
+            $html = '';
+            if ($type == 'phones') {
+                $html = $this->renderPartial(
+                    '_mobile_phones',
+                    array(
+                        'users_phones' => self::getUsersItems($model),
+                        'model_phones' => new Users_Phones(),
+                    ),
+                    true,
+                    true
+                );
+            }
+
+            echo CJSON::encode(
+                array(
+                    'success' => true,
+                    'message' => Yii::t('Front', 'successfully activated'),
+                    'html' => $html,
+                )
+            );
         } else {
             $this->redirect(array('/banking/index'));
         }
@@ -790,11 +912,20 @@ class PersonalController extends Controller
                 Yii::app()->end();
             }
             if ($model->save()) {
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'Email Address'),
-                    'message' => Yii::t('Front', 'New security question was added'),
-                );
-                $this->redirect(array('/personal/editqustions'));
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_questions_forms',
+                            array(
+                                'model' => new Users_Securityquestions(),
+                                'user' => Users::model()->findByPk(Yii::app()->user->id),
+                            ),
+                            true,
+                            true
+                        ),
+                    'message' => Yii::t('Front', 'Security Question was successfully saved'),
+                ));
+                Yii::app()->end();
             }
             Yii::app()->end();
         }
@@ -813,9 +944,10 @@ class PersonalController extends Controller
         $message = false;
         $reload = false;
         $return = true;
+        $html = false;
         switch ($type) {
             case 'social':
-                $soc = Users_Socials::model()->findByPk($id);
+                $soc = Users_Socials::model()->ownUser()->findByPk($id);
                 if ($soc) {
                     $soc->getProvider()->delete();
                     $soc->delete();
@@ -850,16 +982,21 @@ class PersonalController extends Controller
                 }
                 break;
             case 'question':
-                $qust = Users_Securityquestions::model()->findByPk($id);
+                $qust = Users_Securityquestions::model()->ownUser()->findByPk($id);
                 if ($qust->user_id == Yii::app()->user->id) {
                     $qust->delete();
                     $mesTitle = Yii::t('Front', 'Personal Cabinet');
                     $message = Yii::t('Front', 'Security question was deleted from your profile');
                 }
-                $count = Users_Securityquestions::model()->count('user_id = :uid', array(':uid' => Yii::app()->user->id));
-                if ($count < 2) {
-                    $reload = true;
-                }
+                $html = $this->renderPartial(
+                    '_questions_forms',
+                    array(
+                        'model' => new Users_Securityquestions(),
+                        'user' => Users::model()->findByPk(Yii::app()->user->id),
+                    ),
+                    true,
+                    true
+                );
                 break;
             case 'address':
                 $addr = Users_Address::model()->findByPk($id);
@@ -883,7 +1020,7 @@ class PersonalController extends Controller
                 break;
         }
 
-        echo CJSON::encode(array('success' => $return, 'mesTitle' => $mesTitle, 'message' => $message, 'reload' => $reload));
+        echo CJSON::encode(array('success' => $return, 'mesTitle' => $mesTitle, 'message' => $message, 'reload' => $reload, 'html' => $html));
     }
 
     public function actionEditPins()
@@ -919,11 +1056,19 @@ class PersonalController extends Controller
             }
 
             if ($model->save()) {
-                Yii::app()->session['flash_notify'] = array(
-                    'title' => Yii::t('Front', 'Email Address'),
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'html' => $this->renderPartial(
+                            '_'.$model->scenario,
+                            array(
+                                'model' => $model,
+                            ),
+                            true,
+                            true
+                        ),
                     'message' => Yii::t('Front', 'Password was saved'),
-                );
-                $this->redirect(array('/personal/editpins'));
+                ));
+                Yii::app()->end();
             }
         }
 

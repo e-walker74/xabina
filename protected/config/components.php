@@ -113,6 +113,7 @@ return array(
 			'/contact' => 'contact/index',
 			'/contact/<url:[\w]{32}>' => 'contact/view',
 			'/contact/update/<url:[\w]{32}>' => 'contact/update',
+            '/contact/makePrimary/<entity:(account|email|phone|address|social|default|urls|dates|contact|instmessaging)>' => 'contact/update',
             
             /**
              * RBAC

@@ -105,27 +105,51 @@ var searchAnalytics = function(form){
 }
 
 var updateContact = function(form){
-	$.ajax({
+	backgroundBlack()
+    $.ajax({
 		url: $(form).attr('action'),
 		success: function(response) {
 			if(response.success){
+                dellBackgroundBlack()
 				resetPage()
 				if(response.html){
-					$(form).parents('.tab').html(response.html)
-					$('.select-invisible').each(onCustomSelectChange);
-					function onCustomSelectChange(){
-						$(this).prev('span').text($(this).find(':selected').text());
-					}
-					successNotify('Contact','Entity was successfully updated')
+					var tab = $(form).parents('.tab')
+                    tab.html(response.html)
+                    setAllSelectedValues()
+					successNotify('Contact','Entity was successfully updated', tab.find('tr:visible:last'))
 				}
 			}
 		},
 		cache:false,
-		async: false,
+		async: true,
 		data: form.serialize(),
 		type: 'POST',
 		dataType: 'json'
 	});
+}
+
+var makePrimary = function(link){
+    backgroundBlack()
+    $.ajax({
+        url: $(link).attr('data-url'),
+        success: function(response) {
+            if(response.success){
+                dellBackgroundBlack()
+                resetPage()
+                if(response.html){
+                    var tab = $(link).parents('.tab')
+                    tab.html(response.html)
+                    setAllSelectedValues()
+                    successNotify('Contact','Entity was successfully updated', tab.find('tr.data-row:visible:first'))
+                }
+            }
+        },
+        cache:false,
+        async: true,
+        data: {},
+        type: 'POST',
+        dataType: 'json'
+    });
 }
 
 afterValidate = function(form, data, hasError) {

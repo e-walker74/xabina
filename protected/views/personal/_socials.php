@@ -4,10 +4,10 @@
 		<tr class="table-header">
 			<th style="width: 7%"></th>
 			<th style="width: 23%"><?= Yii::t('Front', 'Username'); ?></th>
-			<th style="width: 22%"><?= Yii::t('Front', 'Full Name'); ?></th>
+			<th style="width: 19%"><?= Yii::t('Front', 'Full Name'); ?></th>
 			<th style="width: 28%"><?= Yii::t('Front', 'Profile Url'); ?></th>
 			<th style="width: 15%"><?= Yii::t('Front', 'Status'); ?></th>
-			<th style="width: 5%"></th>
+			<th style="width: 8%"></th>
 		</tr>
 		<?php $user = Users::model()->findByPk(Yii::app()->user->id) ?>
 
@@ -55,21 +55,3 @@
 	<div class="clearfix"></div>
 </div>
 <?php Yii::app()->clientScript->registerScriptFile('http://vkontakte.ru/js/api/openapi.js'); ?>
-
-<script>
-
-$(document).ready(function(){
-
-	$('.transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			deleteRow($(this).parents('.popover').prev('a'));
-			return false;
-		}
-	})
-
-})
-
-</script>

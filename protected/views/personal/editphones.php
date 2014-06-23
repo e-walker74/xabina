@@ -8,12 +8,18 @@
       <div class="subheader">
         <?= Yii::t('Front', 'My phone numbers'); ?>
       </div>
-      <?php $this->renderPartial('_mobile_phones', array('users_phones' => $users_phones, 'model_phones' => $model_phones)); ?>
+
+        <div class="head-ajax-block">
+            <?php $this->renderPartial('_mobile_phones', array('users_phones' => $users_phones, 'model_phones' => $model_phones)); ?>
+        </div>
 	  
 	  <div class="subheader">
         <?= Yii::t('Front', 'Change phone numbers'); ?>
       </div>
-      <?php $this->renderPartial('_phones', array('model_telephones' => $model_telephones, 'user' => $user)); ?>
+
+      <div class="head-ajax-block">
+        <?php $this->renderPartial('_phones', array('model_telephones' => $model_telephones, 'user' => $user)); ?>
+      </div>
 	  
     </div>
     <div class="clearfix"></div>
