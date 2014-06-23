@@ -1,6 +1,6 @@
-<div class="xabina-accordion transfer-accordion xabina-narrow-accordion head-accordion-param" >
+<div class="xabina-accordion transfer-accordion xabina-narrow-accordion" >
     <?php foreach ($rightsTree as $r):?>
-        <div class="accordion-header">
+        <div class="accordion-header head-accordion-param">
             <a href="#" class="search-acc"><?php echo $r['name']; ?></a>
             <?php if (isset($r['children'])): ?>
                 <span class="arr"></span>

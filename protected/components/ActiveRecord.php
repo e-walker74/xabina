@@ -14,12 +14,14 @@ abstract class ActiveRecord extends CActiveRecord
 
     public function beforeValidate(){
         foreach($this->attributes as $key => $value){
-            $this->$key = strip_tags($value);
+            if($value){
+                $this->$key = strip_tags($value);
+            }
         }
         return parent::beforeValidate();
     }
     
-	protected function beforeSave()
+	public function beforeSave()
     {
         if ($this->getIsNewRecord()) {
             if ($this->hasAttribute('created_at')) {

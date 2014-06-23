@@ -5,42 +5,6 @@ class PersonalController extends Controller
     public $layout = 'banking';
     public $title = '';
 
-//    /**
-//     * Сохранение емейлов
-//     * @param array $arr_post_email POST емейлов
-//     * @param array $arr_post_type  POST типов емейла
-//     * @return bool
-//        TODO delete this function if all right
-//     */
-//    private static function saveUsersEmails(array $arr_post_email, array $arr_post_type)
-//    {
-//        foreach ($arr_post_email as $k => $email) {
-//            if (!empty($email)) {
-//                $model_emails = new Users_Emails;
-//                $model_emails->email = $email;
-//                $model_emails->user_id = Yii::app()->user->id;
-//                $model_emails->email_type_id = (int)$arr_post_type[$k];
-//                //$model_emails->save();
-//                if ($model_emails->save()) {
-//                    $mail = new Mail;
-//                    $mail->send(
-//                        $model_emails->user, // this user
-//                        'emailConfirm', // sys mail code
-//                        array( // params
-//                            '{:type}' => 'emails',
-//                            '{:date}' => date('Y m d', time()),
-//                            '{:activateUrl}' => Yii::app()->getBaseUrl(true) . Yii::app()->createUrl('/personal/activate', array('type' => 'emails', 'hash' => $model_emails->hash)),
-//                        ),
-//                        $model_emails->email
-//                    );
-//
-//                }
-//
-//            }
-//        }
-//        return true;
-//    }
-
     public function filters()
     {
         return array(
@@ -1121,6 +1085,7 @@ class PersonalController extends Controller
         if (!Yii::app()->request->isAjaxRequest) {
             Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/alerts.js', CClientScript::POS_END);
         }
+        Yii::app()->clientScript->scriptMap['personal.js'] = false;
 
         $accounts = Accounts::model()->with('user')->byUserId(Yii::app()->user->id)->findAll();
         if (empty($accounts)) {

@@ -168,10 +168,12 @@ $(function () {
             popout: true,
             onConfirm: function(){
                 var self = $(this).closest('.actions-td').find('.delete');
+                backgroundBlack()
                 $.ajax({
                     type: "POST",
                     url: $(self).data('url'),
                     success: function(data){
+                        dellBackgroundBlack()
                         if(data.success){
                             var tr = $(self).closest('.alert-row');
                             successNotify('Delete alert', 'Alert was successfully deleted', tr.siblings('.alert-row:first'));
