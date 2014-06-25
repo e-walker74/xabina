@@ -240,7 +240,8 @@ class SiteController extends Controller {
 			$model->attributes = $_POST['Form_Registration'];
 			if($model->validate()){
 				if($model->registration()){
-					$this->redirect(array('/registrationsuccess'));
+                    Yii::app()->session['user_phone'] = $model->phone;
+					$this->redirect(array('/site/smsconfirm'));
 				}
 			}
         }

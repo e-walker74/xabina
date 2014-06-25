@@ -178,6 +178,8 @@ $(function(){
         }
     });
 
+    $('.select-invisible').on('change', onCustomSelectChange);
+
     $('.checkbox-custom').on('click', 'label', function(e){
         if($(this).find('input').prop('checked')){
             $(this).addClass('checked');

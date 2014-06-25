@@ -14,6 +14,7 @@ class Form_Registration extends CFormModel
 	public $country;
 	public $company_name;
 	public $role;
+	public $login;
 
 	private $_identity;
 
@@ -26,15 +27,18 @@ class Form_Registration extends CFormModel
 	{
 		return array(
 			array('email', 'required', 'message' => Yii::t('Front', 'E-Mail is incorrect')),
-			array('first_name', 'required', 'message' => Yii::t('Front', 'First Name is incorrect')),
-			array('first_name, last_name', 'match', 'pattern' => '/^[a-zA-Z\- ]{1,}$/', 'message' => Yii::t('Front', 'Add Your name using latin alphabet')),
-			array('last_name', 'required', 'message' => Yii::t('Front', 'Last Name is incorrect')),
+			array('login', 'required', 'message' => Yii::t('Front', 'User ID is incorrect')),
+			//array('first_name', 'required', 'message' => Yii::t('Front', 'First Name is incorrect')),
+			//array('first_name, last_name', 'match', 'pattern' => '/^[a-zA-Z\- ]{1,}$/', 'message' => Yii::t('Front', 'Add Your name using latin alphabet')),
+			//array('last_name', 'required', 'message' => Yii::t('Front', 'Last Name is incorrect')),
 			array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
+			array('login', 'length', 'min' => 5, 'max' => 20, 'tooShort' => Yii::t('Front', 'User ID is too short'), 'tooLong' => Yii::t('Front', 'User ID is too long')),
 			array('phone', 'authenticatePhone'),
 			array('email', 'checkEmailUnique'),
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),
+            array('login', 'checkLoginUnique'),
 			// password needs to be authenticated
 			array('email', 'authenticate'),
             array('role', 'required'),
@@ -56,6 +60,7 @@ class Form_Registration extends CFormModel
 			'phone' => Yii::t('Front', 'Mobile Phone'),
 			'company_name' => Yii::t('Front', 'Company Name'),
 			'country' => Yii::t('Front', 'Country'),
+			'login' => Yii::t('Front', 'User ID'),
 		);
 	}
 	
@@ -76,6 +81,14 @@ class Form_Registration extends CFormModel
 		$email = Users_Emails::model()->find('email = :email AND status=1', array(':email' => $this->email));
         if($email){
             $this->addError('email', Yii::t('Front', 'This E-mail is already registered'));
+        }
+    }
+
+	public function checkLoginUnique($attribute, $params){
+        $this->login = trim($this->login);
+		$email = Users::model()->find('login = :login', array(':login' => $this->login));
+        if($email){
+            $this->addError('login', Yii::t('Front', 'This User ID is already registered'));
         }
     }
 
@@ -127,7 +140,7 @@ class Form_Registration extends CFormModel
 		$result = false;
 		$user = new Users;
 		$user->attributes = $this->attributes;
-		$user->login = new CDbExpression('UUID_SHORT()');
+		//$user->login = new CDbExpression('UUID_SHORT()');
 		$pass = substr(md5(time() . 'xabina_pass' . $user->email), 2, 8);
 		$user->password = md5($pass);
 		$user->created_at = time();
