@@ -46,10 +46,11 @@
 										),
 							)); ?>
 
-									<div class="popup-register-form" id="popup-auth-form">
+									<div class="popup-register-form sms-form" id="popup-auth-form">
 										<div class="form-line">
 											<div class="form-block">
-												<div class="form-lbl"><?= $model->getAttributeLabel('login') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form LOGIN OR EMAIL]'); ?>"></span></div>
+                                                <?= $form->hiddenField($model, 'formtype'); ?>
+												<div class="form-lbl"><?= Yii::t('Front', '[remind form '.$_POST['formtype'].']') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form '.$_POST['formtype'].' tooltip]'); ?>"></span></div>
 												<div class="form-input">
 													<?= $form->textField($model, 'login', array('class' => 'remind')); ?>
 													<span class="validation-icon"></span>

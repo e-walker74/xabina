@@ -178,4 +178,14 @@ $(function(){
         }
     });
 
+    $('.checkbox-custom').on('click', 'label', function(e){
+        if($(this).find('input').prop('checked')){
+            $(this).addClass('checked');
+            e.stopPropagation();
+        }else{
+            $(this).removeClass('checked');
+            e.stopPropagation();
+        }
+    });
+
 });

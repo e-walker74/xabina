@@ -261,7 +261,8 @@ class SiteController extends Controller {
         }
 		
 		$form = new Form_Remind();
-		
+
+
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'remind-from') {
 			echo CActiveForm::validate($form);
             Yii::app()->end();
@@ -269,45 +270,133 @@ class SiteController extends Controller {
 
         if (isset($_POST['Form_Remind'])) {
             $form->attributes = $_POST['Form_Remind'];
-			$user = Users::model()->find('email = :email', array(':email' => $form->login));
-			if(!$user){
-				$user = Users::model()->find('login = :login', array(':login' => $form->login));
-			}
-			if($user){
-				if($user->hash){
-					$pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-					$user->password = md5($pass);
-					$user->createHash();
-					$user->save();
-					$mail = new Mail();
-					$mail->send(
-						$user, // this user
-						'remindPassWithLink', // sys mail code
-						array(	// params
-							'{:userPassword}' => $pass,
-							'{:date}' => date('Y m d', time()),
-							'{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-						)
-					);
-				} else {
-					$pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-					$user->password = md5($pass);
-					$user->save();
-					$mail = new Mail();
-					$mail->send(
-						$user, // this user
-						'remindPassWithoutLink', // sys mail code
-						array(	// params
-							'{:userPassword}' => $pass,
-							'{:date}' => date('Y m d', time()),
-						)
-					);
-				}
-				
-			}
+
+            if ($form->formtype == 'nummail') {
+
+                $user = Users::model()->find('phone = :phone', array(':phone' => $form->login));
+                if(!$user){
+                    $user = Users::model()->find('login = :login', array(':login' => $form->login));
+                }
+                if($user){
+                    if($user->hash){
+                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+                        $user->password = md5($pass);
+                        $user->createHash();
+                        $user->save();
+                        $mail = new Mail();
+                        $mail->send(
+                            $user, // this user
+                            'remindPassWithLink', // sys mail code
+                            array(	// params
+                                '{:userPassword}' => $pass,
+                                '{:date}' => date('Y m d', time()),
+                                '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+                            )
+                        );
+                    } else {
+                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+                        $user->password = md5($pass);
+                        $user->save();
+                        $mail = new Mail();
+                        $mail->send(
+                            $user, // this user
+                            'remindPassWithoutLink', // sys mail code
+                            array(	// params
+                                '{:userPassword}' => $pass,
+                                '{:date}' => date('Y m d', time()),
+                            )
+                        );
+                    }
+
+                }
+            }
+            elseif ($form->formtype == 'udmail') {
+
+                $user = Users::model()->find('email = :email', array(':email' => $form->login));
+                if(!$user){
+                    $user = Users::model()->find('login = :login', array(':login' => $form->login));
+                }
+                if($user){
+                    if($user->hash){
+                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+                        $user->password = md5($pass);
+                        $user->createHash();
+                        $user->save();
+                        $mail = new Mail();
+                        $mail->send(
+                            $user, // this user
+                            'remindPassWithLink', // sys mail code
+                            array(	// params
+                                '{:userPassword}' => $pass,
+                                '{:date}' => date('Y m d', time()),
+                                '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+                            )
+                        );
+                    } else {
+                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+                        $user->password = md5($pass);
+                        $user->save();
+                        $mail = new Mail();
+                        $mail->send(
+                            $user, // this user
+                            'remindPassWithoutLink', // sys mail code
+                            array(	// params
+                                '{:userPassword}' => $pass,
+                                '{:date}' => date('Y m d', time()),
+                            )
+                        );
+                    }
+
+                }
+            }
+            elseif ($form->formtype == 'name') {
+
+                $user = Users::model()->find('email = :email', array(':email' => $form->login));
+                if(!$user){
+                    $user = Users::model()->find('login = :login', array(':login' => $form->login));
+                }
+                if($user){
+                    if($user->hash){
+                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+                        $user->password = md5($pass);
+                        $user->createHash();
+                        $user->save();
+                        $mail = new Mail();
+                        $mail->send(
+                            $user, // this user
+                            'remindPassWithLink', // sys mail code
+                            array(	// params
+                                '{:userPassword}' => $pass,
+                                '{:date}' => date('Y m d', time()),
+                                '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+                            )
+                        );
+                    } else {
+                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
+                        $user->password = md5($pass);
+                        $user->save();
+                        $mail = new Mail();
+                        $mail->send(
+                            $user, // this user
+                            'remindPassWithoutLink', // sys mail code
+                            array(	// params
+                                '{:userPassword}' => $pass,
+                                '{:date}' => date('Y m d', time()),
+                            )
+                        );
+                    }
+
+                }
+            }
             $this->redirect(array('/remindsuccess'));
         }
-		
-		$this->render('frm/_remind', array('model' => $form));
+
+        if (isset($_POST['formtype'])) {
+            $form->formtype = $_POST['formtype'];
+		    $this->render('frm/_remind', array('model' => $form));
+        } else {
+
+            $this->render('frm/_remindtype', array('model' => $form));
+        }
     }
 }

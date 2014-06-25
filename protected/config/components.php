@@ -3,7 +3,7 @@
 return array(
     'db'            => require(dirname(__FILE__) . '/components/db.php'),
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
-    'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
+    //'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
     'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'notify' => array(

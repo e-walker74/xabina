@@ -13,7 +13,7 @@
 			</ul>
 		</div>
 		<div class="shadow_blocker"></div>
-		<div class="popup-register-header"><?= Yii::t('Front', 'Sms login form') ?></div>
+		<div class="popup-register-header"><?= Yii::t('Front', 'Account login') ?></div>
 			<?php $form=$this->beginWidget('CActiveForm', array(
 						'id'=>'sms-login',
 						'enableAjaxValidation'=>true,
@@ -40,7 +40,7 @@
 						),
 			)); ?>
 
-					<div class="popup-register-form" id="popup-auth-form">
+					<div class="popup-register-form sms-form" id="popup-auth-form">
 						<div class="form-line">
 							<div class="form-block">
 								<div class="form-lbl"><?= $model->getAttributeLabel('userId') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form LOGIN OR EMAIL]'); ?>"></span></div>
@@ -58,6 +58,13 @@
 						<div class="form-line-submit">
 							<input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Login'); ?>"/>
 						</div>
+                        <div class="register-forgot-row">
+                            <a href="/remind" class="cant-access">I cannot access my account</a>
+
+                            <div class="change-phone-cont">
+                                <a href="/account"  class="dont-have">I do not have an account yet. Open an account</a>
+                            </div>
+                        </div>
 					</div>
 			<?php $this->endWidget(); ?>
 	</div>

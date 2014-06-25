@@ -8,6 +8,7 @@
 class Form_Remind extends CFormModel
 {
 	public $login;
+	public $formtype;
 	private $_identity;
 
 	/**
@@ -18,7 +19,7 @@ class Form_Remind extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('login', 'required', 'message' => Yii::t('Front', 'Insert Login or Email')),
+			array('login, formtype', 'required', 'message' => Yii::t('Front', 'Field cannot empty')),
 			array('login', 'match', 'pattern' => '/^[0-9a-zA-Z\-\@\_\.]{1,}$/', 'message' => Yii::t('Front', 'Insert Your login using latin alphabet')),
 			// password needs to be authenticated
 		);
