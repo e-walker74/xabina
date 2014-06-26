@@ -44,7 +44,7 @@
                                     <div class="form-block">
                                         <div class="form-lbl">
                                             <?= $model->getAttributeLabel('code') ?>
-                                            <span class="tooltip-icon " title="[Enter your Username or E-Mail]"></span>
+                                            <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your SMS verification code') ?>"></span>
                                         </div>
                                         <div class="sms-hint"><?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number +x xxx xxx :num.', array(':num' => substr($user->phone, -3))); ?></div>
                                         <div class="form-input">

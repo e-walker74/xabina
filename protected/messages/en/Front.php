@@ -33,6 +33,8 @@ return array(
 	'[login form LOGIN OR EMAIL]' => '[Enter your Username or E-Mail]',
 	'[login form PASSWORD]' => '[Enter password from your account]',
     '[remind form nummail]' => 'Enter E-Mail or Phone',
+    '[remind form udmail]' => 'Enter User ID or E-Mail',
+    '[remind form name]' => 'Enter Name',
 
 	'{termsConditionsText}' => 
 		'Вся информация, размещённая на данном сайте, является собственностью Xabina.

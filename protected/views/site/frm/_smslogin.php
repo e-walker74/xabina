@@ -43,7 +43,7 @@
 					<div class="popup-register-form sms-form" id="popup-auth-form">
 						<div class="form-line">
 							<div class="form-block">
-								<div class="form-lbl"><?= $model->getAttributeLabel('userId') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form LOGIN OR EMAIL]'); ?>"></span></div>
+								<div class="form-lbl"><?= $model->getAttributeLabel('userId') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your User ID'); ?>"></span></div>
 								<div class="form-input">
 									<?= $form->textField($model, 'userId', array('class' => 'remind')); ?>
 									<span class="validation-icon"></span>

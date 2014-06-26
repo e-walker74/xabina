@@ -52,7 +52,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('email') ?>
-                        <span class="tooltip-icon " title="[Enter your Username or E-Mail]"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-mail'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'email', array('autocomplete' => 'off')); ?>
@@ -65,7 +65,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('phone') ?>
-                        <span class="tooltip-icon " title="[Enter password from your account]"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your phone'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'phone', array('autocomplete' => 'off')); ?>
@@ -82,7 +82,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('login') ?>
-                        <span class="tooltip-icon " title="[Enter your Username or E-Mail]"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your User ID'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'login', array('autocomplete' => 'off')); ?>
@@ -95,7 +95,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('role') ?>
-                        <span class="tooltip-icon " title="[Enter password from your account]"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your role'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <div class="select-custom select-type">
