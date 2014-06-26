@@ -22,7 +22,8 @@ class SiteController extends Controller {
 					'index', 
 					'error', 
 					'registration', 
-					'remind', 
+					'remind',
+                    'SMSRegisterVerify',
 					'registrationsuccess', 
 					'remindsuccess',
 					'SMSLogin',
@@ -31,6 +32,8 @@ class SiteController extends Controller {
 					'SMSPhoneChange',
 					'resendloginsms',
 					'disclaime',
+                    'ResendVerifySMS',
+                    'SMSVerifyPhoneChange',
 				),
                 'users' => array('*')
             ),
@@ -142,7 +145,7 @@ class SiteController extends Controller {
 	}
 	
 	public function actionSMSConfirm(){
-	
+
 		$model = new Form_Smslogin('confirm');
 		if(!isset(Yii::app()->session['user_phone'])){
 			$this->redirect(array('/site/smslogin'));
@@ -240,13 +243,102 @@ class SiteController extends Controller {
 			$model->attributes = $_POST['Form_Registration'];
 			if($model->validate()){
 				if($model->registration()){
+
                     Yii::app()->session['user_phone'] = $model->phone;
-					$this->redirect(array('/site/smsconfirm'));
+					Yii::app()->session['user_code'] = rand(100000,999999);
+					$this->redirect(array('/site/SMSRegisterVerify/'));
 				}
 			}
         }
         $this->render('frm/_registration', array('model' => $model));
     }
+
+	public function actionSMSRegisterVerify(){
+
+		$model = new Form_Smsregisterverify('confirm');
+		if(!isset(Yii::app()->session['user_phone'])){
+			$this->redirect(array('/account'));
+		}
+
+		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+		$model->userId = $user->login;
+
+
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirm') {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+		if(isset($_POST['Form_Smsregisterverify'])){
+
+			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+			$model->code = $_POST['Form_Smsregisterverify']['code'];
+
+			if(!$user->phone_confirm){
+				$user->phone_confirm = 1;
+				$newPhone = new Users_Phones;
+				$newPhone->user_id = $user->id;
+				$newPhone->email_type_id = 3; // TODO: email types
+				$newPhone->phone = $user->phone;
+				$newPhone->status = 1;
+				$newPhone->is_master = 1;
+				$newPhone->withOutHash = true;
+				$newPhone->save();
+				$user->save();
+			}
+            $this->redirect(array('/site/registrationSuccess'));
+		}
+
+		$this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
+	}
+
+	public function actionResendVerifySMS(){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		if(!isset(Yii::app()->session['user_phone'])){
+			$this->redirect(array('/account'));
+		}
+
+		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+		$model = new Form_Smsregisterverify('login');
+
+		$model->userId = $user->login;
+        ;
+		if($model->smsSendCode()){
+			echo CJSON::encode(array('success' => true));
+		}
+	}
+
+	public function actionSMSVerifyPhoneChange(){
+
+		$model = new Form_Smslogin('change');
+		if(!isset(Yii::app()->session['user_phone'])){
+			$this->redirect(array('/site/smslogin'));
+		}
+		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+
+		$model->userId = $user->login;
+		if($user->phone_confirm){
+			//throw new CHttpException(404, Yii::t('Page not found'));
+		}
+
+		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+		if(isset($_POST['Form_Smslogin'])){
+			$user->phone = $_POST['Form_Smslogin']['phone'];
+			if($user->save()){
+                Yii::app()->session['user_phone'] = $user->phone;
+				$this->redirect(array('/site/ResendVerifySMS'));
+
+			}
+		}
+
+		$this->render('frm/_registerchangephone', array('model' => $model, 'user' => $user));
+	}
 
 	public function actionRegistrationSuccess(){
 		$this->render('registrationSuccess');

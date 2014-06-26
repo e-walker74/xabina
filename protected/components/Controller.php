@@ -43,7 +43,7 @@ class Controller extends CController
     {
         if (!Yii::app()->request->isAjaxRequest) {
             Yii::app()->clientScript->registerCssFile("/css/jquery.pnotify.default.css");
-            Yii::app()->clientScript->registerCssFile("/default/css/bootstrap.min.css");
+            //Yii::app()->clientScript->registerCssFile("/default/css/bootstrap.min.css");
             Yii::app()->clientScript->registerCssFile("/css/fonts.css");
             Yii::app()->clientScript->registerCssFile("/css/media.css");
             if ($this->id !== 'rbac') {
