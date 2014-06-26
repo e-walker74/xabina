@@ -21,13 +21,19 @@ RBAC = {
             if ($(this).find('input').prop('checked')) {
                 $(this).addClass('checked');
                 e.stopPropagation();
-                self.checkParentsOn(this)
             } else {
                 $(this).removeClass('checked');
                 e.stopPropagation();
-                self.checkParentsOff(this)
             }
         });
+
+        $('input[type=checkbox]').change(function(){
+            if ($(this).prop('checked')) {
+                self.checkParentsOn(this)
+            } else{
+                self.checkParentsOff(this)
+            }
+        })
 
         $('.xabina-accordion').accordion({
             heightStyle: "content",
@@ -157,6 +163,20 @@ RBAC = {
         }
     },
     checkParentsOff: function(elem){
+        var childs = $(elem).closest('.head-of-param').find('input[type=checkbox]')
+
+        childs.val('')
+            .attr('checked', false)
+            .parent()
+            .removeClass('checked')
+
+        var top_r = $(elem).closest('.top-right')
+
+        if(top_r.find('input[type=checkbox]:checked').length == 0){
+            top_r.prev('.head-accordion-param')
+                .find('input[type=hidden]:first')
+                .val('').attr('checked', false)
+        }
 
     },
     checkParentsOn: function(elem){
@@ -172,7 +192,7 @@ RBAC = {
 
         var head = $(elem).parents('.head-of-param').each(function(){
             if($(this).hasClass('top-right')){
-                $(this).prev('.head-accordion-param').find('input[type=hidden]:first').val(1)
+                $(this).prev('.head-accordion-param').find('input[type=hidden]:first').val(1).attr('checked', 'checked')
             } else {
                 el = $(this).find('input[type=checkbox]:first')
                 el.attr('checked','checked').parent().addClass('checked')

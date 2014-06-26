@@ -7,7 +7,7 @@
 				<?php else: ?>
 					<img width="40" src="/images/contact_no_foto.png" alt="">
 				<?php endif; ?>
-				<span class="valid-status ok"></span>
+<!--				<span class="valid-status ok"></span>-->
 			</div>
 			<div class="contact-name"><?= $model->fullname ?></div>
 			<div class="contact-actions transaction-buttons-cont">
@@ -153,7 +153,7 @@
 										<?= $account->getPaementSystemModel()->name ?><br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -178,7 +178,7 @@
 										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>"><?= $account->email ?></span> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -203,7 +203,7 @@
 										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>">+<?= number_format($account->phone, 0, "", " ") ?></span> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -229,7 +229,7 @@
 										<?= $account->index ?> <?= $account->country_code ?>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -255,7 +255,7 @@
 									</td>
 									<td class="values"  style="width: 52%">
 										<div class="liniking-photo">
-											<span class="valid-status error"></span>
+<!--											<span class="valid-status error"></span>-->
 											<?php if($contInfo->photo): ?>
 												<img width="40" src="<?= $contInfo->getAvatarUrl() ?>" alt=""/>
 											<?php else: ?>
@@ -266,7 +266,7 @@
 										<?= $contact->category ?> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($contact->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($contact->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -292,7 +292,7 @@
 										<?= $account->messanger ?> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -320,7 +320,7 @@
 										<?= $account->category ?> <br>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>
@@ -348,7 +348,7 @@
 										<?php endif; ?>
 									</td>
 									<td  style="width: 6%">
-										<a class="acc-ico <?= ($account->dbModel->is_primary) ? 'priamry' : '' ?>"  href="#"></a>
+<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
 									</td>
 								</tr>
 								<?php endforeach; ?>

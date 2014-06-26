@@ -6,22 +6,31 @@
 			<th style="width: 21%"><?= Yii::t('Front', 'Status') ?></th>
 			<th style="width: 20%"></th>
 		</tr>
-		<?php foreach($model->getDataByType('email') as $model): ?>
+		<?php foreach($model->getDataByType('email') as $m): ?>
 		<tr class="data-row">
-			<td><?= $model->email ?></td>
-			<td><?= $model->category ?></td>
-			<td><span class="primary"><?= ($model->getDbModel()->is_primary) ? Yii::t('Front', 'Primary') : '' ?></span></td>
+			<td><?= $m->email ?></td>
+			<td><?= $m->category ?></td>
+			<td>
+                <?php if($m->getDbModel()->is_primary): ?>
+                    <span class="primary">
+                        <?= Yii::t('Front', 'Primary') ?>
+                    </span>
+                <?php else: ?>
+                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
+                <?php endif; ?>
+            </td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'email', 'id' => $model->id)) ?>" ></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'email', 'id' => $m->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
 		<tr class="edit-row">
 			<td colspan="4">
 				<?php $form=$this->beginWidget('CActiveForm', array(
-					'id'=>'dataform-form-email'.$model->id,
+					'id'=>'dataform-form-email'.$m->id,
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -41,15 +50,15 @@
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
-							<?= $form->hiddenField($model, 'id') ?>
+							<?= $form->hiddenField($m, 'id') ?>
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'E-mail') ?>
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'email', array('class' => 'input-text')) ?>
-									<?= $form->error($model, 'email') ?>
+									<?= $form->textField($m, 'email', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'email') ?>
 								</div>
 							</div>
 						</div>
@@ -60,8 +69,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'category', array('class' => 'input-text')) ?>
-									<?= $form->error($model, 'category') ?>
+									<?= $form->textField($m, 'category', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'category') ?>
 								</div>
 							</div>
 						</div>
@@ -86,6 +95,7 @@
 			<td colspan="4">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-email',
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -102,7 +112,7 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
-				<?php $model = new Users_Contacts_Data_Email; ?>
+				<?php $m = new Users_Contacts_Data_Email; ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
@@ -112,8 +122,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'email', array('class' => 'input-text')) ?>
-									<?= $form->error($model, 'email') ?>
+									<?= $form->textField($m, 'email', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'email') ?>
 								</div>
 							</div>
 						</div>
@@ -124,8 +134,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($model, 'category', array('class' => 'input-text')) ?>
-									<?= $form->error($model, 'category') ?>
+									<?= $form->textField($m, 'category', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'category') ?>
 								</div>
 							</div>
 						</div>

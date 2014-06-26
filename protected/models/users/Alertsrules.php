@@ -71,7 +71,7 @@ class Users_AlertsRules extends ActiveRecord
         return $this;
     }
 
-    protected function beforeValidate()
+    public function beforeValidate()
     {
         if(parent::beforeValidate()) {
             $this->greater = $this->greater != '' ? floor($this->greater)+($this->greater_cent/100) : '';
@@ -240,8 +240,11 @@ class Users_AlertsRules extends ActiveRecord
                 'user_id' => Yii::app()->user->id,
                 'alert_rule_id' => $this->id
             ));
+
+
         foreach ($emails as $emailID => $active) {
             if($active) {
+
                 $modelEmail = Users_Emails::model()->findByPk($emailID);
                 if($modelEmail && $modelEmail->user_id == Yii::app()->user->id) {
                     $ruleEmail = new Users_AlertsEmail();

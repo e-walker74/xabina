@@ -62,7 +62,7 @@
             <div class="field-input">
                 <?=
                 $form->textField($model, 'creditcard_number', array(
-                    'class' => 'input-text',
+                    'class' => 'input-text numeric',
                     'value' => $model->from_account_number,
                     'id' => "{$this->modelName}_creditcard_number",
                 ))?>

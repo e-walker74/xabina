@@ -39,7 +39,7 @@ $defaultFormParams = array(
         )));
         ?>
         <div class="cell" style="width: 18%"><?= $rule->alert->name; ?></div>
-        <div class="cell" style="width: 24%">
+        <div class="cell" style="width: 20%">
             <?= CHtml::hiddenField('account', $selectedAcc->number, array('id' => 'account' . $rule->id)); ?>
             <?= $form->hiddenField($rule, 'alert_code', array('value' => $rule->alert->code)); ?>
             <?php if ($rule->greater): ?>
@@ -155,9 +155,14 @@ $defaultFormParams = array(
             <?php endif; ?>
         </div>
         <div class="block-box">
-            <div class="cell lh" style="width: 27%">
+            <div class="cell lh" style="width: 27%;">
                 <?php foreach ($rule->alertEmails as $alertEmail): ?>
-                    <div class="str not-edit-doc"><?= $alertEmail->email->email; ?></div>
+                    <?php if(mb_strlen($alertEmail->email->email, 'utf8') > 30): ?>
+                        <div class="str not-edit-doc"><?= substr($alertEmail->email->email, 0, 30); ?>...</div>
+                    <?php else: ?>
+                        <div class="str not-edit-doc"><?= $alertEmail->email->email; ?></div>
+                    <?php endif; ?>
+
                 <?php endforeach; ?>
                 <div class="edit-doc" style="display: none;">
                     <div class="field-row">
@@ -182,9 +187,9 @@ $defaultFormParams = array(
                     <?= $form->error($rule, 'emails'); ?>
                 </div>
             </div>
-            <div class="cell lh" style="width: 19%">
+            <div class="cell lh" style="width: 19%; text-align:right;">
                 <?php foreach ($rule->alertPhones as $alertPhone): ?>
-                    <div class="str not-edit-doc">+<?= $alertPhone->phone->phone; ?></div>
+                    <div class="str not-edit-doc">+...<?= substr($alertPhone->phone->phone, -5); ?></div>
                 <?php endforeach; ?>
                 <div class="edit-doc" style="display: none;">
                     <div class="field-row">
@@ -208,7 +213,7 @@ $defaultFormParams = array(
                 </div>
             </div>
         </div>
-        <div class="cell actions-td" style="width: 12%">
+        <div class="cell actions-td" style="width: 16%">
             <div class="not-edit-doc">
                 <a href="#" class="button edit"></a>
                 <a data-url="<?= $this->createUrl('dropalerts', array('id' => $rule->id)); ?>"
@@ -333,7 +338,7 @@ $defaultFormParams = array(
         <div class="field-row">
             <div class="field-lbl">
                 <?= Yii::t('Front', 'E-mail'); ?>
-                <span class="tooltip-icon" title="tooltip text"></span>
+                <span class="tooltip-icon" title="alert_email"></span>
             </div>
             <?php foreach ($emailAddresses as $alertEmail) : ?>
                 <div class="field-input">

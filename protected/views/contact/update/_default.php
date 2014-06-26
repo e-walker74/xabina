@@ -1,9 +1,9 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 53%"><?= Yii::t('Front', 'Default'); ?></th>
-			<th style="width: 47%"><?= Yii::t('Front', 'Category'); ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 49%"><?= Yii::t('Front', 'Default'); ?></th>
+			<th style="width: 41%"><?= Yii::t('Front', 'Category'); ?></th>
+			<th style="width: 10%"></th>
 		</tr>
 		<?php foreach(Users_Contacts_Data_Default::$types as $key => $value): ?>
 		<?php $default = Users_Contacts_Data_Default::getModelForType($model, $key); ?>
@@ -21,6 +21,7 @@
 			<td colspan="2">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-dafault'.$key,
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',

@@ -417,22 +417,18 @@ $(function () {
         window.open(url)
     }
 
-    makePrimary = function (url) {
-        backgroundBlack()
+
+
+    resendActivationEmail = function(url, link){
         $.ajax({
             url: url,
-            success: function (data) {
-                dellBackgroundBlack()
-                var response = jQuery.parseJSON(data);
-                if (response.success) {
-                    if (response.message) {
-                        successNotify(response.titleMess, response.message)
-                    }
-                    if (response.reload) {
-                        location.reload()
-                    }
+            success: function(response){
+                if(response.success)
+                {
+                    successNotify(response.titleMess, response.message, link)
                 }
             },
+            dataType: 'json',
             cache: false,
             data: {},
             type: 'POST'
@@ -472,28 +468,7 @@ $(function () {
         });
     }
 
-    activatePhone = function (url, link) {
-        value = $(link).parents('.field-row').find('.input-text-sms').val();
-        backgroundBlack()
-        if (value) {
-            $.ajax({
-                url: url + value,
-                success: function (data) {
-                    dellBackgroundBlack()
-                    var response = jQuery.parseJSON(data);
-                    if (response.success) {
-                        $(window).unbind('beforeunload')
-                        location.reload()
-                    } else {
-                        $(link).parents('td').find('.error-message').html(response.message).fadeIn()
-                    }
-                },
-                cache: false,
-                data: {},
-                type: 'POST'
-            });
-        }
-    }
+
 
 
     /**
@@ -593,18 +568,6 @@ $(document).ready(function () {
         $('#bg-404-gold').plaxify({"xRange": 30, "yRange": 30});
         $.plax.enable();
     }
-
-    $('.mask-toggle').on('mouseenter', function (e) {
-        var $maskedEl = $(this).parents('td').find('.masked-value');
-        var $originalEl = $(this).parents('td').find('.original-value');
-        $maskedEl.html($originalEl.val());
-    })
-    $('.mask-toggle').on('mouseleave', function (e) {
-        var $maskedEl = $(this).parents('td').find('.masked-value');
-        var $originalEl = $(this).parents('td').find('.original-value');
-        $maskedEl.html('**********');
-    })
-
 
 //	if($('.calendar-input, .with_datepicker').length)
 //    $(".calendar-input, .with_datepicker").datepicker({

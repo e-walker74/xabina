@@ -6,25 +6,34 @@
 			<th style="width: 21%"><?= Yii::t('Front', 'Status'); ?></th>
 			<th style="width: 20%"></th>
 		</tr>
-		<?php foreach($model->getDataByType('address') as $address): ?>
+		<?php foreach($model->getDataByType('address') as $m): ?>
 		<tr class="data-row">
 			<td>
-				<?= $address->address ?><br>
-				<?= $address->index ?> <?= $address->country_code ?>
+				<?= $m->address ?><br>
+				<?= $m->index ?> <?= $m->country_code ?>
 			</td>
-			<td><?= $address->category ?></td>
-			<td><span class="primary"><?= ($address->getDbModel()->is_primary) ? Yii::t('Front', 'Primary') : '' ?></span></td>
+			<td><?= $m->category ?></td>
+			<td>
+                <?php if($m->getDbModel()->is_primary): ?>
+                    <span class="primary">
+                        <?= Yii::t('Front', 'Primary') ?>
+                    </span>
+                <?php else: ?>
+                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
+                <?php endif; ?>
+            </td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'address', 'id' => $address->id)) ?>" ></a>
+					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'address', 'id' => $m->id)) ?>" ></a>
 				</div>
 			</td>
 		</tr>
 		<tr class="edit-row">
 			<td colspan="4">
 				<?php $form=$this->beginWidget('CActiveForm', array(
-					'id'=>'dataform-form-address'.$address->id,
+					'id'=>'dataform-form-address'.$m->id,
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -41,7 +50,7 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
-				<?= $form->hiddenField($address, 'id') ?>
+				<?= $form->hiddenField($m, 'id') ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
@@ -51,8 +60,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'address', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'address') ?>
+									<?= $form->textField($m, 'address', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'address') ?>
 								</div>
 							</div>
 						</div>
@@ -63,8 +72,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'address_line_2', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'address_line_2') ?>
+									<?= $form->textField($m, 'address_line_2', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'address_line_2') ?>
 								</div>
 							</div>
 						</div>
@@ -83,8 +92,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'index_address_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'index', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'index') ?>
+									<?= $form->textField($m, 'index', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'index') ?>
 								</div>
 							</div>
 						</div>
@@ -95,8 +104,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'city_address_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'city', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'city') ?>
+									<?= $form->textField($m, 'city', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'city') ?>
 								</div>
 							</div>
 						</div>
@@ -112,8 +121,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'category', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'category') ?>
+									<?= $form->textField($m, 'category', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'category') ?>
 								</div>
 							</div>
 						</div>
@@ -127,17 +136,17 @@
 									<div class="select-custom select-narrow ">
 										<span class="select-custom-label"></span>
 										<?= $form->dropDownList(
-											$address,
+											$m,
 											'country_id',
 											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
 											array(
 												'class' => 'select-invisible country-select',
-												'options' => array($address->country_id => array('selected' => true)),
+												'options' => array($m->country_id => array('selected' => true)),
 												'empty' => Yii::t('Front', 'Select')
 											)
 										); ?>
 									</div>
-									<?= $form->error($address, 'country_id'); ?>
+									<?= $form->error($m, 'country_id'); ?>
 								</div>
 							</div>
 						</div>
@@ -159,6 +168,7 @@
 			<td colspan="4">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-address',
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -175,7 +185,7 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
-				<?php $address = new Users_Contacts_Data_Address; ?>
+				<?php $m = new Users_Contacts_Data_Address; ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
 						<div class="col-lg-5 col-md-5 col-sm-5">
@@ -185,8 +195,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'address', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'address') ?>
+									<?= $form->textField($m, 'address', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'address') ?>
 								</div>
 							</div>
 						</div>
@@ -197,8 +207,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'address_line_2', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'address_line_2') ?>
+									<?= $form->textField($m, 'address_line_2', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'address_line_2') ?>
 								</div>
 							</div>
 						</div>
@@ -217,8 +227,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'index_address_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'index', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'index') ?>
+									<?= $form->textField($m, 'index', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'index') ?>
 								</div>
 							</div>
 						</div>
@@ -229,8 +239,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'city_address_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'city', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'city') ?>
+									<?= $form->textField($m, 'city', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'city') ?>
 								</div>
 							</div>
 						</div>
@@ -246,8 +256,8 @@
 									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
 								</div>
 								<div class="form-input">
-									<?= $form->textField($address, 'category', array('class' => 'input-text')) ?>
-									<?= $form->error($address, 'category') ?>
+									<?= $form->textField($m, 'category', array('class' => 'input-text')) ?>
+									<?= $form->error($m, 'category') ?>
 								</div>
 							</div>
 						</div>
@@ -261,17 +271,17 @@
 									<div class="select-custom select-narrow ">
 										<span class="select-custom-label"></span>
 										<?= $form->dropDownList(
-											$address,
+											$m,
 											'country_id',
 											CHtml::listData(Countries::model()->findAll(array('order' => 'name asc')), 'id', 'name'),
 											array(
 												'class' => 'select-invisible country-select',
-												'options' => array($address->country_id => array('selected' => true)),
+												'options' => array($m->country_id => array('selected' => true)),
 												'empty' => Yii::t('Front', 'Select')
 											)
 										); ?>
 									</div>
-									<?= $form->error($address, 'country_id'); ?>
+									<?= $form->error($m, 'country_id'); ?>
 								</div>
 							</div>
 						</div>

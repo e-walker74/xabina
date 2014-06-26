@@ -22,11 +22,21 @@
                 return false
             }
 
+            if(document.getElementById(fileId).files[0]){
+                var fileFromForm = document.getElementById(fileId).files[0]
+                if ( !fileFromForm.type.match('image.*') ) {
+                    $(f).find('.file .error-message').html('file is not an image').slideDown().delay(3000).slideUp()
+                    return false;
+                }
+            }
+
             backgroundBlack()
 
             var
                 oOutput = document.getElementById(attachmentsBlockId),
                 oData = new FormData();
+
+
 
             oData.append('file', document.getElementById(fileId).files[0]);
             oData.append("description", f.find('.attach-textarea').val())
@@ -58,6 +68,8 @@
                     $('textarea').autosize();
                     if($('textarea.len1').length != 0)
                         $('textarea.len1').limiter('140',$('.len1-num'));
+                    if($('textarea.len').length != 0)
+                        $('textarea.len').limiter('140',$('.len-num'));
                     $('#'+attachmentsBlockId+' .delete').confirmation({
                         title: 'Are you sure?',
                         singleton: true,
@@ -124,11 +136,11 @@
 			success: function(data){
 				if(data.success){
                     var ul = $(link).parents('ul')
+                    successNotify('Delete File', 'File was successfully deleted', ul.parents('table'))
                     $(link).parents('li').remove()
                     if(ul.find('li').length == 0){
                         ul.parents('table.attachments-table').hide();
                     }
-					successNotify('Delete File', 'File was successfully deleted')
 				}
 			},
 			dataType: 'json'
@@ -142,7 +154,6 @@
 		resetPage()
 		row.find('.not-edit-doc').hide()
 		row.find('.edit-doc').show()
-
         row.find('textarea').focus()
 	}
 

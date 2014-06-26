@@ -11,7 +11,9 @@
         'validateOnSubmit' => true,
         'validateOnChange' => true,
         'errorCssClass' => 'input-error',
-        'successCssClass' => 'valid'
+        'successCssClass' => 'valid',
+        'afterValidate' => 'js:Personal.afterValidate',
+        'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
     ),
 )); ?>
 
@@ -31,7 +33,7 @@
 				<div class="comment-bg">
 					<?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number') ?> 
 					+<?= $users_phone->phone ?>
-					<a href="<?= $this->createUrl('/personal/resendsms', array('id' => $users_phone->id)) ?>" onclick='return resendSms(this)'><?= Yii::t('Front', 'Send verification code once again'); ?></a>
+					<a href="<?= $this->createUrl('/personal/resendsms', array('id' => $users_phone->id)) ?>" onclick='return Personal.resendSms(this)'><?= Yii::t('Front', 'Send verification code once again'); ?></a>
 				</div>
 				<div class="comment-arr"></div>
 			</td>
@@ -54,7 +56,7 @@
 						<div class="field-input">
 							<input type="text" name="code_activation" class="status-check-input input-text-sms" />
 						</div>
-						<a href="javaScript:void(0)" class="button ok" onclick="activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
+						<a href="javaScript:void(0)" class="button ok" onclick="Personal.activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
 					</div>
 					<div class="error-message"></div>
                 <?php elseif ($users_phone->status == 1 && $users_phone->is_master == 0):?>
@@ -65,11 +67,11 @@
 						<div class="field-input">
 							<input class="status-check-input input-text-sms" type="text" name="code_activation" />
 						</div>
-						<a href="javaScript:void(0)" class="button ok" onclick="activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
+						<a href="javaScript:void(0)" class="button ok" onclick="Personal.activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
 					</div>
 					<div class="error-message"></div>
 					<?php else: ?>
-					<a href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>')"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
 					<?php endif; ?>
                 <?php elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
                 <span class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
@@ -139,43 +141,3 @@
     </tr>
 </table>
 <?php $this->endWidget(); ?>
-<script>
-
-$(document).ready(function(){
-
-	$('#user_datas .transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			deleteRow($(this).parents('.popover').prev('a'));
-			return false;
-		}
-	})
-
-})
-
-var resendSms = function(link){
-	link = $(link)
-	$.post(
-		link.attr('href'), 
-		function(data){
-			if(jQuery.parseJSON(data).success){
-				successNotify('<?= Yii::t('Front', 'My phone numbers') ?>', '<?= Yii::t('Front', 'Sms was sent') ?>');
-			}
-		}
-	)
-	return false;
-}
-
-$('.types_dropdown').dropDown({
-	list: {
-		<?php foreach(Users_EmailTypes::all() as $k => $v):?>
-		<?php if(!empty($k) && !empty($v)):?>
-	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<?php endif; ?>
-		<?php endforeach;?>
-	},
-	listClass: 'type_dropdown',
-});
-</script>

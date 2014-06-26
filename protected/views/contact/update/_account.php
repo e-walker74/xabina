@@ -1,8 +1,8 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 15%"><?= Yii::t('Front', 'Account Type') ?></th>
-			<th style="width: 29%"><?= Yii::t('Front', 'Account Holder') ?></th>
+			<th style="width: 17%"><?= Yii::t('Front', 'Account Type') ?></th>
+			<th style="width: 27%"><?= Yii::t('Front', 'Account Holder') ?></th>
 			<th style="width: 24%"><?= Yii::t('Front', 'Account Number') ?></th>
 			<th style="width: 11%"><?= Yii::t('Front', 'Status') ?></th>
 			<th style="width: 20%"></th>
@@ -12,7 +12,15 @@
 			<td><?= Users_Contacts_Data_Account::$contacts_account_types[$account->account_type] ?></td> <?php //TODO:: dont user this any where!!! ?>
 			<td><?= $account->account_holder ?></td>
 			<td><?= $account->account_number ?></td>
-			<td><span class="primary"><?= ($account->getDbModel()->is_primary) ? Yii::t('Front', 'Primary') : '' ?></span></td>
+			<td>
+                <?php if($account->getDbModel()->is_primary): ?>
+                    <span class="primary">
+                        <?= Yii::t('Front', 'Primary') ?>
+                    </span>
+                <?php else: ?>
+                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $account->getDbModel()->data_type, 'id' => $account->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
+                <?php endif; ?>
+			</td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a href="javaScript:void(0)" class="button edit"></a>
@@ -24,6 +32,7 @@
 			<td colspan="5">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-accout'.$account->id,
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
@@ -46,11 +55,11 @@
 							<?= $form->hiddenField($account, 'id') ?>
 							<div class="form-cell">
 								<div class="form-lbl">
-									<?php Yii::t('Front', 'Account Type'); ?>
+									<?= Yii::t('Front', 'Account Type'); ?>
 									<span class="tooltip-icon" title="<?php Yii::t('Front', 'Add Your first name using latin alphabet'); ?>"></span>
 								</div>
 								<div class="form-input">
-									<div class="select-custom select-narrow ">
+									<div class="select-custom select-narrow" style="background: #e1e1e7">
 										<span class="select-custom-label"></span>
 										<?= $form->dropDownList(
 											$account,
@@ -235,6 +244,7 @@
 			<td colspan="5">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-account',
+                    'action' => array('/contact/update', 'url' => $model->url),
 					'enableAjaxValidation'=>true,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',

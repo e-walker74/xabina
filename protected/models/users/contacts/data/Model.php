@@ -45,6 +45,13 @@ class Users_Contacts_Data_Model extends CModel
 	{
 		return parent::model($className);
 	}
+
+    public function beforeValidate(){
+        foreach($this->attributes as $key => $value){
+            $this->$key = strip_tags($value);
+        }
+        return parent::beforeValidate();
+    }
 	
 	public function save(){
 		if(!$this->_dbModel){
