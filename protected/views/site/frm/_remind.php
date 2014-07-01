@@ -50,7 +50,7 @@
 										<div class="form-line">
 											<div class="form-block">
                                                 <?= $form->hiddenField($model, 'formtype'); ?>
-												<div class="form-lbl"><?= Yii::t('Front', '[remind form '.$_POST['formtype'].']') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form '.$_POST['formtype'].' tooltip]'); ?>"></span></div>
+												<div class="form-lbl"><?= Yii::t('Front', '[remind form '.$model->formtype.']') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form '.$model->formtype.' tooltip]'); ?>"></span></div>
 												<div class="form-input">
 													<?= $form->textField($model, 'login', array('class' => 'remind')); ?>
 													<span class="validation-icon"></span>

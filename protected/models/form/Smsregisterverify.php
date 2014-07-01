@@ -71,4 +71,23 @@ class Form_Smsregisterverify extends CFormModel
         return true;
 	}
 
+	public function login()
+	{
+		if($this->_identity===null)
+		{
+			$this->_identity=new UserSmsIdentity($this->userId);
+			$this->_identity->authenticate();
+
+		}
+
+		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
+		{
+			$duration= 60 * 15;
+            Yii::app()->user->login($this->_identity,$duration);
+            return true;
+		}
+		else
+			return false;
+	}
+
 }

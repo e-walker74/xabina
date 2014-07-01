@@ -49,29 +49,16 @@
 
                                         <ul class="form-list">
                                             <li>
-                                                <div class="checkbox-custom">
-                                                    <label class="">
-                                                        <input type="checkbox" name="formtype" value="nummail">
-                                                    </label>
-                                                </div>
-                                                <span>I forgot my User ID, but I know the phone number or E-Mail</span>
-
+                                                <a href="?type=email"><?= Yii::t('Front', 'I know my E-Mail') ?></a>
                                             </li>
                                             <li>
-                                                <div class="checkbox-custom">
-                                                    <label class="">
-                                                        <input type="checkbox" name="formtype" value="udmail">
-                                                    </label>
-                                                </div>
-                                                 <span>I lost my phone, but I remember my User ID, E-Mail and phone number</span>
+                                                <a href="?type=phone"><?= Yii::t('Front', 'I know my Phone') ?></a>
                                             </li>
                                             <li>
-                                                <div class="checkbox-custom">
-                                                    <label class="">
-                                                        <input type="checkbox" name="formtype" value="name">
-                                                    </label>
-                                                </div>
-                                                 <span>I forgot my User ID, E-mail and/or phone number, but I rember my name</span>
+                                                <a href="?type=login"><?= Yii::t('Front', 'I know my User ID') ?></a>
+                                            </li>
+                                            <li>
+                                                <a href="?"><?= Yii::t('Front', 'I forgot my User ID, E-mail and/or phone number, but I rember my name') ?></a>
                                             </li>
                                         </ul>
                                         <div class="form-line-submit">

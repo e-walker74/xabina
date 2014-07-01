@@ -276,6 +276,7 @@ class SiteController extends Controller {
 
 			if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
+				$user->status = 1;
 				$newPhone = new Users_Phones;
 				$newPhone->user_id = $user->id;
 				$newPhone->email_type_id = 3; // TODO: email types
@@ -285,8 +286,12 @@ class SiteController extends Controller {
 				$newPhone->withOutHash = true;
 				$newPhone->save();
 				$user->save();
+
 			}
-            $this->redirect(array('/site/registrationSuccess'));
+
+            if($model->login()){
+                    $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
+            }
 		}
 
 		$this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
@@ -332,7 +337,7 @@ class SiteController extends Controller {
 			$user->phone = $_POST['Form_Smslogin']['phone'];
 			if($user->save()){
                 Yii::app()->session['user_phone'] = $user->phone;
-				$this->redirect(array('/site/ResendVerifySMS'));
+				$this->redirect(array('/site/SMSRegisterVerify'));
 
 			}
 		}
@@ -355,6 +360,7 @@ class SiteController extends Controller {
 		
 		$form = new Form_Remind();
 
+        $remind_types = array("email", "login" , "phone");
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'remind-from') {
 			echo CActiveForm::validate($form);
@@ -364,12 +370,10 @@ class SiteController extends Controller {
         if (isset($_POST['Form_Remind'])) {
             $form->attributes = $_POST['Form_Remind'];
 
-            if ($form->formtype == 'nummail') {
+            if (in_array($form->formtype, $remind_types)) {
 
-                $user = Users::model()->find('phone = :phone', array(':phone' => $form->login));
-                if(!$user){
-                    $user = Users::model()->find('login = :login', array(':login' => $form->login));
-                }
+                $user = Users::model()->findByAttributes(array($form->formtype => $form->login));
+
                 if($user){
                     if($user->hash){
                         $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
@@ -400,92 +404,13 @@ class SiteController extends Controller {
                             )
                         );
                     }
-
+                    $this->redirect(array('/remindsuccess'));
                 }
             }
-            elseif ($form->formtype == 'udmail') {
-
-                $user = Users::model()->find('email = :email', array(':email' => $form->login));
-                if(!$user){
-                    $user = Users::model()->find('login = :login', array(':login' => $form->login));
-                }
-                if($user){
-                    if($user->hash){
-                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-                        $user->password = md5($pass);
-                        $user->createHash();
-                        $user->save();
-                        $mail = new Mail();
-                        $mail->send(
-                            $user, // this user
-                            'remindPassWithLink', // sys mail code
-                            array(	// params
-                                '{:userPassword}' => $pass,
-                                '{:date}' => date('Y m d', time()),
-                                '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-                            )
-                        );
-                    } else {
-                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-                        $user->password = md5($pass);
-                        $user->save();
-                        $mail = new Mail();
-                        $mail->send(
-                            $user, // this user
-                            'remindPassWithoutLink', // sys mail code
-                            array(	// params
-                                '{:userPassword}' => $pass,
-                                '{:date}' => date('Y m d', time()),
-                            )
-                        );
-                    }
-
-                }
-            }
-            elseif ($form->formtype == 'name') {
-
-                $user = Users::model()->find('email = :email', array(':email' => $form->login));
-                if(!$user){
-                    $user = Users::model()->find('login = :login', array(':login' => $form->login));
-                }
-                if($user){
-                    if($user->hash){
-                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-                        $user->password = md5($pass);
-                        $user->createHash();
-                        $user->save();
-                        $mail = new Mail();
-                        $mail->send(
-                            $user, // this user
-                            'remindPassWithLink', // sys mail code
-                            array(	// params
-                                '{:userPassword}' => $pass,
-                                '{:date}' => date('Y m d', time()),
-                                '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-                            )
-                        );
-                    } else {
-                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-                        $user->password = md5($pass);
-                        $user->save();
-                        $mail = new Mail();
-                        $mail->send(
-                            $user, // this user
-                            'remindPassWithoutLink', // sys mail code
-                            array(	// params
-                                '{:userPassword}' => $pass,
-                                '{:date}' => date('Y m d', time()),
-                            )
-                        );
-                    }
-
-                }
-            }
-            $this->redirect(array('/remindsuccess'));
         }
 
-        if (isset($_POST['formtype'])) {
-            $form->formtype = $_POST['formtype'];
+        if (isset($_GET['type'])) {
+            $form->formtype = $_GET['type'];
 		    $this->render('frm/_remind', array('model' => $form));
         } else {
 
