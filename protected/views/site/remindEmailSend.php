@@ -5,7 +5,7 @@
         </div>
         <div class="success-ico"></div>
         <div class="congratulations-msg">
-            <?= Yii::t('Front', 'New password was sent to your email.'); ?>
+            <?= Yii::t('Front', 'Your account restored.'); ?>
         </div>
     </div>
 </div>

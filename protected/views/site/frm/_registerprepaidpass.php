@@ -15,8 +15,8 @@
     <div class="popup-register-header"><?= Yii::t('Front', 'Bank account application form'); ?></div>
     <?php $form=$this->beginWidget('CActiveForm', array(
                 'id'=>'registration-from',
-                'enableAjaxValidation'=>true,
-                'enableClientValidation'=>true,
+                //'enableAjaxValidation'=>true,
+                //'enableClientValidation'=>true,
                 //'focus'=>array($model,'first_name'),
                 'clientOptions'=>array(
                     'validateOnSubmit'=>true,

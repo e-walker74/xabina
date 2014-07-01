@@ -16,56 +16,24 @@
                     </div>
                         <div class="shadow_blocker"></div>
                         <div class="popup-register-header"><?= Yii::t('Front', 'Password reset') ?></div>
-							<?php $form=$this->beginWidget('CActiveForm', array(
-										'id'=>'remind-from',
-										'enableAjaxValidation'=>false,
-										'enableClientValidation'=>false,
-										'focus'=>array($model,'first_name'),
-										'enableAjaxValidation'=>true,
-										'enableClientValidation'=>true,
-										'focus'=>array($model,'first_name'),
-										'clientOptions'=>array(
-										  'validateOnSubmit'=>true,
-										  'afterValidate' => 'js:function(form, data, hasError) {
-											  if(hasError) {
-												  for(var i in data) {
-													$("#"+i).addClass("input-error");
-													$("#"+i).next(".validation-icon").show();
-												  }
-												  return false;
-											  }
-											  else {
-												  form.find("input").removeClass("input-error");
-												  return true;
-											  }
-										  }',
-										'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-										   if(hasError) {$("#"+attribute.id).addClass("input-error");$("#"+attribute.id).next(".validation-icon").show();}
-										   else {$("#"+attribute.id).removeClass("input-error"); $("#"+attribute.id).next(".validation-icon").show();}
-										  }'
-										),
-							)); ?>
-                                    <div class="popup-register-form forgot-form" id="popup-auth-form">
 
-                                        <ul class="form-list">
-                                            <li>
-                                                <a href="?type=email"><?= Yii::t('Front', 'I know my E-Mail') ?></a>
-                                            </li>
-                                            <li>
-                                                <a href="?type=phone"><?= Yii::t('Front', 'I know my Phone') ?></a>
-                                            </li>
-                                            <li>
-                                                <a href="?type=login"><?= Yii::t('Front', 'I know my User ID') ?></a>
-                                            </li>
-                                            <li>
-                                                <a href="?"><?= Yii::t('Front', 'I forgot my User ID, E-mail and/or phone number, but I rember my name') ?></a>
-                                            </li>
-                                        </ul>
-                                        <div class="form-line-submit">
-                                            <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Next'); ?>"/>
-                                        </div>
-                                    </div>
-							<?php $this->endWidget(); ?>
+                            <div class="popup-register-form forgot-form" id="popup-auth-form">
+                                 <?= Yii::t('Front', 'Choose one of the ways to restore access') ?>
+                                <ul class="form-list cannot-method">
+                                    <li>
+                                        <a class="mobile-phone" href="?type=phone"><span><?= Yii::t('Front', 'I remember my mobile phone') ?></span></a>
+                                    </li>
+                                    <li>
+                                         <a href="?type=email" class="email"><span><?= Yii::t('Front', 'I remember my E-Mail') ?></span></a>
+                                    </li>
+                                    <li>
+                                         <a href="?type=login" class="user-id"><span><?= Yii::t('Front', 'I lost my phone but remember my User ID') ?></span></a>
+                                    </li>
+                                    <li>
+                                     <a href="?" class="name"><span><?= Yii::t('Front', 'I forgot everything, but remember my name') ?></span></a>
+                                    </li>
+                                </ul>
+                            </div>
                     </div>
 
                 </div>

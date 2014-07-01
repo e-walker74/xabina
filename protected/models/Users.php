@@ -176,7 +176,7 @@ class Users extends ActiveRecord
             'login' => Yii::t('Front', 'Login'),
             'nickName' => Yii::t('Front', 'Имя на сайте'),
             'password' => Yii::t('Front', 'Новый пароль'),
-            'email' => Yii::t('Front', 'email'),
+            'email' => Yii::t('Front', 'Email'),
             'reemail' => Yii::t('Front', 'Повторите (email)'),
             'status' => Yii::t('Front', 'Status'),
             'created_at' => Yii::t('Front', 'Date Add'),

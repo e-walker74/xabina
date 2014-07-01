@@ -51,21 +51,21 @@
             <div class="form-line">
                 <div class="form-block">
                     <div class="form-lbl">
-                        <?= $model->getAttributeLabel('email') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-mail'); ?>"></span>
+                        <?= $user->getAttributeLabel('email') ?>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-Mail'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'email', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($user, 'email', array('disabled' => 'disabled')); ?>
                         <span class="validation-icon"></span>
                     </div>
                     <div class="form-alert">
-                        <?= $form->error($model, 'email'); ?>
+                        <?= $form->error($user, 'email'); ?>
                     </div>
                 </div>
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('phone') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your phone'); ?>"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your password'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'phone', array('autocomplete' => 'off')); ?>
@@ -81,49 +81,37 @@
             <div class="form-line">
                 <div class="form-block">
                     <div class="form-lbl">
-                        <?= $model->getAttributeLabel('login') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your User ID'); ?>"></span>
+                        <?= $user->getAttributeLabel('login') ?>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your login'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'login', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($user, 'login', array('disabled' => 'disabled')); ?>
                         <span class="validation-icon"></span>
                     </div>
                     <div class="form-alert">
-                        <?= $form->error($model, 'login'); ?>
+                        <?= $form->error($user, 'login'); ?>
                     </div>
                 </div>
                 <div class="form-block">
                     <div class="form-lbl">
-                        <?= $model->getAttributeLabel('role') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your role'); ?>"></span>
+                        <?= $user->getAttributeLabel('role') ?>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Change role for your account'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <div class="select-custom select-type">
                             <span><?=Yii::t('Front', 'Private Individual')?></span>
-                            <?= $form->dropDownList($model,'role',array('1'=>Yii::t('Front', 'Private Individual'),'2'=>Yii::t('Front', 'Company')), array('class'=>'select-invisible')); ?>
 
                         </div>
                     </div>
                     <div class="form-alert">
-                        <?= $form->error($model, 'role'); ?>
+                        <?= $form->error($user, 'role'); ?>
                     </div>
                 </div>
                 <div class="form-block"></div>
             </div>
             <div class="clear"></div>
             <div class="form-line-submit">
-                <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Open an account'); ?>"/>
-            </div>
-            <div class="register-forgot-row">
-                <div class="terms-check">
-                    <?= $form->checkbox($model, 'terms'); ?> <?= CHtml::link(Yii::t('Front', 'I read and agree to the terms & conditions'), array('/terms', 'language' => Yii::app()->language)); ?>
-                </div>
-                <div class="form-alert">
-                    <?= $form->error($model, 'terms'); ?>
-                </div>
-                <div class="change-phone-cont login-cont">
-                    <?= Yii::t('Front', 'Already have an account?'); ?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/login', 'language' => Yii::app()->language)); ?>
-                </div>
+                <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Change phone'); ?>"/>
             </div>
         </div>
             <?php $this->endWidget(); ?>
