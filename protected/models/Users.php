@@ -22,6 +22,7 @@ class Users extends ActiveRecord
     const USER_IS_ACTIVATED = 2;
     const USER_EMAIL_IS_ACTIVE = 3;
     const USER_IS_NOT_ACTIVE = 4;
+    const USER_IS_PREPAID = 5;
 
     public static $roles = array(1 => 'individual', 2 => 'legalentity');
 

@@ -16,6 +16,7 @@ class Form_Registration extends CFormModel
 	public $role;
 	public $terms;
 	public $login;
+	public $prepaid_login;
 
 	private $_identity;
 
@@ -37,6 +38,7 @@ class Form_Registration extends CFormModel
 			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('login', 'length', 'min' => 5, 'max' => 20, 'tooShort' => Yii::t('Front', 'User ID is too short'), 'tooLong' => Yii::t('Front', 'User ID is too long')),
+			array('login', 'match', 'pattern' => '/^[\w\d]+$/', 'message' => Yii::t('Front', 'User ID is incorrect')),
 			array('phone', 'authenticatePhone'),
 			array('email', 'checkEmailUnique'),
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),
@@ -63,6 +65,7 @@ class Form_Registration extends CFormModel
 			'company_name' => Yii::t('Front', 'Company Name'),
 			'country' => Yii::t('Front', 'Country'),
 			'login' => Yii::t('Front', 'User ID'),
+			'prepaid_login' => Yii::t('Front', 'Old User ID'),
 		);
 	}
 	
@@ -191,6 +194,79 @@ class Form_Registration extends CFormModel
 				$user->settings->save();
 			}
 		
+			$user = Users::model()->findByPk($user->id);
+			$mail = new Mail();
+			if($mail->send(
+				$user, // this user
+				'registration', // sys mail code
+				array(	// params
+					'{:userPassword}' => $pass,
+					'{:date}' => date('Y m d', $user->created_at),
+					'{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+				)
+			)){
+				$result = true;
+			} else {
+				Yii::log('registration fail '.print_r($user->attributes, 1), CLogger::LEVEL_ERROR, 'error');
+				$user->delete();
+			}
+		}
+		return $result;
+	}
+
+	public function registerPrepaid(){
+		$result = false;
+		$user = new Users;
+		$user->attributes = $this->attributes;
+		//$user->login = new CDbExpression('UUID_SHORT()');
+		$pass = substr(md5(time() . 'xabina_pass' . $user->email), 2, 8);
+		$user->password = md5($pass);
+		$user->created_at = time();
+		$user->updated_at = $user->created_at;
+		$user->role = $this->role;
+		$user->status = Users::USER_IS_NOT_ACTIVE;
+		$user->createHash();
+
+		if($user->save()){
+
+            if($user->role == 2) {
+                $countries = new Countries;
+                $country = $countries->findByAttributes(
+                    array('name' => $this->country)
+                );
+                $company = new Companies;
+                $company->owner_id = $user->id;
+                $company->title = $this->company_name;
+                $company->country_id = $country->id;
+                $company->save();
+            }
+
+            $rbac = new RbacUserRoles();
+            $rbac->user_id = $user->id;
+            $rbac->role_id = 1; //TODO get default role for the new user
+            $rbac->save();
+
+			if(!$user->settings){
+				$user->settings = new Users_Settings;
+				$user->settings->user_id = $user->id;
+				$user->settings->language = Yii::app()->language;
+				$user->settings->statement_language = Yii::app()->language;
+				$user->settings->font_size = 14;
+
+				$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+				$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
+
+				$user->settings->time_zone_id = 276; // NL
+				if($country){
+					$zone = Zone::model()->find('country_code = :code', array(':code' => $country));
+					if($zone){
+						$user->settings->time_zone_id = $zone->zone_id;
+					}
+				}
+				$user->settings->currency_id = 1;
+				$user->settings->save();
+			}
+
 			$user = Users::model()->findByPk($user->id);
 			$mail = new Mail();
 			if($mail->send(

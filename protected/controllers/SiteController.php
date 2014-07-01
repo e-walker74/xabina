@@ -34,6 +34,8 @@ class SiteController extends Controller {
 					'disclaime',
                     'ResendVerifySMS',
                     'SMSVerifyPhoneChange',
+                    'RegisterPrepaid',
+                    'RegisterPrepaidPass',
 				),
                 'users' => array('*')
             ),
@@ -137,7 +139,12 @@ class SiteController extends Controller {
 		
 		if(isset($_POST['Form_Smslogin'])){
 			$model->userId = $_POST['Form_Smslogin']['userId'];
-			if($model->smsSendCode())
+            $user = Users::model()->findByAttributes(array("login"=>$model->userId));
+            if ($user != null && $user->status == Users::USER_IS_PREPAID) {
+                Yii::app()->session['user_login'] = $user->login;
+                $this->redirect(array('/site/RegisterPrepaidPass'));
+            }
+			elseif($model->smsSendCode())
 				$this->redirect(array('/site/SMSConfirm'));
 		}
 
@@ -251,6 +258,75 @@ class SiteController extends Controller {
 			}
         }
         $this->render('frm/_registration', array('model' => $model));
+    }
+
+    public function actionRegisterPrepaid() {
+		if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
+        if (!isset(Yii::app()->session['user_login'])) {
+		    $this->redirect(array('/site/SMSLogin'));
+        }
+        if (!isset(Yii::app()->session['user_pass'])) {
+		    $this->redirect(array('/site/RegisterPrepaidPass'));
+        }
+        $model = new Form_Registration;
+		$this->layout = 'main';
+        // if it is ajax validation request
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'registration-from') {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        // collect user input data
+        if (!empty($_POST['Form_Registration'])) {
+			$model->attributes = $_POST['Form_Registration'];
+            $user = Users::model()->find('login = :p', array(':p' => Yii::app()->session['user_login']));
+            if ($user != null) {
+                $model->role = $user->role;
+            }
+			if($model->validate() && $user != null){
+
+                $user->phone = $model->phone;
+                $user->login = $model->login;
+                $user->email = $model->email;
+                $user->save();
+                Yii::app()->session['user_phone'] = $model->phone;
+                Yii::app()->session['user_code'] = rand(100000,999999);
+                $this->redirect(array('/site/SMSRegisterVerify/'));
+			}
+        }
+        $model->prepaid_login = Yii::app()->session['user_login'];
+        $this->render('frm/_registerprepaid', array('model' => $model));
+    }
+
+    public function actionRegisterPrepaidPass() {
+		if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
+        if (!isset(Yii::app()->session['user_login'])) {
+		    $this->redirect(array('/site/SMSLogin'));
+        }
+        $model = new Form_Login;
+        Yii::app()->session['user_pass'] = '';
+        // if it is ajax validation request
+        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'login-from') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        // collect user input data
+        if (isset($_POST['Form_Login'])) {
+            $model->attributes = $_POST['Form_Login'];
+            $model->login = Yii::app()->session['user_login'];
+            // validate user input and redirect to the previous page if valid
+            if ($model->validate() ){
+
+                Yii::app()->session['user_pass'] = $model->password;
+				$this->redirect(array('/site/RegisterPrepaid'));
+            }
+        }
+        $this->render('frm/_registerprepaidpass', array('model' => $model));
     }
 
 	public function actionSMSRegisterVerify(){
