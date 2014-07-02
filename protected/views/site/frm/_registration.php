@@ -83,7 +83,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('login') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your User ID'); ?>"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your UserID'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'login', array('autocomplete' => 'off')); ?>

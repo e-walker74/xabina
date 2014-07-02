@@ -45,7 +45,7 @@ class Form_Changelostphone extends CFormModel
 		return array(
 			'phone' => Yii::t('Front', 'Mobile Phone'),
 			'email' => Yii::t('Front', 'E-mail'),
-			'userId' => Yii::t('Front', 'User ID'),
+			'userId' => Yii::t('Front', 'UserID'),
 			'code'=>Yii::t('Front', 'SMS verification code'),
 		);
 	}

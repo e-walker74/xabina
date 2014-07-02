@@ -50,7 +50,7 @@ class Form_Smslogin extends CFormModel
 	{
 		return array(
 			'phone' => Yii::t('Front', 'Mobile Phone'),
-			'userId' => Yii::t('Front', 'User ID'),
+			'userId' => Yii::t('Front', 'UserID'),
 			'code'=>Yii::t('Front', 'SMS verification code'),
 		);
 	}
