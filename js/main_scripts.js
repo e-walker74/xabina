@@ -30,11 +30,25 @@ $(function(){
     });
 
 
+    $("input").on('focus', function(){
+        $(this).removeClass('input-error').parent().removeClass('input-error').find('.validation-icon').hide().parent().parent().find('.errorMessage').hide()
+    });
+    $("input").on('blur', function(){
+
+        $(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show()
+    });
+
     $("#Form_Registration_phone").on('focus', function(){
         if(!$(this).val()){
             $(this).val('+');
         }
     });
+    $("#Form_Registration_phone").on('blur', function(){
+        if($(this).val()){
+            $(this).val($(this).val().replace(' ', ''));
+        }
+    });
+
     $("#Form_Registration_phone").on('input', function(){
         if( !~($(this).val().indexOf('+')) ){
             $(this).val( '+' + $(this).val() );
@@ -178,10 +192,10 @@ $(function(){
         }
     });
 
-    $('.select-invisible').on('change', onCustomSelectChange);
+    //$('.select-invisible').on('change', onCustomSelectChange);
 
     $('.checkbox-custom').on('click', 'label', function(e){
-        if($(this).find('input').prop('checked')){
+        if($(this).find('input[type=checkbox]').prop('checked')){
             $(this).addClass('checked');
             e.stopPropagation();
         }else{
@@ -190,4 +204,15 @@ $(function(){
         }
     });
 
+    $('.select-type-dropdown').on('click', '.select-type', function(e){
+        $(e.delegateTarget).find('.dropdown-menu').show();
+        e.preventDefault();
+    });
+    $('.select-type-dropdown').on('click', '.dropdown-menu li', function(e){
+
+
+        $(e.delegateTarget).find('input[type=hidden]').val($(this).data('id'));
+        $(e.delegateTarget).find('.select-type').text($(this).text());
+        $(e.delegateTarget).find('.dropdown-menu').hide();
+    })
 });

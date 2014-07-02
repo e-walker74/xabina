@@ -20,6 +20,7 @@
                 //'focus'=>array($model,'first_name'),
                 'clientOptions'=>array(
                     'validateOnSubmit'=>true,
+                    'validationDelay'=>0,
                     'validateOnChange'=>true,
                     'errorCssClass'=>'input-error',
                     'afterValidate' => 'js:function(form, data, hasError) {
@@ -98,31 +99,41 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your role'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <div class="select-custom select-type">
-                            <span><?=Yii::t('Front', 'Private Individual')?></span>
-                            <?= $form->dropDownList($model,'role',array('1'=>Yii::t('Front', 'Private Individual'),'2'=>Yii::t('Front', 'Company')), array('class'=>'select-invisible')); ?>
-
+                        <div class="dropdown select-type-dropdown">
+                            <?=$form->hiddenField($model, 'role', array('value' => $model->role?$model->role:'1'))?>
+                            <a data-toggle="dropdown" class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li data-id="1"><?=Yii::t('Front', 'Private Individual')?></li>
+                                <li data-id="2"><?=Yii::t('Front', 'Company')?></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="form-alert">
                         <?= $form->error($model, 'role'); ?>
                     </div>
                 </div>
-                <div class="form-block"></div>
+                <div class="clear"></div>
+                <div class="form-block" style="margin: 0; float: none">
+                    <div class="terms-check">
+                        <div class="checkbox-custom">
+                            <label >
+                                <?= $form->checkbox($model, 'terms'); ?>
+                            </label>
+                        </div>
+                        <?=Yii::t('Front', 'I read and agree to')?>  <?= CHtml::link(Yii::t('Front', 'the terms & conditions'), array('/terms', 'language' => Yii::app()->language)); ?>
+                        <div class="form-alert">
+                            <div class="errorMessage"><?= $form->error($model, 'terms'); ?></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="clear"></div>
             <div class="form-line-submit">
                 <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Open an account'); ?>"/>
             </div>
-            <div class="register-forgot-row">
-                <div class="terms-check">
-                    <?= $form->checkbox($model, 'terms'); ?> <?= CHtml::link(Yii::t('Front', 'I read and agree to the terms & conditions'), array('/terms', 'language' => Yii::app()->language)); ?>
-                </div>
-                <div class="form-alert">
-                    <?= $form->error($model, 'terms'); ?>
-                </div>
+             <div class="register-forgot-row" style="margin: 0">
                 <div class="change-phone-cont login-cont">
-                    <?= Yii::t('Front', 'Already have an account?'); ?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/login', 'language' => Yii::app()->language)); ?>
+                    <?=Yii::t('Front', 'Already have an account?')?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin')); ?>
                 </div>
             </div>
         </div>
