@@ -31,11 +31,19 @@ $(function(){
 
 
     $("input").on('focus', function(){
-        //$(this).removeClass('input-error').parent().removeClass('input-error').find('.validation-icon').hide().parent().parent().find('.errorMessage').hide()
+        $(this).attr('current_value', $(this).val());
+        if ($(this).hasClass('input-error')) {
+            $(this).addClass('maybe-error');
+            $(this).removeClass('input-error').parent().removeClass('input-error').find('.validation-icon').hide().parent().parent().find('.errorMessage').hide();
+        }
     });
     $("input").on('blur', function(){
 
-        //$(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show()
+        if ($(this).val() == $(this).attr('current_value') && $(this).hasClass('maybe-error')) {
+            $(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show();
+        }
+        $(this).removeClass('maybe-error');
+            
     });
 
     $("#Form_Registration_phone").on('focus', function(){
