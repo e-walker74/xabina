@@ -31,11 +31,11 @@ $(function(){
 
 
     $("input").on('focus', function(){
-        $(this).removeClass('input-error').parent().removeClass('input-error').find('.validation-icon').hide().parent().parent().find('.errorMessage').hide()
+        //$(this).removeClass('input-error').parent().removeClass('input-error').find('.validation-icon').hide().parent().parent().find('.errorMessage').hide()
     });
     $("input").on('blur', function(){
 
-        $(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show()
+        //$(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show()
     });
 
     $("#Form_Registration_phone").on('focus', function(){
