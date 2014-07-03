@@ -43,7 +43,6 @@ $(function(){
             $(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show();
         }
         $(this).removeClass('maybe-error');
-            
     });
 
     $("#Form_Registration_phone").on('focus', function(){
@@ -53,7 +52,7 @@ $(function(){
     });
     $("#Form_Registration_phone").on('blur', function(){
         if($(this).val()){
-            $(this).val($(this).val().replace(' ', ''));
+            $(this).val($(this).val().replace(/\s/g, ''));
         }
     });
 
@@ -62,10 +61,10 @@ $(function(){
             $(this).val( '+' + $(this).val() );
         }
     });
-	
+
 	$("#Form_Smslogin_phone").on('focus', function(){
         if(!$(this).val()){
-            $(this).val('+'); 
+            $(this).val('+');
         }
     });
     $("#Form_Smslogin_phone").on('input', function(){
@@ -73,7 +72,7 @@ $(function(){
             $(this).val( '+' + $(this).val() );
         }
     });
-	
+
 	resendLoginEmail = function(message, url){
 		$.ajax({
  			url: url,
@@ -103,7 +102,7 @@ $(function(){
        validClass:		'valid',
        invalidClass:	'input-error'
     });
-	
+
 	$('#popup-auth-form').liveValidation({
        validIco   : 'img/form_check.png',
        invalidIco : 'img/form_check.png',
@@ -212,15 +211,9 @@ $(function(){
         }
     });
 
-    $('.select-type-dropdown').on('click', '.select-type', function(e){
-        $(e.delegateTarget).find('.dropdown-menu').show();
-        e.preventDefault();
-    });
     $('.select-type-dropdown').on('click', '.dropdown-menu li', function(e){
-
 
         $(e.delegateTarget).find('input[type=hidden]').val($(this).data('id'));
         $(e.delegateTarget).find('.select-type').text($(this).text());
-        $(e.delegateTarget).find('.dropdown-menu').hide();
     })
 });

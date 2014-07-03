@@ -34,7 +34,7 @@ return array(
 	'[login form PASSWORD]' => '[Enter password from your account]',
     '[remind form email]' => 'Enter E-Mail',
     '[remind form phone]' => 'Enter Phone',
-    '[remind form login]' => 'Enter UserID',
+    '[remind form login]' => 'Enter User ID',
 
 	'{termsConditionsText}' => 
 		'Вся информация, размещённая на данном сайте, является собственностью Xabina.

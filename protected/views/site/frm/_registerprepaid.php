@@ -83,7 +83,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('prepaid_login') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Your old UserID'); ?>"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Your old User ID'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'prepaid_login', array('autocomplete' => 'off', 'disabled'=>'disabled')); ?>
@@ -93,7 +93,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('login') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter UserID'); ?>"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter User ID'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'login', array('autocomplete' => 'off')); ?>

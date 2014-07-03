@@ -27,7 +27,7 @@
                                          <a href="?type=email" class="email"><span><?= Yii::t('Front', 'I remember my E-Mail') ?></span></a>
                                     </li>
                                     <li>
-                                         <a href="?type=login" class="user-id"><span><?= Yii::t('Front', 'I lost my phone but remember my UserID') ?></span></a>
+                                         <a href="?type=login" class="user-id"><span><?= Yii::t('Front', 'I lost my phone but remember my User ID') ?></span></a>
                                     </li>
                                     <li>
                                      <a href="?" class="name"><span><?= Yii::t('Front', 'I forgot everything, but remember my name') ?></span></a>

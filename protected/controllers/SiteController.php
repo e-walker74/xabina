@@ -55,6 +55,18 @@ class SiteController extends Controller {
             ),
         );
     }
+
+    public function init()
+    {
+        if (!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(Yii::app()->request->getUserHostAddress())) {
+            Yii::app()->user->logout();
+        }
+        $this->registerGlobalStyles();
+        if(Yii::request()->isAjaxRequest){
+            $this->cleanResponseJs();
+        }
+        return parent::init();
+    }
 	
 	public function actionDisclaime($tourl){
 		$this->layout = 'main';

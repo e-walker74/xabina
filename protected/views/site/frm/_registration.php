@@ -83,7 +83,7 @@
                 <div class="form-block">
                     <div class="form-lbl">
                         <?= $model->getAttributeLabel('login') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your UserID'); ?>"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your User ID'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'login', array('autocomplete' => 'off')); ?>
@@ -116,11 +116,11 @@
                 <div class="form-block" style="margin: 0; float: none">
                     <div class="terms-check">
                         <div class="checkbox-custom">
-                            <label >
-                                <?= $form->checkbox($model, 'terms'); ?>
+                            <label class="checked">
+                                <?= $form->checkbox($model, 'terms', array('checked' => 'checked')); ?>
                             </label>
                         </div>
-                        <?=Yii::t('Front', 'I read and agree to')?>  <?= CHtml::link(Yii::t('Front', 'the terms & conditions'), array('/terms', 'language' => Yii::app()->language)); ?>
+                        <?=Yii::t('Front', 'I read and agree to')?>  <?= CHtml::link(Yii::t('Front', 'the terms & conditions'), array('/terms', 'language' => Yii::app()->language), array('target'=>'_blank')); ?>
                         <div class="form-alert">
                             <div class="errorMessage"><?= $form->error($model, 'terms'); ?></div>
                         </div>

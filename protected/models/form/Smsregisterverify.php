@@ -49,7 +49,7 @@ class Form_Smsregisterverify extends CFormModel
 	{
 		return array(
 			'phone' => Yii::t('Front', 'Mobile Phone'),
-			'userId' => Yii::t('Front', 'UserID'),
+			'userId' => Yii::t('Front', 'User ID'),
 			'code'=>Yii::t('Front', 'SMS verification code'),
 		);
 	}
