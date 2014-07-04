@@ -26,6 +26,7 @@ class SiteController extends Controller {
                     'SMSRegisterVerify',
 					'registrationsuccess', 
 					'remindsuccess',
+                    'remindSupportCall',
 					'SMSLogin',
 					'SMSConfirm',
 					'SMSConfirm',
@@ -444,6 +445,10 @@ class SiteController extends Controller {
 		$this->render('remindEmailSend');
 	}
 
+	public function actionRemindSupportCall(){
+		$this->render('remindSupportCall');
+	}
+
     public function actionRemind(){
 
         if(!Yii::app()->user->getIsGuest()){
@@ -500,8 +505,9 @@ class SiteController extends Controller {
                             )
                         );
                     }
-                    $this->redirect(array('/remindsuccess'));
+
                 }
+                $this->redirect(array('/remindsuccess'));
             }
         }
 

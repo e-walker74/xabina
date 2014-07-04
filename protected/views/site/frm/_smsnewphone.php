@@ -45,7 +45,7 @@
 							<div class="form-block">
 								<div class="form-lbl"><?= $model->getAttributeLabel('phone') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form LOGIN OR EMAIL]'); ?>"></span></div>
 								<div class="form-input">
-									<?= $form->textField($model, 'phone', array('class' => 'remind')); ?>
+									<?= $form->textField($model, 'phone', array('class' => 'remind', 'phonefield' => 'true')); ?>
 									<span class="validation-icon"></span>
 								</div>
 								<div class="form-alert">

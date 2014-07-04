@@ -68,7 +68,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your password'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off', 'phonefield' => 'true')); ?>
                         <span class="validation-icon"></span>
                     </div>
                     <div class="form-alert">
@@ -98,8 +98,8 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Change role for your account'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <div class="select-custom select-type">
-                            <span><?=Yii::t('Front', 'Private Individual')?></span>
+                        <div class="dropdown select-type-dropdown">
+                            <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
 
                         </div>
                     </div>

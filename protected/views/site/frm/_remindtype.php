@@ -30,7 +30,7 @@
                                          <a href="?type=login" class="user-id"><span><?= Yii::t('Front', 'I lost my phone but remember my User ID') ?></span></a>
                                     </li>
                                     <li>
-                                     <a href="?" class="name"><span><?= Yii::t('Front', 'I forgot everything, but remember my name') ?></span></a>
+                                     <a href="/site/remindSupportCall" class="name"><span><?= Yii::t('Front', 'I forgot everything, but remember my name') ?></span></a>
                                     </li>
                                 </ul>
                             </div>

@@ -69,7 +69,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your phone'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off', 'phonefield' => 'true')); ?>
                         <span class="validation-icon"></span>
                     </div>
                     <div class="form-alert">

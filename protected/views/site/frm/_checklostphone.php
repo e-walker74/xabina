@@ -28,9 +28,6 @@
                         <?= $form->textField($model, 'email', array('autocomplete' => 'off')); ?>
                         <span class="validation-icon"></span>
                     </div>
-                    <div class="form-alert">
-                        <?= $form->error($model, 'email'); ?>
-                    </div>
                 </div>
                 <div class="form-block">
                     <div class="form-lbl">
@@ -38,23 +35,20 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your password'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off', 'phonefield' => 'true')); ?>
                         <span class="validation-icon"></span>
-                    </div>
-                    <div class="form-alert">
-                       <?= $form->error($model, 'phone'); ?>
                     </div>
                 </div>
             </div>
 
             <div class="clear"></div>
-            <div class="form-line-submit">
-                <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Confirm'); ?>"/>
-            </div>
-            <div class="register-forgot-row">
+            <div class="register-forgot-row" style="margin-top: 10px">
                 <div class="form-alert">
                     <?= $form->error($model, 'userId'); ?>
                 </div>
+            </div>
+            <div class="form-line-submit">
+                <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Confirm'); ?>"/>
             </div>
         </div>
             <?php $this->endWidget(); ?>

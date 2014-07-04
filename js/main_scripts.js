@@ -45,18 +45,18 @@ $(function(){
         $(this).removeClass('maybe-error');
     });
 
-    $("#Form_Registration_phone").on('focus', function(){
+    $("input[phonefield=true]").on('focus', function(){
         if(!$(this).val()){
             $(this).val('+');
         }
     });
-    $("#Form_Registration_phone").on('blur', function(){
+    $("input[phonefield=true]").on('blur', function(){
         if($(this).val()){
             $(this).val($(this).val().replace(/\s/g, ''));
         }
     });
 
-    $("#Form_Registration_phone").on('input', function(){
+    $("input[phonefield=true]").on('input', function(){
         if( !~($(this).val().indexOf('+')) ){
             $(this).val( '+' + $(this).val() );
         }
