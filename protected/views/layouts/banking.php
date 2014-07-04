@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
-	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
     <title>Xabina</title>
     <meta charset="utf-8" />
     <?php /*<link rel="stylesheet" href="/css/jquery.pnotify.default.css" />
@@ -11,6 +9,9 @@
     <link rel="stylesheet" href="/css/media.css" />
 	<link rel="stylesheet" href="/css/bg.css" /> */?>
 	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
+	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
+    <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <script type="text/javascript" src="/js/less.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
