@@ -9,7 +9,6 @@ class Form_Remind extends CFormModel
 {
 	public $login;
 	public $formtype;
-	private $_identity;
 
 	/**
 	 * Declares the validation rules.
@@ -20,7 +19,7 @@ class Form_Remind extends CFormModel
 	{
 		return array(
 			array('login, formtype', 'required', 'message' => Yii::t('Front', 'Field cannot empty')),
-			array('login', 'match', 'pattern' => '/^[0-9a-zA-Z\-\@\_\.\+]{1,}$/', 'message' => Yii::t('Front', 'Insert Your login using latin alphabet')),
+			array('login', 'match', 'pattern' => '/^[0-9a-zA-Z\-\@\_\.\+]{1,}$/', 'message' => Yii::t('Front', $this->formtype.' is incorect')),
 			array('login', 'authenticatePhone'),
 			// password needs to be authenticated
 		);
@@ -28,6 +27,7 @@ class Form_Remind extends CFormModel
 
 	public function authenticatePhone($attribute,$params)
 	{
+        if ($this->formtype)
 		$this->login = trim($this->login, '+');
 	}
 

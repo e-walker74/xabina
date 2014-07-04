@@ -50,7 +50,7 @@ $(function(){
             $(this).val('+');
         }
     });
-    $("input[phonefield=true]").on('blur', function(){
+    $("input[phonefield=true],#Form_Registration_email").on('blur', function(){
         if($(this).val()){
             $(this).val($(this).val().replace(/\s/g, ''));
         }
