@@ -487,15 +487,6 @@ class SiteController extends Controller {
                     $mail = new Mail();
                     $mail->send(
                         $user, // this user
-                        'remindPassWithoutLink', // sys mail code
-                        array(	// params
-                              '{:userPhone}' => '+'.$user->phone,
-                              '{:date}' => date('Y m d', time()),
-                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-                    ));
-                    $mail = new Mail();
-                    $mail->send(
-                        $user, // this user
                         'remindPassWithLink', // sys mail code
                         array(	// params
                               '{:userPhone}' => '+'.$user->phone,
@@ -540,21 +531,37 @@ class SiteController extends Controller {
 		if(isset($_POST['Form_Changelostphone'])){
             $model->attributes = $_POST['Form_Changelostphone'];
             if($model->validate()){
-                
-                $this->redirect(array('/site/ChangeLostPhone'));
+
+                $user->createHash();
+                $user->update();
+                $mail = new Mail();
+                $mail->send(
+                    $user, // this user
+                    'remindPhone', // sys mail code
+                    array(	// params
+                          '{:userPhone}' => '+'.$user->phone,
+                          '{:date}' => date('Y m d', time()),
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/ChangeLostPhone/?login='.$user->login.'&confirm='.$user->hash,
+                ));
+
+                $this->redirect(array('/site/changeLostPhoneEmail'));
             }
 		}
 
 		$this->render('frm/_checklostphone', array('model' => $model, 'user' => $user));
 	}
 
+	public function actionChangeLostPhoneEmail(){
+		$this->render('changeLostPhoneEmail');
+	}
+
 	public function actionChangeLostPhone(){
 
 		$model = new Form_Smslogin('change');
-		if(!isset(Yii::app()->session['user_login'])){
+		if(!isset($_REQUEST['login'])){
 			$this->redirect(array('/site/smslogin'));
 		}
-		$user = Users::model()->find('login = :p', array(':p' => Yii::app()->session['user_login']));
+		$user = Users::model()->find('login = :p && hash = :h', array(':p' => $_REQUEST['login'],':h' => $_REQUEST['hash']));
 
 		$model->userId = $user->login;
 		if($user->phone_confirm){
@@ -569,7 +576,8 @@ class SiteController extends Controller {
 		if(isset($_POST['Form_Smslogin'])){
             $model->attributes = $_POST['Form_Smslogin'];
             if ($model->validate()) {
-               Yii::app()->session['user_phone'] = $model->phone;
+                Yii::app()->session['user_phone'] = $model->phone;
+                Yii::app()->session['user_login'] = $user->login;
                 $this->redirect(array('/site/ChangeLostPhoneVerify'));
             }
 		}
