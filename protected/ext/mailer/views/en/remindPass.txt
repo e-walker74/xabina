@@ -34,13 +34,13 @@
                 </tr>
                 <tr>
                     <td style="background-color: #fff; font-size: 13px ;color: #777; padding: 0 20px 17px">
-                        <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear {:userFullName}</h2>
-                        <p style="margin: 22px 0 0;"><b>Someone requested the new password from your account at <a style="color: #1b75bc;" href="{:xabinaBaseUrl}">Xabina.com</a>. You can find the new password below: </b></p>
+                        <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear user</h2>
+                        <p style="margin: 22px 0 0;"><b>There was recently a request to restore access to Xabina account, associated with this E-Mail address.</b></p>
                         <div style="border-top: 2px solid #f2f2f2;margin: 17px 0 0; border-bottom: 2px solid #f2f2f2">
-                            <p style="margin: 16px 0 0;">Username: <b>{:userLogin}</b></p>
-                            <p>Password: <b>{:userPassword}</b></p>
+                            <p style="margin: 16px 0 0;">User ID: <b>{:userLogin}</b></p>
                         </div>
-                        <p style="margin-top: 16px;line-height: 19px;"><em>If you have any questions or experience problems, you can e-mail us at: support@xabina.com</em></p>
+                        <p style="margin: 22px 0 0;"><b>PIf You requested this action, please follow the link below.<br/><a href="{:activateUrl}" target="_blank">{:activateUrl}</a> </b></p>
+                        <p style="margin-top: 16px;line-height: 19px;"><em>If You have not requested this action, we strictly advise You to contact our customer support.</em></p>
 
                         <p style="margin-top: 30px;font-size: 11px">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
 

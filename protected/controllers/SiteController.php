@@ -378,7 +378,15 @@ class SiteController extends Controller {
 				$newPhone->withOutHash = true;
 				$newPhone->save();
 				$user->save();
-
+                $mail = new Mail();
+                $mail->send(
+                    $user, // this user
+                    'registration', // sys mail code
+                    array(	// params
+                          '{:userPhone}' => '+'.$user->phone,
+                          '{:date}' => date('Y m d', time()),
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+                ));
 			}
 
             if($model->login()){
@@ -476,35 +484,26 @@ class SiteController extends Controller {
                         Yii::app()->session['user_login'] = $form->login;
                         $this->redirect(array('/site/CheckLostPhone'));
                     }
-                    if($user->hash){
-                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-                        $user->password = md5($pass);
-                        $user->createHash();
-                        $user->save();
-                        $mail = new Mail();
-                        $mail->send(
-                            $user, // this user
-                            'remindPassWithLink', // sys mail code
-                            array(	// params
-                                '{:userPassword}' => $pass,
-                                '{:date}' => date('Y m d', time()),
-                                '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-                            )
-                        );
-                    } else {
-                        $pass = substr(md5(time() . 'xabina_pass' . $user->login), 2, 8);
-                        $user->password = md5($pass);
-                        $user->save();
-                        $mail = new Mail();
-                        $mail->send(
-                            $user, // this user
-                            'remindPassWithoutLink', // sys mail code
-                            array(	// params
-                                '{:userPassword}' => $pass,
-                                '{:date}' => date('Y m d', time()),
-                            )
-                        );
-                    }
+                    $mail = new Mail();
+                    $mail->send(
+                        $user, // this user
+                        'remindPassWithoutLink', // sys mail code
+                        array(	// params
+                              '{:userPhone}' => '+'.$user->phone,
+                              '{:date}' => date('Y m d', time()),
+                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+                    ));
+                    $mail = new Mail();
+                    $mail->send(
+                        $user, // this user
+                        'remindPassWithLink', // sys mail code
+                        array(	// params
+                              '{:userPhone}' => '+'.$user->phone,
+                              '{:date}' => date('Y m d', time()),
+                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin',
+                              )
+
+                    );
 
                 }
                 $this->redirect(array('/remindsuccess'));
@@ -541,7 +540,7 @@ class SiteController extends Controller {
 		if(isset($_POST['Form_Changelostphone'])){
             $model->attributes = $_POST['Form_Changelostphone'];
             if($model->validate()){
-
+                
                 $this->redirect(array('/site/ChangeLostPhone'));
             }
 		}
