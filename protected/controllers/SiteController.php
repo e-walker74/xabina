@@ -607,6 +607,15 @@ class SiteController extends Controller {
 			if ($model->validate()) {
                 $user->phone = Yii::app()->session['user_phone'];
                 $user->update();
+                $mail = new Mail();
+                $mail->send(
+                    $user, // this user
+                    'remindNewPhone', // sys mail code
+                    array(	// params
+                          '{:userPhone}' => '+'.$user->phone,
+                          '{:date}' => date('Y m d', time()),
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/ChangeLostPhone/?login='.$user->login.'&confirm='.$user->hash,
+                ));
                 $this->redirect(array('/remindsuccess'));
             }
 

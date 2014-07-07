@@ -12,7 +12,7 @@
         </ul>
     </div>
     <div class="shadow_blocker"></div>
-    <div class="popup-register-header"><?= Yii::t('Front', 'Bank account application form'); ?></div>
+    <div class="popup-register-header"><?= Yii::t('Front', 'Bank account change phone form'); ?></div>
     <?php $form=$this->beginWidget('CActiveForm', array(
                 'id'=>'registration-from',
                 'enableAjaxValidation'=>true,
