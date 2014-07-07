@@ -579,6 +579,7 @@ class SiteController extends Controller {
             if ($model->validate()) {
                 Yii::app()->session['user_phone'] = $model->phone;
                 Yii::app()->session['user_login'] = $user->login;
+                Yii::app()->session['user_code'] = rand(100000,999999);
                 $this->redirect(array('/site/ChangeLostPhoneVerify'));
             }
 		}
