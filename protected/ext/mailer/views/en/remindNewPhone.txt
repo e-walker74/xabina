@@ -35,7 +35,7 @@
                 <tr>
                     <td style="background-color: #fff; font-size: 13px ;color: #777; padding: 0 20px 17px">
                         <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear user</h2>
-                        <p style="margin: 22px 0 0;"><b>There was recently a request to change a mobile phone from Xabina account, associated with this E-Mail address. </b></p>
+                        <p style="margin: 22px 0 0;"><b>You have successfully changed the mobile phone number associated with your Xabina account.</b></p>
                         <div style="border-top: 2px solid #f2f2f2;margin: 17px 0 0; border-bottom: 2px solid #f2f2f2">
                             <p style="margin: 16px 0 0;">New mobile phone number: <b>{:userPhone}</b></p>
                         </div>
