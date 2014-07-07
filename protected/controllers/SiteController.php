@@ -40,6 +40,7 @@ class SiteController extends Controller {
                     'ChangeLostPhone',
                     'ChangeLostPhoneVerify',
                     'CheckLostPhone',
+                    'changeLostPhoneEmail'
 				),
                 'users' => array('*')
             ),
@@ -561,7 +562,7 @@ class SiteController extends Controller {
 		if(!isset($_REQUEST['login'])){
 			$this->redirect(array('/site/smslogin'));
 		}
-		$user = Users::model()->find('login = :p && hash = :h', array(':p' => $_REQUEST['login'],':h' => $_REQUEST['hash']));
+		$user = Users::model()->find('login = :p && hash = :h', array(':p' => $_REQUEST['login'],':h' => $_REQUEST['confirm']));
 
 		$model->userId = $user->login;
 		if($user->phone_confirm){
