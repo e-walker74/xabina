@@ -617,12 +617,15 @@ class SiteController extends Controller {
                           '{:date}' => date('Y m d', time()),
                           '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/ChangeLostPhone/?login='.$user->login.'&confirm='.$user->hash,
                 ));
-                $this->redirect(array('/remindsuccess'));
+                $this->render('remindSuccess');
+            } else {
+                $this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
             }
 
 		}
-
-		$this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
+        else {
+		    $this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
+        }
 	}
 
 }
