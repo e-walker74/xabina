@@ -469,6 +469,7 @@ class SiteController extends Controller {
         $remind_types = array("email", "login" , "phone");
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'remind-from') {
+            $form = new Form_Remind($_GET['type']);
 			echo CActiveForm::validate($form);
             Yii::app()->end();
         }
@@ -503,6 +504,7 @@ class SiteController extends Controller {
         }
 
         if (isset($_GET['type'])) {
+            $form = new Form_Remind($_GET['type']);
             $form->formtype = $_GET['type'];
 		    $this->render('frm/_remind', array('model' => $form));
         } else {

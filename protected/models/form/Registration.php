@@ -30,7 +30,7 @@ class Form_Registration extends CFormModel
 		return array(
 			array('email', 'required', 'message' => Yii::t('Front', 'E-Mail is incorrect')),
 			array('login', 'required', 'message' => Yii::t('Front', 'User ID is incorrect')),
-			array('terms', 'required', 'message' => Yii::t('Front', 'You need agree a terms & conditions')),
+			array('terms', 'required', 'message' => Yii::t('Front', 'You need to agree to the Terms & Conditions')),
 			//array('first_name', 'required', 'message' => Yii::t('Front', 'First Name is incorrect')),
 			//array('first_name, last_name', 'match', 'pattern' => '/^[a-zA-Z\- ]{1,}$/', 'message' => Yii::t('Front', 'Add Your name using latin alphabet')),
 			//array('last_name', 'required', 'message' => Yii::t('Front', 'Last Name is incorrect')),

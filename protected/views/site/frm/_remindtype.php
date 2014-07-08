@@ -15,7 +15,7 @@
                         </ul>
                     </div>
                         <div class="shadow_blocker"></div>
-                        <div class="popup-register-header"><?= Yii::t('Front', 'Password reset') ?></div>
+                        <div class="popup-register-header"><?= Yii::t('Front', 'Restore profile access') ?></div>
 
                             <div class="popup-register-form forgot-form" id="popup-auth-form">
                                  <?= Yii::t('Front', 'Choose one of the ways to restore access') ?>
