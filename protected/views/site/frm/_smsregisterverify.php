@@ -61,11 +61,11 @@
                                     <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Login'); ?>"/>
                                 </div>
                                 <div class="register-forgot-row">
-                                    <a onclick="resendLoginEmail('<?= Yii::t('Front', 'SMS was sent') ?>', '<?= Yii::app()->createUrl('/site/ResendVerifySMS') ?>')" href="javaScript:void(0)"><?= Yii::t('Front', 'I haven\'t received SMS with the code. Send it again.') ?></a>
+                                    <a class="send-again" onclick="resendLoginEmail('<?= Yii::t('Front', 'SMS was sent') ?>', '<?= Yii::app()->createUrl('/site/ResendVerifySMS') ?>')" href="javaScript:void(0)"><?= Yii::t('Front', 'I haven\'t received SMS with the code. Send it again.') ?></a>
 
                                     <div class="change-phone-cont">
                                         <?php if(!$user->phone_confirm): ?>
-                                            <a href="<?= Yii::app()->createUrl('/site/SMSVerifyPhoneChange') ?>"><?= Yii::t('Front', 'The mobile phone number is incorrect. Change mobile phone number.') ?></a>
+                                            <a class="change-phone" href="<?= Yii::app()->createUrl('/site/SMSVerifyPhoneChange') ?>"><?= Yii::t('Front', 'The mobile phone number is incorrect. Change mobile phone number.') ?></a>
                                         <?php endif; ?>
                                     </div>
                                 </div>

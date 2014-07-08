@@ -60,7 +60,7 @@ class Form_Smslogin extends CFormModel
 		if(!$i){
 			$i = 0;
 		}
-		if($i > 5){
+		if($i > 3){
 			$this->addError('code', Yii::t('Front', 'Exceeded the number of attempts'));
 			return false;
 		}
