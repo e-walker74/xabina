@@ -94,7 +94,7 @@ class Form_Smslogin extends CFormModel
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
 		{
 			$user = Users::model()->findByPk($this->_identity->getId());
-			$code = rand(1000, 9999);
+			$code = rand(100000, 999999);
 			Yii::app()->cache->set('sms_auth_code_user_'.$user->login, $code, 60*7);
 			Yii::app()->session['user_phone'] = $user->phone;
 			if(Yii::app()->sms->to($user->phone)->body('Xabina auth code: {code}', array('{code}' => $code))->send() != 1){
