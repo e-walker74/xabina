@@ -133,7 +133,7 @@
             </div>
              <div class="register-forgot-row" style="margin: 0">
                 <div class="change-phone-cont login-cont">
-                    <?=Yii::t('Front', 'Already have an account?')?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin')); ?>
+                    <?=Yii::t('Front', 'Already have an account?')?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin'), array('class'=>'login-link')); ?>
                 </div>
             </div>
         </div>
