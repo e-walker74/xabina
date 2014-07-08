@@ -20,26 +20,29 @@ class Form_Remind extends CFormModel
 		return array(
 			array('login, formtype', 'required', 'message' => Yii::t('Front', 'Field cannot empty')),
 			array('login', 'match', 'pattern' => '/^[0-9a-zA-Z\-\@\_\.\+]{1,}$/', 'message' => Yii::t('Front', $this->formtype.' is incorect')),
-			array('login', 'authenticatePhone'),
 			array('login', 'checkUserID', 'on' => 'login'),
 			array('login', 'checkEmail', 'on' => 'email'),
+			array('login', 'checkPhone', 'on' => 'phone'),
 			array('login', 'email', 'message' => Yii::t('Front', 'E-mail is incorrect'), 'on' => 'email'),
-			array('login', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'), 'on' => 'phone'),
 			array('login', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long'), 'on' => 'phone'),
 		);
 	}
 
-	public function authenticatePhone($attribute,$params)
-	{
-        if ($this->formtype)
-		$this->login = trim($this->login, '+');
-	}
 
 	public function checkUserID($attribute,$params)
 	{
         $user = Users::model()->findByAttributes(array('login' => $this->login));
         if (!$user) {
             $this->addError('login', Yii::t('Front', 'User ID is incorrect'));
+        }
+	}
+
+	public function checkPhone($attribute,$params)
+	{
+        $this->login = trim($this->login, '+');
+        $user = Users::model()->findByAttributes(array('phone' => $this->login));
+        if (!$user) {
+            $this->addError('login', Yii::t('Front', 'Phone not found'));
         }
 	}
 
