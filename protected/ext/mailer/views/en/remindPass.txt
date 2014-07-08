@@ -39,7 +39,7 @@
                         <div style="border-top: 2px solid #f2f2f2;margin: 17px 0 0; border-bottom: 2px solid #f2f2f2">
                             <p style="margin: 16px 0 0;">User ID: <b>{:userLogin}</b></p>
                         </div>
-                        <p style="margin: 22px 0 0;"><b>PIf You requested this action, please follow the link below.<br/><a href="{:activateUrl}" target="_blank">{:activateUrl}</a> </b></p>
+                        <p style="margin: 22px 0 0;"><b>If You requested this action, please follow the link below.<br/><a href="{:activateUrl}" target="_blank">{:activateUrl}</a> </b></p>
                         <p style="margin-top: 16px;line-height: 19px;"><em>If You have not requested this action, we strictly advise You to contact our customer support.</em></p>
 
                         <p style="margin-top: 30px;font-size: 11px">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
