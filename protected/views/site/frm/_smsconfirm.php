@@ -44,9 +44,10 @@
 						<div class="form-line">
 							<div class="form-block">
 								<div class="form-lbl"><?= $model->getAttributeLabel('code') ?></div>
-								<div class="green-hint">
+								<div class="sms-hint">
 									<?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number +x xxx xxx :num.', array(':num' => substr($user->phone, -3))); ?>
-								</div>
+								    <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your SMS verification code') ?>"></span>
+                                </div>
 								<div class="form-input">
 									<?= $form->textField($model, 'code', array('class' => 'remind')); ?>
 									<span class="validation-icon"></span>
