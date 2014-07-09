@@ -418,13 +418,11 @@ $(function () {
     }
 
 
-
-    resendActivationEmail = function(url, link){
+    resendActivationEmail = function (url, link) {
         $.ajax({
             url: url,
-            success: function(response){
-                if(response.success)
-                {
+            success: function (response) {
+                if (response.success) {
                     successNotify(response.titleMess, response.message, link)
                 }
             },
@@ -460,15 +458,16 @@ $(function () {
                         location.reload();
                     }
                 }
-                callback(response);
+                if (callback) {
+                    callback(response);
+                }
+
             },
             cache: false,
             data: {},
             type: 'POST'
         });
     }
-
-
 
 
     /**
@@ -768,14 +767,12 @@ $(document).ready(function () {
         });
     })
 
-    $(document).on('keyup', '.numeric', function () {
-        var input = $(this),
-            text = input.val().replace(/[^0-9+\s]/g, "");
-        if (/_|\s/.test(text)) {
-            text = text.replace(/_|\s/g, "");
-            // logic to notify user of replacement
+    $(document).on('keypress', '.numeric', function (e) {
+        if (
+            e.keyCode < 48 || e.keyCode > 57
+            ) {
+            return false;
         }
-        input.val(text);
     })
 
     $(document).on('keyup', '.phone',function () {
@@ -787,6 +784,33 @@ $(document).ready(function () {
             $(this).val('+' + $(this).val());
         }
     });
+
+    $('.btn-group.with-delete-confirm').on({
+        "hide.bs.dropdown": function (e) {
+            var opened = $(this).find('.delete.opened')
+            if (opened.length !== 0) {
+                opened.removeClass('opened')
+                return false;
+            }
+        }
+    });
+
+    $('.tab').on('click', '.dropdown-toggle', function () {
+        $(this).toggleClass('closed');
+
+        $(this).hasClass('closed') ?
+            $(this).html('<span>' + $(this).data('closed-text') + '</span>') :
+            $(this).html('<span>' + $(this).data('opened-text') + '</span>');
+        $(this).parents('.dropdown-list-cont').find('.list-dropdown-toggle').slideToggle();
+        return false;
+    })
+
+//    $('#withDeleteConfirm').on('hide.bs.dropdown', function (event) {
+//        pop = $(event.target).find('.popover:visible')
+//        if($(event.target).find('.popover').length !== 0){
+//            return false;
+//        }
+//    })
 
 })
 
@@ -889,7 +913,7 @@ var successNotify = function (title, message, element, type) {
     } else {
         var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
     }
-    if(!type){
+    if (!type) {
         type = 'success'
     }
     $.pnotify(
@@ -911,6 +935,7 @@ var successNotify = function (title, message, element, type) {
             }
         }
     })
+
 }
 
 var errorNotify = function (title, message, element) {

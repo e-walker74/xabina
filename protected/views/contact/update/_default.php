@@ -1,19 +1,26 @@
-<div class=" xabina-form-narrow">
-	<table class="table xabina-table-contacts">
+<div class="xabina-form-narrow">
+	<table class="table xabina-table-contacts table-defaults">
 		<tr class="table-header">
 			<th style="width: 49%"><?= Yii::t('Front', 'Default'); ?></th>
-			<th style="width: 41%"><?= Yii::t('Front', 'Category'); ?></th>
-			<th style="width: 10%"></th>
+			<th style="width: 43%"><?= Yii::t('Front', 'Description'); ?></th>
+			<th style="width: 8%"></th>
 		</tr>
 		<?php foreach(Users_Contacts_Data_Default::$types as $key => $value): ?>
 		<?php $default = Users_Contacts_Data_Default::getModelForType($model, $key); ?>
 		<tr class="data-row">
 			<td><?= Yii::t('Front', Users_Contacts_Data_Default::$types[$key]) ?></td>
 			<td><?= $default->value ?></td>
-			<td>
-				<div class="transaction-buttons-cont">
-					<a href="javaScript:void(0)" class="button edit"></a>
-				</div>
+			<td style="overflow: visible!important;">
+                <div class="contact-actions transaction-buttons-cont">
+                    <div class="btn-group">
+                        <a class="button menu" data-toggle="dropdown" href="#"></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javaScript:void(0)" class="button edit"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 			</td>
 		</tr>
 		<tr class="edit-row">
@@ -22,7 +29,7 @@
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-dafault'.$key,
                     'action' => array('/contact/update', 'url' => $model->url),
-					'enableAjaxValidation'=>true,
+					'enableAjaxValidation'=>false,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
 					'htmlOptions' => array(
@@ -80,5 +87,10 @@
 			</td>
 		</tr>
 		<?php endforeach; ?>
+        <tr>
+            <td colspan="3">
+                <a href="#" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'Add new') ?></a>
+            </td>
+        </tr>
 	</table>
 </div>

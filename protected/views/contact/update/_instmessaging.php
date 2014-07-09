@@ -15,7 +15,15 @@
 			</td>
 			<td><?= $m->name ?></td>
 			<td><?= $m->category ?></td>
-			<td><span class="primary"><?= ($m->getDbModel()->is_primary) ? 'Primary' : '' ?></span></td>
+            <td>
+                <?php if($m->getDbModel()->is_primary): ?>
+                    <span class="primary">
+                        <?= Yii::t('Front', 'Primary') ?>
+                    </span>
+                <?php else: ?>
+                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
+                <?php endif; ?>
+            </td>
 			<td>
 				<div class="transaction-buttons-cont">
 					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'instmessaging', 'id' => $m->id)) ?>" ></a>
@@ -50,6 +58,7 @@
 					),
 				)); ?>
 				<?php $m = new Users_Contacts_Data_Instmessaging; ?>
+                <div class="table-subheader"><?= Yii::t('Front', 'Add new instant messaging'); ?></div>
 				<div class="row">
 					<div class="col-lg-3 col-md-3  col-sm-3">
 						<div class="form-cell">
@@ -126,7 +135,7 @@
 </div>
 <script>
 $(document).ready(function(){
-	$('.transaction-buttons-cont .delete').confirmation({
+	$('.xabina-form-narrow .transaction-buttons-cont .delete').confirmation({
 		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
 		singleton: true,
 		popout: true,

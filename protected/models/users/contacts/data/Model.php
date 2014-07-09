@@ -10,12 +10,16 @@ class Users_Contacts_Data_Model extends CModel
 
 	public $id;
 	protected $_dbModel;
+    public $category_id;
 	
 	public function setDbModel($model){
 		$this->_dbModel = $model;
 	}
-	
-	public function getDbModel(){
+
+    /**
+     * @return Users_Contacts_Data
+     */
+    public function getDbModel(){
 		return $this->_dbModel;
 	}
 
@@ -27,9 +31,19 @@ class Users_Contacts_Data_Model extends CModel
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-
+            array('category_id', 'categoryValidate'),
 		);
 	}
+
+    public function categoryValidate($attribute, $param){
+        if(!$this->category_id && isset($_POST['Data_Category'])){
+            if(empty($_POST['Data_Category'])){
+                $this->addError('category_id', Yii::t('Front','Category is incorrect'));
+            }
+        } elseif($this->category_id && !is_numeric($this->category_id)){
+            $this->addError('category_id', Yii::t('Front','Category is incorrect'));
+        }
+    }
 	
 	public function attributeNames(){
 		return array();

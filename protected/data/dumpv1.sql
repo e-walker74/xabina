@@ -2127,7 +2127,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `users_contacts`;
 CREATE TABLE `users_contacts` (
-`id`  int(11) NOT NULL AUTO_INCREMENT ,
+`id`  int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
 `url`  varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `user_id`  int(11) UNSIGNED NOT NULL ,
 `xabina_id`  int(11) NULL DEFAULT NULL ,
@@ -2159,8 +2159,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `users_contacts_data`;
 CREATE TABLE `users_contacts_data` (
-`id`  int(11) NOT NULL AUTO_INCREMENT ,
-`contact_id`  int(11) NOT NULL ,
+`id`  int(11) UNSIGNED NOT NULL AUTO_INCREMENT ,
+`contact_id`  int(11) UNSIGNED NOT NULL ,
 `data_type`  varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `value`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `once`  tinyint(1) NOT NULL DEFAULT 0 ,
