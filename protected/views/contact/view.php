@@ -80,4 +80,6 @@
             }
         })
     })
+
+    $(".xabina-tabs , .edit-tabs").tabs({});
 </script>

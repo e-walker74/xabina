@@ -1,10 +1,10 @@
 <div class=" xabina-form-narrow">
 	<table class="table xabina-table-contacts">
 		<tr class="table-header">
-			<th style="width: 48%"><?= Yii::t('Front', 'Phone'); ?></th>
+			<th style="width: 8%"><?= Yii::t('Front', 'Phone'); ?></th>
 			<th style="width: 21%"><?= Yii::t('Front', 'Category'); ?></th>
-			<th style="width: 23%"><?= Yii::t('Front', 'Status'); ?></th>
-			<th style="width: 8%"></th>
+			<th style="width: 21%"><?= Yii::t('Front', 'Status'); ?></th>
+			<th style="width: 20%"></th>
 		</tr>
 		<?php foreach($model->getDataByType('phone') as $m): ?>
 		<tr class="data-row">
