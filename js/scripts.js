@@ -494,6 +494,16 @@ $(function () {
         });
     }
 
+    $(document).on('click', '.checkbox-custom label', function(e){
+        if($(this).find('input[type="checkbox"]').prop('checked')){
+            $(this).addClass('checked');
+            e.stopPropagation();
+        }else{
+            $(this).removeClass('checked');
+            e.stopPropagation();
+        }
+    });
+
 });
 
 function printDiv(divName) {
@@ -845,7 +855,7 @@ var cancelPage = function () {
      $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
      })*/
 
-    $('.checkbox-custom label').removeClass('checked')
+//    $('.checkbox-custom label').removeClass('checked')
 
     /* new transfer page */
     $('.quick-row-edit').hide()
@@ -884,7 +894,7 @@ var resetPage = function () {
      $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
      })*/
 
-    $('.checkbox-custom label').removeClass('checked')
+//    $('.checkbox-custom label').removeClass('checked')
 
     /* new transfer page */
     $('.quick-row-edit').hide()

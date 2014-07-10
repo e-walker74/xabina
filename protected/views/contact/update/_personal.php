@@ -29,7 +29,7 @@
             <td><?= $model->xabina_id ?></td>
             <td>
                 <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
+                    <a href="#" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                 </div>
             </td>
         </tr>
@@ -87,8 +87,8 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                             <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" class="button ok" value=""/>
-                                <a href="javaScript:void(0)" class="button cancel"></a>
+                                <input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
                             </div>
                         </div>
                     </div>

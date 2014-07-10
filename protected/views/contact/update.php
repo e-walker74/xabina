@@ -56,7 +56,7 @@
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button card" href="#"></a>
+                        <a class="button card" title="<?= Yii::t('Front', 'New transfer') ?>" href="#"></a>
                     </div>
                 </td>
             </tr>
@@ -71,7 +71,7 @@
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button send" href="#"></a>
+                        <a class="button send" title="<?= Yii::t('Front', 'Send Email') ?>" href="#"></a>
                     </div>
                 </td>
             </tr>
@@ -86,7 +86,7 @@
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button send" href="#"></a>
+                        <a class="button send" href="#"  title="<?= Yii::t('Front', 'Send Email') ?>"></a>
                     </div>
                 </td>
             </tr>

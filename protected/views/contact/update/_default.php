@@ -11,15 +11,8 @@
 			<td><?= Yii::t('Front', Users_Contacts_Data_Default::$types[$key]) ?></td>
 			<td><?= $default->value ?></td>
 			<td style="overflow: visible!important;">
-                <div class="contact-actions transaction-buttons-cont">
-                    <div class="btn-group">
-                        <a class="button menu" data-toggle="dropdown" href="#"></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="javaScript:void(0)" class="button edit"></a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="transaction-buttons-cont">
+                    <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                 </div>
 			</td>
 		</tr>
@@ -77,8 +70,8 @@
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-4  edit-submit-cont" style="margin: 0">
 							<div class="transaction-buttons-cont">
-								<input type="submit" class="button ok" value=""/>
-								<a href="javaScript:void(0)" class="button cancel"></a>
+								<input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+								<a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
 							</div>
 						</div>
 					</div>

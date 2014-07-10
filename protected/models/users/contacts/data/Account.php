@@ -33,6 +33,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
     public $currency_id;
     public $outgoing_category;
     public $incoming_category;
+    public $automatic_linking;
 
     /**
      * Returns the static model of the specified AR class.
@@ -72,6 +73,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
                 array('scrill_acc', 'required', 'on' => 'scrill_acc'),
                 array('webmoney_acc', 'required', 'on' => 'webmoney_acc'),
                 array('webmoney_acc, scrill_acc, bic, paypal_acc, account_holder, account_number, details, category', 'length', 'max' => 140),
+                array('automatic_linking', 'boolean'),
                 array('account_type', 'in', 'range' => array_keys(self::$contacts_account_types)), //TODO another account types
                 /*array('p_month', 'numerical', 'min' => 1, 'max' => 12),
                 array('p_month', 'length', 'max' => 2),
@@ -92,7 +94,8 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
 				webmoney_acc,
 				currency_id,
 				outgoing_category,
-				incoming_category
+				incoming_category,
+				automatic_linking,
 				', 'safe'),
             ));
     }
@@ -158,6 +161,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
             'currency_id',
             'incoming_category',
             'outgoing_category',
+            'automatic_linking',
         );
     }
 

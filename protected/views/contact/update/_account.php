@@ -27,10 +27,10 @@
             <td style="overflow: visible!important;">
                 <div class="contact-actions transaction-buttons-cont">
                     <div class="btn-group with-delete-confirm">
-                        <a class="button menu" data-toggle="dropdown" href="#"></a>
+                        <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="javaScript:void(0)" class="button edit"></a>
+                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                             </li>
                             <li>
                                 <?= Html::link('', 'javaScript:void(0)', array(
@@ -96,8 +96,8 @@
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2">
 							<div class="transaction-buttons-cont edit-submit-cont">
-								<input type="submit" class="button ok" value=""/>
-								<a href="javaScript:void(0)" class="button cancel"></a>
+								<input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+								<a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
 							</div>
 						</div>
 					</div>
@@ -346,6 +346,29 @@
                         <div class="col-lg-2 col-md-2 col-sm-2">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="urgency">
+                                <div class="lbl">
+                                    <?= Yii::t('Front', 'Automatic linking') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'automatic_linking_tooltip') ?>"></span>
+                                </div>
+                                <div class="input">
+                                    <div class="checkbox-custom gray">
+                                        <label class="<?= ($account->automatic_linking) ? "checked" : "" ?>">
+                                            <?= $form->checkBox($account, 'automatic_linking') ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5">
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                        </div>
+                    </div>
+
 				</div>
 				<?php $this->endWidget(); ?>
 			</td>
@@ -409,8 +432,8 @@
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2">
 							<div class="transaction-buttons-cont edit-submit-cont">
-								<input type="submit" class="button ok" value=""/>
-								<a href="javaScript:void(0)" class="button cancel"></a>
+								<input type="submit"  title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+								<a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
 							</div>
 						</div>
 					</div>
@@ -581,6 +604,103 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 buttons">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 category">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Incoming payment category') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_account_incoming') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $account,
+                                            'incoming_category',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'incoming_category'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                                'options' => array($account->incoming_category => array('selected' => true)),
+                                            )
+                                        ) ?>
+                                    </div>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category_Incoming" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 category">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Outgoing payment category') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_outgoing') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $account,
+                                            'outgoing_category',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'outgoing_category'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                            )
+                                        ) ?>
+                                    </div>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category_Outgoing" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="urgency">
+                                <div class="lbl">
+                                    <?= Yii::t('Front', 'Automatic linking') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'automatic_linking_tooltip') ?>"></span>
+                                </div>
+                                <div class="input">
+                                    <div class="checkbox-custom gray">
+                                        <label class="<?= ($account->automatic_linking) ? "checked" : "" ?>">
+                                            <?= $form->checkBox($account, 'automatic_linking') ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5">
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
                         </div>
                     </div>
 				</div>
