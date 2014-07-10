@@ -44,6 +44,7 @@
                                             array('/accounts/transaction', 'id' => $trans['url']),
                                             array(
                                                 'class' => 'button eye',
+                                                'title' => Yii::t('Front', 'Show transaction info')
                                             )) ?>
                                     </li>
                                     <li>
@@ -63,6 +64,7 @@
                                                 'id' => $trans['transfer_id'],
                                             ), array(
                                                 'class' => 'button refresh',
+                                                'title' => Yii::t('Front', 'Repeat transaction')
                                             )) ?>
                                     </li>
                                 </ul>
