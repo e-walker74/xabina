@@ -102,12 +102,14 @@ $(document).ready(function () {
 })
 
 var searchAnalytics = function (form) {
+    backgroundBlack()
     $.ajax({
         url: $(form).attr('action'),
         success: function (response) {
             if (response.success) {
                 $('.analytics-results').html(response.html)
             }
+            dellBackgroundBlack()
         },
         cache: false,
         async: false,
