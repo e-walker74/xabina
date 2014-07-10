@@ -112,7 +112,7 @@ var searchAnalytics = function (form) {
             dellBackgroundBlack()
         },
         cache: false,
-        async: false,
+        async: true,
         data: form.serialize(),
         type: 'POST',
         dataType: 'json'
