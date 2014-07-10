@@ -30,7 +30,7 @@ class Form_Search extends CFormModel
 	{
 		return array(
 			array('sender, keyword, type', 'length', 'max' => 255, 'message' => Yii::t('Front', 'is to long')),
-			array('account_number, from_date, to_date, from_sum, to_sum', 'numerical', 'message' => Yii::t('Front', 'field is not numeric')),
+			array('account_number, from_sum, to_sum', 'numerical', 'message' => Yii::t('Front', 'field is not numeric')),
 			array('type, sender, keyword, account_number, from_date, to_date, from_sum, to_sum', 'safe'),
 			// password needs to be authenticated
 		);

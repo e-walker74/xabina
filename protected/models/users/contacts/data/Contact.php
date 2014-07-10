@@ -47,6 +47,6 @@ class Users_Contacts_Data_Contact extends Users_Contacts_Data_Model
 
     public function getContactInfo()
     {
-        return Users_Contacts::model()->currentUser()->findByPk($this->contact_id);
+        return Users_Contacts::model()->currentUser()->with(array('data','data.category'))->findByPk($this->contact_id);
     }
 }

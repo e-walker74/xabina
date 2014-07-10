@@ -130,7 +130,7 @@ class ContactController extends Controller
 
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'My contact'))] = array('/contact/index');
 
-        $model = Users_Contacts::model()->currentUser()->with('data')->findByAttributes(array('url' => $url));
+        $model = Users_Contacts::model()->currentUser()->with(array('data','data.category'))->findByAttributes(array('url' => $url));
 
         if (!$model) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
