@@ -14,13 +14,13 @@
     </div>
     <div class="contact-actions transaction-buttons-cont">
         <div class="btn-group with-delete-confirm">
-            <a class="button menu" data-toggle="dropdown" href="#"></a>
+            <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="button print" href="javaScript:void(0)" onclick="js:printDiv('print-area')"></a>
+                    <a class="button print" title="<?= Yii::t('Front', 'Print this window') ?>" href="javaScript:void(0)" onclick="js:printDiv('print-area')"></a>
                 </li>
                 <li>
-                    <?= Html::link('', array('/contact/pdf', 'url' => $model->url), array('class' => 'button pdf')) ?>
+                    <?= Html::link('', array('/contact/pdf', 'url' => $model->url), array('class' => 'button pdf', 'title' => Yii::t('Front', 'Contact to PDF'))) ?>
                 </li>
                 <li>
                     <a class="button delete del-contact" onclick="$(this).addClass('opened')"
