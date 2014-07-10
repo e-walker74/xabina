@@ -98,6 +98,22 @@ $(document).ready(function () {
         }
     });
 
+    $('.tooltip-icon').tooltip({
+        tooltipClass: 'xabina-tooltip',
+        placement: 'right',
+        position: {
+            my: "left+25 top-12",
+            at: "right top",
+            using: function (position, feedback) {
+                $(this).css(position);
+                $("<div>")
+                    .addClass("tooltip-arrow")
+                    .addClass(feedback.vertical)
+                    .addClass(feedback.horizontal)
+                    .appendTo(this);
+            }
+        }
+    });
 
 })
 

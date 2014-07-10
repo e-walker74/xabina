@@ -19,7 +19,7 @@
         </tr>
         <tr class="comment-tr">
             <td colspan="3" style="line-height: 1.43!important">
-                <span><?= Yii::t('Front', 'go_to_the_category_page') ?> <?= HTML::link(Yii::t('Front', 'Link'), array('/contact/category')) ?></span>
+                <span><?= Yii::t('Front', 'go_to_the_category_page') ?> <?= Html::link(Yii::t('Front', 'Link'), array('/contact/category')) ?></span>
             </td>
         </tr>
         <?php if (empty($model->categories)): ?>

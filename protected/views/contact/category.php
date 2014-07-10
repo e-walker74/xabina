@@ -41,16 +41,18 @@
                                    class="dropdown-toggle closed"><span><?= Yii::t('Front', 'Show users') ?></span></a>
                             </div>
                             <?php endif; ?>
-                            <div class="transaction-buttons-cont btn-group with-delete-confirm">
-                                <a class="button menu" data-toggle="dropdown" href="#"></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="button edit" href="javaScript:void(0)"></a>
-                                    </li>
-                                    <li>
-                                        <a class="button delete" onclick="$(this).addClass('opened')" data-url="<?= Yii::app()->createUrl('/contact/deleteCategory', array('id' => $category->id)) ?>" ></a>
-                                    </li>
-                                </ul>
+                            <div class="transaction-buttons-cont">
+                                <div class="btn-group with-delete-confirm">
+                                    <a href="#" class="button menu" data-toggle="dropdown"></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="button edit" href="javaScript:void(0)"></a>
+                                        </li>
+                                        <li>
+                                            <a class="button delete" onclick="$(this).addClass('opened')" data-url="<?= Yii::app()->createUrl('/contact/deleteCategory', array('id' => $category->id)) ?>" ></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="clearfix"></div>
                             <ul class="list-unstyled list-contacts list-dropdown-toggle">

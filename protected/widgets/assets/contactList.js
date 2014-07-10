@@ -491,7 +491,8 @@ jQuery.fn.popUpSearchContact = function(options, callback){
         elementUl.find('.one-contact').each(function(){
             var li = $(this)
             var sel = 'tr[data-select-id="' + $(this).attr('data-id') + '"]'
-            if($(elementUl).closest('table').find(sel).length !== 0){
+            var table = $(elementUl).closest('table')
+            if(table.find(sel).length !== 0){
                 li.hide()
                 if(li.closest('.letter-block').find('li:visible').length == 0){
                     li.closest('.letter-block').hide()

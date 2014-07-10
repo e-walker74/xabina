@@ -56,7 +56,7 @@
 						<div class="form-cell">
 							<div class="form-lbl">
 								<?= Yii::t('Front', 'Type URL Adress') ?>
-								<span class="tooltip-icon" title="<?= Yii::t('Front', '') ?>"></span>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url') ?>"></span>
 							</div>
 							<div class="form-input">
 								<div class="form-input">
@@ -146,7 +146,7 @@
 						<div class="form-cell">
 							<div class="form-lbl">
 								<?= Yii::t('Front', 'Type URL Adress') ?>
-								<span class="tooltip-icon" title="<?= Yii::t('Front', '') ?>"></span>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url') ?>"></span>
 							</div>
 							<div class="form-input">
 								<div class="form-input">
