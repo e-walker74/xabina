@@ -198,6 +198,7 @@ class ContactController extends Controller
 
     protected function saveContact($model)
     {
+        $this->cleanResponseJs();
         $model->attributes = $_POST['Users_Contacts'];
         $model->user_id = Yii::app()->user->getCurrentId();
         if ($model->save()) {
