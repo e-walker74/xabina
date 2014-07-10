@@ -73,7 +73,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Account Type'); ?>
-									<span class="tooltip-icon" title="<?php Yii::t('Front', 'Add Your first name using latin alphabet'); ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'Add Your first name using latin alphabet'); ?>"></span>
 								</div>
 								<div class="form-input">
 									<div class="select-custom select-narrow" style="background: #e1e1e7">

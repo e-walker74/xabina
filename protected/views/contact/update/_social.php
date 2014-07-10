@@ -17,7 +17,7 @@
             <td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
             <td style="overflow: visible!important;">
                 <div class="contact-actions transaction-buttons-cont">
-                    <div class="btn-group">
+                    <div class="btn-group with-delete-confirm">
                         <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
                         <ul class="dropdown-menu">
                             <li>
