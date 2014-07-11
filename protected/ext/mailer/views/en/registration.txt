@@ -36,8 +36,8 @@
                 </tr>
                 <tr>
                     <td style="background-color: #fff; font-size: 13px ;color: #777; padding: 0 20px 17px">
-                        <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear user</h2>
-                        <p style="margin: 22px 0 0;"><b>Thank You for opening a Bank account at <a style="color: #1b75bc;" href="{:xabinaBaseUrl}">Xabina.com</a>. <br/> Here are your Login details: </b></p>
+                        <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear client</h2>
+                        <p style="margin: 22px 0 0;"><b>Thank You for registering a profile at <a style="color: #1b75bc;" href="{:xabinaBaseUrl}">Xabina.com</a>. <br/> Here are your Login details: </b></p>
                         <div style="border-top: 2px solid #f2f2f2;margin: 17px 0 0; border-bottom: 2px solid #f2f2f2">
                             <p style="margin: 16px 0 0;">User ID: <b>{:userLogin}</b></p>
                             <p>Mobile Phone: <b>{:userPhone}</b></p>

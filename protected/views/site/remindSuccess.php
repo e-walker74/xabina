@@ -5,7 +5,7 @@
         </div>
         <div class="success-ico"></div>
         <div class="congratulations-msg">
-            <?= Yii::t('Front', 'Your phone is changed'); ?>
+            <?= Yii::t('Front', 'Dear User, Your mobile phone has been successfully changed. You can now'); ?><?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin'), array('class'=>'login-link')); ?>
         </div>
     </div>
 </div>
