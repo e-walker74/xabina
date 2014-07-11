@@ -56,7 +56,7 @@ class Form_Smslogin extends CFormModel
 	}
 
 	public function checkCode($attribute, $params){
-		$i = 0;///Yii::app()->cache->get('sms_auth_trying_user_'.$this->userId);
+		$i = Yii::app()->cache->get('sms_auth_trying_user_'.$this->userId);
 		if(!$i){
 			$i = 0;
 		}
