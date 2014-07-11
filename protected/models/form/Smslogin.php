@@ -77,10 +77,11 @@ class Form_Smslogin extends CFormModel
 			$this->_identity=new UserSmsIdentity($this->userId);
 			if(!$this->_identity->authenticate()){
 				if($this->_identity->errorCode == UserIdentity::USER_IS_NOT_ACTIVE){
-					$this->addError('userId', Yii::t('Front', 'Is not activated, <a href=":link">resend</a> activation', array(':link' => Yii::app()->createUrl('/remind'))));
+					//$this->addError('userId', Yii::t('Front', 'Is not activated, <a href=":link">resend</a> activation', array(':link' => Yii::app()->createUrl('/remind'))));
 				} else {
-					$this->addError('userId', Yii::t('Front', 'User ID is incorrect'));
+					//$this->addError('userId', Yii::t('Front', 'User ID is incorrect'));
 				}
+                $this->addError('userId', Yii::t('Front', 'User ID is incorrect'));
 			}
 		}
 	}
