@@ -25,7 +25,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-Mail'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'email', array('autocomplete' => 'off')); ?>
+                        <?= $form->passwordField($model, 'email', array('autocomplete' => 'off')); ?>
                         <span class="validation-icon"></span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your password'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'phone', array('autocomplete' => 'off', 'phonefield' => 'true')); ?>
+                        <?= $form->passwordField($model, 'phone', array('autocomplete' => 'off', 'phonefield' => 'true')); ?>
                         <span class="validation-icon"></span>
                     </div>
                 </div>

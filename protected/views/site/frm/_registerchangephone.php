@@ -98,7 +98,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Change role for your account'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <div class="dropdown select-type-dropdown">
+                        <div class="dropdown select-type-dropdown disabled">
                             <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
 
                         </div>

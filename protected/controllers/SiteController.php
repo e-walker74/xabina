@@ -222,9 +222,7 @@ class SiteController extends Controller {
 		}
 		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 		$model->userId = $user->login;
-		if($user->phone_confirm){
-			throw new CHttpException(404, Yii::t('Page not found'));
-		}
+
 		
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
 			echo CActiveForm::validate($model);
@@ -461,7 +459,7 @@ class SiteController extends Controller {
     public function actionRemind(){
 
         if(!Yii::app()->user->getIsGuest()){
-            throw new CHttpException(404, 'Страница не найдена');
+            $this->redirect(array('banking/index'));
         }
 		
 		$form = new Form_Remind();

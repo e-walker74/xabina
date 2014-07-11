@@ -103,21 +103,28 @@
                         <?= $form->error($model, 'login'); ?>
                     </div>
                 </div>
-                <div class="form-block"></div>
+                <div class="clear"></div>
+                <div class="form-block" style="margin: 0; float: none">
+                    <div class="terms-check">
+                        <div class="checkbox-custom">
+                            <label class="checked">
+                                <?= $form->checkbox($model, 'terms', array('checked' => 'checked')); ?>
+                            </label>
+                        </div>
+                        <?=Yii::t('Front', 'I read and agree to the')?>  <?= CHtml::link(Yii::t('Front', 'terms & conditions'), array('/terms', 'language' => Yii::app()->language), array('target'=>'_blank')); ?>
+                        <div class="form-alert">
+                            <div class="errorMessage"><?= $form->error($model, 'terms'); ?></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="clear"></div>
             <div class="form-line-submit">
                 <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Open an account'); ?>"/>
             </div>
-            <div class="register-forgot-row">
-                <div class="terms-check">
-                    <?= $form->checkbox($model, 'terms'); ?> <?= CHtml::link(Yii::t('Front', 'I read and agree to the terms & conditions'), array('/terms', 'language' => Yii::app()->language)); ?>
-                </div>
-                 <div class="form-alert">
-                    <?= $form->error($model, 'terms'); ?>
-                </div>
+            <div class="register-forgot-row" style="margin: 0">
                 <div class="change-phone-cont login-cont">
-                    <?= Yii::t('Front', 'Already have an account?'); ?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/login', 'language' => Yii::app()->language)); ?>
+                    <?=Yii::t('Front', 'Already have an account?')?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin'), array('class'=>'login-link')); ?>
                 </div>
             </div>
         </div>

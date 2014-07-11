@@ -120,7 +120,7 @@
                                 <?= $form->checkbox($model, 'terms', array('checked' => 'checked')); ?>
                             </label>
                         </div>
-                        <?=Yii::t('Front', 'I read and agree to')?>  <?= CHtml::link(Yii::t('Front', 'the terms & conditions'), array('/terms', 'language' => Yii::app()->language), array('target'=>'_blank')); ?>
+                        <?=Yii::t('Front', 'I read and agree to the')?>  <?= CHtml::link(Yii::t('Front', 'terms & conditions'), array('/terms', 'language' => Yii::app()->language), array('target'=>'_blank')); ?>
                         <div class="form-alert">
                             <div class="errorMessage"><?= $form->error($model, 'terms'); ?></div>
                         </div>

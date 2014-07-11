@@ -24,7 +24,7 @@ class Form_Remind extends CFormModel
 			array('login', 'checkEmail', 'on' => 'email'),
 			array('login', 'checkPhone', 'on' => 'phone'),
 			array('login', 'email', 'message' => Yii::t('Front', 'E-mail is incorrect'), 'on' => 'email'),
-			array('login', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long'), 'on' => 'phone'),
+			array('login', 'length', 'min' => 8, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long'), 'on' => 'phone'),
 		);
 	}
 

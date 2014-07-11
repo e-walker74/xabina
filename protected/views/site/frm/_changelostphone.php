@@ -98,7 +98,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Change role for your account'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <div class="dropdown select-type-dropdown">
+                        <div class="dropdown select-type-dropdown disabled">
                             <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
 
                         </div>
@@ -112,6 +112,11 @@
             <div class="clear"></div>
             <div class="form-line-submit">
                 <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Change phone'); ?>"/>
+            </div>
+             <div class="register-forgot-row">
+                <div class="change-phone-cont login-cont">
+                    <?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin'), array('class'=>'login-link')); ?>
+                </div>
             </div>
         </div>
             <?php $this->endWidget(); ?>
