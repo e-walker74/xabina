@@ -7,8 +7,13 @@
 			<th style="width: 17%"><?= Yii::t('Front', 'Status') ?></th>
 			<th style="width: 9%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('account'))): ?>hidden<?php endif; ?>">
+            <td colspan="5" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a account yet. You can add new account by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('account') as $account): ?>
-		<tr class="data-row">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $account->id) ? 'flash_notify_here' : '' ?>">
 			<td><?=
                     Yii::t('Front', Users_Contacts_Data_Account::$contacts_account_types[$account->account_type])
                 ?>
@@ -73,7 +78,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Account Type'); ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'This is account type'); ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'account_type_tooltip'); ?>"></span>
 								</div>
 								<div class="form-input">
 									<div class="select-custom select-narrow" style="background: #e1e1e7">
@@ -148,7 +153,7 @@
 								<div class="form-cell">
 									<div class="form-lbl">
 										<?= Yii::t('Front', 'Bank Name') ?>
-										<span class="tooltip-icon" title="<?= Yii::t('Front', 'banc_name_contact') ?>"></span>
+										<span class="tooltip-icon" title="<?= Yii::t('Front', 'bank_name_contact') ?>"></span>
 									</div>
 									<div class="form-input">
 										<?= $form->textField($account, 'bank_name', array('class' => 'input-text bg bankinfo-name', 'disabled' => 'disabled')) ?>
@@ -219,54 +224,19 @@
 						</div>
 					</div>
                     <div class="row">
-                        <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="col-lg-10 col-md-10 col-sm-10">
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Details of Payments') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'details_account_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
-                                    <?= $form->textField($account, 'details', array('class' => 'input-text')) ?>
+                                    <?= $form->textArea($account, 'details', array('class' => 'input-text autosize')) ?>
                                     <?= $form->error($account, 'details') ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 category">
-                            <div class="form-cell">
-                                <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Category') ?>
-                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_contact') ?>"></span>
-                                </div>
-                                <div class="form-input category-select">
-                                    <div class="select-custom select-narrow ">
-                                        <span class="select-custom-label"></span>
-                                        <?= $form->dropDownList(
-                                            $account,
-                                            'category_id',
-                                            Html::listDataWithFilter(
-                                                $data_categories,
-                                                'id',
-                                                'value',
-                                                'data_type',
-                                                'account'
-                                            ) + array('add' => Yii::t('Front', 'Other')),
-                                            array(
-                                                'class' => 'select-invisible',
-                                                'onchange' => 'showAddNewCategory(this)',
-                                                'empty' => Yii::t('Front', 'Select'),
-                                                'options' => array($account->getDbModel()->category_id => array('selected' => true)),
-                                            )
-                                        ) ?>
-                                    </div>
-                                </div>
-                                <div class="form-input add-new-category" style="display: none;">
-                                    <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
-                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="col-lg-2 col-md-2 col-sm-2">
                         </div>
                     </div>
@@ -347,6 +317,42 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 category">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Category') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_contact') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $account,
+                                            'category_id',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'account'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                                'options' => array($account->getDbModel()->category_id => array('selected' => true)),
+                                            )
+                                        ) ?>
+                                    </div>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="urgency">
                                 <div class="lbl">
@@ -361,9 +367,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
-
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2">
                         </div>
@@ -410,7 +413,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Account Type'); ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'Add Your first name using latin alphabet'); ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'account_type_tooltip'); ?>"></span>
 								</div>
 								<div class="form-input">
 									<div class="select-custom select-narrow ">
@@ -555,51 +558,15 @@
 						</div>
 					</div>
                     <div class="row">
-                        <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="col-lg-10 col-md-10 col-sm-10">
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Details of Payments') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'details_account_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
-                                    <?= $form->textField($account, 'details', array('class' => 'input-text')) ?>
+                                    <?= $form->textArea($account, 'details', array('class' => 'input-text autosize')) ?>
                                     <?= $form->error($account, 'details') ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 category">
-                            <div class="form-cell">
-                                <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Category') ?>
-                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_contact') ?>"></span>
-                                </div>
-                                <div class="form-input category-select">
-                                    <div class="select-custom select-narrow ">
-                                        <span class="select-custom-label"></span>
-                                        <?= $form->dropDownList(
-                                            $account,
-                                            'category_id',
-                                            Html::listDataWithFilter(
-                                                $data_categories,
-                                                'id',
-                                                'value',
-                                                'data_type',
-                                                'account'
-                                            ) + array('add' => Yii::t('Front', 'Other')),
-                                            array(
-                                                'class' => 'select-invisible',
-                                                'onchange' => 'showAddNewCategory(this)',
-                                                'empty' => Yii::t('Front', 'Select'),
-                                            )
-                                        ) ?>
-                                    </div>
-                                </div>
-                                <div class="form-input add-new-category" style="display: none;">
-                                    <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
-                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
-                                    </span>
-<!--                                    --><?//= $form->error($account, 'category_id'); ?>
                                 </div>
                             </div>
                         </div>
@@ -682,6 +649,42 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 category">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Category') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'category_name_contact') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $account,
+                                            'category_id',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'account'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                            )
+                                        ) ?>
+                                    </div>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                    <!--                                    --><?//= $form->error($account, 'category_id'); ?>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="urgency">
                                 <div class="lbl">
@@ -696,9 +699,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
-
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2">
                         </div>

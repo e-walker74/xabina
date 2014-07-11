@@ -18,14 +18,18 @@
             <th style="width: 8%"></th>
         </tr>
         <tr class="data-row">
-            <td>
+            <td class="avatar-td">
                 <?php if ($model->photo): ?>
                     <img width="40" src="<?= $model->getAvatarUrl() ?>" alt=""/>
                 <?php else: ?>
                     <img width="40" src="/images/contact_no_foto.png" alt="">
                 <?php endif; ?>
             </td>
-            <td><?= $model->fullname ?></td>
+            <td>
+                <?= $model->fullname ?>
+                <br/>
+                <span class="company-name"><?= $model->getNameWithCompany() ?></span>
+            </td>
             <td><?= $model->xabina_id ?></td>
             <td>
                 <div class="transaction-buttons-cont">

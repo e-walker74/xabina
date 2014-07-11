@@ -178,17 +178,27 @@ jQuery.fn.searchContactButtonByName = function(options, callback){
 	}
 
 	$(options.searchLineSelector).on('keyup', function(e){
-		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
+        searchByNameIndex($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
 	})
 
     $('#category_id_list').on('change', function(e){
-        searchByName($(options.parentSelector+' '+options.classForResultsUl), $(el_input).val())
+        searchByNameIndex($(options.parentSelector+' '+options.classForResultsUl), $(el_input).val())
     })
 
 	$('.clear-input-but').on('click', function(e){
         $(this).parents('.clear-input-cont').find('input').val('');
-		searchByName($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
+        $('.clear-input-but').hide()
+        searchByNameIndex($(options.parentSelector+' '+options.classForResultsUl), $(e.currentTarget).val())
     });
+
+    var searchByNameIndex = function(elementUl, text){
+        searchByName(elementUl, text)
+        if(elementUl.find('.one-contact:visible').length == 0){
+            elementUl.closest('#contactsList').find('.empty-list').removeClass('hidden')
+        } else {
+            elementUl.closest('#contactsList').find('.empty-list').addClass('hidden')
+        }
+    }
 
 	var focusNextItem = function(){
 		var element_for_focus = false;

@@ -15,7 +15,7 @@
     <div class="xabina-form-container">
         <table class="table xabina-table category-table">
             <tr class="table-header">
-                <th style="width: 24%"><?= Yii::t('From', 'Section') ?></th>
+                <th style="width: 24%"><?= Yii::t('From', 'Category') ?></th>
                 <th style="width: 27%"><?= Yii::t('From', 'Description') ?></th>
                 <th style="width: 49%"><?= Yii::t('From', 'Used by') ?></th>
             </tr>
@@ -28,7 +28,7 @@
             <?php endif; ?>
 
             <?php foreach ($categories as $category): ?>
-                <tr class="data-row">
+                <tr class="data-row <?= (isset($new_model_id) && $new_model_id == $category->id) ? 'flash_notify_here' : '' ?>">
                     <td><?= $category->section ?></td>
                     <td><?= $category->description ?></td>
                     <td style="overflow: visible!important;">
@@ -36,9 +36,8 @@
                             <?php if($category->contacts): ?>
 
                             <div class="pull-left">
-                                <?= count($category->contacts) ?> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?> <br>
-                                <a href="#" data-opened-text="Hide users" data-closed-text="Show users"
-                                   class="dropdown-toggle closed"><span><?= Yii::t('Front', 'Show users') ?></span></a>
+                                <a href="javaScript:void(0)" data-opened-text="<span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?>" data-closed-text="<span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?>"
+                                   class="dropdown-toggle closed"><span><span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?></span></a>
                             </div>
                             <?php endif; ?>
                             <div class="transaction-buttons-cont">
@@ -101,7 +100,7 @@
                                 <div class="col-lg-5 col-md-5 col-sm-5">
                                     <div class="form-cell">
                                         <div class="form-lbl">
-                                            <?= Yii::t('Front', 'Category') ?>
+                                            <?= Yii::t('Front', 'Category name') ?>
                                             <span class="tooltip-icon"
                                                   title="<?= Yii::t('Front', 'contact_category_tooltip') ?>"></span>
                                         </div>
@@ -168,7 +167,7 @@
                             <div class="col-lg-5 col-md-5 col-sm-5">
                                 <div class="form-cell">
                                     <div class="form-lbl">
-                                        <?= Yii::t('Front', 'Category') ?>
+                                        <?= Yii::t('Front', 'Category name') ?>
                                         <span class="tooltip-icon"
                                               title="<?= Yii::t('Front', 'contact_category_tooltip') ?>"></span>
                                     </div>
@@ -212,6 +211,7 @@
             singleton: true,
             popout: true,
             onConfirm: function(){
+                successNotify('Category', '<?= Yii::t('Front', 'Category successfully removed') ?>', $(this).parents('.popover').prev('a'))
                 deleteRow($(this).parents('.popover').prev('a'));
                 return false;
             }
@@ -223,10 +223,20 @@
             onConfirm: function(){
                 var link = $(this).parents('.popover').prev('a')
                 $.ajax({
-                    url: $(link).attr('data-url'),
+                    url: link.attr('data-url'),
                     success: function (response) {
                         if (response.success) {
-                            $(link).closest('li').remove()
+                            successNotify('Category', '<?= Yii::t('Front', 'Contact successfully unlinked') ?>', $(link))
+                            var countUsersSpan = link.closest('td').find('a.dropdown-toggle span span')
+                            var countUsers = parseFloat(countUsersSpan.text()) - 1
+                            countUsersSpan.html( countUsers )
+                            var aCount = countUsersSpan.closest('a');
+                            aCount.attr('data-closed-text', aCount.html())
+                            aCount.attr('data-opened-text', aCount.html())
+                            if(countUsers == 0){
+                                aCount.click().removeClass('dropdown-toggle')
+                            }
+                            link.closest('li').remove()
                         }
                     },
                     cache: false,

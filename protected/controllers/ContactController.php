@@ -164,6 +164,8 @@ class ContactController extends Controller
         $searchLink->user_id = Yii::user()->getCurrentId();
         $transaction = $searchLink->contactLinkedTransactions();
 
+        $instMessengers = InstmessagerSystems::model()->findAll();
+
         $this->render('view',
             array(
                 'model' => $model,
@@ -173,6 +175,7 @@ class ContactController extends Controller
                 'data_categories' => $data_categories,
                 'searchLink' => $searchLink,
                 'transaction' => $transaction,
+                'instMessengers' => $instMessengers,
             )
         );
     }
@@ -221,6 +224,9 @@ class ContactController extends Controller
                 echo CJSON::encode(
                     array(
                         'success' => true,
+                        'fullname' => $model->fullname,
+                        'companyName' => $model->getNameWithCompany(),
+                        'message' => Yii::t('Front', 'contact_success_personal_update'),
                         'html' => $this->renderPartial('update/_personal', array('model' => $model), true, true),
                     )
                 );
@@ -287,6 +293,10 @@ class ContactController extends Controller
     public function actionDelete($id)
     {
         Users_Contacts::model()->currentUser()->deleteByPk($id);
+        Yii::app()->session['flash_notify'] = array(
+            'title' => Yii::t('Front', 'Contact'),
+            'message' => Yii::t('Front', 'Contact was successfully removed'),
+        );
         $this->redirect(array('/contact/index'));
     }
 
@@ -314,7 +324,8 @@ class ContactController extends Controller
         if (!$type || !$id || !$model || $model->contact->user_id != Yii::app()->user->getCurrentId()) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
-        echo CJSON::encode(array('success' => $model->delete(), 'mesTitle' => Yii::t('Front', 'Contact'), 'message' => Yii::t('Front', 'Entity was deleted')));
+        $message = Yii::t('Front', 'contact_success_' . $model->data_type . '_delete');
+        echo CJSON::encode(array('success' => $model->delete(), 'mesTitle' => Yii::t('Front', 'Contact'), 'message' => $message));
     }
 
     public function actionMakePrimary($entity, $id)
@@ -366,13 +377,20 @@ class ContactController extends Controller
         if (isset($_POST['Users_Contacts_Categories'])) {
             $model->attributes = $_POST['Users_Contacts_Categories'];
             $model->user_id = Yii::app()->user->id;
+            $scenario = $model->scenario;
             if ($model->save()) {
+                $new_model_id = $model->id;
                 $categories = Users_Contacts_Categories::model()->with('contacts')->currentUser()->findAll();
                 $model = new Users_Contacts_Categories();
                 echo CJSON::encode(array(
                     'success' => true,
-                    'message' => Yii::t('Front', 'Category was successfully added'),
-                    'html' => $this->renderPartial('category', array('model' => $model, 'categories' => $categories), true, true),
+                    'message' => Yii::t('Front', 'contact_category_successfully_'.$scenario),
+                    'html' => $this->renderPartial('category',
+                            array(
+                                'model' => $model,
+                                'categories' => $categories,
+                                'new_model_id' => $new_model_id,
+                            ), true, true),
                 ));
                 Yii::app()->end();
             }
@@ -404,11 +422,12 @@ class ContactController extends Controller
         );
         if (!$model || $model->contact->user_id != Yii::user()->id) {
             if (!$model) {
-                throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+                echo CJSON::encode(array('success' => true, 'message' => Yii::t('Front', 'Category was successfully unlinked')));
+                Yii::app()->end();
             }
         }
         $model->delete();
-        echo CJSON::encode(array('success' => true));
+        echo CJSON::encode(array('success' => true, 'message' => Yii::t('Front', 'Category was successfully unlinked')));
     }
 
     public function actionAddToCategory($id)
@@ -431,7 +450,7 @@ class ContactController extends Controller
 
         echo CJSON::encode(array(
             'success' => true,
-            'message' => 'Successfully saved',
+            'message' => Yii::t('Front', 'Category has been linked'),
             'html' => $this->renderPartial('update/_category',
                     array(
                         'model' => $model,

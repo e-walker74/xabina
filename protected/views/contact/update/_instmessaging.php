@@ -7,11 +7,24 @@
 			<th style="width: 19%"><?= Yii::t('Front', 'Status') ?></th>
 			<th style="width: 8%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('instmessaging'))): ?>hidden<?php endif; ?>">
+            <td colspan="5" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a messenger yet. You can add new messenger by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('instmessaging') as $m): ?>
-		<tr class="data-row">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
 			<td>
 				<div class="messenger-ico <?= $m->messanger ?>"></div>
-				<?= $m->messanger ?>
+                <?php
+                    $mTitle = '';
+                    foreach($instMessengers as $im){
+                        if($im->code == $m->messanger){
+                            $mTitle = $im->name;
+                        }
+                    }
+                ?>
+				<?= $mTitle ?>
 			</td>
 			<td><?= $m->name ?></td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
@@ -72,7 +85,7 @@
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Inst. Messenger'); ?>
-                                    <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'inst_messenger_tooltip') ?>"></span>
                                 </div>
                                 <div class="form-input">
                                     <span class="select-custom-label"></span>
@@ -81,7 +94,7 @@
                                         <?= $form->dropDownList(
                                             $m,
                                             'messanger',
-                                            CHtml::listData(InstmessagerSystems::model()->findAll(), 'code', 'name'),
+                                            CHtml::listData($instMessengers, 'code', 'name'),
                                             array(
                                                 'class' => 'select-invisible country-select',
                                                 'options' => array($m->messanger => array('selected' => true)),
@@ -97,7 +110,7 @@
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Username'); ?>
-                                    <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_intmess_username_tooltip') ?>"></span>
                                 </div>
                                 <div class="form-input">
                                     <div class="form-input">
@@ -187,7 +200,7 @@
 						<div class="form-cell">
 							<div class="form-lbl">
 								<?= Yii::t('Front', 'Inst. Messenger'); ?>
-								<span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'inst_messenger_tooltip') ?>"></span>
 							</div>
 							<div class="form-input">
 								<span class="select-custom-label"></span>
@@ -196,7 +209,7 @@
 									<?= $form->dropDownList(
 										$m,
 										'messanger',
-										CHtml::listData(InstmessagerSystems::model()->findAll(), 'code', 'name'),
+										CHtml::listData($instMessengers, 'code', 'name'),
 										array(
 											'class' => 'select-invisible country-select', 
 											'options' => array($m->messanger => array('selected' => true)),
@@ -212,7 +225,7 @@
 						<div class="form-cell">
 							<div class="form-lbl">
 								<?= Yii::t('Front', 'Username'); ?>
-								<span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_intmess_username_tooltip') ?>"></span>
 							</div>
 							<div class="form-input">
 								<div class="form-input">

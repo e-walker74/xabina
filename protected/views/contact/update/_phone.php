@@ -6,8 +6,13 @@
 			<th style="width: 21%"><?= Yii::t('Front', 'Status'); ?></th>
 			<th style="width: 20%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('phone'))): ?>hidden<?php endif; ?>">
+            <td colspan="4" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a phone yet. You can add new phone by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('phone') as $m): ?>
-		<tr class="data-row">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
 			<td><?= $m->phone ?></td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
 			<td>
@@ -67,7 +72,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Phone') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_phone_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'phone', array('class' => 'input-text phone numeric')) ?>
@@ -79,7 +84,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Category') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_contact_category_tooltip') ?>"></span>
 								</div>
                                 <div class="form-input category-select">
                                     <div class="select-custom select-narrow ">
@@ -149,7 +154,7 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
-                <div class="table-subheader"><?= Yii::t('Front', 'Add new Phon'); ?></div>
+                <div class="table-subheader"><?= Yii::t('Front', 'Add new Phone'); ?></div>
 				<?php $m = new Users_Contacts_Data_Phone; ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
@@ -158,7 +163,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Phone') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_phone_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'phone', array('class' => 'input-text phone numeric')) ?>
@@ -170,7 +175,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Category') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_contact_category_tooltip') ?>"></span>
 								</div>
                                 <div class="form-input category-select">
                                     <div class="select-custom select-narrow ">
@@ -214,16 +219,3 @@
 		</tr>
 	</table>
 </div>
-<script>
-$(document).ready(function(){
-	$('.xabina-form-narrow .transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			deleteRow($(this).parents('.popover').prev('a'));
-			return false;
-		}
-	})
-})
-</script>

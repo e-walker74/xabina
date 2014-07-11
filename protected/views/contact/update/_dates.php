@@ -5,8 +5,13 @@
     <th style="width: 42%"><?= Yii::t('Front', 'Category') ?></th>
     <th style="width: 8%"></th>
 </tr>
+<tr class="comment-tr empty-table <?php if (count($model->getDataByType('dates'))): ?>hidden<?php endif; ?>">
+    <td colspan="3" style="line-height: 1.43!important">
+        <span class="rejected "><?= Yii::t('Front', 'You do not added a date yet. You can add new date by clicking “Add new” button') ?></span>
+    </td>
+</tr>
 <?php foreach ($model->getDataByType('dates') as $m): ?>
-    <tr class="data-row">
+    <tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
         <td><?= $m->date ?></td>
         <td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?>
         </td>
@@ -62,7 +67,8 @@
                                 <span class="tooltip-icon" title="<?= Yii::t('Front', 'date_contact') ?>"></span>
                             </div>
                             <div class="form-input">
-                                <?= $form->textField($m, 'date', array('class' => 'date-input input-text with_datepicker', 'id' => '')) ?>
+                                <input type="text" value="<?= $m->date ?>" class="date-input input-text with_datepicker"/>
+                                <?= $form->hiddenField($m, 'date') ?>
                                 <?= $form->error($m, 'date') ?>
                             </div>
                         </div>
@@ -154,7 +160,8 @@
                             <span class="tooltip-icon" title="<?= Yii::t('Front', 'date_contact') ?>"></span>
                         </div>
                         <div class="form-input">
-                            <?= $form->textField($m, 'date', array('class' => 'date-input input-text with_datepicker', 'id' => '')) ?>
+                            <input type="text" class="date-input input-text with_datepicker"/>
+                            <?= $form->hiddenField($m, 'date') ?>
                             <?= $form->error($m, 'date') ?>
                         </div>
                     </div>
@@ -214,8 +221,11 @@
         buttonImage: '/images/calendar_ico.png',
         buttonImageOnly: true,
         dateFormat: 'dd.mm.yy'
-    }).inputmask("d.m.y");
-    ;
+    }).inputmask("d.m.y")
+    .on('change', function(){
+        var input = $(this).parent().find('input[type=hidden]')
+        input.val($(this).val()).change()
+    });
 </script>
 <script>
     $(document).ready(function () {

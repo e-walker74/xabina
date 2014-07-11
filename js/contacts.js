@@ -84,7 +84,17 @@ $(document).ready(function () {
     });
     $(".social-url-input").on('input', function () {
         if (!~($(this).val().indexOf(getSelectSocialNetforInput($(this))))) {
-            $(this).val(getSelectSocialNetforInput($(this)) + $(this).val());
+            $(this).val(getSelectSocialNetforInput($(this)));
+        }
+    });
+
+    $(".url").on('focus', function () {
+        if (!$(this).val()) {
+            $(this).val('http://');
+        }
+    }).on('input', function () {
+        if (!~($(this).val().indexOf('http://'))) {
+            $(this).val('http://');
         }
     });
 
@@ -147,7 +157,16 @@ var updateContact = function (form) {
                     var tab = $(form).closest('.tab')
                     tab.html(response.html)
                     setAllSelectedValues()
-                    successNotify('Contact', 'Entity was successfully updated', tab.find('tr:visible:last'))
+                    var notify_element = false
+                    var flash_here = tab.find('.flash_notify_here')
+                    if(flash_here.length != 0){
+                        flash_here.removeClass('flash_notify_here')
+                        notify_element = flash_here
+                    } else {
+                        notify_element = tab.find('tr:visible:last')
+                    }
+                    successNotify('Contact', response.message, notify_element, 'success', 10)
+                    $('textarea.autosize').autosize();
                 }
             }
         },
@@ -171,7 +190,11 @@ var makePrimary = function (link) {
                     var tab = $(link).parents('.tab')
                     tab.html(response.html)
                     setAllSelectedValues()
-                    successNotify('Contact', 'Entity was successfully updated', tab.find('tr.data-row:visible:first'))
+                    var message = 'Entity was successfully updated';
+                    if(response.message){
+                        message = response.message
+                    }
+                    successNotify('Contact', message, tab.find('tr.data-row:visible:first'))
                 }
             }
         },
@@ -237,10 +260,10 @@ afterValidateAttribute = function (form, attribute, data, hasError) {
 }
 
 var hideAllSelectedCategories = function () {
-    $('.contact-categories-table #Users_Contacts_Categories_Links_category_id option').show()
-    $('.contact-categories-table tr').each(function () {
+    $('.xabina-table-contacts #Users_Contacts_Categories_Links_category_id option').show()
+    $('.xabina-table-contacts tr').each(function () {
         var cat_id = $(this).attr('data-cat-id')
-        $('.contact-categories-table #Users_Contacts_Categories_Links_category_id option[value=' + cat_id + ']').hide()
+        $('.xabina-table-contacts #Users_Contacts_Categories_Links_category_id option[value=' + cat_id + ']').hide()
     })
 }
 
@@ -281,7 +304,11 @@ var uploadContactPhoto = function (form) {
                     var tab = $(form).closest('.tab')
                     tab.html(response.html)
                     setAllSelectedValues()
-                    successNotify('Contact', 'Entity was successfully updated', tab.find('tr:visible:last'))
+                    successNotify('Contact', response.message, tab.find('tr:visible:last'))
+                    var header = $('.contact-header')
+                    header.find('.contact-name .cn').html(response.fullname)
+                    header.find('.contact-name .company-name').html(response.companyName)
+                    header.find('.contact-photo img').attr('src', $('.avatar-td img').attr('src'))
                 }
             }
         } else {
@@ -338,7 +365,7 @@ var hideCategoryTextField = function (el) {
     return false;
 }
 
-var searchTransactionsLinks = function(button){
+var searchTransactionsLinks = function (button) {
     var form = $(button).closest('form')
     backgroundBlack()
     $.ajax({
@@ -356,3 +383,20 @@ var searchTransactionsLinks = function(button){
         dataType: 'json'
     });
 }
+
+$(document).ready(function () {
+    $('.xabina-form-narrow .transaction-buttons-cont .delete').confirmation({
+        title: 'Are you sure?',
+        singleton: true,
+        popout: true,
+        onConfirm: function () {
+            var table = $(this).closest('table')
+            deleteRow($(this).closest('.popover').prev('a'));
+            if(table.find('.data-row').length == 1){
+                table.find('.empty-table').removeClass('hidden')
+            }
+            hideAllSelectedCategories()
+            return false;
+        }
+    })
+})

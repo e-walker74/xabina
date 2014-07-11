@@ -5,9 +5,14 @@
 			<th style="width: 42%"><?= Yii::t('Front', 'Category') ?></th>
 			<th style="width: 8%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('urls'))): ?>hidden<?php endif; ?>">
+            <td colspan="3" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a url yet. You can add new url by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('urls') as $m): ?>
-		<tr class="data-row">
-			<td><?= $m->url ?></td>
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
+			<td><a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($m->url))) ?>" class="link"><?= $m->url ?></a></td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
             <td style="overflow: visible!important;">
                 <div class="contact-actions transaction-buttons-cont">
@@ -55,12 +60,12 @@
 					<div class="col-lg-6 col-md-6  col-sm-6">
 						<div class="form-cell">
 							<div class="form-lbl">
-								<?= Yii::t('Front', 'Type URL Adress') ?>
-								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url') ?>"></span>
+								<?= Yii::t('Front', 'Type URL Address') ?>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url_tooltip') ?>"></span>
 							</div>
 							<div class="form-input">
 								<div class="form-input">
-									<?= $form->textField($m, 'url', array('class' => 'input-text')) ?>
+									<?= $form->textField($m, 'url', array('class' => 'input-text url')) ?>
 									<?= $form->error($m, 'url') ?>
 								</div>
 							</div>
@@ -70,7 +75,7 @@
 						<div class="form-cell">
 							<div class="form-lbl">
 								<?= Yii::t('Front', 'Category'); ?>
-								<span class="tooltip-icon" title="<?= Yii::t('Front', 'category_tooltip'); ?>"></span>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_category_tooltip'); ?>"></span>
 							</div>
                             <div class="form-input category-select">
                                 <div class="select-custom select-narrow ">
@@ -146,11 +151,11 @@
 						<div class="form-cell">
 							<div class="form-lbl">
 								<?= Yii::t('Front', 'Type URL Adress') ?>
-								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url') ?>"></span>
+								<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url_tooltip') ?>"></span>
 							</div>
 							<div class="form-input">
 								<div class="form-input">
-									<?= $form->textField($m, 'url', array('class' => 'input-text')) ?>
+									<?= $form->textField($m, 'url', array('class' => 'input-text url')) ?>
 									<?= $form->error($m, 'url') ?>
 								</div>
 							</div>

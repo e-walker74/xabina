@@ -1,20 +1,35 @@
 <div class=" xabina-form-narrow">
     <table class="table xabina-table-contacts">
         <tr class="table-header">
-            <th style="width: 23%"><?= Yii::t('Front', 'Social') ?></th>
+            <th style="width: 12%"><?= Yii::t('Front', 'Network') ?></th>
             <th style="width: 38%"><?= Yii::t('Front', 'URL address') ?></th>
-            <th style="width: 30%"><?= Yii::t('Front', 'Category') ?></th>
+            <th style="width: 26%"><?= Yii::t('Front', 'Category') ?></th>
+            <th style="width: 15%"><?= Yii::t('Front', 'Status') ?></th>
             <th style="width: 9%"></th>
         </tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('social'))): ?>hidden<?php endif; ?>">
+            <td colspan="5" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a network yet. You can add new network by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
         <?php foreach($model->getDataByType('social') as $m): ?>
-        <tr class="data-row">
+        <tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
             <td>
                 <?php if($m->social && isset(Users_Contacts_Data_Social::$socialsImages[$m->social])): ?>
                     <img src="<?= Users_Contacts_Data_Social::$socialsImages[$m->social] ?>" alt=""/>
                 <?php endif; ?>
             </td>
-            <td><?= $m->url ?></td>
+            <td><a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($m->url))) ?>" class="link"><?= $m->url ?></a></td>
             <td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
+            <td>
+                <?php if($m->getDbModel()->is_primary): ?>
+                    <span class="primary">
+                        <?= Yii::t('Front', 'Primary') ?>
+                    </span>
+                <?php else: ?>
+                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
+                <?php endif; ?>
+            </td>
             <td style="overflow: visible!important;">
                 <div class="contact-actions transaction-buttons-cont">
                     <div class="btn-group with-delete-confirm">
@@ -36,7 +51,7 @@
             </td>
         </tr>
         <tr class="edit-row">
-            <td colspan="4" style="overflow: visible!important;">
+            <td colspan="5" style="overflow: visible!important;">
                 <?php $form=$this->beginWidget('CActiveForm', array(
                     'id'=>'dataform-form-socials'.$m->id,
                     'action' => array('/contact/update', 'url' => $model->url),
@@ -61,7 +76,7 @@
                     <div class="col-lg-2 col-md-2  col-sm-2" style="overflow: visible!important;">
                         <div class="form-cell">
                             <div class="form-lbl">
-                                &nbsp;
+                                <?= Yii::t('Front', 'Network'); ?>
                             </div>
                             <div class="form-input" style="margin: 0; position: relative">
                                 <div class="select-img">
@@ -89,7 +104,7 @@
                         <div class="form-cell">
                             <div class="form-lbl">
                                 <?= Yii::t('Front', 'URL address') ?>
-                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'url_address') ?>"></span>
+                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url_address_tooltip') ?>"></span>
                             </div>
                             <div class="form-input">
                                 <?= $form->textField($m, 'url', array('class' => 'input-text social-url-input')) ?>
@@ -145,12 +160,12 @@
         </tr>
         <?php endforeach; ?>
         <tr class="data-row">
-            <td colspan="4">
+            <td colspan="5">
                 <a href="#" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'Add NEW') ?></a>
             </td>
         </tr>
         <tr class="edit-row">
-            <td colspan="4" style="overflow: visible!important;">
+            <td colspan="5" style="overflow: visible!important;">
                 <?php $form=$this->beginWidget('CActiveForm', array(
                     'id'=>'dataform-form-socials',
                     'action' => array('/contact/update', 'url' => $model->url),
@@ -176,7 +191,7 @@
                     <div class="col-lg-2 col-md-2  col-sm-2">
                         <div class="form-cell">
                             <div class="form-lbl">
-                                &nbsp;
+                                <?= Yii::t('Front', 'Network'); ?>
                             </div>
                             <div class="form-input" style="margin: 0; position: relative">
                                 <div class="select-img">
@@ -202,7 +217,7 @@
                         <div class="form-cell">
                             <div class="form-lbl">
                                 <?= Yii::t('Front', 'URL address') ?>
-                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'url_address') ?>"></span>
+                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_url_address_tooltip') ?>"></span>
                             </div>
                             <div class="form-input">
                                 <?= $form->textField($m, 'url', array('class' => 'input-text social-url-input')) ?>

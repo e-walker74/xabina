@@ -6,9 +6,14 @@
             <th style="width: 29%"><?= Yii::t('Front', 'Linkining Type'); ?></th>
             <th style="width: 8%"></th>
         </tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('contact'))): ?>hidden<?php endif; ?>">
+            <td colspan="4" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a link yet. You can add new link by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('contact') as $m): ?>
 		<?php if(!$ci = $m->getContactInfo()) continue; ?>
-		<tr data-select-id="<?= $ci->id ?>">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>" data-select-id="<?= $ci->id ?>">
 			<td>
 				<?php if($ci->photo): ?>
 					<img width="40" src="<?= $ci->getAvatarUrl() ?>" alt=""/>
@@ -16,7 +21,7 @@
 					<img width="40" src="/images/contact_no_foto.png" alt="">
 				<?php endif; ?>
 			</td>
-			<td><?= $ci->fullname ?></td>
+			<td><?= Html::link($ci->fullname, array('/contact/view', 'url' => $ci->url), array('class' => 'link')) ?></td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
 			<td>
 				<div class="transaction-buttons-cont">

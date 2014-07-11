@@ -164,7 +164,7 @@ class Users_Contacts_Data extends ActiveRecord
 		return CActiveForm::validate($model);
 	}
 
-    public function renderContactData($contact_id, $data_type){
+    public function renderContactData($contact_id, $data_type, $dbModel = false, $scenario = 'saved'){
         $contact = Users_Contacts::model()->findByPk($contact_id);
         $data_categories = Users_Contacts_Data_Categories::model()->findAll(
             array(
@@ -172,12 +172,22 @@ class Users_Contacts_Data extends ActiveRecord
                 'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
             )
         );
+        $new_model_id = false;
+        if($dbModel){
+            $new_model_id = $dbModel->id;
+        }
+
         return CJSON::encode(
             array(
                 'success' => true,
+                'message' => Yii::t('Front', 'contact_success_' . $data_type . '_' . $scenario),
                 'html' => Yii::app()->controller->renderPartial(
                         'update/_'.$data_type,
-                        array('model' => $contact, 'data_categories' => $data_categories),
+                        array(
+                            'model' => $contact,
+                            'data_categories' => $data_categories,
+                            'new_model_id' => $new_model_id,
+                        ),
                         true,
                         true
                     )
@@ -226,12 +236,13 @@ class Users_Contacts_Data extends ActiveRecord
                 $newDbModel->value = serialize($newModel->attributes);
                 $newDbModel->save();
             }
-            return $this->renderContactData($contact_id, $dbModel->data_type);
+            return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel);
         }
 
 		$dbModel->value = serialize($model->attributes);
+        $scenario = $dbModel->scenario;
 		if($dbModel->save()){
-            return $this->renderContactData($contact_id, $dbModel->data_type);
+            return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel, $scenario);
 		}
 		return CJSON::encode(array('success' => false));
 	}

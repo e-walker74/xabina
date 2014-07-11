@@ -14,9 +14,9 @@
     <table class="table">
         <tbody>
         <?php if(!count($transaction)): ?>
-            <tr class="comment-tr">
+            <tr class="comment-tr" style="cursor: default!important">
                 <td colspan="5">
-                    <span><?= Yii::t('Front', 'This contact was not added to transfer like counteragent'); ?></span>
+                    <span><?= Yii::t('Front', 'You have not linked any transfers to this contact yet.'); ?></span>
                 </td>
             </tr>
         <?php else: ?>

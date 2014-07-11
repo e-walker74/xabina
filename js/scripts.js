@@ -446,7 +446,7 @@ $(function () {
                 if (response.success) {
 
                     if (response.message) {
-                        successNotify(response.mesTitle, response.message, link);
+                        successNotify(response.mesTitle, response.message, link, 'success', 80);
                     }
 
                     if ($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')) {
@@ -507,16 +507,7 @@ $(function () {
 });
 
 function printDiv(divName) {
-    $('.attachments').hide();
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-
     window.print();
-
-    document.body.innerHTML = originalContents;
-    $('.attachments').show();
 }
 
 $(document).ready(function () {
@@ -571,7 +562,7 @@ $(document).ready(function () {
             buttonImage: '/images/calendar_ico.png',
             buttonImageOnly: true,
             dateFormat: 'dd.mm.yy'
-        }).inputmask("d.m.y");
+        }).inputmask("d.m.y")
 
     if ($('#bg-404-gold').length) {
         $('#bg-404-gold').plaxify({"xRange": 30, "yRange": 30});
@@ -908,14 +899,18 @@ $(document).on('click', '.button.cancel', function () {
     resetPage()
 })
 
-var successNotify = function (title, message, element, type) {
+var successNotify = function (title, message, element, type, top) {
 
-    if (element) {
+    if(!top){
+        top = 40
+    }
+
+    if (element && element.length != 0) {
         var stack_context = {
             "dir1": "down",
             "dir2": "left",
             "firstpos2": 15,
-            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top - 40,
+            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top - top,
             context: $('.col-lg-9.col-md-9.col-sm-9')
         };
     } else if ($('.h1-header').length != 0) {

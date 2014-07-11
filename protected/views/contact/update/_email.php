@@ -6,8 +6,13 @@
 			<th style="width: 21%"><?= Yii::t('Front', 'Status') ?></th>
 			<th style="width: 20%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('email'))): ?>hidden<?php endif; ?>">
+            <td colspan="4" style="line-height: 1.43!important">
+                <span class="rejected "><?= Yii::t('Front', 'You do not added a email yet. You can add new email by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('email') as $m): ?>
-		<tr class="data-row">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
 			<td><?= $m->email ?></td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
 			<td>
@@ -210,16 +215,3 @@
 		</tr>
 	</table>
 </div>
-<script>
-$(document).ready(function(){
-	$('.xabina-form-narrow .transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			deleteRow($(this).parents('.popover').prev('a'));
-			return false;
-		}
-	})
-})
-</script>
