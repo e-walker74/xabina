@@ -189,7 +189,7 @@ return array(
 
     'contact_success_address_insert' => 'New address has been added',
     'contact_success_address_update' => 'The address has been updated',
-    'contact_success_address_delete' => 'The address has beendeleted',
+    'contact_success_address_delete' => 'The address has been deleted',
     'contact_success_address_saved' => 'Primary address has been changed',
 
     'contact_success_category_insert' => 'New category has been added',
@@ -235,4 +235,6 @@ return array(
 
     'contact_category_successfully_insert' => 'Category was successfully added',
     'contact_category_successfully_update' => 'Category was successfully updated',
+
+    'contact_success_contact_saved' => 'The contacts has been linked',
 );

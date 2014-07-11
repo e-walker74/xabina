@@ -176,6 +176,10 @@ class Users_Contacts_Data extends ActiveRecord
         if($dbModel){
             $new_model_id = $dbModel->id;
         }
+        $instMessengers = array();
+        if($data_type == "instmessaging"){
+            $instMessengers = InstmessagerSystems::model()->findAll();
+        }
 
         return CJSON::encode(
             array(
@@ -187,6 +191,7 @@ class Users_Contacts_Data extends ActiveRecord
                             'model' => $contact,
                             'data_categories' => $data_categories,
                             'new_model_id' => $new_model_id,
+                            'instMessengers' => $instMessengers,
                         ),
                         true,
                         true
