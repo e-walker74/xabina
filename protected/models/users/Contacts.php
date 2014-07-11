@@ -60,6 +60,9 @@ class Users_Contacts extends ActiveRecord
             array('photo', 'file', 'types' => 'jpg, gif, png', 'safe' => false, 'allowEmpty' => true),
             array('xabina_id', 'ext.validators.XabinaUserIdValidator'),
             array('first_name, last_name, company, nickname', 'length', 'max' => 123),
+            array('first_name, last_name', 'length', 'max' => 30),
+            array('company', 'length', 'max' => 40),
+            array('user_id', 'length', 'max' => 20),
             array(
                 'first_name, last_name, company, nickname',
                 'match',
@@ -76,7 +79,7 @@ class Users_Contacts extends ActiveRecord
     public function requiredOne()
     {
         if (!$this->fullname) {
-            $this->addError('nickname', Yii::t('Front', 'Name is incorrect'));
+            $this->addError('nickname', Yii::t('Front', 'Fill in one of the fields'));
         }
     }
 
