@@ -587,6 +587,21 @@ class SiteController extends Controller {
 		$this->render('frm/_changelostphone', array('model' => $model, 'user' => $user));
 	}
 
+	public function actionResetSMSLogin(){
+
+		if(!isset($_REQUEST['login'])){
+			$this->redirect(array('/site/smslogin'));
+		}
+		$user = Users::model()->find('login = :p && hash = :h', array(':p' => $_REQUEST['login'],':h' => $_REQUEST['confirm']));
+
+		if (!$user) {
+            $this->redirect(array('/site/smslogin'));
+        }
+		Yii::app()->cache->set('sms_auth_trying_user_'.$user->login, 0, 3600);
+
+        $this->render('accountUnblock');
+	}
+
 	public function actionChangeLostPhoneVerify(){
 
 		$model = new Form_Smsregisterverify('confirm');

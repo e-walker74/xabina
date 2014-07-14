@@ -60,9 +60,23 @@ class Form_Smslogin extends CFormModel
 		if(!$i){
 			$i = 0;
 		}
+        if ($i == 4) {
+            $user = Users::model()->find('login = :p', array(':p' => $this->userId));
+            $user->createHash();
+            $user->save();
+            $mail = new Mail();
+            $mail->send(
+                $user, // this user
+                'resetLoginBlock', // sys mail code
+                array(	// params
+                      '{:date}' => date('Y m d', time()),
+                      '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/ResetSMSLogin/?login='.$user->login.'&confirm='.$user->hash,
+            ));
+            Yii::app()->cache->set('sms_auth_trying_user_'.$this->userId, ++$i, 3600);
+        }
 		if($i > 3){
 			$this->addError('code', Yii::t('Front', 'Exceeded the number of attempts'));
-			return false;
+            return false;
 		}
 		if($this->code != Yii::app()->cache->get('sms_auth_code_user_'.$this->userId)){
 			Yii::app()->cache->set('sms_auth_trying_user_'.$this->userId, ++$i, 3600);
