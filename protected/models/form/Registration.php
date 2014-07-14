@@ -38,7 +38,7 @@ class Form_Registration extends CFormModel
 			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'length', 'min' => 8, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('login', 'length', 'min' => 5, 'max' => 20, 'tooShort' => Yii::t('Front', 'User ID is too short'), 'tooLong' => Yii::t('Front', 'User ID is too long')),
-			array('login', 'match', 'pattern' => '/^[\w\d\.\@]+$/', 'message' => Yii::t('Front', 'User ID cannot contain spaces')),
+			array('login', 'match', 'pattern' => '/^[0-9a-zA-Z\-\@\_\.]{1,}$/', 'message' => Yii::t('Front', 'Insert Your login using latin alphabet')),
 			array('phone', 'authenticatePhone'),
 			array('email', 'checkEmailUnique'),
             array('email', 'email', 'checkPort' => false, 'message' => Yii::t('Front', 'E-Mail is incorrect')),

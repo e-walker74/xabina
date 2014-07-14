@@ -55,7 +55,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-Mail'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($user, 'email', array('disabled' => 'disabled')); ?>
+                        <?= $form->passwordField($user, 'email', array('disabled' => 'disabled')); ?>
                         <span class="validation-icon"></span>
                     </div>
                     <div class="form-alert">
@@ -85,7 +85,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your login'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($user, 'login', array('disabled' => 'disabled')); ?>
+                        <?= $form->passwordField($user, 'login', array('disabled' => 'disabled')); ?>
                         <span class="validation-icon"></span>
                     </div>
                     <div class="form-alert">
