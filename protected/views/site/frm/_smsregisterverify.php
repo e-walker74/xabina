@@ -64,7 +64,7 @@
                                     <a class="send-again" onclick="resendLoginEmail('<?= Yii::t('Front', 'SMS was sent') ?>', '<?= Yii::app()->createUrl('/site/ResendVerifySMS') ?>')" href="javaScript:void(0)"><?= Yii::t('Front', 'I haven\'t received SMS with the code. Send it again.') ?></a>
 
                                     <div class="change-phone-cont">
-                                        <a class="change-phone" href="<?= Yii::app()->createUrl('/site/SMSVerifyPhoneChange') ?>"><?= Yii::t('Front', 'The mobile phone number is incorrect. Change mobile phone number.') ?></a>
+                                        <a class="change-phone" href="<?= Yii::app()->createUrl('/site/ChangeLostPhone/?login='.$user->login.'&confirm='.$user->hash) ?>"><?= Yii::t('Front', 'The mobile phone number is incorrect. Change mobile phone number.') ?></a>
 
                                     </div>
                                 </div>
