@@ -180,7 +180,7 @@ class SiteController extends Controller {
 		if(!Yii::app()->cache->get('sms_auth_code_user_'.$model->userId)){
 			$this->redirect(array('/site/smslogin'));
 		}
-	
+
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirm') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -192,7 +192,7 @@ class SiteController extends Controller {
 			}
 			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 			$model->code = $_POST['Form_Smslogin']['code'];
-			
+
 			if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
 				$newPhone = new Users_Phones;
