@@ -267,22 +267,8 @@ class Form_Registration extends CFormModel
 				$user->settings->save();
 			}
 
-			$user = Users::model()->findByPk($user->id);
-			$mail = new Mail();
-			if($mail->send(
-				$user, // this user
-				'registration', // sys mail code
-				array(	// params
-					'{:userPassword}' => $pass,
-					'{:date}' => date('Y m d', $user->created_at),
-					'{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-				)
-			)){
-				$result = true;
-			} else {
-				Yii::log('registration fail '.print_r($user->attributes, 1), CLogger::LEVEL_ERROR, 'error');
-				$user->delete();
-			}
+			$result = true;
+
 		}
 		return $result;
 	}
