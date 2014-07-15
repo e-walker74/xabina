@@ -58,18 +58,6 @@ class SiteController extends Controller {
             ),
         );
     }
-
-    public function init()
-    {
-        if (!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(Yii::app()->request->getUserHostAddress())) {
-            Yii::app()->user->logout();
-        }
-        $this->registerGlobalStyles();
-        if(Yii::request()->isAjaxRequest){
-            $this->cleanResponseJs();
-        }
-        return parent::init();
-    }
 	
 	public function actionDisclaime($tourl){
 		$this->layout = 'main';
@@ -147,7 +135,11 @@ class SiteController extends Controller {
 	}
 	
 	public function actionSMSLogin(){
-	
+
+        if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
+
 		$model = new Form_Smslogin('login');
 		
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-login') {
@@ -170,6 +162,10 @@ class SiteController extends Controller {
 	}
 	
 	public function actionSMSConfirm(){
+
+        if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
 
 		$model = new Form_Smslogin('confirm');
 		if(!isset(Yii::app()->session['user_phone'])){
@@ -216,7 +212,7 @@ class SiteController extends Controller {
 	}
 	
 	public function actionSMSPhoneChange(){
-	
+
 		$model = new Form_Smslogin('change');
 		if(!isset(Yii::app()->session['user_phone'])){
 			$this->redirect(array('/site/smslogin'));
@@ -347,10 +343,17 @@ class SiteController extends Controller {
 
 	public function actionSMSRegisterVerify(){
 
+        if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
 		$model = new Form_Smsregisterverify('confirm');
 		if(!isset(Yii::app()->session['user_phone'])){
 			$this->redirect(array('/account'));
 		}
+
+        if (!Yii::app()->session['user_code']) {
+            Yii::app()->session['user_code'] = rand(100000,999999);
+        }
 
 		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 		$model->userId = $user->login;
@@ -389,7 +392,7 @@ class SiteController extends Controller {
                 ));
 			}
 
-            if($model->login()){
+            if($model->validate() && $model->login()){
                     $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
             }
 		}
@@ -435,7 +438,7 @@ class SiteController extends Controller {
 
 		if(isset($_POST['Form_Smslogin'])){
 			$user->phone = $_POST['Form_Smslogin']['phone'];
-			if($user->save()){
+			if($model->validate() && $user->save()){
                 Yii::app()->session['user_phone'] = $user->phone;
 				$this->redirect(array('/site/SMSRegisterVerify'));
 
@@ -465,8 +468,6 @@ class SiteController extends Controller {
 		
 		$form = new Form_Remind();
 
-        $remind_types = array("email", "login" , "phone");
-
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'remind-from') {
             $form = new Form_Remind($_GET['type']);
 			echo CActiveForm::validate($form);
@@ -476,7 +477,7 @@ class SiteController extends Controller {
         if (isset($_POST['Form_Remind'])) {
             $form->attributes = $_POST['Form_Remind'];
 
-            if (in_array($form->formtype, $remind_types)) {
+            if ($form->validate() && in_array($form->formtype, $form->remind_types)) {
 
                 $user = Users::model()->findByAttributes(array($form->formtype => $form->login));
 
@@ -513,6 +514,10 @@ class SiteController extends Controller {
     }
 
     public function actionCheckLostPhone(){
+
+        if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
 
 		$model = new Form_Changelostphone('change');
 		if(!isset(Yii::app()->session['user_login'])){
@@ -559,6 +564,10 @@ class SiteController extends Controller {
 
 	public function actionChangeLostPhone(){
 
+        if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
+
 		$model = new Form_Smslogin('change');
 		if(!isset($_REQUEST['login'])){
 			$this->redirect(array('/site/smslogin'));
@@ -604,6 +613,10 @@ class SiteController extends Controller {
 	}
 
 	public function actionChangeLostPhoneVerify(){
+
+        if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
 
 		$model = new Form_Smsregisterverify('confirm');
 		if(!isset(Yii::app()->session['user_phone'])){

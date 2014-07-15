@@ -9,6 +9,7 @@ class Form_Remind extends CFormModel
 {
 	public $login;
 	public $formtype;
+    public $remind_types = array("email", "login", "phone");
 
 	/**
 	 * Declares the validation rules.
