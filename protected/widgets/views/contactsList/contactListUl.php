@@ -48,7 +48,7 @@
 		</ul>
 	</div>
 <?php endif; ?>
-<div class="letter-block hidden empty-list">
+<div class="letter-block <?php if(count($model)): ?>hidden<?php endif; ?> empty-list">
     <ul class="contact-list list-unstyled ">
         <li>
             <div class="note ">
