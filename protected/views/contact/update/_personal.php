@@ -63,6 +63,40 @@
                         <input type="hidden" name="update" value="1" />
                     <?php endif; ?>
                     <div class="row">
+                        <div class="col-lg-10 col-md-10 col-sm-10">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Type') ?>
+                                    <span class="tooltip-icon"
+                                          title="<?= Yii::t('Front', 'type_of_contact_tooltip') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow " style="background: #e1e1e7">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $model,
+                                            'type',
+                                            array('personal' => Yii::t('Front', 'Personal'), 'company' => Yii::t('Front', 'Company')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'js:changeContactType(this)',
+                                                'disabled' => true,
+                                            )
+                                        ) ?>
+                                        <?= $form->error($model, 'type') ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                            <div class="transaction-buttons-cont edit-submit-cont">
+                                <input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if($model->type == 'personal'): ?>
+                    <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
@@ -90,36 +124,45 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
-                            <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
-                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
-                            </div>
                         </div>
                     </div>
+                    <?php endif; ?>
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-5">
+                            <?php if($model->type == 'personal'): ?>
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Xabina User ID') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'xabina_id_name_contact') ?>"></span>
+                                </div>
+                                <div class="form-input">
+                                    <?= $form->textField($model, 'xabina_id', array('class' => 'input-text')) ?>
+                                    <?= $form->error($model, 'xabina_id') ?>
+                                </div>
+                            </div>
+                            <?php elseif($model->type == 'company'): ?>
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Company') ?>
-                                    <span class="tooltip-icon"
-                                          title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
                                     <?= $form->textField($model, 'company', array('class' => 'input-text')) ?>
                                     <?= $form->error($model, 'company') ?>
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Nickname') ?>
+                                    <?= Yii::t('Front', 'Hint') ?>
                                     <span class="tooltip-icon"
-                                          title="<?= Yii::t('Front', 'nickname_name_contact') ?>"></span>
+                                          title="<?= Yii::t('Front', 'contact_hint_tooltip') ?>"></span>
                                 </div>
                                 <div class="form-input">
-                                    <?= $form->textField($model, 'nickname', array('class' => 'input-text')) ?>
-                                    <?= $form->error($model, 'nickname') ?>
+                                    <?= $form->textField($model, 'hint', array('class' => 'input-text')) ?>
+                                    <?= $form->error($model, 'hint') ?>
                                 </div>
                             </div>
                         </div>
@@ -128,19 +171,30 @@
                         </div>
                     </div>
                     <div class="row">
+                        <?php if($model->type == 'personal'): ?>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Xabina User ID') ?>
-                                    <span class="tooltip-icon"
-                                          title="<?= Yii::t('Front', 'xabina_id_name_contact') ?>"></span>
+                                    <?= Yii::t('Front', 'Sex') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_sex') ?>"></span>
                                 </div>
-                                <div class="form-input">
-                                    <?= $form->textField($model, 'xabina_id', array('class' => 'input-text')) ?>
-                                    <?= $form->error($model, 'xabina_id') ?>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $model,
+                                            'sex',
+                                            array('male' => Yii::t('Front', 'Male'), 'female' => Yii::t('Front', 'Female')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                            )
+                                        ) ?>
+                                        <?= $form->error($model, 'sex') ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">

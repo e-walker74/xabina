@@ -124,6 +124,13 @@ $(function () {
     $("[name=phone]").on('input', function () {
         !~($(this).val().indexOf('+')) && $(this).val('+' + $(this).val());
     });
+    $(document).on('focus', 'input', function(){
+        $(this)
+            .removeClass('input-error')
+            .closest('.form-input')
+            .removeClass('input-error')
+            .find('.error-message').slideUp()
+    })
 
 
     // progressbar styling
@@ -893,6 +900,10 @@ var resetPage = function () {
 
     /* quic upload */
     $('.row-edit').hide().prev('li').show()
+
+    if ($('.ui-pnotify').is(":visible")) {
+        $('.ui-pnotify').fadeOut()
+    }
 }
 
 $(document).on('click', '.button.cancel', function () {

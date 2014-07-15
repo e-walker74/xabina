@@ -231,7 +231,7 @@
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'details_account_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
-                                    <?= $form->textArea($account, 'details', array('class' => 'input-text autosize')) ?>
+                                    <?= $form->textArea($account, 'details', array('class' => 'input-text autosize', 'maxlength' => 140)) ?>
                                     <?= $form->error($account, 'details') ?>
                                 </div>
                             </div>
@@ -271,7 +271,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category_Incoming" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category_Incoming" class="input-text" maxlength="25" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -307,7 +307,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category_Outgoing" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category_Outgoing" class="input-text" maxlength="25" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -347,7 +347,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -604,7 +604,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category_Incoming" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category_Incoming" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -639,7 +639,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category_Outgoing" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category_Outgoing" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -678,7 +678,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                     <!--                                    --><?//= $form->error($account, 'category_id'); ?>

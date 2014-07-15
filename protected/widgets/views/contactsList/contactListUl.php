@@ -19,7 +19,7 @@
 			<ul class="contact-list list-unstyled">
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
-		<li class="one-contact clickable-row categories category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
+		<li class="one-contact clickable-row categories type_<?= $contact->type ?> category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 				<div class="photo-cont pull-left">
 					<?php if($contact->photo): ?>

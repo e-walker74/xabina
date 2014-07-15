@@ -19,7 +19,7 @@
                     <img src="<?= Users_Contacts_Data_Social::$socialsImages[$m->social] ?>" alt=""/>
                 <?php endif; ?>
             </td>
-            <td><a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($m->url))) ?>" class="link"><?= $m->url ?></a></td>
+            <td><a target="_blank" href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($m->url))) ?>" class="link"><?= $m->url ?></a></td>
             <td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
             <td>
                 <?php if($m->getDbModel()->is_primary): ?>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="form-input add-new-category" style="display: none;">
                                 <span class="clear-input-cont full-with">
-                                    <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                    <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                     <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                 </span>
                             </div>
@@ -254,7 +254,7 @@
                             </div>
                             <div class="form-input add-new-category" style="display: none;">
                                 <span class="clear-input-cont full-with">
-                                    <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                    <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                     <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                 </span>
                             </div>

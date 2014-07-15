@@ -33,12 +33,17 @@
                     <td><?= $category->description ?></td>
                     <td style="overflow: visible!important;">
                         <div class="dropdown-list-cont">
-                            <?php if($category->contacts): ?>
-
-                            <div class="pull-left">
-                                <a href="javaScript:void(0)" data-opened-text="<span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?>" data-closed-text="<span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?>"
-                                   class="dropdown-toggle closed"><span><span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?></span></a>
-                            </div>
+                            <?php if ($category->contacts): ?>
+                                <div class="pull-left">
+                                    <a href="javaScript:void(0)"
+                                       data-opened-text="<span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?>"
+                                       data-closed-text="<span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?>"
+                                       class="dropdown-toggle closed"><span><span><?= count($category->contacts) ?></span> <?= Yii::t('Front', 'n==1#User|n>1#Users', count($category->contacts)) ?></span></a>
+                                </div>
+                            <?php else: ?>
+                                <div class="pull-left">
+                                    <a href="javaScript:void(0)" class="closed">0 <?= Yii::t('Front', 'Users') ?></a>
+                                </div>
                             <?php endif; ?>
                             <div class="transaction-buttons-cont">
                                 <div class="btn-group with-delete-confirm">
@@ -48,26 +53,28 @@
                                             <a class="button edit" href="javaScript:void(0)"></a>
                                         </li>
                                         <li>
-                                            <a class="button delete" onclick="$(this).addClass('opened')" data-url="<?= Yii::app()->createUrl('/contact/deleteCategory', array('id' => $category->id)) ?>" ></a>
+                                            <a class="button delete" onclick="$(this).addClass('opened')"
+                                               data-url="<?= Yii::app()->createUrl('/contact/deleteCategory', array('id' => $category->id)) ?>"></a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
                             <ul class="list-unstyled list-contacts list-dropdown-toggle">
-                                <?php foreach($category->contacts as $contact): ?>
-                                <li>
-                                    <?= $contact->fullname ?>
-                                    <div class="transaction-buttons-cont">
-                                        <?= Html::link('', array('/contact/unlinkContact', 'id' => $contact->id), array(
-                                            'data-url' => Yii::app()->createUrl('/contact/unlinkContact', array(
-                                                    'category' => $category->id,
-                                                    'contact' => $contact->id,
-                                                )),
-                                            'class' => 'button remove-mini',
-                                        )) ?>
-                                    </div>
-                                </li>
+                                <?php foreach ($category->contacts as $contact): ?>
+                                    <li>
+                                        <?= $contact->fullname ?>
+                                        <div class="transaction-buttons-cont">
+                                            <?=
+                                            Html::link('', array('/contact/unlinkContact', 'id' => $contact->id), array(
+                                                'data-url' => Yii::app()->createUrl('/contact/unlinkContact', array(
+                                                        'category' => $category->id,
+                                                        'contact' => $contact->id,
+                                                    )),
+                                                'class' => 'button remove-mini',
+                                            )) ?>
+                                        </div>
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -204,51 +211,51 @@
         </table>
         <div class="clearfix"></div>
     </div>
-<script>
-    $(document).ready(function(){
-        $('.transaction-buttons-cont .delete').confirmation({
-            title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-            singleton: true,
-            popout: true,
-            onConfirm: function(){
-                successNotify('Category', '<?= Yii::t('Front', 'Category successfully removed') ?>', $(this).parents('.popover').prev('a'))
-                deleteRow($(this).parents('.popover').prev('a'));
-                return false;
-            }
-        })
-        $('.remove-mini').confirmation({
-            title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-            singleton: true,
-            popout: true,
-            onConfirm: function(){
-                var link = $(this).parents('.popover').prev('a')
-                $.ajax({
-                    url: link.attr('data-url'),
-                    success: function (response) {
-                        if (response.success) {
-                            successNotify('Category', '<?= Yii::t('Front', 'Contact successfully unlinked') ?>', $(link))
-                            var countUsersSpan = link.closest('td').find('a.dropdown-toggle span span')
-                            var countUsers = parseFloat(countUsersSpan.text()) - 1
-                            countUsersSpan.html( countUsers )
-                            var aCount = countUsersSpan.closest('a');
-                            aCount.attr('data-closed-text', aCount.html())
-                            aCount.attr('data-opened-text', aCount.html())
-                            if(countUsers == 0){
-                                aCount.click().removeClass('dropdown-toggle')
+    <script>
+        $(document).ready(function () {
+            $('.transaction-buttons-cont .delete').confirmation({
+                title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+                singleton: true,
+                popout: true,
+                onConfirm: function () {
+                    successNotify('Category', '<?= Yii::t('Front', 'Category successfully removed') ?>', $(this).parents('.popover').prev('a'))
+                    deleteRow($(this).parents('.popover').prev('a'));
+                    return false;
+                }
+            })
+            $('.remove-mini').confirmation({
+                title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+                singleton: true,
+                popout: true,
+                onConfirm: function () {
+                    var link = $(this).parents('.popover').prev('a')
+                    $.ajax({
+                        url: link.attr('data-url'),
+                        success: function (response) {
+                            if (response.success) {
+                                successNotify('Category', '<?= Yii::t('Front', 'Contact successfully unlinked') ?>', $(link))
+                                var countUsersSpan = link.closest('td').find('a.dropdown-toggle span span')
+                                var countUsers = parseFloat(countUsersSpan.text()) - 1
+                                countUsersSpan.html(countUsers)
+                                var aCount = countUsersSpan.closest('a');
+                                aCount.attr('data-closed-text', aCount.html())
+                                aCount.attr('data-opened-text', aCount.html())
+                                if (countUsers == 0) {
+                                    aCount.click().removeClass('dropdown-toggle')
+                                }
+                                link.closest('li').remove()
                             }
-                            link.closest('li').remove()
-                        }
-                    },
-                    cache: false,
-                    async: false,
-                    type: 'POST',
-                    dataType: 'json'
-                });
-                return false;
-            }
+                        },
+                        cache: false,
+                        async: false,
+                        type: 'POST',
+                        dataType: 'json'
+                    });
+                    return false;
+                }
+            })
         })
-    })
-</script>
+    </script>
 
 <?php if (!Yii::request()->isAjaxRequest): ?>
     </div>

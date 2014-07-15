@@ -324,8 +324,24 @@ class ContactController extends Controller
         if (!$type || !$id || !$model || $model->contact->user_id != Yii::app()->user->getCurrentId()) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
+
+        if($model->data_type == 'contact'){
+            $paramsModel = $model->getParamsModel();
+            foreach($paramsModel->getContactInfo()->getDataByType('contact') as $contactData){
+                if($contactData->getDbModel()->contact_id == $paramsModel->contact_id){
+                    $contactData->getDbModel()->delete();
+                    break;
+                }
+            }
+            $model->delete();
+        } else {
+            $model->delete();
+        }
+
+
+
         $message = Yii::t('Front', 'contact_success_' . $model->data_type . '_delete');
-        echo CJSON::encode(array('success' => $model->delete(), 'mesTitle' => Yii::t('Front', 'Contact'), 'message' => $message));
+        echo CJSON::encode(array('success' => true, 'mesTitle' => Yii::t('Front', 'Contact'), 'message' => $message));
     }
 
     public function actionMakePrimary($entity, $id)

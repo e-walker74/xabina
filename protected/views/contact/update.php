@@ -34,9 +34,9 @@
                     <?= $model->company ?>
                     <span class="note"><?= Yii::t('Front', 'Company') ?></span>
                 <?php endif; ?>
-                <?php if($model->nickname): ?>
-                    <?= $model->nickname ?>
-                    <span class="note"><?= Yii::t('Front', 'Nickname') ?></span>
+                <?php if($model->sex): ?>
+                    <?= $model->sex ?>
+                    <span class="note"><?= Yii::t('Front', 'Sex') ?></span>
                 <?php endif; ?>
                 <?php if($model->xabina_id): ?>
                     <?= $model->xabina_id ?>

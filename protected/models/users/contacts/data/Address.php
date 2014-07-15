@@ -37,8 +37,8 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
             parent::rules(),
             array(
                 array('address, country_id', 'required'),
-                array('address, address_line_2, city, index, category', 'length', 'max' => 140),
-                array('address', 'length', 'max' => 50),
+                array('city, index, category', 'length', 'max' => 140),
+                array('address, address_line_2', 'length', 'max' => 50),
                 array('index', 'length', 'max' => 10),
                 array('country_id', 'numerical'),
             ));

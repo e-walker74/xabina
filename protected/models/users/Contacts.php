@@ -4,15 +4,20 @@
  * This is the model class for table "users_contacts".
  *
  * The followings are the available columns in table 'users_contacts':
- * @property integer             $id
- * @property integer             $user_id
- * @property integer             $xabina_id
- * @property string              $fullname
- * @property string $nickname
+ * @property integer                     $id
+ * @property integer                     $user_id
+ * @property integer                     $xabina_id
+ * @property string                      $fullname
+ * @property string                      $last_name
+ * @property string                      $first_name
+ * @property string                      $photo
+ * @property string                      $type
+ * @property string                      $nickname
+ * @property string                      $company
  *
  * The followings are the available model relations:
- * @property Users               $user
- * @property UsersContactsData[] $usersContactsDatas
+ * @property Users                       $user
+ * @property UsersContactsData[]         $usersContactsDatas
  * @property Users_Contacts_Categories[] $categories
  */
 class Users_Contacts extends ActiveRecord
@@ -20,8 +25,10 @@ class Users_Contacts extends ActiveRecord
 
     const AVATAR_PATH = '/images/contacts/';
     public $delete;
+
     protected $_contacts_data = array();
     protected $_contacts_data_masters = array();
+
     private $_transactions = false; //flag for delete image
 
     /**
@@ -55,18 +62,23 @@ class Users_Contacts extends ActiveRecord
             // TODO trim and filter fullname
 
             array('fullname', 'requiredOne'),
+            array('first_name', 'required', 'on' => 'personal'),
+            array('company', 'required', 'on' => 'company'),
             array('user_id', 'numerical', 'integerOnly' => true),
+            array('type', 'in', 'range' => array('personal', 'company')),
+            array('type', 'safe', 'on' => 'insert'),
             array('fullname, photo', 'length', 'max' => 255),
             array('photo', 'file', 'types' => 'jpg, gif, png', 'safe' => false, 'allowEmpty' => true),
             array('xabina_id', 'ext.validators.XabinaUserIdValidator'),
-            array('first_name, last_name, company, nickname', 'length', 'max' => 123),
+            array('hint', 'length', 'max' => 123),
             array('first_name, last_name', 'length', 'max' => 30),
             array('company', 'length', 'max' => 40),
             array('user_id', 'length', 'max' => 20),
+            array('sex', 'in', 'range' => array('male', 'female')),
             array(
-                'first_name, last_name, company, nickname',
+                'first_name, last_name, company',
                 'match',
-                'pattern' => '/^[0-9a-zA-Z_ 59]+$/u',
+                'pattern' => '/^[0-9a-zA-Z_ ]+$/u',
                 'message' => Yii::t('Front', 'Is incorrect'),
             ),
             // The following rule is used by search().
@@ -79,19 +91,21 @@ class Users_Contacts extends ActiveRecord
     public function requiredOne()
     {
         if (!$this->fullname) {
-            $this->addError('nickname', Yii::t('Front', 'Fill in one of the fields'));
+//            $this->addError('first_name', Yii::t('Front', 'Fill in one of the fields'));
+//            $this->addError('company', Yii::t('Front', 'Fill in one of the fields'));
         }
     }
 
     public function beforeValidate()
     {
-        if ($this->nickname) {
-            $this->fullname = $this->nickname;
-        } elseif ($this->first_name && $this->last_name) {
-            $this->fullname = $this->last_name . ' ' . $this->first_name;
-        } elseif ($this->first_name || $this->last_name) {
-            $this->fullname = $this->last_name . $this->first_name;
-        } elseif ($this->company) {
+        $this->scenario = $this->type;
+
+        if ($this->scenario == 'personal') {
+            $this->fullname = $this->first_name;
+            if($this->last_name){
+                $this->fullname .= ' ' . $this->last_name;
+            }
+        } elseif ($this->scenario == 'company') {
             $this->fullname = $this->company;
         }
         return true;
@@ -115,9 +129,8 @@ class Users_Contacts extends ActiveRecord
         return array(
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
             'data' => array(self::HAS_MANY, 'Users_Contacts_Data', 'contact_id', 'order' => 'is_primary desc'),
-
             'usersContactsCategoriesLinks' => array(self::HAS_MANY, 'Users_Contacts_Categories_Links', 'contact_id'),
-            'categories' => array(self::HAS_MANY, 'Users_Contacts_Categories', array('category_id' => 'id'), 'through'=>'usersContactsCategoriesLinks'),
+            'categories' => array(self::HAS_MANY, 'Users_Contacts_Categories', array('category_id' => 'id'), 'through' => 'usersContactsCategoriesLinks'),
         );
     }
 
@@ -165,9 +178,9 @@ class Users_Contacts extends ActiveRecord
     public function getDataByType($type, $primary = false)
     {
         if (isset($this->_contacts_data[$type])) {
-            if($primary){
-                foreach($this->_contacts_data[$type] as $data){
-                    if($data->getDbModel()->is_primary){
+            if ($primary) {
+                foreach ($this->_contacts_data[$type] as $data) {
+                    if ($data->getDbModel()->is_primary) {
                         return $data;
                     }
                 }
@@ -187,18 +200,20 @@ class Users_Contacts extends ActiveRecord
             } else {
                 $dataModel = $data->getParamsModel();
                 $this->_contacts_data[$data->data_type][] = $dataModel;
-                if($dataModel->getDbModel()->is_primary){
+                if ($dataModel->getDbModel()->is_primary) {
                     $this->_contacts_data_masters[$data->data_type] = $dataModel;
                 }
             }
         }
     }
 
-    public function getContactData(){
+    public function getContactData()
+    {
         return $this->_contacts_data;
     }
 
-    public function getPrimaryData(){
+    public function getPrimaryData()
+    {
         return $this->_contacts_data_masters;
     }
 
@@ -213,18 +228,7 @@ class Users_Contacts extends ActiveRecord
 
     public function getNameWithCompany()
     {
-        $name = '';
-        if($this->nickname){
-            $name = $this->first_name . ' ' . $this->last_name;
-        }
-        if($this->company && $this->fullname != $this->company){
-            if(!trim($name)){
-                $name .= ' ' . $this->company;
-            } else{
-                $name .= ' (' . $this->company.')';
-            }
-        }
-        return $name;
+        return $this->hint;
     }
 
     public function getTransactionsArray()

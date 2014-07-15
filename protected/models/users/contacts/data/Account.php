@@ -73,7 +73,7 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
                 array('bic', 'validateBankCode'),
                 array('scrill_acc', 'required', 'on' => 'scrill_acc'),
                 array('webmoney_acc', 'required', 'on' => 'webmoney_acc'),
-                array('details', 'length', 'max' => 255),
+                array('details', 'length', 'max' => 140),
                 array('webmoney_acc, scrill_acc, paypal_acc, account_number', 'length', 'max' => 25),
                 array('account_holder', 'length', 'max' => 40),
 //                array('account_number', 'length', 'max' => 25),

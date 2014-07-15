@@ -399,4 +399,21 @@ $(document).ready(function () {
             return false;
         }
     })
+
+    $('#search_accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
 })
+
+var changeContactType = function(el){
+    var form = $(el).closest('form')
+    if($(el).val() == 'personal'){
+        form.find('.type-personal').removeClass('hidden')
+        form.find('.type-company').addClass('hidden')
+    } else {
+        form.find('.type-personal').addClass('hidden')
+        form.find('.type-company').removeClass('hidden')
+    }
+}

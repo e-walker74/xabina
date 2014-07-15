@@ -17,6 +17,21 @@
                 )
             ); ?>
         </div>
+        <div class="select-custom select-narrow category-select">
+            <span class="select-custom-label"></span>
+            <?= CHtml::dropDownList(
+                'types_list',
+                '',
+                array(
+                    'personal' => Yii::t('Front', 'Personal'),
+                    'company' => Yii::t('Front', 'Company'),
+                ),
+                array(
+                    'class' => 'select-invisible country-select',
+                    'empty' => Yii::t('Front', 'All types'),
+                )
+            ); ?>
+        </div>
 		<a class="contact-search-but" href="#" style="display:none;"></a>
 		<a class="add-contact-but rounded-buttons" href="<?= Yii::app()->createUrl('/contact/create') ?>"><?= Yii::t('Front', 'Add Contact') ?></a>
 	</div>

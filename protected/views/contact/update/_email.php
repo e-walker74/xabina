@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>

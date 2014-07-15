@@ -235,9 +235,16 @@ class Users_Contacts_Data extends ActiveRecord
         if($dbModel->data_type == 'contact'){
             foreach(explode(',', $model->contact_id) as $cid){
                 $cid = trim($cid);
-                $newDbModel = clone($dbModel);
+                $newDbModel = clone($dbModel); // Save contacts
                 $newModel = clone($model);
                 $newModel->contact_id = $cid;
+                $newDbModel->value = serialize($newModel->attributes);
+                $newDbModel->save();
+                // Save link for links contacts
+                $newDbModel = clone($dbModel);
+                $newModel = clone($model);
+                $newModel->contact_id = $newDbModel->contact_id;
+                $newDbModel->contact_id = $cid;
                 $newDbModel->value = serialize($newModel->attributes);
                 $newDbModel->save();
             }
