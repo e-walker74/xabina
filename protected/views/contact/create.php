@@ -55,10 +55,14 @@
                                         <?= $form->dropDownList(
                                             $model,
                                             'type',
-                                            array('personal' => Yii::t('Front', 'Personal'), 'company' => Yii::t('Front', 'Company')),
+                                            array(
+                                                'personal' => Yii::t('Front', 'Personal'),
+                                                'company' => Yii::t('Front', 'Company')
+                                            ),
                                             array(
                                                 'class' => 'select-invisible',
                                                 'onchange' => 'js:changeContactType(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
                                             )
                                         ) ?>
                                         <?= $form->error($model, 'type') ?>
@@ -67,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-					<div class="row type-personal">
+					<div class="row type-personal hidden">
 						<div class="col-lg-6 col-md-6 col-sm-6">
 							<div class="form-cell">
 								<div class="form-lbl">
@@ -95,7 +99,7 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="form-cell type-personal">
+                            <div class="form-cell type-personal hidden">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Xabina User ID') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'xabina_id_name_contact') ?>"></span>
@@ -105,7 +109,7 @@
                                     <?= $form->error($model, 'xabina_id') ?>
                                 </div>
                             </div>
-                            <div class="form-cell type-company hidden">
+                            <div class="form-cell type-company hidden type">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Company') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
@@ -116,7 +120,7 @@
                                 </div>
                             </div>
 						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6">
+						<div class="col-lg-6 col-md-6 col-sm-6 type hidden">
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Hint') ?>
@@ -130,8 +134,30 @@
 						</div>
 					</div>
 					<div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 type hidden">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'User Photo') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
+                                </div>
+                                <div class="form-input">
+                                    <label class="file-label">
+										<span id="image-mini" style="display:none">
+											<img width="22" src="" alt=""/>
+										</span>
+                                        <span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
+                                        <span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
+                                        <?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
+                                        <span class="delete-photo" style="display:none;">
+											<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>
+                                            <?= $form->hiddenField($model, 'delete') ?>
+										</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 						<div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="form-cell  type-personal">
+                            <div class="form-cell  type-personal hidden">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Sex') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_sex') ?>"></span>
@@ -151,28 +177,6 @@
                                     </div>
                                 </div>
                             </div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6">
-							<div class="form-cell">
-								<div class="form-lbl">
-									<?= Yii::t('Front', 'User Photo') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
-								</div>
-								<div class="form-input">
-									<label class="file-label">
-										<span id="image-mini" style="display:none">
-											<img width="22" src="" alt=""/>
-										</span>
-										<span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
-										<span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
-										<?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
-										<span class="delete-photo" style="display:none;">
-											<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>
-											<?= $form->hiddenField($model, 'delete') ?>
-										</span>
-									</label>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

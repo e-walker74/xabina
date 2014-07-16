@@ -409,10 +409,17 @@ $(document).ready(function () {
 
 var changeContactType = function(el){
     var form = $(el).closest('form')
+    if($(el).val() != ""){
+        form.find('.type').removeClass('hidden')
+    }else{
+        form.find('.type').addClass('hidden')
+        form.find('.type-company').addClass('hidden')
+        form.find('.type-personal').addClass('hidden')
+    }
     if($(el).val() == 'personal'){
         form.find('.type-personal').removeClass('hidden')
         form.find('.type-company').addClass('hidden')
-    } else {
+    } else if($(el).val() == 'company') {
         form.find('.type-personal').addClass('hidden')
         form.find('.type-company').removeClass('hidden')
     }

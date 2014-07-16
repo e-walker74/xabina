@@ -32,7 +32,7 @@ class Users_Contacts_Data_Others extends Users_Contacts_Data_Model
             parent::rules(),
             array(
                 array('note', 'required'),
-                array('description', 'length', 'max' => 140),
+                array('description, note', 'length', 'max' => 140),
             ));
     }
 
