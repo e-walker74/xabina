@@ -111,7 +111,7 @@
                             </div>
                             <div class="form-cell type-company hidden type">
                                 <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Company') ?>
+                                    <?= Yii::t('Front', 'Company Name') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
@@ -137,7 +137,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 type hidden">
                             <div class="form-cell">
                                 <div class="form-lbl">
-                                    <?= Yii::t('Front', 'User Photo') ?>
+                                    <?= Yii::t('Front', 'Contact Photo') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
@@ -146,7 +146,7 @@
 											<img width="22" src="" alt=""/>
 										</span>
                                         <span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
-                                        <span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
+                                        <span class="filename"><?= Yii::t('Front', 'Upload contact photo') ?></span>
                                         <?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
                                         <span class="delete-photo" style="display:none;">
 											<img src="/images/uploded_remove.png" style="float: right; cursor:pointer" alt=""/>

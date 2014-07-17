@@ -143,7 +143,7 @@
                             <?php elseif($model->type == 'company'): ?>
                             <div class="form-cell">
                                 <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Company') ?>
+                                    <?= Yii::t('Front', 'Company Name') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
@@ -198,7 +198,7 @@
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
-                                    <?= Yii::t('Front', 'User Photo') ?>
+                                    <?= Yii::t('Front', 'Contact Photo') ?>
                                     <span class="tooltip-icon"
                                           title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
                                 </div>
@@ -209,7 +209,7 @@
                                                 <img width="22" src="<?= $model->getAvatarUrl() ?>" alt=""/>
                                             </span>
                                         <span class="file-button"><?= Yii::t('Front', 'Select') ?></span>
-                                        <span class="filename"><?= Yii::t('Front', 'Upload user photo') ?></span>
+                                        <span class="filename"><?= Yii::t('Front', 'Upload contact photo') ?></span>
                                         <?= $form->fileField($model, 'photo', array('class' => 'file-input')) ?>
                                         <?php if ($model->photo): ?>
                                             <span class="delete-photo">
