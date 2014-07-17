@@ -16,7 +16,6 @@
 		<div class="popup-register-header"><?= Yii::t('Front', 'Sms confirm form') ?></div>
 			<?php $form=$this->beginWidget('CActiveForm', array(
 						'id'=>'sms-confirm',
-						'enableAjaxValidation'=>true,
 						'enableClientValidation'=>true,
 						'clientOptions'=>array(
 						  'validateOnSubmit'=>true,

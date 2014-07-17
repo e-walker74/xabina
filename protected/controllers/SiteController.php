@@ -29,7 +29,6 @@ class SiteController extends Controller {
                     'remindSupportCall',
 					'SMSLogin',
 					'SMSConfirm',
-					'SMSConfirm',
 					'SMSPhoneChange',
 					'resendloginsms',
 					'disclaime',
@@ -177,11 +176,12 @@ class SiteController extends Controller {
 		if(!Yii::app()->cache->get('sms_auth_code_user_'.$model->userId)){
 			$this->redirect(array('/site/smslogin'));
 		}
-
+        /*
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirm') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+        */
 		
 		if(isset($_POST['Form_Smslogin'])){
 			if(!isset(Yii::app()->session['user_phone'])){
@@ -203,7 +203,7 @@ class SiteController extends Controller {
 				$user->save();
 			}
 			
-			if($model->login()){
+			if($model->validate() && $model->login()){
 				$this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
 			}
 		}

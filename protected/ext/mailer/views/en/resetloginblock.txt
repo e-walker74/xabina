@@ -32,8 +32,10 @@
                 <tr>
                     <td style="background-color: #fff; font-size: 13px ;color: #777; padding: 0 20px 17px">
                         <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear client</h2>
-                        <p style="margin: 22px 0 0;"><b>Account exhausted attempts to log in and was blocked </b></p>
-                        <p style="margin: 22px 0 0;"><b>Please, click on the unblock link below to unblock your account.<br/><a href="{:activateUrl}" target="_blank">{:activateUrl}</a> </b></p>
+                        <p style="margin: 22px 0 0;"><b>Someone has entered the wrong SMS-code from your xabina profile 3 times in a row. Your profile has been temporarily blocked for 1 hour. </b></p>
+                        <p style="margin: 22px 0 0;"><b>You can unblock Your account immideately by clicking the link below:<br/><a href="{:activateUrl}" target="_blank">{:activateUrl}</a> </b></p>
+                        <p style="margin: 22px 0 0;"><b>Your account will be automatically unblocked after 1 hour.</b></p>
+                        <p style="margin: 22px 0 0;"><b>If You are not responsible for this action, we strictly advise You to contact our customer support.</b></p>
                         <p style="margin-top: 16px;line-height: 19px;"><em>If you have any questions or experience problems, you can e-mail us at: support@xabina.com</em></p>
 
                         <p style="margin-top: 30px;font-size: 11px">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
