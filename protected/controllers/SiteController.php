@@ -40,6 +40,8 @@ class SiteController extends Controller {
                     'ChangeLostPhoneVerify',
                     'CheckLostPhone',
                     'changeLostPhoneEmail',
+                    'AccountIsBlocked',
+                    'ResendBlockEmail',
                     'ResetSMSLogin'
 				),
                 'users' => array('*')
