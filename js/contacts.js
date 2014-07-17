@@ -268,35 +268,61 @@ var hideAllSelectedCategories = function () {
 }
 
 var uploadContactPhoto = function (form) {
-    var data = new FormData();
-    var formData = form.serializeArray();
-    for (var key in formData) {
-        obj = formData[key];
-        data.append(obj.name, obj.value);
-    }
-    form.find('input[type="file"]').each(function () {
-        var files = this.files;
-        var input = this
-        $.each(files, function (key, value) {
-            if (!value.type.match('image.*')) {
-                $(input).closest('.form-cell').find('.error-message').html('file is not an image').slideDown().delay(3000).slideUp()
-                return false;
-            }
-            data.append($(input).attr('name'), value);
-        });
-    });
+//    var data = new FormData();
+//    var formData = form.serializeArray();
+//    for (var key in formData) {
+//        obj = formData[key];
+//        data.append(obj.name, obj.value);
+//    }
+//    form.find('input[type="file"]').each(function () {
+//        var files = this.files;
+//        var input = this
+//        $.each(files, function (key, value) {
+//            if (!value.type.match('image.*')) {
+//                $(input).closest('.form-cell').find('.error-message').html('file is not an image').slideDown().delay(3000).slideUp()
+//                return false;
+//            }
+//            data.append($(input).attr('name'), value);
+//        });
+//    });
+//
+//    data.append('file-upload', $(form).attr('id'))
+//
+//    backgroundBlack()
+//
+//    var oReq = new XMLHttpRequest();
+//    oReq.open("POST", form.attr('action'), true);
+//
+//    oReq.onload = function (oEvent) {
+//        dellBackgroundBlack()
+//        if (oReq.status == 200) {
+//            var response = jQuery.parseJSON(oEvent.currentTarget.response)
+//            if (response.success) {
+//                dellBackgroundBlack()
+//                resetPage()
+//                if (response.html) {
+//                    var tab = $(form).closest('.tab')
+//                    tab.html(response.html)
+//                    setAllSelectedValues()
+//                    successNotify('Contact', response.message, tab.find('tr:visible:last'))
+//                    var header = $('.contact-header')
+//                    header.find('.contact-name .cn').html(response.fullname)
+//                    header.find('.contact-name .company-name').html(response.companyName)
+//                    header.find('.contact-photo img').attr('src', $('.avatar-td img').attr('src'))
+//                }
+//            }
+//        } else {
+//            errorNotify('Contact', 'Server error')
+//        }
+//    };
 
-    data.append('file-upload', $(form).attr('id'))
-
+//    oReq.send(data);
     backgroundBlack()
-
-    var oReq = new XMLHttpRequest();
-    oReq.open("POST", form.attr('action'), true);
-
-    oReq.onload = function (oEvent) {
-        dellBackgroundBlack()
-        if (oReq.status == 200) {
-            var response = jQuery.parseJSON(oEvent.currentTarget.response)
+    var options = {
+        url     : form.attr('action'),
+        type    : form.attr('method'),
+        dataType: 'json',
+        success:function( response ) {
             if (response.success) {
                 dellBackgroundBlack()
                 resetPage()
@@ -311,13 +337,9 @@ var uploadContactPhoto = function (form) {
                     header.find('.contact-photo img').attr('src', $('.avatar-td img').attr('src'))
                 }
             }
-        } else {
-            errorNotify('Contact', 'Server error')
         }
     };
-
-    oReq.send(data);
-
+    $('#contact-form').ajaxSubmit(options);
     return false;
 }
 
