@@ -55,13 +55,9 @@ class Form_Smslogin extends CFormModel
 		);
 	}
 
-	public function checkCode($attribute, $params){
-		$i = Yii::app()->cache->get('sms_auth_trying_user_'.$this->userId);
-		if(!$i){
-			$i = 0;
-		}
-        if ($i == 4) {
-            $user = Users::model()->find('login = :p', array(':p' => $this->userId));
+    public function sendBlockEmail() {
+        $user = Users::model()->find('login = :p', array(':p' => $this->userId));
+        if ($user != null) {
             $user->createHash();
             $user->save();
             $mail = new Mail();
@@ -72,6 +68,20 @@ class Form_Smslogin extends CFormModel
                       '{:date}' => date('Y m d', time()),
                       '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/ResetSMSLogin/?login='.$user->login.'&confirm='.$user->hash,
             ));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+	public function checkCode($attribute, $params){
+		$i = Yii::app()->cache->get('sms_auth_trying_user_'.$this->userId);
+		if(!$i){
+			$i = 0;
+		}
+        if ($i == 4) {
+
+            $this->sendBlockEmail();
             Yii::app()->cache->set('sms_auth_trying_user_'.$this->userId, ++$i, 3600);
         }
 		if($i > 3){

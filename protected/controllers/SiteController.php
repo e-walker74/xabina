@@ -149,6 +149,12 @@ class SiteController extends Controller {
 		if(isset($_POST['Form_Smslogin'])){
 			$model->userId = $_POST['Form_Smslogin']['userId'];
             $user = Users::model()->findByAttributes(array("login"=>$model->userId));
+
+            $i = Yii::app()->cache->get('sms_auth_trying_user_'.$model->userId);
+            if ($i != null && $i > 3) {
+                Yii::app()->session['user_login'] = $user->login;
+                $this->redirect(array('/site/accountIsBlocked'));
+            }
             if ($user != null && $user->status == Users::USER_IS_PREPAID) {
                 Yii::app()->session['user_login'] = $user->login;
                 $this->redirect(array('/site/RegisterPrepaidPass'));
@@ -176,12 +182,6 @@ class SiteController extends Controller {
 		if(!Yii::app()->cache->get('sms_auth_code_user_'.$model->userId)){
 			$this->redirect(array('/site/smslogin'));
 		}
-        /*
-		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirm') {
-			echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-        */
 		
 		if(isset($_POST['Form_Smslogin'])){
 			if(!isset(Yii::app()->session['user_phone'])){
@@ -610,6 +610,32 @@ class SiteController extends Controller {
 		Yii::app()->cache->set('sms_auth_trying_user_'.$user->login, 0, 3600);
 
         $this->render('accountUnblock');
+	}
+
+	public function actionAccountIsBlocked(){
+
+		if(!Yii::app()->user->isGuest){
+			$this->redirect(array('/banking/index'));
+		}
+
+        $this->render('accountIsBlocked');
+	}
+
+	public function actionResendBlockEmail(){
+		if(!Yii::app()->request->isAjaxRequest){
+			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+		}
+		if(!isset(Yii::app()->session['user_login'])){
+			$this->redirect(array('/account'));
+		}
+
+		$model = new Form_Smslogin('login');
+
+		$model->userId = Yii::app()->session['user_login'];
+
+        if($model->sendBlockEmail()){
+			echo CJSON::encode(array('success' => true));
+		}
 	}
 
 	public function actionChangeLostPhoneVerify(){
