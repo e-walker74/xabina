@@ -141,7 +141,7 @@
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
-                                    <label class="file-label">
+                                    <label class="file-label" for="Users_Contacts_photo">
 										<span id="image-mini" style="display:none">
 											<img width="22" src="" alt=""/>
 										</span>

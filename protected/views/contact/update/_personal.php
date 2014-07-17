@@ -203,7 +203,7 @@
                                           title="<?= Yii::t('Front', 'user_photo_name_contact') ?>"></span>
                                 </div>
                                 <div class="form-input">
-                                    <label class="file-label <?= ($model->photo) ? 'uploaded' : '' ?>">
+                                    <label class="file-label <?= ($model->photo) ? 'uploaded' : '' ?>" for="Users_Contacts_photo">
                                             <span id="image-mini"
                                                   <?php if (!$model->photo): ?>style="display:none"<?php endif; ?>>
                                                 <img width="22" src="<?= $model->getAvatarUrl() ?>" alt=""/>
