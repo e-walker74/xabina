@@ -8,7 +8,7 @@
 		</tr>
         <tr class="comment-tr empty-table <?php if (count($model->getDataByType('phone'))): ?>hidden<?php endif; ?>">
             <td colspan="4" style="line-height: 1.43!important">
-                <span class="rejected "><?= Yii::t('Front', 'You do not added a phone yet. You can add new phone by clicking “Add new” button') ?></span>
+                <span class=" "><?= Yii::t('Front', 'You do not added a phone yet. You can add new phone by clicking “Add new” button') ?></span>
             </td>
         </tr>
 		<?php foreach($model->getDataByType('phone') as $m): ?>
@@ -54,7 +54,6 @@
 					'errorMessageCssClass' => 'error-message',
 					'htmlOptions' => array(
 						'class' => 'form-validable',
-						'enctype' => 'multipart/form-data',
 					),
 					'clientOptions'=>array(
 						'validateOnSubmit'=>true,

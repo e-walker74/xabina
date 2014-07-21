@@ -232,7 +232,7 @@ class Users_Contacts_Data extends ActiveRecord
             $dbModel->category_id = $model->category_id;
         }
 
-        if($dbModel->data_type == 'contact'){
+        if($dbModel->data_type == 'contact' && $dbModel->isNewRecord){
             foreach(explode(',', $model->contact_id) as $cid){
                 $cid = trim($cid);
                 $newDbModel = clone($dbModel); // Save contacts
@@ -253,6 +253,11 @@ class Users_Contacts_Data extends ActiveRecord
 
 		$dbModel->value = serialize($model->attributes);
         $scenario = $dbModel->scenario;
+
+        if(!Users_Contacts_Data::model()->countByAttributes(array('contact_id' => $dbModel->contact_id, 'data_type' => $dbModel->data_type))){
+            $dbModel->is_primary = 1;
+        }
+
 		if($dbModel->save()){
             return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel, $scenario);
 		}

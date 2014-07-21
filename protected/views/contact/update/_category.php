@@ -19,12 +19,12 @@
         </tr>
         <tr class="comment-tr">
             <td colspan="3" style="line-height: 1.43!important">
-                <span><?= Yii::t('Front', 'go_to_the_category_page') ?> <?= Html::link(Yii::t('Front', 'Link'), array('/contact/category')) ?></span>
+                <span><?= Yii::t('Front', 'go_to_the_category_page') ?> <?= Html::link(Yii::t('Front', 'Link'), array('/contact/category'), array('target' => '_blank')) ?></span>
             </td>
         </tr>
         <tr class="comment-tr empty-table <?php if (!empty($model->categories)): ?>hidden<?php endif; ?>">
             <td colspan="3" style="line-height: 1.43!important">
-                <span class="rejected "><?= Yii::t('Front', 'There is no category associated with this contact yet. You can add new category by clicking “Add new” button') ?></span>
+                <span class=" "><?= Yii::t('Front', 'There is no category associated with this contact yet. You can add new category by clicking “Add new” button') ?></span>
             </td>
         </tr>
         <?php foreach($model->categories as $category): ?>

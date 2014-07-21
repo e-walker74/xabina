@@ -13,7 +13,10 @@
     <table class="table xabina-table-contacts">
         <tr class="table-header">
             <th style="width: 16%"><?= Yii::t('Front', 'Photo'); ?></th>
-            <th style="width: 45%"><?= Yii::t('Front', 'Contact Name'); ?></th>
+            <th style="width: 38%"><?= Yii::t('Front', 'Contact Name'); ?></th>
+            <?php if($model->type == 'personal'): ?>
+                <th style="width: 7%"><?= Yii::t('Front', 'Sex'); ?></th>
+            <?php endif; ?>
             <th style="width: 31%"><?= Yii::t('Front', 'Xabina User ID'); ?></th>
             <th style="width: 8%"></th>
         </tr>
@@ -30,6 +33,11 @@
                 <br/>
                 <span class="company-name"><?= $model->getNameWithCompany() ?></span>
             </td>
+            <?php if($model->type == 'personal'): ?>
+            <td>
+                <?= Yii::t('Front', $model->sex); ?>
+            </td>
+            <?php endif; ?>
             <td><?= $model->xabina_id ?></td>
             <td>
                 <div class="transaction-buttons-cont">
@@ -38,7 +46,7 @@
             </td>
         </tr>
         <tr class="edit-row">
-            <td colspan="4">
+            <td colspan="<?php if($model->type == 'personal'): ?>5<?php else: ?>4<?php endif; ?>">
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'contact-form',
                     'action' => array('/contact/update', 'url' => $model->url),

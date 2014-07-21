@@ -34,10 +34,10 @@
                     <?= $model->company ?>
                     <span class="note"><?= Yii::t('Front', 'Company') ?></span>
                 <?php endif; ?>
-                <?php if($model->sex && $model->type == 'personal'): ?>
-                    <?= $model->sex ?>
-                    <span class="note"><?= Yii::t('Front', 'Sex') ?></span>
-                <?php endif; ?>
+<!--                --><?php //if($model->sex && $model->type == 'personal'): ?>
+<!--                    --><?//= $model->sex ?>
+<!--                    <span class="note">--><?//= Yii::t('Front', 'Sex') ?><!--</span>-->
+<!--                --><?php //endif; ?>
                 <?php if($model->xabina_id): ?>
                     <?= $model->xabina_id ?>
                     <span class="note"><?= Yii::t('Front', 'Xabina User ID') ?></span>

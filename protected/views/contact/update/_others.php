@@ -18,7 +18,7 @@
         </tr>
         <tr class="comment-tr empty-table <?php if (count($model->getDataByType('others'))): ?>hidden<?php endif; ?>">
             <td colspan="4" style="line-height: 1.43!important">
-                <span class="rejected "><?= Yii::t('Front', 'You do not added a note yet. You can add new note by clicking “Add new” button') ?></span>
+                <span class=" "><?= Yii::t('Front', 'You do not added a note yet. You can add new note by clicking “Add new” button') ?></span>
             </td>
         </tr>
         <?php foreach($model->getDataByType('others') as $m): ?>

@@ -184,6 +184,7 @@ var makePrimary = function (link) {
         url: $(link).attr('data-url'),
         success: function (response) {
             if (response.success) {
+                $(window).unbind('beforeunload')
                 dellBackgroundBlack()
                 resetPage()
                 if (response.html) {
@@ -228,6 +229,7 @@ afterValidate = function (form, data, hasError, callBack) {
 //			updateContact(form)
 //			return false;
 //		}
+        $(window).unbind('beforeunload')
         if (form.find('input[type="file"]').length === 0) {
             updateContact(form)
         } else {
@@ -268,55 +270,25 @@ var hideAllSelectedCategories = function () {
 }
 
 var uploadContactPhoto = function (form) {
-//    var data = new FormData();
-//    var formData = form.serializeArray();
-//    for (var key in formData) {
-//        obj = formData[key];
-//        data.append(obj.name, obj.value);
-//    }
-//    form.find('input[type="file"]').each(function () {
-//        var files = this.files;
-//        var input = this
-//        $.each(files, function (key, value) {
-//            if (!value.type.match('image.*')) {
-//                $(input).closest('.form-cell').find('.error-message').html('file is not an image').slideDown().delay(3000).slideUp()
-//                return false;
-//            }
-//            data.append($(input).attr('name'), value);
-//        });
-//    });
-//
-//    data.append('file-upload', $(form).attr('id'))
-//
-//    backgroundBlack()
-//
-//    var oReq = new XMLHttpRequest();
-//    oReq.open("POST", form.attr('action'), true);
-//
-//    oReq.onload = function (oEvent) {
-//        dellBackgroundBlack()
-//        if (oReq.status == 200) {
-//            var response = jQuery.parseJSON(oEvent.currentTarget.response)
-//            if (response.success) {
-//                dellBackgroundBlack()
-//                resetPage()
-//                if (response.html) {
-//                    var tab = $(form).closest('.tab')
-//                    tab.html(response.html)
-//                    setAllSelectedValues()
-//                    successNotify('Contact', response.message, tab.find('tr:visible:last'))
-//                    var header = $('.contact-header')
-//                    header.find('.contact-name .cn').html(response.fullname)
-//                    header.find('.contact-name .company-name').html(response.companyName)
-//                    header.find('.contact-photo img').attr('src', $('.avatar-td img').attr('src'))
-//                }
-//            }
-//        } else {
-//            errorNotify('Contact', 'Server error')
-//        }
-//    };
 
-//    oReq.send(data);
+    var error = false
+
+    form.find('input[type="file"]').each(function () {
+        var files = this.files;
+        var input = this
+        $.each(files, function (key, value) {
+            if (!value.type.match('image.*')) {
+                $(input).closest('.form-cell').find('.error-message').html('file is not an image').slideDown().delay(3000).slideUp()
+                error = true
+                return false;
+            }
+        });
+    });
+
+    if(error){
+        return false;
+    }
+
     backgroundBlack()
     var options = {
         url     : form.attr('action'),
@@ -325,6 +297,7 @@ var uploadContactPhoto = function (form) {
         success:function( response ) {
             if (response.success) {
                 dellBackgroundBlack()
+                $(window).unbind('beforeunload')
                 resetPage()
                 if (response.html) {
                     var tab = $(form).closest('.tab')
@@ -357,6 +330,17 @@ $(document).ready(function () {
     })
 
     hideAllSelectedCategories()
+
+    var edit = false;
+
+    $('.xabina-form-narrow input[type=text], .xabina-form-narrow input[type=password], .xabina-form-narrow textarea, .xabina-form-narrow select').change(function () {
+        if (edit == false) {
+            edit = true
+            $(window).bind('beforeunload', function () {
+                return 'Are you sure you want to leave this page? All the changes will not be saved.';
+            });
+        }
+    })
 })
 
 var showAddNewCategory = function (el) {
@@ -397,6 +381,7 @@ var searchTransactionsLinks = function (button) {
                 $('#links-table').html(response.html)
             }
             dellBackgroundBlack()
+            $(window).unbind('beforeunload')
         },
         cache: false,
         async: true,

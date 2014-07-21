@@ -9,7 +9,7 @@
 		</tr>
         <tr class="comment-tr empty-table <?php if (count($model->getDataByType('account'))): ?>hidden<?php endif; ?>">
             <td colspan="5" style="line-height: 1.43!important">
-                <span class="rejected "><?= Yii::t('Front', 'You do not added a account yet. You can add new account by clicking “Add new” button') ?></span>
+                <span class=" "><?= Yii::t('Front', 'You do not added a account yet. You can add new account by clicking “Add new” button') ?></span>
             </td>
         </tr>
 		<?php foreach($model->getDataByType('account') as $account): ?>
