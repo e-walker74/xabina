@@ -25,7 +25,7 @@ class Form_Smslogin extends CFormModel
 			array('phone', 'length', 'min' => 8, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long'), 'on' => 'change'),
 			array('phone', 'authenticatePhone'),
 			array('userId', 'required', 'on' => 'login'),
-			array('userId', 'authenticate'),
+			array('userId', 'authenticate', 'on' => 'login'),
 			array('code, userId', 'required', 'on' => 'confirm'),
 			array('code', 'checkCode', 'on' => 'confirm'),
 		);

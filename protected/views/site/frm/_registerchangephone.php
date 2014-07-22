@@ -14,7 +14,7 @@
     <div class="shadow_blocker"></div>
     <div class="popup-register-header"><?= Yii::t('Front', 'Bank account application form'); ?></div>
     <?php $form=$this->beginWidget('CActiveForm', array(
-                'id'=>'registration-from',
+                'id'=>'sms-change-phone',
                 'enableAjaxValidation'=>true,
                 'enableClientValidation'=>true,
                 //'focus'=>array($model,'first_name'),

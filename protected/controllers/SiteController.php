@@ -265,7 +265,8 @@ class SiteController extends Controller {
 			if($model->validate()){
 				if($model->registration()){
 
-                    Yii::app()->session['user_phone'] = $model->phone;
+                    Yii::app()->session['user_login'] = $model->login;
+					Yii::app()->session['user_phone'] = $model->phone;
 					Yii::app()->session['user_code'] = rand(100000,999999);
 					$this->redirect(array('/site/SMSRegisterVerify/'));
 				}
@@ -371,9 +372,9 @@ class SiteController extends Controller {
 			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 			$model->code = $_POST['Form_Smsregisterverify']['code'];
 
+
 			if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
-				$user->status = 1;
 				$newPhone = new Users_Phones;
 				$newPhone->user_id = $user->id;
 				$newPhone->email_type_id = 3; // TODO: email types
@@ -382,7 +383,6 @@ class SiteController extends Controller {
 				$newPhone->is_master = 1;
 				$newPhone->withOutHash = true;
 				$newPhone->save();
-				$user->save();
                 $mail = new Mail();
                 $mail->send(
                     $user, // this user
@@ -395,7 +395,9 @@ class SiteController extends Controller {
 			}
 
             if($model->validate() && $model->login()){
-                    $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
+                $user->status = 1;
+                $user->save();
+                $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
             }
 		}
 
@@ -410,11 +412,11 @@ class SiteController extends Controller {
 			$this->redirect(array('/account'));
 		}
 
-		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+		$user = Users::model()->find('login = :p', array(':p' => Yii::app()->session['user_login']));
 		$model = new Form_Smsregisterverify('login');
 
 		$model->userId = $user->login;
-        ;
+
 		if($model->smsSendCode()){
 			echo CJSON::encode(array('success' => true));
 		}
@@ -428,23 +430,21 @@ class SiteController extends Controller {
 		}
 		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 
-		$model->userId = $user->login;
-		if($user->phone_confirm){
-			//throw new CHttpException(404, Yii::t('Page not found'));
-		}
-
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
-		if(isset($_POST['Form_Smslogin'])){
+		if(isset($_POST['Form_Smslogin']) && $user != null){
+            $model->attributes = $_POST['Form_Smslogin'];
+            $model->userId = $user->login;
 			$user->phone = $_POST['Form_Smslogin']['phone'];
 			if($model->validate() && $user->save()){
                 Yii::app()->session['user_phone'] = $user->phone;
 				$this->redirect(array('/site/SMSRegisterVerify'));
 
 			}
+           echo CHtml::errorSummary($model);
 		}
 
 		$this->render('frm/_registerchangephone', array('model' => $model, 'user' => $user));
@@ -527,15 +527,11 @@ class SiteController extends Controller {
 		}
 		$user = Users::model()->find('login = :p', array(':p' => Yii::app()->session['user_login']));
 
-		$model->userId = $user->login;
-		if($user->phone_confirm){
-			//throw new CHttpException(404, Yii::t('Page not found'));
+		if(!$user){
+			throw new CHttpException(404, Yii::t('Front','Page not found'));
 		}
 
-		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
-			echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+        $model->userId = $user->login;
 
 		if(isset($_POST['Form_Changelostphone'])){
             $model->attributes = $_POST['Form_Changelostphone'];
@@ -556,7 +552,9 @@ class SiteController extends Controller {
                 $this->redirect(array('/site/changeLostPhoneEmail'));
             }
 		}
-
+        if (strlen($model->phone)) {
+            $model->phone = '+'.trim($model->phone, '+');
+        }
 		$this->render('frm/_checklostphone', array('model' => $model, 'user' => $user));
 	}
 
@@ -576,10 +574,11 @@ class SiteController extends Controller {
 		}
 		$user = Users::model()->find('login = :p && hash = :h', array(':p' => $_REQUEST['login'],':h' => $_REQUEST['confirm']));
 
-		$model->userId = $user->login;
-		if($user->phone_confirm){
-			//throw new CHttpException(404, Yii::t('Page not found'));
+		if(!$user){
+			throw new CHttpException(404, Yii::t('Front','Page not found'));
 		}
+
+        $model->userId = $user->login;
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
 			echo CActiveForm::validate($model);
@@ -672,16 +671,16 @@ class SiteController extends Controller {
                     array(	// params
                           '{:userPhone}' => '+'.$user->phone,
                           '{:date}' => date('Y m d', time()),
-                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/ChangeLostPhone/?login='.$user->login.'&confirm='.$user->hash,
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin',
                 ));
                 $this->render('remindSuccess');
             } else {
-                $this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
+                $this->render('frm/_changelostphoneverify', array('model' => $model, 'user' => $user));
             }
 
 		}
         else {
-		    $this->render('frm/_smsregisterverify', array('model' => $model, 'user' => $user));
+		    $this->render('frm/_changelostphoneverify', array('model' => $model, 'user' => $user));
         }
 	}
 

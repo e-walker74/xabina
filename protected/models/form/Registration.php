@@ -100,7 +100,7 @@ class Form_Registration extends CFormModel
     public function checkCompany($attribute, $params){
         if($this->role == 2){
             if(!$this->company_name){
-                $this->addError('company_name', Yii::t('Front', 'Company name is incorrect'));
+                //$this->addError('company_name', Yii::t('Front', 'Company name is incorrect'));
             }
         }
     }
@@ -111,7 +111,7 @@ class Form_Registration extends CFormModel
                 array('name' => $this->country)
             );
             if(!$c){
-                $this->addError('country', Yii::t('Front', 'Country is incorrect'));
+                //$this->addError('country', Yii::t('Front', 'Country is incorrect'));
             }
         }
     }
@@ -164,7 +164,7 @@ class Form_Registration extends CFormModel
                 $company = new Companies;
                 $company->owner_id = $user->id;
                 $company->title = $this->company_name;
-                $company->country_id = $country->id;
+                $company->country_id = 2760; // NL
                 $company->save();
             }
 

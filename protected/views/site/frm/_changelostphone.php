@@ -14,7 +14,7 @@
     <div class="shadow_blocker"></div>
     <div class="popup-register-header"><?= Yii::t('Front', 'Bank account change phone form'); ?></div>
     <?php $form=$this->beginWidget('CActiveForm', array(
-                'id'=>'registration-from',
+                'id'=>'sms-change-phone',
                 'enableAjaxValidation'=>true,
                 'enableClientValidation'=>true,
                 //'focus'=>array($model,'first_name'),
@@ -54,9 +54,9 @@
                         <?= $user->getAttributeLabel('email') ?>
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-Mail'); ?>"></span>
                     </div>
-                    <div class="form-input">
+                    <div class="form-input success">
                         <?= $form->passwordField($user, 'email', array('disabled' => 'disabled')); ?>
-                        <span class="validation-icon"></span>
+                        <span class="validation-icon" style="display: inline;"></span>
                     </div>
                     <div class="form-alert">
                         <?= $form->error($user, 'email'); ?>
@@ -84,9 +84,9 @@
                         <?= $user->getAttributeLabel('login') ?>
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your login'); ?>"></span>
                     </div>
-                    <div class="form-input">
+                    <div class="form-input success">
                         <?= $form->passwordField($user, 'login', array('disabled' => 'disabled')); ?>
-                        <span class="validation-icon"></span>
+                        <span class="validation-icon" style="display: inline;"></span>
                     </div>
                     <div class="form-alert">
                         <?= $form->error($user, 'login'); ?>
@@ -97,7 +97,7 @@
                         <?= $user->getAttributeLabel('role') ?>
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Change role for your account'); ?>"></span>
                     </div>
-                    <div class="form-input">
+                    <div class="form-input success">
                         <div class="dropdown select-type-dropdown disabled">
                             <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
 
