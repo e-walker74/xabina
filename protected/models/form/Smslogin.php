@@ -75,21 +75,22 @@ class Form_Smslogin extends CFormModel
     }
 
 	public function checkCode($attribute, $params){
+        if (!$this->code) return;
 		$i = Yii::app()->cache->get('sms_auth_trying_user_'.$this->userId);
 		if(!$i){
 			$i = 1;
 		}
-        if ($i == 4) {
 
-            $this->sendBlockEmail();
-            Yii::app()->cache->set('sms_auth_trying_user_'.$this->userId, ++$i, 3600);
-        }
 		if($i > 3){
 			$this->addError('code', Yii::t('Front', 'You have entered the wrong sms code 3 times. Your profile has been temporarily blocked for 1 hour. Please check Your E-Mail in order to restore access to Your account'));
-            return false;
+            Yii::app()->getController()->redirect(array('/site/accountIsBlocked'));
 		}
 		if($this->code != Yii::app()->cache->get('sms_auth_code_user_'.$this->userId)){
 			Yii::app()->cache->set('sms_auth_trying_user_'.$this->userId, ++$i, 3600);
+            if ($i == 4) {
+                $this->sendBlockEmail();
+                Yii::app()->getController()->redirect(array('/site/accountIsBlocked'));
+            }
 			$this->addError('code', Yii::t('Front', 'Code is incorrect. Your code is :'.Yii::app()->cache->get('sms_auth_code_user_'.$this->userId)));
 		}
 	}
