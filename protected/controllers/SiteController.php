@@ -394,10 +394,12 @@ class SiteController extends Controller {
                 ));
 			}
 
-            if($model->validate() && $model->login()){
+            if($model->validate() ){
                 $user->status = 1;
                 $user->save();
-                $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
+                if ($model->login()) {
+                    $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
+                }
             }
 		}
 

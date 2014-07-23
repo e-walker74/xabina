@@ -56,8 +56,21 @@ class Form_Smsregisterverify extends CFormModel
 
 	public function checkCode($attribute, $params){
 
-		if($this->code != Yii::app()->session['user_code']){
+        if (!$this->code) return;
+        $i = Yii::app()->cache->get('sms_change_phone_user_'.$this->userId);
+		if(!$i){
+			$i = 1;
+		}
+        if ($i == 4) {
 
+            Yii::app()->cache->set('sms_change_phone_user_'.$this->userId, ++$i, 3600);
+        }
+		if($i > 3){
+			$this->addError('code', Yii::t('Front', 'You have entered the wrong sms code 3 times. Change phone function blocked for 1 hour.'));
+            return false;
+		}
+		if($this->code != Yii::app()->session['user_code']){
+			Yii::app()->cache->set('sms_change_phone_user_'.$this->userId, ++$i, 3600);
 			$this->addError('code', Yii::t('Front', 'Code is incorrect. Your code is :'.Yii::app()->session['user_code']));
 		}
 	}

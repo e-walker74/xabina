@@ -36,6 +36,14 @@ class Form_Remind extends CFormModel
         if (!$user) {
             $this->addError('login', Yii::t('Front', 'User ID is incorrect'));
         }
+        else {
+            $i = Yii::app()->cache->get('sms_change_phone_user_'.$user->login);
+
+            if($i && $i > 3){
+                $this->addError('login', Yii::t('Front', 'Change phone function blocked for 1 hour.'));
+                return false;
+            }
+        }
 	}
 
 	public function checkPhone($attribute,$params)
