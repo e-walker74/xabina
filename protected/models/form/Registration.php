@@ -36,7 +36,7 @@ class Form_Registration extends CFormModel
 			//array('last_name', 'required', 'message' => Yii::t('Front', 'Last Name is incorrect')),
 			array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
 			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
-			array('phone', 'length', 'min' => 8, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
+			array('phone', 'length', 'min' => 10, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('login', 'length', 'min' => 5, 'max' => 20, 'tooShort' => Yii::t('Front', 'User ID is too short'), 'tooLong' => Yii::t('Front', 'User ID is too long')),
 			array('login', 'match', 'pattern' => '/^[0-9a-zA-Z\_]{1,}$/', 'message' => Yii::t('Front', 'Insert Your login using latin alphabet')),
 			array('phone', 'authenticatePhone'),
@@ -155,7 +155,6 @@ class Form_Registration extends CFormModel
 		$user->createHash();
 
 		if($user->save()){
-
             if($user->role == 2) {
                 $countries = new Countries;
                 $country = $countries->findByAttributes(
