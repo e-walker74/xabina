@@ -88,7 +88,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".url").on('focus', function () {
+    $(".url").on('focus',function () {
         if (!$(this).val()) {
             $(this).val('http://');
         }
@@ -159,7 +159,7 @@ var updateContact = function (form) {
                     setAllSelectedValues()
                     var notify_element = false
                     var flash_here = tab.find('.flash_notify_here')
-                    if(flash_here.length != 0){
+                    if (flash_here.length != 0) {
                         flash_here.removeClass('flash_notify_here')
                         notify_element = flash_here
                     } else {
@@ -192,7 +192,7 @@ var makePrimary = function (link) {
                     tab.html(response.html)
                     setAllSelectedValues()
                     var message = 'Entity was successfully updated';
-                    if(response.message){
+                    if (response.message) {
                         message = response.message
                     }
                     successNotify('Contact', message, tab.find('tr.data-row:visible:first'))
@@ -285,16 +285,16 @@ var uploadContactPhoto = function (form) {
         });
     });
 
-    if(error){
+    if (error) {
         return false;
     }
 
     backgroundBlack()
     var options = {
-        url     : form.attr('action'),
-        type    : form.attr('method'),
+        url: form.attr('action'),
+        type: form.attr('method'),
         dataType: 'json',
-        success:function( response ) {
+        success: function (response) {
             if (response.success) {
                 dellBackgroundBlack()
                 $(window).unbind('beforeunload')
@@ -308,6 +308,7 @@ var uploadContactPhoto = function (form) {
                     header.find('.contact-name .cn').html(response.fullname)
                     header.find('.contact-name .company-name').html(response.companyName)
                     header.find('.contact-photo img').attr('src', $('.avatar-td img').attr('src'))
+                    $('.breadcrumbs:last').html(response.fullname)
                 }
             }
         }
@@ -399,7 +400,7 @@ $(document).ready(function () {
         onConfirm: function () {
             var table = $(this).closest('table')
             deleteRow($(this).closest('.popover').prev('a'));
-            if(table.find('.data-row').length == 1){
+            if (table.find('.data-row').length == 1) {
                 table.find('.empty-table').removeClass('hidden')
             }
             hideAllSelectedCategories()
@@ -414,20 +415,37 @@ $(document).ready(function () {
     });
 })
 
-var changeContactType = function(el){
+var changeContactType = function (el) {
     var form = $(el).closest('form')
-    if($(el).val() != ""){
+    if ($(el).val() != "") {
         form.find('.type').removeClass('hidden')
-    }else{
+    } else {
         form.find('.type').addClass('hidden')
         form.find('.type-company').addClass('hidden')
         form.find('.type-personal').addClass('hidden')
     }
-    if($(el).val() == 'personal'){
+    if ($(el).val() == 'personal') {
         form.find('.type-personal').removeClass('hidden')
         form.find('.type-company').addClass('hidden')
-    } else if($(el).val() == 'company') {
+    } else if ($(el).val() == 'company') {
         form.find('.type-personal').addClass('hidden')
         form.find('.type-company').removeClass('hidden')
     }
+}
+
+var updateTab = function (url) {
+    backgroundBlack()
+    $.ajax({
+        url: url,
+        success: function (response) {
+            if (response.success) {
+                $('.tab.'+response.tab).html(response.html)
+            }
+            dellBackgroundBlack()
+        },
+        cache: false,
+        async: true,
+        type: 'GET',
+        dataType: 'json'
+    });
 }
