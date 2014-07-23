@@ -261,6 +261,7 @@ class SiteController extends Controller {
 
         // collect user input data
         if (!empty($_POST['Form_Registration'])) {
+            Yii::app()->session->clear();
 			$model->attributes = $_POST['Form_Registration'];
 			if($model->validate()){
 				if($model->registration()){
