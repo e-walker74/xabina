@@ -1,7 +1,11 @@
 $(document).ready(function () {
     $(".xabina-tabs , .edit-tabs").tabs({
-
+        select: function(event, ui) {
+            window.location.hash = ui.tab.hash;
+        }
     });
+
+
 
     $('#analytics-form').on('change', 'input, select', function () {
         searchAnalytics($('#analytics-form'))
