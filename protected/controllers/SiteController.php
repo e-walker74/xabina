@@ -375,28 +375,26 @@ class SiteController extends Controller {
 
 			if($model->validate() ){
                 $user->status = 1;
-                if(!$user->phone_confirm){
-                    $user->phone_confirm = 1;
-                    $newPhone = new Users_Phones;
-                    $newPhone->user_id = $user->id;
-                    $newPhone->email_type_id = 3; // TODO: email types
-                    $newPhone->phone = $user->phone;
-                    $newPhone->status = 1;
-                    $newPhone->is_master = 1;
-                    $newPhone->withOutHash = true;
-                    $newPhone->save();
-                    $mail = new Mail();
-                    $mail->send(
-                        $user, // this user
-                        'registration', // sys mail code
-                        array(	// params
-                              '{:userPhone}' => '+'.$user->phone,
-                              '{:date}' => date('Y m d', time()),
-                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
-                    ));
-                }
+                $user->phone_confirm = 1;
+                $newPhone = new Users_Phones;
+                $newPhone->user_id = $user->id;
+                $newPhone->email_type_id = 3; // TODO: email types
+                $newPhone->phone = $user->phone;
+                $newPhone->status = 1;
+                $newPhone->is_master = 1;
+                $newPhone->withOutHash = true;
+                $newPhone->save();
+                $mail = new Mail();
+                $mail->send(
+                    $user, // this user
+                    'registration', // sys mail code
+                    array(	// params
+                          '{:userPhone}' => '+'.$user->phone,
+                          '{:date}' => date('Y m d', time()),
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash,
+                ));
                 $user->save();
-                
+
                 if ($model->login()) {
                     $this->redirect(array('banking/index', 'language' => Yii::app()->user->getLanguage()));
                 }
@@ -666,6 +664,14 @@ class SiteController extends Controller {
 			if ($model->validate()) {
                 $user->phone = Yii::app()->session['user_phone'];
                 $user->update();
+                $newPhone = new Users_Phones;
+                $newPhone->user_id = $user->id;
+                $newPhone->email_type_id = 3; // TODO: email types
+                $newPhone->phone = $user->phone;
+                $newPhone->status = 1;
+                $newPhone->is_master = 1;
+                $newPhone->withOutHash = true;
+                $newPhone->save();
                 $mail = new Mail();
                 $mail->send(
                     $user, // this user

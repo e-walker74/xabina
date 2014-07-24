@@ -5,7 +5,7 @@ class MainCommand extends ConsoleCommand {
     public $fromQueue = false;
 	
 	public function actionDeleteNonActiveUser(){
-		$users = Users::model()->findAll('status = 4 and created_at < '.time()-3600*7);
+		$users = Users::model()->findAll('status = 4 and created_at < '.time()-600);
 		foreach($users as $u){
 			$deleted = new Users_Deleted;
 			$deleted->attributes = $u->attributes;
