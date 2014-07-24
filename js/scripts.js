@@ -1106,4 +1106,10 @@ $(function () {
         collapsible: true
     });
 
+    $('.select-img').on('click', '.img-dropdown a', function(e){
+        var $context = $(e.delegateTarget);
+        $context.find('input[type=hidden]').val($(this).data('id'));
+        $context.find('.selected-img img').attr('src', $(this).find('img').attr('src'));
+        e.preventDefault();
+    })
 });

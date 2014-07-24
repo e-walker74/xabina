@@ -85,13 +85,18 @@
                     <!--<span class="alert">!</span>-->
                 </div>
             </div>
-            <?php if(count($rbacMenu['other'])):?>
+
             <ul class="person-list list-unstyled">
-                <?php foreach ($rbacMenu['other'] as $r): ?>
-                    <li class="person-ico-2"><a href="#" data-uid="<?=$r['id'];?>"><?=$r['account_name'];?></a></li>
-                <?php endforeach; ?>
+                <?php if(count($rbacMenu['other'])):?>
+                    <?php foreach ($rbacMenu['other'] as $r): ?>
+                        <li class="person-ico-2"><a href="#" data-uid="<?=$r['id'];?>"><?=$r['account_name'];?></a></li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <li class="add-env">
+                    <a href="#">ADD NEW environment</a>
+                </li>
             </ul>
-            <?php endif; ?>
+
         </form>
 
     </div>

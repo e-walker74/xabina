@@ -64,12 +64,50 @@
                         </script>
                     </div>
                     <ul class="user-menu pull-right  list-inline">
+                        <li class="user-notification">
+                            <a href="#"  data-toggle="dropdown" role="button"><span>12</span></a>
+                        </li>
+                        <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
+                        <li class="user-briefcase"><a href="personal_account_new.html"></a></li>
                         <li class="user-personal"><a href="/account/personal_account.html"></a></li>
                         <li class="user-email"><a href="<?= Yii::app()->createUrl('message/index'); ?>"></a></li>
-                        <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
                         <li class="user-logout"><?= CHtml::link('', array('/site/logout')); ?></li>
                     </ul>
-                    <div class="user-greeting pull-right"><?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?></div>
+                    <div class="user-greeting pull-right">
+                        <img src="/images/account-photo-r.png" alt=""/>
+                        <?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?>
+                        <div class="select-custom-activity-cont">
+                            <div class="select-img">
+                                <div class="select-custom-activity" data-toggle="dropdown">
+                                    <span class="lbl selected-img">
+                                      <img src="/images/validation_status_ok.png" alt="">
+                                    </span>
+                                    <input type="hidden" value="1">
+                                </div>
+                                <ul class="dropdown-menu status-dropdown img-dropdown" role="menu">
+                                    <li>
+                                        <a href="#" data-id="1">
+                                            <img src="/images/validation_status_ok.png" alt="">
+                                            Online
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-id="2">
+                                            <img src="/images/time_ico.png" alt="">
+                                            Busy
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-id="4">
+                                            <img src="/images/validation_status_er.png" alt="">
+                                            Ofline
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
