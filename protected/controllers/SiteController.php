@@ -191,7 +191,8 @@ class SiteController extends Controller {
 			}
 			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 			$model->code = $_POST['Form_Smslogin']['code'];
-
+            $user->hash = '';
+            $user->save();
 			if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
 				$newPhone = new Users_Phones;
@@ -444,7 +445,7 @@ class SiteController extends Controller {
 				$this->redirect(array('/site/SMSRegisterVerify'));
 
 			}
-           echo CHtml::errorSummary($model);
+            //echo CHtml::errorSummary($model);
 		}
 
 		$this->render('frm/_registerchangephone', array('model' => $model, 'user' => $user));
@@ -569,7 +570,7 @@ class SiteController extends Controller {
 		}
 
 		$model = new Form_Smslogin('change');
-		if(!isset($_REQUEST['login'])){
+		if(empty($_REQUEST['login']) || empty($_REQUEST['confirm'])){
 			$this->redirect(array('/site/smslogin'));
 		}
 		$user = Users::model()->find('login = :p && hash = :h', array(':p' => $_REQUEST['login'],':h' => $_REQUEST['confirm']));
@@ -651,7 +652,7 @@ class SiteController extends Controller {
 		}
 
 		$user = Users::model()->find('login = :p', array(':p' => Yii::app()->session['user_login']));
-        $user->phone = Yii::app()->session['user_phone'];
+
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-confirm') {
 			echo CActiveForm::validate($model);
@@ -662,6 +663,8 @@ class SiteController extends Controller {
             $model->attributes = $_POST['Form_Smsregisterverify'];
             $model->userId = $user->login;
 			if ($model->validate()) {
+                $oldPhone = Users_Phones::model()->findByAttributes(array('phone' => $user->phone, 'user_id' => $user->id));
+                if ($oldPhone) $oldPhone->delete();
                 $user->phone = Yii::app()->session['user_phone'];
                 $user->update();
                 $newPhone = new Users_Phones;

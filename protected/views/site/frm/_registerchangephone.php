@@ -58,9 +58,6 @@
                         <?= $form->textField($user, 'email', array('disabled' => 'disabled')); ?>
                         <span class="validation-icon"></span>
                     </div>
-                    <div class="form-alert">
-                        <?= $form->error($user, 'email'); ?>
-                    </div>
                 </div>
                 <div class="form-block">
                     <div class="form-lbl">
@@ -88,9 +85,6 @@
                         <?= $form->textField($user, 'login', array('disabled' => 'disabled')); ?>
                         <span class="validation-icon"></span>
                     </div>
-                    <div class="form-alert">
-                        <?= $form->error($user, 'login'); ?>
-                    </div>
                 </div>
                 <div class="form-block">
                     <div class="form-lbl">
@@ -102,9 +96,6 @@
                             <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
 
                         </div>
-                    </div>
-                    <div class="form-alert">
-                        <?= $form->error($user, 'role'); ?>
                     </div>
                 </div>
                 <div class="form-block"></div>
