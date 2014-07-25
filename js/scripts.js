@@ -124,7 +124,7 @@ $(function () {
     $("[name=phone]").on('input', function () {
         !~($(this).val().indexOf('+')) && $(this).val('+' + $(this).val());
     });
-    $(document).on('focus', 'input', function(){
+    $(document).on('focus', 'input', function () {
         $(this)
             .removeClass('input-error')
             .closest('.form-input')
@@ -501,11 +501,11 @@ $(function () {
         });
     }
 
-    $(document).on('click', '.checkbox-custom label', function(e){
-        if($(this).find('input[type="checkbox"]').prop('checked')){
+    $(document).on('click', '.checkbox-custom label', function (e) {
+        if ($(this).find('input[type="checkbox"]').prop('checked')) {
             $(this).addClass('checked');
             e.stopPropagation();
-        }else{
+        } else {
             $(this).removeClass('checked');
             e.stopPropagation();
         }
@@ -518,6 +518,12 @@ function printDiv(divName) {
 }
 
 $(document).ready(function () {
+
+    $(".xabina-tabs , .edit-tabs").tabs({
+        select: function (event, ui) {
+            window.location.hash = ui.tab.hash;
+        }
+    });
 
     $('.main-container').on('click', '.clickable-row', function () {
         url = $(this).attr('data-url')
@@ -912,7 +918,7 @@ $(document).on('click', '.button.cancel', function () {
 
 var successNotify = function (title, message, element, type, top) {
 
-    if(!top){
+    if (!top) {
         top = 40
     }
 
