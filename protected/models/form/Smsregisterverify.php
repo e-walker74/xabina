@@ -57,7 +57,6 @@ class Form_Smsregisterverify extends CFormModel
 	public function checkCode($attribute, $params){
 
         if (!$this->code) return;
-        return;
         $i = Yii::app()->cache->get('sms_change_phone_user_'.$this->userId);
 		if(!$i){
 			$i = 1;
