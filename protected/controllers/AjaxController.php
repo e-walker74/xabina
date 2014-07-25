@@ -88,4 +88,19 @@ class AjaxController extends Controller
         echo CJSON::encode(array('success' => false));
 
     }
+
+    /**
+     * Set activity state in system.
+     * user activity status (online = 1 | busy = 2 | offline = 0)
+     *
+     */
+    public function actionSetUserActivityStatus() {
+        $users = Users::model()->findByPk(Yii::app()->user->id);
+        $users->activity_status = $_POST['status'];
+
+        if ($users->save()) {
+            echo CJSON::encode(array('success' => true));
+        }
+    }
+
 }

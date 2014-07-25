@@ -11,6 +11,7 @@
  * @property integer       $status
  * @property integer       $date_add
  * @property integer       $date_edit
+ * @property integer       $activity_status
  *
  * @property Users_Address $primary_address
  * @property Users_Settings $settings
@@ -29,6 +30,7 @@ class Users extends ActiveRecord
     public $repassword;
     public $old_password;
     public $reemail;
+    public $activity_status;
 
     public static function getModelByType($type)
     {
@@ -261,7 +263,7 @@ class Users extends ActiveRecord
 		$notify->user_id = $this->id;
 		$notify->save();
 	}*/
-	
+
 	public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false){
 		if(!$user_id){
 			$user_id = Yii::app()->user->id;
@@ -328,4 +330,14 @@ class Users extends ActiveRecord
 
         return $buff;
 	}
+
+    public static function getUserActivityStatus($userId) {
+        $user = Users::model()->findByPk($userId);
+        return $user->activity_status;
+    }
+
+    public static function setUserActivityStatus() {
+        $user = Users::model()->findByPk(Yii::app()->user->id);
+        return $user->activity_status;
+    }
 }

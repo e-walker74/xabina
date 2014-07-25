@@ -75,6 +75,7 @@
                     </ul>
                     <div class="user-greeting pull-right">
                         <img src="/images/account-photo-r.png" alt=""/>
+                        <? $userActivity = Users::getUserActivityStatus(Yii::app()->user->id); ?>
                         <?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?>
                         <div class="select-custom-activity-cont">
                             <div class="select-img">
@@ -82,24 +83,23 @@
                                     <span class="lbl selected-img">
                                       <img src="/images/validation_status_ok.png" alt="">
                                     </span>
-                                    <input type="hidden" value="1">
                                 </div>
                                 <ul class="dropdown-menu status-dropdown img-dropdown" role="menu">
                                     <li>
                                         <a href="#" data-id="1">
-                                            <img src="/images/validation_status_ok.png" alt="">
+                                            <img src="/images/validation_status_ok.png" alt="" <? if ($userActivity == 1): ?>data-selected='selected' <?endif?> >
                                             Online
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" data-id="2">
-                                            <img src="/images/time_ico.png" alt="">
+                                            <img src="/images/time_ico.png" alt="" <? if ($userActivity == 2): ?>data-selected='selected' <?endif?>>
                                             Busy
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" data-id="4">
-                                            <img src="/images/validation_status_er.png" alt="">
+                                        <a href="#" data-id="0">
+                                            <img src="/images/validation_status_er.png" alt="" <? if ($userActivity == 0): ?>data-selected='selected' <?endif?>>
                                             Ofline
                                         </a>
                                     </li>

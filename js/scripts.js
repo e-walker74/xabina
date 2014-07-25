@@ -1108,8 +1108,16 @@ $(function () {
 
     $('.select-img').on('click', '.img-dropdown a', function(e){
         var $context = $(e.delegateTarget);
-        $context.find('input[type=hidden]').val($(this).data('id'));
+        var status = $(this).data('id');
         $context.find('.selected-img img').attr('src', $(this).find('img').attr('src'));
         e.preventDefault();
-    })
+
+        $.ajax({
+            url: '/ajax/SetUserActivityStatus/',
+            data: {status: status},
+            type: 'Post',
+            cache: false
+        })
+    });
+    $('.select-img .selected-img img').attr('src', $('.img-dropdown img[data-selected="selected"]').attr('src'));
 });
