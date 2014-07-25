@@ -65,8 +65,8 @@
                                                 'empty' => Yii::t('Front', 'Select'),
                                             )
                                         ) ?>
-                                        <?= $form->error($model, 'type') ?>
                                     </div>
+                                    <?= $form->error($model, 'type') ?>
                                 </div>
                             </div>
                         </div>
