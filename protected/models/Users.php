@@ -24,6 +24,10 @@ class Users extends ActiveRecord
     const USER_EMAIL_IS_ACTIVE = 3;
     const USER_IS_NOT_ACTIVE = 4;
 
+    const USER_ACTIVITY_STATUS_ONLINE = 1;
+    const USER_ACTIVITY_STATUS_OFFLINE = 0;
+    const USER_ACTIVITY_STATUS_BUSY = 2;
+
     public static $roles = array(1 => 'individual', 2 => 'legalentity');
 
     public $newpassword;

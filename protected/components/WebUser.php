@@ -411,4 +411,25 @@ class WebUser extends CWebUser
 
         return $res;
     }
+
+    public function getActivityStatus()
+    {
+        if (($name = $this->getState('__activityStatus')) !== null)
+            return $name;
+
+        if ($this->getId() !== null) {
+            $this->_model = $this->_getModel();
+            $this->setActivityStatus($this->_model->activity_status);
+            return $this->getActivityStatus();
+        } else
+            return false;
+    }
+
+    public function setActivityStatus($value)
+    {
+        $this->_model = $this->_getModel();
+        $this->_model->activity_status = $value;
+        $this->_model->save();
+        $this->setState('__activityStatus', $value);
+    }
 }
