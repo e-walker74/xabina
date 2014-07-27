@@ -16,21 +16,26 @@ class RbacController extends Controller
     }
 
 	public function actionUpdate($id){
-		$rights = RbacAccessRights::model()->findAll('action_id is not null');
-		
-		$model = RbacRoles::model()->findByPk($id);
-		
-		if(isset($_POST['rights'])){
+		$rights = RbacAccessRights::model()->getRightTree();
+
+        $model = RbacRoles::model()->findByPk($id);
+
+        if(isset($_POST['rights'])){
 			RbacRoleAccessRights::model()->deleteAll('role_id = :rid', array(':rid' => $id));
 			foreach($_POST['rights'] as $rightId => $val){
 				$access = new RbacRoleAccessRights;
-				$access->role_id = 5;
-				$access->acces_right_id = $rightId;
+				$access->role_id = $model->id;
+				$access->access_right_id = $rightId;
 				$access->save();
 			}
 		}
-		
-		$this->render('update', array('model' => $model, 'rights' => $rights));
+
+        $checkedArr = array();
+        foreach($model->rbacRoleAccessRights as $access){
+            $checkedArr[] = $access->access_right_id;
+        }
+
+		$this->render('update', array('model' => $model, 'rights' => $rights, 'checkedArr' => $checkedArr));
 	}
 	
 }

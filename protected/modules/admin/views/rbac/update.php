@@ -49,24 +49,39 @@
 						),
 					));
 				?>
-				<?php foreach($rights as $right): ?>
-					<div class="form-group">
-						<?php echo CHtml::label($right->name, 'status', array('class' => 'col-sm-3 control-label')); ?>
-						<div class="col-sm-3 control-label">
-							<div class="toggle toggle-success"></div>
-							<?php foreach($model->rbacRoleAccessRights as $access): //TODO very bad!!! ?> 
-								<?php 
-								$checked = false;
-								if($access->acces_right_id == $right->id):
-									$checked = true;
-									break;
-								endif; ?>
-							<?php endforeach; ?>
-							<?php echo CHtml::checkBox('rights['.$right->id.']', $checked, array('style' => 'display:none;')); ?>
-						</div>
-					</div>
-				<?php endforeach;?>
-				
+
+                    <div class="form-group col-sm-7">
+                        <div class="dd" id="nestable">
+                            <ol class="dd-list">
+                                <?php foreach($rights as $right): ?>
+                                <li class="dd-item">
+                                    <div class="col-sm-2 control-label pull-right">
+                                        <div class="toggle toggle-success"></div>
+                                        <?php echo CHtml::checkBox('rights['.$right->id.']', in_array($right->id, $checkedArr), array('style' => 'display:none;')); ?>
+                                    </div>
+                                    <div class="dd-handle">
+                                        <?php echo $right->name ?>
+                                    </div>
+                                    <?php if (count($right->children)): ?>
+                                    <ol class="dd-list">
+                                        <?php foreach ($right->children as $itm): ?>
+                                        <li class="dd-item">
+                                            <div class="col-sm-2 control-label pull-right">
+                                                <div class="toggle toggle-success"></div>
+                                                <?php echo CHtml::checkBox('rights['.$itm->id.']', in_array($itm->id, $checkedArr), array('style' => 'display:none;')); ?>
+                                            </div>
+                                            <div class="dd-handle"><?php echo $itm->name ?></div>
+                                        </li>
+                                        <?php endforeach; ?>
+                                    </ol>
+                                    <?php endif; ?>
+                                </li>
+                                <? endforeach; ?>
+                            </ol>
+                        </div>
+                    </div>
+
+
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
@@ -83,7 +98,10 @@
 				$(document).ready(function(){
 					$('.toggle').each(function(){
 						$(this).toggles({on:$(this).next('input[type=checkbox]').attr('checked'), checkbox:$(this).next('input[type=checkbox]')});
-					}) 
+					})
+                    // activate Nestable for list 1
+                    $('#nestable').nestable();
+                    $('.dd').nestable('collapseAll');
 				})
 				</script>
 				<?php $this->endWidget(); ?>

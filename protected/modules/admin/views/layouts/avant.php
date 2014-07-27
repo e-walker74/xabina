@@ -26,7 +26,8 @@
 
 	<!-- The following CSS are included as plugins and can be removed if unused-->
 <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/datatables/dataTables.css' />
-<link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/codeprettifier/prettify.css' />
+<link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-nestable/jquery.nestable.css' />
+<link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-toggle/toggles.css' />
 <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-toggle/toggles.css' />
 <link href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/demo/variations/sidebar-green.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'>
 
@@ -116,7 +117,9 @@
 <script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/demo/demo.js'></script>
 <script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/demo/demo-modals.js'></script>
 <script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/bootbox/bootbox.min.js'></script>
-<script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-datepicker/js/bootstrap-datepicker.js'></script> 
-
+<script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-datepicker/js/bootstrap-datepicker.js'></script>
+<script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-nestable/app.min.js'></script>
+<script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-nestable/jquery.nestable.min.js'></script>
+<script type='text/javascript' src='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-nestable/ui-nestable.js'></script>
 </body>
 </html>

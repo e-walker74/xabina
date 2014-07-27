@@ -88,19 +88,19 @@
                                     <li>
                                         <a href="#" data-id="1">
                                             <img src="/images/validation_status_ok.png" alt="" <? if ($userActivity == Users::USER_ACTIVITY_STATUS_ONLINE): ?>data-selected='selected' <?endif?> >
-                                            Online
+                                            <?= Yii::t('Front', 'Online') ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" data-id="2">
                                             <img src="/images/time_ico.png" alt="" <? if ($userActivity == Users::USER_ACTIVITY_STATUS_BUSY): ?>data-selected='selected' <?endif?>>
-                                            Busy
+                                            <?= Yii::t('Front', 'Busy') ?>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#" data-id="0">
                                             <img src="/images/validation_status_er.png" alt="" <? if ($userActivity == Users::USER_ACTIVITY_STATUS_OFFLINE): ?>data-selected='selected' <?endif?>>
-                                            Ofline
+                                            <?= Yii::t('Front', 'Offline') ?>
                                         </a>
                                     </li>
                                 </ul>
