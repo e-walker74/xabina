@@ -33,12 +33,12 @@
 </div>
 <div class="edit-tabs contact-tabs">
 <ul class="list-unstyled">
-    <li style="width: 21%"><a href="#tab1"><?= Yii::t('Front', 'General Info'); ?></a></li>
+    <li style="width: 38%"><a href="#tab1"><?= Yii::t('Front', 'General Info'); ?></a></li>
 <!--    <li style="width: 16%"><a href="#tab2">--><?//= Yii::t('Front', 'Settings'); ?><!--</a></li>-->
-    <li style="width: 23%"><a href="#tab3"><?= Yii::t('Front', 'Linked Transfers'); ?></a></li>
-    <li style="width: 19%"><a href="#tab4"><?= Yii::t('Front', 'Analytics'); ?></a></li>
-    <li style="width: 17%"><a href="#tab5"><?= Yii::t('Front', 'Drive'); ?></a></li>
-    <li style="width: 20%"><a href="#tab6"><?= Yii::t('Front', 'Dialogues'); ?></a></li>
+    <li style="width: 33%"><a href="#tab3"><?= Yii::t('Front', 'Linked Transfers'); ?></a></li>
+    <li style="width: 29%"><a href="#tab4"><?= Yii::t('Front', 'Analytics'); ?></a></li>
+<!--    <li style="width: 17%"><a href="#tab5">--><?//= Yii::t('Front', 'Drive'); ?><!--</a></li>-->
+<!--    <li style="width: 20%"><a href="#tab6">--><?//= Yii::t('Front', 'Dialogues'); ?><!--</a></li>-->
 </ul>
 <div class="clearfix"></div>
 <div id="tab1">
@@ -61,10 +61,10 @@
 <div id="tab4">
     <?= $this->renderPartial('_analytics', array('model' => $model, 'search' => $search)); ?>
 </div>
-<div id="tab5">5</div>
-<div id="tab6">
-6ef
-</div>
+<!--<div id="tab5">5</div>-->
+<!--<div id="tab6">-->
+<!--6ef-->
+<!--</div>-->
 </div>
 </div>
 </div>

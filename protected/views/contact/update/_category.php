@@ -19,18 +19,16 @@
         </tr>
         <tr class="comment-tr">
             <td colspan="3" style="line-height: 1.43!important">
-                <span><?= Yii::t('Front', 'go_to_the_category_page') ?> <?= Html::link(Yii::t('Front', 'Link'), array('/contact/category')) ?></span>
+                <span><?= Yii::t('Front', 'go_to_the_category_page') ?> <?= Html::link(Yii::t('Front', 'Link'), array('/contact/category'), array('target' => '_blank')) ?></span>
             </td>
         </tr>
-        <?php if (empty($model->categories)): ?>
-            <tr class="comment-tr">
-                <td colspan="3" style="line-height: 1.43!important">
-                    <span class="rejected "><?= Yii::t('Front', 'Table is empty') ?></span>
-                </td>
-            </tr>
-        <?php endif; ?>
+        <tr class="comment-tr empty-table <?php if (!empty($model->categories)): ?>hidden<?php endif; ?>">
+            <td colspan="3" style="line-height: 1.43!important">
+                <span class=" "><?= Yii::t('Front', 'There is no category associated with this contact yet. You can add new category by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
         <?php foreach($model->categories as $category): ?>
-            <tr data-cat-id="<?= $category->id ?>">
+            <tr class="data-row <?= (isset($new_model_id) && $new_model_id == $category->id) ? 'flash_notify_here' : '' ?>" data-cat-id="<?= $category->id ?>">
                 <td><?= $category->section ?></td>
                 <td><?= $category->description ?></td>
                 <td style="overflow: visible!important;">
@@ -78,7 +76,7 @@
                         <div class="form-cell">
                             <div class="form-lbl">
                                 <?= Yii::t('Front', 'Category'); ?>
-                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_category_tooltip'); ?>"></span>
+                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_linkCategory_tooltip'); ?>"></span>
                             </div>
                             <div class="form-input">
                                 <div class="select-custom select-narrow ">

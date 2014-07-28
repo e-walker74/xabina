@@ -124,6 +124,13 @@ $(function () {
     $("[name=phone]").on('input', function () {
         !~($(this).val().indexOf('+')) && $(this).val('+' + $(this).val());
     });
+    $(document).on('focus', 'input', function(){
+        $(this)
+            .removeClass('input-error')
+            .closest('.form-input')
+            .removeClass('input-error')
+            .find('.error-message').slideUp()
+    })
 
 
     // progressbar styling
@@ -902,6 +909,10 @@ var resetPage = function () {
 
     /* quic upload */
     $('.row-edit').hide().prev('li').show()
+
+    if ($('.ui-pnotify').is(":visible")) {
+        $('.ui-pnotify').fadeOut()
+    }
 }
 
 $(document).on('click', '.button.cancel', function () {
@@ -980,13 +991,13 @@ var backgroundBlack = function () {
     if (!jQuery("body").find("#TB_overlay").is("div")) /* если фон уже добавлен не добавляем повторно */
     {
         if (!jQuery.browser.msie) /* если браузер не ИЕ фоном будет div */
-            jQuery("body").append("<div id='TB_overlay'><div class='wait-ico'></div></div>");
+            jQuery("body").append("<div id='TB_overlay' style='z-index: 99999999'><div class='wait-ico'></div></div>");
         else /* иначе добавляем iframe */
             jQuery("body").append("<div id='TB_overlay'><iframe scrolling='no' frameborder='0' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; filter:alpha(opacity=0)'></iframe></div>");
     }
     var centerWidth = ($(window).width()) / 2,
         centerHeight = ($(window).height()) / 2;
-    $('body').css({overflow: 'hidden'})
+    $('body').css({overflow: 'hidden', 'margin-right': '20px'})
 
     $("#TB_overlay").fadeIn("fast");
 
@@ -994,7 +1005,7 @@ var backgroundBlack = function () {
 
 var dellBackgroundBlack = function () {
     $("#TB_overlay").remove();
-    $('body').css({overflow: 'auto'})
+    $('body').css({overflow: 'auto', 'margin-right': '0'})
 }
 
 var chechSequrityValuesData = function () {

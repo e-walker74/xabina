@@ -101,7 +101,7 @@ class WebUser extends CWebUser
 
         if ($this->getId() !== null) {
             Yii::log(array('user_id' => $this->getId(), 'action' => 'getEmail'), CLogger::LEVEL_ERROR, 'webUser');
-            $this->_model = Users::model()->findByPk($this->getId(), array('select' => 'email'));
+            $this->_model = $this->_getModel();
             $this->setEmail($this->_model->email);
             return $this->getEmail();
         } else

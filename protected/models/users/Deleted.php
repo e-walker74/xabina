@@ -36,7 +36,6 @@ class Users_Deleted extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, login, last_name, password, role, email, status, created_at, updated_at, hash, phone, lang', 'required'),
 			array('id, role, status, created_at, updated_at', 'numerical', 'integerOnly'=>true),
 			array('login, email', 'length', 'max'=>255),
 			array('first_name, last_name', 'length', 'max'=>30),

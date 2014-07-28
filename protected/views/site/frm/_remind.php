@@ -15,7 +15,7 @@
                         </ul>
                     </div>
                         <div class="shadow_blocker"></div>
-                        <div class="popup-register-header"><?= Yii::t('Front', 'Password reset') ?></div>
+                        <div class="popup-register-header"><?= Yii::t('Front', 'Restore profile access') ?></div>
 							<?php $form=$this->beginWidget('CActiveForm', array(
 										'id'=>'remind-from',
 										'enableAjaxValidation'=>false,
@@ -46,12 +46,13 @@
 										),
 							)); ?>
 
-									<div class="popup-register-form" id="popup-auth-form">
+									<div class="popup-register-form sms-form" id="popup-auth-form">
 										<div class="form-line">
 											<div class="form-block">
-												<div class="form-lbl"><?= $model->getAttributeLabel('login') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form LOGIN OR EMAIL]'); ?>"></span></div>
+                                                <?= $form->hiddenField($model, 'formtype'); ?>
+												<div class="form-lbl"><?= Yii::t('Front', '[remind form '.$model->formtype.']') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form '.$model->formtype.' tooltip]'); ?>"></span></div>
 												<div class="form-input">
-													<?= $form->textField($model, 'login', array('class' => 'remind')); ?>
+													<?= $form->textField($model, 'login', array('class' => 'remind', 'phonefield' => $model->formtype=='phone'?'true':'false')); ?>
 													<span class="validation-icon"></span>
 												</div>
 												<div class="form-alert">

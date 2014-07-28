@@ -6,9 +6,14 @@
             <th style="width: 29%"><?= Yii::t('Front', 'Linkining Type'); ?></th>
             <th style="width: 8%"></th>
         </tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('contact'))): ?>hidden<?php endif; ?>">
+            <td colspan="4" style="line-height: 1.43!important">
+                <span class=" "><?= Yii::t('Front', 'You do not added a link yet. You can add new link by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('contact') as $m): ?>
 		<?php if(!$ci = $m->getContactInfo()) continue; ?>
-		<tr data-select-id="<?= $ci->id ?>">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>" data-select-id="<?= $ci->id ?>">
 			<td>
 				<?php if($ci->photo): ?>
 					<img width="40" src="<?= $ci->getAvatarUrl() ?>" alt=""/>
@@ -16,14 +21,109 @@
 					<img width="40" src="/images/contact_no_foto.png" alt="">
 				<?php endif; ?>
 			</td>
-			<td><?= $ci->fullname ?></td>
+			<td><?= Html::link($ci->fullname, array('/contact/view', 'url' => $ci->url), array('class' => 'link')) ?></td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
-			<td>
-				<div class="transaction-buttons-cont">
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'contact', 'id' => $m->id)) ?>" ></a>
-				</div>
-			</td>
+            <td style="overflow: visible!important;">
+                <div class="contact-actions transaction-buttons-cont">
+                    <div class="btn-group with-delete-confirm">
+                        <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
+                            </li>
+                            <li>
+                                <?= Html::link('', 'javaScript:void(0)', array(
+                                    'class' => 'button delete',
+                                    'onclick' => '$(this).addClass(\'opened\')',
+                                    'data-url' => Yii::app()->createUrl('/contact/deleteData', array('type' => 'contact', 'id' => $m->id)),
+                                )) ?>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
 		</tr>
+        <tr class="edit-row">
+            <td colspan="4">
+                <?php $form=$this->beginWidget('CActiveForm', array(
+                    'id'=>'dataform-form-contact'.$m->id,
+                    'action' => array('/contact/update', 'url' => $model->url),
+                    'enableAjaxValidation'=>true,
+                    'enableClientValidation'=>true,
+                    'errorMessageCssClass' => 'error-message',
+                    'htmlOptions' => array(
+                        'class' => 'form-validable',
+                    ),
+                    'clientOptions'=>array(
+                        'validateOnSubmit'=>true,
+                        'validateOnChange'=>true,
+                        'errorCssClass'=>'input-error',
+                        'successCssClass'=>'valid',
+                        'afterValidate' => 'js:afterValidate',
+                        'afterValidateAttribute' => 'js:afterValidateAttribute'
+                    ),
+                )); ?>
+                <?= $form->hiddenField($m, 'id') ?>
+                <div class="xabina-form-narrow">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <?php if($ci->photo): ?>
+                                <img width="40" src="<?= $ci->getAvatarUrl() ?>" alt=""/>
+                            <?php else: ?>
+                                <img width="40" src="/images/contact_no_foto.png" alt="">
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <?= Html::link($ci->fullname, array('/contact/view', 'url' => $ci->url), array('class' => 'link')) ?>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Category') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_category_tooltip') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $m,
+                                            'category_id',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'contact'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                                'options' => array($m->getDbModel()->category_id => array('selected' => true)),
+                                            )
+                                        ) ?>
+                                    </div>
+                                    <?= $form->error($m, 'category_id') ?>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                            <div class="transaction-buttons-cont edit-submit-cont">
+                                <input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $this->endWidget(); ?>
+            </td>
+        </tr>
 		<?php endforeach; ?>
 		<tr class="data-row">
 			<td colspan="4">
@@ -66,8 +166,13 @@
                                     <?= $form->textField($m, 'contact_id'); ?>
                                 </div>
 
-                                <div class="account-search pull-left"></div>
-                                <?php Widget::create('ContactListWidget')->renderPupUpSearch() ?>
+<!--                                <div class="account-search pull-left"></div>-->
+                                <?php Widget::create(
+                                    'ContactListWidget',
+                                    'ContactListWidget',
+                                    array('withOut' => array($model->id))
+                                )
+                                ->renderPupUpSearch() ?>
 							</div>
                             <div class="error-message duplicate"><?= Yii::t('Front', 'Duplicate contact') ?></div>
 						</div>
@@ -125,7 +230,7 @@
                             </div>
                             <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                             </div>

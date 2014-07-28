@@ -5,6 +5,7 @@ class ContactListWidget extends QWidget
 
     public $withAlphabet = true;
     public $type = '';
+    public $withOut = array();
     private $_criteria;
 
     public function run()
@@ -102,6 +103,9 @@ class ContactListWidget extends QWidget
         $this->_criteria->order = 'fullname asc';
         $this->_criteria->together = true;
         $this->_criteria->with = 'data';
+        foreach($this->withOut as $id){
+            $this->_criteria->compare('contact_id', '<>' . $id);
+        }
         $model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
         $this->render('contactsList/pop_up', array('model' => $model), $return, $processOutput);
     }

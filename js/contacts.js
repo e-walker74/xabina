@@ -1,7 +1,11 @@
 $(document).ready(function () {
     $(".xabina-tabs , .edit-tabs").tabs({
-
+        select: function(event, ui) {
+            window.location.hash = ui.tab.hash;
+        }
     });
+
+
 
     $('#analytics-form').on('change', 'input, select', function () {
         searchAnalytics($('#analytics-form'))
@@ -84,7 +88,17 @@ $(document).ready(function () {
     });
     $(".social-url-input").on('input', function () {
         if (!~($(this).val().indexOf(getSelectSocialNetforInput($(this))))) {
-            $(this).val(getSelectSocialNetforInput($(this)) + $(this).val());
+            $(this).val(getSelectSocialNetforInput($(this)));
+        }
+    });
+
+    $(".url").on('focus',function () {
+        if (!$(this).val()) {
+            $(this).val('http://');
+        }
+    }).on('input', function () {
+        if (!~($(this).val().indexOf('http://'))) {
+            $(this).val('http://');
         }
     });
 
@@ -147,7 +161,16 @@ var updateContact = function (form) {
                     var tab = $(form).closest('.tab')
                     tab.html(response.html)
                     setAllSelectedValues()
-                    successNotify('Contact', 'Entity was successfully updated', tab.find('tr:visible:last'))
+                    var notify_element = false
+                    var flash_here = tab.find('.flash_notify_here')
+                    if (flash_here.length != 0) {
+                        flash_here.removeClass('flash_notify_here')
+                        notify_element = flash_here
+                    } else {
+                        notify_element = tab.find('tr:visible:last')
+                    }
+                    successNotify('Contact', response.message, notify_element, 'success', 10)
+                    $('textarea.autosize').autosize();
                 }
             }
         },
@@ -165,13 +188,18 @@ var makePrimary = function (link) {
         url: $(link).attr('data-url'),
         success: function (response) {
             if (response.success) {
+                $(window).unbind('beforeunload')
                 dellBackgroundBlack()
                 resetPage()
                 if (response.html) {
                     var tab = $(link).parents('.tab')
                     tab.html(response.html)
                     setAllSelectedValues()
-                    successNotify('Contact', 'Entity was successfully updated', tab.find('tr.data-row:visible:first'))
+                    var message = 'Entity was successfully updated';
+                    if (response.message) {
+                        message = response.message
+                    }
+                    successNotify('Contact', message, tab.find('tr.data-row:visible:first'))
                 }
             }
         },
@@ -205,6 +233,7 @@ afterValidate = function (form, data, hasError, callBack) {
 //			updateContact(form)
 //			return false;
 //		}
+        $(window).unbind('beforeunload')
         if (form.find('input[type="file"]').length === 0) {
             updateContact(form)
         } else {
@@ -237,60 +266,58 @@ afterValidateAttribute = function (form, attribute, data, hasError) {
 }
 
 var hideAllSelectedCategories = function () {
-    $('.contact-categories-table #Users_Contacts_Categories_Links_category_id option').show()
-    $('.contact-categories-table tr').each(function () {
+    $('.xabina-table-contacts #Users_Contacts_Categories_Links_category_id option').show()
+    $('.xabina-table-contacts tr').each(function () {
         var cat_id = $(this).attr('data-cat-id')
-        $('.contact-categories-table #Users_Contacts_Categories_Links_category_id option[value=' + cat_id + ']').hide()
+        $('.xabina-table-contacts #Users_Contacts_Categories_Links_category_id option[value=' + cat_id + ']').hide()
     })
 }
 
 var uploadContactPhoto = function (form) {
-    var data = new FormData();
-    var formData = form.serializeArray();
-    for (var key in formData) {
-        obj = formData[key];
-        data.append(obj.name, obj.value);
-    }
+
+    var error = false
+
     form.find('input[type="file"]').each(function () {
         var files = this.files;
         var input = this
         $.each(files, function (key, value) {
             if (!value.type.match('image.*')) {
                 $(input).closest('.form-cell').find('.error-message').html('file is not an image').slideDown().delay(3000).slideUp()
+                error = true
                 return false;
             }
-            data.append($(input).attr('name'), value);
         });
     });
 
-    data.append('file-upload', $(form).attr('id'))
+    if (error) {
+        return false;
+    }
 
     backgroundBlack()
-
-    var oReq = new XMLHttpRequest();
-    oReq.open("POST", form.attr('action'), true);
-
-    oReq.onload = function (oEvent) {
-        dellBackgroundBlack()
-        if (oReq.status == 200) {
-            var response = jQuery.parseJSON(oEvent.currentTarget.response)
+    var options = {
+        url: form.attr('action'),
+        type: form.attr('method'),
+        dataType: 'json',
+        success: function (response) {
             if (response.success) {
                 dellBackgroundBlack()
+                $(window).unbind('beforeunload')
                 resetPage()
                 if (response.html) {
                     var tab = $(form).closest('.tab')
                     tab.html(response.html)
                     setAllSelectedValues()
-                    successNotify('Contact', 'Entity was successfully updated', tab.find('tr:visible:last'))
+                    successNotify('Contact', response.message, tab.find('tr:visible:last'))
+                    var header = $('.contact-header')
+                    header.find('.contact-name .cn').html(response.fullname)
+                    header.find('.contact-name .company-name').html(response.companyName)
+                    header.find('.contact-photo img').attr('src', $('.avatar-td img').attr('src'))
+                    $('.breadcrumbs:last').html(response.fullname)
                 }
             }
-        } else {
-            errorNotify('Contact', 'Server error')
         }
     };
-
-    oReq.send(data);
-
+    $('#contact-form').ajaxSubmit(options);
     return false;
 }
 
@@ -308,6 +335,17 @@ $(document).ready(function () {
     })
 
     hideAllSelectedCategories()
+
+    var edit = false;
+
+    $('.xabina-form-narrow input[type=text], .xabina-form-narrow input[type=password], .xabina-form-narrow textarea, .xabina-form-narrow select').change(function () {
+        if (edit == false) {
+            edit = true
+            $(window).bind('beforeunload', function () {
+                return 'Are you sure you want to leave this page? All the changes will not be saved.';
+            });
+        }
+    })
 })
 
 var showAddNewCategory = function (el) {
@@ -338,7 +376,7 @@ var hideCategoryTextField = function (el) {
     return false;
 }
 
-var searchTransactionsLinks = function(button){
+var searchTransactionsLinks = function (button) {
     var form = $(button).closest('form')
     backgroundBlack()
     $.ajax({
@@ -348,11 +386,70 @@ var searchTransactionsLinks = function(button){
                 $('#links-table').html(response.html)
             }
             dellBackgroundBlack()
+            $(window).unbind('beforeunload')
         },
         cache: false,
         async: true,
         data: form.serialize(),
         type: 'POST',
+        dataType: 'json'
+    });
+}
+
+$(document).ready(function () {
+    $('.xabina-form-narrow .transaction-buttons-cont .delete').confirmation({
+        title: 'Are you sure?',
+        singleton: true,
+        popout: true,
+        onConfirm: function () {
+            var table = $(this).closest('table')
+            deleteRow($(this).closest('.popover').prev('a'));
+            if (table.find('.data-row').length == 1) {
+                table.find('.empty-table').removeClass('hidden')
+            }
+            hideAllSelectedCategories()
+            return false;
+        }
+    })
+
+    $('#search_accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+})
+
+var changeContactType = function (el) {
+    var form = $(el).closest('form')
+    if ($(el).val() != "") {
+        form.find('.type').removeClass('hidden')
+    } else {
+        form.find('.type').addClass('hidden')
+        form.find('.type-company').addClass('hidden')
+        form.find('.type-personal').addClass('hidden')
+    }
+    if ($(el).val() == 'personal') {
+        form.find('.type-personal').removeClass('hidden')
+        form.find('.type-company').addClass('hidden')
+    } else if ($(el).val() == 'company') {
+        form.find('.type-personal').addClass('hidden')
+        form.find('.type-company').removeClass('hidden')
+    }
+}
+
+var updateTab = function (url) {
+    backgroundBlack()
+    $.ajax({
+        url: url,
+        success: function (response) {
+            if (response.success) {
+                $('.tab.'+response.tab).html(response.html)
+            }
+            dellBackgroundBlack()
+        },
+        cache: false,
+        async: true,
+        type: 'GET',
         dataType: 'json'
     });
 }

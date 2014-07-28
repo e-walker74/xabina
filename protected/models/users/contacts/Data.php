@@ -164,7 +164,7 @@ class Users_Contacts_Data extends ActiveRecord
 		return CActiveForm::validate($model);
 	}
 
-    public function renderContactData($contact_id, $data_type){
+    public function renderContactData($contact_id, $data_type, $dbModel = false, $scenario = 'saved'){
         $contact = Users_Contacts::model()->findByPk($contact_id);
         $data_categories = Users_Contacts_Data_Categories::model()->findAll(
             array(
@@ -172,12 +172,25 @@ class Users_Contacts_Data extends ActiveRecord
                 'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
             )
         );
+        $new_model_id = false;
+        if($dbModel){
+            $new_model_id = $dbModel->id;
+        }
+        $instMessengers = array();
+        if($data_type == "instmessaging"){
+            $instMessengers = InstmessagerSystems::model()->findAll();
+        }
+
         return CJSON::encode(
             array(
                 'success' => true,
+                'message' => Yii::t('Front', 'contact_success_' . $data_type . '_' . $scenario),
                 'html' => Yii::app()->controller->renderPartial(
                         'update/_'.$data_type,
-                        array('model' => $contact, 'data_categories' => $data_categories),
+                        array(
+                            'model' => $contact,
+                            'data_categories' => $data_categories,
+                        ),
                         true,
                         true
                     )
@@ -217,21 +230,34 @@ class Users_Contacts_Data extends ActiveRecord
             $dbModel->category_id = $model->category_id;
         }
 
-        if($dbModel->data_type == 'contact'){
+        if($dbModel->data_type == 'contact' && $dbModel->isNewRecord){
             foreach(explode(',', $model->contact_id) as $cid){
                 $cid = trim($cid);
-                $newDbModel = clone($dbModel);
+                $newDbModel = clone($dbModel); // Save contacts
                 $newModel = clone($model);
                 $newModel->contact_id = $cid;
                 $newDbModel->value = serialize($newModel->attributes);
                 $newDbModel->save();
+                // Save link for links contacts
+                $newDbModel = clone($dbModel);
+                $newModel = clone($model);
+                $newModel->contact_id = $newDbModel->contact_id;
+                $newDbModel->contact_id = $cid;
+                $newDbModel->value = serialize($newModel->attributes);
+                $newDbModel->save();
             }
-            return $this->renderContactData($contact_id, $dbModel->data_type);
+            return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel);
         }
 
 		$dbModel->value = serialize($model->attributes);
+        $scenario = $dbModel->scenario;
+
+        if(!Users_Contacts_Data::model()->countByAttributes(array('contact_id' => $dbModel->contact_id, 'data_type' => $dbModel->data_type))){
+            $dbModel->is_primary = 1;
+        }
+
 		if($dbModel->save()){
-            return $this->renderContactData($contact_id, $dbModel->data_type);
+            return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel, $scenario);
 		}
 		return CJSON::encode(array('success' => false));
 	}

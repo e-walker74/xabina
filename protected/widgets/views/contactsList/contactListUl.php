@@ -19,7 +19,7 @@
 			<ul class="contact-list list-unstyled">
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
-		<li class="one-contact categories category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>">
+		<li class="one-contact clickable-row categories type_<?= $contact->type ?> category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 				<div class="photo-cont pull-left">
 					<?php if($contact->photo): ?>
@@ -27,6 +27,7 @@
 					<?php else: ?>
 						<img src="/images/contact_no_foto.png" alt=""/>
 					<?php endif; ?>
+                    <a class="ico ok" href="#"></a>
 				</div>
 				<div class="contact-info pull-left">
 					<div class="contact-name"><?= $contact->fullname ?></div>
@@ -34,6 +35,11 @@
                         <?= $contact->getNameWithCompany() ?>
 					</div>
 				</div>
+                <?php if($contact->xabina_id): ?>
+                <div class="transaction-buttons-cont pull-right">
+                    <a class="button dialogues " href="#"></a>
+                </div>
+                <?php endif; ?>
 				<div class="clearfix"></div>
 			</a>
 		</li>
@@ -42,3 +48,13 @@
 		</ul>
 	</div>
 <?php endif; ?>
+<div class="letter-block <?php if(count($model)): ?>hidden<?php endif; ?> empty-list">
+    <ul class="contact-list list-unstyled ">
+        <li>
+            <div class="note ">
+                <p><span class="rejected"><?= Yii::t('Front', 'No search results') ?></span></p>
+            </div>
+        </li>
+    </ul>
+</div>
+

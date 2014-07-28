@@ -6,11 +6,15 @@
 			<th style="width: 23%"><?= Yii::t('Front', 'Status'); ?></th>
 			<th style="width: 8%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('address'))): ?>hidden<?php endif; ?>">
+            <td colspan="4" style="line-height: 1.43!important">
+                <span class=" "><?= Yii::t('Front', 'You do not added a address yet. You can add new address by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('address') as $m): ?>
-		<tr class="data-row">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
 			<td>
-				<?= $m->address ?><br>
-				<?= $m->index ?> <?= $m->country_code ?>
+				<?= $m->getAddressHtml() ?>
 			</td>
 			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
 			<td>
@@ -71,7 +75,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line1_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address', array('class' => 'input-text')) ?>
@@ -83,7 +87,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address Line 2') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line2_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address_line_2', array('class' => 'input-text')) ?>
@@ -181,7 +185,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -203,7 +207,6 @@
 		</tr>
 		<tr class="edit-row">
 			<td colspan="4">
-                <div class="table-subheader"><?= Yii::t('Front', 'Add new address'); ?></div>
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-address',
                     'action' => array('/contact/update', 'url' => $model->url),
@@ -230,8 +233,8 @@
 						<div class="col-lg-5 col-md-5 col-sm-5">
 							<div class="form-cell">
 								<div class="form-lbl">
-									<?= Yii::t('Front', 'Address') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<?= Yii::t('Front', 'Address Line 1') ?>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line1_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address', array('class' => 'input-text')) ?>
@@ -243,7 +246,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address Line 2') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line1_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address_line_2', array('class' => 'input-text')) ?>
@@ -292,7 +295,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Country') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_country_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<div class="select-custom select-narrow ">
@@ -316,7 +319,7 @@
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Category') ?>
-                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_category_tooltip') ?>"></span>
                                 </div>
                                 <div class="form-input category-select">
                                     <div class="select-custom select-narrow ">
@@ -341,7 +344,7 @@
                                 </div>
                                 <div class="form-input add-new-category" style="display: none;">
                                     <span class="clear-input-cont full-with">
-                                        <input type="text" name="Data_Category" class="input-text" disabled="disabled">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
                                         <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
                                     </span>
                                 </div>
@@ -357,16 +360,3 @@
 		</tr>
 	</table>
 </div>
-<script>
-$(document).ready(function(){
-	$('.xabina-form-narrow .transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			deleteRow($(this).parents('.popover').prev('a'));
-			return false;
-		}
-	})
-})
-</script>

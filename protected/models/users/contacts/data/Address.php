@@ -37,7 +37,9 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
             parent::rules(),
             array(
                 array('address, country_id', 'required'),
-                array('address, address_line_2, city, index, category', 'length', 'max' => 140),
+                array('city, index, category', 'length', 'max' => 140),
+                array('address, address_line_2', 'length', 'max' => 50),
+                array('index', 'length', 'max' => 10),
                 array('country_id', 'numerical'),
             ));
     }
@@ -69,7 +71,6 @@ class Users_Contacts_Data_Address extends Users_Contacts_Data_Model
         $br = "<br/>";
         $ao = ($this->address_line_2) ? $this->address_line_2 . $br : "";
         $html = "{$this->address} {$br} {$ao} {$this->index} {$this->city} ({$this->country->code})";
-
         return $html;
     }
 }
