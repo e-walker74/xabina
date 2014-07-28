@@ -1120,4 +1120,20 @@ $(function () {
         })
     });
     $('.select-img .selected-img img').attr('src', $('.img-dropdown img[data-selected="selected"]').attr('src'));
+
+    $('.sidebar-menu').on('click', '> li', function(){
+        if($(this).next('.sidebar-submenu').length){
+            if($(this).next('.sidebar-submenu:visible').length){
+                $(this).next('.sidebar-submenu').toggleClass('inv').slideUp(400, function(){
+                    $(this).prev().toggleClass('active');
+                });
+            } else{
+                $(this).next('.sidebar-submenu').toggleClass('inv').slideDown();
+                $(this).toggleClass('active');
+            }
+
+            return false;
+        }
+
+    })
 });

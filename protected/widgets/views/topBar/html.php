@@ -67,10 +67,9 @@
                         <li class="user-notification">
                             <a href="#"  data-toggle="dropdown" role="button"><span>12</span></a>
                         </li>
-                        <li class="user-settings"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
-                        <li class="user-briefcase"><a href="personal_account_new.html"></a></li>
-                        <li class="user-personal"><a href="/account/personal_account.html"></a></li>
-                        <li class="user-email"><a href="<?= Yii::app()->createUrl('message/index'); ?>"></a></li>
+                        <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
+                        <li class="user-briefcase"><a href="#"></a></li>
+                        <li class="user-settings"><a href="#"></a></li>
                         <li class="user-logout"><?= CHtml::link('', array('/site/logout')); ?></li>
                     </ul>
                     <div class="user-greeting pull-right">
