@@ -8,6 +8,7 @@
  * @property integer $contact_id
  * @property string $data_type
  * @property string $value
+ * @property integer $category_id
  *
  * The followings are the available model relations:
  * @property UsersContacts $contact
@@ -26,6 +27,7 @@ class Users_Contacts_Data extends ActiveRecord
 		'contact' => 'Users_Contacts_Data_Contact',
 		'urls' => 'Users_Contacts_Data_Urls',
 		'dates' => 'Users_Contacts_Data_Dates',
+        'others' => 'Users_Contacts_Data_Others',
 	);
 
 	/**
@@ -62,6 +64,7 @@ class Users_Contacts_Data extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'contact' => array(self::BELONGS_TO, 'Users_Contacts', 'contact_id'),
+            'category' => array(self::BELONGS_TO, 'Users_Contacts_Data_Categories', 'category_id'),
 		);
 	}
 
@@ -110,7 +113,7 @@ class Users_Contacts_Data extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsersContactsData the static model class
+	 * @return Users_Contacts_Data the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -129,8 +132,11 @@ class Users_Contacts_Data extends ActiveRecord
 		
 		return $model;
 	}
-	
-	protected static function getModelByPost(){
+
+    /**
+     * @return Users_Contacts_Data_Model
+     */
+    protected static function getModelByPost(){
 		$paramsModel = false;
 		foreach(self::$typesMap as $modelName){
 			if(isset($_POST[$modelName])){
@@ -149,6 +155,7 @@ class Users_Contacts_Data extends ActiveRecord
 			}
 			$model = false;
 		}
+
 		return $paramsModel;
 	}
 	
@@ -157,14 +164,33 @@ class Users_Contacts_Data extends ActiveRecord
 		return CActiveForm::validate($model);
 	}
 
-    public function renderContactData($contact_id, $data_type){
+    public function renderContactData($contact_id, $data_type, $dbModel = false, $scenario = 'saved'){
         $contact = Users_Contacts::model()->findByPk($contact_id);
+        $data_categories = Users_Contacts_Data_Categories::model()->findAll(
+            array(
+                'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+            )
+        );
+        $new_model_id = false;
+        if($dbModel){
+            $new_model_id = $dbModel->id;
+        }
+        $instMessengers = array();
+        if($data_type == "instmessaging"){
+            $instMessengers = InstmessagerSystems::model()->findAll();
+        }
+
         return CJSON::encode(
             array(
                 'success' => true,
+                'message' => Yii::t('Front', 'contact_success_' . $data_type . '_' . $scenario),
                 'html' => Yii::app()->controller->renderPartial(
                         'update/_'.$data_type,
-                        array('model' => $contact),
+                        array(
+                            'model' => $contact,
+                            'data_categories' => $data_categories,
+                        ),
                         true,
                         true
                     )
@@ -173,6 +199,7 @@ class Users_Contacts_Data extends ActiveRecord
     }
 	
 	public function saveData($contact_id){
+
 		$model = Users_Contacts_Data::getModelByPost();
 		if(!$model){
 			return CJSON::encode(array('success' => false));
@@ -184,12 +211,81 @@ class Users_Contacts_Data extends ActiveRecord
 			$dbModel->contact_id = $contact_id;
 			$dbModel->data_type = array_search(get_class($model), Users_Contacts_Data::$typesMap);
 		}
+
 		$model->validate();
+
+        if(isset($_POST['Data_Category']) && !$model->category_id){
+            $model->category_id = $this->getDataCategoryForModel($_POST['Data_Category'], $dbModel->data_type);
+        }
+
+        if(isset($_POST['Data_Category_Incoming'])){
+            $model->incoming_category = $this->getDataCategoryForModel($_POST['Data_Category_Incoming'], 'incoming_category');
+        }
+
+        if(isset($_POST['Data_Category_Outgoing'])){
+            $model->outgoing_category = $this->getDataCategoryForModel($_POST['Data_Category_Outgoing'], 'outgoing_category');
+        }
+
+        if($model->category_id){
+            $dbModel->category_id = $model->category_id;
+        }
+
+        if($dbModel->data_type == 'contact' && $dbModel->isNewRecord){
+            foreach(explode(',', $model->contact_id) as $cid){
+                $cid = trim($cid);
+                $newDbModel = clone($dbModel); // Save contacts
+                $newModel = clone($model);
+                $newModel->contact_id = $cid;
+                $newDbModel->value = serialize($newModel->attributes);
+                $newDbModel->save();
+                // Save link for links contacts
+                $newDbModel = clone($dbModel);
+                $newModel = clone($model);
+                $newModel->contact_id = $newDbModel->contact_id;
+                $newDbModel->contact_id = $cid;
+                $newDbModel->value = serialize($newModel->attributes);
+                $newDbModel->save();
+            }
+            return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel);
+        }
+
 		$dbModel->value = serialize($model->attributes);
-		
+        $scenario = $dbModel->scenario;
+
+        if(!Users_Contacts_Data::model()->countByAttributes(array('contact_id' => $dbModel->contact_id, 'data_type' => $dbModel->data_type))){
+            $dbModel->is_primary = 1;
+        }
+
 		if($dbModel->save()){
-            return $this->renderContactData($contact_id, $dbModel->data_type);
+            return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel, $scenario);
 		}
 		return CJSON::encode(array('success' => false));
 	}
+
+    public function getDataCategoryForModel($data, $data_type){
+
+        if(!$data){
+            return false;
+        }
+
+        $model = Users_Contacts_Data_Categories::model()->find(
+            array(
+                'condition' => '(user_id = :uid or user_id is NULL) AND value = :data AND data_type = :type',
+                'params' => array(
+                    ':uid' => Yii::user()->getCurrentId(),
+                    ':data' => $data,
+                    ':type' => $data_type,
+                )
+            )
+        );
+
+        if(!$model){
+            $model = new Users_Contacts_Data_Categories();
+            $model->value = $data;
+            $model->user_id = Yii::user()->getCurrentId();
+            $model->data_type = $data_type;
+            $model->save();
+        }
+        return $model->id;
+    }
 }

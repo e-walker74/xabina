@@ -60,6 +60,11 @@ class SiteController extends Controller {
         );
     }
 	
+	public function init(){
+		Yii::app()->clientScript->scriptMap['bootstrap.min.css'] = false;
+		return parent::init();
+	}
+	
 	public function actionDisclaime($tourl){
 		$this->layout = 'main';
 		$this->render('disclaime');

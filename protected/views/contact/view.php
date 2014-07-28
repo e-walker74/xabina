@@ -1,410 +1,92 @@
-<div class="col-lg-9 col-md-9 col-sm-9" >
-	<div class="contact-cont ">
-		<div class="contact-header">
-			<div class="contact-photo">
-				<?php if($model->photo): ?>
-					<img width="40" src="<?= $model->getAvatarUrl() ?>" alt=""/>
-				<?php else: ?>
-					<img width="40" src="/images/contact_no_foto.png" alt="">
-				<?php endif; ?>
-<!--				<span class="valid-status ok"></span>-->
-			</div>
-			<div class="contact-name"><?= $model->fullname ?></div>
-			<div class="contact-actions transaction-buttons-cont">
-				<a class="button edit" href="<?= Yii::app()->createUrl('/contact/update', array('id' => $model->url)); ?>"></a>
-				<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/delete', array('id' => $model->id)) ?>" ></a>
-				<!--<div class="btn-group">
-					<a class="button list" href="#"></a>
-					<button class="list-caret" data-toggle="dropdown"></button>
-					<ul class="dropdown-menu">
-						<li>
-							<a class="button send" href="javaScript:void(0)"></a>
-						</li>
-						<li>
-							<a class="button print" href="javaScript:void(0)"></a>
-						</li>
-						<li>
-							<a class="button pdf" href="javaScript:void(0)"></a>
-						</li>
-						<li>
-							<a class="button edit" href="<?= Yii::app()->createUrl('/contact/update', array('id' => $model->id)); ?>"></a>
-						</li>
-						<li>
-							<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/delete', array('id' => $model->id)) ?>" ></a>
-						</li>
-					</ul>
-				</div>-->
+<div class="col-lg-9 col-md-9 col-sm-9">
+<div class="contact-cont " id="print-area">
+<div class="contact-header">
+    <div class="contact-photo">
+        <?php if ($model->photo): ?>
+            <img width="40" src="<?= $model->getAvatarUrl() ?>" alt=""/>
+        <?php else: ?>
+            <img width="40" src="/images/contact_no_foto.png" alt="">
+        <?php endif; ?>
+        <span class="valid-status ok"></span>
+    </div>
+    <div class="contact-name"><span class="cn"><?= $model->fullname ?></span><br>
+        <span class="company-name"><?= $model->getNameWithCompany() ?></span>
+    </div>
+    <div class="contact-actions transaction-buttons-cont">
+        <div class="btn-group with-delete-confirm">
+            <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="button print" title="<?= Yii::t('Front', 'Print this window') ?>" href="javaScript:void(0)" onclick="js:printDiv('print-area')"></a>
+                </li>
+                <li>
+                    <?= Html::link('', array('/contact/pdf', 'url' => $model->url), array('class' => 'button pdf', 'title' => Yii::t('Front', 'Contact to PDF'), 'target' => '_blank')) ?>
+                </li>
+                <li>
+                    <a class="button delete del-contact" onclick="$(this).addClass('opened')"
+                       data-url="<?= Yii::app()->createUrl('/contact/delete', array('id' => $model->id)) ?>"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="edit-tabs contact-tabs">
+<ul class="list-unstyled">
+    <li style="width: 38%"><a href="#tab1"><?= Yii::t('Front', 'General Info'); ?></a></li>
+<!--    <li style="width: 16%"><a href="#tab2">--><?//= Yii::t('Front', 'Settings'); ?><!--</a></li>-->
+    <li style="width: 33%"><a href="#tab3"><?= Yii::t('Front', 'Linked Transfers'); ?></a></li>
+    <li style="width: 29%"><a href="#tab4"><?= Yii::t('Front', 'Analytics'); ?></a></li>
+<!--    <li style="width: 17%"><a href="#tab5">--><?//= Yii::t('Front', 'Drive'); ?><!--</a></li>-->
+<!--    <li style="width: 20%"><a href="#tab6">--><?//= Yii::t('Front', 'Dialogues'); ?><!--</a></li>-->
+</ul>
+<div class="clearfix"></div>
+<div id="tab1">
 
-			</div>
-			<div class="clearfix"></div>
-		</div>
+<?php $this->renderPartial('update',
+    array(
+        'model' => $model,
+        'data_categories' => $data_categories,
+        'link' => $link,
+        'contact_categories' => $contact_categories,
+        'instMessengers' => $instMessengers,
+    )); ?>
 
-		<div class="xabina-tabs personal-tabs">
-			<ul class="list-unstyled">
-				<li style="width: 25%"><a href="#tab1"><?= Yii::t('Front', 'General Info'); ?></a></li>
-				<li style="width: 25%"><a href="#tab2"><?= Yii::t('Front', 'Defaults'); ?></a></li>
-				<li style="width: 25%"><a href="#tab3"><?= Yii::t('Front', 'Linked Transfers'); ?></a></li>
-				<li style="width: 25%"><a href="#tab4"><?= Yii::t('Front', 'Analytics'); ?></a></li>
-			</ul>
-			<div class="clearfix"></div>
-			<div id="tab1">
-
-				<table class="table xabina-table-personal table-contact">
-					<tr class="table-header">
-						<th style="width: 42%"><?= Yii::t('Front', 'Section') ?></th>
-						<th style="width: 58%"><?= Yii::t('Front', 'Description') ?></th>
-					</tr>
-					<tr>
-						<td colspan="2">
-							
-							<table class="table inner personal-info">
-								<?php $i = 0; ?>
-								<?php if($model->first_name || $model->last_name): 
-								$i++;
-								?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Personal Info') ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $model->first_name ?> <?= $model->last_name ?></span> <br>
-										<?= Yii::t('Front', 'First Name') ?> / <?= Yii::t('Front', 'Last Name') ?> <br>
-										
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<?php endif; ?>
-								<?php if($model->company): 
-								$i++;
-								?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Personal Info') ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $model->company ?></span> <br>
-										<?= Yii::t('Front', 'Company'); ?> <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<?php endif; ?>
-								<?php if($model->nickname): 
-								$i++;
-								?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Personal Info') ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $model->nickname ?></span> <br>
-										<?= Yii::t('Front', 'Nickname'); ?> <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<?php endif; ?>
-								<?php if($model->xabina_id): 
-								$i++;
-								?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Personal Info') ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $model->xabina_id ?></span> <br>
-										<?= Yii::t('Front', 'Xabina User Id'); ?> <br>
-									</td>
-									<td  style="width: 6%">
-										&nbsp;
-									</td>
-								</tr>
-								<?php endif; ?>
-							</table>
-						</td>
-					</tr>
-					<?php if($model->getDataByType('account')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('account') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Account Number'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>"><?= $account->account_number ?></span> <br>
-										<?= $account->getPaementSystemModel()->name ?><br>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('email')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('email') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'E-Mail'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>"><?= $account->email ?></span> <br>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('phone')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('phone') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Phone'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>">+<?= number_format($account->phone, 0, "", " ") ?></span> <br>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('address')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('address') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Address'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="<?= ($account->dbModel->is_primary) ? 'account-number' : 'strong' ?>"><?= $account->address ?></span> <br>
-										<?= $account->index ?> <?= $account->country_code ?>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('contact')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('contact') as $contact): 
-								$i++; ?>
-								<?php $contInfo = $contact->getContactInfo();
-										if(!$contInfo) continue;
-								?>
-								<tr class="clickable-row" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contInfo->url)); ?>">
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Linkining'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<div class="liniking-photo">
-<!--											<span class="valid-status error"></span>-->
-											<?php if($contInfo->photo): ?>
-												<img width="40" src="<?= $contInfo->getAvatarUrl() ?>" alt=""/>
-											<?php else: ?>
-												<img width="40" src="/images/contact_no_foto.png" alt="">
-											<?php endif; ?>
-										</div>
-										<span class="strong"><?= $contInfo->fullname ?></span> <br>
-										<?= $contact->category ?> <br>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($contact->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('instmessaging')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('instmessaging') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Instant Messaging'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $account->name ?></span> <br>
-										<?= $account->messanger ?> <br>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('urls')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('urls') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'URLs'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong">
-											<a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($account->url))) ?>"><?= $account->url ?></a>
-										</span> <br>
-										<?= $account->category ?> <br>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('dates')): ?>
-					<tr>
-						<td colspan="2">
-							<table class="table inner">
-								<?php $i = 0; ?>
-								<?php foreach($model->getDataByType('dates') as $account): 
-								$i++; ?>
-								<tr>
-									<td class="names" style="width: 42%">
-										<?php if($i == 1): ?>
-											<?= Yii::t('Front', 'Dates'); ?>
-										<?php endif; ?>
-									</td>
-									<td class="values"  style="width: 52%">
-										<span class="strong"><?= $account->date ?></span> <br>
-										<?php if($account->category): ?>
-											<?= Yii::t('Front', Users_Contacts_Data_Dates::$categories[$account->category]) ?> <br>
-										<?php endif; ?>
-									</td>
-									<td  style="width: 6%">
-<!--										<a class="acc-ico --><?//= ($account->dbModel->is_primary) ? 'priamry' : '' ?><!--"  href="#"></a>-->
-									</td>
-								</tr>
-								<?php endforeach; ?>
-							</table>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<?php if($model->getDataByType('social')): ?>
-						<tr>
-							<td colspan="2">
-								<div class="messaging-actions">
-									<?php foreach($model->getDataByType('social') as $soc): ?>
-										<a href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => $soc->url)) ?>" class="messaging-button <?= $soc->social ?>"></a>
-									<?php endforeach; ?>
-								</div>
-							</td>
-						</tr>
-					<?php endif; ?>
-				</table>
-
-			</div>
-			<div id="tab2">
-				<table class="table xabina-table-personal table-defaults">
-					<tr class="table-header">
-						<th style="width: 42%"><?= Yii::t('Front', 'Section') ?></th>
-						<th style="width: 58%"><?= Yii::t('Front', 'Description') ?></th>
-					</tr>
-					<?php foreach($model->getDataByType('default') as $default): ?>
-						<tr>
-							<td><?= $default->type ?></td>
-							<td><?= $default->value ?></td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-			</div>
-			<div id="tab3">
-				<?= $this->renderPartial('_linked', array('model' => $model)); ?>
-			</div>
-			<div id="tab4">
-				<?= $this->renderPartial('_analytics', array('model' => $model, 'search' => $search)); ?>
-			</div>
-		</div>
-	</div>
-	<?php Widget::create('DialoguesWidget', 'DialoguesWidget', array('entity_type' => get_class($model), 'entity_id' => $model->id))->html() ?>
+</div>
+<div id="tab3">
+    <?= $this->renderPartial('_links_search', array('model' => $model, 'searchLink' => $searchLink)); ?>
+    <div id="links-table">
+        <?= $this->renderPartial('_linked', array('model' => $model, 'transaction' => $transaction)); ?>
+    </div>
+</div>
+<div id="tab4">
+    <?= $this->renderPartial('_analytics', array('model' => $model, 'search' => $search)); ?>
+</div>
+<!--<div id="tab5">5</div>-->
+<!--<div id="tab6">-->
+<!--6ef-->
+<!--</div>-->
+</div>
+</div>
+    <div class="form-submit">
+        <?= Html::link(Yii::t('Front', 'Back'), array('/contact/index/'), array('class' => 'submit-button button-back')) ?>
+    </div>
 </div>
 
+
+
 <script>
-$(document).ready(function(){
-	$('.transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			window.location = $(this).parents('.popover').prev('a').attr('data-url')
-			return false;
-		}
-	})
-})
+    $(document).ready(function () {
+        $('.transaction-buttons-cont .delete.del-contact').confirmation({
+            title: '<?= Yii::t('Front', 'Are you sure?') ?>',
+            singleton: true,
+            popout: true,
+            onConfirm: function () {
+                window.location = $(this).parents('.popover').prev('a').attr('data-url')
+                return false;
+            }
+        })
+    })
+
+    $(".xabina-tabs , .edit-tabs").tabs({});
 </script>

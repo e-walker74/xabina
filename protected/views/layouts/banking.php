@@ -11,7 +11,6 @@
 	<link rel="stylesheet/less" type="text/css" href="/css/style.less" />
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
-    <link rel="stylesheet" href="/default/css/bootstrap.min.css" />
     <script type="text/javascript" src="/js/less.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/scripts.js"></script>
@@ -22,6 +21,7 @@
     <script type="text/javascript" src="/js/jquery.pnotify.min.js"></script>
     <script type="text/javascript" src="/js/jquery.inputmask.js"></script>
     <script type="text/javascript" src="/js/jquery.inputmask.date.extensions.js"></script>
+    <script type="text/javascript" src="/js/jquery.form.js"></script>
 </head>
 <body>
 <div class="main-bg" >

@@ -6,10 +6,15 @@
 			<th style="width: 21%"><?= Yii::t('Front', 'Status'); ?></th>
 			<th style="width: 20%"></th>
 		</tr>
+        <tr class="comment-tr empty-table <?php if (count($model->getDataByType('phone'))): ?>hidden<?php endif; ?>">
+            <td colspan="4" style="line-height: 1.43!important">
+                <span class=" "><?= Yii::t('Front', 'You do not added a phone yet. You can add new phone by clicking “Add new” button') ?></span>
+            </td>
+        </tr>
 		<?php foreach($model->getDataByType('phone') as $m): ?>
-		<tr class="data-row">
+		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $m->id) ? 'flash_notify_here' : '' ?>">
 			<td><?= $m->phone ?></td>
-			<td><?= $m->category ?></td>
+			<td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
 			<td>
                 <?php if($m->getDbModel()->is_primary): ?>
                     <span class="primary">
@@ -19,12 +24,25 @@
                     <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
                 <?php endif; ?>
             </td>
-			<td>
-				<div class="transaction-buttons-cont">
-					<a href="javaScript:void(0)" class="button edit"></a>
-					<a class="button delete" data-url="<?= Yii::app()->createUrl('/contact/deleteData', array('type' => 'phone', 'id' => $m->id)) ?>" ></a>
-				</div>
-			</td>
+            <td style="overflow: visible!important;">
+                <div class="contact-actions transaction-buttons-cont">
+                    <div class="btn-group with-delete-confirm">
+                        <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
+                            </li>
+                            <li>
+                                <?= Html::link('', 'javaScript:void(0)', array(
+                                    'class' => 'button delete',
+                                    'onclick' => '$(this).addClass(\'opened\')',
+                                    'data-url' => Yii::app()->createUrl('/contact/deleteData', array('type' => 'phone', 'id' => $m->id)),
+                                )) ?>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
 		</tr>
 		<tr class="edit-row">
 			<td colspan="4">
@@ -36,7 +54,6 @@
 					'errorMessageCssClass' => 'error-message',
 					'htmlOptions' => array(
 						'class' => 'form-validable',
-						'enctype' => 'multipart/form-data',
 					),
 					'clientOptions'=>array(
 						'validateOnSubmit'=>true,
@@ -54,7 +71,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Phone') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_phone_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'phone', array('class' => 'input-text phone numeric')) ?>
@@ -66,18 +83,42 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Category') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_contact_category_tooltip') ?>"></span>
 								</div>
-								<div class="form-input">
-									<?= $form->textField($m, 'category', array('class' => 'input-text')) ?>
-									<?= $form->error($m, 'category') ?>
-								</div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $m,
+                                            'category_id',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'phone'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                                'options' => array($m->getDbModel()->category_id => array('selected' => true)),
+                                            )
+                                        ) ?>
+                                    </div>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                </div>
 							</div>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2 ">
 							<div class="transaction-buttons-cont edit-submit-cont">
-								<input type="submit" class="button ok" value=""/>
-								<a href="javaScript:void(0)" class="button cancel"></a>
+								<input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+								<a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
 							</div>
 						</div>
 					</div>
@@ -112,6 +153,7 @@
 						'afterValidateAttribute' => 'js:afterValidateAttribute'
 					),
 				)); ?>
+                <div class="table-subheader"><?= Yii::t('Front', 'Add new Phone'); ?></div>
 				<?php $m = new Users_Contacts_Data_Phone; ?>
 				<div class="xabina-form-narrow">
 					<div class="row">
@@ -120,7 +162,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Phone') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_phone_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'phone', array('class' => 'input-text phone numeric')) ?>
@@ -132,18 +174,41 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Category') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'phone_contact_category_tooltip') ?>"></span>
 								</div>
-								<div class="form-input">
-									<?= $form->textField($m, 'category', array('class' => 'input-text')) ?>
-									<?= $form->error($m, 'category') ?>
-								</div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $m,
+                                            'category_id',
+                                            Html::listDataWithFilter(
+                                                $data_categories,
+                                                'id',
+                                                'value',
+                                                'data_type',
+                                                'phone'
+                                            ) + array('add' => Yii::t('Front', 'Other')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                                'onchange' => 'showAddNewCategory(this)',
+                                                'empty' => Yii::t('Front', 'Select'),
+                                            )
+                                        ) ?>
+                                    </div>
+                                </div>
+                                <div class="form-input add-new-category" style="display: none;">
+                                    <span class="clear-input-cont full-with">
+                                        <input type="text" name="Data_Category" maxlength="25" class="input-text" disabled="disabled">
+                                        <span class="clear-input-but" onclick="hideCategoryTextField(this)"></span>
+                                    </span>
+                                </div>
 							</div>
 						</div>
 						<div class="col-lg-2 col-md-2 col-sm-2 ">
 							<div class="transaction-buttons-cont edit-submit-cont">
-								<input type="submit" class="button ok" value=""/>
-								<a href="javaScript:void(0)" class="button cancel"></a>
+								<input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+								<a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
 							</div>
 						</div>
 					</div>
@@ -153,16 +218,3 @@
 		</tr>
 	</table>
 </div>
-<script>
-$(document).ready(function(){
-	$('.transaction-buttons-cont .delete').confirmation({
-		title: '<?= Yii::t('Front', 'Are you sure?') ?>',
-		singleton: true,
-		popout: true,
-		onConfirm: function(){
-			deleteRow($(this).parents('.popover').prev('a'));
-			return false;
-		}
-	})
-})
-</script>

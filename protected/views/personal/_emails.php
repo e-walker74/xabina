@@ -59,7 +59,7 @@
                 <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                 	<span class="verify"><?= Yii::t('Front', 'Unverified') ?></span>
                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-					<a class="make-primary" href="javaScript:void(0)" onclick="js:makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+					<a class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
                 <span class="primary">
 					<b><?= Yii::t('Front', 'Primary'); ?></b>

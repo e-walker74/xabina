@@ -10,6 +10,7 @@ class Users_Contacts_Data_Email extends Users_Contacts_Data_Model
 	public $email;
 	public $category;
 
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -17,11 +18,15 @@ class Users_Contacts_Data_Email extends Users_Contacts_Data_Model
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('email', 'email'),
-			array('email, category', 'required'),
-			array('email, category', 'length', 'max' => 140),
-		);
+		return
+            array_merge(
+                parent::rules(),
+                array(
+                    array('email', 'email'),
+                    array('email, category', 'required'),
+                    array('email, category', 'length', 'max' => 140),
+                )
+            );
 	}
 	
 	public function attributeNames(){
@@ -41,4 +46,9 @@ class Users_Contacts_Data_Email extends Users_Contacts_Data_Model
 	{
 		return parent::model($className);
 	}
+
+
+    public function getDataTitle(){
+        return Yii::t('Front', 'E-Mail');
+    }
 }
