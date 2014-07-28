@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/main_style.css"/>
     <link rel="stylesheet" href="/js/vegas/jquery.vegas.min.css"/>
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/jquery-ui-1.10.4/js/jquery-ui-1.10.4.custom.min.js"></script>
     <script type="text/javascript" src="/js/jquery.liveValidation.js"></script>
     <script type="text/javascript" src="/js/vegas/jquery.vegas.min.js"></script>

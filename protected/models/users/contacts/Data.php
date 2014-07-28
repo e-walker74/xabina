@@ -190,8 +190,6 @@ class Users_Contacts_Data extends ActiveRecord
                         array(
                             'model' => $contact,
                             'data_categories' => $data_categories,
-                            'new_model_id' => $new_model_id,
-                            'instMessengers' => $instMessengers,
                         ),
                         true,
                         true

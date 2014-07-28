@@ -166,8 +166,13 @@
                                     <?= $form->textField($m, 'contact_id'); ?>
                                 </div>
 
-                                <div class="account-search pull-left"></div>
-                                <?php Widget::create('ContactListWidget')->renderPupUpSearch() ?>
+<!--                                <div class="account-search pull-left"></div>-->
+                                <?php Widget::create(
+                                    'ContactListWidget',
+                                    'ContactListWidget',
+                                    array('withOut' => array($model->id))
+                                )
+                                ->renderPupUpSearch() ?>
 							</div>
                             <div class="error-message duplicate"><?= Yii::t('Front', 'Duplicate contact') ?></div>
 						</div>

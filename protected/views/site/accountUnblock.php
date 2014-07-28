@@ -5,7 +5,7 @@
         </div>
         <div class="success-ico"></div>
         <div class="congratulations-msg">
-            <?= Yii::t('Front', 'We have sent a message with instructions to an E-Mail address associated with your profile. Please, follow the steps mentioned in this message in order to restore access to your profile.'); ?>
+            <?= Yii::t('Front', 'Your account has been successfully unblocked<br/> You can now'); ?><?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin'), array('class'=>'login-link')); ?>
         </div>
     </div>
 </div>

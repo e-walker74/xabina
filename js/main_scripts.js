@@ -30,20 +30,41 @@ $(function(){
     });
 
 
-    $("#Form_Registration_phone").on('focus', function(){
+    $("input").on('focus', function(){
+        $(this).attr('current_value', $(this).val());
+        if ($(this).hasClass('input-error')) {
+            $(this).addClass('maybe-error');
+            $(this).removeClass('input-error').parent().removeClass('input-error').find('.validation-icon').hide().parent().parent().find('.errorMessage').hide();
+        }
+    });
+    $("input").on('blur', function(){
+
+        if ($(this).val() == $(this).attr('current_value') && $(this).hasClass('maybe-error')) {
+            $(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show();
+        }
+        $(this).removeClass('maybe-error');
+    });
+
+    $("input[phonefield=true]").on('focus', function(){
         if(!$(this).val()){
             $(this).val('+');
         }
     });
-    $("#Form_Registration_phone").on('input', function(){
+    $("input[phonefield=true],#Form_Registration_email").on('blur', function(){
+        if($(this).val()){
+            $(this).val($(this).val().replace(/\s/g, ''));
+        }
+    });
+
+    $("input[phonefield=true]").on('input', function(){
         if( !~($(this).val().indexOf('+')) ){
             $(this).val( '+' + $(this).val() );
         }
     });
-	
+
 	$("#Form_Smslogin_phone").on('focus', function(){
         if(!$(this).val()){
-            $(this).val('+'); 
+            $(this).val('+');
         }
     });
     $("#Form_Smslogin_phone").on('input', function(){
@@ -51,7 +72,7 @@ $(function(){
             $(this).val( '+' + $(this).val() );
         }
     });
-	
+
 	resendLoginEmail = function(message, url){
 		$.ajax({
  			url: url,
@@ -81,7 +102,7 @@ $(function(){
        validClass:		'valid',
        invalidClass:	'input-error'
     });
-	
+
 	$('#popup-auth-form').liveValidation({
        validIco   : 'img/form_check.png',
        invalidIco : 'img/form_check.png',
@@ -178,4 +199,21 @@ $(function(){
         }
     });
 
+    //$('.select-invisible').on('change', onCustomSelectChange);
+
+    $('.checkbox-custom').on('click', 'label', function(e){
+        if($(this).find('input[type=checkbox]').prop('checked')){
+            $(this).addClass('checked');
+            e.stopPropagation();
+        }else{
+            $(this).removeClass('checked');
+            e.stopPropagation();
+        }
+    });
+
+    $('.select-type-dropdown').on('click', '.dropdown-menu li', function(e){
+
+        $(e.delegateTarget).find('input[type=hidden]').val($(this).data('id'));
+        $(e.delegateTarget).find('.select-type').text($(this).text());
+    })
 });

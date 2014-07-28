@@ -20,7 +20,6 @@
                 //'focus'=>array($model,'first_name'),
                 'clientOptions'=>array(
                     'validateOnSubmit'=>true,
-                    'validationDelay'=>0,
                     'validateOnChange'=>true,
                     'errorCssClass'=>'input-error',
                     'afterValidate' => 'js:function(form, data, hasError) {
@@ -48,6 +47,7 @@
             }'
                 ),
             )); ?>
+
         <div class="popup-register-form" id="popup-auth-form">
             <div class="form-line">
                 <div class="form-block">
@@ -82,8 +82,18 @@
             <div class="form-line">
                 <div class="form-block">
                     <div class="form-lbl">
+                        <?= $model->getAttributeLabel('prepaid_login') ?>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Your old User ID'); ?>"></span>
+                    </div>
+                    <div class="form-input">
+                        <?= $form->textField($model, 'prepaid_login', array('autocomplete' => 'off', 'disabled'=>'disabled')); ?>
+                        <span class="validation-icon"></span>
+                    </div>
+                </div>
+                <div class="form-block">
+                    <div class="form-lbl">
                         <?= $model->getAttributeLabel('login') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your User ID'); ?>"></span>
+                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter User ID'); ?>"></span>
                     </div>
                     <div class="form-input">
                         <?= $form->textField($model, 'login', array('autocomplete' => 'off')); ?>
@@ -91,25 +101,6 @@
                     </div>
                     <div class="form-alert">
                         <?= $form->error($model, 'login'); ?>
-                    </div>
-                </div>
-                <div class="form-block">
-                    <div class="form-lbl">
-                        <?= $model->getAttributeLabel('role') ?>
-                        <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your role'); ?>"></span>
-                    </div>
-                    <div class="form-input">
-                        <div class="dropdown select-type-dropdown">
-                            <?=$form->hiddenField($model, 'role', array('value' => $model->role?$model->role:'1'))?>
-                            <a data-toggle="dropdown" class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li data-id="1"><?=Yii::t('Front', 'Private Individual')?></li>
-                                <li data-id="2"><?=Yii::t('Front', 'Company')?></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="form-alert">
-                        <?= $form->error($model, 'role'); ?>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -131,7 +122,7 @@
             <div class="form-line-submit">
                 <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Open an account'); ?>"/>
             </div>
-             <div class="register-forgot-row" style="margin: 0">
+            <div class="register-forgot-row" style="margin: 0">
                 <div class="change-phone-cont login-cont">
                     <?=Yii::t('Front', 'Already have an account?')?> <?= CHtml::link(Yii::t('Front', 'Log in'), array('/site/SMSLogin'), array('class'=>'login-link')); ?>
                 </div>

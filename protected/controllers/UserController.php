@@ -49,6 +49,7 @@ class UserController extends Controller
 			if($user->save()){
 				$account = new Accounts();
 				$account->user_id = $user->id;
+				$account->currency_id = 1;
 				$account->balance = $user->gift;
 				$account->save();
 				

@@ -3,9 +3,9 @@
         <div class="popup-register-header">
             <?= Yii::t('Front', 'Dear client'); ?>
         </div>
-        <div class="success-ico"></div>
+
         <div class="congratulations-msg">
-            <?= Yii::t('Front', 'We have sent a message with instructions to an E-Mail address associated with your profile. Please, follow the steps mentioned in this message in order to restore access to your profile.'); ?>
+            <?= Yii::t('Front', 'Unfortunately, in this situation it is not possible to restore access to your Xabina profile online. <br/> Please, contact our support center. <br/>Phone number: +31 880 200 200'); ?>
         </div>
     </div>
 </div>

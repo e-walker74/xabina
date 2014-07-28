@@ -76,7 +76,7 @@
                         <div class="form-cell">
                             <div class="form-lbl">
                                 <?= Yii::t('Front', 'Category'); ?>
-                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_category_tooltip'); ?>"></span>
+                                <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_linkCategory_tooltip'); ?>"></span>
                             </div>
                             <div class="form-input">
                                 <div class="select-custom select-narrow ">

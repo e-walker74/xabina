@@ -61,6 +61,7 @@ class Users_Contacts extends ActiveRecord
 
             // TODO trim and filter fullname
 
+            array('type', 'required'),
             array('fullname', 'requiredOne'),
             array('first_name', 'required', 'on' => 'personal'),
             array('company', 'required', 'on' => 'company'),
