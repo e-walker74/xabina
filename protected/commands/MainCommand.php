@@ -1,6 +1,8 @@
 <?php
+
 // yiic mail send --actions=10
-class MainCommand extends ConsoleCommand {
+class MainCommand extends ConsoleCommand
+{
 
     public $fromQueue = false;
 	

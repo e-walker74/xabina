@@ -43,6 +43,7 @@ class TransfersController extends Controller
 					'IncomingOverview',
 					'createinvoice',
 					'createinvoiceoption',
+                    'duplicate',
 				),
                 'roles' => array('client')
             ),
@@ -820,4 +821,25 @@ class TransfersController extends Controller
 	
 		$this->render('incoming/overview', array('transfers' => $transfers));
 	}
+
+    public function actionDuplicate($id){
+        $type = Yii::request()->getParam('type', '', 'list', array('incoming', 'outgoing'));
+        if($type == 'outgoing'){
+            $transaction = Transfers_Outgoing::model()->currentUser()->findByPk($id);
+            $newTransfer = new Transfers_Outgoing();
+            $redirect = 'overview';
+        } else {
+            $transaction = Transfers_Incoming::model()->currentUser()->findByPk($id);
+            $newTransfer = new Transfers_Incoming();
+            $redirect = 'incomingoverview';
+        }
+
+        $newTransfer->user_id = $transaction->user_id;
+        $newTransfer->created_at = time();
+        $newTransfer->attributes = $transaction->attributes;
+        if ($newTransfer->save()) {
+            $this->redirect(array('/transfers/'.$redirect));
+        }
+        Yii::app()->end();
+    }
 }

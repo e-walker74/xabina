@@ -124,6 +124,13 @@ $(function () {
     $("[name=phone]").on('input', function () {
         !~($(this).val().indexOf('+')) && $(this).val('+' + $(this).val());
     });
+    $(document).on('focus', 'input', function(){
+        $(this)
+            .removeClass('input-error')
+            .closest('.form-input')
+            .removeClass('input-error')
+            .find('.error-message').slideUp()
+    })
 
 
     // progressbar styling
@@ -418,13 +425,11 @@ $(function () {
     }
 
 
-
-    resendActivationEmail = function(url, link){
+    resendActivationEmail = function (url, link) {
         $.ajax({
             url: url,
-            success: function(response){
-                if(response.success)
-                {
+            success: function (response) {
+                if (response.success) {
                     successNotify(response.titleMess, response.message, link)
                 }
             },
@@ -448,7 +453,7 @@ $(function () {
                 if (response.success) {
 
                     if (response.message) {
-                        successNotify(response.mesTitle, response.message, link);
+                        successNotify(response.mesTitle, response.message, link, 'success', 80);
                     }
 
                     if ($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')) {
@@ -460,15 +465,16 @@ $(function () {
                         location.reload();
                     }
                 }
-                callback(response);
+                if (callback) {
+                    callback(response);
+                }
+
             },
             cache: false,
             data: {},
             type: 'POST'
         });
     }
-
-
 
 
     /**
@@ -495,19 +501,20 @@ $(function () {
         });
     }
 
+    $(document).on('click', '.checkbox-custom label', function(e){
+        if($(this).find('input[type="checkbox"]').prop('checked')){
+            $(this).addClass('checked');
+            e.stopPropagation();
+        }else{
+            $(this).removeClass('checked');
+            e.stopPropagation();
+        }
+    });
+
 });
 
 function printDiv(divName) {
-    $('.attachments').hide();
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-
     window.print();
-
-    document.body.innerHTML = originalContents;
-    $('.attachments').show();
 }
 
 $(document).ready(function () {
@@ -562,7 +569,7 @@ $(document).ready(function () {
             buttonImage: '/images/calendar_ico.png',
             buttonImageOnly: true,
             dateFormat: 'dd.mm.yy'
-        }).inputmask("d.m.y");
+        }).inputmask("d.m.y")
 
     if ($('#bg-404-gold').length) {
         $('#bg-404-gold').plaxify({"xRange": 30, "yRange": 30});
@@ -768,14 +775,12 @@ $(document).ready(function () {
         });
     })
 
-    $(document).on('keyup', '.numeric', function () {
-        var input = $(this),
-            text = input.val().replace(/[^0-9+\s]/g, "");
-        if (/_|\s/.test(text)) {
-            text = text.replace(/_|\s/g, "");
-            // logic to notify user of replacement
+    $(document).on('keypress', '.numeric', function (e) {
+        if (
+            e.keyCode < 48 || e.keyCode > 57
+            ) {
+            return false;
         }
-        input.val(text);
     })
 
     $(document).on('keyup', '.phone',function () {
@@ -787,6 +792,33 @@ $(document).ready(function () {
             $(this).val('+' + $(this).val());
         }
     });
+
+    $('.btn-group.with-delete-confirm').on({
+        "hide.bs.dropdown": function (e) {
+            var opened = $(this).find('.delete.opened')
+            if (opened.length !== 0) {
+                opened.removeClass('opened')
+                return false;
+            }
+        }
+    });
+
+    $('.tab').on('click', '.dropdown-toggle', function () {
+        $(this).toggleClass('closed');
+
+        $(this).hasClass('closed') ?
+            $(this).html('<span>' + $(this).data('closed-text') + '</span>') :
+            $(this).html('<span>' + $(this).data('opened-text') + '</span>');
+        $(this).parents('.dropdown-list-cont').find('.list-dropdown-toggle').slideToggle();
+        return false;
+    })
+
+//    $('#withDeleteConfirm').on('hide.bs.dropdown', function (event) {
+//        pop = $(event.target).find('.popover:visible')
+//        if($(event.target).find('.popover').length !== 0){
+//            return false;
+//        }
+//    })
 
 })
 
@@ -821,7 +853,7 @@ var cancelPage = function () {
      $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
      })*/
 
-    $('.checkbox-custom label').removeClass('checked')
+//    $('.checkbox-custom label').removeClass('checked')
 
     /* new transfer page */
     $('.quick-row-edit').hide()
@@ -860,7 +892,7 @@ var resetPage = function () {
      $(this).parents('.select-custom').find('.select-custom-label').html($(this).find('option:selected').text())
      })*/
 
-    $('.checkbox-custom label').removeClass('checked')
+//    $('.checkbox-custom label').removeClass('checked')
 
     /* new transfer page */
     $('.quick-row-edit').hide()
@@ -868,20 +900,28 @@ var resetPage = function () {
 
     /* quic upload */
     $('.row-edit').hide().prev('li').show()
+
+    if ($('.ui-pnotify').is(":visible")) {
+        $('.ui-pnotify').fadeOut()
+    }
 }
 
 $(document).on('click', '.button.cancel', function () {
     resetPage()
 })
 
-var successNotify = function (title, message, element, type) {
+var successNotify = function (title, message, element, type, top) {
 
-    if (element) {
+    if(!top){
+        top = 40
+    }
+
+    if (element && element.length != 0) {
         var stack_context = {
             "dir1": "down",
             "dir2": "left",
             "firstpos2": 15,
-            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top - 40,
+            "firstpos1": $(element).offset().top - $('.col-lg-9.col-md-9.col-sm-9').offset().top - top,
             context: $('.col-lg-9.col-md-9.col-sm-9')
         };
     } else if ($('.h1-header').length != 0) {
@@ -889,7 +929,7 @@ var successNotify = function (title, message, element, type) {
     } else {
         var stack_context = {"dir1": "down", "dir2": "left", "firstpos1": 0, "firstpos2": 0, context: $('.top-bar .container .clearfix')};
     }
-    if(!type){
+    if (!type) {
         type = 'success'
     }
     $.pnotify(
@@ -911,6 +951,7 @@ var successNotify = function (title, message, element, type) {
             }
         }
     })
+
 }
 
 var errorNotify = function (title, message, element) {
@@ -945,13 +986,13 @@ var backgroundBlack = function () {
     if (!jQuery("body").find("#TB_overlay").is("div")) /* если фон уже добавлен не добавляем повторно */
     {
         if (!jQuery.browser.msie) /* если браузер не ИЕ фоном будет div */
-            jQuery("body").append("<div id='TB_overlay'><div class='wait-ico'></div></div>");
+            jQuery("body").append("<div id='TB_overlay' style='z-index: 99999999'><div class='wait-ico'></div></div>");
         else /* иначе добавляем iframe */
             jQuery("body").append("<div id='TB_overlay'><iframe scrolling='no' frameborder='0' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; filter:alpha(opacity=0)'></iframe></div>");
     }
     var centerWidth = ($(window).width()) / 2,
         centerHeight = ($(window).height()) / 2;
-    $('body').css({overflow: 'hidden'})
+    $('body').css({overflow: 'hidden', 'margin-right': '20px'})
 
     $("#TB_overlay").fadeIn("fast");
 
@@ -959,7 +1000,7 @@ var backgroundBlack = function () {
 
 var dellBackgroundBlack = function () {
     $("#TB_overlay").remove();
-    $('body').css({overflow: 'auto'})
+    $('body').css({overflow: 'auto', 'margin-right': '0'})
 }
 
 var chechSequrityValuesData = function () {

@@ -39,6 +39,8 @@ class TransactionsExportService
         $mpdf->WriteHTML($html, 2); /*формируем pdf*/
 
         $mpdf->Output($fileName, 'I');
+
+
     }
 
     /**

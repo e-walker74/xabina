@@ -78,24 +78,6 @@ class SiteService {
 		}
     }
 
-	public static function declensionNewsSection($section_id) 	{
-		if($section_id == 31) {
-			$section_name = 'интересностях';
-		} elseif($section_id == 33) {
-			$section_name = 'событиях';
-		} elseif($section_id == 34) {
-			$section_name = 'трендах';
-		} elseif($section_id == 35) {
-			$section_name = 'репортажах';
-		} elseif($section_id == 36) {
-			$section_name = 'практикумах';
-		} elseif($section_id == 37) {
-			$section_name = 'авторитетных мнениях';
-		}
-		
-		return $section_name;
-	}
-	
     public static function timeRange($from, $to) {
         $differenceFull  = $to - $from;
         $differenceYear  = floor(($differenceFull) /32140800);

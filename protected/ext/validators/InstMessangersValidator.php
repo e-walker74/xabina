@@ -9,7 +9,7 @@ class InstMessangersValidator extends CValidator{
 	protected function validateAttribute($object,$attribute)
 	{
 		if($object->{$attribute}){
-            if(!InstmessagerSystems::model()->findByPk($object->{$attribute})) {
+            if(!InstmessagerSystems::model()->find('code = :code', array(':code' => $object->{$attribute}))) {
 				$this->addError($object, $attribute, Yii::t('Front', 'Is incorrect'));
             }
         }

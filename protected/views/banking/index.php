@@ -64,7 +64,7 @@
 		'dataProvider'=>$transactions->search(),
 		'summaryText' => '',
 		'itemsCssClass' => 'table xabina-table',
-		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/transaction", array("id" => $data->id)))',
+		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/transaction", array("id" => $data->url)))',
 		'emptyText' => Yii::t('Front', 'Transactions not found'),
 		'columns'=>array(
 			array(

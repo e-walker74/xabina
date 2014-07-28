@@ -163,7 +163,7 @@ InvoicePage = {
                 } else if (response.message) {
                     errorNotify('Invoice', response.message, $('.button-save-invoice'))
                 }
-            },
+            }
 		});
 	}
 }

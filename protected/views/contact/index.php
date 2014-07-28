@@ -1,10 +1,37 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
 	<div class="h1-header"><?= Yii::t('Front', 'My contact') ?></div>
 	<div class="contact-search-cont">
-		<span class="clear-input-cont">
-			<input class="contact-input" style="width: 100%" placeholder="<?= Yii::t('Front', 'Search...') ?>" type="text" id="linkName" />
-			<span class="clear-input-but"></span>
+		<span class="clear-input-cont index-table">
+			<input class="contact-input search-contact-input" style="width: 100%" placeholder="<?= Yii::t('Front', 'Search...') ?>" type="text" id="linkName" />
+			<span class="clear-input-but" style="display: none;"></span>
 		</span>
+        <div class="select-custom select-narrow category-select">
+            <span class="select-custom-label"></span>
+            <?= CHtml::dropDownList(
+                'category_id_list',
+                '',
+                CHtml::listData($contact_categories, 'id', 'section'),
+                array(
+                    'class' => 'select-invisible country-select',
+                    'empty' => Yii::t('Front', 'All categories'),
+                )
+            ); ?>
+        </div>
+        <div class="select-custom select-narrow category-select">
+            <span class="select-custom-label"></span>
+            <?= CHtml::dropDownList(
+                'types_list',
+                '',
+                array(
+                    'personal' => Yii::t('Front', 'Personal'),
+                    'company' => Yii::t('Front', 'Company'),
+                ),
+                array(
+                    'class' => 'select-invisible country-select',
+                    'empty' => Yii::t('Front', 'All types'),
+                )
+            ); ?>
+        </div>
 		<a class="contact-search-but" href="#" style="display:none;"></a>
 		<a class="add-contact-but rounded-buttons" href="<?= Yii::app()->createUrl('/contact/create') ?>"><?= Yii::t('Front', 'Add Contact') ?></a>
 	</div>
@@ -19,12 +46,20 @@
 				parentSelector: '.scroll-block'
 			})
 		})
+
 	</script>
 </div>
 <script>
-$(document).ready(function(){
-	$('input.contact-input').clientListSearch({
-		url: '<?= Yii::app()->createUrl('/contact/search') ?>'
-	})
+$('.search-contact-input').keyup(function(){
+    if($(this).val()){
+        $('.clear-input-but').show()
+    } else {
+        $('.clear-input-but').hide()
+    }
+})
+$( ".search-contact-input" ).focusin(function() {
+    $( ".search-contact-input").attr('placeholder', '')
+}).focusout(function(){
+    $( ".search-contact-input").attr('placeholder', '<?= Yii::t('Front', 'Search...') ?>')
 })
 </script>
