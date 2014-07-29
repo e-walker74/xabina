@@ -1,4 +1,4 @@
-<div class="header-middle clearfix">
+<div class="header-top clearfix">
     <a href="<?= Yii::app()->createUrl('/banking/index') ?>" class="logo pull-left"></a>
     <div class="person-select-cont">
         <?php 
