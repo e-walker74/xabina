@@ -7,7 +7,19 @@
         <?php else: ?>
             <img width="40" src="/images/contact_no_foto.png" alt="">
         <?php endif; ?>
-        <span class="valid-status ok"></span>
+
+        <?php if ($model->xabina_id): ?>
+            <?php $activityState = Yii::app()->user->getActivityStatus($model->xabina_id); ?>
+            <?php if ($activityState == Users::USER_ACTIVITY_STATUS_ONLINE){
+                $cssClass = 'ok';
+            } elseif ($activityState == Users::USER_ACTIVITY_STATUS_BUSY) {
+                $cssClass = 'time';
+            } else {
+                $cssClass = 'err';
+            }
+            ?>
+            <a class="ico <?=$cssClass?>" href="#"></a>
+        <?php endif ?>
     </div>
     <div class="contact-name"><span class="cn"><?= $model->fullname ?></span><br>
         <span class="company-name"><?= $model->getNameWithCompany() ?></span>

@@ -41,9 +41,9 @@
                     <?php endif ?>
 				</div>
 				<div class="contact-info pull-left">
-					<div class="contact-name"><?= $contact->fullname ?>--<?=Yii::app()->user->getActivityStatus($contact->xabina_id) ?>--</div>
+					<div class="contact-name"><?= $contact->fullname ?></div>
 					<div class="contact-extra-info">
-                        <?= $contact->getNameWithCompany() ?> --<?=$contact->xabina_id?>--
+                        <?= $contact->getNameWithCompany() ?>
 					</div>
 				</div>
                 <?php if($contact->xabina_id): ?>
