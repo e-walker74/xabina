@@ -74,7 +74,7 @@
                     </ul>
                     <div class="user-greeting pull-right">
                         <img src="/images/account-photo-r.png" alt=""/>
-                        <? $userActivity = Yii::app()->user->getActivityStatus();?>
+                        <? $userActivity = Yii::app()->user->getSelfActivityStatus();?>
                         <?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?>
                         <div class="select-custom-activity-cont">
                             <div class="select-img">
