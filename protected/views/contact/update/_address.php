@@ -75,7 +75,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line1_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address', array('class' => 'input-text')) ?>
@@ -87,7 +87,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address Line 2') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line2_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address_line_2', array('class' => 'input-text')) ?>
@@ -234,7 +234,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address Line 1') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line1_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address', array('class' => 'input-text')) ?>
@@ -246,7 +246,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Address Line 2') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'address_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_line1_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<?= $form->textField($m, 'address_line_2', array('class' => 'input-text')) ?>
@@ -295,7 +295,7 @@
 							<div class="form-cell">
 								<div class="form-lbl">
 									<?= Yii::t('Front', 'Country') ?>
-									<span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+									<span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_country_tooltip') ?>"></span>
 								</div>
 								<div class="form-input">
 									<div class="select-custom select-narrow ">
@@ -319,7 +319,7 @@
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Category') ?>
-                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'country_name_contact') ?>"></span>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_address_category_tooltip') ?>"></span>
                                 </div>
                                 <div class="form-input category-select">
                                     <div class="select-custom select-narrow ">

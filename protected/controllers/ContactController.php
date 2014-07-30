@@ -53,6 +53,7 @@ class ContactController extends Controller
                     'unlinkContrAgent',
                     'pdf',
                     'searchLink',
+                    'updateTab',
                 ),
                 'roles' => array('client')
             ),
@@ -592,6 +593,34 @@ class ContactController extends Controller
             array(
                 'success' => true,
                 'html' => $this->renderPartial('_linked', array('model' => $model, 'transactions' => $transaction), true, true),
+            )
+        );
+    }
+
+    public function actionUpdateTab($url){
+
+        //now just tab overview
+        $tab = Yii::request()->getParam('tab');
+        $url = Yii::request()->getParam('url');
+
+        $contact = Users_Contacts::model()->currentUser()->findByAttributes(
+            array(
+                'url' => $url
+            )
+        );
+
+        echo CJSON::encode(
+            array(
+                'success' => true,
+                'tab' => $tab,
+                'html' => Yii::app()->controller->renderPartial(
+                    'update/_overview',
+                    array(
+                        'model' => $contact,
+                    ),
+                    true,
+                    true
+                ),
             )
         );
     }

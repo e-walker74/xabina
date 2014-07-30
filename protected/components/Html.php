@@ -25,4 +25,4 @@ class Html extends CHtml {
         }
         return parent::listData($arr,$valueField,$textField);
     }
-} 
+}

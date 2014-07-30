@@ -35,7 +35,7 @@ class UserSmsIdentity extends CUserIdentity
 		} elseif($user->status == Users::USER_IS_NOT_ACTIVE){
 			$this->errorCode = self::USER_IS_NOT_ACTIVE;
 		} else {
-			
+
 			$this->id = $user->id;
 			$this->model = $user;
 			$this->username = $user->email;

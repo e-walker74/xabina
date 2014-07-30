@@ -23,6 +23,7 @@ class Users extends ActiveRecord
     const USER_IS_ACTIVATED = 2;
     const USER_EMAIL_IS_ACTIVE = 3;
     const USER_IS_NOT_ACTIVE = 4;
+    const USER_IS_PREPAID = 5;
 
     const USER_ACTIVITY_STATUS_ONLINE = 1;
     const USER_ACTIVITY_STATUS_OFFLINE = 0;
@@ -158,7 +159,7 @@ class Users extends ActiveRecord
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
 			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at asc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
-			'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
+            'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
             'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
             'personalManagers' => array(self::HAS_MANY, 'PersonalManagers', 'manager_id', 'through' => 'usersPersonalManagers'),
             'rbac_roles' => array(self::HAS_MANY, 'RbacUserRoles', 'user_id'),
@@ -181,7 +182,7 @@ class Users extends ActiveRecord
             'login' => Yii::t('Front', 'Login'),
             'nickName' => Yii::t('Front', 'Имя на сайте'),
             'password' => Yii::t('Front', 'Новый пароль'),
-            'email' => Yii::t('Front', 'email'),
+            'email' => Yii::t('Front', 'Email'),
             'reemail' => Yii::t('Front', 'Повторите (email)'),
             'status' => Yii::t('Front', 'Status'),
             'created_at' => Yii::t('Front', 'Date Add'),

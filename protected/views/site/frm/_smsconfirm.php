@@ -16,7 +16,6 @@
 		<div class="popup-register-header"><?= Yii::t('Front', 'Sms confirm form') ?></div>
 			<?php $form=$this->beginWidget('CActiveForm', array(
 						'id'=>'sms-confirm',
-						'enableAjaxValidation'=>true,
 						'enableClientValidation'=>true,
 						'clientOptions'=>array(
 						  'validateOnSubmit'=>true,
@@ -40,11 +39,15 @@
 						),
 			)); ?>
 
-					<div class="popup-register-form" id="popup-auth-form">
+					<div class="popup-register-form sms-form" id="popup-auth-form">
 						<div class="form-line">
 							<div class="form-block">
-								<div class="form-lbl"><?= $model->getAttributeLabel('code') ?></div>
-								<div class="green-hint">
+								<div class="form-lbl">
+                                    <?= $model->getAttributeLabel('code') ?>
+                                    <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your SMS verification code') ?>"></span>
+
+                                </div>
+								<div class="sms-hint">
 									<?= Yii::t('Front', 'We have send an SMS with the verification code on the phone number +x xxx xxx :num.', array(':num' => substr($user->phone, -3))); ?>
 								</div>
 								<div class="form-input">
@@ -61,12 +64,13 @@
 						<div class="form-line-submit">
 							<input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Login'); ?>"/>
 						</div>
-						<div class="footerLinks">
-							<?php if(!$user->phone_confirm): ?>
-								<a href="<?= Yii::app()->createUrl('/site/SMSPhoneChange') ?>"><?= Yii::t('Front', 'The mobile phone number is incorrect. Change mobile phone number.') ?></a>
-							<?php endif; ?>
-							<a onclick="resendLoginEmail('<?= Yii::t('Front', 'SMS was sent') ?>', '<?= Yii::app()->createUrl('/site/resendloginsms') ?>')" href="javaScript:void(0)"><?= Yii::t('Front', 'I haven\'t received SMS with the code. Send it again.') ?></a>
-						</div>
+						<div class="register-forgot-row">
+
+							<a class="send-again" onclick="resendLoginEmail('<?= Yii::t('Front', 'SMS was sent') ?>', '<?= Yii::app()->createUrl('/site/resendloginsms') ?>')" href="javaScript:void(0)"><?= Yii::t('Front', 'I haven\'t received SMS with the code. Send it again.') ?></a>
+						    <div class="change-phone-cont">
+                                <a class="change-phone" href="<?= Yii::app()->createUrl('/remind?type=login') ?>"><?= Yii::t('Front', 'I have lost my phone. Change mobile phone number.') ?></a>
+                            </div>
+                        </div>
 					</div>
 			<?php $this->endWidget(); ?>
 	</div>
