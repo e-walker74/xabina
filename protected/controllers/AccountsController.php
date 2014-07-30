@@ -91,7 +91,7 @@ class AccountsController extends Controller
         }
 
         $model = new Form_Search();
-        $model->from_date = date('m/d/Y', time() - 3600 * 24 * 30);
+        $model->from_date = date('d.m.Y', time() - 3600 * 24 * 30);
         $model->account_number = $selectedAcc->number;
         if (isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest) {
             $model->attributes = $_GET['Form_Search'];
@@ -125,7 +125,11 @@ class AccountsController extends Controller
         $this->breadcrumbs[Yii::t('Front', 'Balance')] = array('/accounts/cardbalance');
         $this->breadcrumbs[Yii::t('Front', 'Transaction details')] = '';
 
-        $trans = Transactions::model()->with('account')->findByPk($id);
+        $trans = Transactions::model()->with('account')->findByAttributes(array('url' => $id));
+
+        if(!$trans){
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
 
         if ($trans->account->user_id != Yii::app()->user->id) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -169,7 +173,7 @@ class AccountsController extends Controller
         Yii::import("application.ext.EAjaxUpload.qqFileUploader");
         $documentNum = Yii::app()->request->getParam('doc', 'int');
 
-        $trans = Transactions::model()->findByPk($id);
+        $trans = Transactions::model()->findByAttributes(array('url' => $id));
 
         if (!$trans || $trans->account->user_id != Yii::app()->user->id) {
             echo CJSON::encode(array('success' => false));

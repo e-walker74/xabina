@@ -2,7 +2,7 @@
 	<tbody>
 		<?php foreach($transactions as $trans): ?>
 			<?php if($trans->transfer_type == 'outgoing'): ?>
-				<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->id)) ?>">
+				<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
 					<td width="15%"><?= date('d.m.Y', $trans->created_at) ?></td>
 					<td width="10%">OV</td>
 					<td width="35%">
@@ -34,7 +34,7 @@
 					<td width="7%"><!--<a class="attachment-button" href="#"></a>--></td>
 				</tr>
 			<?php elseif($trans->transfer_type == 'incoming'): ?>
-				<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->id)) ?>">
+				<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
 					<td width="15%"><?= date('d.m.Y', $trans->created_at) ?></td>
 					<td width="10%">OV</td>
 					<td width="35%">

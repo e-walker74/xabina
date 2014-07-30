@@ -11,7 +11,9 @@
         'validateOnSubmit' => true,
         'validateOnChange' => true,
         'errorCssClass' => 'input-error',
-        'successCssClass' => 'valid'
+        'successCssClass' => 'valid',
+        'afterValidate' => 'js:Personal.afterValidate',
+        'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
     ),
 )); ?>
 
@@ -33,7 +35,7 @@
 	
     <?php foreach ($user->telephones as $users_phone): ?>
         <tr class="form-sms-tr phone-row">
-            <td><?= $users_phone->number ?></td>
+            <td>+<?= $users_phone->number ?></td>
             <td>
                 <div class="relative">
                     <!--<span class="dropdown_button types_dropdown">-->
@@ -67,7 +69,7 @@
                     <?= Yii::t('Front', 'Phone'); ?>
                     <span class="tooltip-icon" title="tooltip text"></span></div>
                 <div class="field-input">
-                    <?= $form->textField($model_telephones, 'number', array('class' => 'input-text item0', 'data-v' => 'phone')); ?>
+                    <?= $form->textField($model_telephones, 'number', array('class' => 'input-text item0 numeric phone', 'data-v' => 'phone')); ?>
                     <?= $form->error($model_telephones, 'number'); ?>
                 </div>
             </div>
@@ -88,9 +90,9 @@
 							'data-v' => 'type_id',
 							'options' => array('' => array('disabled' => true)),
                         )); ?>
-						<?= $form->error($model_telephones, 'email_type_id'); ?>
+
                     </div>
-                    
+                    <?= $form->error($model_telephones, 'email_type_id'); ?>
                     <span class="validation-icon"></span>
                 </div>
             </div>
@@ -127,17 +129,4 @@ $(document).ready(function(){
 	})
 
 })
-
-
-
-$('.types_dropdown').dropDown({
-	list: {
-		<?php foreach(Users_EmailTypes::all() as $k => $v):?>
-		<?php if(!empty($k) && !empty($v)):?>
-	    '<?=$k?>': {id:<?=$k?>, name:'<?=$v?>'},
-		<?php endif; ?>
-		<?php endforeach;?>
-	},
-	listClass: 'type_dropdown',
-});
 </script>

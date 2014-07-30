@@ -1,7 +1,9 @@
-<div class="col-lg-9 col-md-9 col-sm-9">
+<?php if(!Yii::request()->isAjaxRequest): ?>
+<div class="col-lg-9 col-md-9 col-sm-9" id="paymentsList">
+<?php endif; ?>
     <div class="xabina-form-container">
         <div class="h1-header">
-            <?=Yii::t('Front', 'Favorite Payment Instuments')?>
+            <?=Yii::t('Front', 'Favorite Payment Instruments')?>
         </div>
         <table class="xabina-table table middle payment-instruments">
             <tr class="table-header">
@@ -14,7 +16,7 @@
                 $this->renderPartial('paymentInstuments/row', Array(
                     'model'=>$paymentInstrument
                 ));
-            }?>
+            } ?>
             <tr id="add-more">
                 <td colspan="4" class="table-form-subheader">
                     <a href="#" id="add-new-payment-instrument" class="rounded-buttons upload add-more">ADD NEW</a>
@@ -34,47 +36,12 @@
                 </td>
             </tr>
         </table>
-        <script language="JavaScript"><!--
-            $('#add-new-payment-instrument').click(function() {
-                hideEditForm();
-                $('.add-new-form').css('display', 'table-row');
-                $('#add-more').css('display', 'none');
-                return false;
-            });
-            $('.add-new-form .button.cancel').click(function() {
-                hideAddNewForm();
-                return false;
-            });
-            var editButtonEnable = function() {
-                $('.button.edit').click(function() {
-                    hideEditForm();
-                    hideAddNewForm();
-                    var tr = $(this).parents('tr');
-                    tr.next('tr').toggle('slow');
-                    tr.hide()
-                    return false;
-                });
-            };
-            editButtonEnable();
-            $('.edit-payment-tr .button.cancel').click(function() {
-                hideEditForm();
-                return false;
-            });
-            var hideAddNewForm = function() {
-                $('.add-new-form').css('display', 'none');
-                $('#add-more').css('display', 'table-row');
-            };
-            var hideEditForm = function() {
-                $('.edit-payment-tr').hide();
-                $('.edit-payment-tr').prev('tr').show('slow');
-            };
-        //--></script>
     </div>
+<?php if(!Yii::request()->isAjaxRequest): ?>
 </div>
+<?php endif; ?>
 <?php 
 $cs = Yii::app()->clientScript;
 $cs->registerScriptFile('/js/paymentInstruments.js');
-$cs->registerScriptFile('/js/deleteButton.js');
-$cs->registerScript('deleteButton', 'deleteButtonEnable();');
 
 

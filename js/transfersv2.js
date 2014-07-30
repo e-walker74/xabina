@@ -18,7 +18,7 @@ $(document).ready(function(){
             var offset = $('.ui-accordion-header-active').offset();
             if(offset) {
                 $('html,body').animate({
-                    scrollTop: $('.ui-accordion-header-active a').offset().top -40
+                    scrollTop: $('.accordions-container .ui-accordion-header-active a').offset().top -40
                 }, 250);
             }
         }

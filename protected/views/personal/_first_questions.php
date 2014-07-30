@@ -18,6 +18,7 @@
 <td colspan="3">
 	<?php $form=$this->beginWidget('CActiveForm', array(
 		'id'=>'users_securityquestions_1',
+        'action' => array('/personal/editqustions'),
 		'enableAjaxValidation'=>true,
 		'enableClientValidation'=>true,
 		'errorMessageCssClass' => 'error-message',
@@ -29,44 +30,8 @@
 			'validateOnChange'=>true,
 			'errorCssClass'=>'input-error',
 			'successCssClass'=>'valid',
-			'afterValidate' => 'js:function(form, data, hasError) {
-				
-				form.find("input").removeClass("input-error");
-				form.find("input").parent().removeClass("input-error");
-				form.find(".validation-icon").fadeIn();
-				
-				if(hasError) {
-					form.removeClass("success");
-					for(var i in data) {
-						form.find("#"+i).addClass("input-error");
-						form.find("#"+i).parent().addClass("input-error");
-						form.find("#"+i).next(".validation-icon").fadeIn();
-					}
-					return false;
-				}
-				else {
-					return true;
-				}
-				return false;
-			}',
-			'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
-				if(hasError){
-					form.removeClass("success");
-					if(!form.find("#"+attribute.id).hasClass("input-error")){
-						form.find("#"+attribute.id+"_em_").hide().slideDown();
-					}
-					form.find("#"+attribute.id).removeClass("valid").parent().removeClass("valid");
-					form.find("#"+attribute.id).addClass("input-error").parent().addClass("input-error");
-					form.find("#"+attribute.id).next(".validation-icon").fadeIn();
-				} else {
-					if(form.find("#"+attribute.id).hasClass("input-error")){
-						form.find("#"+attribute.id+"_em_").show().slideUp();
-					}
-					form.find("#"+attribute.id).removeClass("input-error").parent().next("error-message").slideUp().removeClass("input-error"); 
-					form.find("#"+attribute.id).next(".validation-icon").fadeIn();
-					form.find("#"+attribute.id).addClass("valid");
-				}
-			}'
+            'afterValidate' => 'js:Personal.afterValidate',
+            'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
 		),
 	)); ?>
    <table class="messanger-table">
@@ -120,6 +85,7 @@
 <td colspan="3">
 	<?php $form=$this->beginWidget('CActiveForm', array(
 		'id'=>'users_securityquestions_2',
+        'action' => array('/personal/editqustions'),
 		'enableAjaxValidation'=>true,
 		'enableClientValidation'=>true,
 		'errorMessageCssClass' => 'error-message',
@@ -131,6 +97,8 @@
 			'validateOnChange'=>true,
 			'errorCssClass'=>'input-error',
 			'successCssClass'=>'valid',
+            'afterValidate' => 'js:Personal.afterValidate',
+            'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
 		),
 	)); ?>
    <table class="messanger-table">

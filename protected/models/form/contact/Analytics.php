@@ -71,11 +71,11 @@ class Form_Contact_Analytics extends CFormModel
 			SELECT sum(allamount) value, avg(allamount) average, currency, count(1) count_transfers
 			FROM(
 				SELECT 
-					t.sum,
+					t.amount,
 					t.type,
 					t.transfer_type,
 					cur.code currency,
-					IF(t.type = 'positive', +sum, -sum) allamount
+					IF(t.type = 'positive', +t.amount, -t.amount) allamount
 				FROM 
 					`transactions` t
 				INNER JOIN accounts acc on (t.account_id = acc.id AND acc.user_id = {$user_id})

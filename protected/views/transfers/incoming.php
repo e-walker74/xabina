@@ -1,4 +1,4 @@
-<div class="col-lg-9 col-md-9 col-sm-9" >
+<div class="col-lg-9 col-md-9 col-sm-9 accordions-container" >
 <div class="new-transfer xabina-form-container">
 <div class="h1-header"><?= Yii::t('Front', 'Upload money') ?></div>
 <div class="transfer-accordion xabina-accordion xabina-transfer-accordion" >

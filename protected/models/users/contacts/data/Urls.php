@@ -17,11 +17,14 @@ class Users_Contacts_Data_Urls extends Users_Contacts_Data_Model
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('url', 'url'),
-			array('url', 'required'),
-			array('category, url', 'length', 'max' => 140),
-		);
+        return
+            array_merge(
+                parent::rules(),
+                array(
+                    array('url', 'url'),
+                    array('url', 'required'),
+                    array('category, url', 'length', 'max' => 140),
+		));
 	}
 	
 	public function attributeNames(){
@@ -41,4 +44,8 @@ class Users_Contacts_Data_Urls extends Users_Contacts_Data_Model
 	{
 		return parent::model($className);
 	}
+
+    public function getDataTitle(){
+        return Yii::t('Front', 'URLs');
+    }
 }

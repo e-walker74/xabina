@@ -1,17 +1,29 @@
 <?php
+
 // yiic mail send --actions=10
-class MainCommand extends ConsoleCommand {
+class MainCommand extends ConsoleCommand
+{
 
     public $fromQueue = false;
 	
 	public function actionDeleteNonActiveUser(){
-		$users = Users::model()->findAll('status = 4 and created_at < '.time()-3600*7);
-		foreach($users as $u){
-			$deleted = new Users_Deleted;
-			$deleted->attributes = $u->attributes;
-			if($deleted->save()){
-				$u->delete();
-			}
+
+		$users = Users::model()->findAll('status = 4 and created_at < '.(time()-600));
+
+        foreach($users as $u){
+
+            if (!count($u->accounts)) {
+                // delete base data
+                foreach($u->rbac_roles as $role) $role->delete();
+                foreach($u->phones as $phone) $phone->delete();
+                if ($u->settings) $u->settings->delete();
+
+                $deleted = new Users_Deleted;
+                $deleted->attributes = $u->attributes;
+                if($deleted->save()){
+                    $u->delete();
+                }
+            }
 		}
 	}
 	

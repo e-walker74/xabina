@@ -44,7 +44,7 @@
 					<?= Yii::t('Front', 'Date From'); ?>
 				</div>
 				<div class="field-input">
-					<?php  $search->from_date = date('m/d/Y', $search->from_date) ?>
+					<?php  $search->from_date = date('d.m.Y', $search->from_date) ?>
 					<?= $form->textField($search, 'from_date', array('class' => 'date-input with_datepicker')) ?>
 				</div>
 			</div>
@@ -55,7 +55,7 @@
 					<?= Yii::t('Front', 'Date To'); ?>
 				</div>
 				<div class="field-input">
-					<?php  $search->to_date = date('m/d/Y', $search->to_date) ?>
+					<?php  $search->to_date = date('d.m.Y', $search->to_date) ?>
 					<?= $form->textField($search, 'to_date', array('class' => 'date-input with_datepicker')) ?>
 				</div>
 			</div>

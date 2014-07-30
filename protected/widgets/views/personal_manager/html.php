@@ -1,7 +1,7 @@
 <? if($manager): ?>
 <script type="text/javascript" src="/js/manager_widget.js"></script>
 <div class="personal-manager-widget">
-    <div class="transfer-accordion xabina-accordion xabina-transfer-accordion" >
+    <div class="transfer-accordion xabina-accordion xabina-transfer-accordion" id="manager-accordion" >
         <div class="accordion-header"><a href="#" class="search-acc"><b><?= Yii::t('Front', 'Your own manager') ?></b></a></div>
         <div class="accordion-content">
             <div class="manager-top-content">

@@ -1,0 +1,100 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>email</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin: 0">
+    <div>
+        <div style="background-color: #d9d9d9;">
+            <table style="border-collapse:collapse; border: 0; border-spacing: 0; width: 600px; margin: 0 auto; font-family: Arial; font-size: 14px">
+                <tr style=" text-align: center">
+                    <td style="font-size: 10px; padding:15px 0 10px; ">
+                        If you cannot read this email, please click <a style="color: #1b75bc" href="#">here</a>.
+                    </td>
+                </tr>
+                <tr >
+                    <td style=" border: 0; padding: 0; margin: 0">
+<table style="border-top-right-radius: 10px; border-top-left-radius: 10px;background: #2f86cb; background-image: url(http://imides.ru/img/header.png) !important;  height: 100px; width: 600px;"><td style="border-top-left-radius: 10px; "><img src="http://imides.ru/img/logo.png" height="100" width="210" /></td>
+                        <td style="width: 226px; text-align: center;vertical-align: middle; color: white; font-weight: bold;">Xabina Online Banking</td>
+                        <td>
+                        <a href="#"><img style="margin-left: 5px; margin-top: 20px; border: none;" src="http://imides.ru/img/fb.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/twitter.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/goolge.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/insta.png" height="24" width="24" alt=""></a><br>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/login.png" height="38" width="123" alt=""></a>
+
+                        </td></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #fff; font-size: 13px ;color: #777; padding: 0 20px 17px">
+                        <h2 style="margin: 41px 0 0; color: #534a76; font-size: 22px;font-weight: 400">Dear client</h2>
+                        <p style="margin: 22px 0 0;"><b>Someone has entered the wrong SMS-code from your xabina profile 3 times in a row. Your profile has been temporarily blocked for 1 hour. </b></p>
+                        <p style="margin: 22px 0 0;"><b>You can unblock Your account immideately by clicking the link below:<br/><a href="{:activateUrl}" target="_blank">{:activateUrl}</a> </b></p>
+                        <p style="margin: 22px 0 0;"><b>Your account will be automatically unblocked after 1 hour.</b></p>
+                        <p style="margin: 22px 0 0;"><b>If You are not responsible for this action, we strictly advise You to contact our customer support.</b></p>
+                        <p style="margin-top: 16px;line-height: 19px;"><em>If you have any questions or experience problems, you can e-mail us at: support@xabina.com</em></p>
+
+                        <p style="margin-top: 30px;font-size: 11px">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
+
+                        <div style="margin: 30px 0 0;">
+                            <img src="http://xabina.intwall.com/images/email-banner.png" width="561" alt=""/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #f2f2f2; color: #777; font-size: 13px;border: 0; margin: 0; padding: 0">
+                        <div style="box-shadow: inset 0px 5px 5px -2px rgba(0, 0, 0, 0.1); padding: 0 20px 3px ; overflow: hidden">
+
+                            <div style="float: left;margin: 31px 0 0;">
+                                <img src="http://xabina.intwall.com/images/email-footer-logo.png" alt=""/>
+                                <div style="margin:26px 0 0 2px">
+                                    <img src="http://xabina.intwall.com/images/emails_phone.png" alt="" style="vertical-align: middle"/> &nbsp;&nbsp;(37 410) 34 564 77
+                                </div>
+                                <div style="margin: 6px 0 0 2px;">
+                                    <img src="http://xabina.intwall.com/images/emails_mail.png" alt="" style="vertical-align: middle"/> &nbsp;&nbsp;support@xabina.com
+                                </div>
+                                <div style="margin: 8px 0 0 2px;">
+                                    <img src="http://xabina.intwall.com/images/emails_skype.png" alt="" style="vertical-align: middle"/> &nbsp;&nbsp;xabina_manager
+                                </div>
+                                <div style="margin: 8px 0 0 2px;">
+                                    <img src="http://xabina.intwall.com/images/emails_address.png" alt="" style="vertical-align: middle"/> &nbsp;&nbsp;Stadsring 99, 3811 HP Amersfoors, <br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netherlands
+                                </div>
+                            </div>
+
+                            <div style="float: left;margin: 31px 0 0 57px;">
+                                <ul style=" list-style: none;margin: 2px 0 0 0;padding: 0; display: block; overflow: hidden">
+                                    <li  style="float: left; margin:0 6px 0 0;" ><a href="#"><img src="http://xabina.intwall.com/images/email-soc-ico-fb.png" alt=""/></a></li>
+                                    <li  style="float: left; margin:0 6px 0 0;" ><a href="#"><img src="http://xabina.intwall.com/images/email-soc-ico-tw.png" alt=""/></a></li>
+                                    <li  style="float: left; margin:0 6px 0 0;" ><a href="#"><img src="http://xabina.intwall.com/images/email-soc-ico-gp.png" alt=""/></a></li>
+                                    <li  style="float: left; margin:0 6px 0 0;" ><a href="#"><img src="http://xabina.intwall.com/images/email-soc-ico-ig.png" alt=""/></a></li>
+                                </ul>
+                                <div style="margin: 27px 0 0;line-height: 19px;">
+                                    <b style="color: #372952">KwK registration number:</b><br>
+                                    U31401KA2013PTC069763
+                                </div>
+                                <div style="margin: 4px 0 0;line-height: 19px;">
+                                    <b style="color: #372952">DNB License number :</b><br>
+                                    239316
+                                </div>
+                            </div>
+                            <div style="clear: both"></div>
+                            <p style="font-size: 11px; line-height: 18px;margin-top: 31px;">
+                                This is an automatically generated email, please do not reply. If you have received this by mistake, you are kindly
+                                requested to notify the sender and then delete the e-mail from your system; access to, disclosure, copying and/or
+                                distribution of this e-mail by anyone other than the intended recipient is prohibited.
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

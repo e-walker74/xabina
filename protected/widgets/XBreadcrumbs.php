@@ -67,9 +67,7 @@ class XBreadcrumbs extends CWidget
 
 		/*if(empty($this->links))
 			return;*/
-			
-		$this->links = array_merge(array(Yii::t('Front', 'Home') => array('/banking/index')), $this->links);
-
+		$this->links = array(Yii::t('Front', 'Home') => array('/banking/index')) + $this->links;
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		$links=array();
 		$i = 1;

@@ -1,19 +1,19 @@
-<div class=" xabina-form-narrow">
-	<table class="table xabina-table-contacts">
+<div class="xabina-form-narrow">
+	<table class="table xabina-table-contacts table-defaults">
 		<tr class="table-header">
-			<th style="width: 53%"><?= Yii::t('Front', 'Default'); ?></th>
-			<th style="width: 47%"><?= Yii::t('Front', 'Category'); ?></th>
-			<th style="width: 0"></th>
+			<th style="width: 49%"><?= Yii::t('Front', 'Default'); ?></th>
+			<th style="width: 43%"><?= Yii::t('Front', 'Description'); ?></th>
+			<th style="width: 8%"></th>
 		</tr>
 		<?php foreach(Users_Contacts_Data_Default::$types as $key => $value): ?>
 		<?php $default = Users_Contacts_Data_Default::getModelForType($model, $key); ?>
 		<tr class="data-row">
 			<td><?= Yii::t('Front', Users_Contacts_Data_Default::$types[$key]) ?></td>
 			<td><?= $default->value ?></td>
-			<td>
-				<div class="transaction-buttons-cont">
-					<a href="javaScript:void(0)" class="button edit"></a>
-				</div>
+			<td style="overflow: visible!important;">
+                <div class="transaction-buttons-cont">
+                    <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
+                </div>
 			</td>
 		</tr>
 		<tr class="edit-row">
@@ -21,7 +21,8 @@
 			<td colspan="2">
 				<?php $form=$this->beginWidget('CActiveForm', array(
 					'id'=>'dataform-form-dafault'.$key,
-					'enableAjaxValidation'=>true,
+                    'action' => array('/contact/update', 'url' => $model->url),
+					'enableAjaxValidation'=>false,
 					'enableClientValidation'=>true,
 					'errorMessageCssClass' => 'error-message',
 					'htmlOptions' => array(
@@ -69,8 +70,8 @@
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-4  edit-submit-cont" style="margin: 0">
 							<div class="transaction-buttons-cont">
-								<input type="submit" class="button ok" value=""/>
-								<a href="javaScript:void(0)" class="button cancel"></a>
+								<input type="submit" title="<?= Yii::t('Front', 'Save') ?>" class="button ok" value=""/>
+								<a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>" class="button cancel"></a>
 							</div>
 						</div>
 					</div>
@@ -79,5 +80,10 @@
 			</td>
 		</tr>
 		<?php endforeach; ?>
+        <tr>
+            <td colspan="3">
+                <a href="#" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'Add new') ?></a>
+            </td>
+        </tr>
 	</table>
 </div>

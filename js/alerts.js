@@ -88,6 +88,7 @@ $(function () {
             }
         })
         .on('click', '.button.edit', function(e) {
+            resetPage()
             e.preventDefault();
             var tr = $(this).closest('.alert-row');
             tr.find('.edit-doc').show();
@@ -102,8 +103,16 @@ $(function () {
             backgroundBlack();
             $.fn.yiiactiveform.validate($form, function (res) {
                 if(res.success) {
-                    refreshTable(function(){
-                        successNotify('Update alert', 'Alert was successfully updated', $alertsTable.find('#'+elHiddenId).parent());
+                    $.ajax({
+                        url:$form.attr('action'),
+                        data:$form.serialize(),
+                        type:'post',
+                        dataType:'json',
+                        success : function (res) {
+                            refreshTable(function(){
+                                successNotify('Update alert', 'Alert was successfully created', $alertsTable.find('#'+elHiddenId).parent());
+                            });
+                        }
                     });
                 } else {
                     if(!$.isEmptyObject(res)){
@@ -122,6 +131,11 @@ $(function () {
             $(this).closest('form').find('select').val('').trigger('change');
             $(this).closest('.collapse').collapse('hide');
             $alertsTable.find('.add-btn').closest('.alert-row').show();
+            return false;
+        })
+        .on('click', '.cancel', function () {
+            resetPage();
+            return false;
         })
     ;
 
@@ -154,10 +168,12 @@ $(function () {
             popout: true,
             onConfirm: function(){
                 var self = $(this).closest('.actions-td').find('.delete');
+                backgroundBlack()
                 $.ajax({
                     type: "POST",
                     url: $(self).data('url'),
                     success: function(data){
+                        dellBackgroundBlack()
                         if(data.success){
                             var tr = $(self).closest('.alert-row');
                             successNotify('Delete alert', 'Alert was successfully deleted', tr.siblings('.alert-row:first'));

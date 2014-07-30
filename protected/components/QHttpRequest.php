@@ -31,27 +31,6 @@ class QHttpRequest extends CHttpRequest
         return $this->_requestUri;
     }
 
-    public function getFilters()
-    {
-        $resArr = array();
-        if ($this->getParam('dir') || $this->getParam('price') || $this->getParam('order') || $this->getParam('mode')) {
-            CController::redirect('/', true, 301);
-        }
-        if ($this->getParam('color')) {
-            if (!is_array($this->getParam('color'))) {
-                throw new CHttpException(404, 'Not Found');
-            }
-            $resArr['color'] = $this->getParam('color');
-        }
-        if ($this->getParam('size')) {
-            if (!is_array($this->getParam('size'))) {
-                throw new CHttpException(404, 'Not Found');
-            }
-            $resArr['size'] = $this->getParam('size');
-        }
-        return (count($resArr)) ? $resArr : false;
-    }
-
     /**
      * @param string $Name
      * @param string $Default default value

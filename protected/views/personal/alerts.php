@@ -52,10 +52,10 @@
             <table class="table table-alert-header">
                 <tbody><tr>
                     <th width="18%"><?= Yii::t('Front', 'Rule'); ?></th>
-                    <th width="24%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
-                    <th width="29%"><?= Yii::t('Front', 'E-mail'); ?></th>
-                    <th width="16%"><?= Yii::t('Front', 'Phone'); ?></th>
-                    <th width="13%" style="text-align: right"></th>
+                    <th width="20%"><?= Yii::t('Front', 'Charachteristics'); ?></th>
+                    <th width="32%"><?= Yii::t('Front', 'E-mail'); ?></th>
+                    <th width="14%"><?= Yii::t('Front', 'Phone'); ?></th>
+                    <th width="16%" style="text-align: right"></th>
                 </tr>
                 </tbody>
             </table>

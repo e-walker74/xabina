@@ -4,7 +4,7 @@ ManagerWidget = {
         this.getWidgetState();
     },
     changeState: function() {
-        $('.xabina-accordion').on( "accordionactivate", function( event, ui ) {
+        $('#manager-accordion').on( "accordionactivate", function( event, ui ) {
             var state = ui.newPanel.length;
             $.ajax({
                 url: '/ajax/SetManagerWidgetState/',
@@ -20,7 +20,7 @@ ManagerWidget = {
             url: '/ajax/GetManagerWidgetState/',
             cache: false
         }).done(function(data){
-            $('.xabina-accordion').accordion({
+            $('#manager-accordion').accordion({
                 heightStyle: "content",
                 active: data > 0 ? 0 : '', // if widget_state > 0, turn on first tab
                 collapsible: true

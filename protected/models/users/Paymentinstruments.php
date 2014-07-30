@@ -59,9 +59,8 @@ class Users_Paymentinstruments extends ActiveRecord
             array('creditcard_number', 'ext.validators.Card', 'on' => 'creditcard'),
             array('card_type', 'numerical', 'on' => 'creditcard'),
             array('p_month', 'numerical', 'min' => 1, 'max' => 12, 'on' => 'creditcard'),
-            array('p_month', 'length', 'max' => 2, 'on' => 'creditcard'),
-            array('p_year', 'numerical', 'min' => date('Y'), 'max' => date('Y', time()+3600*24*365*20), 'on' => 'creditcard'),
-            array('p_year', 'length', 'is' => 4, 'max' => 4, 'on' => 'creditcard'),
+            array('p_month, p_year', 'length', 'max' => 2, 'on' => 'creditcard'),
+            array('p_year', 'numerical', 'min' => date('y'), 'max' => date('y', time()+3600*24*365*20), 'on' => 'creditcard'),
             array('p_csc', 'numerical'),
             array('p_csc', 'length', 'max' => 3, 'min' => 3, 'on' => 'creditcard'),
             // ideal
@@ -152,7 +151,7 @@ class Users_Paymentinstruments extends ActiveRecord
     
     /**
      * getHtmlStatus
-     * TODO: перевести везде где встречается $this->htmlStatus на PaymentService::getHtmlStatus($this->status);
+     * TODO: all $this->htmlStatus to PaymentService::getHtmlStatus($this->status);
      * @return string
      */
     public function getHtmlStatus()
@@ -167,9 +166,6 @@ class Users_Paymentinstruments extends ActiveRecord
         return Array(
             'active' => Array(
                 'condition' => "$alias.deleted=0",
-            ),
-            'own' => Array(
-                'condition' => "$alias.user_id=" . Yii::app()->user->id,
             ),
         );
     }

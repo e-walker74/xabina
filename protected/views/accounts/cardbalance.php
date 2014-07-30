@@ -35,9 +35,9 @@
 
 		</div>
 	</div>
-	
+
 	<div class="clearfix"></div>
-	
+
 	<div class="transfer-accordion" id="search_accordion">
 		<div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Advanced search'); ?> </a><span class="arr"></span></div>
 		<div class="accordion-content">
@@ -60,7 +60,7 @@
 							<?= $form->hiddenField($model, 'account_number', array('id'=>'searchForm_account_number')); ?>
                         </div>
 					</div>
-				</div>				
+				</div>
 				<div class="row second-row" >
 					<div class="col-nested-3">
 						<div class="field-lbl"><?= Yii::t('Front', 'Date'); ?></div>
@@ -91,7 +91,7 @@
 							<div class="select-custom">
 							<span class="select-custom-label"><?= Yii::t('Front', 'All transactions') ?></span>
 								<?=  $form->dropDownList($model, 'type', array(
-									'' => Yii::t('Front', 'All transactions'), 
+									'' => Yii::t('Front', 'All transactions'),
 									'incoming' => Yii::t('Front', 'Incoming'),
 									'outgoing' => Yii::t('Front', 'Outgoing'),
 								), array('class' => 'select-invisible')); ?>
@@ -108,11 +108,11 @@
 	</div>
 
 	<div class="subheader"><?= Yii::t('Front', 'Transaction'); ?>
-	<div class="relative pull-right transaction-actions">
-		<a class="relative button download-button dropdown_button" href="#"></a>
-		<a class="button send-button" href="#"></a>
-		<a class="button print-button" href="#"></a>
-	</div>
+        <div class="relative pull-right transaction-actions">
+            <a class="relative button download-button dropdown_button" href="#"></a>
+            <a class="button send-button" href="#"></a>
+            <a class="button print-button" href="#"></a>
+        </div>
 	</div>
 	<div class="transaction-table-header">
 		<table class="transaction-header">

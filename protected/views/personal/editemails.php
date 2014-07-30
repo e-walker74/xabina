@@ -8,29 +8,10 @@
       <div class="subheader">
         <?= Yii::t('Front', 'My E-Mail addresses'); ?>
       </div>
-      <?php $this->renderPartial('_emails', array('users_emails' => $users_emails, 'model_emails' => $model_emails)); ?>
+        <div class="head-ajax-block">
+            <?php $this->renderPartial('_emails', array('users_emails' => $users_emails, 'model_emails' => $model_emails)); ?>
+        </div>
     </div>
     <div class="clearfix"></div>
   </div>
 </div>
-
-<?php 
-	Yii::app()->clientScript->registerScript('email', 
-		'$(document).ready(function(){
-
-			$(".delete").confirmation({
-				title: "'. Yii::t('Front', 'Are you sure?') .'",
-				singleton: true,
-				popout: true,
-				onConfirm: function(){
-					link = $(this).parents(".popover").prev("a")
-					deleteRow(link);
-					/*successNotify("'. Yii::t('Front', 'Email Address') .'", "'. Yii::t('Front', 'Email Address was successfully deleted!') .'")*/
-					return false;
-				}
-			})
-
-		})', 
-		CClientScript::POS_END
-	);
-?>

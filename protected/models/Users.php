@@ -13,6 +13,7 @@
  * @property integer       $date_edit
  *
  * @property Users_Address $primary_address
+ * @property Users_Settings $settings
  */
 class Users extends ActiveRecord
 {
@@ -21,6 +22,7 @@ class Users extends ActiveRecord
     const USER_IS_ACTIVATED = 2;
     const USER_EMAIL_IS_ACTIVE = 3;
     const USER_IS_NOT_ACTIVE = 4;
+    const USER_IS_PREPAID = 5;
 
     public static $roles = array(1 => 'individual', 2 => 'legalentity');
 
@@ -136,7 +138,7 @@ class Users extends ActiveRecord
             'notifications_active' => array(self::HAS_MANY, 'Users_Notification', 'user_id', 'condition' => 'closed = 0'),
             'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
             'emails' => array(self::HAS_MANY, 'Users_Emails', 'user_id'),
-            'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id', 'order' => 'is_master desc, created_at desc'),
+            'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id', 'order' => 'is_master desc, created_at asc'),
             'primary_address' => array(self::HAS_ONE, 'Users_Address', 'user_id', 'condition' => 'is_master = 1'),
             'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
             'primary_phone' => array(self::HAS_ONE, 'Users_Phones', 'user_id', 'condition' => 'is_master = 1'),
@@ -145,11 +147,11 @@ class Users extends ActiveRecord
             'linkedin' => array(self::HAS_MANY, 'Users_Providers_Linkedin', 'user_id'),
             'twitter' => array(self::HAS_MANY, 'Users_Providers_Twitter', 'user_id'),
             'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id', 'order' => 'is_master desc, created_at desc'),
-			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at desc'),
+			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at asc'),
 			'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
 			'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
 			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
-			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at desc'),
+			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at asc'),
 			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
             'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
             'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
@@ -174,7 +176,7 @@ class Users extends ActiveRecord
             'login' => Yii::t('Front', 'Login'),
             'nickName' => Yii::t('Front', 'Имя на сайте'),
             'password' => Yii::t('Front', 'Новый пароль'),
-            'email' => Yii::t('Front', 'email'),
+            'email' => Yii::t('Front', 'Email'),
             'reemail' => Yii::t('Front', 'Повторите (email)'),
             'status' => Yii::t('Front', 'Status'),
             'created_at' => Yii::t('Front', 'Date Add'),

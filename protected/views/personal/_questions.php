@@ -45,6 +45,8 @@
 				'validateOnChange'=>true,
 				'errorCssClass'=>'input-error',
 				'successCssClass'=>'valid',
+                'afterValidate' => 'js:Personal.afterValidate',
+                'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
 			),
 		)); ?>
 	   <table class="messanger-table">

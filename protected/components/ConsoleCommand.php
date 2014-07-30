@@ -4,7 +4,7 @@ class ConsoleCommand extends CConsoleCommand {
 
     public $actions = 1;
     public $params = array();
-    public $fromQueue = true;
+    public $fromQueue = false;
     
     public function init() {
         // тут мы проверяем уровень загрузки сервера!!!
@@ -51,52 +51,13 @@ class ConsoleCommand extends CConsoleCommand {
             }
         }
 
-        if($this->fromQueue){
-            for ($i = 0; $i < $this->actions; $i++) {
-                // get job worker`s from queue
-                $criterea = new EMongoCriteria();
-                $criterea->addCond('what', '==', $this->name . ' ' . $action);
-				//$criterea->addCond('priority', '==', 100);
-                $criterea->sort('priority', EMongoCriteria::SORT_DESC);
-                $criterea->limit(1);
-				
-                $aJob = Mongo_Queue::model()->findAll($criterea);
-                if(!count($aJob)){
-                    return 0;
-                }
+        $method = new ReflectionMethod($this, $methodName);
+        $params = $this->getParams($method, $this->params);
 
-                $job = array_pop($aJob);
-				if(!$job->user_id){
-					$this->deleteJob($job, true);
-					continue;
-				}
-				
-				$errors = array('message' => Yii::t('Command', 'Email send (user_id = :email, template = :template)', array(':email' => $job->user_id, ':template' => $job->param['template'])));
-				Yii::log($errors['message'], CLogger::LEVEL_INFO, 'mailSendLog');
-				
-                $this->setJobInWork($job); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				
-                $this->params = $job->param;
-                $params = array_merge(get_object_vars($job), $this->params);
-                $method = new ReflectionMethod($this, $methodName);
-                $params = $this->getParams($method, $params);
-				
-                $exitCode = 0;
-                if ($this->beforeAction($action, $params)) {
-                    $exitCode = $method->invokeArgs($this, $params);
-                    $exitCode = $this->afterAction($action, $params, $exitCode);
-                }
-                $this->deleteJob($job, $exitCode); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            }
-        } else {
-            $method = new ReflectionMethod($this, $methodName);
-            $params = $this->getParams($method, $this->params);
-
-            $exitCode = 0;
-            if ($this->beforeAction($action, $params)) {
-                $exitCode = $method->invokeArgs($this, $params);
-                $exitCode = $this->afterAction($action, $params, $exitCode);
-            }
+        $exitCode = 0;
+        if ($this->beforeAction($action, $params)) {
+            $exitCode = $method->invokeArgs($this, $params);
+            $exitCode = $this->afterAction($action, $params, $exitCode);
         }
         
         return $exitCode;

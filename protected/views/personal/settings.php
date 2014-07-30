@@ -9,8 +9,8 @@
 	<table class="table xabina-table table-options xabina-table-personal">
 		<tbody><tr class="table-header">
 			<th width="15%"><?= Yii::t('Front', 'Options'); ?></th>
-			<th width="70%"></th>
-			<th width="15%"></th>
+			<th width="68%"></th>
+			<th width="17%"></th>
 		</tr>
 		<tr class="user-settings-data">
 			<td><?= Yii::t('Front', 'Language'); ?></td>
