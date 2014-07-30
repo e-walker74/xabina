@@ -22,6 +22,8 @@ class Form_Changelostphone extends CFormModel
 			array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'), 'on' => 'change'),
 			array('email', 'required', 'message' => Yii::t('Front', 'E-mail is incorrect'), 'on' => 'change'),
 			array('email', 'email', 'message' => Yii::t('Front', 'E-mail is incorrect'), 'on' => 'change'),
+			array('phone', 'match', 'pattern' => '/^[\+]\d+$/', 'message' => Yii::t('Front', 'Mobile Phone is incorrect')),
+			array('phone', 'length', 'min' => 10, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
 			array('userId', 'checkUser'),
 			array('userId', 'required', 'on' => 'change'),
 		);
