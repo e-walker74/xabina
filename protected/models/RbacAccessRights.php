@@ -103,14 +103,4 @@ class RbacAccessRights extends ActiveRecord
 	{
 		return parent::model($className);
 	}
-
-    public function getRightTree ($parent_id = 0) {
-        $rights = RbacAccessRights::model()->findAll('action_id is not null AND parent_id = ' . $parent_id);
-        if ( count($rights) ) {
-            for ($i = 0; $i < count($rights); $i++) {
-                $rights[$i]->children = $this->getRightTree($rights[$i]['id']);
-            }
-        }
-        return $rights;
-    }
 }

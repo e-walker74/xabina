@@ -57,20 +57,20 @@
                                 <li class="dd-item">
                                     <div class="col-sm-2 control-label pull-right">
                                         <div class="toggle toggle-success"></div>
-                                        <?php echo CHtml::checkBox('rights['.$right->id.']', in_array($right->id, $checkedArr), array('style' => 'display:none;')); ?>
+                                        <?php echo CHtml::checkBox('rights['.$right['id'].']', in_array($right['id'], $checkedArr), array('style' => 'display:none;')); ?>
                                     </div>
                                     <div class="dd-handle">
-                                        <?php echo $right->name ?>
+                                        <?php echo $right['name'] ?>
                                     </div>
-                                    <?php if (count($right->children)): ?>
+                                    <?php if (isset($right['children'])): ?>
                                     <ol class="dd-list">
-                                        <?php foreach ($right->children as $itm): ?>
+                                        <?php foreach ($right['children'] as $itm): ?>
                                         <li class="dd-item">
                                             <div class="col-sm-2 control-label pull-right">
                                                 <div class="toggle toggle-success"></div>
-                                                <?php echo CHtml::checkBox('rights['.$itm->id.']', in_array($itm->id, $checkedArr), array('style' => 'display:none;')); ?>
+                                                <?php echo CHtml::checkBox('rights['.$itm['id'].']', in_array($itm['id'], $checkedArr), array('style' => 'display:none;')); ?>
                                             </div>
-                                            <div class="dd-handle"><?php echo $itm->name ?></div>
+                                            <div class="dd-handle"><?php echo $itm['name'] ?></div>
                                         </li>
                                         <?php endforeach; ?>
                                     </ol>

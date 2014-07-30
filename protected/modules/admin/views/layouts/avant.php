@@ -26,6 +26,7 @@
 
 	<!-- The following CSS are included as plugins and can be removed if unused-->
 <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/datatables/dataTables.css' />
+<link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/codeprettifier/prettify.css' />
 <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-nestable/jquery.nestable.css' />
 <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-toggle/toggles.css' />
 <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->getModule('admin')->assetsUrl; ?>/plugins/form-toggle/toggles.css' />

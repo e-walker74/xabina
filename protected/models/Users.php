@@ -335,14 +335,4 @@ class Users extends ActiveRecord
 
         return $buff;
 	}
-
-    public static function getUserActivityStatus($userId) {
-        $user = Users::model()->findByPk($userId);
-        return $user->activity_status;
-    }
-
-    public static function setUserActivityStatus() {
-        $user = Users::model()->findByPk(Yii::app()->user->id);
-        return $user->activity_status;
-    }
 }

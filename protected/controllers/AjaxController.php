@@ -95,9 +95,9 @@ class AjaxController extends Controller
      *
      */
     public function actionSetUserActivityStatus() {
-        Yii::app()->user->setActivityStatus($_POST['status']);
+        Yii::app()->user->setActivityStatus(Yii::request()->getParam('status', 1, 'list', array(0, 1, 2)));
         $users = Users::model()->findByPk(Yii::app()->user->id);
-        $users->activity_status = $_POST['status'];
+        $users->activity_status = Yii::request()->getParam('status', 1, 'list', array(0, 1, 2));
 
         if ($users->save()) {
             echo CJSON::encode(array('success' => true));
