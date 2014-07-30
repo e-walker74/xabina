@@ -196,9 +196,7 @@ class SiteController extends Controller {
 			}
 			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 			$model->code = $_POST['Form_Smslogin']['code'];
-            $user->hash = '';
-            $user->save();
-			if(!$user->phone_confirm){
+            if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
 				$newPhone = new Users_Phones;
 				$newPhone->user_id = $user->id;

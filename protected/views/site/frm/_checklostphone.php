@@ -25,7 +25,7 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-Mail'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'email', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($model, 'email', array('autocomplete' => 'off', 'class'=>'email')); ?>
                         <span class="validation-icon"></span>
                     </div>
                 </div>

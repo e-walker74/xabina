@@ -52,7 +52,7 @@
                                                 <?= $form->hiddenField($model, 'formtype'); ?>
 												<div class="form-lbl"><?= Yii::t('Front', '[remind form '.$model->formtype.']') ?> <span class="tooltip-icon " title="<?= Yii::t('Front', '[remind form '.$model->formtype.' tooltip]'); ?>"></span></div>
 												<div class="form-input">
-													<?= $form->textField($model, 'login', array('class' => 'remind', 'phonefield' => $model->formtype=='phone'?'true':'false')); ?>
+													<?= $form->textField($model, 'login', array('class' => 'remind '.$model->formtype, 'phonefield' => $model->formtype=='phone'?'true':'false')); ?>
 													<span class="validation-icon"></span>
 												</div>
 												<div class="form-alert">
