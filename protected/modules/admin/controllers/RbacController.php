@@ -16,9 +16,11 @@ class RbacController extends Controller
     }
 
 	public function actionUpdate($id){
-		$rights = RbacAccessRights::model()->getRightTree();
-
         $model = RbacRoles::model()->findByPk($id);
+        $rights = RbackService::getAccessRightsTreeByModel(RbacAccessRights::model()
+            ->findAllByAttributes(array(
+                'is_system' => 0
+            )));
 
         if(isset($_POST['rights'])){
 			RbacRoleAccessRights::model()->deleteAll('role_id = :rid', array(':rid' => $id));

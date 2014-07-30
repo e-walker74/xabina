@@ -412,17 +412,27 @@ class WebUser extends CWebUser
         return $res;
     }
 
-    public function getActivityStatus()
+    public function getActivityStatus($xabina_id = null)
     {
-        if (($name = $this->getState('__activityStatus')) !== null)
-            return $name;
+        if (($ret = Yii::app()->cache->get("__userActivityState_" . $xabina_id))) {
+            return $ret;
+        }
+        return 0;
+    }
+
+    public function getSelfActivityStatus()
+    {
+        if (($value = Yii::app()->cache->get('__userActivityState_' . $this->getXabinaId())) !== false) {
+            Yii::app()->cache->set("__userActivityState_"  . $this->getXabinaId(),  $value, 240);
+            return $value;
+        }
 
         if ($this->getId() !== null) {
-            $this->_model = $this->_getModel();
-            $this->setActivityStatus($this->_model->activity_status);
-            return $this->getActivityStatus();
-        } else
-            return false;
+            $this->setActivityStatus($this->_getModel()->activity_status);
+            return $this->getSelfActivityStatus();
+        } else {
+            return 0;
+        }
     }
 
     public function setActivityStatus($value)
@@ -430,6 +440,18 @@ class WebUser extends CWebUser
         $this->_model = $this->_getModel();
         $this->_model->activity_status = $value;
         $this->_model->save();
-        $this->setState('__activityStatus', $value);
+        Yii::app()->cache->set("__userActivityState_"  . $this->getXabinaId(),  $value, 240);
+    }
+
+    public function getXabinaId()
+    {
+        if (($value = $this->getState('__xabina_id')) !== null) {
+            return $value;
+        } else {
+            $this->_model = $this->_getModel();
+            $value = $this->_model->login;
+            $this->setState('__xabina_id', $value);
+            return $value;
+        }
     }
 }
