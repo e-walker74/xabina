@@ -428,21 +428,22 @@ class SiteController extends Controller {
 
 	public function actionSMSVerifyPhoneChange(){
 
-		$model = new Form_Smslogin('change');
+		$model = new Form_Registerchangephone('change');
 		if(!isset(Yii::app()->session['user_phone'])){
 			$this->redirect(array('/site/smslogin'));
 		}
 		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+        $model->userId = $user->login;
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
-		if(isset($_POST['Form_Smslogin']) && $user != null){
-            $model->attributes = $_POST['Form_Smslogin'];
+		if(isset($_POST['Form_Registerchangephone']) && $user != null){
+            $model->attributes = $_POST['Form_Registerchangephone'];
             $model->userId = $user->login;
-			$user->phone = $_POST['Form_Smslogin']['phone'];
+			$user->phone = $_POST['Form_Registerchangephone']['phone'];
 			if($model->validate() && $user->save()){
                 Yii::app()->session['user_phone'] = $user->phone;
 				$this->redirect(array('/site/SMSRegisterVerify'));
