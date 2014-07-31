@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-input">
                         <div class="dropdown select-type-dropdown disabled">
-                            <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
+                            <a  class="select-type" href="#"><?=Yii::t('Front', Users::$roles[$user->role])?></a>
 
                         </div>
                     </div>

@@ -76,6 +76,8 @@ return array(
     'Last Name is incorrect' => 'Фвамилия введена неверно',
     'Add Your name using latin alphabet' => 'Введите свое имя используя латинский алфавит',
     'First Name is incorrect' => 'Имя введено неверно',
+    'individual' => 'Физ. лицо',
+    'legalentity' => 'Компания',
 
 	'{termsConditionsText}' =>
 		'Вся информация, размещённая на данном сайте, является собственностью Xabina.

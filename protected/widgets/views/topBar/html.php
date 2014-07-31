@@ -67,18 +67,28 @@
                         </div>
                     <?php endif; ?>
                     <ul class="user-menu pull-right  list-inline">
-                        <li class="user-notification">
-                            <a href="#"  data-toggle="dropdown" role="button"><span>12</span></a>
-                        </li>
-                        <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
-                        <li class="user-briefcase"><a href="#"></a></li>
-                        <li class="user-settings"><a href="#"></a></li>
+                        <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_notification')): ?>
+                            <li class="user-notification">
+                                <a href="#"  data-toggle="dropdown" role="button"><span>12</span></a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_user_personal')): ?>
+                            <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
+                        <?php endif; ?>
+                        <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_user_briefcase')): ?>
+                            <li class="user-briefcase"><a href="#"></a></li>
+                        <?php endif; ?>
+                        <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_user_settings')): ?>
+                            <li class="user-settings"><a href="#"></a></li>
+                        <?php endif; ?>
                         <li class="user-logout"><?= CHtml::link('', array('/site/logout')); ?></li>
                     </ul>
                     <div class="user-greeting pull-right">
                         <img src="/images/account-photo-r.png" alt=""/>
-                        <? $userActivity = Yii::app()->user->getSelfActivityStatus();?>
                         <?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?>
+
+                        <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_activity_status')): ?>
+                        <? $userActivity = Yii::app()->user->getSelfActivityStatus();?>
                         <div class="select-custom-activity-cont">
                             <div class="select-img">
                                 <div class="select-custom-activity" data-toggle="dropdown">
@@ -108,6 +118,7 @@
                                 </ul>
                             </div>
                         </div>
+                        <?php endif;?>
                     </div>
 
                 </div>

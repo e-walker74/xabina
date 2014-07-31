@@ -35,7 +35,8 @@ return array(
     '[remind form email]' => 'Enter E-Mail',
     '[remind form phone]' => 'Enter Phone',
     '[remind form login]' => 'Enter User ID',
-
+    'individual' => 'Private Individual',
+    'legalentity' => 'Company',
 	'{termsConditionsText}' => 
 		'Вся информация, размещённая на данном сайте, является собственностью Xabina.
 		Xabina сохраняет за собой право изменять содержание и/или структуру сайта в любое время и без
