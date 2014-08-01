@@ -17,7 +17,7 @@
 				'{day}' => date('d', Yii::app()->user->lastTime),
 				'{year}' => date('Y', Yii::app()->user->lastTime),
 				'{time}' => date('H:i', Yii::app()->user->lastTime),
-				'{p}' => date('P', Yii::app()->user->lastTime),
+				'{p}' => Zone::getOffset(Yii::user()->getTimeZone()),
 			)); ?>
 		<?php endif; ?>
 		<?php if(Yii::app()->user->lastIp): ?>

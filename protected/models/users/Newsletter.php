@@ -1,21 +1,30 @@
 <?php
 
 /**
- * This is the model class for table "fips_countries".
+ * This is the model class for table "users_newsletter".
  *
- * The followings are the available columns in table 'fips_countries':
- * @property integer $id
- * @property string $code
- * @property string $name
+ * The followings are the available columns in table 'users_newsletter':
+ * @property string $id
+ * @property string $user_id
+ * @property string $letter_type
+ *
+ * The followings are the available model relations:
+ * @property Users $user
  */
-class Countries extends CActiveRecord
+class Users_Newsletter extends ActiveRecord
 {
+    public static $types = array(
+        'news',
+        'development',
+        'partner_marketing',
+    );
+
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'fips_countries';
+		return 'users_newsletter';
 	}
 
 	/**
@@ -26,12 +35,12 @@ class Countries extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, name', 'required'),
-			array('code', 'length', 'max'=>2),
-			array('name', 'length', 'max'=>64),
+			array('user_id', 'required'),
+			array('user_id', 'length', 'max'=>11),
+			array('letter_type', 'length', 'max'=>17),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code, name', 'safe', 'on'=>'search'),
+			array('id, user_id, letter_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +52,7 @@ class Countries extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 		);
 	}
 
@@ -53,8 +63,8 @@ class Countries extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'code' => 'Code',
-			'name' => 'Name',
+			'user_id' => 'User',
+			'letter_type' => 'Letter Type',
 		);
 	}
 
@@ -76,9 +86,9 @@ class Countries extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('letter_type',$this->letter_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,24 +99,10 @@ class Countries extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Countries the static model class
+	 * @return $this the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-//    /**
-//     * Все cnhfys
-//     * @return array
-//     */
-//    public static function all(){
-//
-//        $models = self::model()->findAll();
-//        $array = array( '' => 'choose');
-//        foreach ($models as $v) {
-//            $array[$v->id] = $v->name;
-//        }
-//        return $array;
-//    }
 }

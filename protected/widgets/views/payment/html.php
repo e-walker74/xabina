@@ -22,7 +22,7 @@
                 'electronic_method',
                 Form_Incoming_Electronic::$methods,
                 array(
-                    'class' => 'select-invisible',
+                    'class' => 'select-invisible payment_select',
                     'id' => "{$this->modelName}_electronic_method",
                     'options' => array($model->electronic_method => array('selected' => true)),
                     'empty' => Yii::t('Front', 'Select a method')
@@ -62,7 +62,7 @@
             <div class="field-input">
                 <?=
                 $form->textField($model, 'creditcard_number', array(
-                    'class' => 'input-text numeric',
+                    'class' => 'input-text numeric creditcard',
                     'value' => $model->from_account_number,
                     'id' => "{$this->modelName}_creditcard_number",
                 ))?>

@@ -17,13 +17,18 @@
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Users_Paymentinstruments extends ActiveRecord
+class Users_Paymentinstruments extends Users_Profile
 {
     // creditcard params
     public $creditcard_holder;
     public $creditcard_number;
     // ideal params
     public $ideal_account_number;
+
+    public static $methods = array(
+        1 => 'creditcard',
+        2 => 'ideal',
+    );
 
     /**
      * Returns the static model of the specified AR class.
