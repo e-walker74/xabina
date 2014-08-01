@@ -28,7 +28,7 @@
                     <?php if($mes->is_master): ?>
                         <span class="bold"><?= Yii::t('Front', 'Primary'); ?></span>
                     <?php else: ?>
-                        <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                        <a href="javaScript:void(0)" class="make-primary" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
                     <?php endif; ?>
 
                 </td>

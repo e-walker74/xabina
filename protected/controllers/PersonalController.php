@@ -49,6 +49,7 @@ class PersonalController extends Controller
                     'deletePaymentInstument',
                     'newsletter',
                     'uploaduserphoto',
+                    'other',
                 ),
                 'roles' => array('client')
             ),
@@ -93,7 +94,7 @@ class PersonalController extends Controller
 
         $model_emails = new Users_Emails('editemails');
 
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'user_datas') {
+        if (Yii::request()->getParam('ajax')) {
             echo CActiveForm::validate($model_emails);
             Yii::app()->end();
         }
@@ -597,7 +598,7 @@ class PersonalController extends Controller
             @mkdir($folder, 0775, 1);
             $image->save($folder . $name);
             $model->photo = $name;
-            if($model->save()){
+            if ($model->save()) {
                 echo CJSON::encode(array(
                     'success' => true,
                     'message' => Yii::t('Personal', 'Photo was successfully changed'),
@@ -1143,7 +1144,7 @@ class PersonalController extends Controller
 
     public function actionDelete($id)
     {
-        $type = Yii::app()->request->getParam('type', '', 'list', array('social', 'messager', 'phones', 'question', 'emails', 'address', 'telephones'));
+        $type = Yii::app()->request->getParam('type', '', 'list', array('social', 'messager', 'phones', 'question', 'emails', 'address', 'telephones', 'other'));
         if (!$type && !$id) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
@@ -1233,6 +1234,16 @@ class PersonalController extends Controller
                     $message = Yii::t('Front', 'Phone number was deleted from your profile');
                 } else {
                     $return = false;
+                }
+                break;
+            case 'other':
+                $model = Users_Others::model()->ownUser()->findByPk($id);
+                if($model){
+                    $model->delete();
+                    $return = true;
+                    $mesTitle = Yii::t('Front', 'Personal Cabinet');
+                    $message = Yii::t('Front', 'Note was deleted from your profile');
+                    $refresh = true;
                 }
                 break;
         }
@@ -1656,6 +1667,42 @@ class PersonalController extends Controller
             'clean' => false,
             'message' => $message,
             'html' => $this->renderPartial('tabversion/_newslatter', array('model' => $model), true, true),
+        ));
+    }
+
+    public function actionOther()
+    {
+
+        $model = new Users_Others();
+        $message = '';
+
+        if(Yii::request()->getParam('ajax')){
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Users_Others'])){
+            if(isset($_POST['Users_Others']['id'])){
+                $model = Users_Others::model()->ownUser()->findByPk($_POST['Users_Others']['id']);
+            }
+            $model->attributes = $_POST['Users_Others'];
+            $model->user_id = Yii::user()->id;
+            $model->save();
+            $message = Yii::t('Personal', 'Note was successfully saved');
+            $model = new Users_Others();
+        }
+
+        $others = Users_Others::model()->ownUser()->findAll();
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'message' => $message,
+            'html' => $this->renderPartial(
+                    'tabversion/_other',
+                    array(
+                        'model' => $model,
+                        'others' => $others,
+                    ), true, true),
         ));
     }
 }

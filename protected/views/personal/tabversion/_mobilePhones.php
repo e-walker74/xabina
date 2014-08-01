@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                             <?php else: ?>
-                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                                <a href="javaScript:void(0)" class="make-primary" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
                             <?php endif; ?>
                         <?php elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
                             <span class="bold"><?= Yii::t('Front', 'Primary'); ?></span>
@@ -114,12 +114,12 @@
                 </tr>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tr>
+        <tr class="data-row">
             <td colspan="4" class="add-new-td">
                 <a class="rounded-buttons add-more upload" onclick="$(this).closest('tr').hide().closest('tr').next().toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
             </td>
         </tr>
-        <tr class="add-new-row prof-form">
+        <tr class="add-new-row prof-form edit-row">
             <td colspan="4">
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'personal-mobilephones',

@@ -288,19 +288,7 @@
                     <div class=" xabina-form-narrow">
                         <div class="container-form">
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                    <div class="form-cell">
-                                        <div class="form-lbl">
-                                            <?= Yii::t('Personal', 'Old User ID'); ?>
-                                            <span class="tooltip-icon"
-                                                  title="<?= Yii::t('Personal', 'old_user_id_tooltip'); ?>"></span>
-                                        </div>
-                                        <div class="form-input">
-                                            <input type="text" class="input-text" disabled value="<?= $model->login ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <div class="form-cell">
                                         <div class="form-lbl">
                                             <?= Yii::t('Personal', 'New User ID'); ?>
@@ -313,7 +301,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <div class="form-cell">
                                         <div class="form-lbl">
                                             <?= Yii::t('Personal', 'Confirm New User ID'); ?>

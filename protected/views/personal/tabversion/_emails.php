@@ -179,13 +179,13 @@
                 </tr>
             <?php endif; ?>
         <?php endforeach; ?>
-        <tr>
+        <tr class="data-row">
             <td colspan="4" class="add-new-td">
                 <a class="rounded-buttons add-more upload" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
             </td>
         </tr>
         <?php $model_emails = new Users_Emails(); ?>
-        <tr class="add-new-row prof-form emails-form-tr">
+        <tr class="add-new-row prof-form emails-form-tr edit-row">
             <td colspan="4">
                 <div class=" xabina-form-normal">
                     <div class="table-subheader"><?= Yii::t('Personal', 'Add E-Mail') ?></div>
