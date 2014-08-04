@@ -52,7 +52,7 @@
                     <?php if(!$model->primary_email): ?>
                         <?= Yii::t('Personal', 'System E-Mail') ?>
                     <?php else: ?>
-                        <?= $model->primary_email->category->value ?>
+                        <?= ($model->primary_email->category) ? $model->primary_email->category->value : "" ?>
                     <?php endif; ?>
                 </span>
             </td>
@@ -64,11 +64,9 @@
             <td><?= Yii::t('Personal', 'Phone') ?></td>
             <td>
                 <span class="strong">+<?= chunk_split($model->primary_phone->phone, 3) ?></span>
-                <span class="note"><?= $model->primary_phone->category->value ?></span>
+                <span class="note"><?= ($model->primary_phone->category) ? $model->primary_phone->category->value : "" ?></span>
             </td>
             <td>
-
-
             </td>
         </tr>
         <?php endif; ?>
@@ -79,7 +77,7 @@
                     <span class="strong">
                         <?= $model->primary_address->getAddressHtml() ?>
                     </span>
-                    <span class="note"><?= $model->primary_address->category->value ?></span>
+                    <span class="note"><?= ($model->primary_address->category) ? $model->primary_address->category->value : ""?></span>
                 </td>
                 <td>
 

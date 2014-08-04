@@ -70,12 +70,14 @@ class PersonalController extends Controller
 
     public function actionIndex()
     {
+
+
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
         $model = Users::model()->with(array(
-            'primary_email',
-            'primary_address',
-            'primary_phone',
-            'primary_paymentsmethod',
+//            'primary_email',
+//            'primary_address',
+//            'primary_phone',
+//            'primary_paymentsmethod',
             'accounts',
         ))->findByPk(Yii::app()->user->id, array('order' => 'accounts.is_master desc'));
         if (Yii::request()->isAjaxRequest) {
@@ -85,6 +87,7 @@ class PersonalController extends Controller
             ));
             Yii::app()->end();
         }
+
         $this->render('tabversion/index', array('model' => $model));
     }
 
