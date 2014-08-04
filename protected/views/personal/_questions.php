@@ -65,13 +65,8 @@
 					   </div>
 					   <div class="field-input ">
 						   <div class="select-custom">
-								<?php 
-									$questions = Securityquestions::model()->findAll('status = 1 AND lang = :lang', array(':lang' => Yii::app()->language));
-									$firsm = current($questions);
-								?>
-								
 							   <span class="select-custom-label"><?= $firsm->question; ?> </span>
-							   <?= $form->dropDownList($model, 'question_id', CHtml::listData(Securityquestions::model()->findAll('status = 1 AND lang = :lang', array(':lang' => Yii::app()->language)), 'id', 'question'), array('class' => 'country-select select-invisible')); ?>
+							   <?= $form->dropDownList($model, 'question_id', CHtml::listData($question, 'id', 'question'), array('class' => 'country-select select-invisible')); ?>
 							   <?= $form->error($model, 'question_id'); ?>
 						   </div>
 					   </div>

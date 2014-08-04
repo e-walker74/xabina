@@ -15,20 +15,22 @@ class PaymentService
 
     /**
      * getHtmlStatus
-     * 
+     *
+     * @param $status
      * @return string
      */
     public static function getHtmlStatus($status)
     {
         switch ($status) {
             case self::PENDING_STATUS:
-                return '<span class="pending">'. Yii::t('Front', 'Pending') .'</span>';
+
+                return '<img src="/css/layout/account/img/statuses-ico-pen.png" alt=""/>';
                 break;
             case self::APPROVED_STATUS:
-                return '<span class="approved">'. Yii::t('Front', 'Approved') .'</span>';
+                return '<img src="/css/layout/account/img/statuses-ico-ok.png" alt=""/>';
                 break;
             case self::REJECTED_STATUS:
-                return '<span class="rejected">'. Yii::t('Front', 'Rejected') .'</span>';
+                return '<img src="/css/layout/account/img/statuses-ico-rej.png" alt=""/>';
                 break;
         }
     }

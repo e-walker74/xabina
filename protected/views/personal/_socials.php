@@ -9,8 +9,6 @@
 			<th style="width: 15%"><?= Yii::t('Front', 'Status'); ?></th>
 			<th style="width: 8%"></th>
 		</tr>
-		<?php $user = Users::model()->findByPk(Yii::app()->user->id) ?>
-
 		<?php foreach($user->socials as $soc): ?>
 			<tr>
 				<td><div class="soc-net-ico <?= array_search($soc->provider, Users_Providers::$providersModel); ?>"></div></td>

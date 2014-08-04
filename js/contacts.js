@@ -363,19 +363,6 @@ var showAddNewCategory = function (el) {
     }
 }
 
-var hideCategoryTextField = function (el) {
-    $(el)
-        .attr('disabled', true)
-        .val('')
-        .closest('.form-input')
-        .hide()
-        .prev('.category-select')
-        .show()
-        .find('select')
-        .attr('disabled', false)
-    return false;
-}
-
 var searchTransactionsLinks = function (button) {
     var form = $(button).closest('form')
     backgroundBlack()

@@ -4,21 +4,28 @@
  * This is the model class for table "users".
  *
  * The followings are the available columns in table 'users':
- * @property integer       $id
- * @property string        $login
- * @property string        $password
- * @property string        $email
- * @property integer       $status
- * @property integer       $date_add
- * @property integer       $date_edit
+
+ * @property integer                  $id
+ * @property string                   $login
+ * @property string                   $password
+ * @property string                   $email
+ * @property integer                  $status
+ * @property integer                  $date_add
+ * @property integer                  $date_edit
  * @property integer       $activity_status
+ * @property Users_Address            $primary_address
+ * @property Users_Settings           $settings
+ * @property Users_Securityquestions  $questions
+ * @property Users_Newsletter[]       $newsletter
  *
- * @property Users_Address $primary_address
- * @property Users_Settings $settings
+ * @property Users_Emails             $primary_email
+ * @property Users_Phones             $primary_phone
+ * @property Users_Paymentinstruments $primary_paymentsmethod
+
+ *
  */
 class Users extends ActiveRecord
 {
-
     const USER_IS_VERIFICATED = 1;
     const USER_IS_ACTIVATED = 2;
     const USER_EMAIL_IS_ACTIVE = 3;
@@ -36,6 +43,8 @@ class Users extends ActiveRecord
     public $old_password;
     public $reemail;
     public $activity_status;
+    public $delete;
+
 
     public static function getModelByType($type)
     {
@@ -145,24 +154,30 @@ class Users extends ActiveRecord
             'last_auth' => array(self::HAS_ONE, 'Users_Log', 'user_id', 'condition' => 'type = "login"', 'order' => 'created_at desc'),
             'emails' => array(self::HAS_MANY, 'Users_Emails', 'user_id'),
             'addresses' => array(self::HAS_MANY, 'Users_Address', 'user_id', 'order' => 'is_master desc, created_at asc'),
-            'primary_address' => array(self::HAS_ONE, 'Users_Address', 'user_id', 'condition' => 'is_master = 1'),
             'phones' => array(self::HAS_MANY, 'Users_Phones', 'user_id'),
-            'primary_phone' => array(self::HAS_ONE, 'Users_Phones', 'user_id', 'condition' => 'is_master = 1'),
             'vkontakte' => array(self::HAS_MANY, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_MANY, 'Users_Providers_Facebook', 'user_id'),
             'linkedin' => array(self::HAS_MANY, 'Users_Providers_Linkedin', 'user_id'),
             'twitter' => array(self::HAS_MANY, 'Users_Providers_Twitter', 'user_id'),
             'socials' => array(self::HAS_MANY, 'Users_Socials', 'user_id', 'order' => 'is_master desc, created_at desc'),
-			'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at asc'),
-			'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
-			'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
-			'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
-			'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at asc'),
-			'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
+            'messagers' => array(self::HAS_MANY, 'Users_Instmessagers', 'user_id', 'order' => 'is_master desc, created_at asc'),
+            'questions' => array(self::HAS_MANY, 'Users_Securityquestions', 'user_id', 'order' => 'created_at asc'),
+            'personal' => array(self::HAS_ONE, 'Users_Personal_Edit', 'user_id', 'order' => 'created_at desc'),
+            'personal_documents' => array(self::HAS_MANY, 'Users_Personal_Documents', 'user_id', 'order' => 'expiry_date desc'),
+            'telephones' => array(self::HAS_MANY, 'Users_Telephones', 'user_id', 'order' => 'created_at asc'),
+            'settings' => array(self::HAS_ONE, 'Users_Settings', 'user_id'),
             'accounts' => array(self::HAS_MANY, 'Accounts', 'user_id'),
             'usersPersonalManagers' => array(self::HAS_MANY, 'UsersPersonalManagers', 'user_id'),
             'personalManagers' => array(self::HAS_MANY, 'PersonalManagers', 'manager_id', 'through' => 'usersPersonalManagers'),
             'rbac_roles' => array(self::HAS_MANY, 'RbacUserRoles', 'user_id'),
+            'newsletter' => array(self::HAS_ONE, 'Users_Newsletter', 'user_id'),
+
+
+            'primary_email' => array(self::HAS_ONE, 'Users_Emails', 'user_id', 'condition' => 'primary_email.is_master = 1'),
+            'primary_address' => array(self::HAS_ONE, 'Users_Address', 'user_id', 'condition' => 'primary_address.is_master = 1'),
+            'primary_phone' => array(self::HAS_ONE, 'Users_Phones', 'user_id', 'condition' => 'primary_phone.is_master = 1'),
+            'primary_paymentsmethod' => array(self::HAS_ONE, 'Users_Paymentinstruments', 'user_id', 'condition' => 'primary_paymentsmethod.is_master = 1'),
+
         );
     }
 
@@ -238,71 +253,76 @@ class Users extends ActiveRecord
         $this->save();
         return true;
     }
-	
-	public function getFullName(){
-		$res = $this->login;
-		if($this->first_name && $this->last_name){
-			$res = $this->first_name;
-			if($this->last_name){
-				$res .= ' ' . $this->last_name;
-			}
-		}
-		return $res;
-	}
 
-	public function createHash(){
-		$this->hash = md5(crc32('xabina was here' . $this->id . $this->email . time()));
-	}
+    public function getFullName()
+    {
+        $res = $this->login;
+        if ($this->first_name && $this->last_name) {
+            $res = $this->first_name;
+            if ($this->last_name) {
+                $res .= ' ' . $this->last_name;
+            }
+        }
+        return $res;
+    }
 
-	public function sendEmailConfirm(){
-		$mail = new Mail();
-		$this->createHash();
-		//$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
-	}
+    public function createHash()
+    {
+        $this->hash = md5(crc32('xabina was here' . $this->id . $this->email . time()));
+    }
 
-	/*public function addNotification($message, $type = 'close', $style = 'green'){
-		$notify = new Users_Notification;
-		$notify->message = $message;
-		$notify->type = $type;
-		$notify->style = $style;
-		$notify->user_id = $this->id;
-		$notify->save();
-	}*/
+    public function sendEmailConfirm()
+    {
+        $mail = new Mail();
+        $this->createHash();
+        //$mail->send($this, 'emailConfirm', array('hash' => $this->hash), true);
+    }
 
-	public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false){
-		if(!$user_id){
-			$user_id = Yii::app()->user->id;
-			$user = Users::model()->findByPk($user_id);
-		} else {
-			$user = Users::model()->findByPk(Yii::app()->user->id);
-		}
-		
-		$notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
-			'code' => $code,
-			':uid' => $user_id,
-		));
-		if($notify){
-			return false;
-		}
-		$notify = new Users_Notification();
-		$notify->user_id = $user_id;
-		$notify->code = $code;
-		$notify->message = $message;
-		$notify->type = $type;
-		$notify->style = $style;
-		if($notify->save()){
-			//$this->_notifications = false;
-			return true;
-		}
-		return false;
-	}
-	
-	public static function removeNotification($code, $user_id){
-		Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
-	}
+    /*public function addNotification($message, $type = 'close', $style = 'green'){
+        $notify = new Users_Notification;
+        $notify->message = $message;
+        $notify->type = $type;
+        $notify->style = $style;
+        $notify->user_id = $this->id;
+        $notify->save();
+    }*/
 
-    public function getRbacSettings($ownerUid = NULL) {
+    public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
+    {
+        if (!$user_id) {
+            $user_id = Yii::app()->user->id;
+            $user = Users::model()->findByPk($user_id);
+        } else {
+            $user = Users::model()->findByPk(Yii::app()->user->id);
+        }
 
+        $notify = Users_Notification::model()->find('code = :code AND user_id = :uid AND closed = 0', array(
+            'code' => $code,
+            ':uid' => $user_id,
+        ));
+        if ($notify) {
+            return false;
+        }
+        $notify = new Users_Notification();
+        $notify->user_id = $user_id;
+        $notify->code = $code;
+        $notify->message = $message;
+        $notify->type = $type;
+        $notify->style = $style;
+        if ($notify->save()) {
+            //$this->_notifications = false;
+            return true;
+        }
+        return false;
+    }
+
+    public static function removeNotification($code, $user_id)
+    {
+        Users_Notification::model()->findAll('code = :code AND user_id = :ui', array(':code' => $code, ':ui' => $user_id));
+    }
+
+    public function getRbacSettings($ownerUid = NULL)
+    {
         $userId = $this->id;
 
         $filterSql = '';
@@ -334,5 +354,14 @@ class Users extends ActiveRecord
         )->queryAll();
 
         return $buff;
-	}
+    }
+
+    public function getPhotoUrl()
+    {
+        if($this->photo){
+            return Yii::app()->getBaseUrl(true) . '/images/users/' . $this->id .  '/' . $this->photo;
+        } else {
+            return Yii::app()->getBaseUrl(true) . '/images/contact_no_foto.png';
+        }
+    }
 }

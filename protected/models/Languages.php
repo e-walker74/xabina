@@ -3,7 +3,7 @@
 class Languages extends CModel
 {
 	
-    public static $languages = array('en' => 'English', 'ch' => 'CH', 'du' => 'DU', 'fr' => 'FR', 'ge' => 'GE', 'ru' => 'RU');
+    public static $languages = array('en' => 'English', 'ch' => 'CH', 'du' => 'DU', 'fr' => 'FR', 'ge' => 'GE', 'ru' => 'Русский');
 	public static $languagesDomains = array('http://xabina.intwall.com' => 'en', 'ch' => 'ch', 'du' => 'du', 'fr' => 'fr', 'ge' => 'ge', 'http://ruxabina.intwall.com' => 'ru');
 	
 	public function attributeNames(){}
