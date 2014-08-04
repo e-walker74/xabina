@@ -28,9 +28,9 @@ class WebUser extends CWebUser
     /**
      * @return Users
      */
-    private function _getModel()
+    private function _getModel($refresh = false)
     {
-        if (!$this->isGuest && $this->_model === null && $this->id) {
+        if ((!$this->isGuest && $this->_model === null && $this->id) || $refresh) {
             $this->_model = Users::model()->findByPk($this->id /* array('select' => 'role') */);
         }
         return $this->_model;
@@ -132,6 +132,20 @@ class WebUser extends CWebUser
         $this->setState('__phone', $value);
     }
 
+    public function getTimeZone($refresh = false){
+        if (($name = $this->getState('__time_zone')) !== null && !$refresh)
+            return $name;
+
+        if ($this->getId() !== null) {
+            Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
+
+            $model = $this->_getModel($refresh);
+            $this->setTimeZone($model->settings->time_zone->zone_name);
+            return $this->getTimeZone();
+        } else
+            return false;
+    }
+
     public function getStatus()
     {
         if (($name = $this->getState('__status')) !== null)
@@ -139,7 +153,7 @@ class WebUser extends CWebUser
 
         if ($this->getId() !== null) {
             Yii::log(array('getStatus' => $this->getId(), 'action' => 'getStatus'), CLogger::LEVEL_ERROR, 'webUser');
-            $this->_model = Users::model()->findByPk($this->getId(), array('select' => 'status'));
+            $this->_model = Users::model()->findByPk($this->getId());
             $this->setStatus($this->_model->status);
             return $this->getStatus();
         } else
@@ -169,10 +183,19 @@ class WebUser extends CWebUser
         return '';
     }
 
-    public function getLastTime()
+    public function getLastTime($refresh = false)
     {
-        if (($name = $this->getState('__last_time')) !== null)
+        if (($name = $this->getState('__last_time')) !== null && !$refresh)
             return $name;
+
+        if ($this->getId() !== null) {
+            Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
+
+            $model = $this->_getModel($refresh);
+            $this->setLastTime(strtotime($model->last_auth->created_at));
+            return $this->getLastTime();
+        } else
+            return false;
 
         return '';
     }
@@ -216,6 +239,7 @@ class WebUser extends CWebUser
         $this->setLanguage($user->settings->language);
         $this->setFontSize($user->settings->font_size);
         $this->setFullName($user->getFullName());
+        $this->getTimeZone();
 
         $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
         $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
@@ -229,7 +253,7 @@ class WebUser extends CWebUser
 
         if ($user->last_auth) {
             $this->setLastIp($user->last_auth->ip_address);
-            $this->setLastTime($user->last_auth->created_at);
+            $this->setLastTime(strtotime($user->last_auth->created_at));
         }
 
         parent::login($identity);
@@ -256,6 +280,11 @@ class WebUser extends CWebUser
     public function setFullName($fullName)
     {
         $this->setState('__full_name', $fullName);
+    }
+
+    public function setTimeZone($value){
+        Zone::setUserTimeZone($value);
+        $this->setState('__time_zone', $value);
     }
 
     /**

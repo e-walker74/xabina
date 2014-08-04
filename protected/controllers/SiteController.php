@@ -196,9 +196,7 @@ class SiteController extends Controller {
 			}
 			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 			$model->code = $_POST['Form_Smslogin']['code'];
-            $user->hash = '';
-            $user->save();
-			if(!$user->phone_confirm){
+            if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
 				$newPhone = new Users_Phones;
 				$newPhone->user_id = $user->id;
@@ -430,21 +428,22 @@ class SiteController extends Controller {
 
 	public function actionSMSVerifyPhoneChange(){
 
-		$model = new Form_Smslogin('change');
+		$model = new Form_Registerchangephone('change');
 		if(!isset(Yii::app()->session['user_phone'])){
 			$this->redirect(array('/site/smslogin'));
 		}
 		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+        $model->userId = $user->login;
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
-		if(isset($_POST['Form_Smslogin']) && $user != null){
-            $model->attributes = $_POST['Form_Smslogin'];
+		if(isset($_POST['Form_Registerchangephone']) && $user != null){
+            $model->attributes = $_POST['Form_Registerchangephone'];
             $model->userId = $user->login;
-			$user->phone = $_POST['Form_Smslogin']['phone'];
+			$user->phone = $_POST['Form_Registerchangephone']['phone'];
 			if($model->validate() && $user->save()){
                 Yii::app()->session['user_phone'] = $user->phone;
 				$this->redirect(array('/site/SMSRegisterVerify'));

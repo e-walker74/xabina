@@ -126,7 +126,7 @@
 			<td>
 				<div class="select-custom ">
 					<span class="select-custom-label"><?= $user->settings->currency->code ?></span>
-					<?= CHtml::activeDropDownList($user->settings, 'currency_id', 
+					<?= CHtml::activeDropDownList($user->settings, 'currency_id',
 					CHtml::listData(Currencies::model()->findAll(), 'id', 'title'),
 					array('class' => 'select-invisible')) ?>
 				</div>
@@ -139,11 +139,11 @@
 			</td>
 		</tr>
 	</tbody></table>
-	
+
 	<div class="form-submit">
 		<a href="<?= Yii::app()->createUrl('/personal/index') ?>" class="submit-button button-back">Back</a>
 	</div>
-	
+
 	</form>
 	</div>
 </div>
