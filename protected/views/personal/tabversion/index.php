@@ -25,10 +25,10 @@
     <div class="clearfix"></div>
 </div>
 
-<div class="edit-tabs contact-tabs">
+<div class="edit-tabs contact-tabs personal-tabs">
 <ul class="list-unstyled">
     <li style="width: 25%"><a href="#tab1"><?= Yii::t('Personal', 'General Info') ?></a></li>
-    <li style="width: 25%"><a href="#accounts"><?= Yii::t('Personal', 'Accounts') ?></a></li>
+    <li style="width: 25%"><a href="#accounts" data-url="<?= Yii::app()->createUrl('/personal/accounts') ?>"><?= Yii::t('Personal', 'Accounts') ?></a></li>
     <li style="width: 25%"><a href="#tab6"><?= Yii::t('Personal', 'Dialogue') ?></a></li>
     <li style="width: 25%"><a href="#tab5"><?= Yii::t('Personal', 'Drive') ?></a></li>
 </ul>
@@ -95,7 +95,7 @@
 
 
 </div>
-<div id="accounts">
+<div id="accounts" class="tab">
     <?php $this->renderPartial('tabversion/_accounts', array('model' => $model)) ?>
 </div>
 <div id="tab6">

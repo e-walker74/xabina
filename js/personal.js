@@ -24,7 +24,7 @@ Personal = {
         $('.tab').on('click', '.button.edit, .upload.add-more', function () {
             resetPage()
             $(this).closest('tr').hide().next('.edit-row').show()
-            return false;
+//            return false;
         })
     },
     bindTooltips: function () {
@@ -308,6 +308,26 @@ Personal = {
                 }
             }, {
                 accept: ['visa', 'mastercard', 'amex', 'maestro', 'jcb', 'discover', 'union']
+            });
+        })
+
+        $('.bank-swift').change(function () {
+            var swift_input = $(this)
+            var bank_name_input = $(this).parents('form').find('.bankinfo-name')
+            $.ajax({
+                url: swift_input.attr('data-url'),
+                success: function (response) {
+                    if (response.success) {
+                        bank_name_input.val(response.name)
+                    } else {
+                        bank_name_input.val('')
+                    }
+                },
+                cache: false,
+                async: false,
+                data: {bic: swift_input.val()},
+                type: 'POST',
+                dataType: 'json'
             });
         })
     },

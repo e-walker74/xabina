@@ -50,6 +50,7 @@ class PersonalController extends Controller
                     'newsletter',
                     'uploaduserphoto',
                     'other',
+                    'accounts',
                 ),
                 'roles' => array('client')
             ),
@@ -75,7 +76,8 @@ class PersonalController extends Controller
             'primary_address',
             'primary_phone',
             'primary_paymentsmethod',
-        ))->findByPk(Yii::app()->user->id);
+            'accounts',
+        ))->findByPk(Yii::app()->user->id, array('order' => 'accounts.is_master desc'));
         if (Yii::request()->isAjaxRequest) {
             echo CJSON::encode(array(
                 'success' => true,
@@ -84,6 +86,19 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
         $this->render('tabversion/index', array('model' => $model));
+    }
+
+    public function actionAccounts()
+    {
+        $model = $model = Users::model()->with(array(
+            'accounts',
+        ))->findByPk(Yii::app()->user->id, array('order' => 'accounts.is_master desc'));
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'html' => $this->renderPartial('tabversion/_accounts', array('model' => $model), true, true),
+        ));
+        Yii::app()->end();
     }
 
     public function actionEditemails()
@@ -753,7 +768,11 @@ class PersonalController extends Controller
 
     public function actionMakePrimary($type, $id)
     {
-        $model = Users::getModelByType($type)->findByPk($id);
+        if ($type == 'accounts') {
+            $model = Accounts::model()->ownUser()->findByPk($id);
+        } else {
+            $model = Users::getModelByType($type)->findByPk($id);
+        }
 
         if (!$model || $model->user_id != Yii::app()->user->id || $model->status == 0 || $model->is_master == 1) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -870,6 +889,12 @@ class PersonalController extends Controller
             Users_Paymentinstruments::model()->updateByPk($id, array('is_master' => 1));
             $reload = true;
             $message = Yii::t('Front', 'Primary method was changed');
+        } elseif ($type == 'accounts') {
+            Accounts::model()->ownUser()->updateAll(array('is_master' => 0));
+            $model->is_master = 1;
+            $model->save();
+            $reload = true;
+            $message = Yii::t('Front', 'Primary account was changed');
         }
 
         echo CJSON::encode(
@@ -1238,7 +1263,7 @@ class PersonalController extends Controller
                 break;
             case 'other':
                 $model = Users_Others::model()->ownUser()->findByPk($id);
-                if($model){
+                if ($model) {
                     $model->delete();
                     $return = true;
                     $mesTitle = Yii::t('Front', 'Personal Cabinet');
@@ -1577,9 +1602,9 @@ class PersonalController extends Controller
 
         if (
             isset($_POST[$modelName]['electronic_method'])
-            && isset(PaymentService::$methods[$_POST[$modelName]['electronic_method']])
+            && isset(Users_Paymentinstruments::$methods[$_POST[$modelName]['electronic_method']])
         )
-            $model->scenario = PaymentService::$methods[$_POST[$modelName]['electronic_method']];
+            $model->scenario = Users_Paymentinstruments::$methods[$_POST[$modelName]['electronic_method']];
 
         // model validation
         if (
@@ -1676,13 +1701,13 @@ class PersonalController extends Controller
         $model = new Users_Others();
         $message = '';
 
-        if(Yii::request()->getParam('ajax')){
+        if (Yii::request()->getParam('ajax')) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
-        if(isset($_POST['Users_Others'])){
-            if(isset($_POST['Users_Others']['id'])){
+        if (isset($_POST['Users_Others'])) {
+            if (isset($_POST['Users_Others']['id'])) {
                 $model = Users_Others::model()->ownUser()->findByPk($_POST['Users_Others']['id']);
             }
             $model->attributes = $_POST['Users_Others'];

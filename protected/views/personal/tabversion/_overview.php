@@ -22,7 +22,7 @@
                 <?= $model->first_name ?> <?= $model->last_name ?>
                 <span class="note"><?= Yii::t('Personal', 'First Name / Last Name') ?></span>
                 <?= $model->login ?>
-                <span class="note"><?= Yii::t('Personal', 'Xabina User ID') ?></span>
+                <span class="note"><?= Yii::t('Site', 'User ID') ?></span>
             </td>
             <td>
             </td>
@@ -31,7 +31,7 @@
             <tr class="align-top">
                 <td><?= Yii::t('Personal', 'Account Number') ?></td>
                 <td>
-                    <span class="strong"><?= $model->primary_paymentsmethod->from_account_number ?></span>
+                    <span class="strong"><?= chunk_split($model->primary_paymentsmethod->from_account_number, 4) ?></span>
                     <span class="note"><?= Users_Paymentinstruments::$methods[$model->primary_paymentsmethod->electronic_method] ?></span>
                 </td>
                 <td>

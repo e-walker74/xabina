@@ -22,39 +22,35 @@
             <th style="width: 14%"><?= Yii::t('Personal', 'Environment') ?></th>
             <th style="width: 10%"><?= Yii::t('Personal', 'Сurrency') ?></th>
             <th style="width: 10%"><?= Yii::t('Personal', 'Status') ?></th>
-            <th style="width: 18%"></th>
-            <th style="width: 8%"></th>
+            <th style="width: 10%"></th>
+            <th style="width: 16%"></th>
         </tr>
         <?php foreach($model->accounts as $account): ?>
             <tr>
                 <td>
                     <?= $model->first_name ?> <?= $model->last_name ?><br>
                     <span class="bold"><?= chunk_split($account->number, 4) ?></span> <br>
-<!--                    <span class="grey">--><?//= ($account->category) ? $account->category->title : "" ?><!--</span>-->
+                    <span class="grey"><?= $account->name ?></span>
                 </td>
                 <td><?= $account->type_info->title ?></td>
-                <td>BlauStein</td>
+                <td><?= Yii::t('Front', 'Main Environment') ?></td>
                 <td><?= $account->currency->title ?></td>
                 <td><img src="/css/layout/account/img/statuses-ico-ok.png" alt=""></td>
-                <td><span class="bold">Primary</span></td>
+                <td>
+                    <a <?php if($account->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'accounts', 'id' => $account->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                    <span <?php if($account->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+                </td>
                 <td style="overflow: visible!important">
                     <div class="contact-actions transaction-buttons-cont">
-                        <div class="btn-group">
-                            <a class="button menu" data-toggle="dropdown" href="#"></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="button edit" href="edit_contact.html"></a>
-                                </li>
-                            </ul>
-                        </div>
+                        <?= Html::link('', array('/banking/accounts'), array('class' => 'button edit')) ?>
                     </div>
                 </td>
             </tr>
         <?php endforeach; ?>
-        <tr>
-            <td colspan="7" class="add-new-td">
-                <a href="#" class="rounded-buttons add-more upload">Add new</a>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <td colspan="7" class="add-new-td">-->
+<!--                <a href="#" class="rounded-buttons add-more upload">Add new</a>-->
+<!--            </td>-->
+<!--        </tr>-->
     </table>
 </div>

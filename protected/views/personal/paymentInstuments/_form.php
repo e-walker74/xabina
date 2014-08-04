@@ -38,12 +38,13 @@
                     $form->dropDownList(
                         $model,
                         'electronic_method',
-                        Form_Incoming_Electronic::$methods,
+                        Users_Paymentinstruments::$methods,
                         array(
                             'class' => 'select-invisible payment_select',
                             'id' => get_class($model) . "_electronic_method",
                             'options' => array($model->electronic_method => array('selected' => true)),
-                            'empty' => Yii::t('Front', 'Select a method')
+                            'empty' => Yii::t('Front', 'Select a method'),
+                            'disabled' => ($model->isNewRecord) ? false : true,
                         )
                     ); ?>
 
@@ -61,7 +62,7 @@
 </div>
 
 <div class="method-1 electronic-method-fields"
-     style="<?php if (isset($model->electronic_method) && $model->electronic_method == PaymentService::METHOD_CREDITCARD) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_CREDITCARD) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-10">
             <div class="form-cell">
@@ -232,7 +233,7 @@
 </div>
 
 <div class="method-2 electronic-method-fields"
-     style="<?php if (isset($model->electronic_method) && $model->electronic_method == PaymentService::METHOD_IDEAL) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_IDEAL) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-10">
             <div class="form-cell">
@@ -255,7 +256,85 @@
     </div>
 </div>
 
-<div class="row category-row" style="display: none">
+<div class="method-3 electronic-method-fields"
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_BANK_ACCOUNT) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'Account number') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_bank_account_number') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'from_account_number', array(
+                        'class' => 'input-text',
+                        'value' => $model->from_account_number,
+                    ))?>
+                    <?= $form->error($model, 'from_account_number'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'Account holder') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_bank_account_holder') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'from_account_holder', array(
+                        'class' => 'input-text',
+                        'value' => $model->from_account_holder,
+                    ))?>
+                    <?= $form->error($model, 'from_account_holder'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'BIC (SWIFT Address)') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_bank_account_bic') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'bic', array(
+                        'class' => 'input-text bank-swift',
+                        'value' => $model->bic,
+                        'data-url' => Yii::app()->createUrl('/transfers/GetBankName')
+                    ))?>
+                    <?= $form->error($model, 'bic'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'Bank name') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_bank_account_bank_name') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'from_account_holder', array(
+                        'disabled' => 'disabled',
+                        'class' => 'input-text bankinfo-name',
+                        'value' => $model->from_account_holder,
+                    ))?>
+                    <?= $form->error($model, 'from_account_holder'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ">
+        </div>
+    </div>
+</div>
+
+<div class="row category-row" <?php if($model->isNewRecord): ?>style="display: none"<?php endif; ?>>
     <div class="col-lg-10 col-md-10 col-sm-10">
         <div class="form-cell">
             <div class="form-lbl">
