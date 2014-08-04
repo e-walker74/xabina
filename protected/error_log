@@ -4,7 +4,6 @@
 [09-Jun-2014 17:58:50 Europe/Minsk] PHP Notice:  Use of undefined constant CORE_PATH - assumed 'CORE_PATH' in /home/evnaby/sites/xabina/protected/yiic.php on line 11
 [09-Jun-2014 17:58:50 Europe/Minsk] PHP Warning:  include_once(CORE_PATHfunctions.php): failed to open stream: No such file or directory in /home/evnaby/sites/xabina/protected/yiic.php on line 11
 [09-Jun-2014 17:58:50 Europe/Minsk] PHP Warning:  include_once(): Failed opening 'CORE_PATHfunctions.php' for inclusion (include_path='.:/opt/alt/php53/usr/share/pear:/opt/alt/php53/usr/share/php') in /home/evnaby/sites/xabina/protected/yiic.php on line 11
-[16-Jun-2014 19:46:57 Europe/Minsk] PHP Notice:  Use of undefined constant CORE_PATH - assumed 'CORE_PATH' in /home/evnaby/sites/xabina/protected/yiic.php on line 11
 [16-Jun-2014 19:46:57 Europe/Minsk] PHP Warning:  include_once(CORE_PATHfunctions.php): failed to open stream: No such file or directory in /home/evnaby/sites/xabina/protected/yiic.php on line 11
 [16-Jun-2014 19:46:57 Europe/Minsk] PHP Warning:  include_once(): Failed opening 'CORE_PATHfunctions.php' for inclusion (include_path='.:/opt/alt/php53/usr/share/pear:/opt/alt/php53/usr/share/php') in /home/evnaby/sites/xabina/protected/yiic.php on line 11
 [16-Jun-2014 19:46:57 Europe/Minsk] PHP Fatal error:  Cannot redeclare class Yii in /home/evnaby/sites/xabina/Yii.php on line 319
@@ -178,3 +177,4 @@
 [16-Jun-2014 20:01:44 Europe/Minsk] PHP Parse error:  syntax error, unexpected ')' in /home/evnaby/sites/xabina/protected/yiic.php on line 16
 [16-Jun-2014 20:01:45 Europe/Minsk] PHP Parse error:  syntax error, unexpected ')' in /home/evnaby/sites/xabina/protected/yiic.php on line 16
 [16-Jun-2014 20:01:45 Europe/Minsk] PHP Parse error:  syntax error, unexpected ')' in /home/evnaby/sites/xabina/protected/yiic.php on line 16
+>>>>>>> de311e91076071113b1a0095698b60631854cdfe

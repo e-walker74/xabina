@@ -1,4 +1,4 @@
-<tr class="view-payment-tr">
+<tr class="data-row">
     <td>
         <?php if (
             isset(Form_Incoming_Electronic::$methods[$model->electronic_method])
@@ -8,21 +8,48 @@
             <img src="/images/<?=Transfers_Incoming::$card_types[$model->card_type]?>.png">
         <?php endif; ?>
     </td>
-    <td><span class="grey"><?=$model->from_account_number?></span></td>
-    <td><span class="approved"><?=$model->htmlStatus?></span></td>
     <td>
-        <div class="transaction-buttons-cont">
-            <a class="button share" title="share" href="#"></a>
-            <a class="button edit" title="edit" href="#"></a>
-            <a class="button delete" title="<?php echo Yii::t('Front', 'Are you sure?');?>" data-url="/personal/deletePaymentInstument/<?=$model->id?>"></a>
+        <span class="bold"><?= $model->from_account_holder ?></span> <br>
+        <span class="grey">xxxx xxxx xxxx <?= substr($model->from_account_number, -4)?></span>
+    </td>
+    <td class="text-center">
+        <?= $model->getHtmlStatus() ?>
+    </td>
+    <td>
+        <a <?php if($model->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'paymentInstruments', 'id' => $model->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+        <span <?php if($model->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+    </td>
+    <td style="overflow: visible!important;">
+        <div class="contact-actions transaction-buttons-cont">
+            <div class="btn-group with-delete-confirm">
+                <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="button share" title="<?= Yii::t('Front', 'Share') ?>" href="javaScript:void(0)"></a>
+                    </li>
+                    <li>
+                        <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
+                    </li>
+                    <?php if(!$model->is_master): ?>
+                    <li>
+                        <?= Html::link('', 'javaScript:void(0)', array(
+                            'class' => 'button delete',
+                            'onclick' => '$(this).addClass(\'opened\')',
+                            'data-url' => Yii::app()->createUrl('/personal/deletePaymentInstument', array('id' => $model->id)),
+                        )) ?>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
         </div>
     </td>
 </tr>
-<tr class="edit-payment-tr" style="display:none;">
-    <td colspan="4">
+<tr class="edit-row">
+    <td colspan="5">
         <?php $this->renderPartial('paymentInstuments/_form', Array(
             'method'=>'update',
-            'model'=>$model
+            'model'=>$model,
+            'data_categories' => $data_categories,
         ));?>
     </td>
 </tr>

@@ -93,6 +93,7 @@
 			),
 		),
 	)); ?>
-
-	<?php $this->widget('AdsBlocks'); ?>
+    <?php if(Yii::app()->user->checkRbacAccess('show_ads_block_widget')): ?>
+	    <?php $this->widget('AdsBlocks'); ?>
+    <?php endif; ?>
 </div>

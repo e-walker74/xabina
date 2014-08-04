@@ -14,9 +14,8 @@
                 <div class="manager-email"><a href="mailto:<?=$manager->email?>"><?=$manager->email?></a></div>
                 <div class="manager-social"><a href="#">connect met Madelon <br>
                         op Twitter</a></div>
-                <div class="form-submit"><a href="#" class="rounded-buttons upload comments"><?= Yii::t('Front', 'Send a Message') ?></a></div>
+                <div class="form-submit"><a href="#" class="rounded-buttons open-dialogue"><?= Yii::t('Front', 'Send a Message') ?></a></div>
             </div>
-
         </div>
     </div>
 </div>

@@ -36,6 +36,11 @@ class Controller extends CController
         if(Yii::request()->isAjaxRequest){
             $this->cleanResponseJs();
         }
+
+        if(!Yii::app()->user->isGuest){
+            Zone::setUserTimeZone(Yii::user()->getTimeZone());
+        }
+
         return parent::init();
     }
 

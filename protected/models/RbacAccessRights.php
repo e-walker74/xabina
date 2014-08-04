@@ -12,6 +12,8 @@
  */
 class RbacAccessRights extends ActiveRecord
 {
+
+    public $children;
 	/**
 	 * @return string the associated database table name
 	 */
