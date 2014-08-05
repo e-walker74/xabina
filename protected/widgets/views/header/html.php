@@ -36,11 +36,10 @@
         <?php
         $rbacMenu = Yii::app()->user->getRbacAccountSwitcherMenu();
         ?>
-
         <div class="person-select-cont">
-            <div class="person-select clearfix" onclick="$(this).next().toggleClass('show')">
+            <div class="person-select clearfix" data-toggle="dropdown">
                 <div class="select-lbl">
-                    Main Environment <br>
+                    BVR Group <br>
                     <em><?php echo $rbacMenu['active']['account_name']; ?></em>
                 </div>
                 <div class="select-arr">
@@ -48,7 +47,7 @@
                 </div>
 
             </div>
-            <ul class="person-list list-unstyled">
+            <ul class="person-list list-unstyled dropdown-menu">
                 <li class="person-ico-2">
                     <a href="#">Konstantin Petrov <br>
                         <em>Konstantin Petrov</em>
