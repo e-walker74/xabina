@@ -4,26 +4,64 @@
  */
 
 Personal = {
-    init: function () {
+    init: function (options) {
+
+//        this._options = $.extend({}, options)
+
         this.bindDeleteButton()
         resetPage()
         setAllSelectedValues()
         self = this
     },
-    bindDeleteButton: function(){
-        $(".delete").confirmation({
+    binds: function () {
+        this.bindDeleteButton()
+        this.bindTooltips()
+        bindDeleteConfirmationEvent()
+        this.bindEditButtons()
+        setAllSelectedValues()
+    },
+    bindEditButtons: function () {
+        $('.tab').on('click', '.button.edit, .upload.add-more', function () {
+            resetPage()
+            $(this).closest('tr').hide().next('.edit-row').show()
+//            return false;
+        })
+    },
+    bindTooltips: function () {
+        $('.tooltip-icon').tooltip({
+            tooltipClass: 'xabina-tooltip',
+            placement: 'right',
+            position: {
+                my: "left+25 top-12",
+                at: "right top",
+                using: function (position, feedback) {
+                    $(this).css(position);
+                    $("<div>")
+                        .addClass("tooltip-arrow")
+                        .addClass(feedback.vertical)
+                        .addClass(feedback.horizontal)
+                        .appendTo(this);
+                }
+            }
+        });
+    },
+    bindDeleteButton: function () {
+        return $(".delete").confirmation({
             title: "Are you sure?",
             singleton: true,
             popout: true,
-            onConfirm: function(){
+            onConfirm: function () {
 
                 link = $(this).parents(".popover").prev("a")
                 var parent = $(link).parents('.head-ajax-block')
-                deleteRow(link, function(response){
-                    if(response.html){
+                deleteRow(link, function (response) {
+                    if (response.html) {
                         parent.html(response.html)
                     }
-                    if(response.success){
+                    if (response.refresh) {
+                        Personal.refreshTabs()
+                    }
+                    if (response.success) {
 //                        successNotify("Personal account", response.message)
                     }
                 });
@@ -31,12 +69,12 @@ Personal = {
             }
         })
     },
-    resendSms: function(link){
+    resendSms: function (link) {
         link = $(link)
         $.ajax({
             url: link.attr('href'),
-            success: function(response){
-                if(response.success){
+            success: function (response) {
+                if (response.success) {
                     successNotify('My phones', response.message, link);
                 } else {
                     errorNotify('My phones', response.message, link);
@@ -47,10 +85,10 @@ Personal = {
         return false;
     },
     activatePhone: function (url, link) {
-        value = $(link).parents('.field-row').find('.input-text-sms').val();
-        if(!value){
-            var field = $(link).parent().next('.error-message')
-            this.showError(field, 'Sms code is incorrect')
+        value = $(link).closest('tr').find('.input-text').val();
+        if (!value) {
+            var field = $(link).closest('tr').find('.error-message')
+            this.showError(field)
             return false;
         }
         backgroundBlack()
@@ -58,7 +96,15 @@ Personal = {
             $.ajax({
                 url: url + value,
                 success: function (response) {
-                    self.successUpdateTable(response, link)
+                    if (response.success) {
+                        self.successUpdateTable(response, link)
+                    } else {
+                        var field = $(link).closest('tr').find('.error-message')
+                        Personal.showError(field)
+                        dellBackgroundBlack()
+                        return false;
+                    }
+
                 },
                 cache: false,
                 data: {},
@@ -80,14 +126,14 @@ Personal = {
             dataType: 'json'
         });
     },
-    sendForm: function(form) {
+    sendForm: function (form) {
         backgroundBlack()
         $.ajax({
             url: $(form).attr('action'),
-            success: function(response) {
+            success: function (response) {
                 self.successUpdateTable(response, form)
             },
-            cache:false,
+            cache: false,
             async: true,
             data: form.serialize(),
             type: 'POST',
@@ -114,13 +160,23 @@ Personal = {
         }
         return false;
     },
-    successUpdateTable: function(response, element){
-        var headAjaxBlock = $(element).parents('.head-ajax-block')
-        if(response.success){
-            headAjaxBlock.html(response.html)
-            successNotify('Payment', response.message, $(headAjaxBlock).find('tr:visible:last'))
+    successUpdateTable: function (response, element) {
+        var headAjaxBlock = $(element).parents('.tab')
+        if (response.success) {
+            if (response.html) {
+                headAjaxBlock.html(response.html)
+                Personal.binds()
+            }
+            if (response.reload) {
+                this.refreshTabs()
+            }
+            if (element.length != 0) {
+                successNotify('Payment', response.message, element)
+            }
         } else {
-            errorNotify('Payment', response.message, $(headAjaxBlock).find('tr:visible:last'))
+            if (element.length != 0) {
+                errorNotify('Payment', response.message, element)
+            }
         }
         dellBackgroundBlack()
     },
@@ -144,15 +200,234 @@ Personal = {
             $(form).find("." + i).html(data.notify[i]).slideDown().delay(3000).slideUp();
         }
     },
-    showError: function(field, message){
-        if($(field).is(':visible')){
+    showError: function (field, message) {
+        if (message) {
             $(field).html(message)
-        } else {
+        }
+        if (!$(field).is(':visible')) {
             $(field).html(message).slideDown().delay(3000).slideUp();
         }
+    },
+    getTab: function (url, link) {
+        var link = $(link)
+
+        $.ajax({
+            url: url,
+            success: function (response) {
+                if (response.success) {
+                    $(link.attr('href')).html(response.html)
+                    Personal.binds()
+                }
+            },
+//            async: false,
+            cache: false,
+            type: 'POST',
+            dataType: 'json'
+        });
+    },
+    hideCategoryTextField: function (el) {
+        $(el)
+            .attr('disabled', true)
+            .val('')
+            .closest('.form-input')
+            .hide()
+            .prev('.category-select')
+            .show()
+            .find('select')
+            .attr('disabled', false)
+        return false;
+    },
+    showAddNewCategory: function (el) {
+        var select = $(el)
+        if (select.val() == 'add') {
+            select
+                .attr('disabled', true)
+                .val(select.prop('defaultSelected'))
+                .closest('.form-input')
+                .hide()
+                .next('.add-new-category')
+                .show()
+                .find('input')
+                .attr('disabled', false)
+        }
+    },
+    createTabs: function () {
+        $(".personal-tabs").tabs({
+            select: function (event, ui) {
+                window.location.hash = ui.tab.hash;
+            },
+            beforeActivate: function (event, ui) {
+                var link = ui.newTab.find('a')
+                if (link.attr('data-url')) {
+                    Personal.getTab(link.attr('data-url'), link)
+                }
+            },
+            create: function (event, ui) {
+                var link = ui.tab.find('a')
+                if (link.attr('data-url')) {
+                    Personal.getTab(link.attr('data-url'), link)
+                }
+            }
+        });
+    },
+    refreshTabs: function () {
+        $(".personal-tabs").tabs("destroy")
+        this.createTabs()
+    },
+    changeFontSize: function (fontSize) {
+        switch (fontSize) {
+            case '14':
+                fontScale(1)
+                break;
+            case '16':
+                fontScale(1.25)
+                break;
+            case '18':
+                fontScale(1.5)
+                break;
+        }
+    },
+    bindPayments: function () {
+        $('.form-payment .payment_select').change(function () {
+            $(this).closest('form').find('.electronic-method-fields').css('display', 'none');
+            $(this).closest('form').find('.electronic-method-fields.method-' + $(this).val()).css('display', 'block');
+            if ($(this).val()) {
+                $(this).closest('form').find('.category-row').css('display', 'block');
+            } else {
+                $(this).closest('form').find('.category-row').css('display', 'none');
+            }
+        })
+        $('.form-payment .creditcard').each(function () {
+            var creditCardField = $(this)
+            creditCardField.validateCreditCard(function (result) {
+                creditCardField.closest('form').find('.payments-list .logo').removeClass('active');
+                creditCardField.closest('form').find('.payments-list input[type=radion]').attr('checked', false);
+                if (result.card_type) {
+                    creditCardField.closest('form').find('.payments-list .logo.' + result.card_type.css_class).addClass('active');
+                    creditCardField.closest('form').find('.payments-list input.' + result.card_type.css_class).attr('checked', true);
+                }
+            }, {
+                accept: ['visa', 'mastercard', 'amex', 'maestro', 'jcb', 'discover', 'union']
+            });
+        })
+
+        $('.bank-swift').change(function () {
+            var swift_input = $(this)
+            var bank_name_input = $(this).parents('form').find('.bankinfo-name')
+            $.ajax({
+                url: swift_input.attr('data-url'),
+                success: function (response) {
+                    if (response.success) {
+                        bank_name_input.val(response.name)
+                    } else {
+                        bank_name_input.val('')
+                    }
+                },
+                cache: false,
+                async: false,
+                data: {bic: swift_input.val()},
+                type: 'POST',
+                dataType: 'json'
+            });
+        })
+    },
+    bindNewsletterForm: function () {
+        $('#newsletter-form input[type=checkbox]').on('change', function () {
+            var checkbox = $(this)
+            $.ajax({
+                url: checkbox.attr('data-url'),
+                success: function (response) {
+                    if (response.success) {
+                        successNotify('Personal', response.message, checkbox);
+//                        Personal.refreshTabs()
+                    } else {
+                        errorNotify('Personal', error, checkbox);
+                    }
+                },
+                data: {value: checkbox.val(), name: checkbox.attr('name')},
+                dataType: 'json'
+            })
+            return false;
+
+        })
+    },
+    bindPhotoChange: function(){
+        $('#Users_photo').on('change', function () {
+            var name = $(this).val().split(/(\\|\/)/g).pop()
+            $(this).closest('.file-label').find('.filename').html(name)
+            $('input[type=hidden]').val(0)
+
+            var input = $(this)[0];
+            if (input.files && input.files[0]) {
+                if (input.files[0].type.match('image.*')) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#image-mini img').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    $('#image-mini').show()
+                    $('.delete-photo').show()
+                } else {
+                    $('#image-mini').hide()
+                    $('.delete-photo').hide()
+                    console.log('is not image mime type');
+                }
+            } else console.log('not isset files data or files API not supordet');
+        })
+
+        $('.delete-photo').click(function () {
+            $(this).find('input[type=hidden]').val(1)
+            $('#image-mini').hide()
+            $(this).hide();
+            return false;
+        })
+    },
+    uploadUserPhoto: function (form, data, hasError, callBack) {
+        var error = false
+
+        form.find('input[type="file"]').each(function () {
+            var files = this.files;
+            var input = this
+//            if(files.length == 0){
+//                $(input).closest('.form-cell').find('.error-message').html('File not selected').slideDown().delay(3000).slideUp()
+//                error = true
+//                return false;
+//            }
+            $.each(files, function (key, value) {
+                if (!value.type.match('image.*')) {
+                    $(input).closest('.form-cell').find('.error-message').html('file is not an image').slideDown().delay(3000).slideUp()
+                    error = true
+                    return false;
+                }
+            });
+        });
+
+        if (error) {
+            return false;
+        }
+
+        backgroundBlack()
+        var options = {
+            url: form.attr('action'),
+            type: form.attr('method'),
+            dataType: 'json',
+            success: function (response) {
+                dellBackgroundBlack()
+                if (response.success) {
+                    resetPage()
+                    successNotify('Personal', response.message, form)
+                    window.location.reload()
+                } else {
+                    errorNotify('Personal', response.message, form)
+                }
+            }
+        };
+        form.ajaxSubmit(options);
+        return false;
     }
 }
 
 $(function () {
-    Personal.init();
+    Personal.init({});
+    Personal.createTabs()
 });

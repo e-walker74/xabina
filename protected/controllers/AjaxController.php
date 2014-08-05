@@ -53,11 +53,16 @@ class AjaxController extends Controller
             $model->updateAll(array('widget_state' => $_GET['state']),'user_id="'.Yii::app()->user->id.'"');
         }
     }
-
+	
     public function actionGetManagerWidgetState() {
         $model = new UsersPersonalManagers();
         $ret = $model->find('user_id = '.Yii::app()->user->id);
         echo $ret['widget_state'];
+	}
+    
+    public function actionGetRoleRights($roleId) {
+        $rights = RbacRoleAccessRights::model()->findAllByAttributes(array('role_id' => intval($roleId)));
+        echo CJSON::encode($rights);
     }
 
     public function actionGetUserRights() {
@@ -88,4 +93,20 @@ class AjaxController extends Controller
         echo CJSON::encode(array('success' => false));
 
     }
+
+    /**
+     * Set activity state in system.
+     * user activity status (online = 1 | busy = 2 | offline = 0)
+     *
+     */
+    public function actionSetUserActivityStatus() {
+        Yii::app()->user->setActivityStatus(Yii::request()->getParam('status', 1, 'list', array(0, 1, 2)));
+        $users = Users::model()->findByPk(Yii::app()->user->id);
+        $users->activity_status = Yii::request()->getParam('status', 1, 'list', array(0, 1, 2));
+
+        if ($users->save()) {
+            echo CJSON::encode(array('success' => true));
+        }
+    }
+
 }

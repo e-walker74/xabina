@@ -17,7 +17,7 @@
  * The followings are the available model relations:
  * @property Users $user
  */
-class Users_Log extends ActiveRecord
+class Users_Log extends CActiveRecord
 {
 	public $login;
 
@@ -38,14 +38,16 @@ class Users_Log extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, type', 'required'),
-			array('user_id, ip_address, created_at', 'numerical', 'integerOnly'=>true),
+			array('user_id, ip_address', 'numerical', 'integerOnly'=>true),
 			array('type, browser, os, request_url', 'length', 'max'=>30, 'message' => Yii::t('Front', 'Entry is to long')),
 			array('region', 'length', 'max'=>2, 'message' => Yii::t('Front', 'Entry is to long')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, type, ip_address, browser, os, request_url, region, created_at, login', 'safe', 'on'=>'search'),
+			array('id, user_id, type, ip_address, browser, os, request_url, region, login', 'safe', 'on'=>'search'),
 		);
 	}
+
+
 
 	/**
 	 * @return array relational rules.
@@ -145,7 +147,6 @@ class Users_Log extends ActiveRecord
 			'os' => 'Os',
 			'request_url' => 'Request Url',
 			'region' => 'Region',
-			'created_at' => 'Created At',
 		);
 	}
 
@@ -175,7 +176,6 @@ class Users_Log extends ActiveRecord
 		$criteria->compare('os',$this->os,true);
 		$criteria->compare('request_url',$this->request_url,true);
 		$criteria->compare('region',$this->region,true);
-		$criteria->compare('t.created_at',$this->created_at);
 		$criteria->compare('user.login',$this->login, true);
 		$criteria->with = 'user';
 
