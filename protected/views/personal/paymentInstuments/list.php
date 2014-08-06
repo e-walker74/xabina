@@ -18,7 +18,7 @@
                 'data_categories' => $data_categories
             ));
         } ?>
-        <tr id="data-row">
+        <tr class="data-row">
             <td colspan="5" class="table-form-subheader">
                 <a href="javaScript:void(0)" id="add-new-payment-instrument" class="rounded-buttons upload add-more"><?= Yii::t('Front', 'ADD NEW'); ?></a>
             </td>

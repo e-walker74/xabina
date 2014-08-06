@@ -33,6 +33,7 @@ class PersonalController extends Controller
                     'uploadfile',
                     'activate',
                     'makeprimary',
+                    'cancelmakeprimary',
                     'editsocials',
                     'delete',
                     'editmessagers',
@@ -51,6 +52,7 @@ class PersonalController extends Controller
                     'uploaduserphoto',
                     'other',
                     'accounts',
+                    'resendsmsforchangeid',
                 ),
                 'roles' => array('client')
             ),
@@ -70,12 +72,14 @@ class PersonalController extends Controller
 
     public function actionIndex()
     {
+
+
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
         $model = Users::model()->with(array(
-            'primary_email',
-            'primary_address',
-            'primary_phone',
-            'primary_paymentsmethod',
+//            'primary_email',
+//            'primary_address',
+//            'primary_phone',
+//            'primary_paymentsmethod',
             'accounts',
         ))->findByPk(Yii::app()->user->id, array('order' => 'accounts.is_master desc'));
         if (Yii::request()->isAjaxRequest) {
@@ -85,6 +89,7 @@ class PersonalController extends Controller
             ));
             Yii::app()->end();
         }
+
         $this->render('tabversion/index', array('model' => $model));
     }
 
@@ -614,6 +619,7 @@ class PersonalController extends Controller
             $image->save($folder . $name);
             $model->photo = $name;
             if ($model->save()) {
+                Yii::user()->getPhotoUrl(true);
                 echo CJSON::encode(array(
                     'success' => true,
                     'message' => Yii::t('Personal', 'Photo was successfully changed'),
@@ -624,6 +630,9 @@ class PersonalController extends Controller
         if (isset($_POST['Users']) && isset($_POST['Users']['delete'])) {
             $model->photo = '';
             $model->save();
+
+            Yii::user()->getPhotoUrl(true);
+
             echo CJSON::encode(array(
                 'success' => true,
                 'message' => Yii::t('Personal', 'Photo was successfully removed'),
@@ -773,7 +782,6 @@ class PersonalController extends Controller
         } else {
             $model = Users::getModelByType($type)->findByPk($id);
         }
-
         if (!$model || $model->user_id != Yii::app()->user->id || $model->status == 0 || $model->is_master == 1) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
@@ -784,6 +792,15 @@ class PersonalController extends Controller
         $html = false;
         if ($type == 'emails') {
             $model->generateHash();
+            Users_Emails::model()->updateAll(
+                array(
+                    'hash' => '',
+                ),
+                'status = 1 AND user_id = :uid',
+                array(
+                    ':uid' => Yii::user()->id
+                )
+            );
             $model->save();
             $mail = new Mail;
             $mail->send(
@@ -803,6 +820,15 @@ class PersonalController extends Controller
             $reload = true;
             $message = Yii::t('Front', 'We sent you a confirmation email');
         } elseif ($type == 'phones') {
+            Users_Phones::model()->updateAll(
+                array(
+                    'hash' => '',
+                ),
+                'status = 1 AND user_id = :uid',
+                array(
+                    ':uid' => Yii::user()->id
+                )
+            );
 
             $data_categories = Users_Categories::model()->findAll(
                 array(
@@ -908,6 +934,26 @@ class PersonalController extends Controller
         );
     }
 
+    public function actionCancelMakePrimary($id){
+        $type = Yii::request()->getParam('type', '', 'list', array('emails', 'phones'));
+        if ($type == 'accounts') {
+            $model = Accounts::model()->ownUser()->findByPk($id);
+        } else {
+            $model = Users::getModelByType($type)->findByPk($id);
+        }
+        if (!$model || $model->user_id != Yii::app()->user->id || $model->status == 0 || $model->is_master == 1) {
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+
+        $model->hash = '';
+        $model->save();
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'reload' => true,
+        ));
+    }
+
     public function actionChangeType($type)
     {
         $row_id = Yii::app()->request->getParam('row_id', '', 'int');
@@ -938,7 +984,12 @@ class PersonalController extends Controller
 
         if (!$model) {
             if (Yii::request()->isAjaxRequest) {
-                echo CJSON::encode(array('success' => false, 'message' => Yii::t('Front', 'Activate code is incorrect')));
+                echo CJSON::encode(
+                    array(
+                        'success' => false,
+                        'message' => Yii::t('Front', 'Activate code is incorrect.')
+                    )
+                );
             } else {
                 throw new CHttpException(404, Yii::t('Front', 'Activate code is incorrect'));
             }
@@ -1032,8 +1083,8 @@ class PersonalController extends Controller
                     'tabversion/_phones',
                     array(
                         'users_phones' => self::getUsersItems($model),
-                        'model_phones' => new Users_Phones(),
                         'data_categories' => $data_categories,
+                        'user' => Users::model()->findByPk(Yii::user()->id),
                     ),
                     true,
                     true
@@ -1243,7 +1294,7 @@ class PersonalController extends Controller
                 break;
             case 'address':
                 $addr = Users_Address::model()->findByPk($id);
-                if ($addr->user_id == Yii::app()->user->id && $addr->is_master != 1) {
+                if ($addr->user_id == Yii::app()->user->id) {
                     $addr->delete();
                     $mesTitle = Yii::t('Front', 'Personal Cabinet');
                     $message = Yii::t('Front', 'Address was deleted from your profile');
@@ -1545,17 +1596,10 @@ class PersonalController extends Controller
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal account'))] = array('/personal/index');
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Payment instuments'))] = '';
 
-        $data_categories = Users_Categories::model()->findAll(
-            array(
-                'condition' => 'data_type = "users_payment_instruments" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
-            )
-        );
-
         $method = Yii::app()->request->getQuery('method');
         if (!is_null($method))
             // Add or update user`s favorite payment instuments list
-            $this->_createUpdatePaymentInstument($method, $data_categories);
+            $this->_createUpdatePaymentInstument($method);
 
         // User`s favorite payment instuments list
         $paymentInstruments = Users_Paymentinstruments::model()->ownUser()->active()->findAll(array('order' => 'is_master desc'));
@@ -1563,6 +1607,13 @@ class PersonalController extends Controller
 //        $this->render('paymentInstuments/list', Array(
 //            'paymentInstruments' => $paymentInstruments,
 //        ));
+
+        $data_categories = Users_Categories::model()->findAll(
+            array(
+                'condition' => 'data_type = "users_payment_instruments" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+            )
+        );
 
         $cs = Yii::app()->clientScript;
         $cs->registerCssFile('http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css');
@@ -1585,11 +1636,12 @@ class PersonalController extends Controller
     }
 
     /**
-     * _AddUpdatePaymentInstument
+     * AddUpdatePaymentInstument
      *
-     * @param $method string
+     * @param string             $method
+     * @return bool
      */
-    private function _createUpdatePaymentInstument($method, $data_categories)
+    private function _createUpdatePaymentInstument($method)
     {
         $modelName = 'Users_Paymentinstruments';
         if (!isset($_POST[$modelName]))
@@ -1600,11 +1652,13 @@ class PersonalController extends Controller
         else if ($method == 'update')
             $model = $modelName::model()->findByPk($_POST[$modelName]['id']);
 
-        if (
-            isset($_POST[$modelName]['electronic_method'])
+        if (isset($_POST[$modelName]['electronic_method'])
             && isset(Users_Paymentinstruments::$methods[$_POST[$modelName]['electronic_method']])
-        )
+        ) {
             $model->scenario = Users_Paymentinstruments::$methods[$_POST[$modelName]['electronic_method']];
+        } elseif(!$model->isNewRecord) {
+            $model->scenario = Users_Paymentinstruments::$methods[$model->electronic_method];
+        }
 
         // model validation
         if (
@@ -1615,12 +1669,31 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
 
+
         // save the model
         $model->attributes = $_POST[$modelName];
+//        if(!empty($_POST[$modelName]['paypal_account_number'])){
+//
+//        }
+//        if(!empty($_POST[$modelName]['webmoney_account_number'])){
+//
+//        }
+//        if(!empty($_POST[$modelName]['skrill_account_number'])){
+//
+//        }
         if (!$model->isNewRecord && $model->user_id != Yii::app()->user->id)
             return;
 
+
         if ($model->save()) {
+
+            $data_categories = Users_Categories::model()->findAll(
+                array(
+                    'condition' => 'data_type = "users_payment_instruments" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                    'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                )
+            );
+
             $paymentInstruments = Users_Paymentinstruments::model()->ownUser()->active()->findAll();
             $this->cleanResponseJs();
             echo CJSON::encode(array(
@@ -1728,6 +1801,34 @@ class PersonalController extends Controller
                         'model' => $model,
                         'others' => $others,
                     ), true, true),
+        ));
+    }
+
+    public function actionResendSmsForChangeId(){
+        $lastXabinaId = Users_Ids::model()->ownUser()->find(
+            array(
+                'condition' => 'status = :pending',
+                'order' => 'created_at desc',
+                'params' => array(
+                    ':pending' => Users_Ids::STATUS_PENDING,
+                )
+            )
+        );
+
+        if(!$lastXabinaId){
+            echo CJSON::encode(array(
+                'success' => false,
+                'message' => Yii::t('Personal', 'Error new ID'),
+            ));
+        }
+
+        if (Yii::app()->sms->to(Yii::user()->getPhone())->body('Confirmation code: {code}', array('{code}' => $lastXabinaId->confirm_code))->send() != 1) {
+            Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
+        }
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'message' => Yii::t('Personal', 'SMS was successfully resent'),
         ));
     }
 }

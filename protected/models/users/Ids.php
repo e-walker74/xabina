@@ -50,7 +50,7 @@ class Users_Ids extends ActiveRecord
             array('new_user_id', 'unique', 'attributeName' => 'login', 'className' => 'Users', 'caseSensitive' => false, 'allowEmpty' => false, 'on' => 'insert'),
             array('confirm_code', 'length', 'max' => 6),
             array('confirm_new_user_id', 'compare', 'compareAttribute' => 'new_user_id', 'on' => 'insert'),
-            array('compare_confirm_code', 'compare', 'compareAttribute' => 'confirm_code', 'on' => 'update', 'message' => Yii::t('Personal', 'Code is incorrect')),
+            array('compare_confirm_code', 'compare', 'compareAttribute' => 'confirm_code', 'on' => 'update', 'message' => Yii::t('Personal', 'Code is incorrect. Code: ' . $this->confirm_code)),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, user_id, new_user_id, confim_code, confirm_at, created_at', 'safe', 'on' => 'search'),

@@ -334,6 +334,78 @@
     </div>
 </div>
 
+<div class="method-4 electronic-method-fields"
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_PAYPAL) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'Paypal account') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_paypal_account') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'paypal_account_number', array(
+                        'class' => 'input-text',
+                        'value' => $model->from_account_number,
+                    ))?>
+                    <?= $form->error($model, 'paypal_account_number'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ">
+        </div>
+    </div>
+</div>
+
+<div class="method-5 electronic-method-fields"
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_WEBMONEY) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'Webmoney account number') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_webmoney_account_number') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'webmoney_account_number', array(
+                        'class' => 'input-text',
+                        'value' => $model->from_account_number,
+                    ))?>
+                    <?= $form->error($model, 'webmoney_account_number'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ">
+        </div>
+    </div>
+</div>
+
+<div class="method-6 electronic-method-fields"
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_SKRILL) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'Skrill account') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_skrill_account') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'skrill_account_number', array(
+                        'class' => 'input-text',
+                        'value' => $model->from_account_number,
+                    ))?>
+                    <?= $form->error($model, 'skrill_account_number'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ">
+        </div>
+    </div>
+</div>
+
 <div class="row category-row" <?php if($model->isNewRecord): ?>style="display: none"<?php endif; ?>>
     <div class="col-lg-10 col-md-10 col-sm-10">
         <div class="form-cell">

@@ -113,6 +113,11 @@ class WebUser extends CWebUser
         $this->setState('__email', $value);
     }
 
+    public function setPhotoUrl($value)
+    {
+        $this->setState('__photo_url', $value);
+    }
+
     public function getPhone()
     {
         if (($name = $this->getState('__phone')) !== null)
@@ -142,6 +147,20 @@ class WebUser extends CWebUser
             $model = $this->_getModel($refresh);
             $this->setTimeZone($model->settings->time_zone->zone_name);
             return $this->getTimeZone();
+        } else
+            return false;
+    }
+
+    public function getPhotoUrl($refresh = false){
+        if (($name = $this->getState('__photo_url')) !== null && !$refresh)
+            return $name;
+
+        if ($this->getId() !== null) {
+            Yii::log(array('getPhotoUrl' => $this->getId(), 'action' => 'getPhotoUrl'), CLogger::LEVEL_ERROR, 'webUser');
+
+            $model = $this->_getModel($refresh);
+            $this->setPhotoUrl($model->getPhotoUrl());
+            return $model->getPhotoUrl();
         } else
             return false;
     }
@@ -240,6 +259,7 @@ class WebUser extends CWebUser
         $this->setFontSize($user->settings->font_size);
         $this->setFullName($user->getFullName());
         $this->getTimeZone();
+        $this->getPhotoUrl();
 
         $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
         $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());

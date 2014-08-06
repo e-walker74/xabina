@@ -34,7 +34,7 @@
                             <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="button edit" title="<?= Yii::t('Front', 'Edit') ?>" href="edit_contact.html"></a>
+                                    <a class="button edit" title="<?= Yii::t('Front', 'Edit') ?>" href="javascript:void(0)"></a>
                                 </li>
                                 <li>
                                     <?= Html::link('', 'javaScript:void(0)', array(

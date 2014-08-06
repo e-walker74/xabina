@@ -806,6 +806,10 @@ $(document).ready(function () {
         if (!~($(this).val().indexOf('+') )) {
             $(this).val('+' + $(this).val());
         }
+    }).on('focus', '.phone', function(){
+        if (!$(this).val()) {
+            $(this).val('+');
+        }
     });
 
     bindDeleteConfirmationEvent()
@@ -999,7 +1003,8 @@ var backgroundBlack = function () {
     }
     var centerWidth = ($(window).width()) / 2,
         centerHeight = ($(window).height()) / 2;
-    $('body').css({overflow: 'hidden', 'margin-right': '20px'})
+    $('body').css({overflow: 'hidden'})
+    $('body').addClass('withoutScroll');
 
     $("#TB_overlay").fadeIn("fast");
 
@@ -1007,7 +1012,8 @@ var backgroundBlack = function () {
 
 var dellBackgroundBlack = function () {
     $("#TB_overlay").remove();
-    $('body').css({overflow: 'auto', 'margin-right': '0'})
+    $('body').css({overflow: 'auto'})
+    $('body').removeClass('withoutScroll');
 }
 
 var chechSequrityValuesData = function () {
@@ -1116,14 +1122,18 @@ $(function () {
     $('.select-img').on('click', '.img-dropdown a', function(e){
         var $context = $(e.delegateTarget);
         var status = $(this).data('id');
-        $context.find('.selected-img img').attr('src', $(this).find('img').attr('src'));
+        var imgSrc = $(this).find('img').attr('src')
+        $context.find('.selected-img img').attr('src', imgSrc);
         e.preventDefault();
 
         $.ajax({
             url: '/ajax/SetUserActivityStatus/',
             data: {status: status},
             type: 'Post',
-            cache: false
+            cache: false,
+            success: function(){
+                $('.self-activity-status').attr('src', imgSrc)
+            }
         })
     });
     $('.select-img .selected-img img').attr('src', $('.img-dropdown img[data-selected="selected"]').attr('src'));

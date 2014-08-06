@@ -135,7 +135,7 @@
                         <div class="note-bg">
                             <?= Yii::t('Personal', 'We have send an SMS with the verification code on the phone number + *** *** :phone.',
                                 array(':phone' => substr($model->phone, -3))); ?>
-                            <a href="javaScript:void(0)" onclick="Personal.resendConfrimSMS(<?= Yii::app()->createUrl('/personal/resendSmsForChangeId') ?>)"><?= Yii::t('Personal', 'Send verification code once again') ?></a>
+                            <a href="javaScript:void(0)" onclick="Personal.resendSmsForChangeId('<?= Yii::app()->createUrl('/personal/resendSmsForChangeId') ?>')"><?= Yii::t('Personal', 'Send verification code once again') ?></a>
                         </div>
                         <div class="arr"></div>
                     </div>
@@ -206,7 +206,7 @@
                 <td>
                     <?php if(!$lastChange || $lastChange->isCanChange): ?>
                         <div class="transaction-buttons-cont ">
-                            <a href="#" class="button edit"></a>
+                            <a href="javascript:void(0)" class="button edit"></a>
                         </div>
                     <?php endif; ?>
                 </td>

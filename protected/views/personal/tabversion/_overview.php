@@ -29,9 +29,9 @@
         </tr>
         <?php if($model->primary_paymentsmethod): ?>
             <tr class="align-top">
-                <td><?= Yii::t('Personal', 'Account Number') ?></td>
+                <td><?= Yii::t('Personal', 'Payment Methods') ?></td>
                 <td>
-                    <span class="strong"><?= chunk_split($model->primary_paymentsmethod->from_account_number, 4) ?></span>
+                    <span class="strong">**** **** <?= substr($model->primary_paymentsmethod->from_account_number, -4) ?></span>
                     <span class="note"><?= Users_Paymentinstruments::$methods[$model->primary_paymentsmethod->electronic_method] ?></span>
                 </td>
                 <td>
@@ -52,11 +52,14 @@
                     <?php if(!$model->primary_email): ?>
                         <?= Yii::t('Personal', 'System E-Mail') ?>
                     <?php else: ?>
-                        <?= $model->primary_email->category->value ?>
+                        <?= ($model->primary_email->category) ? $model->primary_email->category->value : "" ?>
                     <?php endif; ?>
                 </span>
             </td>
             <td>
+                <div class="transaction-buttons-cont">
+                    <a class="button send" href="#" title="Send Email"></a>
+                </div>
             </td>
         </tr>
         <?php if($model->primary_phone): ?>
@@ -64,11 +67,9 @@
             <td><?= Yii::t('Personal', 'Phone') ?></td>
             <td>
                 <span class="strong">+<?= chunk_split($model->primary_phone->phone, 3) ?></span>
-                <span class="note"><?= $model->primary_phone->category->value ?></span>
+                <span class="note"><?= ($model->primary_phone->category) ? $model->primary_phone->category->value : "" ?></span>
             </td>
             <td>
-
-
             </td>
         </tr>
         <?php endif; ?>
@@ -79,7 +80,7 @@
                     <span class="strong">
                         <?= $model->primary_address->getAddressHtml() ?>
                     </span>
-                    <span class="note"><?= $model->primary_address->category->value ?></span>
+                    <span class="note"><?= ($model->primary_address->category) ? $model->primary_address->category->value : ""?></span>
                 </td>
                 <td>
 

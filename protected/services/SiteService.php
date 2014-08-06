@@ -81,7 +81,7 @@ class SiteService {
     public static function timeRange($from, $to) {
         $differenceFull  = $to - $from;
         $differenceYear  = floor(($differenceFull) /32140800);
-        $differenceMonth = floor(($differenceFull) /2678400);
+        $differenceMonth = floor(($differenceFull) /2592000);
         $differenceDay   = floor(($differenceFull) /86400);
         $differenceHour  = floor(($differenceFull) /3600);
         $differenceMin   = floor(($differenceFull) /60);
@@ -91,10 +91,13 @@ class SiteService {
             $differenceSec = 1;
         }
         if ($differenceYear >= 1){
-            return $differenceYear . ' ' . self::getCorectWordsT('Site', 'yaer', $differenceYear);
+            return $differenceYear . ' ' . self::getCorectWordsT('Site', 'year', $differenceYear);
         }
         if ($differenceMonth >= 1){
-            return $differenceMonth . ' ' . self::getCorectWordsT('Site', "month", $differenceMonth);
+            $return = $differenceMonth . ' ' . self::getCorectWordsT('Site', "month", $differenceMonth);
+            $differenceDay = floor(($differenceFull - ($differenceMonth * 2592000)) / 86400);
+            $return .= ' ' . Yii::t('Site', 'and') . ' ' . $differenceDay . ' ' . self::getCorectWordsT('Site', "day", $differenceDay);
+            return $return;
         }
         if ($differenceDay >= 1){
             return $differenceDay . ' ' . self::getCorectWordsT('Site', "day", $differenceDay);

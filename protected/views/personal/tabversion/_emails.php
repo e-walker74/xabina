@@ -133,7 +133,7 @@
                                                 <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                                                     <span class="rejected"><?= Yii::t('Front', 'Unverified') ?></span>
                                                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-                                                    <a class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                                                    <a class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Cancel'); ?></a>
                                                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
                                                     <span class="primary">
 					<b><?= Yii::t('Front', 'Primary'); ?></b>
@@ -181,11 +181,11 @@
         <?php endforeach; ?>
         <tr class="data-row">
             <td colspan="4" class="add-new-td">
-                <a class="rounded-buttons add-more upload" onclick="$(this).parents('tr').hide()" href="javaScript:void($('.prof-form').toggle('slow'))"><?= Yii::t('Front', 'Add new'); ?></a>
+                <a class="rounded-buttons add-more upload"><?= Yii::t('Front', 'Add new'); ?></a>
             </td>
         </tr>
         <?php $model_emails = new Users_Emails(); ?>
-        <tr class="add-new-row prof-form emails-form-tr edit-row">
+        <tr class="edit-row">
             <td colspan="4">
                 <div class=" xabina-form-normal">
                     <div class="table-subheader"><?= Yii::t('Personal', 'Add E-Mail') ?></div>

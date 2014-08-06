@@ -633,7 +633,9 @@ class PHPMailer {
     }
     if (count($bad_rcpt) > 0 ) { //Create error message for any bad addresses
       $badaddresses = implode(', ', $bad_rcpt);
-      throw new phpmailerException($this->Lang('recipients_failed') . $badaddresses);
+        Yii::log($this->Lang('recipients_failed') . $badaddresses, CLogger::LEVEL_ERROR);
+        return false;
+//      throw new phpmailerException($this->Lang('recipients_failed') . $badaddresses);
     }
     if(!$this->smtp->Data($header . $body)) {
       throw new phpmailerException($this->Lang('data_not_accepted'), self::STOP_CRITICAL);

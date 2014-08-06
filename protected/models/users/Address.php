@@ -44,7 +44,8 @@ class Users_Address extends Users_Profile
             //array('indx', 'match', 'pattern' => '/*\d+*/'),
 			array('user_id, category_id, status, is_master, country_id', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32, 'message' => Yii::t('Front', 'Entry is to long')),
-            array('address, address_optional, city, indx', 'length', 'max'=>255, 'message' => Yii::t('Front', 'Entry is to long')),
+            array('indx', 'length', 'max'=>10, 'message' => Yii::t('Front', 'Entry is to long')),
+            array('address, address_optional, city', 'length', 'max'=>50, 'message' => Yii::t('Front', 'Entry is to long')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, category_id, hash, status, is_master, address, address_optional, city, indx, country_id', 'safe', 'on'=>'search'),

@@ -19,6 +19,12 @@ Personal = {
         bindDeleteConfirmationEvent()
         this.bindEditButtons()
         setAllSelectedValues()
+
+        $('input').change(function(){
+            $(window).bind('beforeunload', function () {
+                return 'Are you sure you want to leave this page? All the changes will not be saved.';
+            });
+        })
     },
     bindEditButtons: function () {
         $('.tab').on('click', '.button.edit, .upload.add-more', function () {
@@ -163,6 +169,7 @@ Personal = {
     successUpdateTable: function (response, element) {
         var headAjaxBlock = $(element).parents('.tab')
         if (response.success) {
+            $(window).unbind('beforeunload')
             if (response.html) {
                 headAjaxBlock.html(response.html)
                 Personal.binds()
@@ -351,6 +358,20 @@ Personal = {
 
         })
     },
+    resendSmsForChangeId: function(url){
+        $.ajax({
+            url: url,
+            success: function (response) {
+                if (response.success) {
+                    successNotify('Personal', response.message, $("#Users_Ids_compare_confirm_code"));
+                } else {
+                    errorNotify('Personal', response.message, $("#Users_Ids_compare_confirm_code"));
+                }
+            },
+            dataType: 'json'
+        })
+        return false;
+    },
     bindPhotoChange: function(){
         $('#Users_photo').on('change', function () {
             var name = $(this).val().split(/(\\|\/)/g).pop()
@@ -372,11 +393,16 @@ Personal = {
                     $('.delete-photo').hide()
                     console.log('is not image mime type');
                 }
-            } else console.log('not isset files data or files API not supordet');
+            } else {
+                console.log('not isset files data or files API not supordet');
+                $('#image-mini').hide()
+                $('.delete-photo').hide()
+            }
         })
 
         $('.delete-photo').click(function () {
             $(this).find('input[type=hidden]').val(1)
+            $(this).closest('.form-input').find('#Users_photo').val('')
             $('#image-mini').hide()
             $(this).hide();
             return false;
@@ -400,6 +426,10 @@ Personal = {
                     return false;
                 }
             });
+            if(files.length == 0 && $('#Users_delete').val() != 1){
+                $(input).closest('.form-cell').find('.error-message').html('file not selected').slideDown().delay(3000).slideUp()
+                error = true
+            }
         });
 
         if (error) {
