@@ -76,7 +76,7 @@
             <?php else: ?>
                 <tr>
                     <td>+<?= $users_phone->phone ?></td>
-                    <td><?= $users_phone->category->value ?></td>
+                    <td><?= ($users_phone->category) ? $users_phone->category->value : "" ?></td>
                     <td>
                         <?php if($users_phone->status == 0 && $users_phone->is_master == 0):?>
                             <div class="field-row">

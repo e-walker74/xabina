@@ -86,7 +86,7 @@
                     <div class="user-greeting pull-right">
 
                         <img src="<?= Yii::user()->getPhotoUrl() ?>" alt="" style="width: 23px"/>
-                        <?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?>
+                        <?= Yii::app()->user->fullName ?>
 
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_activity_status')): ?>
                         <? $userActivity = Yii::app()->user->getSelfActivityStatus();?>
