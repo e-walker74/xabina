@@ -59,8 +59,8 @@
                                             'empty' => Yii::t('Personal', 'Select'),
                                         )
                                     ); ?>
-                                    <?= $form->error($model, 'question_id'); ?>
                                 </div>
+                                <?= $form->error($model, 'question_id'); ?>
                             </div>
                         </div>
                     </div>
@@ -125,8 +125,8 @@
                                                 'empty' => Yii::t('Personal', 'Select'),
                                             )
                                         ); ?>
-                                        <?= $form->error($model, 'question_id'); ?>
                                     </div>
+                                    <?= $form->error($model, 'question_id'); ?>
                                 </div>
                             </div>
                         </div>

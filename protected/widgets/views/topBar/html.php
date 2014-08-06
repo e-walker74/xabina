@@ -84,7 +84,8 @@
                         <li class="user-logout"><?= CHtml::link('', array('/site/logout')); ?></li>
                     </ul>
                     <div class="user-greeting pull-right">
-                        <img src="/images/account-photo-r.png" alt=""/>
+
+                        <img src="<?= Yii::user()->getPhotoUrl() ?>" alt="" style="width: 23px"/>
                         <?= Yii::t('Front', 'Hello, <span>:name</span>', array(':name' => Yii::app()->user->fullName)); ?>
 
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_activity_status')): ?>

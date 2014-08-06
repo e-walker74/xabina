@@ -9,7 +9,7 @@
  */ ?>
 <div class="xabina-form-normal">
 
-<table class="table xabina-table-personal">
+<table class="table xabina-table-contacts">
 <tbody>
 <tr class="table-header">
     <th style="width: 42%"><?= Yii::t('Front', 'Address'); ?></th>
@@ -44,7 +44,6 @@
                         <li>
                             <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                         </li>
-                        <?php if(!$addr->is_master): ?>
                         <li>
                             <?= Html::link('', 'javaScript:void(0)', array(
                                 'class' => 'button delete',
@@ -52,7 +51,6 @@
                                 'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)),
                             )) ?>
                         </li>
-                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

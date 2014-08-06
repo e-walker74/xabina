@@ -29,9 +29,9 @@
         </tr>
         <?php if($model->primary_paymentsmethod): ?>
             <tr class="align-top">
-                <td><?= Yii::t('Personal', 'Account Number') ?></td>
+                <td><?= Yii::t('Personal', 'Payment Methods') ?></td>
                 <td>
-                    <span class="strong"><?= chunk_split($model->primary_paymentsmethod->from_account_number, 4) ?></span>
+                    <span class="strong">**** **** <?= substr($model->primary_paymentsmethod->from_account_number, -4) ?></span>
                     <span class="note"><?= Users_Paymentinstruments::$methods[$model->primary_paymentsmethod->electronic_method] ?></span>
                 </td>
                 <td>
@@ -57,6 +57,9 @@
                 </span>
             </td>
             <td>
+                <div class="transaction-buttons-cont">
+                    <a class="button send" href="#" title="Send Email"></a>
+                </div>
             </td>
         </tr>
         <?php if($model->primary_phone): ?>

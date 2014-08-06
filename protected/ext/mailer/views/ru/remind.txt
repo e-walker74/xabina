@@ -2,14 +2,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
         <meta http-equiv="Content-Language" content="ru" /> 
-		<?php $password = (!isset($password) || !$password)?'':$password; ?>
         <title>Регистрация на сайте XABINA.COM</title>
     </head>
     <body>
-		<h2>Здравствуйте, <strong><?= $user->fullName ?></strong></h2>
+		<h2>Здравствуйте, <strong>{:userFullName}</strong></h2>
 
-		<em style="padding:10px;border-left:1px solid #d8d8d8">Ваш почтовый адрес <?= $user->email ?> был указан при регистрации  на сайте 
-		XABINA.COM <?= SiteService::timeToDate(time()) ?>.</em>
+		<em style="padding:10px;border-left:1px solid #d8d8d8">Ваш почтовый адрес {:userEmail} был указан при регистрации  на сайте 
+		XABINA.COM {:date}.</em>
 
 		<p>
 			Вы успешно зарегистрированы на сайте XABINA.COM
@@ -21,14 +20,14 @@
 					<td style="padding: 10px;font-size: .8em;width: 150px">Пароль:</td>
 				</tr>
 				<tr>
-					<td style="border:1px solid #e3e3e3;border-right: none;"><strong><?= $user->email ?></strong></td>
-					<td style="border: 1px solid #e3e3e3;border-left: none;"><strong><?= $password ?></strong></td>
+					<td style="border:1px solid #e3e3e3;border-right: none;"><strong>{:userLogin}</strong></td>
+					<td style="border: 1px solid #e3e3e3;border-left: none;"><strong>{:userPassword}</strong></td>
 				</tr>	
 		</table>
 
 		<p>
 			Для активации профиля перейдите по ссылке:
-			<?= CHtml::link(Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash, Yii::app()->getBaseUrl(true).'/emailconfirm/'.$user->hash) ?>
+			<a href="{:activateUrl}" target="_blank">{:activateUrl}</a>
 		</p>
 
 		<p>
@@ -36,9 +35,6 @@
 		</p>
 
 		<p>-----</p>
-		<p style="color:#666666; font-size:.8em">С уважением, команда <?= CHtml::link('XABINA.COM', Yii::app()->getBaseUrl(true)) ?></p>
+		<p style="color:#666666; font-size:.8em">С уважением, команда <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
     </body>
 </html>
-<?php 
-	$mailer->Subject = Yii::t('Mail', 'Регистрация на сайте XABINA.COM');
-?>

@@ -25,11 +25,17 @@ class Users_Paymentinstruments extends Users_Profile
     const METHOD_CREDITCARD = 1;
     const METHOD_IDEAL = 2;
     const METHOD_BANK_ACCOUNT = 3;
+    const METHOD_PAYPAL = 4;
+    const METHOD_SKRILL = 5;
+    const METHOD_WEBMONEY = 6;
 
     public static $methods = array(
         self::METHOD_CREDITCARD => 'creditcard',
         self::METHOD_IDEAL => 'ideal',
         self::METHOD_BANK_ACCOUNT => 'bank_account',
+        self::METHOD_PAYPAL => 'paypal',
+        self::METHOD_SKRILL => 'webmoney',
+        self::METHOD_WEBMONEY => 'skrill',
     );
 
     public $status = 1;
@@ -41,6 +47,12 @@ class Users_Paymentinstruments extends Users_Profile
     public $ideal_account_number;
     // bank account
     public $bank_name;
+    // paypal
+    public $paypal_account_number;
+    // webmoney
+    public $webmoney_account_number;
+    // skrill
+    public $skrill_account_number;
 
     /**
      * Returns the static model of the specified AR class.
@@ -84,19 +96,29 @@ class Users_Paymentinstruments extends Users_Profile
             // ideal
             array('ideal_account_number', 'required', 'on' => 'ideal'),
             array('ideal_account_number', 'numerical', 'on' => 'ideal'),
+            // paypal
+            array('paypal_account_number', 'required', 'on' => 'paypal'),
+            array('paypal_account_number', 'email', 'on' => 'paypal'),
+            // webmoney
+            array('webmoney_account_number', 'required', 'on' => 'webmoney'),
+            array('webmoney_account_number', 'numerical', 'on' => 'webmoney'),
+            // paypal
+            array('skrill_account_number', 'required', 'on' => 'skrill'),
+            array('skrill_account_number', 'email', 'on' => 'skrill'),
             // bank account
             array('from_account_number, from_account_holder, bic', 'required', 'on' => 'bank_account'),
             array('bic', 'validateBic', 'on' => 'bank_account'),
         );
     }
 
-    public function validateBic($attr, $par){
+    public function validateBic($attr, $par)
+    {
         $bank = Banks_Info::model()->findByAttributes(
             array(
                 'bic_code' => $this->$attr
             )
         );
-        if(!$bank){
+        if (!$bank) {
             $this->addError($attr, Yii::t('Front', 'Bic is incorrect'));
         } else {
             $this->bank_id = $bank->id;
@@ -163,8 +185,9 @@ class Users_Paymentinstruments extends Users_Profile
         ));
     }
 
-    public function beforeValidate(){
-        if(!$this->category_id){
+    public function beforeValidate()
+    {
+        if (!$this->category_id) {
             $this->category_id = null;
         }
         return parent::beforeValidate();
@@ -181,10 +204,19 @@ class Users_Paymentinstruments extends Users_Profile
                 case 'ideal':
                     $this->from_account_number = $this->ideal_account_number;
                     break;
+                case 'paypal':
+                    $this->from_account_number = $this->paypal_account_number;
+                    break;
+                case 'webmoney':
+                    $this->from_account_number = $this->webmoney_account_number;
+                    break;
+                case 'skrill':
+                    $this->from_account_number = $this->skrill_account_number;
+                    break;
             }
 
         if ($this->isNewRecord) {
-            $this->status = PaymentService::PENDING_STATUS;
+            $this->status = PaymentService::APPROVED_STATUS;
             $this->user_id = Yii::app()->user->id;
         }
 

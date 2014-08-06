@@ -381,7 +381,7 @@ class SiteController extends Controller {
                 $user->phone_confirm = 1;
                 $newPhone = new Users_Phones;
                 $newPhone->user_id = $user->id;
-                $newPhone->email_type_id = 3; // TODO: email types
+                $newPhone->category_id = 3; // TODO: email types
                 $newPhone->phone = '+'.$user->phone;
                 $newPhone->status = 1;
                 $newPhone->is_master = 1;

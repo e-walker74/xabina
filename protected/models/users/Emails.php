@@ -70,6 +70,10 @@ class Users_Emails extends Users_Profile
         }
     }
 
+    /**
+     * @param string $className
+     * @return Users_Emails
+     */
     public static function model($className = __CLASS__)
     {
         return parent::model($className);

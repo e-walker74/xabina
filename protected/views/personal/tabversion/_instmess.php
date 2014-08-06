@@ -11,8 +11,8 @@
 <div class=" xabina-form-normal">
     <table class="table xabina-table-contacts">
         <tr class="table-header">
-            <th style="width: 28%"><?= Yii::t('Personal', 'Instant Messaging'); ?></th>
-            <th style="width: 25%"><?= Yii::t('Personal', 'Username'); ?></th>
+            <th style="width: 23%"><?= Yii::t('Personal', 'Instant Messaging'); ?></th>
+            <th style="width: 30%"><?= Yii::t('Personal', 'Username'); ?></th>
             <th style="width: 18%"><?= Yii::t('Personal', 'Category'); ?></th>
             <th style="width: 21%"><?= Yii::t('Personal', 'Status'); ?></th>
             <th style="width: 8%"></th>
@@ -40,15 +40,13 @@
                                 <li>
                                     <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                                 </li>
-                                <?php if(!$mes->is_master): ?>
-                                    <li>
-                                        <?= Html::link('', 'javaScript:void(0)', array(
-                                            'class' => 'button delete',
-                                            'onclick' => '$(this).addClass(\'opened\')',
-                                            'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)),
-                                        )) ?>
-                                    </li>
-                                <?php endif; ?>
+                                <li>
+                                    <?= Html::link('', 'javaScript:void(0)', array(
+                                        'class' => 'button delete',
+                                        'onclick' => '$(this).addClass(\'opened\')',
+                                        'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)),
+                                    )) ?>
+                                </li>
                             </ul>
                         </div>
                     </div>
