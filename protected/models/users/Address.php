@@ -40,7 +40,7 @@ class Users_Address extends Users_Profile
     {
 
         return array(
-            array('category_id, address, indx, city, country_id', 'required', 'on' => 'editaddress'),
+            array('category_id, address, indx, city', 'required', 'on' => 'editaddress'),
             //array('indx', 'match', 'pattern' => '/*\d+*/'),
             array('user_id, category_id, status, is_master, country_id', 'numerical', 'integerOnly' => true),
             array('hash', 'length', 'max' => 32, 'message' => Yii::t('Front', 'Entry is to long')),

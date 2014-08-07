@@ -119,13 +119,6 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
 
-        $data_categories = Users_Categories::model()->findAll(
-            array(
-                'condition' => 'data_type = "users_emails" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
-            )
-        );
-
         if (isset($_POST['Users_Emails'])) {
 
             $model_emails->attributes = $_POST['Users_Emails'];
@@ -133,6 +126,13 @@ class PersonalController extends Controller
 
 
             if ($model_emails->save()) {
+
+                $data_categories = Users_Categories::model()->findAll(
+                    array(
+                        'condition' => 'data_type = "users_emails" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                        'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                    )
+                );
 
                 $mail = new Mail;
                 $mail->send(
@@ -169,6 +169,13 @@ class PersonalController extends Controller
                 Yii::app()->end();
             }
         }
+
+        $data_categories = Users_Categories::model()->findAll(
+            array(
+                'condition' => 'data_type = "users_emails" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+            )
+        );
 
         if (Yii::request()->isAjaxRequest) {
 
@@ -461,13 +468,6 @@ class PersonalController extends Controller
 
         $countries = Countries::model()->findAll();
 
-        $data_categories = Users_Categories::model()->findAll(
-            array(
-                'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
-            )
-        );
-
         if (isset($_POST['Users_Address'])) {
             if (isset($_POST['Users_Address']['id']) && $_POST['Users_Address']['id']) {
                 $model = Users_Address::model()->findByPk($_POST['Users_Address']['id']);
@@ -482,6 +482,13 @@ class PersonalController extends Controller
             $model->status = 1;
             if ($model->save()) {
 
+
+                $data_categories = Users_Categories::model()->findAll(
+                    array(
+                        'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                        'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                    )
+                );
                 echo CJSON::encode(array(
                     'success' => true,
                     'html' => $this->renderPartial(
@@ -503,6 +510,13 @@ class PersonalController extends Controller
             }
             Yii::app()->end();
         }
+
+        $data_categories = Users_Categories::model()->findAll(
+            array(
+                'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+            )
+        );
 
         echo CJSON::encode(array(
             'success' => true,
