@@ -23,7 +23,7 @@
                     <div class="messenger-ico <?= $mes->messager_system->code ?>"></div> <?= $mes->messager_system->name ?>
                 </td>
                 <td><?= $mes->messager_login ?></td>
-                <td><?= $mes->category->value ?></td>
+                <td><?= ($mes->category) ? $mes->category->value : "" ?></td>
                 <td>
                     <?php if($mes->is_master): ?>
                         <span class="bold"><?= Yii::t('Front', 'Primary'); ?></span>

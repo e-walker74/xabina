@@ -179,30 +179,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <?php if($model->type == 'personal'): ?>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
-                            <div class="form-cell">
-                                <div class="form-lbl">
-                                    <?= Yii::t('Front', 'Sex') ?>
-                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_sex') ?>"></span>
-                                </div>
-                                <div class="form-input category-select">
-                                    <div class="select-custom select-narrow ">
-                                        <span class="select-custom-label"></span>
-                                        <?= $form->dropDownList(
-                                            $model,
-                                            'sex',
-                                            array('male' => Yii::t('Front', 'Male'), 'female' => Yii::t('Front', 'Female')),
-                                            array(
-                                                'class' => 'select-invisible',
-                                            )
-                                        ) ?>
-                                        <?= $form->error($model, 'sex') ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endif; ?>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
@@ -231,6 +207,30 @@
                                 </div>
                             </div>
                         </div>
+                        <?php if($model->type == 'personal'): ?>
+                        <div class="col-lg-5 col-md-5 col-sm-5">
+                            <div class="form-cell">
+                                <div class="form-lbl">
+                                    <?= Yii::t('Front', 'Sex') ?>
+                                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'contact_sex') ?>"></span>
+                                </div>
+                                <div class="form-input category-select">
+                                    <div class="select-custom select-narrow ">
+                                        <span class="select-custom-label"></span>
+                                        <?= $form->dropDownList(
+                                            $model,
+                                            'sex',
+                                            array('male' => Yii::t('Front', 'Male'), 'female' => Yii::t('Front', 'Female')),
+                                            array(
+                                                'class' => 'select-invisible',
+                                            )
+                                        ) ?>
+                                        <?= $form->error($model, 'sex') ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
 
                         </div>

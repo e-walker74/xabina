@@ -57,7 +57,7 @@
     </td>
 </tr>
 <tr class="edit-row">
-    <td colspan="4">
+    <td colspan="4" style="border-top: none!important;">
         <div class="table-subheader">
             <?php if(!$model->pin1): ?>
                 <?= Yii::t('Personal', 'Add Password 1') ?>
@@ -200,7 +200,7 @@
     </td>
 </tr>
 <tr class="edit-row">
-    <td colspan="4">
+    <td colspan="4" style="border-top: none!important;">
         <div class="table-subheader">
             <?php if(!$model->pin2): ?>
                 <?= Yii::t('Personal', 'Add Password 2') ?>
@@ -342,7 +342,7 @@
     </td>
 </tr>
 <tr class="edit-row">
-    <td colspan="4">
+    <td colspan="4" style="border-top: none!important;">
         <div class="table-subheader">
             <?php if(!$model->pin3): ?>
                 <?= Yii::t('Personal', 'Add Password 3') ?>
