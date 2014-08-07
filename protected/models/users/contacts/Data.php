@@ -190,6 +190,7 @@ class Users_Contacts_Data extends ActiveRecord
                         array(
                             'model' => $contact,
                             'data_categories' => $data_categories,
+                            'instMessengers' => $instMessengers,
                         ),
                         true,
                         true
@@ -217,6 +218,8 @@ class Users_Contacts_Data extends ActiveRecord
         if(isset($_POST['Data_Category']) && !$model->category_id){
             $model->category_id = $this->getDataCategoryForModel($_POST['Data_Category'], $dbModel->data_type);
         }
+
+        $this->deleteNotUsedCategories();
 
         if(isset($_POST['Data_Category_Incoming'])){
             $model->incoming_category = $this->getDataCategoryForModel($_POST['Data_Category_Incoming'], 'incoming_category');
@@ -287,5 +290,9 @@ class Users_Contacts_Data extends ActiveRecord
             $model->save();
         }
         return $model->id;
+    }
+
+    public function deleteNotUsedCategories(){
+
     }
 }

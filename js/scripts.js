@@ -1136,7 +1136,6 @@ $(function () {
             }
         })
     });
-    $('.select-img .selected-img img').attr('src', $('.img-dropdown img[data-selected="selected"]').attr('src'));
 
     $('.sidebar-menu').on('click', '> li', function(){
         if($(this).next('.sidebar-submenu').length){

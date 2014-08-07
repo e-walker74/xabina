@@ -73,7 +73,7 @@
             <div class="clear"></div>
             <div class="register-forgot-row" style="margin-top: 10px">
                 <div class="form-alert">
-                    <?= $form->error($model, 'userId'); ?>
+                    <?= $form->error($model, 'userId', array('style' => 'color:#e10606')); ?>
                 </div>
             </div>
             <div class="form-line-submit">

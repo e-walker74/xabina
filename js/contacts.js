@@ -346,6 +346,8 @@ $(document).ready(function () {
             });
         }
     })
+
+//    $('.select-img .selected-img img').attr('src', $('.img-dropdown img[data-selected="selected"]').attr('src'));
 })
 
 var showAddNewCategory = function (el) {

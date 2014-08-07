@@ -199,7 +199,7 @@
 									<span class="select-custom-label selected-img">
 										<img src="/images/soc_img_03.png" alt=""/>
 									</span>
-                                        <?= $form->hiddenField($m, 'social', array('class' => 'socnet-select')); ?>
+                                    <?= $form->hiddenField($m, 'social', array('class' => 'socnet-select')); ?>
                                     </div>
                                     <ul class="dropdown-menu socnet-dropdown img-dropdown" role="menu" >
                                         <?php foreach(Users_Contacts_Data_Social::$socialsImages as $key => $img): ?>
