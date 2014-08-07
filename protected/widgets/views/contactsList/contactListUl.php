@@ -63,7 +63,7 @@
     <ul class="contact-list list-unstyled ">
         <li>
             <div class="note ">
-                <p><span class="rejected"><?= Yii::t('Front', 'No search results') ?></span></p>
+                <p><span class=""><?= Yii::t('Front', 'No search results') ?></span></p>
             </div>
         </li>
     </ul>

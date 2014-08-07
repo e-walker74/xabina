@@ -35,11 +35,11 @@ class Users_Instmessagers extends Users_Profile
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('messager_type, messager_login, category_id', 'required'),
+            array('messager_type, messager_login', 'required'),
             array('user_id, status, is_master, messager_type, category_id', 'numerical', 'integerOnly' => true),
             array('hash', 'length', 'max' => 32),
             array('messager_login', 'length', 'max' => 50),
-            array('messager_login', 'uniqueOnUser'),
+            array('messager_login', 'uniqueOnUser', 'on' => 'insert'),
             array('messager_login', 'match', 'pattern' => '/^[a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'Add Username using latin alphabet')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

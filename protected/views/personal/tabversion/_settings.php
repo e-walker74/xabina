@@ -166,6 +166,9 @@
                     var datafield = row.prev('.user-settings-data').find('.data')
                     datafield.html(text)
                     resetPage()
+                    if(data.html){
+                        row.closest('.tab').html(data.html)
+                    }
                     if(row.attr('data-type') == 'fontsize'){
                         Personal.changeFontSize(data.attrs.font_size)
                     }

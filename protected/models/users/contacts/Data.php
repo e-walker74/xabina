@@ -219,8 +219,6 @@ class Users_Contacts_Data extends ActiveRecord
             $model->category_id = $this->getDataCategoryForModel($_POST['Data_Category'], $dbModel->data_type);
         }
 
-        $this->deleteNotUsedCategories();
-
         if(isset($_POST['Data_Category_Incoming'])){
             $model->incoming_category = $this->getDataCategoryForModel($_POST['Data_Category_Incoming'], 'incoming_category');
         }
@@ -260,6 +258,7 @@ class Users_Contacts_Data extends ActiveRecord
         }
 
 		if($dbModel->save()){
+            $this->deleteNotUsedCategories($dbModel);
             return $this->renderContactData($contact_id, $dbModel->data_type, $dbModel, $scenario);
 		}
 		return CJSON::encode(array('success' => false));
@@ -292,7 +291,26 @@ class Users_Contacts_Data extends ActiveRecord
         return $model->id;
     }
 
-    public function deleteNotUsedCategories(){
+    public function deleteNotUsedCategories($model){
+        if($this->hasAttribute('category_id')){
+            $sql = 'DELETE
+                    FROM users_contacts_data_categories
+                    WHERE
+                      NOT EXISTS
+                        (
+                          SELECT NULL FROM users_contacts_data uct
+                          INNER JOIN users_contacts uc ON (uc.id = uct.contact_id)
+                          WHERE uct.category_id = users_contacts_data_categories.id
+                          AND uc.user_id = :user
+                          AND uct.data_type = :data_type
+                        )
+                      AND user_id = :user
+                      AND data_type = :data_type';
 
+            Yii::app()->db->createCommand($sql)->execute(array(
+                ':data_type' => $model->data_type,
+                ':user' => $model->contact->user_id,
+            ));
+        }
     }
 }

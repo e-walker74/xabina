@@ -30,7 +30,6 @@
                     <li>
                         <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                     </li>
-                    <?php if(!$model->is_master): ?>
                     <li>
                         <?= Html::link('', 'javaScript:void(0)', array(
                             'class' => 'button delete',
@@ -38,7 +37,6 @@
                             'data-url' => Yii::app()->createUrl('/personal/deletePaymentInstument', array('id' => $model->id)),
                         )) ?>
                     </li>
-                    <?php endif; ?>
                 </ul>
             </div>
         </div>

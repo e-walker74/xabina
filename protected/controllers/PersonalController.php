@@ -217,12 +217,9 @@ class PersonalController extends Controller
 
         $messengers = InstmessagerSystems::model()->findAll('status = 1');
 
-        $data_categories = Users_Categories::model()->findAll(
-            array(
-                'condition' => 'data_type = "users_instmessagers" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
-            )
-        );
+        if (!empty($_POST['Users_Instmessagers']['id'])) {
+            $model = Users_Instmessagers::model()->ownUser()->findByPk($_POST['Users_Instmessagers']['id']);
+        }
 
         if (Yii::request()->getParam('ajax')) {
             echo CActiveForm::validate($model);
@@ -230,10 +227,6 @@ class PersonalController extends Controller
         }
 
         if (isset($_POST['Users_Instmessagers'])) {
-
-            if (isset($_POST['Users_Instmessagers']['id'])) {
-                $model = Users_Instmessagers::model()->currentUser()->findByPk($_POST['Users_Instmessagers']['id']);
-            }
             $model->attributes = $_POST['Users_Instmessagers'];
             $model->user_id = Yii::app()->user->id;
             $model->status = 1;
@@ -241,8 +234,18 @@ class PersonalController extends Controller
             if (!$user->messagers) {
                 $model->is_master = 1;
             }
+            if(!$model->category_id){
+                $model->category_id = NULL;
+            }
             $model->user_id = Yii::app()->user->id;
             if ($model->save()) {
+
+                $data_categories = Users_Categories::model()->findAll(
+                    array(
+                        'condition' => 'data_type = "users_instmessagers" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                        'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                    )
+                );
 
                 echo CJSON::encode(array(
                     'success' => true,
@@ -263,6 +266,13 @@ class PersonalController extends Controller
 
             }
         }
+
+        $data_categories = Users_Categories::model()->findAll(
+            array(
+                'condition' => 'data_type = "users_instmessagers" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
+                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+            )
+        );
 
         echo CJSON::encode(array(
             'success' => true,
@@ -1427,7 +1437,12 @@ class PersonalController extends Controller
                 Yii::user()->setFontSize($user->settings->font_size);
                 Yii::user()->getTimeZone(true); //refresh time zone
                 Yii::user()->getLastTime(true); //refresh last login time
-                echo CJSON::encode(array('success' => true, 'redirect' => $redirect, 'attrs' => $user->settings->attributes));
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'redirect' => $redirect,
+                    'attrs' => $user->settings->attributes,
+                    'html' => $this->renderPartial('tabversion/_settings', array('user' => $user), true, true),
+                ));
             } else {
                 echo CJSON::encode(array('success' => false, 'message' => $user->settings->getErrors()));
             }
@@ -1669,21 +1684,14 @@ class PersonalController extends Controller
             Yii::app()->end();
         }
 
-
         // save the model
         $model->attributes = $_POST[$modelName];
-//        if(!empty($_POST[$modelName]['paypal_account_number'])){
-//
-//        }
-//        if(!empty($_POST[$modelName]['webmoney_account_number'])){
-//
-//        }
-//        if(!empty($_POST[$modelName]['skrill_account_number'])){
-//
-//        }
         if (!$model->isNewRecord && $model->user_id != Yii::app()->user->id)
             return;
 
+        if(!Users_Paymentinstruments::model()->ownUser()->find('deleted = 0')){
+            $model->is_master = 1;
+        }
 
         if ($model->save()) {
 
