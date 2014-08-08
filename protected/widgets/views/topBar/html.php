@@ -86,7 +86,7 @@
                     <div class="user-greeting pull-right">
 
                         <img src="<?= Yii::user()->getPhotoUrl() ?>" alt="" style="width: 23px"/>
-                        <?= Yii::app()->user->fullName ?>
+                        <b><?= Yii::app()->user->fullName ?></b>
 
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_activity_status')): ?>
                         <? $userActivity = Yii::app()->user->getSelfActivityStatus();?>
@@ -94,7 +94,7 @@
                             <div class="select-img">
                                 <div class="select-custom-activity" data-toggle="dropdown">
                                     <span class="lbl selected-img">
-                                      <img src="/images/validation_status_ok.png" alt="">
+                                      <img src="<?= UserService::getStatusImageUrl(Yii::user()->getSelfActivityStatus()) ?>" alt="">
                                     </span>
                                 </div>
                                 <ul class="dropdown-menu status-dropdown img-dropdown" role="menu">

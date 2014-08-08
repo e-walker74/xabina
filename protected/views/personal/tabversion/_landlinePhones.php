@@ -19,7 +19,7 @@
         <?php foreach ($user->telephones as $users_phone): ?>
             <tr class="data-row">
                 <td>+<?= $users_phone->number ?></td>
-                <td><?= $users_phone->category->value ?></td>
+                <td><?= ($users_phone->category) ? $users_phone->category->value : "" ?></td>
                 <td style="overflow: visible!important;">
                     <div class="contact-actions transaction-buttons-cont">
                         <div class="btn-group with-delete-confirm">

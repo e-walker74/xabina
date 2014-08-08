@@ -4,6 +4,7 @@
     <div class="contact-photo">
         <img style="width: 40px;" src="<?= $model->getPhotoUrl() ?>" alt=""/>
         <img src="<?= UserService::getStatusImageUrl(Yii::user()->getSelfActivityStatus()) ?>" alt="" class="valid-status self-activity-status"/>
+
     </div>
     <div class="contact-name">
         <?= $model->first_name ?> <?= $model->last_name ?><br>

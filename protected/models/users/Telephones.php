@@ -41,10 +41,11 @@ class Users_Telephones extends Users_Profile
         // will receive user inputs.
         return array(
             array('number', 'required', 'message' => Yii::t('Front', 'Phone Number is incorrect')),
-            array('category_id', 'required', 'message' => Yii::t('Front', 'Phone Type is incorrect')),
+//            array('category_id', 'required', 'message' => Yii::t('Front', 'Phone Type is incorrect')),
             array('number', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Phone is too short')),
             array('user_id, number', 'numerical', 'integerOnly' => true, 'message' => Yii::t('Front', 'Phone Number is incorrect')),
-            array('number', 'uniqueByUser'),
+            array('category_id', 'numerical'),
+            array('number', 'uniqueByUser', 'on' => 'create'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, user_id, number', 'safe', 'on' => 'search'),

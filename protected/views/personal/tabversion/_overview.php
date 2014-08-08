@@ -35,6 +35,9 @@
                     <span class="note"><?= Users_Paymentinstruments::$methods[$model->primary_paymentsmethod->electronic_method] ?></span>
                 </td>
                 <td>
+                    <div class="transaction-buttons-cont">
+                        <a class="button share" title="Share" href="javaScript:void(0)"></a>
+                    </div>
                 </td>
             </tr>
         <?php endif; ?>

@@ -309,8 +309,10 @@ class PersonalController extends Controller
 
         $data_categories = Users_Categories::model()->findAll(
             array(
-                'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                'condition' => '(user_id is NULL OR user_id = :uid)',
+                'params' => array(
+                    ':uid' => Yii::user()->id,
+                ),
             )
         );
 
@@ -367,6 +369,15 @@ class PersonalController extends Controller
             $model_telephones->attributes = $_POST['Users_Telephones'];
             $model_telephones->user_id = Yii::app()->user->id;
             if ($model_telephones->save()) {
+
+                $data_categories = Users_Categories::model()->findAll(
+                    array(
+                        'condition' => '(user_id is NULL OR user_id = :uid)',
+                        'params' => array(
+                            ':uid' => Yii::user()->id,
+                        ),
+                    )
+                );
                 echo CJSON::encode(array(
                     'success' => true,
                     'html' => $this->renderPartial(
@@ -485,8 +496,10 @@ class PersonalController extends Controller
 
                 $data_categories = Users_Categories::model()->findAll(
                     array(
-                        'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                        'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                        'condition' => '(user_id is NULL OR user_id = :uid)',
+                        'params' => array(
+                            ':uid' => Yii::user()->id,
+                        ),
                     )
                 );
                 echo CJSON::encode(array(
@@ -513,8 +526,10 @@ class PersonalController extends Controller
 
         $data_categories = Users_Categories::model()->findAll(
             array(
-                'condition' => '(user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                'condition' => '(user_id is NULL OR user_id = :uid)',
+                'params' => array(
+                    ':uid' => Yii::user()->id,
+                ),
             )
         );
 
