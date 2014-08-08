@@ -147,7 +147,10 @@ class SiteController extends Controller {
 		}
 
 		$model = new Form_Smslogin('login');
-		
+		if(!empty($_GET['login'])){
+			$model->userId = $_GET['login'];
+		}
+
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-login') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -499,7 +502,7 @@ class SiteController extends Controller {
                         array(	// params
                               '{:userPhone}' => '+'.$user->phone,
                               '{:date}' => date('Y m d', time()),
-                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin',
+                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin?login='.$user->login,
                               )
 
                     );
@@ -526,6 +529,9 @@ class SiteController extends Controller {
 		}
 
 		$model = new Form_Changelostphone('change');
+		if(!empty($_GET['login'])){
+			Yii::app()->session['user_login'] = $_GET['login'];
+		}
 		if(!isset(Yii::app()->session['user_login'])){
 			$this->redirect(array('/site/smslogin'));
 		}
@@ -685,7 +691,7 @@ class SiteController extends Controller {
                     array(	// params
                           '{:userPhone}' => '+'.$user->phone,
                           '{:date}' => date('Y m d', time()),
-                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin',
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin?login='.$user->login,
                 ));
                 $this->render('remindSuccess');
             } else {
