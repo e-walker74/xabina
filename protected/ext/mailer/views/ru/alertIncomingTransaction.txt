@@ -1,2 +1,13 @@
-TEST
-alert Incoming Transaction
+<html>
+<head>
+</head>
+<body>
+    <b>TEST</b> <br />
+    alert Incoming Transaction<br />
+    <b>transactionID</b> : {:transactionID} <br />
+    <b>transactionSum</b> : {:transactionSum} <br />
+    <b>accountBalance</b> : {:accountBalance} <br />
+    <b>ruleName</b> : {:ruleName} <br />
+    <b>ruleValue</b> : {:ruleValue} <br />
+</body>
+</html>

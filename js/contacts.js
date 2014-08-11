@@ -346,6 +346,8 @@ $(document).ready(function () {
             });
         }
     })
+
+//    $('.select-img .selected-img img').attr('src', $('.img-dropdown img[data-selected="selected"]').attr('src'));
 })
 
 var showAddNewCategory = function (el) {
@@ -361,19 +363,6 @@ var showAddNewCategory = function (el) {
             .find('input')
             .attr('disabled', false)
     }
-}
-
-var hideCategoryTextField = function (el) {
-    $(el)
-        .attr('disabled', true)
-        .val('')
-        .closest('.form-input')
-        .hide()
-        .prev('.category-select')
-        .show()
-        .find('select')
-        .attr('disabled', false)
-    return false;
 }
 
 var searchTransactionsLinks = function (button) {

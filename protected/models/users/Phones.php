@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'users_phones':
  * @property integer $id
  * @property integer $user_id
- * @property integer $email_type_id
+ * @property integer $category_id
  * @property string $hash
  * @property integer $created_at
  * @property integer $updated_at
@@ -18,7 +18,7 @@
  * @property Users $user
  * @property EmailTypes $emailType
  */
-class Users_Phones extends ActiveRecord
+class Users_Phones extends Users_Profile
 {
 
 	public $withOutHash = false;
@@ -37,17 +37,17 @@ class Users_Phones extends ActiveRecord
 	public function rules()
 	{
 		return array(
-			array('email_type_id', 'required', 'on'=>'editphones', 'message' => Yii::t('Front', 'Phone Type is cannot be blank.')),
+//			array('category_id', 'required', 'on'=>'editphones', 'message' => Yii::t('Front', 'Phone Type is cannot be blank.')),
             array('phone', 'required', 'message' => Yii::t('Front', 'Mobile Phone is incorrect'),'on'=>'editphones'),
             array('phone', 'match', 'pattern' => '/^\+\d+$/', 'message' => Yii::t('Front', 'Mobile Phone must be like +311..'),'on'=>'editphones'),
             array('phone', 'checkPhoneUnique', 'on'=>'editphones'),
             array('phone', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Mobile Phone is too short'), 'tooLong' => Yii::t('Front', 'Mobile Phone is too long')),
-            array('user_id, email_type_id, status, is_master', 'numerical', 'integerOnly'=>true),
+            array('user_id, category_id, status, is_master', 'numerical', 'integerOnly'=>true),
 			array('hash', 'length', 'max'=>32),
 			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, email_type_id, hash, status, is_master, phone', 'safe', 'on'=>'search'),
+			array('id, user_id, category_id, hash, status, is_master, phone', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,7 +81,7 @@ class Users_Phones extends ActiveRecord
 	{
 		return array(
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-			'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
+			'category' => array(self::BELONGS_TO, 'Users_Categories', 'category_id'),
 		);
 	}
 
@@ -93,7 +93,7 @@ class Users_Phones extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'email_type_id' => 'Email Type',
+			'category_id' => 'Email Type',
 			'hash' => 'Hash',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
@@ -112,7 +112,6 @@ class Users_Phones extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('email_type_id',$this->email_type_id);
 		$criteria->compare('hash',$this->hash,true);
 		$criteria->compare('created_at',$this->created_at);
 		$criteria->compare('updated_at',$this->updated_at);

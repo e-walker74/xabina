@@ -40,8 +40,12 @@
 					<div class="sidebar-shadow-container">
 						<div class="sidebar-shadow"></div>
 						<?php $this->widget('LeftMenu'); ?>
-                        <?php $this->widget('PersonalManager'); ?>
-                        <?php $this->widget('ContactsBlock'); ?>
+                        <?php if(Yii::app()->user->checkRbacAccess('show_manager_widget')): ?>
+                            <?php $this->widget('PersonalManager'); ?>
+                        <?php endif; ?>
+                        <?php if(Yii::app()->user->checkRbacAccess('show_contacts')): ?>
+                            <?php $this->widget('ContactsBlock'); ?>
+                        <?php endif; ?>
 					</div>
 				</div>
                 <div class="col-lg-9 col-md-9 col-sm-9">

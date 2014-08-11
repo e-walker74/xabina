@@ -190,6 +190,7 @@
                                                 'class' => 'select-invisible',
                                                 'onchange' => 'showAddNewCategory(this)',
                                                 'empty' => Yii::t('Front', 'Select'),
+//                                                'options' => array($m->getDbModel()->category_id => array('selected' => true)),
                                             )
                                         ) ?>
                                     </div>

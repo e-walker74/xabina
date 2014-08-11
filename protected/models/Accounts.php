@@ -61,6 +61,7 @@ class Accounts extends ActiveRecord
 			'type_info' => array(self::BELONGS_TO, 'Accounts_Types', 'type_id'),
 			'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
 			'transactions' => array(self::HAS_MANY, 'Transactions', 'account_id', 'order' => 'created_at desc'),
+//            'category' => array(self::BELONGS_TO, 'Accounts_Category', 'category_id'),
 		);
 	}
 	

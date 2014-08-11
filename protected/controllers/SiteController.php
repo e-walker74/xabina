@@ -147,7 +147,10 @@ class SiteController extends Controller {
 		}
 
 		$model = new Form_Smslogin('login');
-		
+		if(!empty($_GET['login'])){
+			$model->userId = $_GET['login'];
+		}
+
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-login') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -196,13 +199,10 @@ class SiteController extends Controller {
 			}
 			$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
 			$model->code = $_POST['Form_Smslogin']['code'];
-            $user->hash = '';
-            $user->save();
-			if(!$user->phone_confirm){
+            if(!$user->phone_confirm){
 				$user->phone_confirm = 1;
 				$newPhone = new Users_Phones;
 				$newPhone->user_id = $user->id;
-				$newPhone->email_type_id = 3; // TODO: email types
 				$newPhone->phone = $user->phone;
 				$newPhone->status = 1;
 				$newPhone->is_master = 1;
@@ -384,8 +384,8 @@ class SiteController extends Controller {
                 $user->phone_confirm = 1;
                 $newPhone = new Users_Phones;
                 $newPhone->user_id = $user->id;
-                $newPhone->email_type_id = 3; // TODO: email types
-                $newPhone->phone = $user->phone;
+                $newPhone->category_id = 3; // TODO: email types
+                $newPhone->phone = '+'.$user->phone;
                 $newPhone->status = 1;
                 $newPhone->is_master = 1;
                 $newPhone->withOutHash = true;
@@ -430,21 +430,22 @@ class SiteController extends Controller {
 
 	public function actionSMSVerifyPhoneChange(){
 
-		$model = new Form_Smslogin('change');
+		$model = new Form_Registerchangephone('change');
 		if(!isset(Yii::app()->session['user_phone'])){
 			$this->redirect(array('/site/smslogin'));
 		}
 		$user = Users::model()->find('phone = :p', array(':p' => Yii::app()->session['user_phone']));
+        $model->userId = $user->login;
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-change-phone') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
-		if(isset($_POST['Form_Smslogin']) && $user != null){
-            $model->attributes = $_POST['Form_Smslogin'];
+		if(isset($_POST['Form_Registerchangephone']) && $user != null){
+            $model->attributes = $_POST['Form_Registerchangephone'];
             $model->userId = $user->login;
-			$user->phone = $_POST['Form_Smslogin']['phone'];
+			$user->phone = $_POST['Form_Registerchangephone']['phone'];
 			if($model->validate() && $user->save()){
                 Yii::app()->session['user_phone'] = $user->phone;
 				$this->redirect(array('/site/SMSRegisterVerify'));
@@ -501,7 +502,7 @@ class SiteController extends Controller {
                         array(	// params
                               '{:userPhone}' => '+'.$user->phone,
                               '{:date}' => date('Y m d', time()),
-                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin',
+                              '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin?login='.$user->login,
                               )
 
                     );
@@ -528,6 +529,9 @@ class SiteController extends Controller {
 		}
 
 		$model = new Form_Changelostphone('change');
+		if(!empty($_GET['login'])){
+			Yii::app()->session['user_login'] = $_GET['login'];
+		}
 		if(!isset(Yii::app()->session['user_login'])){
 			$this->redirect(array('/site/smslogin'));
 		}
@@ -674,8 +678,8 @@ class SiteController extends Controller {
                 $user->update();
                 $newPhone = new Users_Phones;
                 $newPhone->user_id = $user->id;
-                $newPhone->email_type_id = 3; // TODO: email types
-                $newPhone->phone = $user->phone;
+                $newPhone->category_id = 3; // TODO: email types
+                $newPhone->phone = '+'.$user->phone;
                 $newPhone->status = 1;
                 $newPhone->is_master = 1;
                 $newPhone->withOutHash = true;
@@ -687,7 +691,7 @@ class SiteController extends Controller {
                     array(	// params
                           '{:userPhone}' => '+'.$user->phone,
                           '{:date}' => date('Y m d', time()),
-                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin',
+                          '{:activateUrl}' => Yii::app()->getBaseUrl(true).'/site/SMSLogin?login='.$user->login,
                 ));
                 $this->render('remindSuccess');
             } else {

@@ -7,16 +7,17 @@
  * @property integer $id
  * @property integer $user_id
  * @property integer $number
+ * @property integer $category_id
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Users_Telephones extends ActiveRecord
+class Users_Telephones extends Users_Profile
 {
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return UsersTelephones the static model class
+     * @return Users_Telephones the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -40,13 +41,23 @@ class Users_Telephones extends ActiveRecord
         // will receive user inputs.
         return array(
             array('number', 'required', 'message' => Yii::t('Front', 'Phone Number is incorrect')),
-            array('email_type_id', 'required', 'message' => Yii::t('Front', 'Phone Type is incorrect')),
+//            array('category_id', 'required', 'message' => Yii::t('Front', 'Phone Type is incorrect')),
             array('number', 'length', 'min' => 11, 'max' => 19, 'tooShort' => Yii::t('Front', 'Phone is too short')),
             array('user_id, number', 'numerical', 'integerOnly' => true, 'message' => Yii::t('Front', 'Phone Number is incorrect')),
-                // The following rule is used by search().
-                // @todo Please remove those attributes that should not be searched.
-                array('id, user_id, number', 'safe', 'on' => 'search'),
-            );
+            array('category_id', 'numerical'),
+            array('number', 'uniqueByUser', 'on' => 'create'),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id, user_id, number', 'safe', 'on' => 'search'),
+        );
+    }
+
+    public function uniqueByUser($attribute, $params)
+    {
+        if(self::model()->currentUser()->findByAttributes(array($attribute => $this->$attribute))){
+            $this->addError($attribute, Yii::t('Personal', 'This ' . $this->getAttributeLabel($attribute) . ' was added below'));
+        }
+        return true;
     }
 
     /**
@@ -58,7 +69,7 @@ class Users_Telephones extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
-            'emailType' => array(self::BELONGS_TO, 'Users_EmailTypes', 'email_type_id'),
+            'category' => array(self::BELONGS_TO, 'Users_Categories', 'category_id'),
         );
     }
 

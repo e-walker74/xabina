@@ -104,4 +104,25 @@ class RbacRoles extends ActiveRecord
         Yii::app()->db->createCommand($query)->execute();
         return true;
     }
+
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('is_system', $this->is_system, true);
+        $criteria->compare('create_uid', $this->create_uid, true);
+        $criteria->compare('parent_id', $this->parent_id);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 10,
+            ),
+        ));
+    }
 }

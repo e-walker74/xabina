@@ -14,7 +14,30 @@
     <div class="shadow_blocker"></div>
     <div class="popup-register-header"><?= Yii::t('Front', 'Change lost phone'); ?></div>
     <?php $form=$this->beginWidget('CActiveForm', array(
-                'id'=>'registration-from',
+                'id'=>'login-from',
+                //'action' => Yii::app()->request->url,
+                'enableClientValidation'=>true,
+                'focus'=>array($model,'first_name'),
+                'clientOptions'=>array(
+                      'validateOnSubmit'=>true,
+                      'afterValidate' => 'js:function(form, data, hasError) {
+                          if(hasError) {
+                              for(var i in data) {
+                                $("#"+i).addClass("input-error");
+                                $("#"+i).next(".validation-icon").show();
+                              }
+                              return false;
+                          }
+                          else {
+                              form.find("input").removeClass("input-error");
+                              return true;
+                          }
+                      }',
+                'afterValidateAttribute' => 'js:function(form, attribute, data, hasError) {
+                   if(hasError) {$("#"+attribute.id).addClass("input-error");$("#"+attribute.id).next(".validation-icon").show();}
+                   else {$("#"+attribute.id).removeClass("input-error"); $("#"+attribute.id).next(".validation-icon").show();}
+                  }'
+                ),
 
             )); ?>
         <div class="popup-register-form" id="popup-auth-form">
@@ -25,8 +48,11 @@
                         <span class="tooltip-icon " title="<?= Yii::t('Front', 'Enter your E-Mail'); ?>"></span>
                     </div>
                     <div class="form-input">
-                        <?= $form->textField($model, 'email', array('autocomplete' => 'off')); ?>
+                        <?= $form->textField($model, 'email', array('autocomplete' => 'off', 'class'=>'email')); ?>
                         <span class="validation-icon"></span>
+                    </div>
+                    <div class="form-alert">
+                        <?= $form->error($model, 'email'); ?>
                     </div>
                 </div>
                 <div class="form-block">
@@ -38,13 +64,16 @@
                         <?= $form->textField($model, 'phone', array('autocomplete' => 'off', 'phonefield' => 'true')); ?>
                         <span class="validation-icon"></span>
                     </div>
+                    <div class="form-alert">
+                        <?= $form->error($model, 'phone'); ?>
+                    </div>
                 </div>
             </div>
 
             <div class="clear"></div>
             <div class="register-forgot-row" style="margin-top: 10px">
                 <div class="form-alert">
-                    <?= $form->error($model, 'userId'); ?>
+                    <?= $form->error($model, 'userId', array('style' => 'color:#e10606;font-size:12px;')); ?>
                 </div>
             </div>
             <div class="form-line-submit">

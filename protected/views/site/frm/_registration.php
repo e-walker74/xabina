@@ -101,10 +101,11 @@
                     <div class="form-input">
                         <div class="dropdown select-type-dropdown">
                             <?=$form->hiddenField($model, 'role', array('value' => $model->role?$model->role:'1'))?>
-                            <a data-toggle="dropdown" class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
+                            <a data-toggle="dropdown" class="select-type" href="#"><?=Yii::t('Front', Users::$roles[1])?></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li data-id="1"><?=Yii::t('Front', 'Private Individual')?></li>
-                                <li data-id="2"><?=Yii::t('Front', 'Company')?></li>
+                                <?foreach(Users::$roles as $key=>$role) { ?>
+                                <li data-id="<?=$key?>"><?=Yii::t('Front', $role)?></li>
+                                <?}?>
                             </ul>
                         </div>
                     </div>

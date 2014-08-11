@@ -1,25 +1,127 @@
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-        <meta http-equiv="Content-Language" content="ru" /> 
-        <title>Верификация на сайте XABINA.COM</title>
-    </head>
-    <body>
-		<h2>Здравствуйте, <strong>{:userFullName}</strong></h2>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Changes to account at XABINA.COM</title>
+    <style>* { border: none; }</style>
+</head>
+<body style="font-family: 'arial';">
+	<table style="width: 100%; background: #d9d9d9;" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+            <td align="center">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 600px; text-align: center; font-size: 10px; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 10px 0;">If you cannot read this email, please click <a style="color: #1b75bc;" href="#">here</a>.</td>
+                    </tr>
+                </table>
 
-		<em style="padding:10px;border-left:1px solid #d8d8d8">Ваш счет был верифицирован модератором {:date}.</em>
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 600px; border-collapse: collapse;">
+                    <!--header-->
+                    <tr style="vertical-align: top; height: 100px;">
+                        <td><table style="border-top-right-radius: 10px; border-top-left-radius: 10px;background: #2f86cb; background-image: url(http://imides.ru/img/header.png) !important;  height: 100px; width: 600px;"><td style="border-top-left-radius: 10px; "><img src="http://imides.ru/img/logo.png" height="100" width="210" /></td>
+                        <td style="width: 226px; text-align: center;vertical-align: middle; color: white; font-weight: bold;">Xabina Online Banking</td>
+                        <td> 
+                        <a href="#"><img style="margin-left: 5px; margin-top: 20px; border: none;" src="http://imides.ru/img/fb.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/twitter.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/goolge.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/insta.png" height="24" width="24" alt=""></a><br>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/login.png" height="38" width="123" alt=""></a>
 
-		<p>
-			Ваш счет на XABINA.COM был успешно верифицирован модератором 
-		</p>
-		
-		<p>
-			Для активации профиля перейдите по ссылке:
-			<a href="{:activateUrl}" target="_blank">{:activateUrl}</a>
-		</p>
+                        </td></table></td>
+                    </tr>
+                    <!--header end-->
+                    <!--content-->
+                    <tr style="vertical-align: top;">
+                        <td colspan="3" align="center">
+                            <table cellpadding="0" cellspacing="0" border="0" style="background: white; width: 600px; border-collapse: collapse;">
+                                <tr style="height: 90px;">
+                                    <td style="padding: 0 20px; color: #534a76; font-size: 22px;">Hello, {:userFullName}!</td>
+                                </tr>
+                                <tr style="height: 32px;">
+                                    <td style="padding: 0 20px; font-weight: bold; vertical-align: top; color: #777777; font-size: 13px;">Someone requested a change of Primary E-Mail from your account at Xabina {:date}.</td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                	<td style="padding: 0 20px; font-weight: bold; font-size: 13px; color: #777777; line-height: 20px;">In order to finalize the change of primary E-Mail, open the following URL:</td>
+                                </tr>
+								<tr style="vertical-align: center; height: 72px; line-height: 25px;">
+									<td style="padding: 0 20px; font-weight: bold; font-size: 13px; color: #777777; line-height: 20px;" >
+										<a href="{:activateUrl}">{:activateUrl}</a>
+									</td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                	<td style="padding: 0 20px; line-height: 20px; font-size: 11px; color: #777777;">Best regards, Team <a href="{:xabinaBaseUrl}">XABINA.COM</a></td>
+                                </tr>
+
+                                <tr>
+                                	<td style="padding: 0 20px; ">
+                                		<a href="#"><img style="border: none; height: 287px; width: 560px; text-align: center;" src="http://imides.ru/img/banner.png" alt=""></a>
+                                	</td>
+                                </tr>
 
 
-		<p>-----</p>
-		<p style="color:#666666; font-size:.8em">С уважением, команда <a href="{:xabinaBaseUrl}">XABINA.COM</a></p>
-    </body>
+
+                            </table>
+
+								<table cellpadding="0" cellspacing="0" border="0" style="background: #f2f2f2; background-image: url(http://imides.ru/img/shadow.jpg) !important; width: 600px; border-collapse: collapse; padding-bottom: 30px;">
+                                <tr style="height:100px;">
+                                	<td style="padding: 0 0 0 20px; width:200px;">
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-logo.png" height="60" width="128" alt=""></a>
+                                	</td>
+									
+                                	<td style=" width:200px;">
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-fb.png" height="40" width="40" alt=""></a>
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-twi.png" height="40" width="40" alt=""></a>
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-google.png" height="40" width="40" alt=""></a>
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-inst.png" height="40" width="40" alt=""></a>
+                                	</td>
+
+                                </tr>
+
+                                <tr>
+                                	<td style="padding: 0 0 20px 20px; font-size: 13px; color: #777777; line-height: 20px; width: 200px;">
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/phone.png" height="14" width="14" alt="">(37 410) 34 564 77<br></div>
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/mail.png" height="14" width="14" alt="">support@xabina.com<br></div>
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/skype.png" height="14" width="14" alt="">xabina_manager<br></div>
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/home.png" height="14" width="14" alt="">Stadsring 99, 3811 HP Amersfoors,<br></div>
+Netherlands
+                                	</td>
+									
+                                	<td style="width: 200px; vertical-align: top; font-size: 13px; color: #777777; line-height: 20px;">
+                                		<span style="font-weight: bold; font-size: 13px; color: #372952;">KwK registration number:</span>
+										U31401KA2013PTC069763<br>
+										<span style="font-weight: bold; font-size: 13px; color: #372952;">DNB License number:</span><br>
+										239316
+                                	</td>
+
+                                </tr>
+
+
+                                </table>
+
+                                <table cellpadding="0" cellspacing="0" border="0" style="background: #f2f2f2; border-collapse: collapse; width: 600px; height: 90px;">
+                                	<tr style="font-size: 11px; color: #777777">
+                                		<td style="padding: 0 20px;">This is an automatically generated email, please do not reply. If you have received this by mistake, you are kindly 
+requested to notify the sender and then delete the e-mail from your system; access to, disclosure, copying and/or 
+distribution of this e-mail by anyone other than the intended recipient is prohibited. <br><img src="http://imides.ru/img/gg.jpg" height="20" width="560" alt=""></td>
+                                	</tr>
+                                </table>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!--content end-->
+                </table>
+                <!--footer-->
+                <table cellpadding="0" cellspacing="0" border="0" style="text-align: center; font-size: 11px;border-collapse: collapse; width: 600px; paddung: 20px;">
+                    <tr>
+                        <td style="padding: 20px;">\u042D\u0442\u043E \u043F\u0438\u0441\u044C\u043C\u043E \u0441\u0433\u0435\u043D\u0435\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043E \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438. \u041E\u0442\u0432\u0435\u0447\u0430\u0442\u044C \u043D\u0430 \u043D\u0435\u0433\u043E \u043D\u0435 \u043D\u0443\u0436\u043D\u043E.</td>
+                    </tr>
+                </table>
+                <!--footer end-->
+            </td>
+        </tr>
+    </table> 
+</body>
 </html>

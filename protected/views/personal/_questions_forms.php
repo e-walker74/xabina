@@ -12,16 +12,3 @@
 <?php endif; ?>
     </tbody>
 </table>
-<script>
-    chechSequrityValuesData()
-    $('.mask-toggle').on('mouseenter', function (e) {
-        var $maskedEl = $(this).parents('td').find('.masked-value');
-        var $originalEl = $(this).parents('td').find('.original-value');
-        $maskedEl.html($originalEl.val()).addClass('normal-font');
-    })
-    $('.mask-toggle').on('mouseleave', function (e) {
-        var $maskedEl = $(this).parents('td').find('.masked-value');
-        var $originalEl = $(this).parents('td').find('.original-value');
-        $maskedEl.html('**********').removeClass('normal-font');
-    })
-</script>

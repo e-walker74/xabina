@@ -59,10 +59,10 @@
 							<input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Login'); ?>"/>
 						</div>
                         <div class="register-forgot-row">
-                            <a href="/remind" class="cant-access">I cannot access my account</a>
+                            <a href="/remind" class="cant-access"><?= Yii::t('Front', 'I cannot access my account'); ?></a>
 
                             <div class="change-phone-cont">
-                                <a href="/account"  class="dont-have">I do not have an account yet. Open an account</a>
+                                <a href="/account"  class="dont-have"><?= Yii::t('Front', 'I do not have an account yet. Open an account'); ?></a>
                             </div>
                         </div>
 					</div>

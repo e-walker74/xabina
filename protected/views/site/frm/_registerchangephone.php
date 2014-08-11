@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-input">
                         <div class="dropdown select-type-dropdown disabled">
-                            <a  class="select-type" href="#"><?=Yii::t('Front', 'Private Individual')?></a>
+                            <a  class="select-type" href="#"><?=Yii::t('Front', Users::$roles[$user->role])?></a>
 
                         </div>
                     </div>
@@ -103,6 +103,10 @@
             <div class="clear"></div>
             <div class="form-line-submit">
                 <input type="submit" class="popup-register-submit" value="<?= Yii::t('Front', 'Change phone'); ?>"/>
+            </div>
+             <div class="register-forgot-row">
+                 <?= CHtml::link(Yii::t('Front', 'Return to verify my current number.'), array('/site/SMSRegisterVerify'), array('class'=>'change-phone')); ?>
+
             </div>
         </div>
             <?php $this->endWidget(); ?>

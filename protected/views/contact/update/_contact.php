@@ -74,7 +74,10 @@
                             <?php endif; ?>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <?= Html::link($ci->fullname, array('/contact/view', 'url' => $ci->url), array('class' => 'link')) ?>
+                            <div class="row">
+                                &nbsp;
+                            </div>
+                            <?= Html::link($ci->fullname, array('/contact/view', 'url' => $ci->url), array('class' => 'link', 'style' => 'color:#1b75bc !important;margin-left: 9px;')) ?>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">

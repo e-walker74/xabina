@@ -43,7 +43,7 @@ class UserController extends Controller
 	public function actionEmailConfirm($hash){
 		$user = Users::model()->find(array('condition' => 'hash = :hash', 'limit' => 1, 'params' => array(':hash' => $hash)));
 		if($user){
-			$user->status = Users::USER_EMAIL_IS_ACTIVE;
+//			$user->status = Users::USER_EMAIL_IS_ACTIVE;
 			$user->hash = '';
 			
 			if($user->save()){
@@ -65,7 +65,7 @@ class UserController extends Controller
 				
 				$email = new Users_Emails;
 				$email->user_id = $user->id;
-				$email->email_type_id = 3; // TODO: email types
+				$email->category_id = 3; // TODO: email types
 				$email->email = $user->email;
 				$email->status = 1;
 				$email->is_master = 1;
