@@ -27,28 +27,44 @@ abstract class Users_Profile extends ActiveRecord
         return parent::beforeValidate();
     }
 
-    public function afterSave()
+    /**
+     * delete not uses categories in user profile
+     */
+    protected function deleteNotUsesCategories()
     {
-        if($this->hasAttribute('category_id')){
-            $sql = 'DELETE
+        $sql = 'DELETE
                     FROM users_categories
                     WHERE
                       NOT EXISTS
                         (
-                          SELECT NULL FROM '.$this->tableName().' upi
+                          SELECT NULL FROM ' . $this->tableName() . ' upi
                           WHERE upi.category_id = users_categories.id
                           AND upi.user_id = :user';
-            if($this->hasAttribute('deleted')){
-                $sql .= ' AND upi.deleted = 0 ';
-            }
-                $sql .= '
+        if ($this->hasAttribute('deleted')) {
+            $sql .= ' AND upi.deleted = 0 ';
+        }
+        $sql .= '
                         )
                       AND user_id = :user
                       AND data_type = :table;';
-            Yii::app()->db->createCommand($sql)->execute(array(
-                ':table' => $this->tableName(),
-                ':user' => $this->user_id,
-            ));
+        Yii::app()->db->createCommand($sql)->execute(array(
+            ':table' => $this->tableName(),
+            ':user' => $this->user_id,
+        ));
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        if ($this->hasAttribute('category_id')) {
+            $this->deleteNotUsesCategories();
+        }
+    }
+
+    public function afterSave()
+    {
+        if ($this->hasAttribute('category_id')) {
+            $this->deleteNotUsesCategories();
         }
         return parent::afterSave();
     }
