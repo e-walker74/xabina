@@ -11,15 +11,15 @@ class ContactListWidget extends QWidget
     public function run()
     {
         $this->_criteria = new CDbCriteria();
-        $cs = Yii::app()->clientScript;
-        $assets_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets';
-        $url = Yii::app()->assetManager->publish($assets_path, false, -1, YII_DEBUG);
         if (!Yii::app()->request->isAjaxRequest) {
+            $cs = Yii::app()->clientScript;
+            $assets_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets';
+            $url = Yii::app()->assetManager->publish($assets_path, false, -1, YII_DEBUG);
+            $cs->registerScriptFile($url . '/contactList.js', CClientScript::POS_END);
             $cs->registerScriptFile('/js/jquery.scrollTo.min.js', CClientScript::POS_END);
             $cs->registerScriptFile('/js/bootstrap-tokenfield.min.js', CClientScript::POS_END);
             $cs->registerCssFile('/css/bootstrap-tokenfield.css');
         }
-        $cs->registerScriptFile($url . '/contactList.js', CClientScript::POS_END);
     }
 
     public function html()

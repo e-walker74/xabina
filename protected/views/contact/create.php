@@ -1,5 +1,5 @@
 <div class="col-lg-9 col-md-9 col-sm-9" >
-	<div class="h1-header"><?= Yii::t('Front', 'Add new contact'); ?></div>
+	<div class="h1-header"><?= Yii::t('Front', 'Edit contact'); ?></div>
 	<div class="edit-contact-cont ">
 		<div class="edit-tabs ">
 			<div class=" xabina-form-narrow">

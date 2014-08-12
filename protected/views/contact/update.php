@@ -44,12 +44,7 @@
     <?php $this->renderPartial('update/_contact', array('model' => $model, 'data_categories' => $data_categories)); ?>
 </div>
 <div id="tab1-8" class="instmessaging tab">
-    <?php $this->renderPartial('update/_instmessaging',
-        array(
-            'model' => $model,
-            'data_categories' => $data_categories,
-            'instMessengers' => $instMessengers,
-        )); ?>
+    <?php $this->renderPartial('update/_instmessaging', array('model' => $model, 'data_categories' => $data_categories)); ?>
 </div>
 <div id="tab1-9" class="urls tab">
     <?php $this->renderPartial('update/_urls', array('model' => $model, 'data_categories' => $data_categories)); ?>

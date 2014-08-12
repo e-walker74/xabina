@@ -48,8 +48,8 @@
     </li>
     <li style="width:9%;"><a href="#addresses" data-url="<?= Yii::app()->createUrl('/personal/editaddress') ?>"><?= Yii::t('Personal', 'Address') ?></a></li>
     <li style="width:15%;"><a href="#socials" data-url="<?= Yii::app()->createUrl('/personal/editsocials') ?>"><?= Yii::t('Personal', 'Social Networks') ?></a></li>
-    <li style="width:17%;border-right: 1px solid #b9babf; border-radius:0 3px 0 0"><a href="#instmess" data-url="<?= Yii::app()->createUrl('/personal/editmessagers') ?>"><?= Yii::t('Personal', 'Instant Messaging') ?></a></li>
-    <li style="width:17%;"><a href="#payments" data-url="<?= Yii::app()->createUrl('/personal/paymentinstuments') ?>"><?= Yii::t('Personal', 'Payment Method') ?></a></li>
+    <li style="width:17%"><a href="#instmess" data-url="<?= Yii::app()->createUrl('/personal/editmessagers') ?>"><?= Yii::t('Personal', 'Instant Messaging') ?></a></li>
+    <li style="width:17%;border-right: 1px solid #b9babf; border-radius:0 3px 0 0;"><a href="#payments" data-url="<?= Yii::app()->createUrl('/personal/paymentinstuments') ?>"><?= Yii::t('Personal', 'Payment Method') ?></a></li>
     <li style="clear: both; width:0;" class="clearfix"></li>
     <li style="width:22%;"><a href="#questions" data-url="<?= Yii::app()->createUrl('/personal/editqustions') ?>"><?= Yii::t('Personal', 'Security Questions') ?></a></li>
     <li style="width:15%;"><a href="#password" data-url="<?= Yii::app()->createUrl('/personal/editpins') ?>"><?= Yii::t('Personal', 'Password') ?></a></li>

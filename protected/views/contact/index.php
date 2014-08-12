@@ -2,8 +2,8 @@
 	<div class="h1-header"><?= Yii::t('Front', 'My contact') ?></div>
 	<div class="contact-search-cont">
 		<span class="clear-input-cont index-table">
-			<input class="contact-input search-contact-input" style="width: 100%" placeholder="<?= Yii::t('Front', 'Search...') ?>" type="text" id="linkName" />
-			<span class="clear-input-but" style="display: none;"></span>
+			<input class="contact-input" style="width: 100%" placeholder="<?= Yii::t('Front', 'Search...') ?>" type="text" id="linkName" />
+			<span class="clear-input-but"></span>
 		</span>
         <div class="select-custom select-narrow category-select">
             <span class="select-custom-label"></span>
@@ -13,7 +13,7 @@
                 CHtml::listData($contact_categories, 'id', 'section'),
                 array(
                     'class' => 'select-invisible country-select',
-                    'empty' => Yii::t('Front', 'All categories'),
+                    'empty' => Yii::t('Front', 'Select'),
                 )
             ); ?>
         </div>
@@ -46,20 +46,12 @@
 				parentSelector: '.scroll-block'
 			})
 		})
-
 	</script>
 </div>
 <script>
-$('.search-contact-input').keyup(function(){
-    if($(this).val()){
-        $('.clear-input-but').show()
-    } else {
-        $('.clear-input-but').hide()
-    }
-})
-$( ".search-contact-input" ).focusin(function() {
-    $( ".search-contact-input").attr('placeholder', '')
-}).focusout(function(){
-    $( ".search-contact-input").attr('placeholder', '<?= Yii::t('Front', 'Search...') ?>')
+$(document).ready(function(){
+<!--	$('input.contact-input').clientListSearch({-->
+<!--		url: '--><?//= Yii::app()->createUrl('/contact/search') ?><!--'-->
+<!--	})-->
 })
 </script>

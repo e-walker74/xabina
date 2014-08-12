@@ -33,7 +33,6 @@ class Users_Contacts_Categories extends ActiveRecord
 		return array(
 			array('user_id, section, description', 'required'),
 			array('user_id', 'length', 'max'=>11),
-            array('section', 'length', 'max'=>25),
 			array('section, description', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

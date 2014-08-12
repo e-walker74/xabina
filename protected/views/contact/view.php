@@ -21,7 +21,7 @@
             <a class="ico <?=$cssClass?>" href="#"></a>
         <?php endif ?>
     </div>
-    <div class="contact-name"><span class="cn"><?= $model->fullname ?></span><br>
+    <div class="contact-name"><?= $model->fullname ?><br>
         <span class="company-name"><?= $model->getNameWithCompany() ?></span>
     </div>
     <div class="contact-actions transaction-buttons-cont">
@@ -32,7 +32,7 @@
                     <a class="button print" title="<?= Yii::t('Front', 'Print this window') ?>" href="javaScript:void(0)" onclick="js:printDiv('print-area')"></a>
                 </li>
                 <li>
-                    <?= Html::link('', array('/contact/pdf', 'url' => $model->url), array('class' => 'button pdf', 'title' => Yii::t('Front', 'Contact to PDF'), 'target' => '_blank')) ?>
+                    <?= Html::link('', array('/contact/pdf', 'url' => $model->url), array('class' => 'button pdf', 'title' => Yii::t('Front', 'Contact to PDF'))) ?>
                 </li>
                 <li>
                     <a class="button delete del-contact" onclick="$(this).addClass('opened')"
@@ -61,7 +61,6 @@
         'data_categories' => $data_categories,
         'link' => $link,
         'contact_categories' => $contact_categories,
-        'instMessengers' => $instMessengers,
     )); ?>
 
 </div>
@@ -80,13 +79,7 @@
 <!--</div>-->
 </div>
 </div>
-    <div class="form-submit">
-        <?= Html::link(Yii::t('Front', 'Back'), array('/contact/index/'), array('class' => 'submit-button button-back')) ?>
-    </div>
 </div>
-
-
-
 <script>
     $(document).ready(function () {
         $('.transaction-buttons-cont .delete.del-contact').confirmation({
