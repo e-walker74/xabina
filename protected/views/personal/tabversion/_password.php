@@ -15,16 +15,12 @@
     <th style="width: 26%"><?= Yii::t('Personal', 'Expiry date') ?></th>
     <th style="width: 9%"></th>
 </tr>
-<?php if($model->pin1_exp < time()): ?>
+<?php if($model->pin1_exp < time() && $model->pin1_exp): ?>
     <tr class="note-arr-tr">
         <td colspan="4">
             <div class="note-arr">
                 <div class="note-bg">
-                    <?php if($model->pin1_exp): ?>
-                        <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
-                    <?php else: ?>
-                        <span> <?= Yii::t('Front', 'add_password') ?></span>
-                    <?php endif; ?>
+                    <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
                 </div>
                 <div class="arr"></div>
             </div>
@@ -162,16 +158,12 @@
     </td>
 </tr>
 
-<?php if($model->pin2_exp < time()): ?>
+<?php if($model->pin2_exp < time() && $model->pin2_exp): ?>
     <tr class="note-arr-tr">
         <td colspan="4">
             <div class="note-arr">
                 <div class="note-bg">
-                    <?php if($model->pin2_exp): ?>
-                        <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
-                    <?php else: ?>
-                        <span> <?= Yii::t('Front', 'add_password') ?></span>
-                    <?php endif; ?>
+                    <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
                 </div>
                 <div class="arr"></div>
             </div>
@@ -308,16 +300,12 @@
         <?php $this->endWidget(); ?>
     </td>
 </tr>
-<?php if($model->pin3_exp < time()): ?>
+<?php if($model->pin3_exp < time() && $model->pin3_exp): ?>
     <tr class="note-arr-tr">
         <td colspan="4">
             <div class="note-arr">
                 <div class="note-bg">
-                    <?php if($model->pin3_exp): ?>
-                        <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
-                    <?php else: ?>
-                        <span> <?= Yii::t('Front', 'add_password') ?></span>
-                    <?php endif; ?>
+                    <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
                 </div>
                 <div class="arr"></div>
             </div>
