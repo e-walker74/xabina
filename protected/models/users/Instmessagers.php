@@ -38,7 +38,7 @@ class Users_Instmessagers extends Users_Profile
             array('messager_type, messager_login', 'required'),
             array('user_id, status, is_master, messager_type, category_id', 'numerical', 'integerOnly' => true),
             array('hash', 'length', 'max' => 32),
-            array('messager_login', 'length', 'max' => 50),
+            array('messager_login', 'length', 'max' => 50, 'min' => 3),
             array('messager_login', 'uniqueOnUser', 'on' => 'insert'),
             array('messager_login', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'instmess_user_name_format_error')),
             // The following rule is used by search().

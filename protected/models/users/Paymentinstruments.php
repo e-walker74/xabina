@@ -101,12 +101,13 @@ class Users_Paymentinstruments extends Users_Profile
             array('paypal_account_number', 'email', 'on' => 'paypal'),
             // webmoney
             array('webmoney_account_number', 'required', 'on' => 'webmoney'),
-            array('webmoney_account_number', 'numerical', 'on' => 'webmoney'),
+            array('webmoney_account_number', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'webmoney_account_number_format_error'), 'on' => 'webmoney'),
             // paypal
             array('skrill_account_number', 'required', 'on' => 'skrill'),
             array('skrill_account_number', 'email', 'on' => 'skrill'),
             // bank account
             array('from_account_number, from_account_holder, bic', 'required', 'on' => 'bank_account'),
+            array('bic', 'length', 'max' => 50, 'on' => 'bank_account'),
             array('bic', 'validateBic', 'on' => 'bank_account'),
         );
     }
