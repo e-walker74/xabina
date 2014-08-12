@@ -23,6 +23,8 @@ abstract class Users_Profile extends ActiveRecord
             }
 
             $this->category_id = $category->id;
+        } elseif ($this->hasAttribute('category_id') && !$this->category_id){
+            $this->category_id = NULL;
         }
         return parent::beforeValidate();
     }

@@ -65,7 +65,6 @@ class UserController extends Controller
 				
 				$email = new Users_Emails;
 				$email->user_id = $user->id;
-				$email->category_id = 3; // TODO: email types
 				$email->email = $user->email;
 				$email->status = 1;
 				$email->is_master = 1;

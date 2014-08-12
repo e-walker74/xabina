@@ -52,7 +52,11 @@ Personal = {
                 return false;
             }
             resetPage()
-            $(this).closest('tr').hide().next('.edit-row').show()
+            var tr = $(this).closest('tr')
+            tr.hide().next('.edit-row').show()
+            if(tr.prev().hasClass('note-row')){
+                tr.prev().hide();
+            }
 //            return false;
         })
     },
@@ -199,6 +203,9 @@ Personal = {
             }
             if (response.reload) {
                 this.refreshTabs()
+            }
+            if(response.reloadWindow){
+                window.location.reload()
             }
             if (element.length != 0) {
                 successNotify('Payment', response.message, element)

@@ -194,16 +194,27 @@
                 <th style="width: 66%"></th>
                 <th style="width: 8%"></th>
             </tr>
-            <tr class="data-row">
-                <td><?= $model->login ?></td>
-                <td>
+            <tr class="note-row">
+                <td colspan="3" class="form-border" style="border: none!important;">
+                    <div class="note-arr">
+                        <div class="note-bg">
+                            <?= Yii::t('Personal', 'You can change your ID once every 3 months.'); ?>
+                        </div>
+                        <div class="arr"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="data-row" style="border-top: none!important;">
+                <td style="border-top: none!important;">
+                    <?= $model->login ?></td>
+                <td style="border-top: none!important;">
                     <?php if($lastChange && !$lastChange->isCanChange): ?>
                         <?= Yii::t('Personal', 'You may change Xabina ID after: <span class="bold">:date</span>',
                             array(
                                 ':date' => SiteService::timeRange((time() - $lastChange->confirm_at), 3600*24*30*3)
                             ))  ?>
                     <?php endif; ?>
-                <td>
+                <td style="border-top: none!important;">
                     <?php if(!$lastChange || $lastChange->isCanChange): ?>
                         <div class="transaction-buttons-cont ">
                             <a href="javascript:void(0)" class="button edit"></a>

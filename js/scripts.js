@@ -938,6 +938,8 @@ var resetPage = function () {
     /* quic upload */
     $('.row-edit').hide().prev('li').show()
 
+    $('.note-row').show()
+
     if ($('.ui-pnotify').is(":visible")) {
         $('.ui-pnotify').fadeOut()
     }
