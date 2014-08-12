@@ -62,13 +62,19 @@ class UserController extends Controller
 				/*if(Yii::app()->sms->to($phone->phone)->body('Activation Code: {code} Xabina welcomes you! Please, activate mobile phone in the Settings tab of online banking.', array('{code}' => $phone->hash))->send() != 1){
 					Yii::log('SMS is not send', CLogger::LEVEL_ERROR);
 				}*/
-				
-				$email = new Users_Emails;
-				$email->user_id = $user->id;
-				$email->email = $user->email;
-				$email->status = 1;
-				$email->is_master = 1;
-				$email->save();
+
+                $email = Users_Emails::model()->ownUser()->findByAttributes(
+                    array(
+                        'email' => $user->email
+                    )
+                );
+
+                if($email){
+                    $email->status = 1;
+                    $email->is_master = 1;
+                    $email->save();
+                }
+
 				
 				$this->redirect(array('/site/SMSLogin'));
 				/*

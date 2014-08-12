@@ -155,6 +155,13 @@ class Form_Registration extends CFormModel
 		$user->createHash();
 
 		if($user->save()){
+            $email = new Users_Emails;
+            $email->user_id = $user->id;
+            $email->email = $user->email;
+            $email->status = 0;
+            $email->is_master = 0;
+            $email->save();
+
             if($user->role == 2) {
                 $countries = new Countries;
                 $country = $countries->findByAttributes(
