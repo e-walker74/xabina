@@ -42,7 +42,8 @@ class SiteController extends Controller {
                     'changeLostPhoneEmail',
                     'AccountIsBlocked',
                     'ResendBlockEmail',
-                    'ResetSMSLogin'
+                    'ResetSMSLogin',
+                    'test',
 				),
                 'users' => array('*')
             ),
@@ -59,7 +60,7 @@ class SiteController extends Controller {
             ),
         );
     }
-	
+
 	public function init(){
 		Yii::app()->clientScript->scriptMap['bootstrap.min.css'] = false;
 		return parent::init();
