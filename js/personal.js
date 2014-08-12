@@ -34,9 +34,15 @@ Personal = {
                 $(this).removeClass('open')
             }
         )
+        input_hide_error_on_focus()
     },
     bindEditButtons: function () {
         $('.tab').on('click', '.button.edit, .upload.add-more', function () {
+            if($('.edit-row:visible').length > 0){
+                if(!confirm('Are you sure you want to close edit form? All the changes will not be saved.')){
+                    return false;
+                }
+            }
             resetPage()
             $(this).closest('tr').hide().next('.edit-row').show()
 //            return false;
@@ -73,9 +79,9 @@ Personal = {
                     if (response.html) {
                         parent.html(response.html)
                     }
-                    if (response.refresh) {
+//                    if (response.refresh) {
                         Personal.refreshTabs()
-                    }
+//                    }
                     if (response.success) {
 //                        successNotify("Personal account", response.message)
                     }
