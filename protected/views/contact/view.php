@@ -61,6 +61,7 @@
         'data_categories' => $data_categories,
         'link' => $link,
         'contact_categories' => $contact_categories,
+        'instMessengers' => $instMessengers,
     )); ?>
 
 </div>
