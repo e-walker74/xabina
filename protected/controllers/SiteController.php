@@ -384,12 +384,14 @@ class SiteController extends Controller {
                 $user->phone_confirm = 1;
                 $newPhone = new Users_Phones;
                 $newPhone->user_id = $user->id;
-                $newPhone->category_id = 3; // TODO: email types
                 $newPhone->phone = '+'.$user->phone;
                 $newPhone->status = 1;
                 $newPhone->is_master = 1;
                 $newPhone->withOutHash = true;
                 $newPhone->save();
+
+                Users_Newsletter::addAllNewsletterToUser($user->id);
+
                 $mail = new Mail();
                 $mail->send(
                     $user, // this user

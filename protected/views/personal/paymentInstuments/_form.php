@@ -232,30 +232,6 @@
     </div>
 </div>
 
-<div class="method-2 electronic-method-fields"
-     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_IDEAL) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
-    <div class="row">
-        <div class="col-lg-10 col-md-10 col-sm-10">
-            <div class="form-cell">
-                <div class="form-lbl">
-                    <?= Yii::t('Front', 'Ideal account number') ?>
-                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_ideal_account_number') ?>"></span>
-                </div>
-                <div class="form-input">
-                    <?=
-                    $form->textField($model, 'ideal_account_number', array(
-                        'class' => 'input-text',
-                        'value' => $model->from_account_number,
-                    ))?>
-                    <?= $form->error($model, 'ideal_account_number'); ?>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2 ">
-        </div>
-    </div>
-</div>
-
 <div class="method-3 electronic-method-fields"
      style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_BANK_ACCOUNT) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
     <div class="row">

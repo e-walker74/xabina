@@ -236,7 +236,6 @@ class PersonalController extends Controller
             $model->attributes = $_POST['Users_Instmessagers'];
             $model->user_id = Yii::app()->user->id;
             $model->status = 1;
-            $model->is_master = 0;
             if (!$user->messagers) {
                 $model->is_master = 1;
             }
@@ -1407,6 +1406,8 @@ class PersonalController extends Controller
             }
 
             if ($model->save()) {
+                $model->old_pass = '';
+                $model->confirm_pass = '';
                 echo CJSON::encode(array(
                     'success' => true,
                     'html' => $this->renderPartial(

@@ -29,7 +29,9 @@
         </td>
         <td>
             <div class="relative">
-                <?= $addr->category->value ?>
+                <?php if($addr->category): ?>
+                    <?= $addr->category->value ?>
+                <?php endif; ?>
             </div>
         </td>
         <td>

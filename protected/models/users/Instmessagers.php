@@ -40,7 +40,7 @@ class Users_Instmessagers extends Users_Profile
             array('hash', 'length', 'max' => 32),
             array('messager_login', 'length', 'max' => 50),
             array('messager_login', 'uniqueOnUser', 'on' => 'insert'),
-            array('messager_login', 'match', 'pattern' => '/^[a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'Add Username using latin alphabet')),
+            array('messager_login', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'instmess_user_name_format_error')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, user_id, hash, created_at, updated_at, status, is_master, messager_type, messager_login', 'safe', 'on' => 'search'),

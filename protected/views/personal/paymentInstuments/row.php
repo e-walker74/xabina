@@ -24,9 +24,9 @@
             <div class="btn-group with-delete-confirm">
                 <a class="button menu" title="<?= Yii::t('Front', 'Options') ?>" data-toggle="dropdown" href="#"></a>
                 <ul class="dropdown-menu">
-                    <li>
-                        <a class="button share" title="<?= Yii::t('Front', 'Share') ?>" href="javaScript:void(0)"></a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a class="button share" title="--><?//= Yii::t('Front', 'Share') ?><!--" href="javaScript:void(0)"></a>-->
+<!--                    </li>-->
                     <li>
                         <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>" class="button edit"></a>
                     </li>

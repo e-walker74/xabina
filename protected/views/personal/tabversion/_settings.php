@@ -161,7 +161,6 @@
             url: "<?= Yii::app()->createUrl('/personal/settings') ?>",
             success: function(data){
                 if(data.success){
-                    successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>', row)
                     var text = row.find('select option:selected').text()
                     var datafield = row.prev('.user-settings-data').find('.data')
                     datafield.html(text)
@@ -174,6 +173,8 @@
                     }
                     if(row.attr('data-type') == 'timezone'){
                         window.location.reload()
+                    } else {
+                        successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>', row)
                     }
                     if(data.redirect){
                         window.location.replace(data.redirect);

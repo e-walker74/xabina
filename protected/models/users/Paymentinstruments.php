@@ -23,7 +23,7 @@ class Users_Paymentinstruments extends Users_Profile
 {
 
     const METHOD_CREDITCARD = 1;
-    const METHOD_IDEAL = 2;
+//    const METHOD_IDEAL = 2;
     const METHOD_BANK_ACCOUNT = 3;
     const METHOD_PAYPAL = 4;
     const METHOD_SKRILL = 5;
@@ -31,7 +31,7 @@ class Users_Paymentinstruments extends Users_Profile
 
     public static $methods = array(
         self::METHOD_CREDITCARD => 'creditcard',
-        self::METHOD_IDEAL => 'ideal',
+//        self::METHOD_IDEAL => 'ideal',
         self::METHOD_BANK_ACCOUNT => 'bank_account',
         self::METHOD_PAYPAL => 'paypal',
         self::METHOD_SKRILL => 'webmoney',

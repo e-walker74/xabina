@@ -105,4 +105,13 @@ class Users_Newsletter extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public static function addAllNewsletterToUser($id){
+        foreach(self::$types as $type){
+            $model = new Users_Newsletter();
+            $model->user_id = $id;
+            $model->letter_type = $type;
+            $model->save();
+        }
+    }
 }
