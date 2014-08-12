@@ -12,7 +12,7 @@
  * @property integer                  $status
  * @property integer                  $date_add
  * @property integer                  $date_edit
- * @property integer       $activity_status
+ * @property integer                  $activity_status
  * @property Users_Address            $primary_address
  * @property Users_Settings           $settings
  * @property Users_Securityquestions  $questions

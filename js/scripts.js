@@ -531,6 +531,21 @@ function printDiv(divName) {
 
 $(document).ready(function () {
 
+    $(document).ajaxError(function(event, request, ajaxOptions) {
+        if(request.status == 403){
+            location.reload();
+        }
+    });
+
+    $('.btn-group').hover(
+        function(){
+            $(this).addClass('open')
+        },
+        function(){
+            $(this).removeClass('open')
+        }
+    )
+
     $(".xabina-tabs , .edit-tabs").tabs({
         select: function (event, ui) {
             window.location.hash = ui.tab.hash;

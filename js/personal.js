@@ -25,6 +25,15 @@ Personal = {
                 return 'Are you sure you want to leave this page? All the changes will not be saved.';
             });
         })
+
+        $('.btn-group').hover(
+            function(){
+                $(this).addClass('open')
+            },
+            function(){
+                $(this).removeClass('open')
+            }
+        )
     },
     bindEditButtons: function () {
         $('.tab').on('click', '.button.edit, .upload.add-more', function () {
