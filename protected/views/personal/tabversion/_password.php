@@ -23,7 +23,7 @@
                     <?php if($model->pin1_exp): ?>
                         <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
                     <?php else: ?>
-                        <span class="rejected"> <?= Yii::t('Front', 'add_password') ?></span>
+                        <span> <?= Yii::t('Front', 'add_password') ?></span>
                     <?php endif; ?>
                 </div>
                 <div class="arr"></div>
@@ -167,7 +167,11 @@
         <td colspan="4">
             <div class="note-arr">
                 <div class="note-bg">
-                    <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
+                    <?php if($model->pin2_exp): ?>
+                        <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
+                    <?php else: ?>
+                        <span> <?= Yii::t('Front', 'add_password') ?></span>
+                    <?php endif; ?>
                 </div>
                 <div class="arr"></div>
             </div>
@@ -309,7 +313,11 @@
         <td colspan="4">
             <div class="note-arr">
                 <div class="note-bg">
-                    <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
+                    <?php if($model->pin3_exp): ?>
+                        <span class="rejected"> <?= Yii::t('Front', 'Your password has been expired. Please, change Your password below') ?></span>
+                    <?php else: ?>
+                        <span> <?= Yii::t('Front', 'add_password') ?></span>
+                    <?php endif; ?>
                 </div>
                 <div class="arr"></div>
             </div>
