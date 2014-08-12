@@ -1031,17 +1031,22 @@ var backgroundBlack = function () {
     }
     var centerWidth = ($(window).width()) / 2,
         centerHeight = ($(window).height()) / 2;
+
+    /*  commented due to bugfixes from 08082014 . can be removed if customer won't mind
     $('body').css({overflow: 'hidden'})
     $('body').addClass('withoutScroll');
-
+*/
     $("#TB_overlay").fadeIn("fast");
 
 }
 
 var dellBackgroundBlack = function () {
     $("#TB_overlay").remove();
+
+    /*  commented due to bugfixes from 08082014 . can be removed if customer won't mind
     $('body').css({overflow: 'auto'})
     $('body').removeClass('withoutScroll');
+     */
 }
 
 var chechSequrityValuesData = function () {
