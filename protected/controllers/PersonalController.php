@@ -277,7 +277,11 @@ class PersonalController extends Controller
         $data_categories = Users_Categories::model()->findAll(
             array(
                 'condition' => 'data_type = "users_instmessagers" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                'params' =>
+                    array(
+                        ':uid' => Yii::user()->id,
+                        ':lang' => Yii::app()->language
+                    ),
             )
         );
 
