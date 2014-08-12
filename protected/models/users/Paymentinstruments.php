@@ -23,7 +23,7 @@ class Users_Paymentinstruments extends Users_Profile
 {
 
     const METHOD_CREDITCARD = 1;
-    const METHOD_IDEAL = 2;
+//    const METHOD_IDEAL = 2;
     const METHOD_BANK_ACCOUNT = 3;
     const METHOD_PAYPAL = 4;
     const METHOD_SKRILL = 5;
@@ -31,7 +31,7 @@ class Users_Paymentinstruments extends Users_Profile
 
     public static $methods = array(
         self::METHOD_CREDITCARD => 'creditcard',
-        self::METHOD_IDEAL => 'ideal',
+//        self::METHOD_IDEAL => 'ideal',
         self::METHOD_BANK_ACCOUNT => 'bank_account',
         self::METHOD_PAYPAL => 'paypal',
         self::METHOD_SKRILL => 'webmoney',
@@ -101,12 +101,13 @@ class Users_Paymentinstruments extends Users_Profile
             array('paypal_account_number', 'email', 'on' => 'paypal'),
             // webmoney
             array('webmoney_account_number', 'required', 'on' => 'webmoney'),
-            array('webmoney_account_number', 'numerical', 'on' => 'webmoney'),
+            array('webmoney_account_number', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'webmoney_account_number_format_error'), 'on' => 'webmoney'),
             // paypal
             array('skrill_account_number', 'required', 'on' => 'skrill'),
             array('skrill_account_number', 'email', 'on' => 'skrill'),
             // bank account
             array('from_account_number, from_account_holder, bic', 'required', 'on' => 'bank_account'),
+            array('bic', 'length', 'max' => 50, 'on' => 'bank_account'),
             array('bic', 'validateBic', 'on' => 'bank_account'),
         );
     }

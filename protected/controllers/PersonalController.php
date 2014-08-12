@@ -124,7 +124,6 @@ class PersonalController extends Controller
             $model_emails->attributes = $_POST['Users_Emails'];
             $model_emails->user_id = Yii::app()->user->id;
 
-
             if ($model_emails->save()) {
 
                 $data_categories = Users_Categories::model()->findAll(
@@ -237,7 +236,6 @@ class PersonalController extends Controller
             $model->attributes = $_POST['Users_Instmessagers'];
             $model->user_id = Yii::app()->user->id;
             $model->status = 1;
-            $model->is_master = 0;
             if (!$user->messagers) {
                 $model->is_master = 1;
             }
@@ -277,7 +275,11 @@ class PersonalController extends Controller
         $data_categories = Users_Categories::model()->findAll(
             array(
                 'condition' => 'data_type = "users_instmessagers" AND (user_id is null OR user_id = :uid) AND (language = :lang OR language is null)',
-                'params' => array(':uid' => Yii::user()->id, ':lang' => Yii::app()->language),
+                'params' =>
+                    array(
+                        ':uid' => Yii::user()->id,
+                        ':lang' => Yii::app()->language
+                    ),
             )
         );
 
@@ -576,6 +578,8 @@ class PersonalController extends Controller
 //            Yii::app()->end();
 //        }
 
+        $reload = false;
+
         if (isset($_POST['delete'])) {
             $lastXabinaId->scenario = 'delete';
             $lastXabinaId->status = Users_Ids::STATUS_CANCELED;
@@ -592,6 +596,7 @@ class PersonalController extends Controller
                 $model->login = $lastXabinaId->new_user_id;
                 $model->save();
                 $lastXabinaId = new Users_Ids;
+                $reload = true;
             }
         } elseif (isset($_POST['Users_Ids'])) {
 
@@ -641,6 +646,7 @@ class PersonalController extends Controller
                     ), true, true),
             'success' => true,
             'message' => $message,
+            'reloadWindow' => $reload,
         ));
     }
 
@@ -1138,7 +1144,8 @@ class PersonalController extends Controller
                 )
             );
         } else {
-            $this->redirect(array('/banking/index'));
+            $this->redirect(array('/personal/index', '#' => $type));
+//            $this->redirect(array('/banking/index'));
         }
         Yii::app()->end();
     }
@@ -1399,6 +1406,8 @@ class PersonalController extends Controller
             }
 
             if ($model->save()) {
+                $model->old_pass = '';
+                $model->confirm_pass = '';
                 echo CJSON::encode(array(
                     'success' => true,
                     'html' => $this->renderPartial(

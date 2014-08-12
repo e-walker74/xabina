@@ -124,13 +124,6 @@ $(function () {
     $("[name=phone]").on('input', function () {
         !~($(this).val().indexOf('+')) && $(this).val('+' + $(this).val());
     });
-    $(document).on('focus', 'input', function () {
-        $(this)
-            .removeClass('input-error')
-            .closest('.form-input')
-            .removeClass('input-error')
-            .find('.error-message').slideUp()
-    })
 
 
     // progressbar styling
@@ -529,7 +522,40 @@ function printDiv(divName) {
     window.print();
 }
 
+var input_hide_error_on_focus = function(){
+    $("input,select").on('focus', function(){
+        $(this).attr('current_value', $(this).val());
+        if ($(this).parent().hasClass('input-error')) {
+            $(this).addClass('maybe-error');
+            $(this).parent().removeClass('input-error').parent().find('.error-message').hide();
+        }
+    });
+    $("input,select").on('blur', function(){
+        if ($(this).val() == $(this).attr('current_value') && $(this).hasClass('maybe-error')) {
+            $(this).parent().addClass('input-error').parent().find('.error-message').show();
+        }
+        $(this).removeClass('maybe-error');
+    });
+}
+
 $(document).ready(function () {
+
+    input_hide_error_on_focus()
+
+    $(document).ajaxError(function(event, request, ajaxOptions) {
+        if(request.status == 403){
+            location.reload();
+        }
+    });
+
+    $('.btn-group').hover(
+        function(){
+            $(this).addClass('open')
+        },
+        function(){
+            $(this).removeClass('open')
+        }
+    )
 
     $(".xabina-tabs , .edit-tabs").tabs({
         select: function (event, ui) {
@@ -911,6 +937,8 @@ var resetPage = function () {
 
     /* quic upload */
     $('.row-edit').hide().prev('li').show()
+
+    $('.note-row').show()
 
     if ($('.ui-pnotify').is(":visible")) {
         $('.ui-pnotify').fadeOut()

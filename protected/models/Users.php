@@ -12,7 +12,7 @@
  * @property integer                  $status
  * @property integer                  $date_add
  * @property integer                  $date_edit
- * @property integer       $activity_status
+ * @property integer                  $activity_status
  * @property Users_Address            $primary_address
  * @property Users_Settings           $settings
  * @property Users_Securityquestions  $questions
@@ -176,7 +176,7 @@ class Users extends ActiveRecord
             'primary_email' => array(self::HAS_ONE, 'Users_Emails', 'user_id', 'condition' => 'primary_email.is_master = 1'),
             'primary_address' => array(self::HAS_ONE, 'Users_Address', 'user_id', 'condition' => 'primary_address.is_master = 1'),
             'primary_phone' => array(self::HAS_ONE, 'Users_Phones', 'user_id', 'condition' => 'primary_phone.is_master = 1'),
-            'primary_paymentsmethod' => array(self::HAS_ONE, 'Users_Paymentinstruments', 'user_id', 'condition' => 'primary_paymentsmethod.is_master = 1'),
+            'primary_paymentsmethod' => array(self::HAS_ONE, 'Users_Paymentinstruments', 'user_id', 'condition' => 'primary_paymentsmethod.is_master = 1 AND primary_paymentsmethod.deleted = 0'),
 
         );
     }

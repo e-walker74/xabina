@@ -93,7 +93,10 @@
         </tr>
         <tr class="user-settings-data">
             <td><?= Yii::t('Front', 'Time zone'); ?></td>
-            <td class="data"><?= $user->settings->time_zone->zone_name ?></td>
+            <td class="data">
+                <?= $user->settings->time_zone->offset ?>
+                <?= $user->settings->time_zone->zone_name ?>
+            </td>
             <td>
                 <div class="transaction-buttons-cont">
                     <a href="#" class="button edit"></a>
@@ -103,9 +106,27 @@
         <tr class="edit-block" data-type="timezone">
             <td><?= Yii::t('Front', 'Time zone'); ?></td>
             <td>
-                <div class="select-custom ">
-                    <span class="select-custom-label"><?= $user->settings->time_zone->zone_name ?></span>
-                    <?= CHtml::activeDropDownList($user->settings, 'time_zone_id', CHtml::listData(Zone::model()->findAll(array('order' => 'zone_name asc')), 'zone_id', 'zone_name'), array('class' => 'select-invisible')) ?>
+                <div class="select-custom">
+                    <span class="select-custom-label"></span>
+                    <?=
+                        CHtml::activeDropDownList(
+                            $user->settings,
+                            'time_zone_id',
+                            CHtml::listData(
+                                Zone::model()->findAll(
+                                    array(
+                                        'order' => 'offset_time asc',
+                                    )
+                                ),
+                                'zone_id',
+                                function($data){
+                                    return $data->offset . ' ' . $data->zone_name;
+                                }
+                            ),
+                            array(
+                                'class' => 'select-invisible'
+                            )
+                        ) ?>
                 </div>
             </td>
             <td>
@@ -161,7 +182,6 @@
             url: "<?= Yii::app()->createUrl('/personal/settings') ?>",
             success: function(data){
                 if(data.success){
-                    successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>', row)
                     var text = row.find('select option:selected').text()
                     var datafield = row.prev('.user-settings-data').find('.data')
                     datafield.html(text)
@@ -174,6 +194,8 @@
                     }
                     if(row.attr('data-type') == 'timezone'){
                         window.location.reload()
+                    } else {
+                        successNotify('<?= Yii::t('Front', 'Account Settings') ?>', '<?= Yii::t('Front', 'Changes was successfully saved') ?>', row)
                     }
                     if(data.redirect){
                         window.location.replace(data.redirect);

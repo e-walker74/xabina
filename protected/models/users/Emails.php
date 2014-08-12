@@ -36,7 +36,7 @@ class Users_Emails extends Users_Profile
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('email, category_id', 'required', 'on' => 'editemails'),
+            array('email', 'required', 'on' => 'editemails'),
             array('email', 'email'),
             array('user_id, category_id, status, is_master', 'numerical', 'integerOnly' => true),
             array('hash', 'length', 'max' => 32, 'message' => Yii::t('Front', 'Entry is to long')),

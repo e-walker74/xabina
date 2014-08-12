@@ -38,7 +38,6 @@ $(function(){
         }
     });
     $("input").on('blur', function(){
-
         if ($(this).val() == $(this).attr('current_value') && $(this).hasClass('maybe-error')) {
             $(this).addClass('input-error').parent().addClass('input-error').find('.validation-icon').show().parent().parent().find('.errorMessage').show();
         }

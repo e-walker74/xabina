@@ -122,7 +122,9 @@
                                         <div class="form-cell">
                                             <div class="form-lbl">&nbsp;</div>
                                             <div class="form-input">
-                                                <?= $users_email->category->value ?>
+                                                <?php if($users_email->category): ?>
+                                                    <?= $users_email->category->value ?>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -157,7 +159,11 @@
             <?php else: ?>
                 <tr>
                     <td><?= $users_email->email ?></td>
-                    <td><?= $users_email->category->value ?></td>
+                    <td>
+                        <?php if($users_email->category): ?>
+                            <?= $users_email->category->value ?>
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                             <span class="rejected"><?= Yii::t('Front', 'Unverified') ?></span>

@@ -29,7 +29,9 @@
         </td>
         <td>
             <div class="relative">
-                <?= $addr->category->value ?>
+                <?php if($addr->category): ?>
+                    <?= $addr->category->value ?>
+                <?php endif; ?>
             </div>
         </td>
         <td>
@@ -227,7 +229,7 @@
 
 <tr class="data-row">
     <td colspan="4">
-        <a class="rounded-buttons add-more upload" onclick="resetPage(); $(this).closest('tr').hide().closest('tr').next().slideDown('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
+        <a class="rounded-buttons add-more upload" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
     </td>
 </tr>
 

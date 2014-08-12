@@ -54,7 +54,7 @@
     <li style="width:22%;"><a href="#questions" data-url="<?= Yii::app()->createUrl('/personal/editqustions') ?>"><?= Yii::t('Personal', 'Security Questions') ?></a></li>
     <li style="width:15%;"><a href="#password" data-url="<?= Yii::app()->createUrl('/personal/editpins') ?>"><?= Yii::t('Personal', 'Password') ?></a></li>
     <li style="width:25%;"><a href="#settings" data-url="<?= Yii::app()->createUrl('/personal/settings') ?>"><?= Yii::t('Personal', 'Account Settings') ?></a></li>
-    <li style="width:28%;"><a href="#newslatter" data-url="<?= Yii::app()->createUrl('/personal/newsletter') ?>"><?= Yii::t('Personal', 'Newsletter') ?></a></li>
+    <li style="width:28%;"><a href="#newslatter" data-url="<?= Yii::app()->createUrl('/personal/newsletter') ?>"><?= Yii::t('Personal', 'Notifications') ?></a></li>
     <li style="width:10%;"><a href="#other" data-url="<?= Yii::app()->createUrl('/personal/other') ?>"><?= Yii::t('Personal', 'Other') ?></a></li>
 
 </ul>

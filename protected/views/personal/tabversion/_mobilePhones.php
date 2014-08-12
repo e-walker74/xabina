@@ -6,6 +6,7 @@
  * User: ekazak
  * Date: 28.07.14
  * Time: 17:01
+ * @var Users_Phones $users_phones
  */ ?>
 
 <div class="subheader" style="margin-top: 0"><?= Yii::t('Personal', 'Mobile Phones') ?></div>
@@ -24,7 +25,11 @@
 
                         <div class="note-arr">
                             <div class="note-bg">
-                                <?= Yii::t('Personal', 'We have send an SMS with the verification code on the phone number +:phone.', array(':phone' => $users_phone->phone)) ?>
+                                <?php if($users_phone->status == 1): ?>
+                                    <?= Yii::t('Personal', 'varitication_code_to_primary_phone:phone.', array(':phone' => '+' . $users_phone->user->phone)) ?>
+                                <?php else: ?>
+                                    <?= Yii::t('Personal', 'varitication_code_activate_phone:phone.', array(':phone' => '+' . $users_phone->phone)) ?>
+                                <?php endif; ?>
                                 <a href="<?= $this->createUrl('/personal/resendsms', array('id' => $users_phone->id)) ?>" onclick='return Personal.resendSms(this)'><?= Yii::t('Front', 'Send verification code once again'); ?></a>
                             </div>
                             <div class="arr"></div>
@@ -44,7 +49,9 @@
                                         <div class="form-cell">
                                             <div class="form-lbl">&nbsp;</div>
                                             <div class="form-input">
-                                                <?= $users_phone->category->value ?>
+                                                <?php if($users_phone->category): ?>
+                                                    <?= $users_phone->category->value ?>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
