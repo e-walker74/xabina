@@ -20,28 +20,36 @@ Personal = {
         this.bindEditButtons()
         setAllSelectedValues()
 
-        $('input').change(function(){
+        $('input').change(function () {
             $(window).bind('beforeunload', function () {
                 return 'Are you sure you want to leave this page? All the changes will not be saved.';
             });
         })
 
         $('.btn-group').hover(
-            function(){
+            function () {
                 $(this).addClass('open')
             },
-            function(){
+            function () {
                 $(this).removeClass('open')
             }
         )
         input_hide_error_on_focus()
     },
+    canChangeForm: function () {
+        if ($._data(window, 'events').beforeunload) {
+            if (confirm('Are you sure you want to close edit form? All the changes will not be saved.')) {
+                $(window).unbind('beforeunload')
+            } else {
+                return false
+            }
+        }
+        return true
+    },
     bindEditButtons: function () {
         $('.tab').on('click', '.button.edit, .upload.add-more', function () {
-            if($('.edit-row:visible').length > 0){
-                if(!confirm('Are you sure you want to close edit form? All the changes will not be saved.')){
-                    return false;
-                }
+            if(!Personal.canChangeForm()){
+                return false;
             }
             resetPage()
             $(this).closest('tr').hide().next('.edit-row').show()
@@ -80,7 +88,7 @@ Personal = {
                         parent.html(response.html)
                     }
 //                    if (response.refresh) {
-                        Personal.refreshTabs()
+                    Personal.refreshTabs()
 //                    }
                     if (response.success) {
 //                        successNotify("Personal account", response.message)
@@ -279,6 +287,9 @@ Personal = {
                 window.location.hash = ui.tab.hash;
             },
             beforeActivate: function (event, ui) {
+                if(!Personal.canChangeForm()){
+                    return false;
+                }
                 var link = ui.newTab.find('a')
                 if (link.attr('data-url')) {
                     Personal.getTab(link.attr('data-url'), link)
@@ -373,7 +384,7 @@ Personal = {
 
         })
     },
-    resendSmsForChangeId: function(url){
+    resendSmsForChangeId: function (url) {
         $.ajax({
             url: url,
             success: function (response) {
@@ -387,7 +398,7 @@ Personal = {
         })
         return false;
     },
-    bindPhotoChange: function(){
+    bindPhotoChange: function () {
         $('#Users_photo').on('change', function () {
             var name = $(this).val().split(/(\\|\/)/g).pop()
             $(this).closest('.file-label').find('.filename').html(name)
@@ -441,7 +452,7 @@ Personal = {
                     return false;
                 }
             });
-            if(files.length == 0 && $('#Users_delete').val() != 1){
+            if (files.length == 0 && $('#Users_delete').val() != 1) {
                 $(input).closest('.form-cell').find('.error-message').html('file not selected').slideDown().delay(3000).slideUp()
                 error = true
             }
