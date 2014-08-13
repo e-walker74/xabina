@@ -28,10 +28,8 @@
 
 <div class="edit-tabs contact-tabs personal-tabs">
 <ul class="list-unstyled">
-    <li style="width: 25%"><a href="#tab1"><?= Yii::t('Personal', 'General Info') ?></a></li>
-    <li style="width: 25%"><a href="#accounts" data-url="<?= Yii::app()->createUrl('/personal/accounts') ?>"><?= Yii::t('Personal', 'Accounts') ?></a></li>
-    <li style="width: 25%"><a href="#tab6"><?= Yii::t('Personal', 'Dialogue') ?></a></li>
-    <li style="width: 25%"><a href="#tab5"><?= Yii::t('Personal', 'Drive') ?></a></li>
+    <li style="width: 50%"><a href="#tab1"><?= Yii::t('Personal', 'General Info') ?></a></li>
+    <li style="width: 50%"><a href="#accounts" data-url="<?= Yii::app()->createUrl('/personal/accounts') ?>"><?= Yii::t('Personal', 'Accounts') ?></a></li>
 </ul>
 <div class="clearfix"></div>
 <div id="tab1">
@@ -98,102 +96,6 @@
 </div>
 <div id="accounts" class="tab">
     <?php $this->renderPartial('tabversion/_accounts', array('model' => $model)) ?>
-</div>
-<div id="tab6">
-</div>
-
-<div id="tab5">
-    <div class="drive-brcr">
-        <a href="#">Drive</a>
-    </div>
-    <div class="drive-add-file">
-        <input class="drive-file-search pull-left" type="text"/>
-        <a href="#" class="pull-right rounded-buttons add-contact-but">Add New File</a>
-    </div>
-    <table class="table xabina-table-contacts drive-table-header">
-        <tr class="table-header">
-            <th style="width: 13%"></th>
-            <th style="width: 39%">Title</th>
-            <th style="width: 48%">Type</th>
-        </tr>
-    </table>
-    <div class="drive-list-table-overflow">
-        <table class="table drive-list-table">
-            <tr style="height: 0">
-                <td style="border:none; padding: 0;width:6%;"></td>
-                <td style="border:none; padding: 0;width:46%;"></td>
-                <td style="border:none; padding: 0;width:39%;"></td>
-                <td style="border:none; padding: 0;width:9%;"></td>
-            </tr>
-            <tr class="note-tr">
-                <td colspan="4">
-                    Для полноценной работы с документами и файлами, пожалуйста перейдите в раздел
-                    <a href="#">Drive</a>
-                </td>
-            </tr>
-            <tr>
-                <td class="checkbox-td">
-                    <input type="checkbox"/>
-                </td>
-                <td>
-                    div class="folder-ico">
-    </div>
-    <a href="#" class="file-name">Verification documents</a>
-
-    <div class="file-info">7 files</div>
-    </td>
-    <td>System</td>
-    <td style=" overflow: visible!important;">
-        <div class="contact-actions transaction-buttons-cont">
-            <div class="btn-group">
-                <a class="button menu" data-toggle="dropdown" href="#"></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="button download" href="#"></a>
-                    </li>
-                    <li>
-                        <a class="button edit" href="#"></a>
-                    </li>
-                    <li>
-                        <a class="button delete" href="#"></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </td>
-    </tr>
-    <tr>
-        <td class="checkbox-td">
-            <input type="checkbox"/>
-        </td>
-        <td>
-            <div class="folder-ico">
-            </div>
-            <a href="#" class="file-name">Other</a>
-
-            <div class="file-info">25 files</div>
-        </td>
-        <td>Business</td>
-        <td style=" overflow: visible!important;">
-            <div class="contact-actions transaction-buttons-cont">
-                <div class="btn-group">
-                    <a class="button menu" data-toggle="dropdown" href="#"></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="button download" href="#"></a>
-                        </li>
-                        <li>
-                            <a class="button edit" href="#"></a>
-                        </li>
-                        <li>
-                            <a class="button delete" href="#"></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </td>
-    </tr>
-    </table>
 </div>
 
 </div>

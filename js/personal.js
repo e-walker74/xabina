@@ -19,7 +19,7 @@ Personal = {
         bindDeleteConfirmationEvent()
         this.bindEditButtons()
         setAllSelectedValues()
-
+        this.bindCheckbox()
         $('input').change(function () {
             $(window).bind('beforeunload', function () {
                 return 'Are you sure you want to leave this page? All the changes will not be saved.';
@@ -45,6 +45,18 @@ Personal = {
             }
         }
         return true
+    },
+    bindCheckbox: function(){
+        $('.checkbox-custom').on('click', 'label', function(e){
+            if ($(this).find('input').prop('checked')) {
+                $(this).addClass('checked');
+                e.stopPropagation();
+            } else {
+                $(this).removeClass('checked');
+                e.stopPropagation();
+            }
+            $(window).unbind('beforeunload')
+        });
     },
     bindEditButtons: function () {
         $('.tab').on('click', '.button.edit, .upload.add-more', function () {
@@ -207,11 +219,11 @@ Personal = {
             if(response.reloadWindow){
                 window.location.reload()
             }
-            if (element.length != 0) {
+            if (element.length != 0 && response.message) {
                 successNotify('Payment', response.message, element)
             }
         } else {
-            if (element.length != 0) {
+            if (element.length != 0 && response.message) {
                 errorNotify('Payment', response.message, element)
             }
         }

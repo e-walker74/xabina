@@ -15,9 +15,9 @@
     <td class="text-center">
         <?= $model->getHtmlStatus() ?>
     </td>
-    <td>
-        <a <?php if($model->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'paymentInstruments', 'id' => $model->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
-        <span <?php if($model->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+    <td class="status-td">
+        <a <?php if($model->is_master == 1):?>style="display:none;"<?php endif; ?> title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'paymentInstruments', 'id' => $model->id)) ?>', this)"></a>
+        <span title="<?= Yii::t('Personal', 'Primary') ?>" <?php if($model->is_master == 0):?>style="display:none;"<?php endif; ?> class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
     </td>
     <td style="overflow: visible!important;">
         <div class="contact-actions transaction-buttons-cont">

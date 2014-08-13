@@ -94,8 +94,7 @@
         <tr class="user-settings-data">
             <td><?= Yii::t('Front', 'Time zone'); ?></td>
             <td class="data">
-                <?= $user->settings->time_zone->offset ?>
-                <?= $user->settings->time_zone->zone_name ?>
+                <?= Zone::$showZones[$user->settings->time_zone_id] ?>
             </td>
             <td>
                 <div class="transaction-buttons-cont">
@@ -112,17 +111,7 @@
                         CHtml::activeDropDownList(
                             $user->settings,
                             'time_zone_id',
-                            CHtml::listData(
-                                Zone::model()->findAll(
-                                    array(
-                                        'order' => 'offset_time asc',
-                                    )
-                                ),
-                                'zone_id',
-                                function($data){
-                                    return $data->offset . ' ' . $data->zone_name;
-                                }
-                            ),
+                            Zone::$showZones,
                             array(
                                 'class' => 'select-invisible'
                             )

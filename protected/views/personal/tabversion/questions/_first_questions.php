@@ -9,9 +9,9 @@
             <tr class="question-row" data-value="<?= $ques->question->id ?>">
                 <td><?= $ques->question->question ?></td>
                 <td>
+                    <a href="javascript:void(0);" class="mask-toggle"></a>
                     <div class="masked-value">**********</div>
                     <input class="original-value" type="hidden" value="<?= $ques->answer ?>">
-                    <a href="javascript:void(0);" class="mask-toggle"></a>
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">

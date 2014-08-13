@@ -24,13 +24,12 @@
                 </td>
                 <td><?= $mes->messager_login ?></td>
                 <td><?= ($mes->category) ? $mes->category->value : "" ?></td>
-                <td>
+                <td class="status-td">
                     <?php if($mes->is_master): ?>
-                        <span class="bold"><?= Yii::t('Front', 'Primary'); ?></span>
+                        <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
                     <?php else: ?>
-                        <a href="javaScript:void(0)" class="make-primary" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"></a>
                     <?php endif; ?>
-
                 </td>
                 <td style="overflow: visible!important">
                     <div class="contact-actions transaction-buttons-cont">

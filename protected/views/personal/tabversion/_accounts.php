@@ -17,13 +17,13 @@
     </div>
     <table class="table  xabina-table-contacts">
         <tr class="table-header">
-            <th style="width: 26%"><?= Yii::t('Personal', 'Account') ?></th>
-            <th style="width: 14%"><?= Yii::t('Personal', 'Type') ?></th>
-            <th style="width: 14%"><?= Yii::t('Personal', 'Environment') ?></th>
-            <th style="width: 10%"><?= Yii::t('Personal', 'Сurrency') ?></th>
-            <th style="width: 10%"><?= Yii::t('Personal', 'Status') ?></th>
-            <th style="width: 10%"></th>
-            <th style="width: 16%"></th>
+            <th style="width: 21%"><?= Yii::t('Personal', 'Account') ?></th>
+            <th style="width: 15%"><?= Yii::t('Personal', 'Type') ?></th>
+            <th style="width: 15%"><?= Yii::t('Personal', 'Environment') ?></th>
+            <th style="width: 18%"><?= Yii::t('Personal', 'Amount') ?></th>
+            <th style="width: 12%"><?= Yii::t('Personal', 'Сurrency') ?></th>
+            <th style="width: 11%"><?= Yii::t('Personal', 'Status') ?></th>
+            <th style="width: 8%"></th>
         </tr>
         <?php foreach($model->accounts as $account): ?>
             <tr>
@@ -34,11 +34,20 @@
                 </td>
                 <td><?= $account->type_info->title ?></td>
                 <td><?= Yii::t('Front', 'Main Environment') ?></td>
+                <td class="text-right">
+                    <?php if($account->balance > 0): ?>
+                        <span class="approved"><?= number_format($account->balance, 2) ?></span>
+                    <?php elseif($account->balance < 0): ?>
+                        <span class="rejected"><?= number_format($account->balance, 2) ?></span>
+                    <?php else: ?>
+                        <span class=""><?= $account->balance ?></span>
+                    <?php endif; ?>
+                </td>
                 <td><?= $account->currency->title ?></td>
-                <td><img src="/css/layout/account/img/statuses-ico-ok.png" alt=""></td>
-                <td>
-                    <a <?php if($account->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'accounts', 'id' => $account->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
-                    <span <?php if($account->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+                <td class="status-td">
+                    <img src="/css/layout/account/img/statuses-ico-ok.png" alt="">
+                    <a <?php if($account->is_master == 1):?>style="display:none;"<?php endif; ?> title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'accounts', 'id' => $account->id)) ?>', this)"></a>
+                    <span title="<?= Yii::t('Personal', 'Primary') ?>" <?php if($account->is_master == 0):?>style="display:none;"<?php endif; ?> class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
                 </td>
                 <td style="overflow: visible!important">
                     <div class="contact-actions transaction-buttons-cont">

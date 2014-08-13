@@ -85,10 +85,14 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 ">
-                                        <?php if(!$users_email->is_master): ?>
-                                        <div class="transaction-buttons-cont" style="margin:10px 0 0;">
+                                        <?php if(!$users_email->is_master && ($users_email->hash && !$users_email->status)): ?>
+                                            <div class="transaction-buttons-cont" style="margin:10px 0 0;">
                                             <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
                                         </div>
+                                        <?php elseif($users_email->hash && $users_email->status): ?>
+                                            <div class="transaction-buttons-cont" style="margin:10px 0 0;">
+                                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)" class="button remove"></a>
+                                            </div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -135,7 +139,6 @@
                                                 <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                                                     <span class="rejected"><?= Yii::t('Front', 'Unverified') ?></span>
                                                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-                                                    <a class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Cancel'); ?></a>
                                                 <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
                                                     <span class="primary">
 					<b><?= Yii::t('Front', 'Primary'); ?></b>
@@ -145,9 +148,13 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 ">
-                                        <?php if(!$users_email->is_master): ?>
+                                        <?php if(!$users_email->is_master && ($users_email->hash && !$users_email->status)): ?>
                                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
                                                 <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
+                                            </div>
+                                        <?php elseif($users_email->hash && $users_email->status): ?>
+                                            <div class="transaction-buttons-cont" style="margin:10px 0 0;">
+                                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)" class="button remove"></a>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -164,15 +171,13 @@
                             <?= $users_email->category->value ?>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="status-td">
                         <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
                             <span class="rejected"><?= Yii::t('Front', 'Unverified') ?></span>
                         <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-                            <a class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"></a>
                         <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
-                            <span class="primary">
-                                <b><?= Yii::t('Front', 'Primary'); ?></b>
-                            </span>
+                            <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
                         <?php endif;?>
                     </td>
                     <td>

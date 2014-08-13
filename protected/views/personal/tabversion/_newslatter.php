@@ -27,7 +27,11 @@
                         }
                     endforeach;
                     ?>
-                    <input type="checkbox" <?= ($checked) ? "checked='checked'" : "" ?> name="<?= $type ?>" data-url="<?= Yii::app()->createUrl('/personal/newsletter') ?>"/>
+                    <div class="checkbox-custom mini">
+                        <label <?= ($checked) ? "class='checked'" : "" ?>>
+                            <input type="checkbox" <?= ($checked) ? "checked='checked'" : "" ?> name="<?= $type ?>" data-url="<?= Yii::app()->createUrl('/personal/newsletter') ?>"/>
+                        </label>
+                    </div>
                     <?= Yii::t('Front', $type) ?>
                 </td>
                 <td>
