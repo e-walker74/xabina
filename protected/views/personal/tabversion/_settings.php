@@ -94,7 +94,9 @@
         <tr class="user-settings-data">
             <td><?= Yii::t('Front', 'Time zone'); ?></td>
             <td class="data">
-                <?= Zone::$showZones[$user->settings->time_zone_id] ?>
+                <?php if(isset(Zone::$showZones[$user->settings->time_zone_id])): ?>
+                    <?= Zone::$showZones[$user->settings->time_zone_id] ?>
+                <?php endif; ?>
             </td>
             <td>
                 <div class="transaction-buttons-cont">
