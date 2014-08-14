@@ -37,8 +37,7 @@
 	</div>
 
 	<div class="clearfix"></div>
-
-	<div class="transfer-accordion" id="search_accordion">
+	<div class="transfer-accordion  xabina-accordion" id="search_accordion">
 		<div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Advanced search'); ?> </a><span class="arr"></span></div>
 		<div class="accordion-content">
 			<?php $form=$this->beginWidget('CActiveForm', array(
@@ -49,7 +48,8 @@
                     'class' => 'advanced-search-form',
                     'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/',
                     'data-doc-url' => $this->createUrl('/accounts/transactionsondoc').'/',
-                    'data-csv-url' => $this->createUrl('/accounts/transactionsoncsv').'/'
+                    'data-csv-url' => $this->createUrl('/accounts/transactionsoncsv').'/',
+                    'data-xls-url' => $this->createUrl('/accounts/transactionsonxls').'/'
                 ),
 			)); ?>
 				<div class="row">
@@ -108,20 +108,47 @@
 	</div>
 
 	<div class="subheader"><?= Yii::t('Front', 'Transaction'); ?>
-        <div class="relative pull-right transaction-actions">
-            <a class="relative button download-button dropdown_button" href="#"></a>
-            <a class="button send-button" href="#"></a>
-            <a class="button print-button" href="#"></a>
+        <div class="relative pull-right transaction-actions transaction-buttons-cont">
+
+            <div class="btn-group">
+                <a href="#" class="button download" data-toggle="dropdown"></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="button pdf file-export-get" data-id="pdf" href="#"></a>
+                    </li>
+                    <li>
+                        <a class="button xls file-export-get" data-id="xls" href="#"></a>
+                    </li>
+                    <li>
+                        <a class="button doc file-export-get" data-id="doc" href="#"></a>
+                    </li>
+                    <li>
+                        <a class="button csv file-export-get" data-id="csv" href="#"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <a href="#" class="button menu" data-toggle="dropdown"></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="button send" href="#"></a>
+                    </li>
+                    <li>
+                        <a class="button print" href="#"></a>
+                    </li>
+                </ul>
+            </div>
         </div>
+
 	</div>
 	<div class="transaction-table-header">
 		<table class="transaction-header">
 			<tbody><tr>
 				<td width="15%"><?= Yii::t('Front', 'Date'); ?></td>
 				<td width="10%"><?= Yii::t('Front', 'Type'); ?></td>
-				<td width="38%"><?= Yii::t('Front', 'Description'); ?></td>
-				<td width="20%"><?= Yii::t('Front', 'Value'); ?></td>
-				<td width="17%"><?= Yii::t('Front', 'Balance'); ?></td>
+				<td width="42%"><?= Yii::t('Front', 'Account'); ?></td>
+				<td width="17%"><?= Yii::t('Front', 'Value'); ?></td>
+				<td width="16%"><?= Yii::t('Front', 'Balance'); ?></td>
 				<td width="0%"> </td>
 			</tr>
 		</tbody></table>

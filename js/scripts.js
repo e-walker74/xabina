@@ -417,6 +417,11 @@ $(function () {
         window.open(url)
     }
 
+    downloadExport = function (e) {
+        form = $('#searchForm')
+        url = form.attr('data-' + $(e.target).data('id') + '-url') + "?" + form.serialize();
+        window.open(url)
+    }
 
     resendActivationEmail = function (url, link) {
         $.ajax({
@@ -668,6 +673,12 @@ $(document).ready(function () {
             toChange: false,
             callback: downloadPdf
         });
+
+    $('.button.file-export-get').click(function(e){
+        e.preventDefault();
+        downloadExport(e);
+
+    });
 
     if ($('#addNotes').length != 0) {
         $('#addNotes').on('submit', function (ev) {
