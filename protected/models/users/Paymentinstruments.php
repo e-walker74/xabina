@@ -35,9 +35,19 @@ class Users_Paymentinstruments extends Users_Profile
 //        self::METHOD_IDEAL => 'ideal',
         self::METHOD_BANK_ACCOUNT => 'bank_account',
         self::METHOD_PAYPAL => 'paypal',
-        self::METHOD_SKRILL => 'webmoney',
-        self::METHOD_WEBMONEY => 'skrill',
+        self::METHOD_SKRILL => 'skrill',
+        self::METHOD_WEBMONEY => 'webmoney',
         self::METHOD_QIWI => 'qiwi',
+    );
+
+    public static $logos = array(
+        self::METHOD_CREDITCARD => 'creditcard',
+//        self::METHOD_IDEAL => 'ideal',
+        self::METHOD_BANK_ACCOUNT => 'bank_account.png',
+        self::METHOD_PAYPAL => 'payment_method4.png',
+        self::METHOD_SKRILL => 'payment_system6.png',
+        self::METHOD_WEBMONEY => 'payment_system4.png',
+        self::METHOD_QIWI => 'payment_method3.png',
     );
 
     public $status = 1;

@@ -334,7 +334,7 @@
     </div>
 </div>
 
-<div class="method-5 electronic-method-fields"
+<div class="method-<?= Users_Paymentinstruments::METHOD_WEBMONEY ?> electronic-method-fields"
      style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_WEBMONEY) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-10">
@@ -358,7 +358,7 @@
     </div>
 </div>
 
-<div class="method-6 electronic-method-fields"
+<div class="method-<?= Users_Paymentinstruments::METHOD_SKRILL ?> electronic-method-fields"
      style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_SKRILL) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
     <div class="row">
         <div class="col-lg-10 col-md-10 col-sm-10">

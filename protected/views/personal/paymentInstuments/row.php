@@ -5,7 +5,9 @@
         &&  Form_Incoming_Electronic::$methods[$model->electronic_method] == 'creditcard'
         &&  !empty($model->card_type) && isset(Transfers_Incoming::$card_types[$model->card_type])):
         ?>
-            <img src="/images/<?=Transfers_Incoming::$card_types[$model->card_type]?>.png">
+            <img src="/css/images/<?=Transfers_Incoming::$card_types[$model->card_type]?>.png">
+        <?php else: ?>
+            <img src="/css/images/<?=Users_Paymentinstruments::$logos[$model->electronic_method]?>">
         <?php endif; ?>
     </td>
     <td>
