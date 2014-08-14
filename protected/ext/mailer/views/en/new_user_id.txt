@@ -38,8 +38,11 @@
                                     <td style="padding: 0 20px; color: #534a76; font-size: 22px;">Dear, <strong>{:userFullName}</strong>!</td>
                                 </tr>
                                 <tr style="height: 32px;">
-                                    <td style="padding: 0 20px; font-weight: bold; vertical-align: top; color: #777777; font-size: 13px;">The User ID from your Xabina Profile has been changed. Here are your new credentials:<br/>
-                                                                                                                                                                                  New User ID: {:login}</td>
+                                    <td style="padding: 0 20px; font-weight: bold; vertical-align: top; color: #777777; font-size: 13px;">The User ID from your Xabina Profile has been changed. Here are your new credentials.
+                                    <div style="border-top: 2px solid #f2f2f2;margin: 17px 0 0; border-bottom: 2px solid #f2f2f2">
+                                        <p style="font-weight: normal;margin: 16px 0 0;">New User ID: <b>{:login}</b></p>
+                                    </div>
+                                    </td>
                                 </tr>
                                 <tr style="height: 70px;">
                                 	<td style="padding: 0 20px; line-height: 20px; font-style: italic; font-size: 12px; color: #777777;">If You have not requested this action, we strictly advise You to contact our customer support.</td>
