@@ -382,6 +382,30 @@
     </div>
 </div>
 
+<div class="method-<?= Users_Paymentinstruments::METHOD_QIWI ?> electronic-method-fields"
+     style="<?php if (isset($model->electronic_method) && $model->electronic_method == Users_Paymentinstruments::METHOD_QIWI) { ?>display:block;<?php } else { ?>display:none;<?php } ?>">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <div class="form-cell">
+                <div class="form-lbl">
+                    <?= Yii::t('Front', 'QIWI account number') ?>
+                    <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_qiwi_account_number') ?>"></span>
+                </div>
+                <div class="form-input">
+                    <?=
+                    $form->textField($model, 'qiwi_account_number', array(
+                        'class' => 'input-text',
+                        'value' => $model->from_account_number,
+                    ))?>
+                    <?= $form->error($model, 'qiwi_account_number'); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 ">
+        </div>
+    </div>
+</div>
+
 <div class="row category-row" <?php if($model->isNewRecord): ?>style="display: none"<?php endif; ?>>
     <div class="col-lg-10 col-md-10 col-sm-10">
         <div class="form-cell">

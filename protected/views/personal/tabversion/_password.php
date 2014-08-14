@@ -158,7 +158,7 @@
         <?php if($pin1): ?>
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 ">
-                <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin1')) ?>'), this"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
+                <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin1')) ?>', this)"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
             </div>
         </div>
         <?php endif; ?>
@@ -309,7 +309,7 @@
         <?php if($pin2): ?>
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-10 ">
-                    <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin2')) ?>'), this"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
+                    <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin2')) ?>', this)"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
                 </div>
             </div>
         <?php endif; ?>

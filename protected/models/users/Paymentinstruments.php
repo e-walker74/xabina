@@ -28,6 +28,7 @@ class Users_Paymentinstruments extends Users_Profile
     const METHOD_PAYPAL = 4;
     const METHOD_SKRILL = 5;
     const METHOD_WEBMONEY = 6;
+    const METHOD_QIWI = 7;
 
     public static $methods = array(
         self::METHOD_CREDITCARD => 'creditcard',
@@ -36,6 +37,7 @@ class Users_Paymentinstruments extends Users_Profile
         self::METHOD_PAYPAL => 'paypal',
         self::METHOD_SKRILL => 'webmoney',
         self::METHOD_WEBMONEY => 'skrill',
+        self::METHOD_QIWI => 'qiwi',
     );
 
     public $status = 1;
@@ -53,6 +55,8 @@ class Users_Paymentinstruments extends Users_Profile
     public $webmoney_account_number;
     // skrill
     public $skrill_account_number;
+    // QIWI
+    public $qiwi_account_number;
 
     /**
      * Returns the static model of the specified AR class.
@@ -102,6 +106,9 @@ class Users_Paymentinstruments extends Users_Profile
             // webmoney
             array('webmoney_account_number', 'required', 'on' => 'webmoney'),
             array('webmoney_account_number', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'webmoney_account_number_format_error'), 'on' => 'webmoney'),
+            // qiwi
+            array('qiwi_account_number', 'required', 'on' => 'qiwi'),
+            array('qiwi_account_number', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'qiwi_account_number_format_error'), 'on' => 'qiwi'),
             // paypal
             array('skrill_account_number', 'required', 'on' => 'skrill'),
             array('skrill_account_number', 'email', 'on' => 'skrill'),
@@ -213,6 +220,9 @@ class Users_Paymentinstruments extends Users_Profile
                     break;
                 case 'skrill':
                     $this->from_account_number = $this->skrill_account_number;
+                    break;
+                case 'qiwi':
+                    $this->from_account_number = $this->qiwi_account_number;
                     break;
             }
 

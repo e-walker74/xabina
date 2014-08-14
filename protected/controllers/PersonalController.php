@@ -1907,6 +1907,7 @@ class PersonalController extends Controller
                 $pins->user, // this user
                 'newPin', // sys mail code
                 array( // params
+                    '{:pin}'  => $pin,
                     '{:pass}' => $pass,
                     '{:date}' => date('Y m d', time()),
                 )
