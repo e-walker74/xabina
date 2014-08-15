@@ -337,14 +337,15 @@ class WebUser extends CWebUser
     public function logout($destroySession = true)
     {
         $user = $this->_getModel();
-
-        $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-        $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
-        $log = new Users_Log;
-        $log->region = $country;
-        $log->type = 'logout';
-        $log->user_id = $user->id;
-        $log->save();
+        if($user){
+            $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+            $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
+            $log = new Users_Log;
+            $log->region = $country;
+            $log->type = 'logout';
+            $log->user_id = $user->id;
+            $log->save();
+        }
 
         parent::logout();
     }
