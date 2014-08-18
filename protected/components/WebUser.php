@@ -211,7 +211,12 @@ class WebUser extends CWebUser
             Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
 
             $model = $this->_getModel($refresh);
-            $this->setLastTime(strtotime($model->last_auth->created_at));
+			if($model->last_auth){
+				$this->setLastTime(strtotime($model->last_auth->created_at));
+			} else {
+				$this->setLastTime(false);
+			}
+            
             return $this->getLastTime();
         } else
             return false;
@@ -261,13 +266,13 @@ class WebUser extends CWebUser
         $this->getTimeZone();
         $this->getPhotoUrl();
 
-        $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-        $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
-        $log = new Users_Log;
-        $log->region = $country;
-        $log->type = 'login';
-        $log->user_id = $user->id;
-        $log->save();
+        //$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+        //$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
+        //$log = new Users_Log;
+        //$log->region = $country;
+        //$log->type = 'login';
+        //$log->user_id = $user->id;
+        //$log->save();
 
         $this->initRback();
 
