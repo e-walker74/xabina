@@ -12,7 +12,12 @@
     </td>
     <td>
         <span class="bold"><?= $model->from_account_holder ?></span> <br>
-        <span class="grey">xxxx xxxx xxxx <?= substr($model->from_account_number, -4)?></span>
+        <?php if(isset(Form_Incoming_Electronic::$methods[$model->electronic_method])
+            &&  Form_Incoming_Electronic::$methods[$model->electronic_method] == 'creditcard'): ?>
+            <span class="grey">xxxx xxxx xxxx <?= substr($model->from_account_number, -4)?></span>
+        <?php else: ?>
+            <span class="grey"><?= $model->from_account_number ?></span>
+        <?php endif; ?>
     </td>
     <td class="text-center">
         <?= $model->getHtmlStatus() ?>

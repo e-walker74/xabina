@@ -15,7 +15,7 @@
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button delete" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'question', 'id' => $ques->id)) ?>" ></a>
+                        <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'question', 'id' => $ques->id)) ?>" ></a>
                     </div>
                 </td>
             </tr>

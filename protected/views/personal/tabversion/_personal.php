@@ -36,7 +36,7 @@
             <td><?= $model->birthday ?></td>
             <td>
                 <div class="contact-actions transaction-buttons-cont">
-                    <a class="button edit" href="javascript:void(0)"></a>
+                    <a class="button edit" href="javascript:void(0)" title="<?= Yii::t('Front', 'Edit') ?>"></a>
                 </div>
 
             </td>
@@ -89,8 +89,8 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                             <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" class="button ok" value=""/>
-                                <a href="#" class="button remove"></a>
+                                <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                <a href="#" class="button remove"  title="<?= Yii::t('Front', 'Remove') ?>"></a>
                             </div>
                         </div>
                     </div>
@@ -236,8 +236,8 @@
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2 ">
                                     <div class="transaction-buttons-cont " style="margin: 10px 0 0">
-                                        <input type="submit" value="" class="button ok"/>
-                                        <input type="submit" name="delete" class="button remove" value=""/>
+                                        <input type="submit" value="" class="button ok" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                        <input type="submit" name="delete" class="button remove"  title="<?= Yii::t('Front', 'Remove') ?>" value=""/>
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +260,7 @@
                 <td colspan="3" class="form-border" style="border: none!important;">
                     <div class="note-arr">
                         <div class="note-bg">
-                            <?= Yii::t('Personal', 'You can change your ID once every 3 months.'); ?>
+                            <?= Yii::t('Personal', 'You can change your ID once every week.'); ?>
                         </div>
                         <div class="arr"></div>
                     </div>
@@ -274,7 +274,7 @@
                     <?php if($lastChange && !$lastChange->isCanChange): ?>
                         <?= Yii::t('Personal', 'You may change Xabina ID after: <span class="bold">:date</span>',
                             array(
-                                ':date' => SiteService::timeRange((time() - $lastChange->confirm_at), 3600*24*30*3)
+                                ':date' => SiteService::timeRange((time() - $lastChange->confirm_at), Users_Ids::USER_ID_TIME)
                             ))  ?>
                     <?php endif; ?>
                 </td>
@@ -307,7 +307,7 @@
                     )); ?>
                     <div class="note-arr">
                         <div class="note-bg">
-                            <?= Yii::t('Personal', 'You can change your ID once every 3 months.'); ?>
+                            <?= Yii::t('Personal', 'You can change your ID once every week.'); ?>
                         </div>
                         <div class="arr"></div>
                     </div>
@@ -342,8 +342,8 @@
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2 ">
                                     <div class="transaction-buttons-cont edit-submit-cont">
-                                        <input type="submit" value="" class="button ok"/>
-                                        <a href="javaScript:void(0)" class="button cancel"></a>
+                                        <input type="submit" value="" class="button ok" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                        <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                                     </div>
                                 </div>
                             </div>

@@ -8,24 +8,6 @@
  * Time: 19:23
  */ ?>
 
-<?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'personal-emails',
-    'enableAjaxValidation' => true,
-    'enableClientValidation' => true,
-    'errorMessageCssClass' => 'error-message',
-    'htmlOptions' => array(
-        'class' => 'form-validable',
-    ),
-    'clientOptions' => array(
-        'validateOnSubmit' => true,
-        'validateOnChange' => true,
-        'errorCssClass' => 'input-error',
-        'successCssClass' => 'valid',
-        'afterValidate' => 'js:Personal.afterValidate',
-        'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
-    ),
-)); ?>
-
 <div class=" xabina-form-normal">
     <table class="table xabina-table-contacts">
         <tr class="table-header">
@@ -87,11 +69,11 @@
                                     <div class="col-lg-2 col-md-2 col-sm-2 ">
                                         <?php if(!$users_email->is_master && ($users_email->hash && !$users_email->status)): ?>
                                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                            <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
+                                            <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
                                         </div>
                                         <?php elseif($users_email->hash && $users_email->status): ?>
                                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)" class="button remove"></a>
+                                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"  title="<?= Yii::t('Front', 'Remove') ?>" class="button remove"></a>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -150,11 +132,11 @@
                                     <div class="col-lg-2 col-md-2 col-sm-2 ">
                                         <?php if(!$users_email->is_master && ($users_email->hash && !$users_email->status)): ?>
                                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                                <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
+                                                <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
                                             </div>
                                         <?php elseif($users_email->hash && $users_email->status): ?>
                                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)" class="button remove"></a>
+                                                <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"  title="<?= Yii::t('Front', 'Remove') ?>" class="button remove"></a>
                                             </div>
                                         <?php endif; ?>
                                     </div>
@@ -183,7 +165,7 @@
                     <td>
                         <?php if(!$users_email->is_master): ?>
                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
+                                <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'emails', 'id' => $users_email->id)) ?>" ></a>
                             </div>
                         <?php endif; ?>
                     </td>
@@ -198,6 +180,23 @@
         <?php $model_emails = new Users_Emails(); ?>
         <tr class="edit-row">
             <td colspan="4">
+                <?php $form = $this->beginWidget('CActiveForm', array(
+                    'id' => 'personal-emails',
+                    'enableAjaxValidation' => true,
+                    'enableClientValidation' => true,
+                    'errorMessageCssClass' => 'error-message',
+                    'htmlOptions' => array(
+                        'class' => 'form-validable',
+                    ),
+                    'clientOptions' => array(
+                        'validateOnSubmit' => true,
+                        'validateOnChange' => true,
+                        'errorCssClass' => 'input-error',
+                        'successCssClass' => 'valid',
+                        'afterValidate' => 'js:Personal.afterValidate',
+                        'afterValidateAttribute' => 'js:Personal.afterValidateAttribute',
+                    ),
+                )); ?>
                 <div class=" xabina-form-normal">
                     <div class="table-subheader"><?= Yii::t('Personal', 'Add E-Mail') ?></div>
                     <div class="row">
@@ -255,14 +254,15 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                             <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" class="button ok submit" value="" />
-                                <a class="button cancel" href="javaScript:void(0)"></a>
+                                <input type="submit" class="button ok submit" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <?php $this->endWidget(); ?>
             </td>
         </tr>
     </table>
 </div>
-<?php $this->endWidget(); ?>
+

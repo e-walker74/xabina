@@ -51,7 +51,7 @@
                 </td>
                 <td style="overflow: visible!important">
                     <div class="contact-actions transaction-buttons-cont">
-                        <?= Html::link('', array('/banking/accounts'), array('class' => 'button edit')) ?>
+                        <?= Html::link('', array('/banking/accounts'), array('class' => 'button edit', 'title' => Yii::t('Front', 'Edit'))) ?>
                     </div>
                 </td>
             </tr>

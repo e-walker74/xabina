@@ -22,7 +22,7 @@
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button delete" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'question', 'id' => $ques->id)) ?>" ></a>
+                        <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'question', 'id' => $ques->id)) ?>" ></a>
                     </div>
                 </td>
             </tr>
@@ -91,7 +91,7 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 ">
                         <div class="transaction-buttons-cont edit-submit-cont">
                             <input type="submit" value="" class="button ok"/>
-                            <a href="javaScript:void(0)" class="button cancel"></a>
+                            <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                         </div>
                     </div>
                 </div>

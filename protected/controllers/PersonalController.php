@@ -76,6 +76,7 @@ class PersonalController extends Controller
     {
 
 
+
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
         $model = Users::model()->with(array(
 //            'primary_email',
@@ -597,6 +598,7 @@ class PersonalController extends Controller
                 $lastXabinaId->save();
                 $model->login = $lastXabinaId->new_user_id;
                 if($model->save()){
+                    Yii::user()->setFullName($model->getFullName());
                     $mail = new Mail;
                     $mail->send(
                         $model, // this user

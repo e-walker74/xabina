@@ -45,6 +45,7 @@
                     <div class=" transaction-buttons-cont">
                         <?= Html::link('', 'javaScript:void(0)', array(
                             'class' => 'button delete',
+                            'title' =>   Yii::t('Front', 'Remove'),
                             'onclick' => '$(this).addClass(\'opened\')',
                             'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'social', 'id' => $soc->id)),
                         )) ?>

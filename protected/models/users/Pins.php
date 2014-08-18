@@ -42,9 +42,9 @@ class Users_Pins extends ActiveRecord
 			array('confirm_pass, old_pass', 'safe'),
 			array('old_pass', 'checkUserNewPass'),
 			array('confirm_pass', 'checkConfirm'),
-			
+
 			array('user_id, pin1_exp, pin2_exp, pin3_exp', 'numerical', 'integerOnly'=>true, 'message' => Yii::t('Front', 'Password lifetime is incorrect')),
-			array('pin1, pin2, pin3, confirm_pass, old_pass', 'length', 'max' => 32, 'message' => Yii::t('Front', 'Entry is to long')),
+            array('pin1, pin2, pin3, confirm_pass, old_pass', 'length', 'min' => 6, 'max' => 32, 'tooLong' => Yii::t('Front', 'long_pass'), 'tooShort' => Yii::t('Front', 'short_pass')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, pin1, pin1_exp, pin2, pin2_exp, pin3, pin3_exp', 'safe', 'on'=>'search'),

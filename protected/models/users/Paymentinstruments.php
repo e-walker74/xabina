@@ -105,6 +105,7 @@ class Users_Paymentinstruments extends Users_Profile
             array('p_month', 'numerical', 'min' => 1, 'max' => 12, 'on' => 'creditcard'),
             array('p_month, p_year', 'length', 'max' => 2, 'on' => 'creditcard'),
             array('p_year', 'numerical', 'min' => date('y'), 'max' => date('y', time() + 3600 * 24 * 365 * 20), 'on' => 'creditcard'),
+            array('p_year', 'validateExpDate', 'on' => 'creditcard'),
             array('p_csc', 'numerical'),
             array('p_csc', 'length', 'max' => 3, 'min' => 3, 'on' => 'creditcard'),
             // ideal
@@ -127,6 +128,14 @@ class Users_Paymentinstruments extends Users_Profile
             array('bic', 'length', 'max' => 50, 'on' => 'bank_account'),
             array('bic', 'validateBic', 'on' => 'bank_account'),
         );
+    }
+
+    public function validateExpDate($attr, $par){
+        if($this->p_month && $this->p_year){
+            if($this->p_year == date('y') && $this->p_month < date('m')){
+                $this->addError($attr, Yii::t('Personal', 'error_exp_date'));
+            }
+        }
     }
 
     public function validateBic($attr, $par)

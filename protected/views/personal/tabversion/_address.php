@@ -49,6 +49,7 @@
                         <li>
                             <?= Html::link('', 'javaScript:void(0)', array(
                                 'class' => 'button delete',
+                                'titl' => Yii::t('Front', 'Remove'),
                                 'onclick' => '$(this).addClass(\'opened\')',
                                 'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'address', 'id' => $addr->id)),
                             )) ?>
@@ -107,8 +108,8 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 ">
                     <div class="transaction-buttons-cont edit-submit-cont">
-                        <input type="submit" class="button ok" value=""/>
-                        <a href="javaScript:void(0)" class="button cancel"></a>
+                        <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                        <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                     </div>
                 </div>
             </div>
@@ -282,8 +283,8 @@
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 ">
                 <div class="transaction-buttons-cont edit-submit-cont">
-                    <input type="submit" class="button ok" value=""/>
-                    <a href="javaScript:void(0)" class="button cancel"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </div>
         </div>

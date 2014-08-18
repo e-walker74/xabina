@@ -19,8 +19,10 @@
         <tr class="align-top">
             <td><?= Yii::t('Personal', 'Personal Info') ?></td>
             <td>
+                <?php if($model->first_name || $model->last_name): ?>
                 <?= $model->first_name ?> <?= $model->last_name ?>
                 <span class="note"><?= Yii::t('Personal', 'First Name / Last Name') ?></span>
+                <?php endif; ?>
                 <?= $model->login ?>
                 <span class="note"><?= Yii::t('Site', 'User ID') ?></span>
             </td>
