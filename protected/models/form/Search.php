@@ -86,10 +86,10 @@ class Form_Search extends CFormModel
 			$criteria->compare('t.created_at', '<='.strtotime($this->to_date));
 		}
 		if($this->from_sum){
-			$criteria->compare('t.sum', '>='.$this->from_sum);
+			$criteria->compare('t.amount', '>='.$this->from_sum);
 		} 
 		if($this->to_sum){
-			$criteria->compare('t.sum', '<='.$this->to_sum);
+			$criteria->compare('t.amount', '<='.$this->to_sum);
 		}
 		
 		$criteria->with = array('account', 'info');

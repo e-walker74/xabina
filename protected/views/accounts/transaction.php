@@ -122,7 +122,7 @@
 	</table>
 	
 	<div class="form-submit transaction-submit">
-		<a href="<?= Yii::app()->createUrl('/accounts/cardbalance', array('account' => $trans->account->number)) ?>" class="submit-button button-back">Back</a>
+		<a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="submit-button button-back">Back</a>
 	</div>
 	</div>
 </div>

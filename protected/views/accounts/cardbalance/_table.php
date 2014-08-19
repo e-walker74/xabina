@@ -32,13 +32,13 @@
 						<?php endif; ?>
 						<?= $selectedAcc->currency->code ?></td>
 					</td>
-					<td width="7%">
+					<td width="7%" style="overflow: visible!important" class="not-click">
                         <div class="contact-actions transaction-buttons-cont">
                             <div class="btn-group">
-                                <a class="button menu" data-toggle="dropdown" href="#"></a>
+                                <a class="button menu" data-toggle="dropdown" href="#" onclick="javascript: return false;   "></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="button edit" href="edit_contact.html"></a>
+                                        <a class="button edit" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                                     </li>
                                     <li>
                                         <a class="button refresh" href="#"></a>
@@ -77,13 +77,13 @@
 						<?php endif; ?>
 						<?= $selectedAcc->currency->code ?></td>
 					</td>
-					<td width="7%">
+					<td width="7%" style="overflow: visible!important">
                         <div class="contact-actions transaction-buttons-cont">
                             <div class="btn-group">
                                 <a class="button menu" data-toggle="dropdown" href="#" onclick="javascript:return false;"></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="button edit" href="#"></a>
+                                        <a class="button edit" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                                     </li>
                                     <li>
                                         <a class="button refresh" href="#"></a>

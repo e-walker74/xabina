@@ -47,6 +47,7 @@
 				'htmlOptions' => array(
                     'class' => 'advanced-search-form',
                     'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/',
+                    'data-pdfp-url' => $this->createUrl('/accounts/transactionsonpdfp/').'/',
                     'data-doc-url' => $this->createUrl('/accounts/transactionsondoc').'/',
                     'data-csv-url' => $this->createUrl('/accounts/transactionsoncsv').'/',
                     'data-xls-url' => $this->createUrl('/accounts/transactionsonxls').'/'
@@ -134,7 +135,7 @@
                         <a class="button send" href="#"></a>
                     </li>
                     <li>
-                        <a class="button print" href="#"></a>
+                        <a class="button file-export-get print" data-id="pdfp" href="#"></a>
                     </li>
                 </ul>
             </div>

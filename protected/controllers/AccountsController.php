@@ -32,7 +32,8 @@ class AccountsController extends Controller
 					'transaction',
 					'uploadattachemnt',
 					'getattach',
-					'transactionsonpdf', 
+					'transactionsonpdf',
+					'transactionsonpdfp',
 					'transactionsondoc',
 					'transactionsoncsv',
 					'getpdf',
@@ -93,8 +94,10 @@ class AccountsController extends Controller
         $model = new Form_Search();
         $model->from_date = date('d.m.Y', time() - 3600 * 24 * 30);
         $model->account_number = $selectedAcc->number;
-        if (isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest) {
+        if (isset($_GET['Form_Search'])) {
             $model->attributes = $_GET['Form_Search'];
+        }
+        if (isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest) {
             $transactions = $model->searchUserTransactions();
             $html = $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $transactions), true, false);
             echo CJSON::encode(array('success' => true, 'html' => $html));
@@ -300,9 +303,13 @@ class AccountsController extends Controller
         Yii::app()->end();
     }
 
-    public function actionTransactionsOnPdf()
+    public function actionTransactionsOnPdfP(){
+        $this->actionTransactionsOnPdf('_pdfp');
+    }
+
+    public function actionTransactionsOnPdf($pattern = '_pdf')
     {
-        $model = new Form_Search();
+         $model = new Form_Search();
         if (isset($_GET['Form_Search'])) {
             $model->attributes = $_GET['Form_Search'];
             $key = md5(serialize($model->attributes));
@@ -322,7 +329,7 @@ class AccountsController extends Controller
                     $debit = $debit + $trans->sum;
                 }
             }
-            $html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'account' => $account, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
+            $html = $this->renderPartial('cardbalance/' . $pattern, array('transactions' => $transactions, 'account' => $account, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
 
             TransactionsExportService::exportListPdf($html, $model, 'transactions.pdf');
 
