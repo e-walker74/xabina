@@ -78,11 +78,11 @@
 						<div class="field-lbl "><?= Yii::t('Front', 'Sum') ?></div>
 						<div class="field-input ">
 							<span class="from-lbl"><?= Yii::t('Front', 'from') ?></span>
-							<?= $form->textField($model, 'from_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input')); ?>
+							<?= $form->textField($model, 'from_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input numeric-currency')); ?>
 						</div>
 						<div class="field-input two-line">
 							<span class="from-lbl "><?= Yii::t('Front', 'to') ?></span>
-							<?= $form->textField($model, 'to_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input')); ?>
+							<?= $form->textField($model, 'to_sum', array('autocomplete' => 'off', 'class' => 'input-text two-row-input numeric-currency')); ?>
 
 						</div>
 					</div>

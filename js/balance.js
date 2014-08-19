@@ -2,7 +2,8 @@ $(function(){
 
 	updateTransactionsTable = function(select){
 		var accNumber = $(select).val()
-		$("#Form_Search_account_number").val(accNumber)
+		$("#Form_Search_account_number").val(accNumber);
+        $('#searchForm_account_number').val(accNumber);
 		backgroundBlack();
 		$('#search_accordion').accordion({ collapsible: true , active: false})
 		$.ajax({
@@ -15,10 +16,10 @@ $(function(){
 			},
             complete : dellBackgroundBlack,
 			cache:false,
-			data: {account: accNumber},
+			data: $('#searchForm').serialize(),
 			type: 'GET'
 		});
-        $('#searchForm_account_number').val(accNumber);
+
 	}
 	
 	$(document).on('click', '.transaction-table-overflow tr', function(){

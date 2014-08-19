@@ -840,7 +840,19 @@ $(document).ready(function () {
             ) {
             return false;
         }
-    })
+    });
+
+    $(document).on('keypress', '.numeric-currency', function (e) {
+        if (
+            (e.keyCode < 48 || e.keyCode > 57) && e.keyCode != 46
+            ) {
+            return false;
+        }
+    });
+
+    $(document).on('change', '.numeric-currency', function (e) {
+        $(this).val($(this).val().replace(/\s+/g, ''));
+    });
 
     $(document).on('keyup', '.phone',function () {
         if (!$(this).val()) {
