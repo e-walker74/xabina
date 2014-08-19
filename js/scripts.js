@@ -576,7 +576,7 @@ $(document).ready(function () {
     });
 
     $('.main-container').on('click', '.clickable-row td:not(.not-click)', function (e) {
-        url = $(this).attr('data-url');
+        url = $(this).parents('tr').attr('data-url');
         window.location.href = url;
     })
 
