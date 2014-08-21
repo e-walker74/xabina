@@ -1,7 +1,8 @@
 $(function(){
 
-    $(window).on('resize', onResizeWindow);
-    $(window).resize();
+   // $(window).on('resize', onResizeWindow);  //TODO removed due to  temporary mobile disabling
+   // $(window).resize();
+    initSlideshow(); //temp due to TODO
     $(window).scroll();
 
     function onResizeWindow(){
