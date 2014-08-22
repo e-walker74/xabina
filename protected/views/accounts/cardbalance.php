@@ -1,4 +1,18 @@
+
 <div class="col-lg-9 col-md-9 col-sm-9">
+    <?php $form=$this->beginWidget('CActiveForm', array(
+        //'action'=>Yii::app()->createUrl(),
+        'method'=>'get',
+        'id' => 'searchForm',
+        'htmlOptions' => array(
+            'class' => 'advanced-search-form',
+            'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/',
+            'data-pdfp-url' => $this->createUrl('/accounts/transactionsonpdfp/').'/',
+            'data-doc-url' => $this->createUrl('/accounts/transactionsondoc').'/',
+            'data-csv-url' => $this->createUrl('/accounts/transactionsoncsv').'/',
+            'data-xls-url' => $this->createUrl('/accounts/transactionsonxls').'/'
+        ),
+    )); ?>
 	<div class="h1-header"><?= Yii::t('Front', 'Balance'); ?></div>
 	<?php $this->widget('XabinaAlert'); ?>
 	<div class="account-selection">
@@ -34,33 +48,24 @@
 			</select>
 
 		</div>
+
+        <div class="form-cell">
+            <div class="field-lbl"><?= $model->getAttributeLabel('keyword') ?> </div>
+            <div class="field-input">
+                <?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text', 'placeholder' => Yii::t('Front', 'You can filer transactions by Sender, Account number or any Keyword'))); ?>
+                <?= $form->hiddenField($model, 'account_number', array('id'=>'searchForm_account_number')); ?>
+            </div>
+        </div>
+
 	</div>
 
 	<div class="clearfix"></div>
 	<div class="transfer-accordion  xabina-accordion" id="search_accordion">
 		<div class="accordion-header"><a href="#" class="search-acc"><?= Yii::t('Front', 'Advanced search'); ?> </a><span class="arr"></span></div>
 		<div class="accordion-content">
-			<?php $form=$this->beginWidget('CActiveForm', array(
-				//'action'=>Yii::app()->createUrl(),
-				'method'=>'get',
-			    'id' => 'searchForm',
-				'htmlOptions' => array(
-                    'class' => 'advanced-search-form',
-                    'data-pdf-url' => $this->createUrl('/accounts/transactionsonpdf').'/',
-                    'data-pdfp-url' => $this->createUrl('/accounts/transactionsonpdfp/').'/',
-                    'data-doc-url' => $this->createUrl('/accounts/transactionsondoc').'/',
-                    'data-csv-url' => $this->createUrl('/accounts/transactionsoncsv').'/',
-                    'data-xls-url' => $this->createUrl('/accounts/transactionsonxls').'/'
-                ),
-			)); ?>
+
 				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12">
-						<div class="field-lbl"><?= $model->getAttributeLabel('keyword') ?> </div>
-						<div class="field-input">
-							<?= $form->textField($model, 'keyword', array('autocomplete' => 'off', 'class' => 'input-text', 'placeholder' => Yii::t('Front', 'You can filer transactions by Sender, Account number or any Keyword'))); ?>
-							<?= $form->hiddenField($model, 'account_number', array('id'=>'searchForm_account_number')); ?>
-                        </div>
-					</div>
+
 				</div>
 				<div class="row second-row" >
 					<div class="col-nested-3">
@@ -104,7 +109,7 @@
 
 					</div>
 				</div>
-			<?php $this->endWidget(); ?>
+
 		</div>
 	</div>
 
@@ -142,6 +147,7 @@
         </div>
 
 	</div>
+    <?php $this->endWidget(); ?>
 	<div class="transaction-table-header">
 		<table class="transaction-header">
 			<tbody><tr>
@@ -159,6 +165,7 @@
 	</div>
 	
 	<?php $this->widget('AdsBlocks'); ?>
-	
+
 </div>
+
 <?php Yii::app()->clientScript->registerScriptFile('/js/balance.js'); ?>

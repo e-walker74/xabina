@@ -35,6 +35,7 @@ class AccountsController extends Controller
 					'transactionsonpdf',
 					'transactionsonpdfp',
 					'transactionsondoc',
+					'transactionsonxls',
 					'transactionsoncsv',
 					'getpdf',
 					'addnotetotransaction',
@@ -263,6 +264,26 @@ class AccountsController extends Controller
             $fileName = TransactionsExportService::exportListDoc($model, $account, $transactions);
 
             Yii::app()->request->sendFile('transactions.docx', file_get_contents($fileName), 'application/octet-stream', true);
+            unlink($fileName);
+        }
+        Yii::app()->end();
+    }
+
+    public function actionTransactionsOnXls()
+    {
+        $model = new Form_Search();
+        if (isset($_GET['Form_Search'])) {
+            $model->attributes = $_GET['Form_Search'];
+            $key = md5(serialize($model->attributes));
+            $account = Accounts::model()->findByAttributes(array('number' => $model->account_number));
+            if (!$account || $account->user_id != Yii::app()->user->id) {
+                throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+            }
+            $transactions = $model->searchUserTransactions();
+
+            $fileName = TransactionsExportService::exportListXls($model, $account, $transactions);
+
+            Yii::app()->request->sendFile('transactions.xlsx', file_get_contents($fileName), 'application/octet-stream', true);
             unlink($fileName);
         }
         Yii::app()->end();

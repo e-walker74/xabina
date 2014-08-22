@@ -259,4 +259,110 @@ class TransactionsExportService
         $document->save($fileName);
         return $fileName;
     }
-} 
+
+    /**
+     * @param Form_Search $model
+     * @param Accounts $account
+     * @param Transactions[] $transactions
+     * @return string
+     */
+    public static function exportListXls($model, $account, $transactions)
+    {
+        $includePath = Yii::getPathOfAlias('application.vendor.phpExcel');
+        $tmplPath = Yii::getPathOfAlias('application.views.accounts.cardbalance');
+        spl_autoload_unregister(array('YiiBaseEx', 'autoload'));
+        require_once $includePath.'/PHPExcel.php';
+
+        spl_autoload_register(array('YiiBaseEx', 'autoload'));
+        $outputFileType = 'Excel2007';
+
+        $objReader = PHPExcel_IOFactory::createReader($outputFileType);
+        $document = $objReader->load($tmplPath.'/cardbalance_template.xlsx');
+
+        $debit = 0;
+        $credit = 0;
+        $i=0;
+        foreach($transactions as $trans){
+            $transactionsTable[$i]['date'] = date('d.m.Y', $trans->created_at);
+            $transactionsTable[$i]['type'] = $trans->info->type;
+            $transactionsTable[$i]['detailsSender'] = (($trans->type == 'positive') ? $trans->info->sender : $trans->info->recipient) ." ". $trans->info->details_of_payment;
+            $transactionsTable[$i]['balance'] = number_format($trans->acc_balance, 2, ".", " ");
+
+            if($trans->type == 'positive'){
+                $transactionsTable[$i]['sumDec'] = number_format($trans->sum, 2, ".", " ") . $trans->account->currency->code;
+                $credit = $credit + $trans->sum;
+            } else if($trans->type == 'negative'){
+                $transactionsTable[$i]['sumDec'] = '-' . number_format($trans->sum, 2, ".", " ") . $trans->account->currency->code;
+                $debit = $debit + $trans->sum;
+            }
+            $i++;
+        }
+
+        $periodVal =date('d M', strtotime($model->from_date)) .' - '.(($model->to_date) ? date('d M Y', strtotime($model->to_date)) : date('d M Y', time()));
+        $document->getActiveSheet()->setCellValue('D2', $periodVal);
+
+        $user = Users::model()->with('primary_address')->findByPk(Yii::app()->user->id);
+        // translate for info table
+        $document->getActiveSheet()->setCellValue('A1', Yii::t('Front', 'Account Statement'));
+        $document->getActiveSheet()->setCellValue('A2', Yii::t('Front', 'Client').':');
+        $document->getActiveSheet()->setCellValue('A3', Yii::t('Front', 'Address').':');
+        $document->getActiveSheet()->setCellValue('A4', Yii::t('Front', 'Reg #').':');
+        $document->getActiveSheet()->setCellValue('A5', Yii::t('Front', 'Account number IBAN').':');
+        $document->getActiveSheet()->setCellValue('C2', Yii::t('Front', 'Period').':');
+        $document->getActiveSheet()->setCellValue('C3', Yii::t('Front', 'Transactions').':');
+
+        $document->getActiveSheet()->setCellValue('C4', ($model->from_sum != '' || $model->to_sum != '') ? (Yii::t('Front', 'Sum').':') : '');
+        $document->getActiveSheet()->setCellValue('C5', ($model->keyword != '') ? (Yii::t('Front', 'Keyword').':') : '');
+
+        $document->getActiveSheet()->setCellValue('B2', $user->fullname);
+        $document->getActiveSheet()->setCellValue('B3', $user->primary_address ? $user->primary_address->getAddressHtml(true) : '');
+        $document->getActiveSheet()->setCellValue('B4', '2546897');
+        $document->getActiveSheet()->setCellValue('B5', '254897546212');
+
+
+        $document->getActiveSheet()->setCellValue('D3', ($model->type ? Yii::t('Front', ucfirst($model->type)) : Yii::t('Front', 'All')));
+        $document->getActiveSheet()->setCellValue('D4', ($model->from_sum != '' || $model->to_sum != '') ?
+            (
+                (($model->from_sum != '') ? Yii::t('Front', 'from') .' '. $model->from_sum:'') .
+                (($model->to_sum != '') ? Yii::t('Front', 'to') .' '. $model->to_sum:'')
+            ) : '');
+        $document->getActiveSheet()->setCellValue('D5', $model->keyword);
+
+        // headers for balance table
+        $document->getActiveSheet()->setCellValue('A7', Yii::t('Front', 'Currency'));
+        $document->getActiveSheet()->setCellValue('B7', Yii::t('Front', 'Balance at the starting date'));
+        $document->getActiveSheet()->setCellValue('C7', Yii::t('Front', 'Balance at the ending date'));
+        $document->getActiveSheet()->setCellValue('D7', Yii::t('Front', 'Credit turnover'));
+        $document->getActiveSheet()->setCellValue('E7', Yii::t('Front', 'Debit turnover'));
+        // values for balance table
+        $document->getActiveSheet()->setCellValue('A8', $account->currency->code);
+        $balanceStart = count($transactions) ?
+            reset($transactions)->acc_balance - reset($transactions)->sum :
+            (isset($account->transactions[0]) ? $account->transactions[0]->acc_balance : 0);
+        $balanceEnd = count($transactions) ?
+            end($transactions)->acc_balance :
+            (isset($account->transactions[0]) ? $account->transactions[0]->acc_balance : 0);
+        $document->getActiveSheet()->setCellValue('B8', number_format($balanceStart, 2, ".", " "));
+        $document->getActiveSheet()->setCellValue('C8', number_format($balanceEnd, 2, ".", " "));
+        $document->getActiveSheet()->setCellValue('D8', $credit);
+        $document->getActiveSheet()->setCellValue('E8', $debit);
+
+        // headers for transactions table
+        $document->getActiveSheet()->setCellValue('A10', Yii::t('Front', 'Date'));
+        $document->getActiveSheet()->setCellValue('B10', Yii::t('Front', 'Type'));
+        $document->getActiveSheet()->setCellValue('C10', Yii::t('Front', 'Details'));
+        $document->getActiveSheet()->setCellValue('D10', Yii::t('Front', 'Sum'));
+        $document->getActiveSheet()->setCellValue('E10', Yii::t('Front', 'Balance'));
+
+        if(count($transactions) == 0) {
+            $document->getActiveSheet()->setCellValue('A11', Yii::t('Front', 'No transactions meet the filter criterias'));
+        } else {
+            $document->getActiveSheet()->fromArray($transactionsTable, '', 'A11');
+        }
+
+        $fileName = Yii::getPathOfAlias('application.runtime').'/transactions_'.md5(serialize($model)).'.xlsx';
+        $objWriter = PHPExcel_IOFactory::createWriter($document, $outputFileType);
+        $objWriter->save($fileName);
+        return $fileName;
+    }
+}
