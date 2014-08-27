@@ -110,6 +110,30 @@ class AjaxController extends Controller
         }
     }
 
+	public function actionGetNotifications() {
+
+		$model = new Users_NotificationsStatuses('search');
+		$model->user_id = Yii::app()->user->id;
+		$this->renderPartial('notifications',array(
+			'model'=>$model,
+		));
+	}
+
+	public function actionSetSeeNotifications() {
+
+		$model = new Users_NotificationsStatuses('search');
+		$model->user_id = Yii::app()->user->id;
+		$items = $model->search()->getData();
+		foreach($items as $item) {
+			if($item->status != Users_NotificationsStatuses::STATUS_DONE && in_array($item->message->type, array(Users_Notifications::TYPE_PROMOTION, Users_Notifications::TYPE_INFORMATION ))){
+				$item->status = Users_NotificationsStatuses::STATUS_SEE;
+				$item->save();
+			}
+		}
+
+		 echo CJSON::encode(array('success' => true));
+	}
+
     public function actionRemoveTag($id, $entity, $entity_id, $cross_type)
     {
         if (!Yii::request()->isAjaxRequest) {

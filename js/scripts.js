@@ -1229,3 +1229,40 @@ $(function () {
 
     })
 });
+
+// notifications
+$(function () {
+
+    function getNotifications() {
+        if (!$('li.user-notification').hasClass('open')) {
+            $('li.user-notification').load('/ajax/GetNotifications', function() {
+
+                $('.activation-arr').on('click', function(){
+                    $(this).addClass('opened').parents('.dialogues-messages').find('.dialogues-header').slideDown()
+                    return false;
+                });
+                $('.notification-popup').on('click', function(e){
+                    if (e.target.tagName != 'A') return false;
+                })
+                $( ".popup-tabs" ).tabs({active: 0});
+            });
+        }
+    }
+    getNotifications();
+    setInterval(getNotifications, 5000);
+
+    $('li.user-notification').click(function() {
+        $.ajax('/ajax/SetSeeNotifications');
+    });
+
+    $('.notification-header select').change(function() {
+
+        if ($(this).val() != '') {
+            $('div[aria-expanded=true]').find('li').hide();
+            $('div[aria-expanded=true]').find('li.notify-cat-'+$(this).val()).show();
+
+        } else {
+            $('div[aria-expanded=true]').find('li').show();
+        }
+    });
+});

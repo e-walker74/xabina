@@ -285,7 +285,7 @@ class Users extends ActiveRecord
         $notify->style = $style;
         $notify->user_id = $this->id;
         $notify->save();
-    }*/
+    }
 
     public static function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
     {
@@ -313,6 +313,39 @@ class Users extends ActiveRecord
             //$this->_notifications = false;
             return true;
         }
+        return false;
+    }
+    */
+
+	public static function addNotification($code, $announce, $type = Users_Notifications::TYPE_NOTE, $user_id = 0, $attributes= array())
+    {
+        if (!$user_id) {
+            $user_id = Yii::app()->user->id;
+        }
+
+        $notify = new Users_Notifications();
+        $notify->announce = $announce;
+        $notify->code = $code;
+        $notify->type = $type;
+		if (count($attributes)) {
+			$notify->attributes = $attributes;
+		}
+        if (!$notify->published_at) {
+			$notify->published_at = time();
+		}
+		if ($notify->validate() && $notify->save()) {
+
+			if (is_array($user_id)) {
+				foreach ($user_id as $id) {
+					Users_NotificationsStatuses::addStatus($notify->id, $id);
+				}
+			} else  {
+
+				Users_NotificationsStatuses::addStatus($notify->id, $user_id);
+			}
+            return $notify->id;
+        }
+
         return false;
     }
 

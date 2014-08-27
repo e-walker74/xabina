@@ -101,6 +101,7 @@ return array(
 			'/banking/personal/emailconfirm' => 'personal/emailconfirm',
 			'/banking/personal/makeprimary/<type:(emails)>/<id:\d+>' => 'personal/makeprimary',
             '/banking/personal/activate/<type:(emails|address|phones)>/<hash:\w+>' => 'personal/activate',
+			'/banking/notifications' => 'notifications/index',
 			'/transfers/smsconfirm/<type:(all)>' => 'transfers/smsconfirm',
 			'/transfers/smsconfirm/' => 'transfers/smsconfirm',
             '/message/save/<type:(save|send)>/<id:\d+>' => 'message/save',
