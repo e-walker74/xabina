@@ -1,3 +1,5 @@
+<script type='text/javascript' src='/js/jquery.inputmask.js'></script>
+
 <table class="table">
 	<tbody>
 		<?php foreach($transactions as $trans): ?>
@@ -38,10 +40,10 @@
                                 <a class="button menu" data-toggle="dropdown" href="#" onclick="javascript: return false;   "></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="button edit" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
+                                        <a class="button eye" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                                     </li>
                                     <li>
-                                        <a class="button refresh" href="#"></a>
+                                        <a class="button refresh" href="<?= Yii::app()->createUrl('/transfers/outgoing?copyTransfer=1&transfer=' . $trans->transfer_id) ?>"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -83,10 +85,10 @@
                                 <a class="button menu" data-toggle="dropdown" href="#" onclick="javascript:return false;"></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="button edit" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
+                                        <a class="button eye" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                                     </li>
                                     <li>
-                                        <a class="button refresh" href="#"></a>
+                                        <a class="button back" href="<?= Yii::app()->createUrl('/transfers/outgoing?backTransfer=1&transfer=' . $trans->transfer_id) ?>"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -97,8 +99,13 @@
             <tr class="note-tr">
                 <td colspan="6">
                     <div class="note-cont">
-                        <?= Yii::t('Front', 'Advertising giants Publicis and Omnicom announced in July that they were combining in'); ?>
-                        <a href="#"><?= Yii::t('Front', 'More '); ?></a>
+
+                        <? if ($trans->transfer_type == 'incoming'): ?>
+                            <?=$trans->transfersIncoming['description']; ?>
+                        <? elseif($trans->transfer_type == 'outgoing'): ?>
+                            <?=$trans->transfersOutgoing['description']; ?>
+                        <? endif ?>
+                        &nbsp;
                     </div>
 
                 </td>

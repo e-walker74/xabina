@@ -24,6 +24,7 @@ class Transactions extends ActiveRecord
 	public $user_id;
 	public $account_number;
 
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -76,6 +77,8 @@ class Transactions extends ActiveRecord
 			'link' => array(self::HAS_ONE, 'Transactions_Categories_Links', 'transaction_id'),
 			'category' => array(self::HAS_ONE, 'Transactions_Categories', array('category_id' => 'id'), 'through' => 'link'),
             'alertRules' => array(self::HAS_MANY, 'Users_AlertsRules', array('account_id' => 'account_id', 'user_id' => 'user_id')),
+            'transfersIncoming' => array(self::HAS_ONE, 'Transfers_Incoming', array('id' => 'transfer_id', 'user_id' => 'user_id')),
+            'transfersOutgoing' => array(self::HAS_ONE, 'Transfers_Outgoing',  array('id' => 'transfer_id', 'user_id' => 'user_id')),
 		);
 	}
 

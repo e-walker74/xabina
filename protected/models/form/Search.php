@@ -21,6 +21,7 @@ class Form_Search extends CFormModel
 	public $to_sum;
 	public $type;
 
+
 	/**
 	 * Declares the validation rules.
 	 * The rules state that username and password are required,
@@ -91,8 +92,8 @@ class Form_Search extends CFormModel
 		if($this->to_sum){
 			$criteria->compare('t.amount', '<='.$this->to_sum);
 		}
-		
-		$criteria->with = array('account', 'info');
+
+		$criteria->with = array('account', 'info', 'transfersIncoming', 'transfersOutgoing');
 		$criteria->together = true;
 		$criteria->order = 't.created_at desc';
 
