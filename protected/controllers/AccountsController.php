@@ -93,13 +93,14 @@ class AccountsController extends Controller
         }
 
         $model = new Form_Search();
-        $model->from_date = date('d.m.Y', time() - 3600 * 24 * 30);
+        //$model->from_date = date('d.m.Y', time() - 3600 * 24 * 30);
         $model->account_number = $selectedAcc->number;
         if (isset($_GET['Form_Search'])) {
             $model->attributes = $_GET['Form_Search'];
         }
         if (isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest) {
             $transactions = $model->searchUserTransactions();
+
             $html = $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $transactions), true, false);
             echo CJSON::encode(array('success' => true, 'html' => $html));
             Yii::app()->end();

@@ -1,13 +1,10 @@
-<script type='text/javascript' src='/js/jquery.inputmask.js'></script>
 
-<table class="table">
-	<tbody>
 		<?php foreach($transactions as $trans): ?>
 			<?php if($trans->transfer_type == 'outgoing'): ?>
-				<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
-					<td width="15%"><?= date('d.m.Y', $trans->created_at) ?></td>
-					<td width="10%">OV</td>
-					<td width="26%">
+				<tr class="hidden">
+					<td><?= date('d.m.Y', $trans->created_at) ?><a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td>OV<a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td>
                         <strong class="holder">
                             <?php if($trans->type == 'positive'): ?>
                                 <?= $trans->info->sender ?>
@@ -18,23 +15,23 @@
                         <span class="account">
                             <?= $trans->operation ?>
                         </span>
-					</td>
-					<td width="22%" style="text-align:right;">
+					<a  href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td class="text-right">
 						<?php if($trans->type == 'positive'): ?>
 							<span class="sum-inc">+<?= number_format($trans->sum, 2, ".", " ") ?></span>
 						<?php else: ?>
 							<span class="sum-dec">-<?= number_format($trans->sum, 2, ".", " ") ?></span>
 						<?php endif; ?>
-						<?= $selectedAcc->currency->code ?></td>
-					<td width="19%" style="text-align:right;">
+						<?= $selectedAcc->currency->code ?><a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td class="text-right">
 						<?php if($trans->acc_balance >= 0): ?>
 							<span class="sum-inc"><?= number_format($trans->acc_balance, 2, ".", " ") ?></span>
 						<?php else: ?>
 							<span class="sum-dec"><?= number_format($trans->acc_balance, 2, ".", " ") ?></span>
 						<?php endif; ?>
-						<?= $selectedAcc->currency->code ?></td>
-					</td>
-					<td width="7%" style="overflow: visible!important" class="not-click">
+						<?= $selectedAcc->currency->code ?>
+					<a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td style="overflow: visible!important" class="not-click">
                         <div class="contact-actions transaction-buttons-cont">
                             <div class="btn-group">
                                 <a class="button menu" data-toggle="dropdown" href="#" onclick="javascript: return false;   "></a>
@@ -51,10 +48,10 @@
 					</td>
 				</tr>
 			<?php elseif($trans->transfer_type == 'incoming'): ?>
-				<tr class="clickable-row" data-transaction-info-url="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
-					<td width="15%"><?= date('d.m.Y', $trans->created_at) ?></td>
-					<td width="10%">OV</td>
-					<td width="26%">
+				<tr class="hidden">
+					<td><?= date('d.m.Y', $trans->created_at) ?><a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td>OV<a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td>
                         <strong class="holder">
                             <?php if($trans->type == 'positive'): ?>
                                 <?= ($trans->info) ? $trans->info->sender : ""?>
@@ -63,23 +60,23 @@
                         <span class="account">
                             <?= $trans->operation ?>
                         </span>
-					</td>
-					<td width="22%" style="text-align:right;">
+					<a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td class="text-right">
 						<?php if($trans->type == 'positive'): ?>
 							<span class="sum-inc">+<?= number_format($trans->sum, 2, ".", " ") ?></span>
 						<?php else: ?>
 							<span class="sum-dec">-<?= number_format($trans->sum, 2, ".", " ") ?></span>
 						<?php endif; ?>
-						<?= $selectedAcc->currency->code ?></td>
-					<td width="19%" style="text-align:right;">
+						<?= $selectedAcc->currency->code ?><a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td class="text-right">
 						<?php if($trans->acc_balance >= 0): ?>
 							<span class="sum-inc"><?= number_format($trans->acc_balance, 2, ".", " ") ?></span>
 						<?php else: ?>
 							<span class="sum-dec"><?= number_format($trans->acc_balance, 2, ".", " ") ?></span>
 						<?php endif; ?>
-						<?= $selectedAcc->currency->code ?></td>
-					</td>
-					<td width="7%" style="overflow: visible!important">
+						<?= $selectedAcc->currency->code ?><a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
+					<td style="overflow: visible!important">
                         <div class="contact-actions transaction-buttons-cont">
                             <div class="btn-group">
                                 <a class="button menu" data-toggle="dropdown" href="#" onclick="javascript:return false;"></a>
@@ -96,7 +93,7 @@
 					</td>
 				</tr>
 			<?php endif; ?>
-            <tr class="note-tr">
+            <tr class="note-tr hidden">
                 <td colspan="6">
                     <div class="note-cont">
 
@@ -108,13 +105,14 @@
                         &nbsp;
                     </div>
 
-                </td>
+                <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" class="right-click-shadow"></a></td>
             </tr>
 		<?php endforeach; ?>
 		<?php if(empty($transactions)): ?>
-			<tr>
+            <tr>
 				<td colspan="5"><?= Yii::t('Front', 'No transaction match the filter criterias. Please, change the filter criterias in Advanced Search tab.') ?></td>
 			</tr>
+            <script>
+                $('.load-more-container').hide();
+            </script>
 		<?php endif; ?>
-	</tbody>
-</table>

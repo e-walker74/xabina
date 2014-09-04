@@ -20,6 +20,8 @@ class Form_Search extends CFormModel
 	public $from_sum;
 	public $to_sum;
 	public $type;
+	public $limit;
+	public $offset;
 
 
 	/**
@@ -32,7 +34,7 @@ class Form_Search extends CFormModel
 		return array(
 			array('sender, keyword, type', 'length', 'max' => 255, 'message' => Yii::t('Front', 'is to long')),
 			array('account_number, from_sum, to_sum', 'numerical', 'message' => Yii::t('Front', 'field is not numeric')),
-			array('type, sender, keyword, account_number, from_date, to_date, from_sum, to_sum', 'safe'),
+			array('type, sender, keyword, account_number, from_date, to_date, from_sum, to_sum, limit, offset', 'safe'),
 			// password needs to be authenticated
 		);
 	}
@@ -58,6 +60,8 @@ class Form_Search extends CFormModel
 			$criteria->condition .= '
 				AND 
 				(
+				    transfersIncoming.description LIKE :keyword OR
+				    transfersOutgoing.description LIKE :keyword OR
 					info.sender LIKE :keyword OR
 					info.recipient LIKE :keyword OR
 					info.data_bank LIKE :keyword  OR
@@ -95,10 +99,14 @@ class Form_Search extends CFormModel
 
 		$criteria->with = array('account', 'info', 'transfersIncoming', 'transfersOutgoing');
 		$criteria->together = true;
+
+        $criteria->limit = $this->limit ? $this->limit : 50;
+
+        if ($this->offset){
+            $criteria->offset = $this->offset;
+        }
 		$criteria->order = 't.created_at desc';
 
-		//d($criteria);
-		
 		return Transactions::model()->findAll($criteria);
 	}
 

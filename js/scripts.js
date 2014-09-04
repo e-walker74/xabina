@@ -396,7 +396,54 @@ $(function () {
        searchTransactions(this, true);
     });
 
-    searchTransactions = function (button, withoutScreen) {
+    $('#clear-keyword').click(function(){
+        $('#Form_Search_keyword').val('');
+        $('#Form_Search_keyword').keyup();
+    });
+
+    var loadedTransactionOffset,
+        loadedTransactionLimit,
+        loadedTransactionCounter;
+
+    resetTransactionPointers = function() {
+        loadedTransactionOffset = 50;
+        loadedTransactionLimit = 50;
+        loadedTransactionCounter = 0;
+        $('.load-more-container').show();
+    }
+    resetTransactionPointers();
+
+    showPartTransactions = function () {
+        var showPart = 9;
+        if ($('.transaction-table-overflow tbody tr.hidden').size() < showPart) {
+            $('.load-more-container').hide();
+            console.log($('.transaction-table-overflow tbody tr.hidden').size())
+        }
+
+        $('.transaction-table-overflow tbody tr.hidden').each(function(index) {
+            $( this ).removeClass( "hidden" );
+            if (index == showPart) {
+                return false;
+            }
+        });
+    }
+
+    showPartTransactions();
+    $('.load-more-arr-transactions').click(function(e){
+        e.preventDefault();
+        loadedTransactionCounter++;
+        showPartTransactions();
+        if (loadedTransactionCounter == 4) {
+            searchTransactions($('.xabina-form-narrow'), true, true, '&Form_Search%5Blimit%5D=' + loadedTransactionLimit + '&Form_Search%5Boffset%5D=' + loadedTransactionOffset);
+            loadedTransactionOffset = loadedTransactionOffset + loadedTransactionLimit;
+        }
+    });
+
+    searchTransactions = function (button, withoutScreen, addRows, addData) {
+
+        if (!addData) {
+            resetTransactionPointers();
+        }
         var form = $(button).parents('form');
         if (!withoutScreen) {
             backgroundBlack();
@@ -406,14 +453,22 @@ $(function () {
             success: function (data) {
                 var response = jQuery.parseJSON(data);
                 if (response.success) {
-                    $('.transaction-table-overflow').html(response.html)
+                    if (addRows) {
+                        $('.transaction-table-overflow tbody').append(response.html);
+                    } else {
+                        $('.transaction-table-overflow tbody').html(response.html);
+                    }
+                    if (!addData) {
+                        showPartTransactions();
+                    }
+
                 }
                 form.find('.refresh-button').fadeOut();
                 history.pushState({}, "back page", '?' + form.serialize());
             },
             complete: dellBackgroundBlack,
             cache: false,
-            data: form.serialize(),
+            data: form.serialize() + addData,
             type: 'GET'
         });
     }
