@@ -44,8 +44,8 @@ class Form_Incoming_Electronic extends Form_Incoming
 				array('p_csc', 'numerical'),
 				array('p_csc', 'length', 'max' => 3, 'min' => 3),
 				array('ideal_account_number', 'numerical'),
-				array('creditcard_number', 'match', 'pattern'=>'/^((34)|(35)|(37)|(4)|(62[0-5]0)|(5[0-6])|(62)|(88))[\d+]/', 'message' => Yii::t('Front', 'card id not valid')),
-				array('creditcard_number', 'ext.validators.Card'),
+				array('creditcard_number', 'match', 'pattern'=>'/^((34)|(35)|(37)|(4)|(62[0-5]0)|(5[0-6])|(62)|(88))[\d+]/', 'message' => Yii::t('Front', 'card id not valid'), 'on' => 'creditcard'),
+				array('creditcard_number', 'ext.validators.Card', 'on' => 'creditcard'),
             )
         );
     }
@@ -75,11 +75,13 @@ class Form_Incoming_Electronic extends Form_Incoming
 				$transfer->from_account_number = $this->ideal_account_number;
 				break;
 		}
-		if($transfer->save()){
-			$this->afterTransferSave($transfer);
-			return true;
-		}
-		return false;
+        if($transfer->save()){
+            $tm = Transfers_Model::model($transfer->form_type);
+            $tm->createInComingTransaction($transfer);
+            $this->afterTransferSave($transfer);
+            return true;
+        }
+        return false;
     }
 
 }

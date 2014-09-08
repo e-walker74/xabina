@@ -66,7 +66,7 @@ return array(
 			'/banking/verification' => 'verification/index',
 			'/banking/accounts' => 'accounts/index',
 			'/banking/accounts/balance' => 'accounts/cardbalance',
-			'/banking/accounts/transaction/<id:[\w-]+>' => '/accounts/transaction',
+			'/banking/accounts/transaction/<id:[\w-]+>' => '/transaction/info',
 			'/banking/accounts/transaction/<id:[\w-]+>/<exportType:(pdf|csv|doc)>' => '/accounts/transaction',
 			'/banking/accounts/transaction/uploadattachemnt/<id:\w+>' => '/accounts/uploadattachemnt',
 			'/banking/accounts/transaction/getattach/<name:[\w.]+>' => 'accounts/getattach',
