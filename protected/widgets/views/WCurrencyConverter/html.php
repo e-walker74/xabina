@@ -42,8 +42,7 @@
                         <?= number_format($this->value, 2, '.', ' ') ?> <?= $rate['title'] ?>  =
                         <?= number_format($data['rate']*$this->value, 2, '.', ' ') ?> <?= $data['title'] ?>
                     </span>
-                        по курсу 1 <?= $rate['title'] ?> : <?= number_format($data['rate'], 2, '.', ' ') ?> <?= $data['title'] ?> НБ
-                        на <?= date('d.m.Y', $rate['last_update']) ?>
+                        <?= Yii::t('CurrencyWidget', 'at the rate of') ?> 1 <?= $rate['title'] ?> : <?= number_format($data['rate'], 2, '.', ' ') ?> <?= $data['title'] ?> <?= Yii::t('CurrencyWidget', 'NB on') ?> <?= date('d.m.Y', $rate['last_update']) ?>
                     </div>
                 <?php endforeach; ?>
             </div>

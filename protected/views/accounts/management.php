@@ -286,7 +286,7 @@
 </div>
 <div class="xabina-form-container">
     <div class="form-submit">
-        <div class="submit-button button-back" onclick="window.location = 'personal_account_new.html'">Back</div>
+        <a href="<?= Yii::app()->createUrl('/accounts/index') ?>" class="submit-button button-back" onclick="">Back</a>
     </div>
 </div>
 <div class="clearfix"></div>
