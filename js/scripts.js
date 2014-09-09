@@ -506,6 +506,19 @@ $(function () {
 
 });
 
+var bindHoverBtnGroups = function(){
+
+    $('.btn-group').hover(
+        function(){
+            $(this).addClass('open')
+        },
+        function(){
+            $(this).removeClass('open')
+        }
+    )
+
+}
+
 var bindDeleteConfirmationEvent = function(){
     $('.btn-group.with-delete-confirm').on({
         "hide.bs.dropdown": function (e) {
@@ -563,15 +576,6 @@ $(document).ready(function () {
             location.reload();
         }
     });
-
-    $('.btn-group').hover(
-        function(){
-            $(this).addClass('open')
-        },
-        function(){
-            $(this).removeClass('open')
-        }
-    )
 
     $(".xabina-tabs , .edit-tabs").tabs({
         select: function (event, ui) {
@@ -862,6 +866,8 @@ $(document).ready(function () {
             tr.prev().hide();
         }
     })
+
+    bindHoverBtnGroups()
 
     bindHoverCurrencyConverter()
 

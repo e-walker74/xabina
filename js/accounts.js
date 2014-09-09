@@ -15,6 +15,7 @@ Accounts = {
                 if(response.success){
                     $('#accounts-grid').html(response.html)
                     successNotify('Payment', response.message)
+                    bindHoverBtnGroups()
                 }
             },
             complete : function(){
