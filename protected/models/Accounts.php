@@ -199,6 +199,7 @@ class Accounts extends ActiveRecord
         $criteria->compare('user.email', $this->holderEmail, true);
         $criteria->compare('basic', true);
         $criteria->with = array('user');
+        $criteria->order = 'is_master desc';
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
