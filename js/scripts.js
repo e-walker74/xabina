@@ -516,6 +516,22 @@ var bindDeleteConfirmationEvent = function(){
             }
         }
     });
+
+    $('.no-close').click(function(event){
+        event.stopPropagation();
+    });
+
+    $('.close-dropdown').click(function(){
+        $(this).parents('.dropdown-menu').prev().dropdown('toggle');
+    });
+}
+
+var bindHoverCurrencyConverter = function(){
+    $('.dropdown-hover').hover( function(){
+        $(this).next().addClass('show');
+    }, function(){
+        $(this).next().removeClass('show');
+    });
 }
 
 function printDiv(divName) {
@@ -837,6 +853,17 @@ $(document).ready(function () {
             $(this).val('+');
         }
     });
+
+    $(document).on('click', '.button.edit-data', function () {
+        resetPage()
+        var tr = $(this).closest('tr')
+        tr.hide().next('.edit-row').show()
+        if(tr.prev().hasClass('note-row')){
+            tr.prev().hide();
+        }
+    })
+
+    bindHoverCurrencyConverter()
 
     bindDeleteConfirmationEvent()
 
