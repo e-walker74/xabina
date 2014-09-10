@@ -14,8 +14,8 @@
     'id'=>'accounts-grid',
     'dataProvider'=>$accounts->searchWithGroup(),
     'summaryText' => '',
-    'headerCssClass' => 'table-header',
-    'itemsCssClass' => 'table xabina-table-account-managment right-button-clickable',
+//    'headerCssClass' => 'table-header',
+    'itemsCssClass' => 'table xabina-table accounts-table right-button-clickable',
 //		'rowHtmlOptionsExpression' => 'array("class" => "clickable-row", "data-url" => Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number)))',
     /*'htmlOptions' => array(
         'class' => 'table xabina-table',
@@ -39,7 +39,8 @@
         ),
         array(
             'header' => Yii::t('Front', 'Type'),
-            'value' => 'Yii::t("Front", "[".$data->type_info->title."_account_type]") . "<a href=\"".Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number))."\" class=\"right-click-shadow\"></a>"',
+            'value' => '"Платежный <br/>
+            <span class=\"note\">".Yii::t("Front", "account_sub_type_" . $data->sub_type) ."</span><a href=\"".Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number))."\" class=\"right-click-shadow\"></a>"',
             'type' => 'html',
             'headerHtmlOptions' => array('style' => 'width: 16%'),
         ),
@@ -60,7 +61,7 @@
         ),
         array(
             'header' => Yii::t('Front', 'Status'),
-            'value' => 'AccountService::getAccountStatusIcon($data->status) . (($data->is_master) ? "<span class=\"primary-button is-primary\"></span>" : "<a href=\"javaScript:\" onclick=\"Accounts.makeAccountPrimary(\'".Yii::app()->createUrl("/accounts/makePrimary")."\', ".$data->id.")\" class=\"primary-button m-primary\"></a>")',
+            'value' => 'AccountService::getAccountStatusIcon($data->status) . (($data->is_master) ? " <span class=\"primary-button is-primary\"></span>" : " <a href=\"javaScript:\" onclick=\"Accounts.makeAccountPrimary(\'".Yii::app()->createUrl("/accounts/makePrimary")."\', ".$data->id.")\" class=\"primary-button m-primary\"></a>")',
             'type' => 'raw',
             'headerHtmlOptions' => array('style' => 'width: 13%'),
         ),

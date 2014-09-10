@@ -36,11 +36,10 @@ class Accounts extends ActiveRecord
     );
 
     public $holderEmail;
-
     public $terms;
     public $fees;
-
     public $new_name;
+    public $sub_type;
 
     public static $sub_types = array(
         'personal' => 'personal',

@@ -15,48 +15,35 @@
     <div class="modal-dialog xabina-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><img src="img/close.png"></button>
-                <div class="dialog-title">Terms</div>
+                <button type="button" class="close" data-dismiss="modal"><img src="/css/layout/account/img/close.png"></button>
+                <div class="dialog-title"><?= Yii::t('Accounts', 'Terms') ?></div>
             </div>
             <div class="modal-body">
                 <div class="modal-terms-cont">
-                    Вся информация, размещённая на данном сайте, является собственностью Xabina.
-                    <br/><br/>
-                    Xabina сохраняет за собой право изменять содержание и/или структуру сайта в любое время
-                    и без предварительного уведомления.
-                    <br/><br/>
-                    Любая информация, когда-либо размещённая на данном сайте, не должна рассматриваться
-                    как предложение продуктов и услуг в целом или банковских либо страховых продуктов
-                    отдельно, сделанное CREDIT EUROPE BANK. Данный сайт не содержит никаких советов либо
-                    рекомендаций касательно любой сферы деятельности. Никакие инвестиционные либо
-                    коммерческие проекты не инициируются и не развиваются на страницах сайта, и никакие
-                    решения любого другого характера не могут основываться на информации, содержащейся
-                    на сайте. Следовательно, банк не может нести ответственность за ущерб, причинённый
-                    посетителю сайта.
-                    <br/><br/>
-                    Эта парадигматическая страна, в которой жаренные члены предложения залетают прямо
-                    в рот. Даже всемогущая пунктуация не имеет власти над рыбными текстами, ведущими
-                    безорфографичный образ жизни. Однажды одна маленькая строчка рыбного текста по имени
-                    Lorem ipsum решила выйти в большой мир грамматики. Великий Оксмокс предупреждал ее
-                    <br/><br/>
-                    Любая информация, когда-либо размещённая на данном сайте, не должна рассматриваться
-                    как предложение продуктов и услуг в целом или банковских либо страховых продуктов
-                    отдельно, сделанное CREDIT EUROPE BANK. Данный сайт не содержит никаких советов либо
-                    рекомендаций касательно любой сферы деятельности. Никакие инвестиционные либо
-                    коммерческие проекты не инициируются и не развиваются на страницах сайта, и никакие
-                    решения любого другого характера не могут основываться на информации, содержащейся
-                    на сайте. Следовательно, банк не может нести ответственность за ущерб, причинённый
-                    посетителю сайта.
-                    <br/><br/>
-                    Эта парадигматическая страна, в которой жаренные члены предложения залетают прямо
-                    в рот. Даже всемогущая пунктуация не имеет власти над рыбными текстами, ведущими
-                    безорфографичный образ жизни. Однажды одна маленькая строчка рыбного текста по имени
-                    Lorem ipsum решила выйти в большой мир грамматики. Великий Оксмокс предупреждал ее
-                    <br/><br/>
+                    <?= Yii::t('Accounts', 'Terms_Text') ?>
                 </div>
             </div>
             <div class="modal-footer">
-                <input class="rounded-buttons submit pull-left" type="submit" value="Accept"/>
+                <button type="button" class="rounded-buttons submit pull-left" data-dismiss="modal" onclick="$('#Accounts_terms').click().closest('label').toggleClass('checked')"><?= Yii::t('Accounts', 'Accept') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog xabina-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><img src="/css/layout/account/img/close.png"></button>
+                <div class="dialog-title"><?= Yii::t('Accounts', 'Fees') ?></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-terms-cont">
+                    <?= Yii::t('Accounts', 'Fees_Text') ?>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="rounded-buttons submit pull-left" data-dismiss="modal" onclick="$('#Accounts_fees').click().closest('label').toggleClass('checked')"><?= Yii::t('Accounts', 'Accept') ?></button>
             </div>
         </div>
     </div>
@@ -129,10 +116,10 @@
                             <?= $form->dropDownList(
                                 $model,
                                 'name',
-                                CHtml::listData($names, 'name', 'name') + array('add' => Yii::t('Front', 'Other')),
+                                array('' => Yii::t('Front', 'Select')) + CHtml::listData($names, 'name', 'name') + array('add' => Yii::t('Front', 'Other')),
                                 array(
                                     'class' => 'select-invisible country-select',
-                                    'empty' => Yii::t('Front', 'Select'),
+                                    'options' => array('' => array('selected' => true, 'disabled' => true))
                                 )
                             ) ?>
                         </div>
@@ -163,7 +150,14 @@
                     <div class="form-input">
                         <div class="select-custom select-narrow ">
                             <span class="select-custom-label"></span>
-                            <?= $form->dropDownList($model, 'currency_id', array('' => Yii::t('Front', 'Select')) + CHtml::listData($currencies, 'id', 'title'), array('class' => 'select-invisible country-select')) ?>
+                            <?= $form->dropDownList(
+                                $model,
+                                'currency_id',
+                                array('' => Yii::t('Front', 'Select')) + CHtml::listData($currencies, 'id', 'title'),                                   array(
+                                    'class' => 'select-invisible country-select',
+                                    'options' => array('' => array('selected' => true, 'disabled' => true))
+                                )
+                            ) ?>
                         </div>
                         <?= $form->error($model, 'currency_id') ?>
                     </div>
@@ -183,10 +177,10 @@
                             <?= $form->dropDownList(
                                 $model,
                                 'sub_type',
-                                Accounts::getAccountSubTypesForUser(),
+                                array('' => Yii::t('Front', 'Select')) + Accounts::getAccountSubTypesForUser(),
                                 array(
                                     'class' => 'select-invisible country-select',
-                                    'empty' => Yii::t('Front', 'Select'),
+                                    'options' => array('' => array('selected' => true, 'disabled' => true))
                                 )
                             ) ?>
                         </div>
@@ -206,7 +200,7 @@
             </label>
         </div>
         I have read and agree to the
-        <a class="violet-link" href="#myModal1" role="button" data-toggle="modal" role="button" data-toggle="modal">terms</a> &amp; <a  data-toggle="modal" data-target="#myModal1" class="violet-link" href="#">conditions</a>
+        <a class="violet-link" href="#myModal1" role="button" data-toggle="modal" role="button" data-toggle="modal">terms &amp; conditions</a>
     <?= $form->error($model, 'terms') ?>
     </div>
     <div class="line">
@@ -215,7 +209,7 @@
                 <?= $form->checkBox($model, 'fees') ?>
             </label>
         </div>
-        I have read and agree to the <a class="violet-link" href="#">Fees Structure</a>
+        I have read and agree to the <a class="violet-link" href="#myModal2" role="button" data-toggle="modal" role="button" data-toggle="modal">Fees Structure</a>
     </div>
     <?= $form->error($model, 'fees') ?>
 </div>

@@ -13,7 +13,7 @@
     <a class="exchange-ico dropdown-hover" data-toggle="dropdown" href="#"></a>
 
     <div
-        class="dropdown-menu no-close contact-select-dropdown list-actions-dropdown list-unstyled act-list"
+        class="dropdown-menu no-close contact-select-dropdown list-actions-dropdown list-unstyled act-list exchange-popup"
         role="menu">
         <div class="arr"></div>
         <div class="content-dropdown">
@@ -30,13 +30,19 @@
                     <?=
                         CHtml::dropDownList(
                             'currency',
-                            $this->currency_code,
+                            '',
                             CHtml::listData(CurrencyService::getCurrenciesList(), 'code', 'title'),
-                            array('class' => 'select-invisible')
+                            array(
+                                'class' => 'select-invisible',
+                                'options' => array(
+                                    $this->currency_code => array('style' => 'display:none;', 'disabled' => true)
+                                )
+                            )
                         );
                     ?>
                 </div>
                 <?php foreach($rate['rates'] as $currency => $data): ?>
+                    <?php if($this->currency_code == $currency) { continue; } ?>
                     <div class="drop_dop_text currency_conversion_rates_for_<?= $currency ?>">
                     <span class="bold_text">
                         <?= number_format($this->value, 2, '.', ' ') ?> <?= $rate['title'] ?>  =

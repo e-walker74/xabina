@@ -245,4 +245,7 @@ return array(
     'contact_category_successfully_update' => 'Category has been updated',
 
     'contact_success_contact_saved' => 'New contact has been linked',
+
+    'account_sub_type_anonymous' => 'Anonymous',
+    'account_sub_type_personal' => 'Personal',
 );
