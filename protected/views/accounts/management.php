@@ -111,10 +111,10 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-<!--                        <tr>-->
-<!--                            <td><span class="bold">--><?//= Yii::t('Accounts', 'Currency') ?><!--</span></td>-->
-<!--                            <td>EUR</td>-->
-<!--                        </tr>-->
+                        <tr>
+                            <td><span class="bold"><?= Yii::t('Accounts', 'Currency') ?></span></td>
+                            <td><?= $model->currency->title ?></td>
+                        </tr>
                         <tr>
                             <td><span class="bold"><?= Yii::t('Accounts', 'Credit Facility') ?></span></td>
                             <td style="overflow: visible!important">

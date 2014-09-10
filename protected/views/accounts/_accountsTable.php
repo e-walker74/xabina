@@ -40,7 +40,7 @@
         array(
             'header' => Yii::t('Front', 'Type'),
             'value' => '"Платежный <br/>
-            <span class=\"note\">".Yii::t("Front", "account_sub_type_" . $data->sub_type) ."</span><a href=\"".Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number))."\" class=\"right-click-shadow\"></a>"',
+            <span class=\"grey font-size-12\">".Yii::t("Front", "account_sub_type_" . $data->sub_type) ."</span><a href=\"".Yii::app()->createUrl("/accounts/cardbalance", array("account" => $data->number))."\" class=\"right-click-shadow\"></a>"',
             'type' => 'html',
             'headerHtmlOptions' => array('style' => 'width: 16%'),
         ),

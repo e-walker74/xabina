@@ -575,9 +575,14 @@ class AccountsController extends Controller
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
-        $accounts = Accounts::model()->ownUser()->findAllByAttributes(array(
-            'number' => $accountID,
-        ));
+        $accounts = Accounts::model()->ownUser()->findAllByAttributes(
+            array(
+                'number' => $accountID,
+            ),
+            array(
+                'order' => 'basic desc',
+            )
+        );
 
         $this->render('management', array('model' => $model, 'accounts' => $accounts));
     }
