@@ -48,7 +48,13 @@
                         <?= number_format($this->value, 2, '.', ' ') ?> <?= $rate['title'] ?>  =
                         <?= number_format($data['rate']*$this->value, 2, '.', ' ') ?> <?= $data['title'] ?>
                     </span>
-                        <?= Yii::t('CurrencyWidget', 'at the rate of') ?> 1 <?= $rate['title'] ?> : <?= number_format($data['rate'], 2, '.', ' ') ?> <?= $data['title'] ?> <?= Yii::t('CurrencyWidget', 'NB on') ?> <?= date('d.m.Y', $rate['last_update']) ?>
+                        <?= Yii::t('CurrencyWidget', 'Rate from {date}. 1 {fromCurrency} : {rate} {toCurrency}',
+                        array(
+                            '{date}' => date('d.m.Y', $rate['last_update']),
+                            '{fromCurrency}' => $rate['title'],
+                            '{rate}' => number_format($data['rate'], 2, '.', ' '),
+                            '{toCurrency}' => $data['title'],
+                        )) ?>
                     </div>
                 <?php endforeach; ?>
             </div>
