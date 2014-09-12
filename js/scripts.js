@@ -417,7 +417,6 @@ $(function () {
         var showPart = 9;
         if ($('.transaction-table-overflow tbody tr.hidden').size() < showPart) {
             $('.load-more-container').hide();
-            console.log($('.transaction-table-overflow tbody tr.hidden').size())
         }
 
         $('.transaction-table-overflow tbody tr.hidden').each(function(index) {
@@ -461,14 +460,13 @@ $(function () {
                     if (!addData) {
                         showPartTransactions();
                     }
-
                 }
                 form.find('.refresh-button').fadeOut();
                 history.pushState({}, "back page", '?' + form.serialize());
             },
             complete: dellBackgroundBlack,
             cache: false,
-            data: form.serialize() + addData,
+            data: form.serialize() + (addData ? addData : ''),
             type: 'GET'
         });
     }
@@ -615,12 +613,15 @@ $(document).ready(function () {
         }
     });
 
-    $('.btn-group').hover(
+    $('.btn-group').live('mouseenter',
         function(){
             $(this).addClass('open')
-        },
+        }
+    );
+
+    $('.btn-group').live('mouseleave',
         function(){
-            $(this).removeClass('open')
+             $(this).removeClass('open')
         }
     )
 
