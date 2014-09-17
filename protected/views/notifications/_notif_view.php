@@ -51,7 +51,7 @@
         <div class="news_content">
             <div class="message-text">
                 <?=$data->message->announce?>
-				<a href="#">Read more</a>
+				<a href="<?=$data->message->button_link?>"><?=$data->message->button?></a>
             </div>
 
             <div class="attachments-cont">
