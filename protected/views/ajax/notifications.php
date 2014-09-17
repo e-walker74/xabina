@@ -242,5 +242,5 @@
 </div>
 
 </div>
-<a href="#" class="notification-all">See all notification</a>
+<a href="/banking/notifications" class="notification-all">See all notification</a>
 </div>
