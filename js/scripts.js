@@ -587,7 +587,16 @@ $(document).ready(function () {
         }
     });
 
-    $(".xabina-tabs , .edit-tabs").tabs({
+    $('.btn-group').hover(
+        function(){
+            $(this).addClass('open')
+        },
+        function(){
+            $(this).removeClass('open')
+        }
+    )
+
+    $(".xabina-tabs , .edit-tabs, .news-tabs-cont").tabs({
         select: function (event, ui) {
             window.location.hash = ui.tab.hash;
         }
@@ -1264,5 +1273,62 @@ $(function () {
         } else {
             $('div[aria-expanded=true]').find('li').show();
         }
+    });
+
+    $('.news-files-toggle').on('click', function(){
+       $(this).toggleClass('closed');
+        $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
+        return false;
+    });
+
+	$('.news-arrow-but').on('click', function(){
+       $(this).toggleClass('closed');
+        $(this).parents('.message-container').find('.news_content').slideToggle();
+        return false;
+    });
+
+	$('.news-filter-but').on('click', function(){
+       $(this).toggleClass('closed');
+        $(this).hasClass('closed') ? $(this).html('<span>Show Filter</span>') : $(this).html('<span>Hide Filter</span>');
+        $(this).parents('.news-filter').find('.filter-content').slideToggle();
+        return false;
+    });
+
+    $('.list_year span').on('click', function(){
+		$(".list_year").hide();
+		$(".year_and_month .active_year .val_year").html($(this).html());
+		$(".year_and_month").show();
+    });
+
+	$('.active_year').on('click', function(){
+		$(".year_and_month").hide();
+		$(".list_year").show();
+	});
+
+	$('.year_and_month label').on('click', function(){
+		$(this).toggleClass('active');
+		return false;
+    });
+
+	$('#notifications_filter input,select').on('change', function(){
+		$.fn.yiiListView.update('notifListView', {
+            //this entire js section is taken from admin.php. w/only this line diff
+            data: $('#notifications_filter').serialize()
+        });
+		return false;
+    });
+
+    $('.message-container .all-links').on('click', function(e){
+        e.preventDefault();
+        $(this).closest('.attachments-cont').find('.list-unstyled a').each(function(i,e) {
+            window.open($(e).attr('href'));
+        });
+    });
+
+
+    $('.message-container .read_but').click(function(e){
+        e.preventDefault();
+        $.ajax('/ajax/SetReadNotification/'+$(this).attr('data-id'));
+        $(this).hide().prev().hide();
     });
 });

@@ -44,7 +44,7 @@ class Users_Notifications extends CActiveRecord
 
 
 	public $sections = array(
-		self::SECTION_SETTINGS=>self::SECTION_SETTINGS,
+		self::SECTION_SETTINGS=>'set',
 		self::SECTION_APPS=>self::SECTION_APPS,
 		self::SECTION_MESSAGE=>self::SECTION_MESSAGE,
 		self::SECTION_LIST=>self::SECTION_LIST,
@@ -59,15 +59,15 @@ class Users_Notifications extends CActiveRecord
 
 	public $css_types = array(
 		//self::TYPE_NOTE=>'info',
-		self::TYPE_PROMOTION=>'promo',
-		self::TYPE_INFORMATION=>'info',
-		self::TYPE_WARNING=>'warn',
-		self::TYPE_EMERGENCY=>'danger',
+		self::TYPE_PROMOTION=>'blue',
+		self::TYPE_INFORMATION=>'white',
+		self::TYPE_WARNING=>'yellow',
+		self::TYPE_EMERGENCY=>'pink',
 	);
 
 	public $types = array(
 		//self::TYPE_NOTE=>self::TYPE_NOTE,
-		self::TYPE_PROMOTION=>self::TYPE_EMERGENCY,
+		self::TYPE_PROMOTION=>self::TYPE_PROMOTION,
 		self::TYPE_INFORMATION=>self::TYPE_INFORMATION,
 		self::TYPE_WARNING=>self::TYPE_WARNING,
 		self::TYPE_EMERGENCY=>self::TYPE_EMERGENCY,

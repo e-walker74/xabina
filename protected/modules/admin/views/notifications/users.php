@@ -36,6 +36,17 @@
 					'columns'=>array(
 						'user_id',
                         'status',
+                        array(
+
+							'buttons'=>array(
+								'status' => array(
+									'label'=>'Update Status', // text label of the button
+									'url'=>"CHtml::normalizeUrl(array('updateStatus', 'status_id'=>\$data->id))",
+								),
+							),
+							'class'=>'CButtonColumn',
+							'template' => '{status}',
+						)
 					),
 				)); ?>
 			</div>

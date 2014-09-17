@@ -35,9 +35,12 @@ class NotificationsController extends Controller
 
     public function actionIndex()
     {
-
 		$this->breadcrumbs[Yii::t('Front', 'Notifications')] = '';
         $model = new Users_NotificationsStatuses('search');
+
+		if(isset($_GET['Users_NotificationsStatuses']))
+        	$model->attributes=$_GET['Users_NotificationsStatuses'];
+
 		$model->user_id = Yii::app()->user->id;
 		$this->render('index',array(
 			'model'=>$model,
@@ -60,7 +63,7 @@ class NotificationsController extends Controller
 		if ($status === null)
             throw new CHttpException(404, Yii::t('Font', 'Page not found'));
 
-		$file=Yii::app()->getBasePath(true) . '/../../documents/notifications/'.$model->file;
+		$file=Yii::app()->getBasePath(true) . '/../documents/notifications/'.$model->file;
 		if (file_exists($file)) {
 			// сбрасываем буфер вывода PHP, чтобы избежать переполнения памяти выделенной под скрипт
 			// если этого не сделать файл будет читаться в память полностью!

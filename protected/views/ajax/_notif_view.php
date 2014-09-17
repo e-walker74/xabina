@@ -1,4 +1,4 @@
-<li class="nrow">
+<li>
     <div class="message-container <?=$data->message->css_types[$data->message->type]?>">
         <div class="message-top">
             <div class="interlocutor-photo pull-left">
@@ -61,7 +61,7 @@
                     <a href="#" class="news-files-toggle closed"><span><?=count($data->message->files)?> Files</span></a>
 
                     <div class="transaction-buttons-cont" style="margin: -3px 0 0"><a href="#"
-                                                                                      class="all-links button download-mini"></a>
+                                                                                      class="button download-mini"></a>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -81,10 +81,8 @@
 
                 </ul>
 				<?}?>
-				<?if ($data->message->type == Users_Notifications::TYPE_WARNING && $data->status == Users_NotificationsStatuses::STATUS_NEW) {?>
 				<div class="news-border"></div>
-				<a href="#" data-id="<?=$data->id?>" class="read_but">Mark as read</a>
-				<? } ?>
+				<a href="#" class="read_but">Mark as read</a>
             </div>
             <div class="clearfix"></div>
         </div>

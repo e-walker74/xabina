@@ -13,6 +13,9 @@
  */
 class Users_NotificationsStatuses extends CActiveRecord
 {
+	public $section;
+	public $type;
+
 	const STATUS_NEW = "new";
 	const STATUS_SEE = "see";
 	const STATUS_HIDDEN = "hidden";
@@ -47,7 +50,7 @@ class Users_NotificationsStatuses extends CActiveRecord
 			array('status', 'length', 'max'=>6),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, notification_id, status, created_at, updated_at, message', 'safe', 'on'=>'search'),
+			array('user_id, notification_id, status, created_at, updated_at, message, section, type', 'safe', 'on'=>'search'),
 			array('id, user_id, notification_id, status, created_at, updated_at, message', 'safe', 'on'=>'admin'),
 		);
 	}
@@ -93,17 +96,21 @@ class Users_NotificationsStatuses extends CActiveRecord
 	 */
 	public function search($type = null)
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
+		if ($type !==null) {
+			$this->type = $type;
+		}
 		$criteria=new CDbCriteria;
 		$criteria->with= array(
 			'message'
 		);
+
 		$criteria->order = "message.published_at desc, message.id desc";
 		$criteria->condition = 'message.published_at < '.time();
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('message.type',$type,true);
+		$criteria->compare('message.type',$this->type,true);
+		$criteria->compare('message.section',$this->section);
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('notification_id',$this->notification_id);
 		$criteria->compare('status',$this->status,true);
@@ -111,7 +118,7 @@ class Users_NotificationsStatuses extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination' => array(
-                'pageSize' => 100,
+                'pageSize' => 5,
             ),
 		));
 	}

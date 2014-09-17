@@ -39,18 +39,22 @@
 						'announce',
                         array(
 
-					'buttons'=>array(
-						'users' => array(
-							'label'=>'Users', // text label of the button
-							'url'=>"CHtml::normalizeUrl(array('users', 'notification_id'=>\$data->id))",
-						),
-						'copy' => array(
-							'label'=>'Copy', // text label of the button
-							'url'=>"CHtml::normalizeUrl(array('create', 'notification_id'=>\$data->id))",
-						),
-					),
+							'buttons'=>array(
+								'view' => array(
+									'label'=>'View', // text label of the button
+									'url'=>"CHtml::normalizeUrl(array('view', 'notification_id'=>\$data->id))",
+								),
+								'users' => array(
+									'label'=>'Users', // text label of the button
+									'url'=>"CHtml::normalizeUrl(array('users', 'notification_id'=>\$data->id))",
+								),
+								'copy' => array(
+									'label'=>'Copy', // text label of the button
+									'url'=>"CHtml::normalizeUrl(array('create', 'notification_id'=>\$data->id))",
+								),
+							),
 							'class'=>'CButtonColumn',
-							'template' => '{users} {copy}',
+							'template' => '{view} {users} {copy}',
 						)
 					),
 				)); ?>

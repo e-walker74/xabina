@@ -134,6 +134,17 @@ class AjaxController extends Controller
 		 echo CJSON::encode(array('success' => true));
 	}
 
+	public function actionSetReadNotification($id) {
+
+		$model = Users_NotificationsStatuses::model()->findByAttributes(array('id' => $id, 'user_id' => Yii::app()->user->id));
+		if ($model != null) {
+			$model->status = Users_NotificationsStatuses::STATUS_SEE;
+			$model->save();
+		}
+
+		 echo CJSON::encode(array('success' => true));
+	}
+
     public function actionRemoveTag($id, $entity, $entity_id, $cross_type)
     {
         if (!Yii::request()->isAjaxRequest) {

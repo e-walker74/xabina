@@ -16,6 +16,36 @@ class NotificationsController extends Controller
 
 		$this->render('users', array('model' => $model));
 	}
+
+	public function actionUpdateStatus($status_id){
+
+		$model = Users_NotificationsStatuses::model()->findByPk($status_id);
+
+		if (Yii::app()->getRequest()->isAjaxRequest) {
+			echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+		if(isset($_POST['Users_NotificationsStatuses'])){
+			$model->attributes = $_POST['Users_NotificationsStatuses'];
+
+			if ($model->save() ) {
+
+				$this->redirect('/admin/notifications/users/notification_id/'.$model->notification_id);
+
+			}
+			echo CHtml::errorSummary($model);
+		}
+
+		$this->render('updatestatus', array('model' => $model));
+	}
+
+	public function actionView($notification_id){
+
+		$model = Users_Notifications::model()->findByPk($notification_id);
+
+		$this->render('view', array('model' => $model));
+	}
 	
 	public function actionCreate($notification_id = 0){
 
@@ -40,12 +70,13 @@ class NotificationsController extends Controller
 
 			if ($model->validate() && !empty($_POST['user_id'])) {
 				$model->published_at = (int)strtotime($model->published_at);
+
 				if ($model->published_at) $_POST['Users_Notifications']['published_at'] = $model->published_at;
 
 				$id = Users::addNotification($model->code, $model->announce, $model->type, $_POST['user_id'], $_POST['Users_Notifications']);
 
 				$files = CUploadedFile::getInstancesByName('files');
-				echo $folder=Yii::app()->getBasePath(true) . '/../../documents/notifications/'; // folder for uploaded files
+				echo $folder=Yii::app()->getBasePath(true) . '/../documents/notifications/'; // folder for uploaded files
 				@mkdir ( $folder, 0777, 1);
 				foreach ($files as $file) {
 					$name = md5(time()).'.'.$file->getExtensionName();

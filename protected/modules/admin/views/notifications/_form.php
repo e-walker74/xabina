@@ -33,6 +33,7 @@
         ),
     ));
 ?>
+<?php echo $form->hiddenField($model, 'code', array('value' => 'from_panel')); ?>
 <div class="form-group">
 	<?=CHtml::label(Yii::t('Admin', 'User ID'), 'user_id', array('class' => 'col-sm-3 control-label'))?>
     <div class="col-sm-6">
@@ -48,15 +49,6 @@
 	<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'type'); ?></div></div>
 </div>
 
-
-<div class="form-group">
-	<?php echo $form->labelEx($model, 'code', array('class' => 'col-sm-3 control-label')); ?>
-	<div class="col-sm-6">
-		<?php echo $form->textField($model, 'code', array('class' => 'form-control')); ?>
-
-	</div>
-	<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'code'); ?></div></div>
-</div>
 
 <div class="form-group">
 	<?php echo $form->labelEx($model, 'manager_id', array('class' => 'col-sm-3 control-label')); ?>
@@ -84,7 +76,9 @@
 	'options' => array(
         'lang' => 'ru',
         'iframe' => true,
+		'height' => '200px'
     ),
+	'htmlOptions' => array('style' => 'height:200px')
 ));?>
 	</div>
 	<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'announce'); ?></div></div>
@@ -99,7 +93,9 @@
 	'options' => array(
         'lang' => 'ru',
         'iframe' => true,
+		'height' => '200px'
     ),
+	'htmlOptions' => array('style' => 'height:200px')
 ));?>
 
 	</div>
@@ -149,19 +145,24 @@
 		<a href="javascript;" onclick="$(this).prev().clone().insertBefore($(this).prev());return false;">Add</a>
 	</div>
 </div>
-
 <div class="form-group">
 	<?php echo $form->labelEx($model, 'published_at', array('class' => 'col-sm-3 control-label')); ?>
 	<div class="col-sm-6">
-		<?php  $form->textField($model, 'published_at', array('class' => 'form-control')); ?>
 		<?php
 
     $this->widget('CJuiDateTimePicker',array(
         'model'=>$model, //Model object
         'attribute'=>'published_at', //attribute name
-                'mode'=>'datetime', //use "time","date" or "datetime" (default)
+		'options'=>array(
+			'showAnim'=>'slideDown',
+			'hideIfNoPrevNext' => true,
+			'timeFormat'=>'hh:mm:ss',
+			'dateFormat' => 'yy-mm-dd'
+		),
+         'mode'=>'datetime', //use "time","date" or "datetime" (default)
         'htmlOptions'=>array('class'=>'form-control') // jquery plugin options
     ));
+
 ?>
 	</div>
 	<div class="col-md-3"><div class="help-block"><?php echo $form->error($model, 'published_at'); ?></div></div>
