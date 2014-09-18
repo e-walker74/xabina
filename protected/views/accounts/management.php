@@ -92,25 +92,48 @@
                                 </div>
                             </td>
                         </tr>
-                        <?php foreach ($accounts as $account): ?>
-                            <tr>
-                                <td><span class="bold"><?= Yii::t('Accounts', 'Balance') ?></span></td>
-                                <td style="overflow: visible!important">
-                                    <?php if($account->balance > 0): ?>
-                                        <span class="sum-inc">+<?= number_format($account->balance, 2, '.', ' ') ?></span>&nbsp;<?= $account->currency->title ?>&nbsp;
-                                    <?php elseif($account->balance < 0): ?>
-                                        <span class="sum-dec "><?= number_format($account->balance, 2, '.', ' ') ?></span>&nbsp;<?= $account->currency->title ?>&nbsp;
-                                    <?php else: ?>
-                                        0&nbsp;<?= $account->currency->title ?>&nbsp;
-                                    <?php endif; ?>
-                                    <?php Widget::create(
-                                        'WCurrencyConverter',
-                                        'WCurrencyConverter',
-                                        array('value' => $account->balance, 'currency_code' => $account->currency->code)
-                                    ) ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                        <tr>
+                            <td><span class="bold"><?= Yii::t('Accounts', 'Balance') ?></span></td>
+                            <td style="overflow: visible!important">
+
+                                <ul class="currencies-list list-unstyled pull-left">
+                                    <li>
+                                        <?php if($model->getGroupBalance() > 0): ?>
+                                            <a href="#">
+                                                <span class="sum sum-inc ">+<?= number_format($model->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $model->currency->title ?></span>
+                                        <?php elseif($model->getGroupBalance() < 0): ?>
+                                            <a href="#">
+                                                <span class="sum sum-dec "><?= number_format($model->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $model->currency->title ?></span>
+                                        <?php else: ?>
+                                            <a href="#">0</a> <span class="currency"><?= $model->currency->title ?></span>
+                                        <?php endif; ?>
+                                        <?php Widget::create(
+                                            'WCurrencyConverter',
+                                            'WCurrencyConverter',
+                                            array('value' => $model->getGroupBalance(), 'currency_code' => $model->currency->code)
+                                        ) ?>
+                                    </li>
+                                    <?php foreach($model->getSubAccounts() as $subAccount): ?>
+                                        <?php if($subAccount->balance != 0): ?>
+                                        <li class="font-size-12">
+                                            <?php if($subAccount->balance > 0): ?>
+                                                <a href="#">
+                                                    <span class="sum sum-inc ">+<?= number_format($subAccount->balance, 2, ".", " ") ?></span></a><span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                            <?php elseif($subAccount->balance < 0): ?>
+                                                <a href="#">
+                                                    <span class="sum sum-dec "><?= number_format($subAccount->balance, 2, ".", " ") ?></span></a><span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                            <?php endif; ?>
+                                            <?php Widget::create(
+                                                'WCurrencyConverter',
+                                                'WCurrencyConverter',
+                                                array('value' => $subAccount->balance, 'currency_code' => $subAccount->currency->code)
+                                            ) ?>
+                                        </li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </td>
+                        </tr>
                         <tr>
                             <td><span class="bold"><?= Yii::t('Accounts', 'Currency') ?></span></td>
                             <td><?= $model->currency->title ?></td>

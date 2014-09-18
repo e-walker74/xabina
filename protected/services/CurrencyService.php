@@ -45,4 +45,8 @@ class CurrencyService {
         return $rates;
     }
 
+    public static function convert(){
+
+    }
+
 } 

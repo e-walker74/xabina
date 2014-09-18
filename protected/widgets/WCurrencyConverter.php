@@ -34,10 +34,10 @@ class WCurrencyConverter extends QWidget
         Yii::app()->clientScript->registerScript('currencyConverterWidget', '
             $("document").ready(function(){
                 var block = $(".currency-converter-widget")
-                block.find(".drop_dop_text").hide()
-                block.find(".drop_dop_text:first").show()
+                block.find(".currencies-values").hide()
+                block.find(".currencies-values:first").show()
                 block.on("change", "select", function(){
-                    block.find(".drop_dop_text").hide()
+                    block.find(".currencies-values").hide()
                     block.find(".currency_conversion_rates_for_" + $(this).val()).show()
                 })
             })

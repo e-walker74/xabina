@@ -69,7 +69,12 @@ class AccountsController extends Controller
         $accounts = Accounts::model();
         $accounts->user_id = Yii::app()->user->id;
 
-        $this->render('index', array('accounts' => $accounts));
+        $sumArr = array();
+        foreach(CurrencyService::getCurrenciesList() as $currency){
+            $sumArr[$currency->title] = 0;
+        }
+
+        $this->render('index', array('accounts' => $accounts, 'sumArr' => $sumArr));
     }
 
     public function actionCardBalance()

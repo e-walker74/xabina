@@ -104,12 +104,12 @@ class Accounts extends ActiveRecord
 
     public function getGroupBalance()
     {
-        if(!$this->multi_accounts){
+        if (!$this->multi_accounts) {
             return $this->balance;
         }
         $balance = $this->balance;
         $conversionData = CurrencyService::getConversionData();
-        foreach($this->multi_accounts as $account){
+        foreach ($this->multi_accounts as $account) {
             $balance += $account->balance * $conversionData[$account->currency->code]['rates'][$this->currency->code]['rate'];
         }
         return $balance;
@@ -238,6 +238,21 @@ class Accounts extends ActiveRecord
         return parent::beforeSave();
     }
 
+    public function getSubAccounts()
+    {
+        return Accounts::model()
+            ->ownUser()
+            ->with('currency')
+            ->findAllByAttributes(
+                array(
+                    'number' => $this->number,
+                ),
+                array(
+                    'order' => 'basic desc',
+                )
+            );
+    }
+
     public function getUserBalanceInEUR($number = false)
     {
         $criteria = new CDbCriteria;
@@ -252,7 +267,7 @@ class Accounts extends ActiveRecord
         if ($number) {
             return $total;
         }
-        $currencies = Currencies::model()->findAll();
+        $currencies = CurrencyService::getCurrenciesList();
         return Yii::app()->controller->renderPartial('application.views.banking._totalCurrencies', array('total' => $total, 'currencies' => $currencies), true);
     }
 
@@ -262,6 +277,18 @@ class Accounts extends ActiveRecord
             return self::$sub_types;
         } else {
             return array('anonymous' => 'anonymous');
+        }
+    }
+
+    public static function getTempAccountsTypeAndSubtype()
+    {
+        if (Yii::user()->getStatus() == Users::USER_IS_VERIFICATED) {
+            return array(
+                'personal' => 'Платежный personal',
+                'anonymous' => 'Платежный anonymous',
+            );
+        } else {
+            return array('anonymous' => 'Платежный anonymous');
         }
     }
 

@@ -15,7 +15,7 @@
     </div>
     <div class="clearfix"></div>
 
-    <?= $this->renderPartial('_accountsTable', array('accounts' => $accounts)) ?>
+    <?= $this->renderPartial('_accountsTable', array('accounts' => $accounts, 'sumArr' => $sumArr)) ?>
 
     <div class="xabina-form-container">
         <div class="form-submit">
