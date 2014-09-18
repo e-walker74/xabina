@@ -69,12 +69,7 @@ class AccountsController extends Controller
         $accounts = Accounts::model();
         $accounts->user_id = Yii::app()->user->id;
 
-        $sumArr = array();
-        foreach(CurrencyService::getCurrenciesList() as $currency){
-            $sumArr[$currency->title] = 0;
-        }
-
-        $this->render('index', array('accounts' => $accounts, 'sumArr' => $sumArr));
+        $this->render('index', array('accounts' => $accounts));
     }
 
     public function actionCardBalance()
@@ -522,6 +517,9 @@ class AccountsController extends Controller
         Yii::app()->clientScript->registerScriptFile('/js/XForms.js');
         $model = new Accounts('create');
 
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+        $this->breadcrumbs[Yii::t('Front', 'Open account')] = '';
+
         if (Yii::request()->getParam('ajax')) {
             $model->user_id = Yii::user()->id;
             echo CActiveForm::validate($model);
@@ -552,6 +550,10 @@ class AccountsController extends Controller
 
     public function actionManagement()
     {
+
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+        $this->breadcrumbs[Yii::t('Front', 'Management')] = '';
+
         Yii::app()->clientScript->registerScriptFile('/js/accounts.js');
         Yii::app()->clientScript->registerScriptFile('/js/XForms.js');
         $accountID = Yii::request()->getParam('url', '', 'integer');

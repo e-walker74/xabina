@@ -14,9 +14,9 @@
         <a href="<?= Yii::app()->createUrl('/accounts/create') ?>" class="rounded-buttons add-new pull-right" style="font-size: 83.4%;margin:-3px 0 0;"><?= Yii::t('Font', 'OPEN ACCOUNT') ?></a>
     </div>
     <div class="clearfix"></div>
-
-    <?= $this->renderPartial('_accountsTable', array('accounts' => $accounts, 'sumArr' => $sumArr)) ?>
-
+    <div id="accounts-grid">
+    <?= $this->renderPartial('_accountsTable', array('accounts' => $accounts)) ?>
+    </div>
     <div class="xabina-form-container">
         <div class="form-submit">
             <div class="submit-button button-back" onclick="window.location = '<?= Yii::app()->createUrl('/banking/index') ?>'">Back</div>

@@ -34,7 +34,6 @@
             <td colspan="2" >
                 <ul class="currencies-list list-unstyled pull-right" style="margin:0 31% 0 17%;">
                     <li>
-                        <?php $sumArr[$account->currency->title] += $account->getGroupBalance(); ?>
                         <?php if($account->getGroupBalance() > 0): ?>
                             <a href="#">
                             <span class="sum sum-inc ">+<?= number_format($account->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $account->currency->title ?></span>
@@ -66,7 +65,7 @@
                 <?php if($account->is_master): ?>
                     <span data-original-title="Primary" class="primary-button is-primary tooltip-icon"></span>
                 <?php else: ?>
-                    <a data-original-title='Make primary' href="javaScript:" onclick="Accounts.makeAccountPrimary('<?= Yii::app()->createUrl("/accounts/makePrimary") ?>', "<?= $account->id ?>')" class="primary-button m-primary tooltip-icon"></a>
+                    <a data-original-title='Make primary' href="javaScript:" onclick="Accounts.makeAccountPrimary('<?= Yii::app()->createUrl("/accounts/makePrimary") ?>', '<?= $account->id ?>')" class="primary-button m-primary tooltip-icon"></a>
                 <?php endif; ?>
             </td>
             <td style="overflow: visible!important;">
@@ -114,5 +113,18 @@
 <script>
     $(document).ready(function(){
         changeCurrency();
+        if ($('.currency_dropdown').length != 0)
+        $('.currency_dropdown').tempDropDown({
+            list: {
+                EUR: 'EUR',
+                USD: 'USD',
+                RUB: 'RUB',
+                CHF: 'CHF',
+                JPY: 'JPY'
+            },
+            listClass: 'currencies_dropdown',
+            callback: changeCurrency
+
+        });
     })
 </script>
