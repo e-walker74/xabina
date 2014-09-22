@@ -27,23 +27,26 @@ class AccountsController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
-					'index',
-					'cardbalance',
-					'transaction',
-					'uploadattachemnt',
-					'getattach',
-					'transactionsonpdf', 
-					'transactionsondoc',
-					'transactionsoncsv',
-					'getpdf',
-					'addnotetotransaction',
-					'deletenote',
-					'updatecategory',
-					'payments',
+                    'index',
+                    'cardbalance',
+                    'transaction',
+                    'uploadattachemnt',
+                    'getattach',
+                    'transactionsonpdf',
+                    'transactionsondoc',
+                    'transactionsoncsv',
+                    'getpdf',
+                    'addnotetotransaction',
+                    'deletenote',
+                    'updatecategory',
+                    'payments',
                     'addcategory',
                     'opennewaccount',
-                    'getnewaccountstypes'
-				),
+                    'create',
+                    'getnewaccountstypes',
+                    'makeprimary',
+                    'management',
+                ),
                 'roles' => array('client')
             ),
             array('deny', // deny everybody else
@@ -59,15 +62,14 @@ class AccountsController extends Controller
     public function actionIndex()
     {
 
+        Yii::app()->clientScript->registerScriptFile('/js/accounts.js', CClientScript::POS_END);
+
         $this->breadcrumbs[Yii::t('Front', 'Accounts')] = '';
 
         $accounts = Accounts::model();
         $accounts->user_id = Yii::app()->user->id;
 
-        $transactions = Transactions::model();
-        $transactions->user_id = Yii::app()->user->id;
-
-        $this->render('index', array('accounts' => $accounts, 'transactions' => $transactions));
+        $this->render('index', array('accounts' => $accounts));
     }
 
     public function actionCardBalance()
@@ -83,7 +85,7 @@ class AccountsController extends Controller
         $selectedAcc = false;
         if ($accountNumber = Yii::app()->request->getParam('account', false, 'int')) {
             $selectedAcc = Accounts::model()->find('number = :number', array(':number' => $accountNumber));
-            if(!$selectedAcc){
+            if (!$selectedAcc) {
                 throw new CHttpException(404, Yii::t('Front', 'Page not found'));
             }
         } elseif (!$selectedAcc) {
@@ -127,7 +129,7 @@ class AccountsController extends Controller
 
         $trans = Transactions::model()->with('account')->findByAttributes(array('url' => $id));
 
-        if(!$trans){
+        if (!$trans) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
@@ -436,10 +438,10 @@ class AccountsController extends Controller
         throw new CHttpException(404, Yii::t('Front', 'Page not found'));
     }
 
-    public function actionOpenNewAccount() {
+    public function actionOpenNewAccount()
+    {
         Yii::app()->clientScript->registerScriptFile('/js/create-new-account.js', CClientScript::POS_END);
-        $model = new Accounts;
-;
+        $model = new Accounts;;
         $model->user_id = Yii::app()->user->id;
 
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'new-account-form') {
@@ -449,12 +451,12 @@ class AccountsController extends Controller
 
         if (!empty($_POST['Accounts'])) {
             $model->attributes = $_POST['Accounts'];
-            if($model->validate() && $model->save()){
+            if ($model->validate() && $model->save()) {
                 $aRes = array(
                     'success' => true,
                     'message' => Yii::t('Front', 'New account saved successful')
                 );
-                if(isset($_GET['next'])){
+                if (isset($_GET['next'])) {
                     $aRes['url'] = $this->createUrl('/accounts/opennewaccount');
                 }
                 echo CJSON::encode($aRes);
@@ -466,11 +468,12 @@ class AccountsController extends Controller
             }
             Yii::app()->end();
         }
-		
+
         $this->render('open_new_account', array('model' => $model));
     }
 
-    public function actionGetNewAccountsTypes() {
+    public function actionGetNewAccountsTypes()
+    {
         if (isset($_GET['currencyId']) && $_GET['categoryId']) {
             $model = new AccountsTypes;
             $types = $model->findAll(array(
@@ -482,6 +485,113 @@ class AccountsController extends Controller
         }
     }
 
+    public function actionMakePrimary()
+    {
 
+        $id = Yii::request()->getParam('id', '', 'integer');
+        $model = Accounts::model()->ownUser()->findByPk($id);
+        if (!$model) {
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+
+        Accounts::model()->ownUser()->updateAll(array('is_master' => 0));
+
+        $model->is_master = 1;
+        $model->save();
+
+        $accounts = Accounts::model();
+        $accounts->user_id = Yii::app()->user->id;
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'message' => Yii::t('Accounts', 'Master is changed'),
+            'html' => $this->renderPartial('_accountsTable', array('accounts' => $accounts), true, false),
+        ));
+    }
+
+    /**
+     * Create new account
+     */
+    public function actionCreate()
+    {
+        Yii::app()->clientScript->registerScriptFile('/js/XForms.js');
+        $model = new Accounts('create');
+
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+        $this->breadcrumbs[Yii::t('Front', 'Open account')] = '';
+
+        if (Yii::request()->getParam('ajax')) {
+            $model->user_id = Yii::user()->id;
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if (isset($_POST['Accounts'])) {
+            $model->attributes = $_POST['Accounts'];
+            $model->user_id = Yii::user()->id;
+            $model->save();
+            $this->redirect(array('/accounts/management', 'url' => $model->number));
+        }
+
+        $names = Accounts_Names::model()->findAll(
+            array(
+                'condition' => '(user_id is NULL AND lang = :lang) OR (user_id = :uid)',
+                'params' => array(
+                    ':lang' => Yii::app()->language,
+                    ':uid' => Yii::user()->getCurrentId(),
+                )
+            )
+        );
+
+        $currencies = Currencies::model()->findAll();
+
+        $this->render('create', array('model' => $model, 'names' => $names, 'currencies' => $currencies));
+    }
+
+    public function actionManagement()
+    {
+
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+        $this->breadcrumbs[Yii::t('Front', 'Management')] = '';
+
+        Yii::app()->clientScript->registerScriptFile('/js/accounts.js');
+        Yii::app()->clientScript->registerScriptFile('/js/XForms.js');
+        $accountID = Yii::request()->getParam('url', '', 'integer');
+
+        if (!is_numeric($accountID)) {
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+
+        $model = Accounts::model()->ownUser()->findByAttributes(array(
+            'number' => $accountID,
+            'basic' => true,
+        ));
+
+        if(Yii::request()->getParam('ajax')){
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Accounts'])){
+            $model->name = $_POST['Accounts']['name'];
+            $model->save();
+            $this->redirect(array('/accounts/management', 'url' => $model->number));
+        }
+
+        if (!$model) {
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+
+        $accounts = Accounts::model()->ownUser()->findAllByAttributes(
+            array(
+                'number' => $accountID,
+            ),
+            array(
+                'order' => 'basic desc',
+            )
+        );
+
+        $this->render('management', array('model' => $model, 'accounts' => $accounts));
+    }
 
 }
