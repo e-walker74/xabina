@@ -6,12 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
     // autoloading model and component classes
-	'id' => 'evna',
-    'controllerMap' => array(
-        'widgets' => array(
-            'class' => 'core.widgets.WidgetsController'
-        ),
-    ),
+	'id' => 'xabina',
     'onBeginRequest' => function($event) {
         $route = Yii::app()->getRequest()->getPathInfo();
         $module = substr($route, 0, strpos($route, '/'));

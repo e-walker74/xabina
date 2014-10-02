@@ -21,8 +21,8 @@
             <th style="width: 15%"><?= Yii::t('Personal', 'Type') ?></th>
             <th style="width: 15%"><?= Yii::t('Personal', 'Environment') ?></th>
             <th style="width: 18%"><?= Yii::t('Personal', 'Amount') ?></th>
-            <th style="width: 12%"><?= Yii::t('Personal', 'Сurrency') ?></th>
-            <th style="width: 11%"><?= Yii::t('Personal', 'Status') ?></th>
+            <th style="width: 11%"><?= Yii::t('Personal', 'Сurrency') ?></th>
+            <th style="width: 12%"><?= Yii::t('Personal', 'Status') ?></th>
             <th style="width: 8%"></th>
         </tr>
         <?php foreach($model->accounts as $account): ?>
