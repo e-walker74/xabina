@@ -167,6 +167,8 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
             'incoming_category',
             'outgoing_category',
             'automatic_linking',
+            'field1',
+            'field2',
         );
     }
 
@@ -178,5 +180,12 @@ class Users_Contacts_Data_Account extends Users_Contacts_Data_Model
     public function getDataTitle()
     {
         return Yii::t('Front', 'Account Number');
+    }
+
+    public function changeFields()
+    {
+        parent::changeFields();
+        $this->field1 = self::$contacts_account_types[$this->account_type];
+        $this->field2 = $this->account_number;
     }
 }

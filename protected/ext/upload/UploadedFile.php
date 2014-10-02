@@ -127,7 +127,7 @@ class UploadedFile {
         }
 
         if ($this->file->save($uploadDirectory . $filename . '.' . $ext)){
-            return array('success'=>true,'filename'=>$filename.'.'.$ext);
+            return array('success'=>true,'filename'=>$filename.'.'.$ext, 'size' => $size);
         } else {
             return array('error'=> Yii::t('Front', 'Could not save uploaded file. The upload was cancelled, or server error encountered'));
         }

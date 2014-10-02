@@ -24,6 +24,13 @@ class Users_Contacts extends ActiveRecord
 {
 
     const AVATAR_PATH = '/images/contacts/';
+
+    public $model_id;
+    public $form;
+    public $cross_id;
+    public $cross_category;
+    public $cross_comment;
+
     public $delete;
 
     protected $_contacts_data = array();
@@ -61,12 +68,12 @@ class Users_Contacts extends ActiveRecord
 
             // TODO trim and filter fullname
 
-            array('type', 'required'),
+            array('type', 'required', 'except' => 'system'),
             array('fullname', 'requiredOne'),
             array('first_name', 'required', 'on' => 'personal'),
             array('company', 'required', 'on' => 'company'),
             array('user_id', 'numerical', 'integerOnly' => true),
-            array('type', 'in', 'range' => array('personal', 'company')),
+            array('type', 'in', 'range' => array('personal', 'company'), 'except' => 'system'),
             array('type', 'safe', 'on' => 'insert'),
             array('fullname, photo', 'length', 'max' => 255),
             array('photo', 'file', 'types' => 'jpg, gif, png', 'safe' => false, 'allowEmpty' => true),
@@ -100,7 +107,9 @@ class Users_Contacts extends ActiveRecord
 
     public function beforeValidate()
     {
-        $this->scenario = $this->type;
+        if($this->type){
+            $this->scenario = $this->type;
+        }
 
         if ($this->scenario == 'personal') {
             $this->fullname = $this->first_name;

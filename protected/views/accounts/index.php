@@ -19,7 +19,7 @@
     </div>
     <div class="xabina-form-container">
         <div class="form-submit">
-            <div class="submit-button button-back" onclick="window.location = '<?= Yii::app()->createUrl('/banking/index') ?>'">Back</div>
+            <div class="submit-button button-back" onclick="window.location = '<?= Yii::app()->createUrl('/banking/index') ?>'"><?= Yii::t('Front', 'Back') ?></div>
             <div class="status-legend pull-right" style="margin:0 0 10px;">
                     <span>
                       <?= AccountService::getAccountStatusIcon(Accounts::STATUS_APPROVED) ?>

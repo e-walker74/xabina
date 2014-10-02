@@ -27,7 +27,9 @@ class Transfers_Model_Ewallet extends Transfers_Model{
 		
 		$info_trans = new Transactions_Info;
 		$info_trans->sender = $model->user->fullname;
+        $info_trans->sender_description = number_format($model->account_number, 0, '.', ' ');
 		$info_trans->recipient = $model->getToAccountHolder();
+        $info_trans->recipient_description = Form_Outgoingtransf_Ewallet::$ewallet_types[$model->ewallet_type];
 		$info_trans->value = $model->amount . ' ' . $model->currency->code;
 		$info_trans->details_of_payment = $model->description;
 		
@@ -38,7 +40,9 @@ class Transfers_Model_Ewallet extends Transfers_Model{
 			return false;
 		}
 		$trans_from->info_id = $info_trans->id;
-		
+
+        $contact = $this->findContact($info_trans->recipient_description, $info_trans->recipient, $info_trans->recipient);
+        $trans_from->associated_contact = $contact->id;
 		
 		if($trans_from->save() && $model->save()){
 			$transaction->commit();

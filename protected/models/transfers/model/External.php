@@ -27,7 +27,9 @@ class Transfers_Model_External extends Transfers_Model{
 		
 		$info_trans = new Transactions_Info;
 		$info_trans->sender = $model->user->fullname;
+        $info_trans->sender_description = number_format($model->account_number, 0, '.', ' ');
 		$info_trans->recipient = $model->getToAccountHolder();
+        $info_trans->recipient_description = $model->to_account_number;
 		$info_trans->value = $model->amount . ' ' . $model->currency->code;
 		$info_trans->details_of_payment = $model->description;
 		

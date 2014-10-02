@@ -9,8 +9,6 @@
 		</div>
 		<?php $this->render('contactsList/alphabet') ?>
 		<div class="account-search-results-cont with-alphabet scroll-block">
-			
-
 			<?php $this->render('contactsList/contactListUl', array('model' => $model)) ?>
 		</div>
 	</div>

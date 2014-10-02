@@ -7,6 +7,9 @@
  * @property integer $date
  * @property string  $type
  * @property string  $sender
+ * @property string  $sender_description
+ * @property string  $recipient
+ * @property string  $recipient_description
  * @property integer $sum
  * @property integer $curency_id
  * @property string  $bic

@@ -109,4 +109,20 @@ class AccountService
         }
         return '';
     }
+
+    public static function getTransactionStatus($status)
+    {
+        switch($status){
+            case Transactions::STATUS_APPROVED:
+                return '<img src="/css/images/statuses-ico-ok.png" alt="">';
+                break;
+            case Transactions::STATUS_PENDING:
+                return '<img src="/css/images/statuses-ico-pen.png" alt="">';
+                break;
+            case Transactions::STATUS_REJECTED:
+                return '<img src="/css/images/statuses-ico-rej.png" alt="">';
+                break;
+        }
+        return '';
+    }
 }

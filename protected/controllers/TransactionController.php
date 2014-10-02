@@ -22,7 +22,7 @@ class TransactionController extends Controller
     {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array(''),
+                'actions' => array('link'),
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
@@ -45,7 +45,7 @@ class TransactionController extends Controller
 
         $model = Transactions::model()->with('account')->findByAttributes(array('url' => $id));
 
-        if(!$model){
+        if (!$model) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
@@ -58,5 +58,48 @@ class TransactionController extends Controller
         Yii::app()->clientScript->registerScriptFile('/js/redactor/redactor.js');
 
         $this->render('info', array('model' => $model));
+    }
+
+    public function actionLink()
+    {
+        $entity = Yii::request()->getParam('entity', '', 'list', array('transactions'));
+        $entity_id = Yii::request()->getParam('entity_id', '', 'int');
+
+        $listFiles = Yii::request()->getParam('transactions');
+
+        foreach ($listFiles as $file) {
+            try {
+                $cross = new CrossLinks();
+                $cross->entity_id = $entity_id;
+                $cross->entity_name = $entity;
+                $cross->link_table_id = $file;
+                $cross->link_table_name = 'transactions';
+                $cross->user_id = Yii::user()->getCurrentId();
+                $cross->save();
+            } catch (CException $e) {
+//                echo CJSON::encode(
+//                    array(
+//                        'success' => false,
+//                        'message' => Yii::t('Drive', 'this_file_was_not_added')
+//                    )
+//                );
+//                Yii::app()->end();
+            }
+        }
+
+        $html = Widget::create(
+            'WLinkTransactions', 'WLinkTransactions',
+            array()
+        )->renderTransactionsTrans($entity_id, true);
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'message' => Yii::t('Category', 'category_was_added'),
+            'html' => $html,
+        ));
+    }
+
+    public function actionPrint(){
+
     }
 }

@@ -11,6 +11,8 @@ class Users_Contacts_Data_Model extends CModel
 	public $id;
 	protected $_dbModel;
     public $category_id;
+    public $field1;
+    public $field2;
 	
 	public function setDbModel($model){
 		$this->_dbModel = $model;
@@ -74,4 +76,8 @@ class Users_Contacts_Data_Model extends CModel
 		$this->_dbModel->value = serialize($this->attributes);
 		return $this->_dbModel->save();
 	}
+
+    public function changeFields(){
+
+    }
 }

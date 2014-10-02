@@ -46,7 +46,9 @@ class Transfers_Model_Own extends Transfers_Model{
 		
 		$info_trans = new Transactions_Info;
 		$info_trans->sender = $model->user->fullname;
+        $info_trans->sender_description = $model->user->fullname;
 		$info_trans->recipient = $model->getToAccountHolder();
+        $info_trans->recipient_description = $model->getToAccountHolder();
 		$info_trans->value = $model->amount . ' ' . $model->currency->code;
 		$info_trans->details_of_payment = $model->description;
 		

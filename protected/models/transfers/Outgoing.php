@@ -258,7 +258,7 @@ class Transfers_Outgoing extends ActiveRecord
                 return $this->to_account_holder;
                 break;
             case 'ewallet':
-                return $this->to_account_number;
+                return (is_numeric($this->to_account_number)) ? number_format($this->to_account_number, 0, '.', ' ') : $this->to_account_number;
                 break;
         }
     }

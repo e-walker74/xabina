@@ -54,6 +54,7 @@ class ContactController extends Controller
                     'pdf',
                     'searchLink',
                     'updateTab',
+                    'link',
                 ),
                 'roles' => array('client')
             ),
@@ -623,5 +624,43 @@ class ContactController extends Controller
                 ),
             )
         );
+    }
+
+    public function actionLink(){
+        $entity = Yii::request()->getParam('entity', '', 'list', array('transactions'));
+        $entity_id = Yii::request()->getParam('entity_id', '', 'int');
+
+        $listFiles = Yii::request()->getParam('contacts');
+
+        foreach ($listFiles as $file) {
+            try {
+                $cross = new CrossLinks();
+                $cross->entity_id = $entity_id;
+                $cross->entity_name = $entity;
+                $cross->link_table_id = $file;
+                $cross->link_table_name = 'users_contacts';
+                $cross->user_id = Yii::user()->getCurrentId();
+                $cross->save();
+            } catch (CException $e) {
+//                echo CJSON::encode(
+//                    array(
+//                        'success' => false,
+//                        'message' => Yii::t('Drive', 'this_file_was_not_added')
+//                    )
+//                );
+//                Yii::app()->end();
+            }
+        }
+
+        $html = Widget::create(
+            'WLinkContact', 'WLinkContact',
+            array()
+        )->renderTransactionsContacts($entity_id, true);
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'message' => Yii::t('Contact', 'contact_was_added'),
+            'html' => $html,
+        ));
     }
 }

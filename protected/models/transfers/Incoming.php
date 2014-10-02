@@ -4,8 +4,12 @@
  * This is the model class for table "transfers_outgoing".
  *
  * The followings are the available columns in table 'transfers_outgoing':
+ * @property string $to_account_number
+ * @property string $from_account_number
+ * @property string $electronic_method
+ * @property string $from_account_holder
  *
- * @properties Transactions $transactions
+ * @property Transactions $transactions
  */
 class Transfers_Incoming extends ActiveRecord
 {
@@ -151,12 +155,31 @@ class Transfers_Incoming extends ActiveRecord
 						return $this->from_account_holder;
 						break;
 					case 'ideal':
-						return $this->from_account_number;
+						return number_format($this->from_account_number, 0, '.', ' ');
 						break;
 				}
 				break;
 		}
 	}
+
+    public function getFromDescription()
+    {
+        switch($this->form_type){
+            case 'request':
+                return Users::model()->find('login = :login', array(':login' => $this->from_account_number))->fullname;
+                break;
+            case 'electronic':
+                switch(Form_Incoming_Electronic::$methods[$this->electronic_method]){
+                    case 'creditcard':
+                        return 'xxxx xxxx ' . substr($this->from_account_number, -4);
+                        break;
+                    case 'ideal':
+                        return Yii::t('Front', 'ideal');
+                        break;
+                }
+                break;
+        }
+    }
 
 	public function search()
 	{

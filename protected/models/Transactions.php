@@ -13,6 +13,8 @@
  * @property double            $amount
  * @property double            $acc_balance
  * @property string            $status
+ * @property int               $execution_time
+ * @property
  *
  * The followings are the available model relations:
  * @property Accounts          $account
@@ -20,6 +22,12 @@
  */
 class Transactions extends ActiveRecord
 {
+
+    public $model_id;
+    public $form;
+    public $cross_id;
+    public $cross_category;
+    public $cross_comment;
 
     const STATUS_PENDING = 'pending';
     const STATUS_APPROVED = 'approved';
@@ -84,6 +92,7 @@ class Transactions extends ActiveRecord
             'link' => array(self::HAS_ONE, 'Transactions_Categories_Links', 'transaction_id'),
             'category' => array(self::HAS_ONE, 'Transactions_Categories', array('category_id' => 'id'), 'through' => 'link'),
             'alertRules' => array(self::HAS_MANY, 'Users_AlertsRules', array('account_id' => 'account_id', 'user_id' => 'user_id')),
+            'contact' => array(self::BELONGS_TO, 'Users_Contacts', 'associated_contact'),
         );
     }
 

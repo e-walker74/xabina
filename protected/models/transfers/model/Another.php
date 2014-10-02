@@ -49,7 +49,9 @@ class Transfers_Model_Another extends Transfers_Model{
 		
 		$info_trans = new Transactions_Info;
 		$info_trans->sender = $model->user->fullname;
-		$info_trans->recipient = $model->getToAccountHolder();
+        $info_trans->sender_description = $trans_from->account_number;
+		$info_trans->recipient = $trans_to->to_account_holder;
+        $info_trans->sender_description = $trans_to->to_account_number;
 		$info_trans->value = $model->amount . ' ' . $model->currency->code;
 		$info_trans->details_of_payment = $model->description;
 		
@@ -61,7 +63,10 @@ class Transfers_Model_Another extends Transfers_Model{
 		}
 		$trans_from->info_id = $info_trans->id;
 		$trans_to->info_id = $info_trans->id;
-		
+
+        $contact = $this->findContact($info_trans->recipient_description, $info_trans->recipient, $info_trans->recipient);
+        $trans_from->associated_contact = $contact->id;
+
 		if($trans_from->save() && $trans_to->save() && $model->save()){
 			$transaction->commit();
             return true;

@@ -23,16 +23,19 @@ class Transfers_Model_Electronic extends Transfers_Model{
 		$trans_to->transfer_type = 'incoming';
 		$trans_to->transfer_id = $model->id;
         $trans_to->incoming_id = $model->id;
+        $trans_to->execution_time = time();
 		$trans_to->amount = Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code);
 //		$trans_to->acc_balance = ($model->account->balance + Currencies::convert($model->amount, $model->currency->code, $model->account->currency->code));
-		
+
 		$account_to = $model->account;
-		
+
 //		$account_to->balance = $trans_to->acc_balance;
 
 		$info_trans = new Transactions_Info;
 		$info_trans->sender = $model->getFromHolder();
+        $info_trans->sender_description = $model->getFromDescription();
 		$info_trans->recipient = $model->user->fullname;
+        $info_trans->recipient_description = number_format($model->to_account_number, 0, '.', ' ');
 		$info_trans->value = $model->amount . ' ' . $model->currency->code;
 		$info_trans->details_of_payment = $model->description;
 		
@@ -43,8 +46,7 @@ class Transfers_Model_Electronic extends Transfers_Model{
 			return false;
 		}
 		$trans_to->info_id = $info_trans->id;
-		
-		
+
 		if($trans_to->save() && $model->save()){
 			$transaction->commit();
             return true;

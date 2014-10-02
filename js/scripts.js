@@ -452,7 +452,7 @@ $(function () {
                     if ($(link).parents(parentTag).prev(parentTag).hasClass('email-comment-tr')) {
                         $(link).parents(parentTag).prev(parentTag).remove();
                     }
-                    $(link).parents(parentTag).remove();
+                    $(link).closest(parentTag).remove();
 
                     if (response.reload) {
                         location.reload();
@@ -568,6 +568,16 @@ var input_hide_error_on_focus = function(){
 }
 
 $(document).ready(function () {
+
+    $('.table-arrow').on('click', function(){
+        $(this).toggleClass('open');
+        if($(this).hasClass('open'))
+            $(this).html('Hide <span></span>');
+        else
+            $(this).html('Show More <span></span>');
+        $(this).parents('.one_tab').find('.hide-tr').toggle(0);
+        return false;
+    });
 
     input_hide_error_on_focus()
 
