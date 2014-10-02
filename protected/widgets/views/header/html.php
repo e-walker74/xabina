@@ -42,9 +42,9 @@
                     <?= Yii::user()->getFullName() ?><br>
                     <em><?php echo $rbacMenu['active']['account_name']; ?></em>
                 </div>
-                <!--<div class="select-arr">
-                    <span class="alert">!</span>
-                </div>-->
+                <div class="select-arr">
+                    <!--<span class="alert">!</span>-->
+                </div>
 
             </div>
             <!--<ul class="person-list list-unstyled dropdown-menu">
