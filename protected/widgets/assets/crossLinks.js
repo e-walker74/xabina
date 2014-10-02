@@ -5,7 +5,7 @@
 CrossLinks = {
     init: function () {
         $(document).ready(function(){
-            $('body').on('click', '.edit_select,.no-close,#tags-add-dropdown', function(event){
+            $('.transaction-table-cont').on('click', '.edit_select,.no-close,#tags-add-dropdown', function(event){
                 event.stopPropagation();
             }).on('click', function(event){
                 CrossLinks.closeCategories()
