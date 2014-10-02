@@ -90,7 +90,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                             <div class="transaction-buttons-cont edit-submit-cont">
                                 <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
-                                <a href="#" class="button remove"  title="<?= Yii::t('Front', 'Remove') ?>"></a>
+                                <a href="javaScript:void(0)" class="button cancel"  title="<?= Yii::t('Front', 'Remove') ?>"></a>
                             </div>
                         </div>
                     </div>

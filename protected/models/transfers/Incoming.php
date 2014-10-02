@@ -4,6 +4,12 @@
  * This is the model class for table "transfers_outgoing".
  *
  * The followings are the available columns in table 'transfers_outgoing':
+ * @property string $to_account_number
+ * @property string $from_account_number
+ * @property string $electronic_method
+ * @property string $from_account_holder
+ *
+ * @property Transactions $transactions
  */
 class Transfers_Incoming extends ActiveRecord
 {
@@ -23,9 +29,9 @@ class Transfers_Incoming extends ActiveRecord
         '6' => 'american-ecspress'
     );
 	
-	const PENDING_STATUS = 0;
-	const APPROVED_STATUS = 1;
-	const REJECTED_STATUS = 2;
+	const STATUS_PENDING = 0;
+	const STATUS_APPROVED = 1;
+	const STATUS_REJECTED = 2;
 
     /**
      * Returns the static model of the specified AR class.
@@ -62,6 +68,7 @@ class Transfers_Incoming extends ActiveRecord
 			array('p_csc', 'numerical'),
 			array('p_csc', 'length', 'max' => 3, 'min' => 3),
             array('urgent, favorite', 'boolean'),
+            array('status', 'safe', 'on' => 'admin'),
 			array('from_account_number, from_account_holder, tag1, tag2, tag3', 'length', 'max' => 255),
             array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
         );
@@ -78,6 +85,7 @@ class Transfers_Incoming extends ActiveRecord
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
 			'notes' => array(self::HAS_MANY, 'Transactions_Notes', 'transaction_id', 'condition' => 'deleted = 0'),
 			'category' => array(self::BELONGS_TO, 'Transactions_Categories', 'category_id'),
+            'transactions' => array(self::HAS_MANY, 'Transactions', 'incoming_id'),
 			//'xabina_account' => array(self::BELONGS_TO, 'Accounts', 'account_number'),
 		);
 	}
@@ -85,7 +93,7 @@ class Transfers_Incoming extends ActiveRecord
 	public function beforeSave()
     {
 		if ($this->isNewRecord) {
-            $this->status = self::PENDING_STATUS;
+            $this->status = self::STATUS_PENDING;
 			$this->user_id = Yii::app()->user->id;
 		}
 
@@ -147,12 +155,31 @@ class Transfers_Incoming extends ActiveRecord
 						return $this->from_account_holder;
 						break;
 					case 'ideal':
-						return $this->from_account_number;
+						return number_format($this->from_account_number, 0, '.', ' ');
 						break;
 				}
 				break;
 		}
 	}
+
+    public function getFromDescription()
+    {
+        switch($this->form_type){
+            case 'request':
+                return Users::model()->find('login = :login', array(':login' => $this->from_account_number))->fullname;
+                break;
+            case 'electronic':
+                switch(Form_Incoming_Electronic::$methods[$this->electronic_method]){
+                    case 'creditcard':
+                        return 'xxxx xxxx ' . substr($this->from_account_number, -4);
+                        break;
+                    case 'ideal':
+                        return Yii::t('Front', 'ideal');
+                        break;
+                }
+                break;
+        }
+    }
 
 	public function search()
 	{
@@ -187,14 +214,14 @@ class Transfers_Incoming extends ActiveRecord
 
     public function getHtmlStatus(){
         switch($this->status){
-            case self::PENDING_STATUS:
-                return '<span class="pending">Pending</span>';
+            case self::STATUS_PENDING:
+                return '<span class="pending">'.Yii::t('Front', 'Pending').'</span>';
                 break;
-            case self::APPROVED_STATUS:
-                return '<span class="approved">Approved</span>';
+            case self::STATUS_APPROVED:
+                return '<span class="approved">'.Yii::t('Front', 'Approved').'</span>';
                 break;
-            case self::REJECTED_STATUS:
-                return '<span class="rejected">Rejected</span>';
+            case self::STATUS_REJECTED:
+                return '<span class="rejected">'.Yii::t('Front', 'Rejected').'</span>';
                 break;
         }
     }

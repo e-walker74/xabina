@@ -9,6 +9,8 @@
  * @property string $data_type
  * @property string $value
  * @property integer $category_id
+ * @property string $field1
+ * @property string $field2
  *
  * The followings are the available model relations:
  * @property UsersContacts $contact
@@ -49,6 +51,7 @@ class Users_Contacts_Data extends ActiveRecord
 			array('contact_id, data_type, value', 'required'),
 			array('contact_id', 'numerical', 'integerOnly'=>true),
 			array('data_type', 'length', 'max'=>30),
+            array('field1, field2', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, contact_id, data_type, value', 'safe', 'on'=>'search'),
@@ -198,7 +201,7 @@ class Users_Contacts_Data extends ActiveRecord
             )
         );
     }
-	
+
 	public function saveData($contact_id){
 
 		$model = Users_Contacts_Data::getModelByPost();
@@ -214,6 +217,9 @@ class Users_Contacts_Data extends ActiveRecord
 		}
 
 		$model->validate();
+        $model->changeFields();
+
+        $dbModel->attributes = $model->attributes;
 
         if(isset($_POST['Data_Category']) && !$model->category_id){
             $model->category_id = $this->getDataCategoryForModel($_POST['Data_Category'], $dbModel->data_type);

@@ -8,26 +8,34 @@
  * Time: 16:14
  * @var WCurrencyConverter $this
  */ ?>
-
-<div class="comment currency-converter-widget">
-    <a class="exchange-ico dropdown-hover" data-toggle="dropdown" href="#"></a>
-
-    <div
-        class="dropdown-menu no-close contact-select-dropdown list-actions-dropdown list-unstyled act-list exchange-popup"
-        role="menu">
-        <div class="arr"></div>
+<span class="comment drdn-cont valute-drdn currency-converter-widget">
+    <a href="#" class="transaction_valute margin-left" data-toggle="dropdown"></a>
+    <div class="dropdown-menu no-close contact-select-dropdown2 valute-dr list-actions-dropdown list-unstyled act-list" role="menu">
+        <div class="arr my_arr"></div>
         <div class="content-dropdown">
             <div class="drop_title">
                 <?= Yii::t('CurrencyWidget', 'Currency') ?>
                 <a class="close-dropdown"></a>
             </div>
-            <div class="drop_bg_block">
-                <?= Yii::t('CurrencyWidget', 'select_currency') ?>
-            </div>
-            <div class="drop_main_block">
-                <div class="select-custom account-select">
-                    <span class="select-custom-label"></span>
-                    <?=
+            <div class="drop_main_block valute-main">
+                <div class="old_sum"><?= number_format($this->value, 2, '.', ' ') ?> <?= $rate['title'] ?></div>
+                <div class="trans">=</div>
+                <div class="col-lg-7 col-md-7 col-sm-7 no-pad">
+                    <div class="new_sum">
+                        <?php foreach($rate['rates'] as $currency => $data): ?>
+                            <?php if($this->currency_code == $currency) { continue; } ?>
+                            <div class="currencies-values currency_conversion_rates_for_<?= $currency ?>">
+                                <span <?php if($this->value < 0): ?>class="rejected"<?php endif; ?>>
+                                <?= number_format($data['rate']*$this->value, 2, '.', ' ') ?>
+                                </span>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 no-pad">
+                    <div class="select-custom account-select">
+                        <span class="select-custom-label"></span>
+                        <?=
                         CHtml::dropDownList(
                             'currency',
                             '',
@@ -39,25 +47,20 @@
                                 )
                             )
                         );
-                    ?>
-                </div>
-                <?php foreach($rate['rates'] as $currency => $data): ?>
-                    <?php if($this->currency_code == $currency) { continue; } ?>
-                    <div class="drop_dop_text currency_conversion_rates_for_<?= $currency ?>">
-                    <span class="bold_text">
-                        <?= number_format($this->value, 2, '.', ' ') ?> <?= $rate['title'] ?>  =
-                        <?= number_format($data['rate']*$this->value, 2, '.', ' ') ?> <?= $data['title'] ?>
-                    </span>
-                        <?= Yii::t('CurrencyWidget', 'Rate from {date}. 1 {fromCurrency} : {rate} {toCurrency}',
-                        array(
-                            '{date}' => date('d.m.Y', $rate['last_update']),
-                            '{fromCurrency}' => $rate['title'],
-                            '{rate}' => number_format($data['rate'], 2, '.', ' '),
-                            '{toCurrency}' => $data['title'],
-                        )) ?>
+                        ?>
                     </div>
-                <?php endforeach; ?>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="drop_footer">
+                <?= Yii::t('CurrencyWidget', 'Rate from {date}. 1 {fromCurrency} : {rate} {toCurrency}',
+                    array(
+                        '{date}' => date('d.m.Y', $rate['last_update']),
+                        '{fromCurrency}' => $rate['title'],
+                        '{rate}' => number_format($data['rate'], 2, '.', ' '),
+                        '{toCurrency}' => $data['title'],
+                    )) ?>
             </div>
         </div>
     </div>
-</div>
+</span>

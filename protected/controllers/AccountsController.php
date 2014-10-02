@@ -517,6 +517,9 @@ class AccountsController extends Controller
         Yii::app()->clientScript->registerScriptFile('/js/XForms.js');
         $model = new Accounts('create');
 
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+        $this->breadcrumbs[Yii::t('Front', 'Open account')] = '';
+
         if (Yii::request()->getParam('ajax')) {
             $model->user_id = Yii::user()->id;
             echo CActiveForm::validate($model);
@@ -547,6 +550,10 @@ class AccountsController extends Controller
 
     public function actionManagement()
     {
+
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = array('/accounts/index');
+        $this->breadcrumbs[Yii::t('Front', 'Management')] = '';
+
         Yii::app()->clientScript->registerScriptFile('/js/accounts.js');
         Yii::app()->clientScript->registerScriptFile('/js/XForms.js');
         $accountID = Yii::request()->getParam('url', '', 'integer');

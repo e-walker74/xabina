@@ -45,6 +45,7 @@ class Users_Categories extends ActiveRecord
             array('user_id, data_type, value', 'required'),
             array('user_id', 'length', 'max' => 11),
             array('data_type', 'length', 'max' => 30),
+            array('value', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, user_id, data_type, value', 'safe', 'on' => 'search'),

@@ -97,8 +97,26 @@
                         <?= Yii::t('Account', 'Account type') ?>
                         <span class="tooltip-icon" title="<?= Yii::t('Account', 'create_account_type_tooltip') ?>"></span>
                     </div>
-                    <div class="form-input">
-                        <input type="text" class="input-text" value="Платежный" disabled>
+                    <div class="form-input category-select">
+                        <div class="select-custom select-narrow ">
+                            <span class="select-custom-label"></span>
+                            <?= $form->dropDownList(
+                                $model,
+                                'sub_type',
+                                array('' => Yii::t('Front', 'Select')) + Accounts::getTempAccountsTypeAndSubtype(),
+                                array(
+                                    'class' => 'select-invisible country-select',
+                                    'options' =>
+                                        array(
+                                            '' => array(
+                                                'selected' => true,
+                                                'disabled' => true
+                                            )
+                                        )
+                                )
+                            ) ?>
+                        </div>
+                        <?= $form->error($model, 'sub_type') ?>
                     </div>
                 </div>
             </div>
@@ -160,31 +178,6 @@
                             ) ?>
                         </div>
                         <?= $form->error($model, 'currency_id') ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="form-cell">
-                    <div class="form-lbl">
-                        <?= Yii::t('Account', 'Sub Type') ?>
-                        <span class="tooltip-icon" title="<?= Yii::t('Account', 'create_account_subtype_tooltip') ?>"></span>
-                    </div>
-                    <div class="form-input category-select">
-                        <div class="select-custom select-narrow ">
-                            <span class="select-custom-label"></span>
-                            <?= $form->dropDownList(
-                                $model,
-                                'sub_type',
-                                array('' => Yii::t('Front', 'Select')) + Accounts::getAccountSubTypesForUser(),
-                                array(
-                                    'class' => 'select-invisible country-select',
-                                    'options' => array('' => array('selected' => true, 'disabled' => true))
-                                )
-                            ) ?>
-                        </div>
-                        <?= $form->error($model, 'sub_type') ?>
                     </div>
                 </div>
             </div>

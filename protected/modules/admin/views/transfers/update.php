@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var Transactions_Info $info
+ * @var Transfers_Outgoing $model
+ */
+?>
+
 <div id="wrap">
 	<div id="page-heading">
 		<h1><?= Yii::t('Users', 'Update transfer') ?></h1>
@@ -108,16 +115,16 @@
 						<?php echo $form->textField($model, 'to_account_holder', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
 					</div>
 				</div>
+                <div class="form-group">
+                    <?php echo $form->labelEx($model, 'to_account_number', array('class' => 'col-sm-3 control-label ')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->textField($model, 'to_account_number', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
+                    </div>
+                </div>
 				<div class="form-group">
 					<?php echo $form->labelEx($model, 'external_bank_id', array('class' => 'col-sm-3 control-label ')); ?>
 					<div class="col-sm-6">
 						<?php echo $form->textField($model, 'external_bank_id', array('disabled' => 'disabled', 'maxlength' => 12, 'class' => 'form-control')); ?>
-					</div>
-				</div>
-				<div class="form-group">
-					<?php echo $form->labelEx($model, 'to_account_number', array('class' => 'col-sm-3 control-label ')); ?>
-					<div class="col-sm-6">
-						<?php echo $form->textField($model, 'to_account_number', array('disabled' => 'disabled', 'class' => 'form-control')); ?>
 					</div>
 				</div>
 				<?php endif; ?>
@@ -158,14 +165,44 @@
 					</div>
 				</div>
 				<?php endif; ?>
-				
+
+                <div class="form-group">
+                    <?php echo $form->labelEx($info, 'sender', array('class' => 'col-sm-3 control-label ')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->textField($info, 'sender', array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <?php echo $form->labelEx($info, 'recipient', array('class' => 'col-sm-3 control-label ')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->textField($info, 'recipient', array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <?php echo $form->labelEx($model, 'status', array('class' => 'col-sm-3 control-label ')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->dropDownList($model, 'status', array(
+                            Transfers_Outgoing::STATUS_PENDING => 'pending',
+                            Transfers_Outgoing::STATUS_APPROVED => 'approved',
+                            Transfers_Outgoing::STATUS_REJECTED => 'rejected',
+                        ), array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <?php echo $form->labelEx($info, 'status_comment', array('class' => 'col-sm-3 control-label ')); ?>
+                    <div class="col-sm-6">
+                        <?php echo $form->textField($info, 'status_comment', array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
 				<div class="panel-footer">
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
 							<div class="btn-toolbar">
-								<?php echo CHtml::submitButton(Yii::t('Admin', 'Authorise'), array('name' => 'action', 'class' => 'btn-primary btn')); ?>
-                                <?php echo CHtml::submitButton(Yii::t('Admin', 'Reject'), array('name' => 'action', 'class' => 'btn-danger btn')); ?>
-
+								<?php echo CHtml::submitButton(Yii::t('Admin', 'Save'), array('class' => 'btn-primary btn')); ?>
 							</div>
 						</div>
 					</div>

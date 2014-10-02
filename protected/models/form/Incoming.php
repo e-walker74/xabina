@@ -39,7 +39,7 @@ abstract class Form_Incoming extends CFormModel
     public $category_id;
 
     /* system */
-    public $need_confirm = 1;
+    public $need_confirm = 0;
     public $is_iban = false;
     public $external_bank_id;
 
