@@ -83,7 +83,7 @@ class NotificationsController extends Controller
 			$model->attributes = $notify->attributes;
 		}
 
-		if(isset($_POST['Users_Notifications'])){
+		if(isset($_POST['Users_Notifications'])) {
 			$model->attributes = $_POST['Users_Notifications'];
 
 			if ($model->validate() && !empty($_POST['userList_c0'])) {
