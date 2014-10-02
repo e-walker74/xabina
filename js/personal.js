@@ -390,10 +390,10 @@ Personal = {
                 url: checkbox.attr('data-url'),
                 success: function (response) {
                     if (response.success) {
-                        successNotify('Personal', response.message, checkbox);
+                        successNotify('Personal', response.message, checkbox.closest('label'));
 //                        Personal.refreshTabs()
                     } else {
-                        errorNotify('Personal', error, checkbox);
+                        errorNotify('Personal', error, checkbox.closest('label')); 
                     }
                 },
                 data: {value: checkbox.val(), name: checkbox.attr('name')},
