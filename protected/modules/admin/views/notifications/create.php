@@ -4,6 +4,7 @@
 	</div>
 
 	<div class="container">
+
 		<div class="panel panel-midnightblue">
 			<div class="panel-heading ">
 				<h4><?= Yii::t('Notifications', 'Create') ?></h4>
@@ -19,3 +20,4 @@
 		</div>
 	</div>
 </div>
+

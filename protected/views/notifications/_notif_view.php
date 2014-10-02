@@ -1,5 +1,5 @@
 <li class="nrow">
-    <div class="message-container <?=$data->message->css_types[$data->message->type]?>">
+    <div class="message-container <?=$data->message->css_types[$data->message->type]?><?if($data->status != Users_NotificationsStatuses::STATUS_NEW || $data->message->type == Users_Notifications::TYPE_PROMOTION){?>-border white<?}?>">
         <div class="message-top">
             <div class="interlocutor-photo pull-left">
                 <img src="/images/dialogues_photo_xabina.png" alt="">
@@ -10,7 +10,7 @@
                 <br/>
 
                 <div class="news-datetime"><?=date('Y-m-d H:i',$data->message->published_at)?></div>
-                <div class="news-status pin"></div>
+                <?if($data->pinned) {?><div class="news-status pin"></div><?}?>
             </div>
             <div class="message-actions-cont">
 				<span class="drdn-cont">
@@ -31,15 +31,16 @@
 					<a href="#" class="act-but" data-toggle="dropdown"></a>
 					<ul class="dropdown-menu contact-select-dropdown list-actions-dropdown list-unstyled act-list"
 						role="menu">
-
+						<?if ($data->status != Users_NotificationsStatuses::STATUS_NEW) {?>
 						<li class="clearfix">
-							<a href="#" class="action unread">Mark as unread</a>
+							<a href="#" data-id="<?=$data->id?>" class="action unread unread_but">Mark as unread</a>
 						</li>
+						<? } ?>
 						<li class="clearfix">
 							<a href="#" class="action favorite">Mark as favorites</a>
 						</li>
 						<li class="clearfix">
-							<a href="#" class="action pin">Pin to top</a>
+							<a href="#" data-id="<?=$data->id?>" class="action pin pin_but">Pin to top</a>
 						</li>
 					</ul>
 				</span>
@@ -56,13 +57,9 @@
 
             <div class="attachments-cont">
 				<?if (count($data->message->files)) {?>
-				<div class="files-many"></div>
-                <div class="files-header">
-                    <a href="#" class="news-files-toggle closed"><span><?=count($data->message->files)?> Files</span></a>
 
-                    <div class="transaction-buttons-cont" style="margin: -3px 0 0"><a href="#"
-                                                                                      class="all-links button download-mini"></a>
-                    </div>
+				<div class="files-header files-toggle">
+                    Files
                 </div>
                 <div class="clearfix"></div>
                 <ul class="list-unstyled attachments-files-list" style="display: none;">
@@ -91,7 +88,11 @@
     </div>
 </li>
 
-
+<style>
+	.list-view-loading {
+		background: none;
+	}
+</style>
 <li style="display: none" class="notify-cat-<?=$data->message->sections[$data->message->section]?> notification-<?=($data->status == 'new')?
 	$data->message->css_types[$data->message->type]:'na'?>
 	<?=$data->message->css_types[$data->message->type]?>">

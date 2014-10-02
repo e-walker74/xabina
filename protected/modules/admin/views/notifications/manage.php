@@ -18,8 +18,8 @@
 					'dataProvider'=>$model->search(),
 					'ajaxUpdate' => true,
                     'filter'=>$model,
-                    //'htmlOptions' => array('class' => 'table table-striped table-bordered datatables'),
-					'itemsCssClass' => 'table table-striped table-bordered datatables',
+					'enableHistory'=>true,
+                    'itemsCssClass' => 'table table-striped table-bordered datatables',
 					'summaryCssClass' => 'dataTables_info',
 					'template' => '{items}
 									<div class="row">
@@ -34,6 +34,7 @@
 					//'cssFile'=>$this->module->assetsUrl.'/css/styles-admin.css',
 					'pager' => 'BootstrapPager',
 					'columns'=>array(
+
                         'type',
                         'code',
 						'announce',
@@ -52,9 +53,13 @@
 									'label'=>'Copy', // text label of the button
 									'url'=>"CHtml::normalizeUrl(array('create', 'notification_id'=>\$data->id))",
 								),
+								'delete' => array(
+									'label'=>'Delete', // text label of the button
+									'url'=>"CHtml::normalizeUrl(array('delete', 'notification_id'=>\$data->id))",
+								),
 							),
 							'class'=>'CButtonColumn',
-							'template' => '{view} {users} {copy}',
+							'template' => '{view} {users} {copy} {delete}',
 						)
 					),
 				)); ?>

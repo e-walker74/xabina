@@ -65,6 +65,14 @@ class Users_Notifications extends CActiveRecord
 		self::TYPE_EMERGENCY=>'pink',
 	);
 
+	public $css_mini_types = array(
+		//self::TYPE_NOTE=>'info',
+		self::TYPE_PROMOTION=>'info',
+		self::TYPE_INFORMATION=>'info',
+		self::TYPE_WARNING=>'warn',
+		self::TYPE_EMERGENCY=>'danger',
+	);
+
 	public $types = array(
 		//self::TYPE_NOTE=>self::TYPE_NOTE,
 		self::TYPE_PROMOTION=>self::TYPE_PROMOTION,

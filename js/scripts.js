@@ -1254,6 +1254,13 @@ $(function () {
                     if (e.target.tagName != 'A') return false;
                 })
                 $( ".popup-tabs" ).tabs({active: 0});
+
+                $('.news-files-toggle').on('click', function(){
+
+                    $(this).toggleClass('closed');
+                    $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
+                    return false;
+                });
             });
         }
     }
@@ -1275,14 +1282,10 @@ $(function () {
         }
     });
 
-    $('.news-files-toggle').on('click', function(){
-       $(this).toggleClass('closed');
-        $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
-        return false;
-    });
+
 
 	$('.news-arrow-but').on('click', function(){
-       $(this).toggleClass('closed');
+        $(this).toggleClass('closed');
         $(this).parents('.message-container').find('.news_content').slideToggle();
         return false;
     });
@@ -1318,17 +1321,33 @@ $(function () {
 		return false;
     });
 
-    $('.message-container .all-links').on('click', function(e){
+    $('body').on('click', '.message-container .all-links', function(e){
         e.preventDefault();
         $(this).closest('.attachments-cont').find('.list-unstyled a').each(function(i,e) {
             window.open($(e).attr('href'));
         });
     });
 
+    $('body').on('click','.files-toggle', function(){
+       $(this).toggleClass('closed');
+        //$(this).hasClass('closed') ? $(this).html('<span>Show all</span>') : $(this).html('<span>Hide</span>');
+        $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
+        return false;
+    });
 
-    $('.message-container .read_but').click(function(e){
+
+    $('body').on('click','.message-container .read_but', function(e){
         e.preventDefault();
         $.ajax('/ajax/SetReadNotification/'+$(this).attr('data-id'));
         $(this).hide().prev().hide();
+        $(this).parents('.message-container').attr('class', $(this).parents('.message-container').attr('class')+'-border white');
+    });
+
+    $('body').on('click','.message-container .pin_but', function(e){
+        e.preventDefault();
+        $.ajax('/ajax/SetPinnNotification/'+$(this).attr('data-id'))
+            .success(function() {
+                $.fn.yiiListView.update('notifListView');
+            });
     });
 });

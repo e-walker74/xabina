@@ -34,12 +34,43 @@
     ));
 ?>
 <?php echo $form->hiddenField($model, 'code', array('value' => 'from_panel')); ?>
-<div class="form-group">
-	<?=CHtml::label(Yii::t('Admin', 'User ID'), 'user_id', array('class' => 'col-sm-3 control-label'))?>
-    <div class="col-sm-6">
-        <?= CHtml::textField('user_id', '', array('class' => 'form-control')) ?>
-    </div>
-</div>
+<?$model_users = new Users();?>
+				<?php $this->widget('zii.widgets.grid.CGridView', array(
+					'dataProvider'=>$model_users->search(),
+					'ajaxUpdate' => true,
+					//'htmlOptions' => array('class' => 'table table-striped table-bordered datatables'),
+					'itemsCssClass' => 'table table-striped table-bordered datatables',
+					'filter'=>$model_users,
+					'id'=>'userList',
+					'summaryCssClass' => 'dataTables_info',
+					'template' => '{items}
+									<div class="row">
+										<div class="col-xs-6">
+											{summary}
+										</div>
+										<div class="col-xs-6">
+											{pager}
+										</div>
+									</div>',
+					'pagerCssClass' => 'dataTables_paginate paging_bootstrap',
+					'cssFile'=>$this->module->assetsUrl.'/css/styles-admin.css',
+					'pager' => 'BootstrapPager',
+					'columns'=>array(
+						array(
+							'class'=>'CCheckBoxColumn',
+							'selectableRows' => 2,
+							'checkBoxHtmlOptions'=>array('onClick' => '$.ajax("?checked_id="+$(this).val()+"&checked_status="+$(this).attr("checked"))'),
+							'checked'=>'($st=Yii::app()->user->getState("notif_user_id"))&&isset($st[$data->id])&&$st[$data->id]'
+						),
+								array(
+									'header' => 'Дата',
+									'value' => 'date("Y-m-d h:m", $data->created_at)',
+								),
+								'login',
+								'email',
+
+					),
+				)); ?>
 
 <div class="form-group">
 	<?php echo $form->labelEx($model, 'type', array('class' => 'col-sm-3 control-label')); ?>

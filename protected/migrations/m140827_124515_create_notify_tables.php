@@ -30,6 +30,7 @@ class m140827_124515_create_notify_tables extends CDbMigration
   `status` enum('new','see','hidden','done') NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
+  `pinned` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

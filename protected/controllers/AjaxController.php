@@ -142,7 +142,20 @@ class AjaxController extends Controller
 			$model->save();
 		}
 
-		 echo CJSON::encode(array('success' => true));
+		echo CJSON::encode(array('success' => true));
+	}
+
+	public function actionSetPinnNotification($id) {
+
+		$model = Users_NotificationsStatuses::model()->findByAttributes(array('id' => $id, 'user_id' => Yii::app()->user->id));
+
+		if ($model != null) {
+			$model->pinned = $model->pinned?0:1;
+
+			$model->save();
+		}
+
+		echo CJSON::encode(array('success' => true));
 	}
 
     public function actionRemoveTag($id, $entity, $entity_id, $cross_type)

@@ -10,6 +10,7 @@
  * @property string $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property bool $pinned
  */
 class Users_NotificationsStatuses extends CActiveRecord
 {
@@ -45,12 +46,12 @@ class Users_NotificationsStatuses extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, notification_id, status, created_at, updated_at', 'required'),
-			array('notification_id, created_at, updated_at', 'numerical', 'integerOnly'=>true),
+			array('notification_id, created_at, updated_at, pinned', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>11),
 			array('status', 'length', 'max'=>6),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('user_id, notification_id, status, created_at, updated_at, message, section, type', 'safe', 'on'=>'search'),
+			array('user_id, notification_id, status, created_at, updated_at, message, section, type, pinned', 'safe', 'on'=>'search'),
 			array('id, user_id, notification_id, status, created_at, updated_at, message', 'safe', 'on'=>'admin'),
 		);
 	}
@@ -77,6 +78,7 @@ class Users_NotificationsStatuses extends CActiveRecord
 			'user_id' => 'User',
 			'notification_id' => 'Notification',
 			'status' => 'Status',
+			'pinned' => 'Pinned',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -105,13 +107,13 @@ class Users_NotificationsStatuses extends CActiveRecord
 			'message'
 		);
 
-		$criteria->order = "message.published_at desc, message.id desc";
+		$criteria->order = "pinned desc,message.published_at desc, message.id desc";
 		$criteria->condition = 'message.published_at < '.time();
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('message.type',$this->type,true);
 		$criteria->compare('message.section',$this->section);
-		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('user_id',Yii::app()->user->getId());
 		$criteria->compare('notification_id',$this->notification_id);
 		$criteria->compare('status',$this->status,true);
 
@@ -131,7 +133,7 @@ class Users_NotificationsStatuses extends CActiveRecord
 			'message'
 		);
 		$criteria->order = "message.published_at desc";
-		$criteria->condition = 'message.published_at < '.time();
+		//$criteria->condition = 'message.published_at < '.time();
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('message.type',$type,true);

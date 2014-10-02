@@ -2,7 +2,7 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
 <div class="news-tabs-cont">
 <ul class="list-unstyled news_tabs">
-    <li><a href="#tab1">News<span class="messages-count">6</span></a></li>
+    <li><a href="#tab1">News<?$model->status = Users_NotificationsStatuses::STATUS_NEW;$count = $model->search()->getTotalItemCount();if($count){?><span class="messages-count"><?= $count ?></span><?}$model->status=null;?></a></li>
     <li><a href="#tab2">Accounts<span class="messages-count">1</span></a></li>
     <li><a href="#tab3">Transaction</a></li>
 </ul>
@@ -84,6 +84,7 @@
 			  	)
 
 			)); ?>
+
 		</ul>
 	</div>
 </div>

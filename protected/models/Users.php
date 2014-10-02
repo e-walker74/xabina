@@ -336,6 +336,7 @@ class Users extends ActiveRecord
 		if ($notify->validate() && $notify->save()) {
 
 			if (is_array($user_id)) {
+
 				foreach ($user_id as $id) {
 					Users_NotificationsStatuses::addStatus($notify->id, $id);
 				}

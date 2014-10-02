@@ -1,4 +1,4 @@
-<li>
+<li style="display: none">
     <div class="message-container <?=$data->message->css_types[$data->message->type]?>">
         <div class="message-top">
             <div class="interlocutor-photo pull-left">
@@ -89,6 +89,52 @@
     </div>
 </li>
 
+
+<li class="message-dialogues n-m <?=$data->message->css_mini_types[$data->message->type]?><?if($data->status != Users_NotificationsStatuses::STATUS_NEW || $data->message->type == Users_Notifications::TYPE_PROMOTION){?>-b<?}?>">
+    <div class="header-cont">
+        <div class="user-photo group-photo pull-left">
+            <img src="/images/dialogues_photo_xabina.png" alt="">
+        </div>
+        <div class="dialogue-info n-un pull-left">
+            <div class="user-name  pull-left"><?=$data->message->manager->manager_name?></div>
+            <div class="delim pull-left">|</div>
+            <div class="area pull-left"><?=Yii::t('Front', $data->message->section)?></div>
+            <div class="clearfix"></div>
+            <div class="datetime n-dt"><?=date('Y-m-d H:i',$data->message->published_at)?></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="content n-c">
+        <?=$data->message->announce?>
+    </div>
+	<div class="attachments-cont">
+		<?if (count($data->message->files)) {?>
+		<div class="files-many"></div>
+		<div class="files-header">
+            <a href="#" class="news-files-toggle  closed">
+                <span>2 Files</span>
+            </a>
+        </div>
+		<div class="clearfix"></div>
+		<ul class="list-unstyled attachments-files-list" style="display: none;">
+			<?
+
+				foreach($data->message->files as $file) {
+				?>
+			<li>
+				<?=$file->file?>
+				<div class="transaction-buttons-cont" style="margin: -3px 0 0">
+					<a href="<?= Yii::app()->createUrl('/notifications/getfile', array('id'=>$file->id)) ?>" class="button download-mini"></a>
+				</div>
+			</li>
+
+			<?}?>
+
+		</ul>
+		<?}?>
+
+	</div>
+</li>
 
 <li style="display: none" class="notify-cat-<?=$data->message->sections[$data->message->section]?> notification-<?=($data->status == 'new')?
 	$data->message->css_types[$data->message->type]:'na'?>
