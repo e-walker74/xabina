@@ -643,6 +643,8 @@ $(document).ready(function () {
 //		buttonImageOnly:true
 //	});
 
+    
+
     $('select.language-select').on('change', function () {
         window.location.href = $(this).val()
     })
