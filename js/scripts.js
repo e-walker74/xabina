@@ -1228,4 +1228,411 @@ $(function () {
         }
 
     })
+ 
+/*** FOR DIALOGS ***/
+	
+
+    /*** TYPE SELECT ***/
+    $('.type-select').change(function () {
+        var val = $('.type-select').val();
+        $('.type-tbl').hide(0);
+        $('.type-tbl.tbl-'+val).removeClass('hide');
+        $('.type-tbl.tbl-'+val).show(0);
+    })
+    /*** TYPE SELECT END ***/
+    //jquery ui tooltip initialization
+    $('.tooltip-icon').tooltip({
+        tooltipClass: 'xabina-tooltip',
+        position:{
+            my: "left+10 center+7",
+            at: "right top",
+            using: function( position, feedback ) {
+                $( this ).css( position );
+                $( "<div>" )
+                    .addClass( "tooltip-arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+            }
+        }
+    });
+
+
+/*
+    $('.currency_dropdown').currencyDropDown({
+        list: {
+            USD: 'USD',
+            RUB: 'RUB',
+            CHF: 'CHF',
+            JYN: 'JYN'
+        },
+        listClass: 'currencies_dropdown'
+
+    });
+    $('.types_dropdown').currencyDropDown({
+        list: {
+           Business: 'Business',
+           Personal: 'Personal'
+        },
+        listClass: 'type_dropdown'
+    });
+
+    $('.download-button').currencyDropDown({
+        list: {
+           PDF : 'PDF' ,
+           XLS : 'XLS' ,
+           DOC : 'DOC' ,
+           JPG : 'JPG'
+        },
+        addClass: true,
+        listClass: 'formats_dropdown',
+        toChange: false,
+    });*/
+
+    $('.select-invisible').on('change', onCustomSelectChange);
+    function onCustomSelectChange(){
+        $(this).prev('span').text($(this).find(':selected').text());
+    }
+
+
+
+
+    //live validation plugin initialization
+    if($('.form-validable').length)
+    $('.form-validable').liveValidation({
+        validIco         : 'img/validation_ico.png',
+        invalidIco       : 'img/validation_ico.png',
+        required         : ['firstName', 'lastName', 'email', 'phone', 'address1', 'index', 'city'],
+        requiredFields   : {
+            'firstName': 'firstName',
+            'lastName': 'lastName',
+            'email':'email',
+            'phone': 'phone',
+            'address1': 'address1',
+            'index': 'index',
+            'city': 'city'
+        },
+        fields           :  {
+            firstName:{match: /^[a-zA-Z\-]{1,}$/, message: 'First Name is incorrect'},
+            lastName:{match:/^[a-zA-Z\-]{1,}$/, message: 'Last Name is incorrect'},
+            email:{match:/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: 'E-Mail is incorrect'},
+            phone:{match:/^\+\d+$/, message: 'Mobile Phone is incorrect'},
+            address1:{match:/^.{1,}$/, message:'Address line: Address is not correct'},
+            index:{match:/^\d+$/, message: 'Zip Code: Zip Code is not correct'},
+            city:{match:/^.{1,}$/, message:'Town: Town is not correct'}
+        },
+        selects:{
+            'country': {'country': 'country', message:'Country: Country is not chosen' }
+        },
+        validClass:		'valid',
+        invalidClass:	'input-error',
+        submitButton: '.submit-button'
+    });
+
+
+    $("[name=phone]").on('focus', function(){
+        !$(this).val() && $(this).val('+');
+    });
+    $("[name=phone]").on('input', function(){
+       !~($(this).val().indexOf('+')) && $(this).val( '+' + $(this).val() );
+    });
+
+
+    // progressbar styling
+
+    $('.xabina-progress-bar .current').prev().addClass('previous');
+
+
+    $('.table-edit-btn').on('click', function(){
+        $('[id $= _edit]').hide();
+        $('[id $= _view]').show();
+
+
+        var cont = $(this).parents('[id $= _cont]');
+        cont.find('[id $= _view]').hide();
+        cont.find('[id $= _edit]').show();
+    });
+
+    $('.table-close-btn').on('click', function(){
+        var cont = $(this).parents('[id $= _cont]');
+        cont.find('[id $= _view]').show();
+        cont.find('[id $= _edit]').hide();
+    });
+
+    if($('.calendar-input, .with_datepicker').length)
+    $(".calendar-input, .with_datepicker").datepicker({
+        showOn:"button",
+        buttonImage: 'img/calendar_ico.png',
+        buttonImageOnly:true
+    });
+    if($('.calendar-input-2').length)
+    $(".calendar-input-2").datepicker({
+        showOn:"button",
+        buttonImage: 'img/calendar_ico_2.png',
+        buttonImageOnly:true
+    });
+
+
+
+    if($('.advanced-button').length)
+        $('.advanced-button').on('click', function(e){
+            e.preventDefault();
+            var advancedForm = $('.advanced-search-form');
+            if(advancedForm.is(':visible')){
+                advancedForm.slideUp();
+            }else{
+                advancedForm.slideDown();
+            }
+        });
+
+    $('#attachment_add').click(function(e){
+        e.preventDefault();
+        $('#message-reply-attachment').slideDown();
+    });
+
+    if ($('#transfer_accordion').length)
+    $('#transfer_accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+
+    if($('#search_accordion').length)
+    $('#search_accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+    if($('.xabina-accordion').length)
+    $('.xabina-accordion').accordion({
+        heightStyle: "content",
+        active: false,
+        collapsible: true
+    });
+    if($('.details-accordion').length)
+    $('.details-accordion').accordion({
+        heightStyle: "content",
+        active: 0,
+        collapsible: true
+    });
+
+    if($( ".xabina-tabs , .edit-tabs").length)
+    $( ".xabina-tabs , .edit-tabs" ).tabs();
+
+
+
+    if($('#bg-404-gold').length){
+        $('#bg-404-gold').plaxify({"xRange":30,"yRange":30});
+        $.plax.enable();
+    }
+
+
+
+    $('.tabbable-form').on('click', 'a', changeTabbableForm);
+
+    function changeTabbableForm(e){
+        e.preventDefault();
+        if($(this).hasClass('tab-switch first')){
+
+            $(this).parents('.tabs-switch').find('.active').removeClass('active');
+            $(this).addClass('active');
+            $(this).parents('.tabbable-form').find('.tabs-form-first').show();
+            $(this).parents('.tabbable-form').find('.tabs-form-second').hide();
+
+        }else if($(this).hasClass('tab-switch second')){
+            $(this).parents('.tabs-switch').find('.active').removeClass('active');
+            $(this).addClass('active');
+
+            $(this).parents('.tabbable-form').find('.tabs-form-second').show();
+            $(this).parents('.tabbable-form').find('.tabs-form-first').hide();
+        }
+    }
+
+    $('.recurrence-select').on('click', 'a', changeRecurrenceForm);
+
+    function changeRecurrenceForm(e){
+        e.preventDefault();
+        if($(this).hasClass('one-time')){
+
+            $(this).parents('.recurrence-select').find('.active').removeClass('active');
+            $(this).addClass('active');
+            $(this).parents('.recurrence-form').find('.one_time_form').show();
+            $(this).parents('.recurrence-form').find('.standing-form').hide();
+
+        }else if($(this).hasClass('standing')){
+            $(this).parents('.recurrence-select').find('.active').removeClass('active');
+            $(this).addClass('active');
+
+            $(this).parents('.recurrence-form').find('.standing-form').show();
+            $(this).parents('.recurrence-form').find('.one_time_form').hide();
+        }
+    }
+
+
+
+
+    $('.mask-toggle').on('mouseenter', function(e){
+        var $maskedEl = $(this).parents('td').find('.masked-value');
+        var $originalEl = $(this).parents('td').find('.original-value');
+        $maskedEl.html($originalEl.val());
+    })
+    $('.mask-toggle').on('mouseleave', function(e){
+        var $maskedEl = $(this).parents('td').find('.masked-value');
+        var $originalEl = $(this).parents('td').find('.original-value');
+        $maskedEl.html(new Array($originalEl.val().length + 3).join('*'));
+    });
+
+    if($( ".escape-dialog").length)
+    $( ".escape-dialog" ).dialog({
+        autoOpen: false,
+        appendTo: '#top_container .clearfix',
+        dialogClass: 'xabina-popup-alerts',
+        height: 'auto',
+        minHeight: 0,
+        position:{
+            my: 'right top',
+            at: 'right bottom',
+            of: ".user-logout"
+        },
+        show: 'fadeIn',
+        resizable: false
+    });
+
+    $( ".user-logout" ).click(function() {
+        var $dialog = $( ".escape-dialog" );
+        $dialog.dialog( "option", "width", $(this).parents('.clearfix').width());
+        $dialog.dialog( "open" );
+        return false;
+    });
+    $('.xabina-dialog .no').click(function(){
+        $(this).parents('.xabina-dialog').dialog('close');
+        return false;
+    });
+    $('.xabina-dialog .yes').click(function(){
+        // yes callback
+    });
+    if($( ".remove-dialog").length)
+    $( ".remove-dialog" ).dialog({
+        autoOpen: false,
+        dialogClass: 'xabina-popup-alerts',
+        height: 'auto',
+        minHeight: 0,
+        show: 'fadeIn'
+    });
+
+    $('.remove-with-dialog').click(function() {
+        var $dialog =  $( ".remove-dialog" );
+        $dialog.dialog( "option", "appendTo", $(this));
+        $dialog.dialog( "option", "width", $(this).parents('.xabina-form-container').width());
+        $dialog.dialog( "option", "position", {
+            my: 'right+11 top+15',
+            at: 'right bottom',
+            of: $(this)
+        } );
+        $dialog.dialog( "open" );
+        return false;
+    })
+
+    $('.search-ico').click(function(){
+        $(this).hide();
+        $(this).parents('.search-opt-cont').find('.messages-addressbook').show();
+        $('.messages-header-cont').addClass('open');
+        return false;
+    });
+
+    $('.checkbox-custom').on('click', 'label', function(e){
+        if($(this).find('input').prop('checked')){
+            $(this).addClass('checked');
+            e.stopPropagation();
+        }else{
+            $(this).removeClass('checked');
+            e.stopPropagation();
+        }
+    });
+
+    if($( ".escape-dialog").length)
+    $( ".escape-dialog" ).dialog({
+        autoOpen: false,
+        appendTo: '#top_container .clearfix',
+        dialogClass: 'xabina-popup-alerts',
+        height: 'auto',
+        minHeight: 0,
+        position:{
+            my: 'right top',
+            at: 'right bottom',
+            of: ".user-logout"
+        },
+        show: 'fadeIn',
+        resizable: false
+    });
+
+    $('.files-toggle').on('click', function(){
+       $(this).toggleClass('closed');
+        $(this).hasClass('closed') ? $(this).html('<span>Show all</span>') : $(this).html('<span>Hide</span>');
+        $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
+        return false;
+    });
+
+    $('#add_contact').on('click', function(e){
+        $('#search-dropdown').toggleClass('show');
+        if ($('.selected-id-list .error-message').length)
+            $('.selected-id-list .error-message').slideUp(300);
+        return false;
+    });
+
+    $('.select-img').on('click', '.img-dropdown a', function(e){
+        var $context = $(e.delegateTarget);
+        $context.find('input[type=hidden]').val($(this).data('id'));
+        $context.find('.selected-img img').attr('src', $(this).find('img').attr('src'));
+        e.preventDefault();
+    })
+
+    $('.dropdown-toggle').on('click', function(){
+        $(this).toggleClass('closed');
+
+        $(this).parents('.dropdown-list-cont').find('.list-dropdown-toggle').slideToggle();
+        return false;
+    })
+
+    $('#personal_manager_toggle').on('click', function(){
+
+        $(this).next('#personal_manager_cont').slideToggle(400, function(){
+            $(this).prev('#personal_manager_toggle').toggleClass('opened');
+        });
+    })
+    $('.activation-arr').on('click', function(){
+        if ($(this).hasClass('opened')) {
+            $.ajax({
+                url: '/ajax/setCookie/',
+                data: {name: 'dialogsHeader', value: '2'},
+                type: 'Post',
+                cache: false
+            })
+            $(this).removeClass('opened').parents('.dialogues-messages').find('.dialogues-header').slideUp(function () {$(this).removeClass('opened').parents('.dialogues-messages').find('.dialogues-header').css({overflow: 'hidden'})})
+        } else {
+            $.ajax({
+                url: '/ajax/setCookie/',
+                data: {name: 'dialogsHeader', value: '1'},
+                type: 'Post',
+                cache: false
+            })
+            $(this).addClass('opened').parents('.dialogues-messages').find('.dialogues-header').slideDown(function () {$(this).addClass('opened').parents('.dialogues-messages').find('.dialogues-header').css({overflow: 'visible'})})
+        }
+        return false;
+    });
+    $('.notification-popup').on('click', function(){
+        return false;
+    })
+    $( ".popup-tabs" ).tabs({active: 0});
+
+
+    $('.message-to-dropdown').on('click', '.checkable', function(){
+        $(this).toggleClass('check');
+        return false;
+    })
+	
+	/*** FOR DIALOGS END ***/
+        
+        
 });
+

@@ -365,14 +365,30 @@
                             </span>
                         <?}?>
                         <div class="activity-status pull-right">
+                            <?php
+                                $activityState = Yii::app()->user->getActivityStatus($user_id); 
+                                if ($activityState == Users::USER_ACTIVITY_STATUS_ONLINE){
+                                    $cssClassMy = 'ok';
+                                    $cssClassMyPic = 'validation_status_ok.png';
+                                    $cssClassMyVal = 1;
+                                } elseif ($activityState == Users::USER_ACTIVITY_STATUS_BUSY) {
+                                    $cssClassMy = 'time';
+                                    $cssClassMyPic = 'time_ico.png';
+                                    $cssClassMyVal = 2;
+                                } else {
+                                    $cssClassMy = 'err';
+                                    $cssClassMyPic = 'validation_status_er.png';
+                                    $cssClassMyVal = 0;
+                                }
+                            ?>
                             В сети
                             <div class="select-custom-activity-cont">
                                 <div class="select-img">
                                     <div class="select-custom-activity" data-toggle="dropdown">
                                                     <span class="lbl selected-img">
-                                                        <img src="/images/validation_status_ok.png" alt=""/>
+                                                        <img src="/images/<?=$cssClassMyPic?>" alt=""/>
                                                     </span>
-                                        <input type="hidden" value="1" />
+                                        <input type="hidden" value="<?=$cssClassMyVal?>" />
                                     </div>
                                     <ul class="dropdown-menu status-dropdown img-dropdown" role="menu">
                                         <li>

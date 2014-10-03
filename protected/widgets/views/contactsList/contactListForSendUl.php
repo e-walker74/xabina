@@ -46,17 +46,6 @@
                         <?= $contact->getNameWithCompany() ?>
 					</div>
 				</div>
-                <?php if($contact->xabina_id): ?>
-                    <div class="transaction-buttons-cont pull-right">
-                        <?
-                        if (stristr($_SERVER['REQUEST_URI'], '/dialogs/detail') and isset($_GET['id'])) {
-                        ?>
-                            <a class="button dialogues" href="/dialogs/add/?ids=<?=$contact->xabina_id?>&dialog_id=<?=$_GET['id']?>&fromBook=1"></a>
-                        <?}else{?>
-                            <a class="button dialogues" href="/dialogs/new/?ids=<?=$contact->xabina_id?>&fromBook=1"></a>
-                        <?}?>
-                    </div>
-                <?php endif; ?>
 				<div class="clearfix"></div>
 			</a>
 		</li>
@@ -69,7 +58,7 @@
     <ul class="contact-list list-unstyled ">
         <li>
             <div class="note ">
-                <p><span class=""><?= Yii::t('Front', 'No search results') ?></span></p>
+                <p><span class="rejected"><?= Yii::t('Front', 'No search results') ?></span></p>
             </div>
         </li>
     </ul>
