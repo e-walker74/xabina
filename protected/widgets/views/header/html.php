@@ -175,7 +175,7 @@
         <?php endif; ?>
         <? if(Yii::app()->user->checkRbacAccess('dialogues_menu')): ?>
             <li class="dialogues">
-                <a href="#">
+                <a href="/dialogs">
                     <div class="menu-ico"></div>
                     <div class="menu-name"><?= Yii::t('Front', 'Dialogues')?></div>
                 </a>
