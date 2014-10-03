@@ -6,6 +6,7 @@ return array(
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
     'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
+	'sms' 			=> require(dirname(__FILE__) . '/components/sms.php'),
     'notify' => array(
         'class' => 'core.components.QUserNotify',
     ),
@@ -150,13 +151,4 @@ return array(
         // use 'site/error' action to display errors
         'errorAction' => 'site/error',
     ),
-	'sms' => array(
-		'class' => 'application.ext.sms.Sms',
-		'login' => 'ekazak',
-		'password' => '123456',
-		'sendUrl' => 'http://www.spryng.nl/send.php',
-		'sender' => 'XABINA',
-		'route' => 'BUSINESS',
-		'allowlong' => 1,
-	),
 );
