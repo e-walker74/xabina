@@ -587,7 +587,16 @@ $(document).ready(function () {
         }
     });
 
-    $(".xabina-tabs , .edit-tabs").tabs({
+    $('.btn-group').hover(
+        function(){
+            $(this).addClass('open')
+        },
+        function(){
+            $(this).removeClass('open')
+        }
+    )
+
+    $(".xabina-tabs , .edit-tabs, .news-tabs-cont").tabs({
         select: function (event, ui) {
             window.location.hash = ui.tab.hash;
         }
@@ -1228,4 +1237,117 @@ $(function () {
         }
 
     })
+});
+
+// notifications
+$(function () {
+
+    function getNotifications() {
+        if (!$('li.user-notification').hasClass('open')) {
+            $('li.user-notification').load('/ajax/GetNotifications', function() {
+
+                $('.activation-arr').on('click', function(){
+                    $(this).addClass('opened').parents('.dialogues-messages').find('.dialogues-header').slideDown()
+                    return false;
+                });
+                $('.notification-popup').on('click', function(e){
+                    if (e.target.tagName != 'A') return false;
+                })
+                $( ".popup-tabs" ).tabs({active: 0});
+
+                $('.news-files-toggle').on('click', function(){
+
+                    $(this).toggleClass('closed');
+                    $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
+                    return false;
+                });
+            });
+        }
+    }
+    getNotifications();
+    setInterval(getNotifications, 5000);
+
+    $('li.user-notification').click(function() {
+        $.ajax('/ajax/SetSeeNotifications');
+    });
+
+    $('.notification-header select').change(function() {
+
+        if ($(this).val() != '') {
+            $('div[aria-expanded=true]').find('li').hide();
+            $('div[aria-expanded=true]').find('li.notify-cat-'+$(this).val()).show();
+
+        } else {
+            $('div[aria-expanded=true]').find('li').show();
+        }
+    });
+
+
+
+	$('.news-arrow-but').on('click', function(){
+        $(this).toggleClass('closed');
+        $(this).parents('.message-container').find('.news_content').slideToggle();
+        return false;
+    });
+
+	$('.news-filter-but').on('click', function(){
+       $(this).toggleClass('closed');
+        $(this).hasClass('closed') ? $(this).html('<span>Show Filter</span>') : $(this).html('<span>Hide Filter</span>');
+        $(this).parents('.news-filter').find('.filter-content').slideToggle();
+        return false;
+    });
+
+    $('.list_year span').on('click', function(){
+		$(".list_year").hide();
+		$(".year_and_month .active_year .val_year").html($(this).html());
+		$(".year_and_month").show();
+    });
+
+	$('.active_year').on('click', function(){
+		$(".year_and_month").hide();
+		$(".list_year").show();
+	});
+
+	$('.year_and_month label').on('click', function(){
+		$(this).toggleClass('active');
+		return false;
+    });
+
+	$('#notifications_filter input,select').on('change', function(){
+		$.fn.yiiListView.update('notifListView', {
+            //this entire js section is taken from admin.php. w/only this line diff
+            data: $('#notifications_filter').serialize()
+        });
+		return false;
+    });
+
+    $('body').on('click', '.message-container .all-links', function(e){
+        e.preventDefault();
+        $(this).closest('.attachments-cont').find('.list-unstyled a').each(function(i,e) {
+            window.open($(e).attr('href'));
+        });
+    });
+
+    $('body').on('click','.files-toggle', function(){
+       $(this).toggleClass('closed');
+        //$(this).hasClass('closed') ? $(this).html('<span>Show all</span>') : $(this).html('<span>Hide</span>');
+        $(this).parents('.attachments-cont').find('.attachments-files-list').slideToggle();
+        return false;
+    });
+
+
+    $('body').on('click','.message-container .read_but', function(e){
+        e.preventDefault();
+        $.ajax('/ajax/SetReadNotification/'+$(this).attr('data-id'));
+        $(this).hide().prev().hide();
+        $(this).parents('.message-container').attr('class', $(this).parents('.message-container').attr('class')+'-border white');
+    });
+
+    $('body').on('click','.message-container .pin_but', function(e){
+        e.preventDefault();
+        $.ajax('/ajax/SetPinnNotification/'+$(this).attr('data-id'))
+            .success(function() {
+                $.fn.yiiListView.update('notifListView');
+            });
+    });
 });
