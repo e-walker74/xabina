@@ -7,7 +7,6 @@ class m140908_111624_accounts extends CDbMigration
         $this->execute('
             ALTER TABLE `accounts`
             MODIFY COLUMN `number`  bigint(12) UNSIGNED ZEROFILL NOT NULL AFTER `id`,
-            MODIFY COLUMN `status`  tinyint(4) UNSIGNED NOT NULL AFTER `user_id`,
             ADD COLUMN `prefix`  enum(\'mca\',\'ba\') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT \'mca\' COMMENT \'ba - basic account, mca - multicurrency account\' AFTER `id`,
             DROP INDEX `number`,
             ADD UNIQUE INDEX `number` USING BTREE (`number`, `currency_id`),
