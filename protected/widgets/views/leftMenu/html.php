@@ -62,25 +62,25 @@
 <!--    </ul>-->
     <li class="apps  "><a href="#"><?= Yii::t('Front', 'Apps') ?></a><div class="sidebar-arrow"></div></li>
     <ul class="sidebar-submenu list-unstyled">
-        <? if(Yii::app()->user->checkRbacAccess('messaging_menu')): ?>
+        <!--<? if(Yii::app()->user->checkRbacAccess('messaging_menu')): ?>
             <li class="messaging-ico"><a href="#"><?= Yii::t('Front', 'Messaging') ?></a></li>
         <?php endif; ?>
         <? if(Yii::app()->user->checkRbacAccess('alerts_menu')): ?>
             <li class="alert-ico"><a href="<?= Yii::app()->createUrl('/personal/alerts') ?>"><?= Yii::t('Front', 'Alerts') ?></a></li>
-        <?php endif; ?>
+        <?php endif; ?>-->
         <? if(Yii::app()->user->checkRbacAccess('dialogues_menu')): ?>
             <li class="dialogues-ico"><a href="#"><?= Yii::t('Front', 'Dialogues')?></a></li>
         <?php endif; ?>
-        <? if(Yii::app()->user->checkRbacAccess('apps_menu_drive')): ?>
+        <!--<? if(Yii::app()->user->checkRbacAccess('apps_menu_drive')): ?>
             <li class="drive-ico"><a href="#"><?= Yii::t('Front', 'Drive'); ?></a></li>
         <?php endif; ?>
         <? if(Yii::app()->user->checkRbacAccess('apps_menu_analytic')): ?>
             <li class="analytic-ico"><a href="#"><?= Yii::t('Front', 'Analytic'); ?></a></li>
-        <?php endif; ?>
+        <?php endif; ?>-->
         <? if(Yii::app()->user->checkRbacAccess('adresbook_menu')): ?>
             <li class="address-book-ico"><a href="<?= Yii::app()->createUrl('/contact/index'); ?>"><?= Yii::t('Front', 'Address book'); ?></a></li>
         <?php endif; ?>
-        <? if(Yii::app()->user->checkRbacAccess('apps_menu_loans')): ?>
+        <!--<? if(Yii::app()->user->checkRbacAccess('apps_menu_loans')): ?>
             <li class="loans-ico"><a href="#"><?= Yii::t('Front', 'Loans'); ?></a></li>
         <?php endif; ?>
         <? if(Yii::app()->user->checkRbacAccess('apps_menu_cards')): ?>
@@ -94,6 +94,6 @@
         <?php endif; ?>
         <? if(Yii::app()->user->checkRbacAccess('apps_menu_roles')): ?>
             <li class="roles-ico"><a href="<?= Yii::app()->createUrl('/settings/roles') ?>"><?= Yii::t('Front', 'Roles') ?></a></li>
-        <?php endif; ?>
+        <?php endif; ?>-->
     </ul>
 </ul>
