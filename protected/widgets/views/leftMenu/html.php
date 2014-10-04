@@ -69,7 +69,7 @@
             <li class="alert-ico"><a href="<?= Yii::app()->createUrl('/personal/alerts') ?>"><?= Yii::t('Front', 'Alerts') ?></a></li>
         <?php endif; ?>-->
         <? if(Yii::app()->user->checkRbacAccess('dialogues_menu')): ?>
-            <li class="dialogues-ico"><a href="#"><?= Yii::t('Front', 'Dialogues')?></a></li>
+            <li class="dialogues-ico"><a href="<?= Yii::app()->createUrl('/dialogs/index') ?>"><?= Yii::t('Front', 'Dialogues')?></a></li>
         <?php endif; ?>
         <!--<? if(Yii::app()->user->checkRbacAccess('apps_menu_drive')): ?>
             <li class="drive-ico"><a href="#"><?= Yii::t('Front', 'Drive'); ?></a></li>
