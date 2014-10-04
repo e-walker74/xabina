@@ -84,12 +84,7 @@ class Users_Contacts extends ActiveRecord
             array('company', 'length', 'max' => 40),
             array('user_id', 'length', 'max' => 20),
             array('sex', 'in', 'range' => array('male', 'female')),
-            array(
-                'first_name, last_name, company',
-                'match',
-                'pattern' => '/^[0-9a-zA-Z_ ]+$/u',
-                'message' => Yii::t('Front', 'Is incorrect'),
-            ),
+            array('first_name, last_name, company', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, user_id, xabina_id, fullname', 'safe', 'on' => 'search'),

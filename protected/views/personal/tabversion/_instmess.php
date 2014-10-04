@@ -25,11 +25,13 @@
                 <td><?= $mes->messager_login ?></td>
                 <td><?= ($mes->category) ? $mes->category->value : "" ?></td>
                 <td class="status-td">
-                    <?php if($mes->is_master): ?>
-                        <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
-                    <?php else: ?>
-                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"></a>
-                    <?php endif; ?>
+                    <div class="pull-left">
+                        <?php if($mes->is_master): ?>
+                            <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
+                        <?php else: ?>
+                            <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"></a>
+                        <?php endif; ?>
+                    </div>
                 </td>
                 <td style="overflow: visible!important">
                     <div class="contact-actions transaction-buttons-cont">

@@ -43,7 +43,13 @@
             <td><?= Yii::t('Front', 'Account Number') ?></td>
             <td>
                 <span class="strong"><?= $account->account_number ?></span>
-                <span class="note"><?= Yii::t('Front', Users_Contacts_Data_Account::$contacts_account_types[$account->account_type]) ?></span>
+                <span class="note">
+                    <?php if(isset(Users_Contacts_Data_Account::$contacts_account_types[$account->account_type])): ?>
+                        <?= Yii::t('Front', Users_Contacts_Data_Account::$contacts_account_types[$account->account_type]) ?>
+                    <?php else: ?>
+                        <?= Yii::t('Front', $account->account_type) ?>
+                    <?php endif; ?>
+            </span>
             </td>
             <td>
                 <div class="transaction-buttons-cont">

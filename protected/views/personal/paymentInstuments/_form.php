@@ -109,7 +109,7 @@
                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'tooltip_creditcard_p_month') ?>"></span>
                 </div>
                 <div class="form-input">
-                    <div class="select-custom currency-select exp-month">
+                    <div class="select-custom currency-select exp-month" style="width: 44%!important">
                         <span class="select-custom-label"><?= Yii::t('Front', 'Month') ?></span>
                         <?=
                         $form->dropDownList(

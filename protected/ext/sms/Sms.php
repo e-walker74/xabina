@@ -29,7 +29,7 @@ class SMS extends CComponent
 	}
 	
 	public function send(){
-	
+	    return 1;
 		$MessageBird = new \MessageBird\Client($this->password);
 
         $Message = new \MessageBird\Objects\Message();

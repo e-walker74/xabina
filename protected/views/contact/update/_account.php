@@ -23,14 +23,14 @@
             </td>
 			<td><?= $account->account_number ?></td>
 			<td><?= ($account->getDbModel()->category) ? $account->getDbModel()->category->value : ''  ?></td>
-			<td>
-                <?php if($account->getDbModel()->is_primary): ?>
-                    <span class="primary">
-                        <?= Yii::t('Front', 'Primary') ?>
-                    </span>
-                <?php else: ?>
-                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $account->getDbModel()->data_type, 'id' => $account->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
-                <?php endif; ?>
+			<td class="status-td">
+                <div class="pull-left">
+                    <?php if($account->getDbModel()->is_primary): ?>
+                        <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
+                    <?php else: ?>
+                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $account->getDbModel()->data_type, 'id' => $account->getDbModel()->id)) ?>" onclick="makePrimary(this)"></a>
+                    <?php endif; ?>
+                </div>
 			</td>
             <td style="overflow: visible!important;">
                 <div class="contact-actions transaction-buttons-cont">
