@@ -3,8 +3,8 @@
 <div class="news-tabs-cont">
 <ul class="list-unstyled news_tabs">
     <li><a href="#tab1">News<?$model->status = Users_NotificationsStatuses::STATUS_NEW;$count = $model->search()->getTotalItemCount();if($count){?><span class="messages-count"><?= $count ?></span><?}$model->status=null;?></a></li>
-    <li><a href="#tab2">Accounts<span class="messages-count">1</span></a></li>
-    <li><a href="#tab3">Transaction</a></li>
+    <li><a href="#tab2" data-url="<?= Yii::app()->createUrl('/accounts/index') ?>">Accounts</a></li>
+    <li><a href="#tab3" data-url="http://xabina.dev/banking/accounts/balance?account=971843631732&Form_Search%5Bkeyword%5D=">Transaction</a></li>
 </ul>
 <div class="news-tab-cont" id="tab1">
 <div class="balance-accordion filter-accordion xabina-accordion" id="search_accordion">
@@ -90,98 +90,6 @@
 </div>
 </div>
 <div class="news-tab-cont" id="tab2">
-    <table class="table xabina-table">
-        <tr class="table-header">
-            <th style="width: 27%">Account</th>
-            <th style="width: 19%">Type</th>
-            <th style="width: 18%">Environment</th>
-            <th class="text-right" style="width: 17%">Amount</th>
-            <th style="width: 11%">Сurrency</th>
-            <th style="width: 8%"></th>
-        </tr>
-        <tr>
-            <td>
-                John Doe <br/>
-                <span class="bold">0252 0989 0890 9890</span> <br/>
-                <span class="grey">Семейный</span>
-            </td>
-            <td>Кредитный</td>
-            <td>BlauStein</td>
-            <td class="text-right"><span class="approved">1 000 000.00</span></td>
-            <td class="currency-td">
-                <div class="relative"><span class="dropdown_button">EUR</span></div>
-            </td>
-            <td>
-                <div class="transaction-buttons-cont ">
-                    <a href="#" class="button edit"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                John Doe <br/>
-                <span class="bold">0252 0989 0890 9890</span> <br/>
-                <span class="grey">Семейный</span>
-            </td>
-            <td>Кредитный</td>
-            <td>BlauStein</td>
-            <td class="text-right"><span class="approved">1 000 000.00</span></td>
-            <td class="currency-td">
-                <div class="relative"><span class="dropdown_button">EUR</span></div>
-            </td>
-            <td>
-                <div class="transaction-buttons-cont ">
-                    <a href="#" class="button edit"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                John Doe <br/>
-                <span class="bold">0252 0989 0890 9890</span> <br/>
-                <span class="grey">Семейный</span>
-            </td>
-            <td>Кредитный</td>
-            <td>BlauStein</td>
-            <td class="text-right"><span class="rejected">1 000 000.00</span></td>
-            <td class="currency-td">
-                <div class="relative"><span class="dropdown_button">EUR</span></div>
-            </td>
-            <td>
-                <div class="transaction-buttons-cont ">
-                    <a href="#" class="button edit"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                John Doe <br/>
-                <span class="bold">0252 0989 0890 9890</span> <br/>
-                <span class="grey">Семейный</span>
-            </td>
-            <td>Кредитный</td>
-            <td>BlauStein</td>
-            <td class="text-right"><span class="approved">1 000 000.00</span></td>
-            <td class="currency-td">
-                <div class="relative"><span class="dropdown_button">EUR</span></div>
-            </td>
-            <td>
-                <div class="transaction-buttons-cont ">
-                    <a href="#" class="button edit"></a>
-                </div>
-            </td>
-        </tr>
-        <tr class="totals">
-            <td colspan="3" class="totals-lbl"><span>Общая сумма:</span></td>
-            <td class="text-right"><span class="rejected">15 000</span></td>
-            <td style="overflow: visible!important" class="currency-td">
-                <div class="relative"><span class="dropdown_button  currency_dropdown">EUR <span
-                        class="currency_drdn_arr"></span></span></div>
-            </td>
-            <td></td>
-        </tr>
-
-    </table>
 </div>
 <div class="news-tab-cont" id="tab3">
 <div class="transaction-table-header">

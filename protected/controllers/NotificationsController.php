@@ -42,17 +42,20 @@ class NotificationsController extends Controller
         	$model->attributes=$_GET['Users_NotificationsStatuses'];
 
 		$model->user_id = Yii::app()->user->id;
+        Yii::app()->clientScript->registerScriptFile('/js/jquery.lavalamp.js');
+        Yii::app()->clientScript->registerScriptFile('/js/notifications.js', CClientScript::POS_END);
+
 		$this->render('index',array(
 			'model'=>$model,
 		));
 
-		$items = $model->search()->getData();
-		foreach($items as $item) {
-			if($item->status != Users_NotificationsStatuses::STATUS_DONE && in_array($item->message->type, array(Users_Notifications::TYPE_PROMOTION, Users_Notifications::TYPE_INFORMATION ))){
-				$item->status = Users_NotificationsStatuses::STATUS_DONE;
-				$item->save();
-			}
-		}
+//		$items = $model->search()->getData();
+//		foreach($items as $item) {
+//			if($item->status != Users_NotificationsStatuses::STATUS_DONE && in_array($item->message->type, array(Users_Notifications::TYPE_PROMOTION, Users_Notifications::TYPE_INFORMATION ))){
+//				$item->status = Users_NotificationsStatuses::STATUS_DONE;
+//				$item->save();
+//			}
+//		}
     }
 
 	public function actionGetFile($id){

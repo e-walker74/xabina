@@ -71,6 +71,14 @@ class AccountsController extends Controller
         $accounts = Accounts::model();
         $accounts->user_id = Yii::app()->user->id;
 
+        if(Yii::request()->isAjaxRequest){
+            echo CJSON::encode(array(
+                'success' => true,
+                'html' => $this->renderPartial('_accountsTable', array('accounts' => $accounts), true)
+            ));
+            Yii::app()->end();
+        }
+
         $this->render('index', array('accounts' => $accounts));
     }
 

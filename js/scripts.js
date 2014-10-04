@@ -664,7 +664,7 @@ $(document).ready(function () {
         }
     )
 
-    $(".xabina-tabs , .edit-tabs, .news-tabs-cont").tabs({
+    $(".xabina-tabs , .edit-tabs").tabs({
         select: function (event, ui) {
             window.location.hash = ui.tab.hash;
         }
