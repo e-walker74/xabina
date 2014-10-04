@@ -37,7 +37,13 @@
 		</ul>
 	</li>
 	<li><a href="<?= Yii::app()->createUrl('/admin/messages/index/') ?>/"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Messages', 'Messages'); ?></span></a></li>
-	<li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Transfers', 'Transfers'); ?></span></a>
+	<li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Notifications', 'Notifications'); ?></span></a>
+		<ul class="acc-menu">
+			<li><a href="<?= Yii::app()->createUrl('/admin/notifications/create/') ?>/"><?= Yii::t('Notifications', 'Create'); ?></a></li>
+			<li><a href="<?= Yii::app()->createUrl('/admin/notifications/manage/') ?>/"><?= Yii::t('Notifications', 'Manage'); ?></a></li>
+		</ul>
+	</li>
+    <li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span><?= Yii::t('Transfers', 'Transfers'); ?></span></a>
 		<ul class="acc-menu">
 			<li><a href="<?= Yii::app()->createUrl('/admin/transfers/create/') ?>/"><?= Yii::t('Transfers', 'Create'); ?></a></li>
 <!--            <li><a href="--><?//= Yii::app()->createUrl('/admin/transfers/list/') ?><!--/">--><?//= Yii::t('Transfers', 'List'); ?><!--</a></li>-->
