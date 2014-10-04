@@ -1298,7 +1298,7 @@ $(function () {
 
 
     //live validation plugin initialization
-    if($('.form-validable').length)
+/*if($('.form-validable').length)
     $('.form-validable').liveValidation({
         validIco         : 'img/validation_ico.png',
         invalidIco       : 'img/validation_ico.png',
@@ -1327,7 +1327,7 @@ $(function () {
         validClass:		'valid',
         invalidClass:	'input-error',
         submitButton: '.submit-button'
-    });
+    });*/
 
 
     $("[name=phone]").on('focus', function(){

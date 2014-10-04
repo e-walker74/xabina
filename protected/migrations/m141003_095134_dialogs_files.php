@@ -10,11 +10,11 @@ class m141003_095134_dialogs_files extends CDbMigration
 			--
 
 			CREATE TABLE IF NOT EXISTS `dialogs_files` (
-			  `id` int(11) NOT NULL COMMENT `id`,
-			  `msg_id` int(11) NOT NULL COMMENT `id сообщения`,
-			  `user_id` int(11) unsigned NOT NULL COMMENT `id пользователя`,
-			  `name` varchar(255) CHARACTER SET cp1251 NOT NULL COMMENT `имя файла`,
-			  `url` varchar(255) CHARACTER SET cp1251 NOT NULL COMMENT `путь до файла`,
+			  `id` int(11) NOT NULL COMMENT "id",
+			  `msg_id` int(11) NOT NULL COMMENT "id сообщения",
+			  `user_id` int(11) unsigned NOT NULL COMMENT "id пользователя",
+			  `name` varchar(255) CHARACTER SET cp1251 NOT NULL COMMENT "имя файла",
+			  `url` varchar(255) CHARACTER SET cp1251 NOT NULL COMMENT "путь до файла",
 			  `created_at` int(11) NOT NULL,
 			  `updated_at` int(11) NOT NULL,
 			  KEY `msg_id` (`msg_id`,`user_id`),

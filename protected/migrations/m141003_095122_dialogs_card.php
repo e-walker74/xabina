@@ -10,10 +10,10 @@ class m141003_095122_dialogs_card extends CDbMigration
 			--
 
 			CREATE TABLE IF NOT EXISTS `dialogs_card` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT `id`,
-			  `msg_id` int(11) NOT NULL COMMENT `id сообщения`,
-			  `user_id` int(11) unsigned NOT NULL COMMENT `id отправилеля`,
-			  `book_id` int(11) unsigned NOT NULL COMMENT `id в адресной книге`,
+			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT "id",
+			  `msg_id` int(11) NOT NULL COMMENT "id сообщения",
+			  `user_id` int(11) unsigned NOT NULL COMMENT "id отправилеля",
+			  `book_id` int(11) unsigned NOT NULL COMMENT "id в адресной книге",
 			  `created_at` int(11) NOT NULL,
 			  `updated_at` int(11) NOT NULL,
 			  PRIMARY KEY (`id`),

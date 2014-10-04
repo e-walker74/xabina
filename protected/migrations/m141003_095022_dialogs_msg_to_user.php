@@ -10,13 +10,13 @@ class m141003_095022_dialogs_msg_to_user extends CDbMigration
 			--
 
 			CREATE TABLE IF NOT EXISTS `dialogs_msg_to_user` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT `id`,
-			  `msg_id` int(11) NOT NULL COMMENT `id сообщения`,
-			  `dialog_id` int(11) NOT NULL COMMENT `id диалога`,
-			  `user_id` int(11) unsigned NOT NULL COMMENT `id пользователя`,
-			  `status` int(11) NOT NULL COMMENT `статус сообщения (1 - прочитано, 2 - не прочитано, 3 - принудительно не прочитано)`,
-			  `group` varchar(255) NOT NULL COMMENT `Группа (цвет) сообщения`,
-			  `add_time` int(11) NOT NULL COMMENT `время добавления`,
+			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT "id",
+			  `msg_id` int(11) NOT NULL COMMENT "id сообщения",
+			  `dialog_id` int(11) NOT NULL COMMENT "id диалога",
+			  `user_id` int(11) unsigned NOT NULL COMMENT "id пользователя",
+			  `status` int(11) NOT NULL COMMENT "статус сообщения (1 - прочитано, 2 - не прочитано, 3 - принудительно не прочитано)",
+			  `group` varchar(255) NOT NULL COMMENT "Группа (цвет) сообщения",
+			  `add_time` int(11) NOT NULL COMMENT "время добавления",
 			  `created_at` int(11) NOT NULL,
 			  `updated_at` int(11) NOT NULL,
 			  PRIMARY KEY (`id`),

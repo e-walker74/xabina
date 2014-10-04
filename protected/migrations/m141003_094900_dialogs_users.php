@@ -10,13 +10,13 @@ class m141003_094900_dialogs_users extends CDbMigration
 			--
 
 			CREATE TABLE IF NOT EXISTS `dialogs_users` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT `id`,
-			  `user_id` int(11) unsigned NOT NULL COMMENT `id пользователя`,
-			  `dialog_id` int(11) NOT NULL COMMENT `id диалога`,
-			  `name` varchar(255) NOT NULL COMMENT `название диалога у пользователя`,
-			  `add_time` int(11) NOT NULL COMMENT `время добавления в диалог`,
-			  `delete_time` int(11) NOT NULL COMMENT `время удаления (если удалил кто-то)`,
-			  `delete_last_time` int(11) NOT NULL COMMENT `time last delete`,
+			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT "id",
+			  `user_id` int(11) unsigned NOT NULL COMMENT "id пользователя",
+			  `dialog_id` int(11) NOT NULL COMMENT "id диалога",
+			  `name` varchar(255) NOT NULL COMMENT "название диалога у пользователя",
+			  `add_time` int(11) NOT NULL COMMENT "время добавления в диалог",
+			  `delete_time` int(11) NOT NULL COMMENT "время удаления (если удалил кто-то)",
+			  `delete_last_time` int(11) NOT NULL COMMENT "time last delete",
 			  `created_at` int(11) NOT NULL,
 			  `updated_at` int(11) NOT NULL,
 			  PRIMARY KEY (`id`),
