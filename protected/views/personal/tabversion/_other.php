@@ -39,6 +39,7 @@
                                 <li>
                                     <?= Html::link('', 'javaScript:void(0)', array(
                                         'class' => 'button delete',
+                                        'title' =>   Yii::t('Front', 'Remove'),
                                         'onclick' => '$(this).addClass(\'opened\')',
                                         'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'other', 'id' => $other->id)),
                                     )) ?>

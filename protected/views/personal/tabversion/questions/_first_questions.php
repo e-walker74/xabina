@@ -9,13 +9,13 @@
             <tr class="question-row" data-value="<?= $ques->question->id ?>">
                 <td><?= $ques->question->question ?></td>
                 <td>
+                    <a href="javascript:void(0);" class="mask-toggle"></a>
                     <div class="masked-value">**********</div>
                     <input class="original-value" type="hidden" value="<?= $ques->answer ?>">
-                    <a href="javascript:void(0);" class="mask-toggle"></a>
                 </td>
                 <td>
                     <div class="transaction-buttons-cont">
-                        <a class="button delete" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'question', 'id' => $ques->id)) ?>" ></a>
+                        <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'question', 'id' => $ques->id)) ?>" ></a>
                     </div>
                 </td>
             </tr>

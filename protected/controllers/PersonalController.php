@@ -36,6 +36,7 @@ class PersonalController extends Controller
                     'cancelmakeprimary',
                     'editsocials',
                     'delete',
+                    'cancel',
                     'editmessagers',
                     'changetype',
                     'resendsms',
@@ -53,6 +54,7 @@ class PersonalController extends Controller
                     'other',
                     'accounts',
                     'resendsmsforchangeid',
+                    'forgotPass',
                 ),
                 'roles' => array('client')
             ),
@@ -72,6 +74,7 @@ class PersonalController extends Controller
 
     public function actionIndex()
     {
+
 
 
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
@@ -239,7 +242,7 @@ class PersonalController extends Controller
             if (!$user->messagers) {
                 $model->is_master = 1;
             }
-            if(!$model->category_id){
+            if (!$model->category_id) {
                 $model->category_id = NULL;
             }
             $model->user_id = Yii::app()->user->id;
@@ -594,7 +597,18 @@ class PersonalController extends Controller
                 $lastXabinaId->confirm_at = time();
                 $lastXabinaId->save();
                 $model->login = $lastXabinaId->new_user_id;
-                $model->save();
+                if($model->save()){
+                    Yii::user()->setFullName($model->getFullName());
+                    $mail = new Mail;
+                    $mail->send(
+                        $model, // this user
+                        'new_user_id', // sys mail code
+                        array( // params
+                            '{:login}' => $model->login,
+                            '{:date}' => date('Y m d', time()),
+                        )
+                    );
+                }
                 $lastXabinaId = new Users_Ids;
                 $reload = true;
             }
@@ -979,7 +993,8 @@ class PersonalController extends Controller
         );
     }
 
-    public function actionCancelMakePrimary($id){
+    public function actionCancelMakePrimary($id)
+    {
         $type = Yii::request()->getParam('type', '', 'list', array('emails', 'phones'));
         if ($type == 'accounts') {
             $model = Accounts::model()->ownUser()->findByPk($id);
@@ -1406,6 +1421,7 @@ class PersonalController extends Controller
             }
 
             if ($model->save()) {
+
                 $model->old_pass = '';
                 $model->confirm_pass = '';
                 echo CJSON::encode(array(
@@ -1691,7 +1707,7 @@ class PersonalController extends Controller
     /**
      * AddUpdatePaymentInstument
      *
-     * @param string             $method
+     * @param string $method
      * @return bool
      */
     private function _createUpdatePaymentInstument($method)
@@ -1709,7 +1725,7 @@ class PersonalController extends Controller
             && isset(Users_Paymentinstruments::$methods[$_POST[$modelName]['electronic_method']])
         ) {
             $model->scenario = Users_Paymentinstruments::$methods[$_POST[$modelName]['electronic_method']];
-        } elseif(!$model->isNewRecord) {
+        } elseif (!$model->isNewRecord) {
             $model->scenario = Users_Paymentinstruments::$methods[$model->electronic_method];
         }
 
@@ -1727,7 +1743,7 @@ class PersonalController extends Controller
         if (!$model->isNewRecord && $model->user_id != Yii::app()->user->id)
             return;
 
-        if(!Users_Paymentinstruments::model()->ownUser()->find('deleted = 0')){
+        if (!Users_Paymentinstruments::model()->ownUser()->find('deleted = 0')) {
             $model->is_master = 1;
         }
 
@@ -1850,7 +1866,8 @@ class PersonalController extends Controller
         ));
     }
 
-    public function actionResendSmsForChangeId(){
+    public function actionResendSmsForChangeId()
+    {
         $lastXabinaId = Users_Ids::model()->ownUser()->find(
             array(
                 'condition' => 'status = :pending',
@@ -1861,7 +1878,7 @@ class PersonalController extends Controller
             )
         );
 
-        if(!$lastXabinaId){
+        if (!$lastXabinaId) {
             echo CJSON::encode(array(
                 'success' => false,
                 'message' => Yii::t('Personal', 'Error new ID'),
@@ -1875,6 +1892,34 @@ class PersonalController extends Controller
         echo CJSON::encode(array(
             'success' => true,
             'message' => Yii::t('Personal', 'SMS was successfully resent'),
+        ));
+    }
+
+    public function actionForgotPass()
+    {
+        $pin = Yii::request()->getParam('pin', '', 'list', array('pin1', 'pin2', 'pin3'));
+
+        if($pin){
+            $pins = Users_Pins::model()->ownUser()->find();
+            $pass = substr(time() . 'xabina' . 'pass' . $pins->user->email, 3, 6);
+            $pins->$pin = md5($pass);
+
+            $mail = new Mail;
+            $mail->send(
+                $pins->user, // this user
+                'newPin', // sys mail code
+                array( // params
+                    '{:pin}'  => $pin,
+                    '{:pass}' => $pass,
+                    '{:date}' => date('Y m d', time()),
+                )
+            );
+        }
+
+        echo CJSON::encode(array(
+            'message' => Yii::t('Personal', 'We send you new password to primary email'),
+            'reload' => true,
+            'success' => true,
         ));
     }
 }

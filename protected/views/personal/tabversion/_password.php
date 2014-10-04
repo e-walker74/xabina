@@ -52,7 +52,7 @@
     </td>
     <td>
         <div class="transaction-buttons-cont ">
-            <a href="javaScript:void(0)" class="button edit"></a>
+            <a href="javaScript:void(0)" class="button edit" title="<?= Yii::t('Front', 'Edit') ?>"></a>
         </div>
     </td>
 </tr>
@@ -118,8 +118,8 @@
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 ">
                 <div class="transaction-buttons-cont edit-submit-cont">
-                    <input type="submit" class="button ok" value=""/>
-                    <a href="javaScript:void(0)" class="button cancel"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </div>
         </div>
@@ -131,6 +131,7 @@
                         <span class="tooltip-icon" title="<?= Yii::t('Front', 'password_newpassword_tooltip') ?>"></span>
                     </div>
                     <div class="form-input">
+                        <?php $pin1 = $model->pin1; ?>
                         <?= $model->pin1 = ''; ?>
                         <?= $form->passwordField($model, 'pin1', array('class' => 'input-text')) ?>
                         <span class="icon"></span>
@@ -154,6 +155,13 @@
             <div class="col-lg-2 col-md-2 col-sm-2 ">
             </div>
         </div>
+        <?php if($pin1): ?>
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 ">
+                <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin1')) ?>', this)"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
+            </div>
+        </div>
+        <?php endif; ?>
         <?php $this->endWidget(); ?>
     </td>
 </tr>
@@ -261,8 +269,8 @@
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 ">
                 <div class="transaction-buttons-cont edit-submit-cont">
-                    <input type="submit" class="button ok" value=""/>
-                    <a href="javaScript:void(0)" class="button cancel"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </div>
         </div>
@@ -274,6 +282,7 @@
                         <span class="tooltip-icon" title="<?= Yii::t('Front', 'password_newpassword_tooltip') ?>"></span>
                     </div>
                     <div class="form-input">
+                        <?php $pin2 = $model->pin2; ?>
                         <?= $model->pin2 = ''; ?>
                         <?= $form->passwordField($model, 'pin2', array('class' => 'input-text')) ?>
                         <span class="icon"></span>
@@ -297,6 +306,13 @@
             <div class="col-lg-2 col-md-2 col-sm-2 ">
             </div>
         </div>
+        <?php if($pin2): ?>
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-10 ">
+                    <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin2')) ?>', this)"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
+                </div>
+            </div>
+        <?php endif; ?>
         <?php $this->endWidget(); ?>
     </td>
 </tr>
@@ -403,8 +419,8 @@
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 ">
                 <div class="transaction-buttons-cont edit-submit-cont">
-                    <input type="submit" class="button ok" value=""/>
-                    <a href="javaScript:void(0)" class="button cancel"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </div>
         </div>
@@ -416,6 +432,7 @@
                         <span class="tooltip-icon" title="<?= Yii::t('Front', 'password_newpassword_tooltip') ?>"></span>
                     </div>
                     <div class="form-input">
+                        <?php $pin3 = $model->pin3; ?>
                         <?= $model->pin3 = ''; ?>
                         <?= $form->passwordField($model, 'pin3', array('class' => 'input-text')) ?>
                         <span class="icon"></span>
@@ -439,6 +456,13 @@
             <div class="col-lg-2 col-md-2 col-sm-2 ">
             </div>
         </div>
+        <?php if($pin3): ?>
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <a class="violet-link" href="javascript:void(0)" onclick="Personal.makePrimary('<?= Yii::app()->createUrl('/personal/forgotPass', array('pin' => 'pin3')) ?>', this)"><?= Yii::t('Personal', 'Forgot your password?') ?></a>
+                </div>
+            </div>
+        <?php endif; ?>
         <?php $this->endWidget(); ?>
     </td>
 </tr>

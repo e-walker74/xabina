@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mail</title>
+    <style>* { border: none; }</style>
+</head>
+<body style="background: #d9d9d9; font-family: 'arial';">
+	<table style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+            <td align="center">
+                            <table cellpadding="0" cellspacing="0" border="0" style="width: 600px; height: 30px; text-align: center; font-size: 10px; line-height: 30px;border-collapse: collapse;">
+                    <tr>
+                        <td>If you cannot read this email, please click <a style="color: #1b75bc;" href="#">here</a>.</td>
+                    </tr>
+                </table>
+
+                <table cellpadding="0" cellspacing="0" border="0" style="width: 600px; height: 1080px; border-collapse: collapse;">
+                    <!--header-->
+                    <tr style="vertical-align: top; height: 100px;">
+                        <td><table style="border-top-right-radius: 10px; border-top-left-radius: 10px;background-image: url(header.png); background: #2f86cb; height: 100px; width: 600px;"><td style="border-top-left-radius: 10px; "><img src="http://imides.ru/img/logo.png" height="100" width="210" /></td>
+                        <td style="width: 245px; text-align: center;vertical-align: middle; color: white; font-weight: bold;">Xabina Online Banking</td>
+                        <td>
+                        <a href="#"><img style="margin-left: 5px; margin-top: 20px; border: none;" src="http://imides.ru/img/fb.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/twitter.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/goolge.png" height="24" width="24" alt=""></a>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/insta.png" height="24" width="24" alt=""></a><br>
+                        <a href="#"><img style="border: none;" src="http://imides.ru/img/login.png" height="38" width="123" alt=""></a>
+
+                        </td></table></td>
+                    </tr>
+                    <!--header end-->
+                    <!--content-->
+                    <tr style="vertical-align: top;">
+                        <td colspan="3" align="center">
+                            <table cellpadding="0" cellspacing="0" border="0" style="background: white; width: 600px; border-collapse: collapse;">
+                                <tr style="height: 90px;">
+                                    <td style="padding: 0 20px; color: #534a76; font-size: 22px;">Dear, <strong>{:userFullName}</strong>!</td>
+                                </tr>
+                                <tr style="height: 32px;">
+                                    <td style="padding: 0 20px; font-weight: bold; vertical-align: top; color: #777777; font-size: 13px;">The User ID from your Xabina Profile has been changed. Here are your new credentials.
+                                    <div style="border-top: 2px solid #f2f2f2;margin: 17px 0 0; border-bottom: 2px solid #f2f2f2">
+                                        <p style="font-weight: normal;margin: 16px 0 0;">New User ID: <b>{:login}</b></p>
+                                    </div>
+                                    </td>
+                                </tr>
+                                <tr style="height: 70px;">
+                                	<td style="padding: 0 20px; line-height: 20px; font-style: italic; font-size: 12px; color: #777777;">If You have not requested this action, we strictly advise You to contact our customer support.</td>
+                                </tr>
+                                <tr style="height: 60px;">
+                                	<td style="padding: 0 20px; line-height: 20px; font-size: 11px; color: #777777;">Best regards, Team <a href="http://xabina.com">Xabina.com</a></td>
+                                </tr>
+
+                                <tr>
+                                	<td>
+                                		<a href="#"><img style="padding: 0 20px; border: none; height: 287px; width: 560px;" src="http://imides.ru/img/banner.png" alt=""></a>
+                                	</td>
+                                </tr>
+
+
+
+                            </table>
+								<table cellpadding="0" cellspacing="0" border="0" style="background: #f2f2f2; width: 600px; border-collapse: collapse;">
+                                <tr style="height:100px;">
+                                	<td style="padding: 0 0 0 20px; width:200px;">
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-logo.png" height="60" width="128" alt=""></a>
+                                	</td>
+
+                                	<td style=" width:200px;">
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-fb.png" height="40" width="40" alt=""></a>
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-twi.png" height="40" width="40" alt=""></a>
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-google.png" height="40" width="40" alt=""></a>
+                                		<a href="#"><img style="border: none;" src="http://imides.ru/img/footer-inst.png" height="40" width="40" alt=""></a>
+                                	</td>
+
+                                </tr>
+
+                                <tr style="height: 100px;">
+                                	<td style="padding: 0 0 0 20px; font-size: 13px; color: #777777; line-height: 20px; width: 200px;">
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/phone.png" height="14" width="14" alt="">(37 410) 34 564 77<br></div>
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/mail.png" height="14" width="14" alt="">support@xabina.com<br></div>
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/skype.png" height="14" width="14" alt="">xabina_manager<br></div>
+                                		<div style="padding-bottom: 3px"><img style="margin-right: 5px; margin-bottom: -3px;" src="http://imides.ru/img/home.png" height="14" width="14" alt="">Stadsring 99, 3811 HP Amersfoors,<br></div>
+Netherlands
+                                	</td>
+
+                                	<td style="width: 200px; vertical-align: top; font-size: 13px; color: #777777; line-height: 20px;">
+                                		<span style="font-weight: bold; font-size: 13px; color: #372952;">KwK registration number:</span>
+										U31401KA2013PTC069763<br>
+										<span style="font-weight: bold; font-size: 13px; color: #372952;">DNB License number:</span><br>
+										239316
+                                	</td>
+
+                                </tr>
+
+
+                                </table>
+
+                                <table cellpadding="0" cellspacing="0" border="0" style="background: #f2f2f2; border-collapse: collapse; width: 600px; height: 90px;">
+                                	<tr style="font-size: 11px; color: #777777">
+                                		<td style="padding: 0 20px;">This is an automatically generated email, please do not reply. If you have received this by mistake, you are kindly
+requested to notify the sender and then delete the e-mail from your system; access to, disclosure, copying and/or
+distribution of this e-mail by anyone other than the intended recipient is prohibited.</td>
+                                	</tr>
+                                </table>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!--content end-->
+                </table>
+                <!--footer-->
+                <table cellpadding="0" cellspacing="0" border="0" style="text-align: center; font-size: 11px;border-collapse: collapse; width: 600px; height: 50px;">
+                    <tr>
+                        <td>Это письмо сгенерировано автоматически. Отвечать на него не нужно.</td>
+                    </tr>
+                </table>
+                <!--footer end-->
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

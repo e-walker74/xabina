@@ -36,7 +36,7 @@ class WebUser extends CWebUser
         return $this->_model;
     }
 
-    public function addNotification($code, $message, $type = 'close', $style = 'green', $user_id = false)
+    public function addNotification($code, $message, $type = Users_Notifications::TYPE_NOTE, $user_id = false, $attributes = array())
     {
         if (!$user_id) {
             $user_id = Yii::app()->user->id;
@@ -44,7 +44,7 @@ class WebUser extends CWebUser
 
         $this->_notifications = false;
 
-        Users::addNotification($code, $message, $type, $style, $user_id);
+        Users::addNotification($code, $message, $type, $user_id, $attributes);
     }
 
     public function removeNotification($code)
@@ -100,7 +100,7 @@ class WebUser extends CWebUser
             return $name;
 
         if ($this->getId() !== null) {
-            Yii::log(array('user_id' => $this->getId(), 'action' => 'getEmail'), CLogger::LEVEL_ERROR, 'webUser');
+            //Yii::log(array('user_id' => $this->getId(), 'action' => 'getEmail'), CLogger::LEVEL_ERROR, 'webUser');
             $this->_model = $this->_getModel();
             $this->setEmail($this->_model->email);
             return $this->getEmail();
@@ -124,7 +124,7 @@ class WebUser extends CWebUser
             return $name;
 
         if ($this->getId() !== null) {
-            Yii::log(array('user_id' => $this->getId(), 'action' => 'getPhone'), CLogger::LEVEL_ERROR, 'webUser');
+            //Yii::log(array('user_id' => $this->getId(), 'action' => 'getPhone'), CLogger::LEVEL_ERROR, 'webUser');
             $this->_model = Users::model()->findByPk($this->getId(), array('select' => 'phone'));
             $this->setPhone($this->_model->phone);
             return $this->getPhone();
@@ -142,7 +142,7 @@ class WebUser extends CWebUser
             return $name;
 
         if ($this->getId() !== null) {
-            Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
+            //Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
 
             $model = $this->_getModel($refresh);
             $this->setTimeZone($model->settings->time_zone->zone_name);
@@ -156,7 +156,7 @@ class WebUser extends CWebUser
             return $name;
 
         if ($this->getId() !== null) {
-            Yii::log(array('getPhotoUrl' => $this->getId(), 'action' => 'getPhotoUrl'), CLogger::LEVEL_ERROR, 'webUser');
+            //Yii::log(array('getPhotoUrl' => $this->getId(), 'action' => 'getPhotoUrl'), CLogger::LEVEL_ERROR, 'webUser');
 
             $model = $this->_getModel($refresh);
             $this->setPhotoUrl($model->getPhotoUrl());
@@ -171,7 +171,7 @@ class WebUser extends CWebUser
             return $name;
 
         if ($this->getId() !== null) {
-            Yii::log(array('getStatus' => $this->getId(), 'action' => 'getStatus'), CLogger::LEVEL_ERROR, 'webUser');
+            //Yii::log(array('getStatus' => $this->getId(), 'action' => 'getStatus'), CLogger::LEVEL_ERROR, 'webUser');
             $this->_model = Users::model()->findByPk($this->getId());
             $this->setStatus($this->_model->status);
             return $this->getStatus();
@@ -208,10 +208,15 @@ class WebUser extends CWebUser
             return $name;
 
         if ($this->getId() !== null) {
-            Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
+            //Yii::log(array('getTimezone' => $this->getId(), 'action' => 'getTimezone'), CLogger::LEVEL_ERROR, 'webUser');
 
             $model = $this->_getModel($refresh);
-            $this->setLastTime(strtotime($model->last_auth->created_at));
+			if($model->last_auth){
+				$this->setLastTime(strtotime($model->last_auth->created_at));
+			} else {
+				$this->setLastTime(false);
+			}
+            
             return $this->getLastTime();
         } else
             return false;
@@ -261,13 +266,13 @@ class WebUser extends CWebUser
         $this->getTimeZone();
         $this->getPhotoUrl();
 
-        $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-        $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
-        $log = new Users_Log;
-        $log->region = $country;
-        $log->type = 'login';
-        $log->user_id = $user->id;
-        $log->save();
+        //$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+        //$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
+        //$log = new Users_Log;
+        //$log->region = $country;
+        //$log->type = 'login';
+        //$log->user_id = $user->id;
+        //$log->save();
 
         $this->initRback();
 
@@ -337,14 +342,15 @@ class WebUser extends CWebUser
     public function logout($destroySession = true)
     {
         $user = $this->_getModel();
-
-        $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
-        $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
-        $log = new Users_Log;
-        $log->region = $country;
-        $log->type = 'logout';
-        $log->user_id = $user->id;
-        $log->save();
+        if($user){
+            $SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
+            $country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
+            $log = new Users_Log;
+            $log->region = $country;
+            $log->type = 'logout';
+            $log->user_id = $user->id;
+            $log->save();
+        }
 
         parent::logout();
     }

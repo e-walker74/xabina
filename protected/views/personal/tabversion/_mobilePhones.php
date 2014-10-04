@@ -71,8 +71,12 @@
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 ">
                                         <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                            <a href="javaScript:void(0)" class="button ok pull-left" onclick="Personal.activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
-                                            <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'phones', 'id' => $users_phone->id)) ?>" ></a>
+                                            <a href="javaScript:void(0)" title="<?= Yii::t('Front', 'OK') ?>" class="button ok pull-left" onclick="Personal.activatePhone('<?= $this->createUrl('/personal/activate', array('type' => 'phones', 'hash' => "" )) ?>', this)"></a>
+                                            <?php if($users_phone->hash && !$users_phone->status): ?>
+                                                <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'phones', 'id' => $users_phone->id)) ?>" ></a>
+                                            <?php elseif($users_phone->hash && $users_phone->status): ?>
+                                                <a class="button remove" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/cancelMakePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this)"  title="<?= Yii::t('Front', 'Remove') ?>" ></a>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +88,7 @@
                 <tr>
                     <td>+<?= $users_phone->phone ?></td>
                     <td><?= ($users_phone->category) ? $users_phone->category->value : "" ?></td>
-                    <td>
+                    <td class="status-td">
                         <?php if($users_phone->status == 0 && $users_phone->is_master == 0):?>
                             <div class="field-row">
                                 <div class="field-lbl"><?= Yii::t('Personal', 'sms_code') ?><span class="tooltip-icon" title="<?= Yii::t('Personal', 'sms_code_tooltip') ?>"></span>
@@ -105,16 +109,16 @@
                                     </div>
                                 </div>
                             <?php else: ?>
-                                <a href="javaScript:void(0)" class="make-primary" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                                <a <?php if($users_phone->is_master == 1):?>style="display:none;"<?php endif; ?> title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'phones', 'id' => $users_phone->id)) ?>', this)"></a>
                             <?php endif; ?>
                         <?php elseif ($users_phone->status == 1 && $users_phone->is_master == 1):?>
-                            <span class="bold"><?= Yii::t('Front', 'Primary'); ?></span>
+                            <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
                         <?php endif;?>
                     </td>
                     <td>
                         <?php if(!$users_phone->is_master): ?>
                             <div class="transaction-buttons-cont" style="margin:10px 0 0;">
-                                <a class="button delete" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'phones', 'id' => $users_phone->id)) ?>" ></a>
+                                <a class="button delete"  title="<?= Yii::t('Front', 'Remove') ?>" data-url="<?= Yii::app()->createUrl('/personal/delete', array('type' => 'phones', 'id' => $users_phone->id)) ?>" ></a>
                             </div>
                         <?php endif; ?>
                     </td>
@@ -202,8 +206,8 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                             <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" class="button ok" value="" />
-                                <a class="button cancel" href="javaScript:void(0)"></a>
+                                <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                             </div>
                         </div>
                     </div>

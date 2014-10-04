@@ -79,20 +79,21 @@
                                           title="<?= Yii::t('Front', 'type_of_contact_tooltip') ?>"></span>
                                 </div>
                                 <div class="form-input category-select">
-                                    <div class="select-custom select-narrow " style="background: #e1e1e7">
+                                    <div class="select-custom select-narrow " <?= ($model->type) ? 'style="background: #e1e1e7"' : '' ?>>
                                         <span class="select-custom-label"></span>
                                         <?= $form->dropDownList(
                                             $model,
                                             'type',
-                                            array('personal' => Yii::t('Front', 'Personal'), 'company' => Yii::t('Front', 'Company')),
+                                            array('' => Yii::t('Front', 'Select')) + array('personal' => Yii::t('Front', 'Personal'), 'company' => Yii::t('Front', 'Company')),
                                             array(
                                                 'class' => 'select-invisible',
                                                 'onchange' => 'js:changeContactType(this)',
-                                                'disabled' => true,
+                                                'options' => array('' => array('disabled' => true)),
+                                                'disabled' => ($model->type) ? true : false,
                                             )
                                         ) ?>
-                                        <?= $form->error($model, 'type') ?>
                                     </div>
+                                    <?= $form->error($model, 'type') ?>
                                 </div>
                             </div>
                         </div>
@@ -103,8 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <?php if($model->type == 'personal'): ?>
-                    <div class="row">
+                    <div class="row personal-block" <?php if($model->type != 'personal'): ?>style="display: none"<?php endif; ?>>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
@@ -134,11 +134,10 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                         </div>
                     </div>
-                    <?php endif; ?>
-                    <div class="row">
+
+                    <div class="row personal-block company-block" <?php if(!$model->type): ?>style="display: none"<?php endif; ?>>
                         <div class="col-lg-5 col-md-5 col-sm-5">
-                            <?php if($model->type == 'personal'): ?>
-                            <div class="form-cell">
+                            <div class="form-cell personal-block" <?php if($model->type != 'personal'): ?>style="display: none"<?php endif; ?>>
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Xabina User ID') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'xabina_id_name_contact') ?>"></span>
@@ -148,8 +147,7 @@
                                     <?= $form->error($model, 'xabina_id') ?>
                                 </div>
                             </div>
-                            <?php elseif($model->type == 'company'): ?>
-                            <div class="form-cell">
+                            <div class="form-cell company-block" <?php if($model->type != 'company'): ?>style="display: none"<?php endif; ?>>
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Company Name') ?>
                                     <span class="tooltip-icon" title="<?= Yii::t('Front', 'company_name_contact') ?>"></span>
@@ -159,7 +157,6 @@
                                     <?= $form->error($model, 'company') ?>
                                 </div>
                             </div>
-                            <?php endif; ?>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
@@ -178,7 +175,7 @@
 
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row company-block personal-block" <?php if(!$model->type): ?>style="display: none"<?php endif; ?>>
                         <div class="col-lg-5 col-md-5 col-sm-5">
                             <div class="form-cell">
                                 <div class="form-lbl">
@@ -207,8 +204,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?php if($model->type == 'personal'): ?>
-                        <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div class="col-lg-5 col-md-5 col-sm-5 personal-block" <?php if($model->type != 'personal'): ?>style="display: none"<?php endif; ?>>
                             <div class="form-cell">
                                 <div class="form-lbl">
                                     <?= Yii::t('Front', 'Sex') ?>
@@ -230,13 +226,17 @@
                                 </div>
                             </div>
                         </div>
-                        <?php endif; ?>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
-
                         </div>
                     </div>
                 </div>
                 <?php $this->endWidget(); ?>
+                <script>
+                    $('#Users_Contacts_type').change(function(){
+                        $('.company-block,.personal-block').hide()
+                        $('.' + $(this).val() + '-block').show()
+                    })
+                </script>
             </td>
         </tr>
     </table>

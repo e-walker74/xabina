@@ -13,17 +13,18 @@
 		)
 	); ?>
 <?php 
-	$this->renderPartial(
-		'outgoingv2/_own', 
+	/*$this->renderPartial(
+		'outgoingv2/_own',
 		array(
-			'quickTransfers' => $quickTransfers, 
+			'quickTransfers' => $quickTransfers,
 			'ownForm' 		=> $ownForm,
 			'currencies' 	=> $currencies,
 			'selectedAcc' 	=> $selectedAcc,
 			'user' 			=> $user,
 			'categories'	=> $categories,
 		)
-	); ?>
+	); */
+?>
 <?php 
 	$this->renderPartial(
 		'outgoingv2/_bank', 

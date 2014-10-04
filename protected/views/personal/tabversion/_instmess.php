@@ -24,13 +24,12 @@
                 </td>
                 <td><?= $mes->messager_login ?></td>
                 <td><?= ($mes->category) ? $mes->category->value : "" ?></td>
-                <td>
+                <td class="status-td">
                     <?php if($mes->is_master): ?>
-                        <span class="bold"><?= Yii::t('Front', 'Primary'); ?></span>
+                        <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
                     <?php else: ?>
-                        <a href="javaScript:void(0)" class="make-primary" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
+                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'instmessagers', 'id' => $mes->id)) ?>', this)"></a>
                     <?php endif; ?>
-
                 </td>
                 <td style="overflow: visible!important">
                     <div class="contact-actions transaction-buttons-cont">
@@ -43,6 +42,7 @@
                                 <li>
                                     <?= Html::link('', 'javaScript:void(0)', array(
                                         'class' => 'button delete',
+                                        'title' =>   Yii::t('Front', 'Remove'),
                                         'onclick' => '$(this).addClass(\'opened\')',
                                         'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'messager', 'id' => $mes->id)),
                                     )) ?>
@@ -149,8 +149,8 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2">
                             <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" class="button ok" value=""/>
-                                <a href="javaScript:void(0)" class="button cancel"></a>
+                                <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                             </div>
                         </div>
                     </div>
@@ -261,8 +261,8 @@
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="transaction-buttons-cont edit-submit-cont">
-                            <input type="submit" class="button ok" value=""/>
-                            <a href="javaScript:void(0)" class="button cancel"></a>
+                            <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                            <a href="javaScript:void(0)" class="button cancel" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                         </div>
                     </div>
                 </div>

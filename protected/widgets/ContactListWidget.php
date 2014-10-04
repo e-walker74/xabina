@@ -35,11 +35,28 @@ class ContactListWidget extends QWidget
             $this->render('contactsList/alphabet', array());
         }
         $this->_criteria->order = 'fullname asc';
+        if (substr_count($_SERVER['REQUEST_URI'], '/dialogs'))
+            $this->_criteria->condition='xabina_id>0';        
         if ($qname = Yii::app()->request->getParam('qname')) {
             $this->_criteria->compare('fullname', $qname, true);
         }
         $model = Users_Contacts::model()->currentUser()->with('data')->findAll($this->_criteria);
         return $this->render('contactsList/contactList', array('model' => $model), $return, $processOutput);
+    }
+
+    public function renderContactListForSend($return = false, $processOutput = false)
+    {
+        if ($this->withAlphabet) {
+            $this->render('contactsList/alphabet', array());
+        }
+        $this->_criteria->order = 'fullname asc';
+        //if (substr_count($_SERVER['REQUEST_URI'], '/dialogs'))
+        //    $this->_criteria->condition='xabina_id>0';
+        if ($qname = Yii::app()->request->getParam('qname')) {
+            $this->_criteria->compare('fullname', $qname, true);
+        }
+        $model = Users_Contacts::model()->currentUser()->with('data')->findAll($this->_criteria);
+        return $this->render('contactsList/contactListForSend', array('model' => $model), $return, $processOutput);
     }
 
     public function renderSearchHolders($return = false, $processOutput = false)
@@ -89,24 +106,33 @@ class ContactListWidget extends QWidget
         }
     }
 
-    public function renderSeachContactByName($return = false, $processOutput = false)
+    public function renderSeachContactByName($return = false)
     {
         $this->_criteria->order = 'fullname asc';
         $this->_criteria->together = true;
         $this->_criteria->with = 'data';
         $model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
-        $this->render('contactsList/seachContactByName', array('model' => $model), $return, $processOutput);
+        $this->render('contactsList/seachContactByName', array('model' => $model), $return);
     }
 
-    public function renderPupUpSearch($return = false, $processOutput = false)
+    public function renderLinkContacts($return = false)
     {
         $this->_criteria->order = 'fullname asc';
         $this->_criteria->together = true;
         $this->_criteria->with = 'data';
-        foreach($this->withOut as $id){
+        $model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
+        $this->render('contactsList/linkContacts', array('model' => $model), $return);
+    }
+
+    public function renderPupUpSearch($return = false)
+    {
+        $this->_criteria->order = 'fullname asc';
+        $this->_criteria->together = true;
+        $this->_criteria->with = 'data';
+        foreach ($this->withOut as $id) {
             $this->_criteria->compare('contact_id', '<>' . $id);
         }
         $model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
-        $this->render('contactsList/pop_up', array('model' => $model), $return, $processOutput);
+        $this->render('contactsList/pop_up', array('model' => $model), $return);
     }
 }

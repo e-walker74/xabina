@@ -30,7 +30,7 @@ class Controller extends CController
     public function init()
     {
         if (!Yii::app()->user->isGuest && Yii::app()->user->getThisIp() != ip2long(Yii::app()->request->getUserHostAddress())) {
-            Yii::app()->user->logout();
+            //Yii::app()->user->logout();
         }
         $this->registerGlobalStyles();
         if(Yii::request()->isAjaxRequest){

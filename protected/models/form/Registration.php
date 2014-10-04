@@ -189,7 +189,7 @@ class Form_Registration extends CFormModel
 				$SxGeo = new SxGeo('SxGeo.dat', SXGEO_BATCH);
 				$country = $SxGeo->getCountry(Yii::app()->request->getUserHostAddress());
 				
-				$user->settings->time_zone_id = 276; // NL
+				$user->settings->time_zone_id = 231; // NL
 				if($country){
 					$zone = Zone::model()->find('country_code = :code', array(':code' => $country));
 					if($zone){

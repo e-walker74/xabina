@@ -8,9 +8,17 @@
  * @property integer $user_id
  * @property integer $transaction_id
  * @property string $title
+ * @property string $description
+ * @property integer $created_at
  */
 class Categories extends ActiveRecord
 {
+    public $model_id; //for WLinkCategory
+    public $form;
+    public $cross_id;
+    public $cross_category;
+    public $cross_comment;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,7 +38,7 @@ class Categories extends ActiveRecord
 			array('user_id, title', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>60),
-			array('title', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			array('title, description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, title', 'safe', 'on'=>'search'),
@@ -92,7 +100,7 @@ class Categories extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return TransactionsCategories the static model class
+	 * @return Categories the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -22,6 +22,8 @@ class Users_Ids extends ActiveRecord
     const STATUS_APPROVE = 1;
     const STATUS_CANCELED = 2;
 
+    const USER_ID_TIME = 604800;
+
     public $confirm_new_user_id;
     public $compare_confirm_code;
 
@@ -133,7 +135,7 @@ class Users_Ids extends ActiveRecord
         if($this->status != Users_Ids::STATUS_APPROVE){
             return true;
         }
-        if(time() - $this->confirm_at > 3600*24*30*3){
+        if(time() - $this->confirm_at > self::USER_ID_TIME){
             return true;
         }
         return false;

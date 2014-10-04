@@ -34,17 +34,18 @@
                 </td>
                 <td>
                     <a target="_blank" style="display: inline; color: #428bca!important;" href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode('http://' . $soc->getProvider()->url))) ?>" class="make-primary"><?= $soc->getProvider()->url ?></a>
-                <td>
+                <td class="status-td">
                     <?php if($soc->is_master): ?>
-                        <span class="bold"><?= Yii::t('Personal', 'Primary'); ?></span>
+                        <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
                     <?php else: ?>
-                        <a href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'socials', 'id' => $soc->id)) ?>', this)" class="make-primary"><?= Yii::t('Personal', 'Make primary'); ?></a>
+                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'socials', 'id' => $soc->id)) ?>', this)"></a>
                     <?php endif; ?>
                 </td>
                 <td>
                     <div class=" transaction-buttons-cont">
                         <?= Html::link('', 'javaScript:void(0)', array(
                             'class' => 'button delete',
+                            'title' =>   Yii::t('Front', 'Remove'),
                             'onclick' => '$(this).addClass(\'opened\')',
                             'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'social', 'id' => $soc->id)),
                         )) ?>

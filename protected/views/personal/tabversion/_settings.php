@@ -20,7 +20,7 @@
             <td class="data"><?= Languages::$languages[$user->settings->language] ?></td>
             <td>
                 <div class="transaction-buttons-cont">
-                    <a href="#" class="button edit"></a>
+                    <a href="#" class="button edit" title="<?= Yii::t('Front', 'Edit') ?>"></a>
                 </div>
             </td>
         </tr>
@@ -34,8 +34,8 @@
             </td>
             <td style="width:50px">
                 <div class="transaction-buttons-cont">
-                    <input type="submit" class="button ok" value="" />
-                    <a class="button cancel" href="javaScript:void(0)"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </td>
         </tr>
@@ -58,8 +58,8 @@
             </td>
             <td>
                 <div class="transaction-buttons-cont">
-                    <input type="submit" class="button ok" value="" />
-                    <a class="button cancel" href="javaScript:void(0)"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </td>
         </tr>
@@ -86,16 +86,17 @@
             </td>
             <td>
                 <div class="transaction-buttons-cont">
-                    <input type="submit" class="button ok" value="" />
-                    <a class="button cancel" href="javaScript:void(0)"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </td>
         </tr>
         <tr class="user-settings-data">
             <td><?= Yii::t('Front', 'Time zone'); ?></td>
             <td class="data">
-                <?= $user->settings->time_zone->offset ?>
-                <?= $user->settings->time_zone->zone_name ?>
+                <?php if(isset(Zone::$showZones[$user->settings->time_zone_id])): ?>
+                    <?= Zone::$showZones[$user->settings->time_zone_id] ?>
+                <?php endif; ?>
             </td>
             <td>
                 <div class="transaction-buttons-cont">
@@ -112,17 +113,7 @@
                         CHtml::activeDropDownList(
                             $user->settings,
                             'time_zone_id',
-                            CHtml::listData(
-                                Zone::model()->findAll(
-                                    array(
-                                        'order' => 'offset_time asc',
-                                    )
-                                ),
-                                'zone_id',
-                                function($data){
-                                    return $data->offset . ' ' . $data->zone_name;
-                                }
-                            ),
+                            Zone::$showZones,
                             array(
                                 'class' => 'select-invisible'
                             )
@@ -131,8 +122,8 @@
             </td>
             <td>
                 <div class="transaction-buttons-cont">
-                    <input type="submit" class="button ok" value="" />
-                    <a class="button cancel" href="javaScript:void(0)"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </td>
         </tr>
@@ -157,8 +148,8 @@
             </td>
             <td>
                 <div class="transaction-buttons-cont">
-                    <input type="submit" class="button ok" value="" />
-                    <a class="button cancel" href="javaScript:void(0)"></a>
+                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                    <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                 </div>
             </td>
         </tr>

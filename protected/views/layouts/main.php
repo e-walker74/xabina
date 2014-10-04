@@ -3,7 +3,7 @@
 <head>
     <title>xabina</title>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="viewport" content=" initial-scale=0.5, maximum-scale=5, user-scalable=yes"/>
 	<link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/main_style.css"/>
     <link rel="stylesheet" href="/js/vegas/jquery.vegas.min.css"/>

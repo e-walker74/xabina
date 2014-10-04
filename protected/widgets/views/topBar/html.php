@@ -69,7 +69,7 @@
                     <ul class="user-menu pull-right  list-inline">
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_notification')): ?>
                             <li class="user-notification">
-                                <a href="#"  data-toggle="dropdown" role="button"><span>12</span></a>
+                                <a href="#"  data-toggle="dropdown" role="button"></a>
                             </li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_user_personal')): ?>

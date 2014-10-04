@@ -294,4 +294,7 @@ return array(
     'contact_category_successfully_update' => 'Категория была изменена',
 
     'contact_success_contact_saved' => 'Новый контакт был привязан',
+
+    'account_sub_type_anonymous' => 'Анонимный',
+    'account_sub_type_personal' => 'Именной',
 );

@@ -115,7 +115,7 @@ class Form_Search extends CFormModel
             return $this->_transactions;
         }
 
-        $where = " t.user_id = {$this->user_id}  and (tinc.counter_agent = {$this->counter_agent} or tout.counter_agent = {$this->counter_agent})
+        $where = " t.user_id = {$this->user_id}  and (t.associated_contact = {$this->counter_agent})
         ";
         if($this->keyword){
             $where .= "

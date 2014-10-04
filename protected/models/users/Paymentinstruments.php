@@ -28,14 +28,26 @@ class Users_Paymentinstruments extends Users_Profile
     const METHOD_PAYPAL = 4;
     const METHOD_SKRILL = 5;
     const METHOD_WEBMONEY = 6;
+    const METHOD_QIWI = 7;
 
     public static $methods = array(
         self::METHOD_CREDITCARD => 'creditcard',
 //        self::METHOD_IDEAL => 'ideal',
         self::METHOD_BANK_ACCOUNT => 'bank_account',
         self::METHOD_PAYPAL => 'paypal',
-        self::METHOD_SKRILL => 'webmoney',
-        self::METHOD_WEBMONEY => 'skrill',
+        self::METHOD_SKRILL => 'skrill',
+        self::METHOD_WEBMONEY => 'webmoney',
+        self::METHOD_QIWI => 'qiwi',
+    );
+
+    public static $logos = array(
+        self::METHOD_CREDITCARD => 'creditcard',
+//        self::METHOD_IDEAL => 'ideal',
+        self::METHOD_BANK_ACCOUNT => 'bank_account.png',
+        self::METHOD_PAYPAL => 'payment_method4.png',
+        self::METHOD_SKRILL => 'payment_system6.png',
+        self::METHOD_WEBMONEY => 'payment_system4.png',
+        self::METHOD_QIWI => 'payment_method3.png',
     );
 
     public $status = 1;
@@ -53,6 +65,8 @@ class Users_Paymentinstruments extends Users_Profile
     public $webmoney_account_number;
     // skrill
     public $skrill_account_number;
+    // QIWI
+    public $qiwi_account_number;
 
     /**
      * Returns the static model of the specified AR class.
@@ -91,6 +105,7 @@ class Users_Paymentinstruments extends Users_Profile
             array('p_month', 'numerical', 'min' => 1, 'max' => 12, 'on' => 'creditcard'),
             array('p_month, p_year', 'length', 'max' => 2, 'on' => 'creditcard'),
             array('p_year', 'numerical', 'min' => date('y'), 'max' => date('y', time() + 3600 * 24 * 365 * 20), 'on' => 'creditcard'),
+            array('p_year', 'validateExpDate', 'on' => 'creditcard'),
             array('p_csc', 'numerical'),
             array('p_csc', 'length', 'max' => 3, 'min' => 3, 'on' => 'creditcard'),
             // ideal
@@ -102,6 +117,9 @@ class Users_Paymentinstruments extends Users_Profile
             // webmoney
             array('webmoney_account_number', 'required', 'on' => 'webmoney'),
             array('webmoney_account_number', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'webmoney_account_number_format_error'), 'on' => 'webmoney'),
+            // qiwi
+            array('qiwi_account_number', 'required', 'on' => 'qiwi'),
+            array('qiwi_account_number', 'match', 'pattern' => '/^[0-9a-zA-Z\-]{1,}$/', 'message' => Yii::t('Front', 'qiwi_account_number_format_error'), 'on' => 'qiwi'),
             // paypal
             array('skrill_account_number', 'required', 'on' => 'skrill'),
             array('skrill_account_number', 'email', 'on' => 'skrill'),
@@ -110,6 +128,14 @@ class Users_Paymentinstruments extends Users_Profile
             array('bic', 'length', 'max' => 50, 'on' => 'bank_account'),
             array('bic', 'validateBic', 'on' => 'bank_account'),
         );
+    }
+
+    public function validateExpDate($attr, $par){
+        if($this->p_month && $this->p_year){
+            if($this->p_year == date('y') && $this->p_month < date('m')){
+                $this->addError($attr, Yii::t('Personal', 'error_exp_date'));
+            }
+        }
     }
 
     public function validateBic($attr, $par)
@@ -213,6 +239,9 @@ class Users_Paymentinstruments extends Users_Profile
                     break;
                 case 'skrill':
                     $this->from_account_number = $this->skrill_account_number;
+                    break;
+                case 'qiwi':
+                    $this->from_account_number = $this->qiwi_account_number;
                     break;
             }
 

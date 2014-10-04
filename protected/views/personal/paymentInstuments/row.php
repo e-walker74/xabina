@@ -5,19 +5,26 @@
         &&  Form_Incoming_Electronic::$methods[$model->electronic_method] == 'creditcard'
         &&  !empty($model->card_type) && isset(Transfers_Incoming::$card_types[$model->card_type])):
         ?>
-            <img src="/images/<?=Transfers_Incoming::$card_types[$model->card_type]?>.png">
+            <img src="/css/images/<?=Transfers_Incoming::$card_types[$model->card_type]?>.png">
+        <?php else: ?>
+            <img src="/css/images/<?=Users_Paymentinstruments::$logos[$model->electronic_method]?>">
         <?php endif; ?>
     </td>
     <td>
         <span class="bold"><?= $model->from_account_holder ?></span> <br>
-        <span class="grey">xxxx xxxx xxxx <?= substr($model->from_account_number, -4)?></span>
+        <?php if(isset(Form_Incoming_Electronic::$methods[$model->electronic_method])
+            &&  Form_Incoming_Electronic::$methods[$model->electronic_method] == 'creditcard'): ?>
+            <span class="grey">xxxx xxxx xxxx <?= substr($model->from_account_number, -4)?></span>
+        <?php else: ?>
+            <span class="grey"><?= $model->from_account_number ?></span>
+        <?php endif; ?>
     </td>
     <td class="text-center">
         <?= $model->getHtmlStatus() ?>
     </td>
-    <td>
-        <a <?php if($model->is_master == 1):?>style="display:none;"<?php endif; ?> class="make-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'paymentInstruments', 'id' => $model->id)) ?>', this)"><?= Yii::t('Front', 'Make primary'); ?></a>
-        <span <?php if($model->is_master == 0):?>style="display:none;"<?php endif; ?> class="primary"><?= Yii::t('Front', 'Primary'); ?></span>
+    <td class="status-td">
+        <a <?php if($model->is_master == 1):?>style="display:none;"<?php endif; ?> title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'paymentInstruments', 'id' => $model->id)) ?>', this)"></a>
+        <span title="<?= Yii::t('Personal', 'Primary') ?>" <?php if($model->is_master == 0):?>style="display:none;"<?php endif; ?> class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
     </td>
     <td style="overflow: visible!important;">
         <div class="contact-actions transaction-buttons-cont">

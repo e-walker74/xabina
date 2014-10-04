@@ -31,6 +31,7 @@
                                 <li>
                                     <?= Html::link('', 'javaScript:void(0)', array(
                                         'class' => 'button delete',
+                                        'title' =>   Yii::t('Front', 'Remove'),
                                         'onclick' => '$(this).addClass(\'opened\')',
                                         'data-url' => Yii::app()->createUrl('/personal/delete', array('type' => 'telephones', 'id' => $users_phone->id)),
                                     )) ?>
@@ -117,8 +118,8 @@
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 ">
                                 <div class="transaction-buttons-cont edit-submit-cont">
-                                    <input type="submit" class="button ok" value="" />
-                                    <a class="button cancel" href="javaScript:void(0)"></a>
+                                    <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                    <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                                 </div>
                             </div>
                         </div>
@@ -208,8 +209,8 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 ">
                             <div class="transaction-buttons-cont edit-submit-cont">
-                                <input type="submit" class="button ok" value="" />
-                                <a class="button cancel" href="javaScript:void(0)"></a>
+                                <input type="submit" class="button ok" value="" title="<?= Yii::t('Front', 'OK') ?>"/>
+                                <a class="button cancel" href="javaScript:void(0)" title="<?= Yii::t('Front', 'Cancel') ?>"></a>
                             </div>
                         </div>
                     </div>

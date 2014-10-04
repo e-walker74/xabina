@@ -39,15 +39,15 @@
         <div class="person-select-cont">
             <div class="person-select clearfix" data-toggle="dropdown">
                 <div class="select-lbl">
-                    BVR Group <br>
+                    <?= Yii::user()->getFullName() ?><br>
                     <em><?php echo $rbacMenu['active']['account_name']; ?></em>
                 </div>
                 <div class="select-arr">
-                    <span class="alert">!</span>
+                    <!--<span class="alert">!</span>-->
                 </div>
 
             </div>
-            <ul class="person-list list-unstyled dropdown-menu">
+            <!--<ul class="person-list list-unstyled dropdown-menu">
                 <li class="person-ico-2">
                     <a href="#">Konstantin Petrov <br>
                         <em>Konstantin Petrov</em>
@@ -69,8 +69,7 @@
                 <li class="add-env">
                     <a href="#">ADD NEW environment</a>
                 </li>
-            </ul>
-
+            </ul>-->
         </div>
     </div>
     <?php endif; ?>
@@ -176,7 +175,7 @@
         <?php endif; ?>
         <? if(Yii::app()->user->checkRbacAccess('dialogues_menu')): ?>
             <li class="dialogues">
-                <a href="#">
+                <a href="/dialogs">
                     <div class="menu-ico"></div>
                     <div class="menu-name"><?= Yii::t('Front', 'Dialogues')?></div>
                 </a>

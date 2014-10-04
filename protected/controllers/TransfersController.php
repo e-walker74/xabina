@@ -496,11 +496,15 @@ class TransfersController extends Controller
 				$transfer->electronic_method = $quick->electronic_method;
 				$transfer->attributes = $quick->attributes;
 				if ($transfer->save()) {
+                    $tm = Transfers_Model::model($transfer->form_type);
+                    $tm->createInComingTransaction($transfer);
 					Yii::app()->session['flash_notify'] = array(
 						'title' => Yii::t('Front', 'Upload'),
 						'message' => Yii::t('Front', 'Upload was successfully saved'),
 					);
                     echo CJSON::encode(array('success' => true, 'url' => Yii::app()->createUrl('/transfers/successincoming')));
+                } else {
+//                    dd($transfer->getErrors());
                 }
                 Yii::app()->end();
             }
@@ -667,20 +671,23 @@ class TransfersController extends Controller
 					foreach($confs as $conf) {
 						if ($conf->confirm_code == (int)$_POST['Form_Smsconfirm']['code']) {
 							$conf->transfer->need_confirm = 0;
-							$conf->transfer->save();
-                            if ($conf->transfer->favorite) {
-                                $favorite = new Transfers_Outgoing_Favorite();
-                                $favorite->attributes = $conf->transfer->attributes;
-                                $favorite->save();
+                            if($conf->transfer->save()){
+                                $tm = Transfers_Model::model($conf->transfer->form_type);
+                                $tm->createOutgoingTransaction($conf->transfer);
+                                if ($conf->transfer->favorite) {
+                                    $favorite = new Transfers_Outgoing_Favorite();
+                                    $favorite->attributes = $conf->transfer->attributes;
+                                    $favorite->save();
+                                }
+                                if ($conf->transfer->frequency_type == 2) {
+                                    $standing = new Transfers_Outgoing_Standing;
+                                    $standing->attributes = $conf->transfer->attributes;
+                                    $conf->transfer->frequency_type = 1;
+                                    $conf->transfer->save();
+                                    $standing->save();
+                                }
+                                $conf->delete();
                             }
-							if ($conf->transfer->frequency_type == 2) {
-								$standing = new Transfers_Outgoing_Standing;
-								$standing->attributes = $conf->transfer->attributes;
-								$conf->transfer->frequency_type = 1;
-								$conf->transfer->save();
-								$standing->save();
-							}
-							$conf->delete();
 						}
 					}
 					echo CJSON::encode(array('success' => true, 'url' => $this->createUrl('/transfers/success')));

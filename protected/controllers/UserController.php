@@ -75,8 +75,11 @@ class UserController extends Controller
                     $email->save();
                 }
 
-				
-				$this->redirect(array('/site/SMSLogin'));
+				if(Yii::user()->isGuest){
+                    $this->redirect(array('/site/SMSLogin'));
+                } else {
+                    $this->redirect(array('/personal/index', '#' => 'personal'));
+                }
 				/*
 				$model = new Form_Login;
 				$model->login = $user->email;

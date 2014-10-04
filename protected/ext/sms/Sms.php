@@ -14,7 +14,9 @@ class SMS extends CComponent
 	public $route;
 	public $allowlong;
 	
-	public function init(){}
+	public function init(){
+		require_once('autoload.php');
+	}
 	
 	public function to($number){
 		$this->_destination = trim(trim($number), '+');
@@ -27,6 +29,15 @@ class SMS extends CComponent
 	}
 	
 	public function send(){
+	
+		$MessageBird = new \MessageBird\Client($this->password);
+
+        $Message = new \MessageBird\Objects\Message();
+        $Message->originator = $this->sender;
+        $Message->recipients = array($this->_destination);
+        $Message->body = $this->_body;
+
+		Yii::log(print_r($MessageBird->messages->create($Message), 1), CLogger::LEVEL_ERROR, 'sms');
 		return 1;
 		$this->_operation = 'send';
 		$data = $this->generateRquest();

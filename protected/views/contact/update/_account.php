@@ -14,8 +14,11 @@
         </tr>
 		<?php foreach($model->getDataByType('account') as $account): ?>
 		<tr class="data-row <?= (isset($new_model_id) && $new_model_id == $account->id) ? 'flash_notify_here' : '' ?>">
-			<td><?=
-                    Yii::t('Front', Users_Contacts_Data_Account::$contacts_account_types[$account->account_type])
+			<td>
+                <?=
+                    (is_numeric($account->account_type)) ?
+                    Yii::t('Front', Users_Contacts_Data_Account::$contacts_account_types[$account->account_type]) :
+                        Yii::t('Front', $account->account_type);
                 ?>
             </td>
 			<td><?= $account->account_number ?></td>

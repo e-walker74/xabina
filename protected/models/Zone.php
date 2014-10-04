@@ -10,6 +10,35 @@
  */
 class Zone extends CActiveRecord
 {
+
+    public static $showZones = array(
+        239 => '(GMT -12:00) Eniwetok, Kwajalein',
+        369 => '(GMT -11:00) Midway Island, Samoa',
+        286 => '(GMT -10:00) Hawaii',
+        397 => '(GMT -9:00) Alaska',
+        398 => '(GMT -8:00) Pacific Time (US &amp; Canada)',
+        391 => '(GMT -7:00) Mountain Time (US &amp; Canada)',
+        128 => '(GMT -6:00) Central Time (US &amp; Canada), Mexico City',
+        127 => '(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima',
+        139 => '(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz',
+        10 => '(GMT -3:00) Brazil, Buenos Aires, Georgetown',
+        177 => '(GMT -2:00) Mid-Atlantic',
+        130 => '(GMT -1:00 hour) Azores, Cape Verde Islands',
+        172 => '(GMT) Western Europe Time, London, Lisbon, Casablanca',
+        160 => '(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris',
+        231 => '(GMT +2:00) Kaliningrad, South Africa',
+        364 => '(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg',
+        2   => '(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi',
+        291 => '(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent',
+        225 => '(GMT +6:00) Almaty, Dhaka, Colombo',
+        187 => '(GMT +7:00) Bangkok, Hanoi, Jakarta',
+        332 => '(GMT +8:00) Beijing, Perth, Singapore, Hong Kong',
+        203 => '(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk',
+        179 => '(GMT +10:00) Eastern Australia, Guam, Vladivostok',
+        34  => '(GMT +11:00) Magadan, Solomon Islands, New Caledonia',
+        324 => '(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka',
+    );
+
     /**
      * @return string the associated database table name
      */
