@@ -22,7 +22,7 @@ class TransactionController extends Controller
     {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('link'),
+                'actions' => array('link','list'),
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
@@ -101,5 +101,19 @@ class TransactionController extends Controller
 
     public function actionPrint(){
 
+    }
+
+    public function actionList(){
+        $transactions = Transactions::model()->with(array('info', 'account', 'account.currency'))->together()->currentUser()->findAll(
+            array(
+                'limit' => 10,
+                'order' => 't.created_at desc',
+            )
+        );
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'html' => $this->renderPartial('list', array('transactions' => $transactions), true)
+        ));
     }
 }
