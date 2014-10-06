@@ -93,7 +93,11 @@ class Form_Smslogin extends CFormModel
                 Yii::app()->session['user_login'] = $this->userId;
                 Yii::app()->getController()->redirect(array('/site/accountIsBlocked'));
             }
-			$this->addError('code', Yii::t('Front', 'Code is incorrect. Your code is :'.Yii::app()->cache->get('sms_auth_code_user_'.$this->userId)));
+			if(YII_DEBUG){
+				$this->addError('code', Yii::t('Front', 'Code is incorrect. Your code is :'.Yii::app()->cache->get('sms_auth_code_user_'.$this->userId)));
+			} else {
+				$this->addError('code', Yii::t('Front', 'Code is incorrect.'));
+			}
 		}
 	}
 
