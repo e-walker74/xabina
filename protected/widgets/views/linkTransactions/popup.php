@@ -103,7 +103,7 @@
                         </table>
                 </div>
             </div>
-            <div>
+            <div style="margin: 15px 0 0;">
                 <input onclick="return WLinkTransactions.link(this)" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Transactions', 'Link Transaction') ?>">
             </div>
             </form>

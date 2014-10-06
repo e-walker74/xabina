@@ -15,7 +15,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
         <img src="/css/layout/account/img/close.png">
     </button>
-    <h3 id="myModalLabel">Link File</h3>
+    <h3 id="myModalLabel">Linked Files</h3>
 </div>
 <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
 <div class="xabina-form-container" >
