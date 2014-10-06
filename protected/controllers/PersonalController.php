@@ -55,6 +55,7 @@ class PersonalController extends Controller
                     'accounts',
                     'resendsmsforchangeid',
                     'forgotPass',
+                    'account',
                 ),
                 'roles' => array('client')
             ),
@@ -74,9 +75,6 @@ class PersonalController extends Controller
 
     public function actionIndex()
     {
-
-
-
         $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
         $model = Users::model()->with(array(
 //            'primary_email',
@@ -94,6 +92,27 @@ class PersonalController extends Controller
         }
 
         $this->render('tabversion/index', array('model' => $model));
+    }
+
+    public function actionAccount()
+    {
+        $this->breadcrumbs[Yii::t('Front', Yii::t('Front', 'Personal Account'))] = '';
+        $model = Users::model()->with(array(
+//            'primary_email',
+//            'primary_address',
+//            'primary_phone',
+//            'primary_paymentsmethod',
+            'accounts',
+        ))->findByPk(Yii::app()->user->id, array('order' => 'accounts.is_master desc'));
+        if (Yii::request()->isAjaxRequest) {
+            echo CJSON::encode(array(
+                'success' => true,
+                'html' => $this->renderPartial('accountTabs/_overview', array('model' => $model), true, true),
+            ));
+            Yii::app()->end();
+        }
+
+        $this->render('accountTabs/index', array('model' => $model));
     }
 
     public function actionAccounts()

@@ -1089,7 +1089,30 @@ $(document).on('click', '.button.cancel', function () {
     resetPage()
 })
 
+function hideNoty() {
+    $('.xabina-notification').fadeOut();
+    return false;
+}
+
+function showNoty(level, title, text){
+    if(!title){
+        $('.xabina-notification.' + level + ' .noty-header').html('')
+    } else {
+        $('.xabina-notification.' + level + ' .noty-header').html(title)
+    }
+    $('.xabina-notification.' + level + ' .noty-text').html(text)
+    $('.xabina-notification.' + level).fadeIn();
+    setTimeout(function(){
+
+        hideNoty(level);
+    }, 4000);
+    return false;
+}
+
 var successNotify = function (title, message, element, type, top) {
+
+    showNoty('success', title, message)
+    return false;
 
     if (!top) {
         top = 40
@@ -1134,6 +1157,9 @@ var successNotify = function (title, message, element, type, top) {
 }
 
 var errorNotify = function (title, message, element) {
+
+    showNoty('danger', title, message)
+    return false;
 
     if (element) {
         var stack_context = {

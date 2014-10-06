@@ -8,6 +8,26 @@ class WebUser extends CWebUser
     private $_model = null;
     private $_id = null;
 
+    /**
+     * Updates the authentication status according to {@link authTimeout}.
+     * If the user has been inactive for {@link authTimeout} seconds, or {link absoluteAuthTimeout} has passed,
+     * he will be automatically logged out.
+     * @since 1.1.7
+     */
+    protected function updateAuthStatus()
+    {
+        if(($this->authTimeout!==null || $this->absoluteAuthTimeout!==null) && !$this->getIsGuest())
+        {
+            $expires=$this->getState(self::AUTH_TIMEOUT_VAR);
+            $expiresAbsolute=$this->getState(self::AUTH_ABSOLUTE_TIMEOUT_VAR);
+
+            if ($expires!==null && $expires < time() || $expiresAbsolute!==null && $expiresAbsolute < time())
+                $this->logout(false);
+            elseif(!Yii::request()->isAjaxRequest)
+                $this->setState(self::AUTH_TIMEOUT_VAR,time()+$this->authTimeout);
+        }
+    }
+
     public function getNotifications()
     {
         if ($this->_notifications !== false) {

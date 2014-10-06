@@ -43,6 +43,7 @@ class NotificationsController extends Controller
 
 		$model->user_id = Yii::app()->user->id;
         Yii::app()->clientScript->registerScriptFile('/js/jquery.lavalamp.js');
+        Yii::app()->clientScript->registerScriptFile('/js/accounts.js');
         Yii::app()->clientScript->registerScriptFile('/js/notifications.js', CClientScript::POS_END);
 
 		$this->render('index',array(

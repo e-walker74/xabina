@@ -13,7 +13,7 @@ if(isset($_GET['debug']) && $_GET['debug'] == 777){
 }
 
 // change the following paths if necessary
-$yiiBase=dirname(__FILE__).'/framework/YiiBase.php';
+$yiiBase=dirname(__FILE__).'/../../framework/YiiBase.php';
 $yiiEx  = dirname(__FILE__) . '/Yii.php';
 $config=dirname(__FILE__).'/protected/config/admin/local.php';
 

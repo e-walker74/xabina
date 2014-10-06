@@ -26,30 +26,31 @@
     <div class="clearfix"></div>
 </div>
 
-
+<div class="edit-tabs contact-tabs personal-tabs">
+<ul class="list-unstyled">
+    <li style="width: 50%"><a href="#tab1"><?= Yii::t('Personal', 'General Info') ?></a></li>
+    <li style="width: 50%"><a href="#accounts" data-url="<?= Yii::app()->createUrl('/personal/accounts') ?>"><?= Yii::t('Personal', 'Accounts') ?></a></li>
+</ul>
 <div class="clearfix"></div>
 <div id="tab1">
 
 <div class="edit-tabs inner-tabs personal-tabs">
 <ul class="list-unstyled">
-    <li style="width:11%; border-radius: 3px 0 0 0"><a href="#overview" data-url="<?= Yii::app()->createUrl('/personal/index') ?>"><?= Yii::t('Personal', 'Overview') ?></a></li>
-    <li style="width:14%;"><a href="#personal" data-url="<?= Yii::app()->createUrl('/personal/personal') ?>"><?= Yii::t('Personal', 'Personal Info') ?></a></li>
-    <li style="width:9%;">
+    <li style="width:17%; border-radius: 3px 0 0 0"><a href="#overview" data-url="<?= Yii::app()->createUrl('/personal/index') ?>"><?= Yii::t('Personal', 'Overview') ?></a></li>
+    <li style="width:20%;"><a href="#personal" data-url="<?= Yii::app()->createUrl('/personal/personal') ?>"><?= Yii::t('Personal', 'Personal Info') ?></a></li>
+    <li style="width:12%;">
         <a href="#emails" data-url="<?= Yii::app()->createUrl('/personal/editemails') ?>"><?= Yii::t('Personal', 'E-Mail') ?></a>
     </li>
-    <li style="width:8%;">
+    <li style="width:13%;">
         <a href="#phones" data-url="<?= Yii::app()->createUrl('/personal/editphones') ?>"><?= Yii::t('Personal', 'Phone') ?></a>
     </li>
-    <li style="width:9%;"><a href="#addresses" data-url="<?= Yii::app()->createUrl('/personal/editaddress') ?>"><?= Yii::t('Personal', 'Address') ?></a></li>
-    <li style="width:15%;"><a href="#socials" data-url="<?= Yii::app()->createUrl('/personal/editsocials') ?>"><?= Yii::t('Personal', 'Social Networks') ?></a></li>
-    <li style="width:17%"><a href="#instmess" data-url="<?= Yii::app()->createUrl('/personal/editmessagers') ?>"><?= Yii::t('Personal', 'Instant Messaging') ?></a></li>
-    <li style="width:17%;border-right: 1px solid #b9babf; border-radius:0 3px 0 0;"><a href="#payments" data-url="<?= Yii::app()->createUrl('/personal/paymentinstuments') ?>"><?= Yii::t('Personal', 'Payment Method') ?></a></li>
+    <li style="width:16%;"><a href="#addresses" data-url="<?= Yii::app()->createUrl('/personal/editaddress') ?>"><?= Yii::t('Personal', 'Address') ?></a></li>
+    <li style="width:22%;border-right: 1px solid #b9babf; border-radius:0 3px 0 0;"><a href="#payments" data-url="<?= Yii::app()->createUrl('/personal/paymentinstuments') ?>"><?= Yii::t('Personal', 'Payment Method') ?></a></li>
     <li style="clear: both; width:0;" class="clearfix"></li>
-    <li style="width:22%;"><a href="#questions" data-url="<?= Yii::app()->createUrl('/personal/editqustions') ?>"><?= Yii::t('Personal', 'Security Questions') ?></a></li>
-    <li style="width:15%;"><a href="#password" data-url="<?= Yii::app()->createUrl('/personal/editpins') ?>"><?= Yii::t('Personal', 'Password') ?></a></li>
-    <li style="width:25%;"><a href="#settings" data-url="<?= Yii::app()->createUrl('/personal/settings') ?>"><?= Yii::t('Personal', 'Account Settings') ?></a></li>
-    <li style="width:28%;"><a href="#newslatter" data-url="<?= Yii::app()->createUrl('/personal/newsletter') ?>"><?= Yii::t('Personal', 'Notifications') ?></a></li>
-    <li style="width:10%;"><a href="#other" data-url="<?= Yii::app()->createUrl('/personal/other') ?>"><?= Yii::t('Personal', 'Other') ?></a></li>
+    <li style="width:26%;"><a href="#questions" data-url="<?= Yii::app()->createUrl('/personal/editqustions') ?>"><?= Yii::t('Personal', 'Security Questions') ?></a></li>
+    <li style="width:17%;"><a href="#password" data-url="<?= Yii::app()->createUrl('/personal/editpins') ?>"><?= Yii::t('Personal', 'Password') ?></a></li>
+    <li style="width:27%;"><a href="#settings" data-url="<?= Yii::app()->createUrl('/personal/settings') ?>"><?= Yii::t('Personal', 'Account Settings') ?></a></li>
+    <li style="width:30%;"><a href="#newslatter" data-url="<?= Yii::app()->createUrl('/personal/newsletter') ?>"><?= Yii::t('Personal', 'Notifications') ?></a></li>
 
 </ul>
 <div id="overview" class="tab">
@@ -90,5 +91,11 @@
 
 
 </div>
+<div id="accounts" class="tab">
+    <?php $this->renderPartial('tabversion/_accounts', array('model' => $model)) ?>
 </div>
+
+</div>
+</div>
+
 </div>

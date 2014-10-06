@@ -74,6 +74,7 @@
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_user_personal')): ?>
                             <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/index'); ?>"></a></li>
+                            <li class="user-personal"><a href="<?= Yii::app()->createUrl('personal/account'); ?>"></a></li>
                         <?php endif; ?>
                         <?php if(Yii::app()->user->checkRbacAccess('top_bar_show_user_briefcase')): ?>
                             <li class="user-briefcase"><a href="#"></a></li>
