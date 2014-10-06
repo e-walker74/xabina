@@ -273,6 +273,9 @@ class Accounts extends ActiveRecord
 
     public static function getAccountSubTypesForUser()
     {
+		if(Yii::user()->checkAccess('admin')){
+			return self::$sub_types;	
+		}
         if (Yii::user()->getStatus() == Users::USER_IS_VERIFICATED) {
             return self::$sub_types;
         } else {
