@@ -55,7 +55,7 @@
                 'entity_id' => $entity_id,
             )) ?>">
             <div>
-                <div class="transaction-table-overflow">
+                <div class="transaction-table-overflow linked-transaction">
                         <table class="table new-tran-tab">
                             <?php foreach($transactions as $trans): ?>
                                 <tr>
