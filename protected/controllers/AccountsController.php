@@ -27,19 +27,21 @@ class AccountsController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
-                    'index',
-                    'cardbalance',
-                    'transaction',
-                    'uploadattachemnt',
-                    'getattach',
-                    'transactionsonpdf',
-                    'transactionsondoc',
-                    'transactionsoncsv',
-                    'getpdf',
-                    'addnotetotransaction',
-                    'deletenote',
-                    'updatecategory',
-                    'payments',
+					'index',
+					'cardbalance',
+					'transaction',
+					'uploadattachemnt',
+					'getattach',
+					'transactionsonpdf',
+					'transactionsonpdfp',
+					'transactionsondoc',
+					'transactionsonxls',
+					'transactionsoncsv',
+					'getpdf',
+					'addnotetotransaction',
+					'deletenote',
+					'updatecategory',
+					'payments',
                     'addcategory',
                     'opennewaccount',
                     'create',
@@ -69,6 +71,14 @@ class AccountsController extends Controller
         $accounts = Accounts::model();
         $accounts->user_id = Yii::app()->user->id;
 
+        if(Yii::request()->isAjaxRequest){
+            echo CJSON::encode(array(
+                'success' => true,
+                'html' => $this->renderPartial('_accountsTable', array('accounts' => $accounts), true)
+            ));
+            Yii::app()->end();
+        }
+
         $this->render('index', array('accounts' => $accounts));
     }
 
@@ -93,11 +103,14 @@ class AccountsController extends Controller
         }
 
         $model = new Form_Search();
-        $model->from_date = date('d.m.Y', time() - 3600 * 24 * 30);
+        //$model->from_date = date('d.m.Y', time() - 3600 * 24 * 30);
         $model->account_number = $selectedAcc->number;
-        if (isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest) {
+        if (isset($_GET['Form_Search'])) {
             $model->attributes = $_GET['Form_Search'];
+        }
+        if (isset($_GET['Form_Search']) && Yii::app()->request->isAjaxRequest) {
             $transactions = $model->searchUserTransactions();
+
             $html = $this->renderPartial('cardbalance/_table', array('selectedAcc' => $selectedAcc, 'transactions' => $transactions), true, false);
             echo CJSON::encode(array('success' => true, 'html' => $html));
             Yii::app()->end();
@@ -267,6 +280,26 @@ class AccountsController extends Controller
         Yii::app()->end();
     }
 
+    public function actionTransactionsOnXls()
+    {
+        $model = new Form_Search();
+        if (isset($_GET['Form_Search'])) {
+            $model->attributes = $_GET['Form_Search'];
+            $key = md5(serialize($model->attributes));
+            $account = Accounts::model()->findByAttributes(array('number' => $model->account_number));
+            if (!$account || $account->user_id != Yii::app()->user->id) {
+                throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+            }
+            $transactions = $model->searchUserTransactions();
+
+            $fileName = TransactionsExportService::exportListXls($model, $account, $transactions);
+
+            Yii::app()->request->sendFile('transactions.xlsx', file_get_contents($fileName), 'application/octet-stream', true);
+            unlink($fileName);
+        }
+        Yii::app()->end();
+    }
+
     public function actionTransactionsOnCsv()
     {
         $model = new Form_Search();
@@ -302,9 +335,13 @@ class AccountsController extends Controller
         Yii::app()->end();
     }
 
-    public function actionTransactionsOnPdf()
+    public function actionTransactionsOnPdfP(){
+        $this->actionTransactionsOnPdf('_pdfp');
+    }
+
+    public function actionTransactionsOnPdf($pattern = '_pdf')
     {
-        $model = new Form_Search();
+         $model = new Form_Search();
         if (isset($_GET['Form_Search'])) {
             $model->attributes = $_GET['Form_Search'];
             $key = md5(serialize($model->attributes));
@@ -324,7 +361,7 @@ class AccountsController extends Controller
                     $debit = $debit + $trans->sum;
                 }
             }
-            $html = $this->renderPartial('cardbalance/_pdf', array('transactions' => $transactions, 'account' => $account, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
+            $html = $this->renderPartial('cardbalance/' . $pattern, array('transactions' => $transactions, 'account' => $account, 'model' => $model, 'user' => $user, 'debit' => $debit, 'credit' => $credit), true, false);
 
             TransactionsExportService::exportListPdf($html, $model, 'transactions.pdf');
 

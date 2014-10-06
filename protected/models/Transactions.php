@@ -93,6 +93,8 @@ class Transactions extends ActiveRecord
             'category' => array(self::HAS_ONE, 'Transactions_Categories', array('category_id' => 'id'), 'through' => 'link'),
             'alertRules' => array(self::HAS_MANY, 'Users_AlertsRules', array('account_id' => 'account_id', 'user_id' => 'user_id')),
             'contact' => array(self::BELONGS_TO, 'Users_Contacts', 'associated_contact'),
+            'transfersIncoming' => array(self::HAS_ONE, 'Transfers_Incoming', array('id' => 'transfer_id', 'user_id' => 'user_id')),
+            'transfersOutgoing' => array(self::HAS_ONE, 'Transfers_Outgoing',  array('id' => 'transfer_id', 'user_id' => 'user_id')),
         );
     }
 

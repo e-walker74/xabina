@@ -22,13 +22,13 @@
             <td><a target="_blank" href="<?= Yii::app()->createUrl('/site/disclaime', array('tourl' => urlencode($m->url))) ?>" class="link"><?= $m->url ?></a></td>
             <td><?= ($m->getDbModel()->category) ? $m->getDbModel()->category->value : ''  ?></td>
             <td>
-                <?php if($m->getDbModel()->is_primary): ?>
-                    <span class="primary">
-                        <?= Yii::t('Front', 'Primary') ?>
-                    </span>
-                <?php else: ?>
-                    <a class="make-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"><?= Yii::t('Front', 'Make primary') ?></a>
-                <?php endif; ?>
+                <div class="pull-left">
+                    <?php if($m->getDbModel()->is_primary): ?>
+                        <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
+                    <?php else: ?>
+                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" data-url="<?= Yii::app()->createUrl('/contact/makePrimary', array('entity' => $m->getDbModel()->data_type, 'id' => $m->getDbModel()->id)) ?>" onclick="makePrimary(this)"></a>
+                    <?php endif; ?>
+                </div>
             </td>
             <td style="overflow: visible!important;">
                 <div class="contact-actions transaction-buttons-cont">

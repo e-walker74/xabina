@@ -125,11 +125,13 @@
                 </tr>
             <?php endif; ?>
         <?php endforeach; ?>
+        <?php if(count($users_phones) < 2): ?>
         <tr class="data-row">
             <td colspan="4" class="add-new-td">
                 <a class="rounded-buttons add-more upload" onclick="$(this).closest('tr').hide().closest('tr').next().toggle('slow')" href="javaScript:void(0)"><?= Yii::t('Front', 'Add new'); ?></a>
             </td>
         </tr>
+        <?php endif; ?>
         <tr class="add-new-row prof-form edit-row">
             <td colspan="4">
                 <?php $form = $this->beginWidget('CActiveForm', array(

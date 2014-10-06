@@ -92,13 +92,20 @@ class TransfersController extends Controller
         $transfer = false;
 		$redirectTo = '/transfers/overview';
 		
-		if ($transfer = Yii::app()->request->getParam('transfer', '', 'int')) {
+		if (($transfer = Yii::app()->request->getParam('transfer', '', 'int')) && !Yii::app()->request->getParam('backTransfer', '', 'int')) {
 			if ($transfer && $transfer = Transfers_Outgoing::model()->findByPk($transfer)) {
-				if ($transfer->need_confirm == 1) {
-					$number = $transfer->account_number;
-				}
+                $number = $transfer->account_number;
 			}
 		}
+
+        if (Yii::app()->request->getParam('transfer', '', 'int') && Yii::app()->request->getParam('backTransfer', '', 'int')) {
+            if ($transferIncoming = Transfers_Incoming::model()->findByPk(Yii::app()->request->getParam('transfer', '', 'int'))){
+                $transfer = Transfers_Outgoing::model();
+                $transfer->attributes = $transferIncoming->attributes;
+                $transfer->to_account_number = $transferIncoming->from_account_number;
+                $transfer->to_account_holder = $transferIncoming->from_account_holder;
+            }
+        }
 		
 		if (Yii::app()->request->getParam('standing', '', 'int')) {
 			$transfer = Yii::app()->request->getParam('standing', '', 'int');
@@ -109,7 +116,7 @@ class TransfersController extends Controller
 		}
 		
 		if ($transfer && $transfer->user_id != Yii::app()->user->id) {
-			throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+			//throw new CHttpException(404, Yii::t('Front', 'Page not found'));
 		}
 		
         if ($number) {
@@ -117,6 +124,8 @@ class TransfersController extends Controller
 
             if (!$selectedAcc)
                 throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        } elseif (Yii::app()->request->getParam('copyTransfer', '', 'int') || Yii::app()->request->getParam('backTransfer', '', 'int')) {
+            $selectedAcc = $accounts[0];
         } else {
             $selectedAcc = $accounts[0];
             foreach($accounts as $acc) {
@@ -141,6 +150,11 @@ class TransfersController extends Controller
 
         if (isset($_POST['Form_Outgoingtransf_Own'])) {
             $ownForm->attributes = $_POST['Form_Outgoingtransf_Own'];
+            if (Yii::app()->request->getParam('copyTransfer', '', 'int') || Yii::app()->request->getParam('backTransfer', '', 'int')) {
+                $ownForm->need_confirm = 1;
+                $transfer = null;
+            }
+
             $message = Yii::t('Front', 'Payment was saved successfully');
             if ($ownForm->save($transfer)) {
                 if (isset($_GET['next'])) {
@@ -174,6 +188,11 @@ class TransfersController extends Controller
 		
         if(isset($_POST['Form_Outgoingtransf_Another'])){
             $anotherForm->attributes = $_POST['Form_Outgoingtransf_Another'];
+            if (Yii::app()->request->getParam('copyTransfer', '', 'int') || Yii::app()->request->getParam('backTransfer', '', 'int')) {
+                $anotherForm->need_confirm = 1;
+                $transfer = null;
+            }
+
             $message = Yii::t('Front', 'Payment was saved successfully');
             if ($anotherForm->save($transfer)) {
                 if (isset($_GET['next'])) {
@@ -207,6 +226,11 @@ class TransfersController extends Controller
 
         if (isset($_POST['Form_Outgoingtransf_External'])) {
             $externalForm->attributes = $_POST['Form_Outgoingtransf_External'];
+            if (Yii::app()->request->getParam('copyTransfer', '', 'int') || Yii::app()->request->getParam('backTransfer', '', 'int')) {
+                $externalForm->need_confirm = 1;
+                $transfer = null;
+            }
+
             $message = Yii::t('Front', 'Payment was saved successfully');
             if ($externalForm->save($transfer)) {
                 if (isset($_GET['next'])) {
@@ -235,6 +259,7 @@ class TransfersController extends Controller
 
         if (isset($_POST['Form_Outgoingtransf_Ewallet'])) {
             $ewalletForm->attributes = $_POST['Form_Outgoingtransf_Ewallet'];
+
             switch($ewalletForm->ewallet_type) {
                 case 1:
                     $ewalletForm->scenario = 'paypall';
@@ -255,6 +280,11 @@ class TransfersController extends Controller
 
         if (isset($_POST['Form_Outgoingtransf_Ewallet'])) {
             $ewalletForm->attributes = $_POST['Form_Outgoingtransf_Ewallet'];
+            if (Yii::app()->request->getParam('copyTransfer', '', 'int') || Yii::app()->request->getParam('backTransfer', '', 'int')) {
+                $ewalletForm->need_confirm = 1;
+                $transfer = null;
+            }
+
             $message = Yii::t('Front', 'Payment was saved successfully');
             if ($ewalletForm->save($transfer)) {
                 if (isset($_GET['next'])) {
@@ -292,6 +322,10 @@ class TransfersController extends Controller
                     break;
                 case 'ewallet':
                     $ewalletForm->attributes = $transfer->attributes;
+                    break;
+                default :
+                    $transfer->form_type = 'external';
+                    $externalForm->attributes = $transfer->attributes;
                     break;
             }
         }
@@ -350,7 +384,7 @@ class TransfersController extends Controller
 				'withAlphabet' => true,
 			)
 		);
-		
+
         $this->render('outgoingv2', array(
             'user'          => $user,
             'selectedAcc'   => $selectedAcc,

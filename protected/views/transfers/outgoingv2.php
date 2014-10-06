@@ -1,7 +1,7 @@
 <div class="col-lg-9 col-md-9 col-sm-9 accordions-container">
 <div class="h1-header"><?= Yii::t('Front', 'New transfer') ?></div>
 <div class="transfer-accordion xabina-accordion xabina-transfer-accordion">
-<?php 
+<?php
 	$this->renderPartial(
 		'outgoingv2/_quick', 
 		array(
@@ -59,7 +59,8 @@
 <?php if($transfer): ?>
     <script>
         $(document).ready(function(){
-            $('.label-<?= $transfer->form_type ?>-form').click()
+            $('.label-<?= $transfer->form_type ?>-form').click();
+            $('#Form_Outgoingtransf_Ewallet_ewallet_type').change();
         })
     </script>
 <?php endif; ?>

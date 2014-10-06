@@ -19,7 +19,7 @@
 			<ul class="contact-list list-unstyled">
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
-		<li class="one-contact clickable-row categories type_<?= $contact->type ?> category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
+		<li class="one-contact clickable-row categories type_<?= $contact->type ?> category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>" <?php if($contact->xabina_id){?>data-xabina-id="<?= $contact->xabina_id ?>"<?php }?> data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 			<a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
 				<div class="photo-cont pull-left">
 					<?php if($contact->photo): ?>
@@ -47,9 +47,15 @@
 					</div>
 				</div>
                 <?php if($contact->xabina_id): ?>
-                <div class="transaction-buttons-cont pull-right">
-                    <a class="button dialogues " href="#"></a>
-                </div>
+                    <div class="transaction-buttons-cont pull-right">
+                        <?
+                        if (stristr($_SERVER['REQUEST_URI'], '/dialogs/detail') and isset($_GET['id'])) {
+                        ?>
+                            <a class="button dialogues" href="/dialogs/add/?ids=<?=$contact->xabina_id?>&dialog_id=<?=$_GET['id']?>&fromBook=1"></a>
+                        <?}else{?>
+                            <a class="button dialogues" href="/dialogs/new/?ids=<?=$contact->xabina_id?>&fromBook=1"></a>
+                        <?}?>
+                    </div>
                 <?php endif; ?>
 				<div class="clearfix"></div>
 			</a>

@@ -29,12 +29,14 @@ class SMS extends CComponent
 	}
 	
 	public function send(){
-	
-		$MessageBird = new \MessageBird\Client('test_ed0ERzIGQh4T0JxmdqHgab3Kg');
+		if(YII_DEBUG){
+			return 1;
+		}
+		$MessageBird = new \MessageBird\Client($this->password);
 
         $Message = new \MessageBird\Objects\Message();
         $Message->originator = $this->sender;
-        $Message->recipients = array($this->_destination, 375292623615);
+        $Message->recipients = array($this->_destination);
         $Message->body = $this->_body;
 
 		Yii::log(print_r($MessageBird->messages->create($Message), 1), CLogger::LEVEL_ERROR, 'sms');

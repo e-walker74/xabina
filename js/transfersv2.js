@@ -43,7 +43,18 @@ $(document).ready(function(){
 
     $('#Form_Outgoingtransf_Ewallet_ewallet_type').change(function(){
         changeEWalletType(this)
-    })
+    });
+
+    $( ".amount-sum" ).each(function() {
+        var value = $(this).val();
+        var sep = '.';
+        if (value.indexOf(sep) > -1) {
+            var arr = value.split(sep);
+            $(this).val(arr[0]);
+            $(this).parent().find(".amount-cent").val(arr[1]);
+
+        }
+    });
 
 })
 

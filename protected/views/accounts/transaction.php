@@ -157,7 +157,6 @@
                                                                                     class="files">Link files
                                                                                 </li>
                                                                             </ul>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>

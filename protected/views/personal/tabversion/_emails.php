@@ -154,13 +154,15 @@
                         <?php endif; ?>
                     </td>
                     <td class="status-td">
-                        <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
-                            <span class="rejected"><?= Yii::t('Front', 'Unverified') ?></span>
-                        <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
-                        <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"></a>
-                        <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
-                            <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
-                        <?php endif;?>
+                        <div class="pull-left">
+                            <?php if($users_email->status == 0 && $users_email->is_master == 0):?>
+                                <span class="rejected"><?= Yii::t('Front', 'Unverified') ?></span>
+                            <?php elseif ($users_email->status == 1 && $users_email->is_master == 0):?>
+                                <a title="<?= Yii::t('Personal', 'Make primary') ?>" class="tooltip-icon primary-button m-primary" href="javaScript:void(0)" onclick="js:Personal.makePrimary('<?= Yii::app()->createUrl('/personal/makePrimary', array('type' => 'emails', 'id' => $users_email->id)) ?>', this)"></a>
+                            <?php elseif ($users_email->status == 1 && $users_email->is_master == 1):?>
+                                <span title="<?= Yii::t('Personal', 'Primary') ?>" class="tooltip-icon primary-button is-primary" alt="<?= Yii::t('Front', 'Primary') ?>"></span>
+                            <?php endif;?>
+                        </div>
                     </td>
                     <td>
                         <?php if(!$users_email->is_master): ?>
@@ -172,11 +174,13 @@
                 </tr>
             <?php endif; ?>
         <?php endforeach; ?>
+        <?php if(count($users_emails) < 2): ?>
         <tr class="data-row">
             <td colspan="4" class="add-new-td">
                 <a class="rounded-buttons add-more upload"><?= Yii::t('Front', 'Add new'); ?></a>
             </td>
         </tr>
+        <?php endif; ?>
         <?php $model_emails = new Users_Emails(); ?>
         <tr class="edit-row">
             <td colspan="4">

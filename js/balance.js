@@ -1,8 +1,10 @@
 $(function(){
 
 	updateTransactionsTable = function(select){
+        resetTransactionPointers();
 		var accNumber = $(select).val()
-		$("#Form_Search_account_number").val(accNumber)
+		$("#Form_Search_account_number").val(accNumber);
+        $('#searchForm_account_number').val(accNumber);
 		backgroundBlack();
 		$('#search_accordion').accordion({ collapsible: true , active: false})
 		$.ajax({
@@ -10,15 +12,16 @@ $(function(){
 			success: function(data) {
 				var response= jQuery.parseJSON (data);
 				if(response.success){
-					$('.transaction-table-overflow').html(response.html);
+					$('.transaction-table-overflow tbody').html(response.html);
 				}
+                showPartTransactions();
 			},
             complete : dellBackgroundBlack,
 			cache:false,
-			data: {account: accNumber},
+			data: $('#searchForm').serialize(),
 			type: 'GET'
 		});
-        $('#searchForm_account_number').val(accNumber);
+
 	}
 	
 	$(document).on('click', '.transaction-table-overflow tr', function(){
@@ -32,7 +35,7 @@ $(function(){
 
 $(document).ready(function(){
 	$('.refresh-button').fadeOut()
-	$('.account-selection .account-select select').change(function(){
+	$('.account-selection .account-select-holder select').change(function(){
 		updateTransactionsTable(this)
 	})
 	
