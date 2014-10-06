@@ -541,7 +541,7 @@ class AccountsController extends Controller
 
         echo CJSON::encode(array(
             'success' => true,
-            'message' => Yii::t('Accounts', 'Master is changed'),
+            'message' => Yii::t('Accounts', 'primary_account_was_changed'),
             'html' => $this->renderPartial('_accountsTable', array('accounts' => $accounts), true, false),
         ));
     }

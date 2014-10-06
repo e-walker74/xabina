@@ -13,7 +13,12 @@ Accounts = {
             url: url,
             success: function (response) {
                 if(response.success){
-                    $('#accounts-grid').html(response.html)
+                    if($('#accounts-grid').length == 0){
+                        $('#tab2').html(response.html)
+                    } else {
+                        $('#accounts-grid').html(response.html)
+                    }
+
                     successNotify('Payment', response.message)
                     bindHoverBtnGroups()
                 }

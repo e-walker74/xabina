@@ -68,22 +68,24 @@
             <?= AccountService::getTransactionStatus($trans->status) ?>
         </td>
         <td style="overflow: visible!important">
-<!--            <div class="contact-actions transaction-buttons-cont">-->
-<!--                <div class="btn-group">-->
-<!--                    <a class="button menu" data-toggle="dropdown" href="#"></a>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li>-->
-<!--                            <a class="button edit" href="edit_contact.html"></a>-->
-<!--                        </li>-->
+            <div class="contact-actions transaction-buttons-cont">
+                <div class="btn-group">
+                    <a class="button menu" data-toggle="dropdown" href="#"></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="button edit" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
+                        </li>
 <!--                        <li>-->
 <!--                            <a class="button back" href="#"></a>-->
 <!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a class="button book" href="#"></a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </div>-->
+                        <?php if($trans->associated_contact): ?>
+                        <li>
+                            <a class="button book" href="<?= Yii::app()->createUrl('/contact/view', array('url' => $trans->contact->url)) ?>"></a>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
         </td>
     </tr>
     <?php if($trans->info->details_of_payment): ?>

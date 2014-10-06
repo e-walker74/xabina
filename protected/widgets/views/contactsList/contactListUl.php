@@ -37,7 +37,7 @@
                             $cssClass = 'err';
                         }
                         ?>
-                        <a class="ico <?=$cssClass?>" href="#"></a>
+                        <span class="ico <?=$cssClass?>" href="#"></span>
                     <?php endif ?>
 				</div>
 				<div class="contact-info pull-left">
@@ -51,9 +51,9 @@
                         <?
                         if (stristr($_SERVER['REQUEST_URI'], '/dialogs/detail') and isset($_GET['id'])) {
                         ?>
-                            <a class="button dialogues" href="/dialogs/add/?ids=<?=$contact->xabina_id?>&dialog_id=<?=$_GET['id']?>&fromBook=1"></a>
+                            <span class="button dialogues" onclick="/dialogs/add/?ids=<?=$contact->xabina_id?>&dialog_id=<?=$_GET['id']?>&fromBook=1"></span>
                         <?}else{?>
-                            <a class="button dialogues" href="/dialogs/new/?ids=<?=$contact->xabina_id?>&fromBook=1"></a>
+                            <span class="button dialogues" onclick="window.location = '/dialogs/new/?ids=<?=$contact->xabina_id?>&fromBook=1'; return false"></span>
                         <?}?>
                     </div>
                 <?php endif; ?>

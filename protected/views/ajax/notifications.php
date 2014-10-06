@@ -1,16 +1,16 @@
-<a href="#" data-toggle="dropdown" role="button"><?$count = $model->search()->getTotalItemCount();if($count){?><span><?= $count ?></span><?}?></a>
+<a href="#" data-toggle="dropdown" role="button"><?$model->status = Users_NotificationsStatuses::STATUS_NEW;$count = $model->search()->getTotalItemCount();$model->status=null;if($count){?><span><?= $count ?></span><?}?></a>
 <div class="dropdown-menu notification-popup dialogues-popup" role="menu">
 <div class="arrow_gray"></div>
-<div class="popup-notify-select-cont">
-    <div class="select-custom select-narrow ">
-        <span class="select-custom-label">Notification Type</span>
-        <select name="" class=" select-invisible country-select">
-            <option value="">USD</option>
-            <option value="">EUR</option>
-            <option value="">RUB</option>
-        </select>
-    </div>
-</div>
+<!--<div class="popup-notify-select-cont">-->
+<!--    <div class="select-custom select-narrow ">-->
+<!--        <span class="select-custom-label">Notification Type</span>-->
+<!--        <select name="" class=" select-invisible country-select">-->
+<!--            <option value="">USD</option>-->
+<!--            <option value="">EUR</option>-->
+<!--            <option value="">RUB</option>-->
+<!--        </select>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 <div class="dialogues-content">

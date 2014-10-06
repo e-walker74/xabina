@@ -14,11 +14,12 @@
  * @property double            $acc_balance
  * @property string            $status
  * @property int               $execution_time
- * @property
+ * @property int               $associated_contact
  *
  * The followings are the available model relations:
  * @property Accounts          $account
  * @property Transactions_Info $info
+ * @property Users_Contacts    $contact
  */
 class Transactions extends ActiveRecord
 {

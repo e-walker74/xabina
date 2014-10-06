@@ -24,6 +24,26 @@
     <script type="text/javascript" src="/js/jquery.form.js"></script>
 </head>
 <body>
+
+<div class="xabina-notification success" >
+    <div class="noty-header">Sticky Success</div>
+    <div class="noty-text">
+        Sticky Success... I'm not even gonna make a joke.
+    </div>
+</div>
+<div class="xabina-notification danger" >
+    <div class="noty-header">Uh Oh</div>
+    <div class="noty-text">
+        Something really terrible happened. You really need to read this, so I won't close atomatically.
+    </div>
+</div>
+<div class="xabina-notification info" >
+    <div class="noty-header">Sticky info</div>
+    <div class="noty-text">
+        Sticky info, you know, like a newspaper covered in honey.
+    </div>
+</div>
+
 <div class="main-bg" >
 	<div class="wrapper">
 		<?php $this->widget('TopBar'); ?>

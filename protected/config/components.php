@@ -27,7 +27,7 @@ return array(
         'class' => 'WebUser',
         'loginUrl' => array('login'),
         'defaultRole' => 'guest',
-		'authTimeout' => 60 * 1,
+		'authTimeout' => 60 * 15,
 		'autoRenewCookie' => true,
     ),
     'authManager' => array(
