@@ -200,7 +200,7 @@ class AjaxController extends Controller
                 }
 
                 $utag = Users_Tags::model()->findByAttributes(array(
-                    'user_id' => Yii::user()->getCurrentId(),
+//                    'user_id' => Yii::user()->getCurrentId(),
                     'title' => $tag,
                 ));
                 if (!$utag) {
