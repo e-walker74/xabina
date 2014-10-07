@@ -17,23 +17,47 @@ CrossLinks = {
                 $(this).hide();
                 $(this).parent().find('.edit_select').show();
                 event.stopPropagation();
+            }).on('click', '.clear-but', function(){
+                CrossLinks.closeCategoryInput(this)
+            }).on('change', '.select-category', function(){
+                if($(this).val() == 'other'){
+                    $(this).closest('.select').hide().next().show()
+                }
             })
         })
+    },
+    closeCategoryInput: function(el){
+        $(el).closest('.other').hide().prev().show().find('select option:first').attr('selected', true)
+        setAllSelectedValues()
+        $(el).closest('.other').find('input').val('')
     },
     changeCategory: function(link){
         var saveButton = $(link)
         var categoryBlock = saveButton.closest('.category-block')
         var selectedOption = categoryBlock.find('select option:selected')
+        var new_category = categoryBlock.find('.other input')
+        var value = selectedOption.val()
+        if(new_category.val().length > 0){
+            value = new_category.val()
+        }
+
+        if(new_category.val().length == 0 && selectedOption.val() == 'other'){
+            errorNotify('Error', 'You don`t select category')
+            return false;
+        }
+
         $.ajax({
             url: saveButton.attr('data-url'),
-            data: {cross_category: selectedOption.val()},
+            data: {cross_category: value},
             dataType: 'JSON',
             type: 'POST',
             success: function (data) {
                 if (data.success) {
-                    categoryBlock.find('.change_dropdown').html(selectedOption.html())
+                    categoryBlock.find('.change_dropdown').html(data.value)
                     successNotify('', data.message, categoryBlock)
+                    CrossLinks.closeCategoryInput(new_category)
                     CrossLinks.closeCategories()
+
                 } else {
                     errorNotify('', data.message, $('.before-files').prev())
                 }

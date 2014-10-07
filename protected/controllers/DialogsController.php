@@ -89,7 +89,8 @@ class DialogsController extends Controller {
     /*
      * get one dialog (view for dialog list page)
      */
-    public function actionGetOneDialog() {
+    public function actionGetOneDialog()
+    {
         $user_id = Yii::app()->user->id;
         if (isset($_GET['dialog_id'])) {
             $dialog = DialogsUsers::model()->find(

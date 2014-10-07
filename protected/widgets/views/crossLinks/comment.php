@@ -35,7 +35,7 @@
                         <?= Yii::t('Cross', 'You may add comment here') ?>
                     </div>
                     <div class="drop_main_block">
-                        <textarea><?= $comment ?></textarea>
+                        <textarea maxlength="300"><?= $comment ?></textarea>
                     </div>
                 </div>
             </div>

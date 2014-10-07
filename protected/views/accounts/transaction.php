@@ -5,12 +5,7 @@
 ?>
 <div class="col-lg-9 col-md-9 col-sm-9">
 <?php $this->renderPartial('_printModal', array('model' => $trans)); ?>
-<div class="edit-tabs contact-tabs">
-<ul class="list-unstyled">
-    <li style="width: 100%"><a href="#tab1"><?= Yii::t('Front', 'Transaction Overview') ?></a></li>
-</ul>
 <div class="clearfix"></div>
-<div class="one_tab" id="tab1">
 <table class="xabina-table-upload transaction-table-cont">
 <tr class="header-tr">
     <td>
@@ -23,7 +18,7 @@
 <tr class="form-tr">
 <td>
 <div class="transaction-info-cont new_transaction">
-<table class="transaction-info-table table new_transaction_table">
+<table class="transaction-info-table table new_transaction_table" style="color: #333">
 <?php if($trans->execution_time): ?>
 <tr>
     <td class="name" width="20%"><?= Yii::t('Front', 'Date') ?></td>
@@ -32,12 +27,13 @@
 </tr>
 <?php endif; ?>
 <tr>
-    <td class="name"><?= Yii::t('Front', 'Sender') ?></td>
+    <td class="name"  width="20%"><?= Yii::t('Front', 'Sender') ?></td>
     <td class="normal-line"><?= $trans->info->sender ?><br/><?= $trans->info->sender_description ?></td>
     <td>
         <?php if ($trans->associated_contact && $trans->incoming_id): ?>
             <div class="new_tran_but">
                 <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $trans->contact->url)); ?>"
+                   target="_blank"
                    role="button"
                    data-toggle="modal" class="button book"></a></div>
             <div class="clearfix"></div>
@@ -89,7 +85,7 @@
     <td class="name"><?= Yii::t('Front', 'Status') ?></td>
     <td>
         <?= AccountService::getTransactionStatus($trans->status) ?>
-        <span class="comment-tr">- <?= Yii::t('Front', $trans->status) ?></span>
+        <span class="tran_status">- <?= Yii::t('Front', $trans->status) ?></span>
         <?php if ($trans->info->status_comment): ?>
             <span class="comment drdn-cont">
                                     <a href="#" class="transaction_comment margin-left active"
@@ -101,7 +97,6 @@
                                         <div class="content-dropdown">
                                             <div class="drop_title">
                                                 <?= Yii::t('Front', 'Comment') ?>
-                                                <a class="edit-dropdown"></a>
                                                 <a class="close-dropdown"></a>
                                             </div>
                                             <div class="casual_text">
@@ -198,7 +193,5 @@
 </tr>
 </table>
 <a class="table-arrow"><?= Yii::t('Transactions', 'SHOW MORE') ?><span></span></a>
-</div>
 <!--<div class="submit-button button-back" onclick="window.location = 'personal_account_new.html'">Back</div>-->
-</div>
 </div>
