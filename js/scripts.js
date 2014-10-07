@@ -1833,7 +1833,7 @@ $(function () {
 		return false;
     });
 
-	$('#notifications_filter input,select').on('change', function(){
+	$('#notifications_filter input,#notifications_filter select').on('change', function(){
 		$.fn.yiiListView.update('notifListView', {
             //this entire js section is taken from admin.php. w/only this line diff
             data: $('#notifications_filter').serialize()

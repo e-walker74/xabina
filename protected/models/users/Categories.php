@@ -61,6 +61,7 @@ class Users_Categories extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+            'cross' => array(self::HAS_MANY, 'CrossLinks', array('category_id' => 'id')),
         );
     }
 

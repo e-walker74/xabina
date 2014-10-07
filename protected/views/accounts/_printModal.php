@@ -22,8 +22,8 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="checkbox-custom narrow-17">
-                        <label class="">
-                            <input name="option[]" value="all" type="checkbox">
+                        <label class="checked">
+                            <input name="option[]" value="all" type="checkbox" checked="checked">
                         </label>
                     </div>
                     <?= Yii::t('Transactions', 'All') ?>
@@ -104,7 +104,8 @@
         <div class="modal-submit-cont upload">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-                    <input class="rounded-buttons print" onclick="return window.print();" type="button" value="<?= Yii::t('Transactions', 'Print') ?>">
+<!--                    <input class="rounded-buttons print" onclick="return window.print();" type="button" value="--><?//= Yii::t('Transactions', 'Print') ?><!--">-->
+                    <input class="rounded-buttons print" name="exportType" type="submit" value="<?= Yii::t('Transactions', 'Print') ?>">
                 </div>
 <!--                <div class="col-lg-4 col-md-4 col-sm-4 relative">-->
 <!--                    <input class="rounded-buttons mail-violet" data-toggle="dropdown" type="button" value="E-Mail">-->
@@ -133,11 +134,11 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 format-cell">
 <!--                                <a class="button csv" href="#"></a> &mdash; csv-->
-                                <input type="submit" class="button csv" name="exportType" value="csv"/> &mdash; csv
+                                <input type="submit" class="button csv" name="exportType" value="csv" style="color: transparent;"/> &mdash; csv
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 format-cell">
                                 <!--                                <a class="button pdf" href="#"></a> &mdash; pdf-->
-                                <input type="submit" class="button pdf" name="exportType" value="pdf"/> &mdash; csv
+                                <input type="submit" class="button pdf" name="exportType" value="pdf" style="color: transparent;"/> &mdash; pdf
                             </div>
                         </div>
                         <div class="row">

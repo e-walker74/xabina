@@ -152,6 +152,7 @@ class AccountsController extends Controller
 
         switch ($exportType) {
             case 'pdf':
+            case 'Print':
                 $html = $this->renderPartial('transaction/pdf', array('trans' => $trans, 'user' => Users::model()->with('primary_address')->findByPk(Yii::app()->user->id)), true, false);
 
                 TransactionsExportService::exportDetailPdf($html, 'transaction_' . $id . '.pdf');

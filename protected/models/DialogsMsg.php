@@ -305,7 +305,7 @@ class DialogsMsg extends CActiveRecord
                             $forMsg = '<span class="drdn-cont"><a href="#" class="button-mini group" data-toggle="dropdown"></a><ul class="dropdown-menu contact-select-dropdown list-actions-dropdown list-unstyled" role="menu"><li class="arr"></li>'.$people.'</ul></span>';
                         } else {
                             $forMsg = '<span class="drdn-cont"><a href="#" class="button-mini planet" data-toggle="dropdown"></a></span>';
-                        }  
+                        }
                     }
                     if ($msg->user_id==$user_id) {
                         $author = 'You';

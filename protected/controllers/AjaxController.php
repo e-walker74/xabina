@@ -188,6 +188,8 @@ class AjaxController extends Controller
     {
         $text = Yii::request()->getParam('text', '');
 
+        $text = SiteService::subStrEx($text, 40);
+
         $tag_id = Yii::request()->getParam('tag_id', '', 'int');
 
         if ($text) {
@@ -260,6 +262,8 @@ class AjaxController extends Controller
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_category = Yii::request()->getParam('cross_category');
 
+
+
         if(!$cross_id){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
@@ -272,8 +276,13 @@ class AjaxController extends Controller
             $category->save();
             $cross_category_id = $category->id;
         } elseif($cross_category) {
+            $category = Users_Categories::model()->currentUser()->findByPk($cross_category);
             $cross_category_id = $cross_category;
         } else {
+            throw new CHttpException(404, Yii::t('Front', 'Page not found'));
+        }
+
+        if(!$category){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
@@ -281,7 +290,7 @@ class AjaxController extends Controller
         $cross->category_id = $cross_category_id;
         $cross->save();
 
-        echo CJSON::encode(array('success' => true, 'message' => Yii::t('Cross', 'Category was saved')));
+        echo CJSON::encode(array('success' => true, 'value' => $category->value, 'message' => Yii::t('Cross', 'Category was saved')));
     }
 
     public function actionCrossComment()
