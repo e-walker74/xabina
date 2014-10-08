@@ -52,6 +52,7 @@ WLinkDrive = {
                     $('#linkNewMemoModal').find('.drive-file-row').remove()
                     $(data.html).insertAfter($('#linkNewMemoModal .add-new-folder'))
                     $('#linkNewMemoModal').modal('show')
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-memo').prev())
                 }
@@ -99,6 +100,7 @@ WLinkDrive = {
                     successNotify('', data.message, $('.before-files').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-files').prev())
                 }
@@ -126,6 +128,7 @@ WLinkDrive = {
                     successNotify('', data.message, $('.before-memo').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-memo').prev())
                 }
@@ -164,6 +167,7 @@ WLinkDrive = {
                         $('.drive-file-row').remove()
                         $(response.html).insertAfter($('.file-directions li:first'))
                         WLinkDrive.bindAfterReady()
+                        resetCheckeBox()
                     } else {
                         errorNotify('Drive', response.message, $('.file-directions'))
                     }
@@ -200,6 +204,7 @@ WLinkDrive = {
                     $('.drive-file-row').remove()
                     $(response.html).insertAfter($('.file-directions li:first'))
                     WLinkDrive.bindAfterReady()
+                    resetCheckeBox()
                 } else {
                     errorNotify('Drive', response.message, $('.file-directions'))
                 }
@@ -227,7 +232,7 @@ WLinkDrive = {
                     $(response.html).insertAfter($('.file-directions li:first'))
                     WLinkDrive.bindAfterReady()
                     WLinkDrive._folder = response.folder
-
+                    resetCheckeBox()
                     WLinkDrive.search($(link).closest('.modal-body').find('.search-results-list'), $(link).closest('.modal-body').find('.search-input-drive').val())
 
                 } else {
@@ -276,6 +281,7 @@ WLinkDrive = {
                     resetPage()
                     $('.drive-file-row').remove()
                     $(response.html).insertAfter($('.file-directions li:first'))
+                    resetCheckeBox()
                     WLinkDrive.bindAfterReady()
                     WLinkDrive._folder = response.folder
 

@@ -19,12 +19,12 @@
 <?php foreach($model as $trans): ?>
     <tr class="linked_tr transaction-transactions-row">
         <td class="icon_td">
-            <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
+            <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" target="_blank">
                 <img src="/css/images/one_transaction.png" />
             </a>
         </td>
         <td class="title">
-            <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
+            <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>" target="_blank">
             <div class="account-data pull-left">
                 <div class="account-name">
                     <?php if($trans->outgoing_id): ?>
@@ -48,3 +48,6 @@
         <td class="delete"><div class="attach_del_block"><a class="del_a" data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $trans->id, 'entity' => $trans->form, 'entity_id' => $trans->model_id, 'cross_type' => $trans->tableName())) ?>"></a></div></td>
     </tr>
 <?php endforeach; ?>
+<script>
+    WLinkDrive.bindUnlinkFile()
+</script>

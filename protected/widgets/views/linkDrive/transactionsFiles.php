@@ -40,3 +40,6 @@
     <td class="delete"><div class="attach_del_block"><a class="del_a" data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $file->id, 'entity' => $file->form, 'entity_id' => $file->model_id, 'cross_type' => $file->tableName())) ?>"></a></div></td>
 </tr>
 <?php endforeach; ?>
+<script>
+    WLinkDrive.bindUnlinkFile()
+</script>

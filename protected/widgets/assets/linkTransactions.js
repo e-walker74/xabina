@@ -45,6 +45,7 @@ WLinkTransactions = {
                     successNotify('', data.message, $('.before-transactions').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-transactions').prev())
                 }

@@ -50,6 +50,7 @@
             <div class="new_tran_but"><a
                     href="<?= Yii::app()->createUrl('/contact/view', array('url' => $trans->contact->url)); ?>"
                     role="button"
+                    target="_blank"
                     data-toggle="modal" class="button book"></a></div>
             <div class="clearfix"></div>
         <?php endif; ?>

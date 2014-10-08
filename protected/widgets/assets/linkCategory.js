@@ -105,6 +105,7 @@ WLinkCategory = {
                     successNotify('', data.message, $('.before-categories').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-categories').prev())
                 }

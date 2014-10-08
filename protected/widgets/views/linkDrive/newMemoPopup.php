@@ -27,7 +27,7 @@
             </div>
             <div>
                 <input type="hidden" name="memo_id" value=""/>
-                <input onclick="WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Send') ?>">
+                <input onclick="WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Submit') ?>">
             </div>
         </div>
     </div>

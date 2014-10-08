@@ -632,6 +632,10 @@ var input_hide_error_on_focus = function(){
     });
 }
 
+var resetCheckeBox = function(){
+    $('.modal-galka-checkbox').removeClass('active').find('input').attr('checked', false)
+}
+
 $(document).ready(function () {
 
     $('.table-arrow').on('click', function(){
@@ -640,7 +644,7 @@ $(document).ready(function () {
             $(this).html('Hide <span></span>');
         else
             $(this).html('Show More <span></span>');
-        $(this).parents('.one_tab').find('.hide-tr').toggle(0);
+        $('.hide-tr').toggle(0);
         return false;
     });
 
@@ -651,6 +655,8 @@ $(document).ready(function () {
             location.reload();
         }
     });
+
+
 
     $('.btn-group').live('mouseenter',
         function(){

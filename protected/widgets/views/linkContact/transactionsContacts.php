@@ -19,7 +19,7 @@
 <?php foreach($model as $contact): ?>
     <tr class="linked_tr transaction-contact">
         <td class="icon_td">
-            <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
+            <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>" target="_blank">
             <?php if($contact->photo): ?>
                 <img width="26" src="<?= $contact->getAvatarUrl() ?>" alt=""/>
             <?php else: ?>
@@ -40,7 +40,7 @@
             </a>
         </td>
         <td class="title">
-            <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
+            <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>" target="_blank">
                 <div class="account-data pull-left">
                     <div class="account-name"><?= $contact->fullname ?></div>
                     <div class="account-info"><?= $contact->hint ?></div>
@@ -57,3 +57,6 @@
         <td class="delete"><div class="attach_del_block"><a class="del_a" data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $contact->id, 'entity' => $contact->form, 'entity_id' => $contact->model_id, 'cross_type' => $contact->tableName())) ?>"></a></div></td>
     </tr>
 <?php endforeach; ?>
+<script>
+    WLinkDrive.bindUnlinkFile()
+</script>

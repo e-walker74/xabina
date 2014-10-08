@@ -36,6 +36,7 @@ WLinkContact = {
                     $(data.html).insertAfter($('.before-contacts'))
                     successNotify('', data.message, $('.before-contacts').prev())
                     button.closest('.modal').modal('hide')
+                    resetCheckeBox()
                     resetPage()
                 } else {
                     errorNotify('', data.message, $('.before-contacts').prev())

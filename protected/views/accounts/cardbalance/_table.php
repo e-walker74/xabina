@@ -39,9 +39,9 @@
                                     <li>
                                         <a class="button eye" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                                     </li>
-                                    <li>
-                                        <a class="button refresh" href="<?= Yii::app()->createUrl('/transfers/outgoing?copyTransfer=1&transfer=' . $trans->transfer_id) ?>"></a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a class="button refresh" href="--><?//= Yii::app()->createUrl('/transfers/outgoing?copyTransfer=1&transfer=' . $trans->transfer_id) ?><!--"></a>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
                         </div>
@@ -84,9 +84,9 @@
                                     <li>
                                         <a class="button eye" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                                     </li>
-                                    <li>
-                                        <a class="button back" href="<?= Yii::app()->createUrl('/transfers/outgoing?backTransfer=1&transfer=' . $trans->transfer_id) ?>"></a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a class="button back" href="--><?//= Yii::app()->createUrl('/transfers/outgoing?backTransfer=1&transfer=' . $trans->transfer_id) ?><!--"></a>-->
+<!--                                    </li>-->
                                 </ul>
                             </div>
                         </div>
