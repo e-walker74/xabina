@@ -10,7 +10,9 @@ WLinkContact = {
     bindAfterReady: function () {
         jQuery(document).ready(function () {
             jQuery.fn.searchContactButtonByName({searchLineSelector: '.search-input-contacts', parentSelector: '.scroll-cont'})
-
+            $('.clear-input-but-for-all').click(function(){
+                $(this).prev().val('').focus().keyup()
+            })
             $('.modal-galka-radiobutton').on('click', function(){
                 $('.modal-galka-radiobutton').removeClass('active').find('input').attr('checked', false)
                 $(this).addClass('active').find('input').attr('checked', true)

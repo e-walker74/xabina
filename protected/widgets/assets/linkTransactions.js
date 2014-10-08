@@ -24,6 +24,9 @@ WLinkTransactions = {
         $('.search-input-transaction').keyup(function (event) {
             WLinkTransactions.search($(this).closest('.modal-body').find('.linked-transaction'), this.value)
         })
+        $('.clear-input-but-for-all').click(function(){
+            $(this).prev().val('').focus().keyup()
+        })
     },
     link: function (b) {
         var button = $(b)

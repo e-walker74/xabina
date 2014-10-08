@@ -43,7 +43,10 @@
                     <?= Yii::t('Transactions', 'Transaction') ?> <span class="tooltip-icon" title="<?= Yii::t('Transactions', 'transactions_link_popup_tooltip') ?>"></span>
                 </div>
                 <div class="form-block">
-                    <input class="add-input big-add-input pull-left search-input-transaction" type="text">
+                    <div class="relative pull-left" style="width: 100%" >
+                        <input class="add-input big-add-input pull-left search-input-transaction" type="text">
+                        <span class="clear-input-but-for-all" id="clear-keyword"></span>
+                    </div>
                     <div class="clearfix"></div>
                 </div>
             </div>

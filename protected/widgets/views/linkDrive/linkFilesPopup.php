@@ -49,7 +49,10 @@
     <div class="form-block file-dir-link">
         <a href="#" class="file-dir-but" onclick="return WLinkDrive.openFolder(this)"><img style="height: 30px;" src="/css/layout/account/img/up_arrow_img.png" alt=""></a>
         <a href="#" class="file-dir-but" onclick="return WLinkDrive.createFolderButton(this)"><img style="height: 30px;" src="/css/layout/account/img/folder_add_img.png" alt=""></a>
-        <input class="add-input pull-left search-input-drive" type="text" style="width: 50%!important">
+        <div class="relative pull-left" style="width: 61%" >
+            <input class="add-input pull-left search-input-drive" type="text" >
+            <span class="clear-input-but-for-all" id="clear-keyword"></span>
+        </div>
 					<span class="drdn-cont pull-right file-dial">
 
                         <form enctype="multipart/form-data" class="drive-upload-form" action="<?= Yii::app()->createUrl('/file/UploadDrive', array(

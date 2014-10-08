@@ -84,6 +84,9 @@ WLinkCategory = {
         $('.search-input-category').keyup(function (event) {
             WLinkCategory.search($(this).closest('.modal-body').find('.wcategory-table'), this.value)
         })
+        $('.clear-input-but-for-all').click(function(){
+            $(this).prev().val('').focus().keyup()
+        })
     },
     link: function (b) {
         var button = $(b)

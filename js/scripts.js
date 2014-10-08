@@ -636,6 +636,8 @@ var resetCheckeBox = function(){
     $('.modal-galka-checkbox').removeClass('active').find('input').attr('checked', false)
 }
 
+
+
 $(document).ready(function () {
 
     $('.table-arrow').on('click', function(){

@@ -254,6 +254,9 @@ WLinkDrive = {
         $('.search-input-drive').keyup(function (event) {
             WLinkDrive.search($(this).closest('.modal-body').find('.search-results-list'), this.value)
         })
+        $('.clear-input-but-for-all').click(function(){
+            $(this).prev().val('').focus().keyup()
+        })
     },
     sort: function (link) {
         var url = $(link).closest('.file_top_menu').attr('data-url')
