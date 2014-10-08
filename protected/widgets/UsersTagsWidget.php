@@ -30,9 +30,9 @@ class UsersTagsWidget extends QWidget
         }
         $sql = "
             SELECT ut.* FROM users_tags ut
-            INNER JOIN cross_links cl ON (cl.link_table_id = ut.id AND cl.link_table_name = :table_name)
-            WHERE cl.user_id = :user_id
-            AND ut.user_id = :user_id
+            INNER JOIN cross_links cl ON (cl.link_table_id = ut.id)
+            WHERE cl.user_id = :user_id AND cl.link_table_name = :table_name
+            AND (ut.user_id = :user_id OR ut.user_id IS NULL)
             AND cl.entity_name = :entity_name
             AND cl.entity_id = :entity_id
         ";
@@ -73,15 +73,15 @@ class UsersTagsWidget extends QWidget
 
     public function getCurrentUserTags()
     {
-        $tags = Users_Tags::model()->findAllBySql('SELECT ut.*, count(1) as ctags FROM users_tags ut
-            LEFT JOIN cross_links cl ON (cl.link_table_id = ut.id)
+        $tags = Users_Tags::model()->findAllBySql('SELECT ut.*, count(ut.id) as ctags FROM users_tags ut
+            LEFT OUTER JOIN cross_links cl ON (cl.link_table_id = ut.id)
             WHERE (cl.user_id = :uid AND ut.user_id = :uid AND cl.link_table_name = "users_tags") OR (ut.user_id is null)
-            GROUP BY link_table_id
+            GROUP BY ut.id
             ORDER BY ctags DESC, ut.id ASC
-            LIMIT 10',
+            LIMIT 15',
             array(':uid' => Yii::user()->getCurrentId(), ':table_name' => $this->tags_table)
         );
-
+		
         return $tags;
     }
 
