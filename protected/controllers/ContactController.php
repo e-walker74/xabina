@@ -55,6 +55,7 @@ class ContactController extends Controller
                     'searchLink',
                     'updateTab',
                     'link',
+                    'fastCreate',
                 ),
                 'roles' => array('client')
             ),
@@ -662,5 +663,41 @@ class ContactController extends Controller
             'message' => Yii::t('Contact', 'contact_was_added'),
             'html' => $html,
         ));
+    }
+
+    public function actionFastCreate(){
+
+        $model = new Users_Contacts();
+
+        if (isset($_POST['Users_Contacts'])) {
+            $model->attributes = $_POST['Users_Contacts'];
+            if(!$model->validate()){
+                echo CJSON::encode(array('success' => false, 'message' => Yii::t('Contacts', 'Data is incorrect')));
+                Yii::app()->end();
+            }
+        }
+
+        if (isset($_POST['Users_Contacts'])) {
+            $model->attributes = $_POST['Users_Contacts'];
+            $model->user_id = Yii::app()->user->getCurrentId();
+            if($model->save()){
+                echo CJSON::encode(
+                    array(
+                        'success' => true,
+                        'message' => Yii::t('Contacts', 'Contact was successfully added'),
+                        'html' => Widget::get('ContactListWidget')->renderLinkContacts(true),
+                    )
+                );
+            } else {
+                echo CJSON::encode(
+                    array(
+                        'success' => false,
+                        'message' => Yii::t('Contacts', 'Error'),
+                    )
+                );
+            }
+
+        }
+
     }
 }

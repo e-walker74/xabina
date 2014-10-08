@@ -19,6 +19,7 @@
 <?php foreach($model as $contact): ?>
     <tr class="linked_tr transaction-contact">
         <td class="icon_td">
+            <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
             <?php if($contact->photo): ?>
                 <img width="26" src="<?= $contact->getAvatarUrl() ?>" alt=""/>
             <?php else: ?>
@@ -36,12 +37,15 @@
 //                ?>
 <!--                <a class="ico --><?//=$cssClass?><!--" href="#"></a>-->
             <?php endif ?>
+            </a>
         </td>
         <td class="title">
-            <div class="account-data pull-left">
-                <div class="account-name"><?= $contact->fullname ?></div>
-                <div class="account-info"><?= $contact->getNameWithCompany() ?></div>
-            </div>
+            <a href="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">
+                <div class="account-data pull-left">
+                    <div class="account-name"><?= $contact->fullname ?></div>
+                    <div class="account-info"><?= $contact->hint ?></div>
+                </div>
+            </a>
         </td>
         <td class="edit">
             <?= Widget::get('WCrossLink')->changeCategory($contact->cross_id, $contact->cross_category) ?>

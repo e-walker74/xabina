@@ -6,6 +6,7 @@
  * User: ekazak
  * Date: 30.09.14
  * Time: 15:46
+ * @var Categories[] $model
  */ ?>
 
 <?php if (!Yii::request()->isAjaxRequest): ?>
@@ -21,8 +22,8 @@
         <td class="icon_td"><img src="/css/images/one_category.png" /></td>
         <td class="title">
             <div class="account-data pull-left">
-                <div class="account-name"><?= $model->title ?></div>
-                <div class="account-info"><?= $model->user->fullname ?></div>
+                <div class="account-name"><?= $model->getShortDescription() ?></div>
+                <div class="account-info"><?= $model->title ?></div>
             </div>
         </td>
         <td class="edit">

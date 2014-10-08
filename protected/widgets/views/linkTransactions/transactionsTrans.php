@@ -18,8 +18,13 @@
 <?php endif; ?>
 <?php foreach($model as $trans): ?>
     <tr class="linked_tr transaction-transactions-row">
-        <td class="icon_td"><img src="/css/images/one_transaction.png" /></td>
+        <td class="icon_td">
+            <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
+                <img src="/css/images/one_transaction.png" />
+            </a>
+        </td>
         <td class="title">
+            <a href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>">
             <div class="account-data pull-left">
                 <div class="account-name">
                     <?php if($trans->outgoing_id): ?>
@@ -29,13 +34,10 @@
                     <?php endif; ?>
                 </div>
                 <div class="account-info">
-                    <?php if($trans->outgoing_id): ?>
-                        <?= $trans->info->recipient_description ?>
-                    <?php else: ?>
-                        <?= $trans->info->sender_description ?>
-                    <?php endif; ?>
+                    #<?= $trans->url ?>
                 </div>
             </div>
+            </a>
         </td>
         <td class="edit">
             <?= Widget::get('WCrossLink')->changeCategory($trans->cross_id, $trans->cross_category) ?>

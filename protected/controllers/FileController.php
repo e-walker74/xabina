@@ -310,31 +310,32 @@ class FileController extends Controller
     public function actionAddMemo()
     {
         $entity = Yii::request()->getParam('entity', '');
+        $memo_id = Yii::request()->getParam('memo_id', '', 'int');
         $entityId = Yii::request()->getParam('entity_id', '', 'int');
         $text = Yii::request()->getParam('text', '', 'string');
 
-        $model = new Users_Files();
-        $model->form = $entity;
-        $model->model_id = $entityId;
-        $model->user_id = Yii::user()->getCurrentId();
-        $model->document = $entity;
-        $model->document_type = 'memo';
-        $model->description = $text;
-        $model->scenario = 'memo';
-        if ($model->save()) {
+        $model = Users_Files::model()->currentUser()->find('document_type = "memo" AND id = :id', array(':id' => $memo_id));
 
-            $crossLink = new CrossLinks();
-            $crossLink->user_id = Yii::user()->getCurrentId();
-            $crossLink->entity_name = $entity;
-            $crossLink->entity_id = $entityId;
-            $crossLink->link_table_name = $model->tableName();
-            $crossLink->link_table_id = $model->id;
-            $crossLink->save();
+        if(!$model){
+            $model = new Users_Files();
+            $model->form = $entity;
+            $model->model_id = $entityId;
+            $model->user_id = Yii::user()->getCurrentId();
+            $model->document = $entity;
+            $model->document_type = 'memo';
+        }
+        $model->scenario = 'memo';
+        $model->description = $text;
+
+        if ($model->save()) {
+            if(!$memo_id){
+
+            }
 
             echo CJSON::encode(array(
                 'success' => true,
                 'message' => Yii::t('Drive', 'memo_was_successfully_added'),
-                'html' => Widget::get('WLinkDrive')->renderTransactionMemo($entityId, true),
+                'html' => Widget::get('WLinkDrive')->renderMemoGridInPopup(0, true),
             ));
         } else {
             echo CJSON::encode(array(

@@ -16,20 +16,14 @@
                 <input name="files[]" value="<?= $model->id ?>" type="checkbox"/>
             </label>
         </div>
-        <div class="account-photo pull-left">
+        <div class="account-photo pull-left" onclick="WLinkDrive.clickCheckbox(this)">
             <img style="height: 30px;" src="/css/images/one_memo.png" alt="">
         </div>
-        <div class="account-data pull-left name-block">
+        <div class="account-data pull-left name-block" style="width: 73%; min-height: 29px" onclick="WLinkDrive.clickCheckbox(this)">
             <div class="account-name drive-search-text"><?= $model->getShortDescription(); ?></div>
         </div>
-        <div class="account-data pull-left descr-block">
-        </div>
-        <div class="account-data pull-left created-block">
+        <div class="account-data pull-left created-block" onclick="WLinkDrive.clickCheckbox(this)">
             <div class="one_str small-text"><?= date('d.m.Y', $model->created_at) ?></div>
-        </div>
-        <div class="account-data pull-left size-block">
-        </div>
-        <div class="transaction-buttons-cont book">
         </div>
         <div class="clearfix"></div>
     </div>

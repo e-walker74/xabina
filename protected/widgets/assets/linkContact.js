@@ -10,6 +10,11 @@ WLinkContact = {
     bindAfterReady: function () {
         jQuery(document).ready(function () {
             jQuery.fn.searchContactButtonByName({searchLineSelector: '.search-input-contacts', parentSelector: '.scroll-cont'})
+
+            $('.modal-galka-radiobutton').on('click', function(){
+                $('.modal-galka-radiobutton').removeClass('active').find('input').attr('checked', false)
+                $(this).addClass('active').find('input').attr('checked', true)
+            })
         })
     },
     link: function (b) {
@@ -32,6 +37,29 @@ WLinkContact = {
                     successNotify('', data.message, $('.before-contacts').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                } else {
+                    errorNotify('', data.message, $('.before-contacts').prev())
+                }
+            }
+        })
+        return false;
+    },
+    createContact: function(sub){
+        var form = $(sub).closest('form')
+        $.ajax({
+            url: form.attr('action'),
+            data: form.serialize(),
+            dataType: 'JSON',
+            type: 'POST',
+            success: function (data) {
+                if (data.success) {
+                    successNotify('', data.message, $('.before-contacts').prev())
+                    $(sub).closest('.modal').modal('hide')
+                    $('#addLinkModal').modal('show')
+                    $('#addLinkModal').find('.contacts-list').html(data.html)
+                    resetPage()
+
+                    jQuery.fn.searchContactButtonByName({searchLineSelector: '.search-input-contacts', parentSelector: '.scroll-cont'})
                 } else {
                     errorNotify('', data.message, $('.before-contacts').prev())
                 }

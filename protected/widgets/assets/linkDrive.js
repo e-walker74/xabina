@@ -37,24 +37,34 @@ WLinkDrive = {
             block.find('.memo_edit .error-message').slideDown().delay(3000).slideUp()
             return false;
         }
+        var memo_id = block.find('input[name=memo_id]').val()
         $.ajax({
             url: url,
-            data: {text: block.find('textarea.redactor').val()},
+            data: {text: block.find('textarea.redactor').val(), memo_id: memo_id},
             dataType: 'JSON',
             method: 'POST',
             success: function (data) {
                 if (data.success) {
-                    $('.drive_memo').remove()
-                    $(data.html).insertAfter($('.before-memo'))
                     successNotify('', data.message, $('.before-memo').prev())
                     block.find('textarea').focus()
                     $('.redactor_editor').html('')
                     block.modal('hide')
+                    $('#linkNewMemoModal').find('.drive-file-row').remove()
+                    $(data.html).insertAfter($('#linkNewMemoModal .add-new-folder'))
+                    $('#linkNewMemoModal').modal('show')
                 } else {
                     errorNotify('', data.message, $('.before-memo').prev())
                 }
             }
         })
+    },
+    editMemo: function(link, blockId, memo_id){
+        $('#'+blockId).modal('show');
+        var html = $(link).find('.full_text').html()
+        $('#'+blockId + ' .redactor_editor').html(html)
+        $('#'+blockId + ' textarea').val(html)
+        $('#'+blockId).find('input[name=memo_id]').val($(link).attr('data-memo-id'))
+
     },
     bindUnlinkFile: function () {
         jQuery(document).ready(function () {
@@ -276,6 +286,16 @@ WLinkDrive = {
                 }
             }
         })
+    },
+    clickCheckbox: function(link){
+        var tr = $(link).closest('li')
+        if(tr.find('.modal-galka-checkbox').hasClass('active')){
+            tr.find('.modal-galka-checkbox').removeClass('active');
+            tr.find('.modal-galka-checkbox input').attr('checked', false);
+        } else{
+            tr.find('.modal-galka-checkbox').addClass('active');
+            tr.find('.modal-galka-checkbox input').attr('checked', true);
+        }
     }
 }
 

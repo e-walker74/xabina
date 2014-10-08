@@ -18,25 +18,22 @@
         <div class="modal-body">
             <div class="change_dialog_block">
                 <div class="select-custom account-select">
-                    <span class="select-custom-label" rel="addTranModal">Linked Transactions</span>
+                    <span class="select-custom-label" rel="addTranModal"></span>
                     <select name="" class="select-invisible change_modal_select">
-                        <option value="editCommentModal">
-                            Memo
-                        </option>
-                        <option value="addBuhModal">
-                            Linked Category
-                        </option>
-                        <option value="addLinkModal">
-                            Linked Contact
-                        </option>
                         <option value="addTranModal">
-                            Linked Transactions
+                            <?= Yii::t('Linking', 'Linked Transactions') ?>
                         </option>
-                        <option value="addTagModal">
-                            Tags
+                        <option value="linkNewMemoModal">
+                            <?= Yii::t('Linking', 'Memo') ?>
                         </option>
                         <option value="addNewFileModal">
-                            Linked Files
+                            <?= Yii::t('Linking', 'Linked Files') ?>
+                        </option>
+                        <option value="addLinkModal">
+                            <?= Yii::t('Linking', 'Linked Contact') ?>
+                        </option>
+                        <option value="addBuhModal">
+                            <?= Yii::t('Linking', 'Linked Category') ?>
                         </option>
                     </select>
                 </div>
@@ -46,7 +43,7 @@
                     <?= Yii::t('Transactions', 'Transaction') ?> <span class="tooltip-icon" title="<?= Yii::t('Transactions', 'transactions_link_popup_tooltip') ?>"></span>
                 </div>
                 <div class="form-block">
-                    <input class="add-input big-add-input pull-left" type="text">
+                    <input class="add-input big-add-input pull-left search-input-transaction" type="text">
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -58,22 +55,22 @@
                 <div class="transaction-table-overflow linked-transaction">
                         <table class="table new-tran-tab">
                             <?php foreach($transactions as $trans): ?>
-                                <tr>
+                                <tr class="wcategory-row">
                                     <td width="6%">
                                         <label class="modal-galka-checkbox">
                                             <input name="transactions[]" value="<?= $trans->id ?>" type="checkbox"/>
                                         </label>
                                     </td>
-                                    <td width="17%"><?= date('d.m.Y', $trans->execution_time) ?></td>
-                                    <td width="25%">
+                                    <td width="17%" onclick="CrossLinks.clickCheckbox(this)"><?= date('d.m.Y', $trans->execution_time) ?></td>
+                                    <td width="25%" class="drive-search-text" onclick="CrossLinks.clickCheckbox(this)">
                                         <strong class="holder"><?= $trans->info->sender ?></strong><br>
                                         <span class="account"><?= $trans->info->sender_description ?></span>
                                     </td>
-                                    <td width="25%">
+                                    <td width="25%" class="drive-search-text" onclick="CrossLinks.clickCheckbox(this)">
                                         <strong class="holder"><?= $trans->info->recipient ?></strong><br>
                                         <span class="account"> <?= $trans->info->recipient_description ?></span>
                                     </td>
-                                    <td width="20%" class="text-right">
+                                    <td width="20%" class="drive-search-text" class="text-right" onclick="CrossLinks.clickCheckbox(this)">
                                         <?php if($trans->amount > 0): ?>
                                             <span class="sum-inc">+<?= number_format($trans->amount, 2, ".", " ") ?></span> <?= $trans->account->currency->title ?>
                                         <?php elseif($subAccount->balance < 0): ?>
@@ -82,7 +79,7 @@
                                             0 <?= $trans->account->currency->title ?>
                                         <?php endif; ?>
                                     </td>
-                                    <td width="7%"  style="overflow: visible!important">
+                                    <td width="7%" style="overflow: visible!important">
                                         <?php if($trans->info->details_of_payment): ?>
                                             <div class="transaction-buttons-cont book">
                                                 <a href="#" class="book_button trans-but open"></a>
@@ -91,7 +88,7 @@
                                     </td>
                                 </tr>
                                 <?php if($trans->info->details_of_payment): ?>
-                                    <tr class="note-tr" style="display: table-row;">
+                                    <tr class="note-tr wcategory-row" style="display: table-row;">
                                         <td colspan="6">
                                             <div class="note-cont">
                                                 <?= $trans->info->details_of_payment ?>

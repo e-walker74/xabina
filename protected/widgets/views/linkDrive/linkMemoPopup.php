@@ -14,31 +14,28 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 <img src="/css/layout/account/img/close.png">
             </button>
-            <h3 id="myModalLabel">Linked Memo</h3>
+            <h3 id="myModalLabel"><?= Yii::t('Linking', 'Linked Memo') ?></h3>
         </div>
         <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
             <div class="xabina-form-container" >
                 <div class="change_dialog_block">
                     <div class="select-custom account-select">
-                        <span class="select-custom-label" rel="addNewFileModal">Linked Files</span>
+                        <span class="select-custom-label" rel="linkNewMemoModal"></span>
                         <select name="" class="select-invisible change_modal_select">
+                            <option value="linkNewMemoModal">
+                                <?= Yii::t('Linking', 'Memo') ?>
+                            </option>
                             <option value="addNewFileModal">
-                                Linked Files
-                            </option>
-                            <option value="editCommentModal">
-                                Memo
-                            </option>
-                            <option value="addBuhModal">
-                                Linked Category
+                                <?= Yii::t('Linking', 'Linked Files') ?>
                             </option>
                             <option value="addLinkModal">
-                                Linked Contact
+                                <?= Yii::t('Linking', 'Linked Contact') ?>
+                            </option>
+                            <option value="addBuhModal">
+                                <?= Yii::t('Linking', 'Linked Category') ?>
                             </option>
                             <option value="addTranModal">
-                                Linked Transactions
-                            </option>
-                            <option value="addTagModal">
-                                Tags
+                                <?= Yii::t('Linking', 'Linked Transactions') ?>
                             </option>
                         </select>
                     </div>
@@ -57,7 +54,7 @@
                 </div>
             </div>
             <div class="file_top_menu" data-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
-                <div class="top_menu_name pull-left" data-sort="asc" data-sort-param="user_file_name" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Name') ?></span></div>
+                <div class="top_menu_name pull-left" style="width: 82%" data-sort="asc" data-sort-param="user_file_name" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Name') ?></span></div>
                 <div class="top_menu_create pull-left" data-sort="asc" data-sort-param="created_at" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Created') ?></span></div>
                 <div class="clearfix"></div>
             </div>
@@ -66,28 +63,6 @@
                     <div class="letter-block">
                         <ul class="search-results-list list-unstyled file-directions" >
                             <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder') ?>">
-                                <div class="bg-color">
-                                    <div class="cont_check_block">
-                                        <label >
-                                            <!--                            <input type="checkbox">-->
-                                        </label>
-                                    </div>
-                                    <div class="account-photo pull-left">
-                                        <img style="height: 30px;" src="/css/layout/account/img/folder_img.png" alt="">
-                                    </div>
-                                    <div class="account-data pull-left name-block">
-                                        <input type="text" class="add-input" value="">
-                                    </div>
-                                    <div class="account-data pull-left descr-block">
-                                    </div>
-                                    <div class="account-data pull-left created-block">
-                                    </div>
-                                    <div class="account-data pull-left size-block">
-                                    </div>
-                                    <div class="transaction-buttons-cont book">
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
                             </li>
                             <?php $this->renderMemoGridInPopup($folder) ?>
                         </ul>

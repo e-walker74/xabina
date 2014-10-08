@@ -121,7 +121,7 @@ class ContactListWidget extends QWidget
         $this->_criteria->together = true;
         $this->_criteria->with = 'data';
         $model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
-        $this->render('contactsList/linkContacts', array('model' => $model), $return);
+        return $this->render('contactsList/linkContacts', array('model' => $model), $return);
     }
 
     public function renderPupUpSearch($return = false)

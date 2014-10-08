@@ -9,7 +9,7 @@ WLinkTransactions = {
     },
     bindAfterReady: function () {
         jQuery(document).ready(function () {
-//            WLinkTransactions.bindSearch()
+            WLinkTransactions.bindSearch()
         })
     },
     search: function (block, value) {
@@ -21,8 +21,8 @@ WLinkTransactions = {
         }
     },
     bindSearch: function () {
-        $('.search-input-category').keyup(function (event) {
-            WLinkTransactions.search($(this).closest('.modal-body').find('.wcategory-table'), this.value)
+        $('.search-input-transaction').keyup(function (event) {
+            WLinkTransactions.search($(this).closest('.modal-body').find('.linked-transaction'), this.value)
         })
     },
     link: function (b) {

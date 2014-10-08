@@ -169,6 +169,8 @@
 <?php Widget::get('WLinkDrive')->renderLinkMemoPopup('transactions', $trans->id, 'linkNewMemoModal') ?>
 <?php Widget::get('WLinkCategory')->renderPopup('transactions', $trans->id, 'addBuhModal') ?>
 <?php Widget::get('WLinkContact')->renderPopup('transactions', $trans->id, 'addLinkModal') ?>
+<?php Widget::get('WLinkContact')->renderNewContactPopup() ?>
+
     <?php Widget::get('WLinkTransactions')->renderPopup('transactions', $trans->id, 'addTranModal') ?>
 </td>
 </tr>

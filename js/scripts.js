@@ -990,6 +990,22 @@ $(document).ready(function () {
         return false;
     })
 
+    $('.drop_links').click(function(){
+        $(this).toggleClass("active");
+        $('.linked_tr').toggle();
+        return false;
+    });
+
+    $(".change_modal_select").change(function(){
+        if($("option:selected", this).val()!=$(this).parent().find('.select-custom-label').attr("rel"))
+        {
+            $('#'+$(this).parent().find('.select-custom-label').attr("rel")).modal('hide');
+            $('#'+$("option:selected", this).val()).modal('show');
+            $(this).find("[value='"+$(this).parent().find('.select-custom-label').attr("rel")+"']").attr("selected", "selected");
+            $(this).change();
+        }
+    });
+
 //    $('#withDeleteConfirm').on('hide.bs.dropdown', function (event) {
 //        pop = $(event.target).find('.popover:visible')
 //        if($(event.target).find('.popover').length !== 0){

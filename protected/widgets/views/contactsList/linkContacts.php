@@ -14,7 +14,7 @@
     </div>
     <div class="form-block">
         <input class="add-input pull-left search-input-contacts" type="text">
-        <a href="#" class="rounded-buttons pull-right add-new"><?= Yii::t('Contact', 'ADD NEW') ?></a>
+        <a href="javaScript:void(0)" onclick="$('#createContactModal').modal('show')" data-dismiss="modal" class="rounded-buttons pull-right add-new"><?= Yii::t('Contact', 'ADD NEW') ?></a>
         <div class="clearfix"></div>
     </div>
 </div>

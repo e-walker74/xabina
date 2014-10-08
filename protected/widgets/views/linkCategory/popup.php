@@ -17,25 +17,22 @@
         <div class="modal-body">
             <div class="change_dialog_block">
                 <div class="select-custom account-select">
-                    <span class="select-custom-label" rel="addBuhModal">Linked Category</span>
+                    <span class="select-custom-label" rel="addBuhModal"></span>
                     <select name="" class="select-invisible change_modal_select">
                         <option value="addBuhModal">
-                            Linked Category
+                            <?= Yii::t('Linking', 'Linked Category') ?>
                         </option>
-                        <option value="editCommentModal">
-                            Memo
+                        <option value="linkNewMemoModal">
+                            <?= Yii::t('Linking', 'Memo') ?>
                         </option>
                         <option value="addLinkModal">
-                            Linked Contact
+                            <?= Yii::t('Linking', 'Linked Contact') ?>
                         </option>
                         <option value="addTranModal">
-                            Linked Transactions
-                        </option>
-                        <option value="addTagModal">
-                            Tags
+                            <?= Yii::t('Linking', 'Linked Transactions') ?>
                         </option>
                         <option value="addNewFileModal">
-                            Linked Files
+                            <?= Yii::t('Linking', 'Linked Files') ?>
                         </option>
                     </select>
                 </div>

@@ -15,7 +15,7 @@ WLinkCategory = {
     },
     bindCheckbox: function () {
         jQuery(document).ready(function () {
-            $('.modal-body').on('click', '.modal-galka-checkbox', function () {
+            $('.modal-body').on('click', '.modal-galka-checkbox', function (event) {
                 if ($(this).find('input').prop('checked')) {
                     $(this).addClass('active');
                 } else {

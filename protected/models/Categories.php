@@ -106,4 +106,14 @@ class Categories extends ActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getShortDescription()
+    {
+        if (mb_strlen($this->description) > 30) {
+            $str = SiteService::subStrEx(strip_tags(trim($this->description)), 30);
+        } else {
+            $str = strip_tags($this->description);
+        }
+        return $str;
+    }
 }
