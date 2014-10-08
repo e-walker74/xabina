@@ -46,7 +46,10 @@
                 <div class="form-block file-dir-link">
 <!--                    <a href="#" class="file-dir-but" onclick="return WLinkDrive.openFolder(this)"><img style="height: 30px;" src="/css/layout/account/img/up_arrow_img.png" alt=""></a>-->
 <!--                    <a href="#" class="file-dir-but" onclick="return WLinkDrive.createFolderButton(this)"><img style="height: 30px;" src="/css/layout/account/img/folder_add_img.png" alt=""></a>-->
-                    <input class="add-input pull-left search-input-drive" type="text">
+                    <div class="relative pull-left">
+                        <input class="add-input  search-input-drive" type="text">
+                        <span class="clear-input-but-for-all" id="clear-keyword"></span>
+                    </div>
 					<span class="drdn-cont pull-right file-dial">
 						<a href="#" class="rounded-buttons pull-right add-new new_file_but" onclick="$('#editCommentModal').modal('show');" data-dismiss="modal"><?= Yii::t('Drive', 'ADD NEW MEMO') ?></a>
 					</span>

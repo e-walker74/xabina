@@ -165,7 +165,7 @@
                                            data-toggle="dropdown"></a>
 
                                         <div
-                                            class="dropdown-menu no-close contact-select-dropdown list-actions-dropdown list-unstyled act-list"
+                                            class="dropdown-menu no-close contact-select-dropdown2 list-actions-dropdown list-unstyled act-list"
                                             role="menu">
                                             <div class="arr"></div>
                                             <div class="content-dropdown">

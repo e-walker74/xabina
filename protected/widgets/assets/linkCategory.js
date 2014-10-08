@@ -5,8 +5,9 @@
 WLinkCategory = {
     _folder: 0,
     init: function () {
-        WLinkCategory.bindAfterReady()
-        WLinkCategory.bindCheckbox()
+        WLinkCategory.bindAfterReady();
+        WLinkCategory.bindCheckbox();
+        WLinkCategory.bindRadiobutton();
     },
     bindAfterReady: function () {
         jQuery(document).ready(function () {
@@ -19,6 +20,20 @@ WLinkCategory = {
                 if ($(this).find('input').prop('checked')) {
                     $(this).addClass('active');
                 } else {
+                    $(this).removeClass('active');
+                }
+                event.stopPropagation();
+            });
+        })
+    },
+    bindRadiobutton: function () {
+        jQuery(document).ready(function () {
+            $('.modal-body').on('click', '.modal-galka-radiobutton', function(event){
+                debugger;
+                if($(this).find('input').prop('checked')){
+                    $(this).addClass('active');
+                    $('[name="' + $(this).find('input').prop('name') + '"]').parents('.modal-galka-checkbox').removeClass('active')
+                }else{
                     $(this).removeClass('active');
                 }
                 event.stopPropagation();

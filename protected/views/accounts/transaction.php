@@ -6,6 +6,13 @@
 <div class="col-lg-9 col-md-9 col-sm-9">
 <?php $this->renderPartial('_printModal', array('model' => $trans)); ?>
 <div class="clearfix"></div>
+    <?php Widget::get('WLinkDrive')->renderLinkFilesPopup('transactions', $trans->id) ?>
+    <?php Widget::get('WLinkDrive')->renderAddNewMemo('transactions', $trans->id, 'editCommentModal') ?>
+    <?php Widget::get('WLinkDrive')->renderLinkMemoPopup('transactions', $trans->id, 'linkNewMemoModal') ?>
+    <?php Widget::get('WLinkCategory')->renderPopup('transactions', $trans->id, 'addBuhModal') ?>
+    <?php Widget::get('WLinkContact')->renderPopup('transactions', $trans->id, 'addLinkModal') ?>
+    <?php Widget::get('WLinkContact')->renderNewContactPopup() ?>
+    <?php Widget::get('WLinkTransactions')->renderPopup('transactions', $trans->id, 'addTranModal') ?>
 <table class="xabina-table-upload transaction-table-cont">
 <tr class="header-tr">
     <td>
@@ -164,14 +171,8 @@
 <?php Widget::get('WLinkTransactions')->renderTransactionsTrans($trans->id) ?>
 <?php Widget::get('WLinkDrive')->renderTransactionsFiles($trans->id) ?>
 </table>
-<?php Widget::get('WLinkDrive')->renderLinkFilesPopup('transactions', $trans->id) ?>
-<?php Widget::get('WLinkDrive')->renderAddNewMemo('transactions', $trans->id, 'editCommentModal') ?>
-<?php Widget::get('WLinkDrive')->renderLinkMemoPopup('transactions', $trans->id, 'linkNewMemoModal') ?>
-<?php Widget::get('WLinkCategory')->renderPopup('transactions', $trans->id, 'addBuhModal') ?>
-<?php Widget::get('WLinkContact')->renderPopup('transactions', $trans->id, 'addLinkModal') ?>
-<?php Widget::get('WLinkContact')->renderNewContactPopup() ?>
 
-    <?php Widget::get('WLinkTransactions')->renderPopup('transactions', $trans->id, 'addTranModal') ?>
+
 </td>
 </tr>
 <tr>

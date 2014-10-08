@@ -42,7 +42,10 @@
                     <?= Yii::t('Category', 'Category') ?> <span class="tooltip-icon" title="<?= Yii::t('Category', 'popup_category_tooltip') ?>"></span>
                 </div>
                 <div class="form-block">
-                    <input class="add-input pull-left search-input-category" type="text">
+                    <div class="relative pull-left" style="width: 72%">
+                        <input class="add-input pull-left search-input-category" type="text">
+                        <span class="clear-input-but-for-all" id="clear-keyword"></span>
+                    </div>
                     <a href="#" onclick="return WLinkCategory.showCreateCategoryRow(this)" class="rounded-buttons pull-right add-new"><?= Yii::t('Category', 'ADD NEW') ?></a>
                     <div class="clearfix"></div>
                 </div>
