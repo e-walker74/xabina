@@ -15,7 +15,7 @@ WLinkCategory = {
     },
     bindCheckbox: function () {
         jQuery(document).ready(function () {
-            $('.modal-body').on('click', '.modal-galka-checkbox', function () {
+            $('.modal-body').on('click', '.modal-galka-checkbox', function (event) {
                 if ($(this).find('input').prop('checked')) {
                     $(this).addClass('active');
                 } else {
@@ -84,6 +84,9 @@ WLinkCategory = {
         $('.search-input-category').keyup(function (event) {
             WLinkCategory.search($(this).closest('.modal-body').find('.wcategory-table'), this.value)
         })
+        $('.clear-input-but-for-all').click(function(){
+            $(this).prev().val('').focus().keyup()
+        })
     },
     link: function (b) {
         var button = $(b)
@@ -105,6 +108,7 @@ WLinkCategory = {
                     successNotify('', data.message, $('.before-categories').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-categories').prev())
                 }

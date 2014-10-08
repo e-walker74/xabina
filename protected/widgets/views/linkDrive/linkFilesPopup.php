@@ -20,28 +20,27 @@
 <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
 <div class="xabina-form-container" >
     <div class="change_dialog_block">
-        <div class="select-custom account-select">
-            <span class="select-custom-label" rel="addNewFileModal">Linked Files</span>
-            <select name="" class="select-invisible change_modal_select">
-                <option value="addNewFileModal">
-                    Linked Files
-                </option>
-                <option value="editCommentModal">
-                    Memo
-                </option>
-                <option value="addBuhModal">
-                    Linked Category
-                </option>
-                <option value="addLinkModal">
-                    Linked Contact
-                </option>
-                <option value="addTranModal">
-                    Linked Transactions
-                </option>
-                <option value="addTagModal">
-                    Tags
-                </option>
-            </select>
+        <div class="change_dialog_block">
+            <div class="select-custom account-select">
+                <span class="select-custom-label" rel="addNewFileModal"></span>
+                <select name="" class="select-invisible change_modal_select">
+                    <option value="addNewFileModal">
+                        <?= Yii::t('Linking', 'Linked Files') ?>
+                    </option>
+                    <option value="addLinkModal">
+                        <?= Yii::t('Linking', 'Linked Contact') ?>
+                    </option>
+                    <option value="addBuhModal">
+                        <?= Yii::t('Linking', 'Linked Category') ?>
+                    </option>
+                    <option value="linkNewMemoModal">
+                        <?= Yii::t('Linking', 'Memo') ?>
+                    </option>
+                    <option value="addTranModal">
+                        <?= Yii::t('Linking', 'Linked Transactions') ?>
+                    </option>
+                </select>
+            </div>
         </div>
     </div>
     <div class="form-lbl">
@@ -50,30 +49,45 @@
     <div class="form-block file-dir-link">
         <a href="#" class="file-dir-but" onclick="return WLinkDrive.openFolder(this)"><img style="height: 30px;" src="/css/layout/account/img/up_arrow_img.png" alt=""></a>
         <a href="#" class="file-dir-but" onclick="return WLinkDrive.createFolderButton(this)"><img style="height: 30px;" src="/css/layout/account/img/folder_add_img.png" alt=""></a>
-        <input class="add-input pull-left search-input-drive" type="text" style="width: 50%!important">
+        <div class="relative pull-left" style="width: 61%" >
+            <input class="add-input pull-left search-input-drive" type="text" >
+            <span class="clear-input-but-for-all" id="clear-keyword"></span>
+        </div>
 					<span class="drdn-cont pull-right file-dial">
-						<a href="transfer_overview.html" class="rounded-buttons pull-right add-new new_file_but" data-toggle="dropdown"><?= Yii::t('Drive', 'ADD NEW FILE') ?></a>
-						<div class="dropdown-menu no-close link-select-dropdown list-actions-dropdown list-unstyled act-list file-dialog" role="menu">
-                            <div class="content-dropdown">
-                                <div class="drop_main_block">
-                                    <ul class="drop_link_ul">
-                                        <li class="up_files">
-                                            <form enctype="multipart/form-data" class="drive-upload-form" action="<?= Yii::app()->createUrl('/file/UploadDrive', array(
-                                                'form' => $entity,
-                                                'model_id' => $entity_id,
-                                            )) ?>">
-                                            <label>
-                                                <?= Yii::t('Drive', 'Upload file') ?>
-                                                <input type="file" name="file" style="display: none"/>
-                                            </label>
-                                                <input type="hidden" name="folder" value=""/>
-                                            </form>
-                                        </li>
-                                        <li class="memo"><?= Yii::t('Drive', 'Create file') ?></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
+                        <form enctype="multipart/form-data" class="drive-upload-form" action="<?= Yii::app()->createUrl('/file/UploadDrive', array(
+                            'form' => $entity,
+                            'model_id' => $entity_id,
+                        )) ?>">
+                            <label class="rounded-buttons pull-right add-new new_file_but">
+                                <?= Yii::t('Drive', 'Upload file') ?>
+                                <input type="file" name="file" style="display: none"/>
+                            </label>
+                            <input type="hidden" name="folder" value=""/>
+                        </form>
+
+<!--						<a href="transfer_overview.html" class="rounded-buttons pull-right add-new new_file_but" data-toggle="dropdown">--><?//= Yii::t('Drive', 'ADD NEW FILE') ?><!--</a>-->
+<!--						<div class="dropdown-menu no-close link-select-dropdown list-actions-dropdown list-unstyled act-list file-dialog" role="menu">-->
+<!--                            <div class="content-dropdown">-->
+<!--                                <div class="drop_main_block">-->
+<!--                                    <ul class="drop_link_ul">-->
+<!--                                        <li class="up_files">-->
+<!--                                            <form enctype="multipart/form-data" class="drive-upload-form" action="--><?//= Yii::app()->createUrl('/file/UploadDrive', array(
+//                                                'form' => $entity,
+//                                                'model_id' => $entity_id,
+//                                            )) ?><!--">-->
+<!--                                            <label>-->
+<!--                                                --><?//= Yii::t('Drive', 'Upload file') ?>
+<!--                                                <input type="file" name="file" style="display: none"/>-->
+<!--                                            </label>-->
+<!--                                                <input type="hidden" name="folder" value=""/>-->
+<!--                                            </form>-->
+<!--                                        </li>-->
+<!--                                        <li class="memo">--><?//= Yii::t('Drive', 'Create file') ?><!--</li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
 					</span>
         <div class="clearfix"></div>
     </div>

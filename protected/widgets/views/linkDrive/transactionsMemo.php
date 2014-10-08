@@ -7,7 +7,7 @@
  * Date: 28.09.14
  * Time: 18:33
  * @var WLinkDrive  $this
- * @var Users_Files $model
+ * @var Users_Files[] $model
  */
 ?>
 <?php if (!Yii::request()->isAjaxRequest): ?>
@@ -20,12 +20,17 @@
     <tr class="linked_tr drive_memo">
         <td class="icon_td"><img src="/css/images/one_memo.png"></td>
         <td class="title">
-            <div class="account-data pull-left">
-                <div class="account-name"><?= $memo->getShortDescription() ?></div>
-                <div class="account-info">
-                    <?= $memo->user->fullName ?>
+            <a href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal')">
+                <div class="account-data pull-left">
+                    <div class="full_text" style="display: none;">
+                        <p><?= $memo->description ?></p>
+                    </div>
+                    <div class="account-name"><?= $memo->getShortDescription() ?></div>
+                    <div class="account-info">
+                        <?= $memo->user->fullName ?>
+                    </div>
                 </div>
-            </div>
+            </a>
         </td>
         <td class="edit">
             <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category) ?>

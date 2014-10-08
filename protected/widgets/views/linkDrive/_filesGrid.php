@@ -20,7 +20,7 @@
 <?php if(empty($files)): ?>
     <li class="drive-file-row">
         <div class="notify">
-            <?= Yii::t('Drive', 'folder_is_empty') ?>
+            <?= Yii::t('Drive', 'Folder is empty') ?>
         </div>
     </li>
 <?php endif; ?>

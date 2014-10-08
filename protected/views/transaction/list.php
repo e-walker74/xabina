@@ -73,7 +73,7 @@
                     <a class="button menu" data-toggle="dropdown" href="#"></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="button edit" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
+                            <a class="button eye" href="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $trans->url)) ?>"></a>
                         </li>
 <!--                        <li>-->
 <!--                            <a class="button back" href="#"></a>-->

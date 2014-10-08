@@ -17,25 +17,22 @@
         <div class="modal-body">
             <div class="change_dialog_block">
                 <div class="select-custom account-select">
-                    <span class="select-custom-label" rel="addBuhModal">Linked Category</span>
+                    <span class="select-custom-label" rel="addBuhModal"></span>
                     <select name="" class="select-invisible change_modal_select">
                         <option value="addBuhModal">
-                            Linked Category
+                            <?= Yii::t('Linking', 'Linked Category') ?>
                         </option>
-                        <option value="editCommentModal">
-                            Memo
+                        <option value="linkNewMemoModal">
+                            <?= Yii::t('Linking', 'Memo') ?>
                         </option>
                         <option value="addLinkModal">
-                            Linked Contact
+                            <?= Yii::t('Linking', 'Linked Contact') ?>
                         </option>
                         <option value="addTranModal">
-                            Linked Transactions
-                        </option>
-                        <option value="addTagModal">
-                            Tags
+                            <?= Yii::t('Linking', 'Linked Transactions') ?>
                         </option>
                         <option value="addNewFileModal">
-                            Linked Files
+                            <?= Yii::t('Linking', 'Linked Files') ?>
                         </option>
                     </select>
                 </div>
@@ -45,7 +42,10 @@
                     <?= Yii::t('Category', 'Category') ?> <span class="tooltip-icon" title="<?= Yii::t('Category', 'popup_category_tooltip') ?>"></span>
                 </div>
                 <div class="form-block">
-                    <input class="add-input pull-left search-input-category" type="text">
+                    <div class="relative pull-left" style="width: 72%">
+                        <input class="add-input pull-left search-input-category" type="text">
+                        <span class="clear-input-but-for-all" id="clear-keyword"></span>
+                    </div>
                     <a href="#" onclick="return WLinkCategory.showCreateCategoryRow(this)" class="rounded-buttons pull-right add-new"><?= Yii::t('Category', 'ADD NEW') ?></a>
                     <div class="clearfix"></div>
                 </div>

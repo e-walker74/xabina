@@ -16,31 +16,6 @@
             <h3 id="myModalLabel"><?= Yii::t('Drive', 'Memo') ?></h3>
         </div>
         <div class="modal-body">
-            <div class="change_dialog_block">
-                <div class="select-custom account-select">
-                    <span class="select-custom-label" rel="editCommentModal">Memo</span>
-                    <select name="" class="select-invisible change_modal_select">
-                        <option value="editCommentModal">
-                            <?= Yii::t('Drive', 'Memo') ?>
-                        </option>
-                        <option value="addBuhModal">
-                            <?= Yii::t('Drive', 'Linked Category') ?>
-                        </option>
-                        <option value="addLinkModal">
-                            <?= Yii::t('Drive', 'Linked Contact') ?>
-                        </option>
-                        <option value="addTranModal">
-                            <?= Yii::t('Drive', 'Linked Transactions') ?>
-                        </option>
-                        <option value="addTagModal">
-                            <?= Yii::t('Drive', 'Tags') ?>
-                        </option>
-                        <option value="addNewFileModal">
-                            <?= Yii::t('Drive', 'Linked Files') ?>
-                        </option>
-                    </select>
-                </div>
-            </div>
             <div class="xabina-form-container">
                 <div class="form-lbl">
                     <?= Yii::t('Drive', 'Memo') ?> <span class="tooltip-icon" title="<?= Yii::t('Drive', 'memo_label_tooltip') ?>"></span>
@@ -51,7 +26,8 @@
                 <div class="error-message"><?= Yii::t('Drive', 'memo_is_empty') ?></div>
             </div>
             <div>
-                <input onclick="WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Send') ?>">
+                <input type="hidden" name="memo_id" value=""/>
+                <input onclick="WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Submit') ?>">
             </div>
         </div>
     </div>

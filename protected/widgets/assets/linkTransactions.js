@@ -9,7 +9,7 @@ WLinkTransactions = {
     },
     bindAfterReady: function () {
         jQuery(document).ready(function () {
-//            WLinkTransactions.bindSearch()
+            WLinkTransactions.bindSearch()
         })
     },
     search: function (block, value) {
@@ -21,8 +21,11 @@ WLinkTransactions = {
         }
     },
     bindSearch: function () {
-        $('.search-input-category').keyup(function (event) {
-            WLinkTransactions.search($(this).closest('.modal-body').find('.wcategory-table'), this.value)
+        $('.search-input-transaction').keyup(function (event) {
+            WLinkTransactions.search($(this).closest('.modal-body').find('.linked-transaction'), this.value)
+        })
+        $('.clear-input-but-for-all').click(function(){
+            $(this).prev().val('').focus().keyup()
         })
     },
     link: function (b) {
@@ -45,6 +48,7 @@ WLinkTransactions = {
                     successNotify('', data.message, $('.before-transactions').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
+                    resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-transactions').prev())
                 }

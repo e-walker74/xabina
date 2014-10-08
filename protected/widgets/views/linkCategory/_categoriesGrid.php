@@ -14,8 +14,8 @@
                 <input name="categories[]" value="<?= $category->id ?>" type="checkbox"/>
             </label>
         </td>
-        <td class="name_td drive-search-text"><?= $category->title ?></td>
-        <td class="value_td drive-search-text"><?= $category->description ?></td>
+        <td onclick="CrossLinks.clickCheckbox(this)" class="name_td drive-search-text"><?= $category->title ?></td>
+        <td onclick="CrossLinks.clickCheckbox(this)" class="value_td drive-search-text"><?= $category->description ?></td>
         <td class="button_td" style="overflow: visible!important;">
             <div class="transaction-buttons-cont book">
                 <!--                                    <a href="#" class="book_button"></a>-->

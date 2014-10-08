@@ -26,7 +26,7 @@
                         <input name="contacts[]" value="<?= $contact->id ?>" type="checkbox"/>
                     </label>
                 </div>
-                <div class="account-photo pull-left">
+                <div class="account-photo pull-left" onclick="clickCheckboxContacts(this)">
                     <?php if($contact->photo): ?>
                         <img width="30" src="<?= $contact->getAvatarUrl() ?>" alt=""/>
                     <?php else: ?>
@@ -45,14 +45,14 @@
                         <a class="ico <?=$cssClass?>" href="#"></a>
                     <?php endif ?>
                 </div>
-                <div class="account-data pull-left">
+                <div class="account-data pull-left" style="width: 70%;height: 40px;" onclick="clickCheckboxContacts(this)">
                     <div class="account-name"><?= $contact->fullname ?></div>
                     <div class="account-info"><?= $contact->getNameWithCompany() ?></div>
                 </div>
                 <div class="transaction-buttons-cont book">
                     <a href="#" class="book_button"></a>
                 </div>
-                <div class="clearfix"></div>
+                <div class="clearfix" ></div>
             </div>
             <ul class="pay-list list-unstyled" style="display: none;">
                 <li><div><span class="title">E-mail:</span> anet@xabina.com</div></li>

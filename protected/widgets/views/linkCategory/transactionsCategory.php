@@ -6,6 +6,7 @@
  * User: ekazak
  * Date: 30.09.14
  * Time: 15:46
+ * @var Categories[] $model
  */ ?>
 
 <?php if (!Yii::request()->isAjaxRequest): ?>
@@ -21,8 +22,8 @@
         <td class="icon_td"><img src="/css/images/one_category.png" /></td>
         <td class="title">
             <div class="account-data pull-left">
-                <div class="account-name"><?= $model->title ?></div>
-                <div class="account-info"><?= $model->user->fullname ?></div>
+                <div class="account-name"><?= $model->getShortDescription() ?></div>
+                <div class="account-info"><?= $model->title ?></div>
             </div>
         </td>
         <td class="edit">
@@ -34,3 +35,6 @@
         <td class="delete"><div class="attach_del_block"><a class="del_a" data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $model->id, 'entity' => $model->form, 'entity_id' => $model->model_id, 'cross_type' => $model->tableName())) ?>"></a></div></td>
     </tr>
 <?php endforeach; ?>
+<script>
+    WLinkDrive.bindUnlinkFile()
+</script>

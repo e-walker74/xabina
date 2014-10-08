@@ -71,4 +71,8 @@ class WLinkContact extends QWidget
         return $this->render('linkContact/transactionsContacts', array('transaction_id' => $transaction_id, 'model' => $model), $return);
     }
 
+    public function renderNewContactPopup(){
+        return $this->render('linkContact/newContactPopup');
+    }
+
 } 

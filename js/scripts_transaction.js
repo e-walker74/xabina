@@ -131,6 +131,15 @@ $(function(){
             $(this).removeClass('active');
         }
     });
+	$('.modal-galka-radiobutton').click(function(){
+        debugger;
+       if($(this).find('input').prop('checked')){
+            $(this).addClass('active');
+           $('[name="' + $(this).find('input').prop('name') + '"]').parents('.modal-galka-checkbox').removeClass('active')
+        }else{
+            $(this).removeClass('active');
+        }
+    });
 	
 	/*$('.modal-galka-checkbox').on('click', 'label', function(e){
 		alert('asasas');

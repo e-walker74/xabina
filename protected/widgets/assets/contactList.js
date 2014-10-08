@@ -107,7 +107,6 @@ var searchByName = function (elementUl, text) {
     alphabetEach()
 }
 
-
 jQuery.fn.searchContactButtonByName = function (options, callback) {
 
     var pressTimeout = false,
@@ -713,5 +712,16 @@ var updateParams = function (element, datas, callback) {
     });
     if (callback) {
         callback()
+    }
+}
+
+var clickCheckboxContacts = function (row){
+    var row = $(row).closest('li')
+    if(row.find('.modal-galka-checkbox').hasClass('active')){
+        row.find('.modal-galka-checkbox').removeClass('active');
+        row.find('.modal-galka-checkbox input').attr('checked', false);
+    } else{
+        row.find('.modal-galka-checkbox').addClass('active');
+        row.find('.modal-galka-checkbox input').attr('checked', true);
     }
 }

@@ -159,8 +159,8 @@ class Users_Files extends ActiveRecord
 
     public function getShortDescription()
     {
-        if (mb_strlen($this->description) > 100) {
-            $str = SiteService::subStrEx(strip_tags($this->description), 100);
+        if (mb_strlen($this->description) > 30) {
+            $str = SiteService::subStrEx(strip_tags(trim($this->description)), 30);
         } else {
             $str = strip_tags($this->description);
         }

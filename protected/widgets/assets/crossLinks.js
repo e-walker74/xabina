@@ -26,6 +26,16 @@ CrossLinks = {
             })
         })
     },
+    clickCheckbox: function(link){
+        var tr = $(link).closest('tr')
+        if(tr.find('.modal-galka-checkbox').hasClass('active')){
+            tr.find('.modal-galka-checkbox').removeClass('active');
+            tr.find('.modal-galka-checkbox input').attr('checked', false);
+        } else{
+            tr.find('.modal-galka-checkbox').addClass('active');
+            tr.find('.modal-galka-checkbox input').attr('checked', true);
+        }
+    },
     closeCategoryInput: function(el){
         $(el).closest('.other').hide().prev().show().find('select option:first').attr('selected', true)
         setAllSelectedValues()

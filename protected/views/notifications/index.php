@@ -11,8 +11,8 @@
     <div class="accordion-header">
         <a href="#" class="search-acc">Show Filter</a>
 
-        <div class="news-open"><a class="link" href="news_only.html" target="_blank" onclick="event.stopPropagation();"></a>
-        </div>
+<!--        <div class="news-open"><a class="link" href="news_only.html" target="_blank" onclick="event.stopPropagation();"></a>-->
+<!--        </div>-->
     </div>
     <div class="accordion-content">
 		<form id="notifications_filter">

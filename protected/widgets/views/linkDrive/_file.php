@@ -16,22 +16,22 @@
                 <input name="files[]" value="<?= $model->id ?>" type="checkbox"/>
             </label>
         </div>
-        <div class="account-photo pull-left">
+        <div class="account-photo pull-left" onclick="WLinkDrive.clickCheckbox(this)">
             <img style="height: 30px;" src="/css/layout/account/img/jpg_img.png" alt="">
         </div>
-        <div class="account-data pull-left name-block">
-            <div class="one_str drive-search-text"><?= $model->user_file_name ?></div>
+        <div class="account-data pull-left name-block" onclick="WLinkDrive.clickCheckbox(this)">
+            <div class="one_str drive-search-text"><?= SiteService::subStrEx(trim($model->user_file_name), 15); ?></div>
         </div>
-        <div class="account-data pull-left descr-block">
-            <div title="" class="one_str drive-search-text"><?= $model->description ?></div>
+        <div class="account-data pull-left descr-block" style="min-height: 40px" onclick="WLinkDrive.clickCheckbox(this)">
+            <div title="" class="one_str drive-search-text"><?= SiteService::subStrEx($model->getShortDescription(), 15) ?></div>
         </div>
-        <div class="account-data pull-left created-block">
+        <div class="account-data pull-left created-block" onclick="WLinkDrive.clickCheckbox(this)">
             <div class="one_str small-text"><?= date('d.m.Y', $model->created_at) ?></div>
         </div>
-        <div class="account-data pull-left size-block">
+        <div class="account-data pull-left size-block" onclick="WLinkDrive.clickCheckbox(this)">
             <div class="one_str small-text"><?= FileService::fromBytes($model->file_size) ?></div>
         </div>
-        <div class="transaction-buttons-cont book">
+        <div class="transaction-buttons-cont book" onclick="WLinkDrive.clickCheckbox(this)">
             <a href="#" class="book_button"></a>
         </div>
         <div class="clearfix"></div>
