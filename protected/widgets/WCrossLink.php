@@ -28,7 +28,7 @@ class WCrossLink  extends QWidget
             return $this->_categories;
         }
         $categories = Users_Categories::model()->with('cross')->together()->findAll(
-            '(t.user_id is NULL OR t.user_id = :uid) AND t.data_type = "cross_links" AND cross.id is NOT NULL',
+            '(t.user_id is NULL OR (t.user_id = :uid AND cross.id is NOT NULL)) AND t.data_type = "cross_links"',
             array(':uid' => Yii::user()->id)
         );
         if(!$categories){
