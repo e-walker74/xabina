@@ -25,7 +25,7 @@
                     </ul>
                     <div class="bot_block">
                         <span
-                            onclick="$('#tags-select-dropdown').dropdown('toggle'); $('#tags-add-dropdown').show();"
+                            onclick="$('.button.tags_but').click();$('#tags-add-dropdown').show();"
                             class="bot_other"><?= Yii::t('Front', 'Other') ?></span>
                     </div>
                 </div>

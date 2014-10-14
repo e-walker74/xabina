@@ -104,8 +104,8 @@
         <div class="modal-submit-cont upload">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
-<!--                    <input class="rounded-buttons print" onclick="return window.print();" type="button" value="--><?//= Yii::t('Transactions', 'Print') ?><!--">-->
-                    <input class="rounded-buttons print" name="exportType" type="submit" value="<?= Yii::t('Transactions', 'Print') ?>">
+					<input class="rounded-buttons print" onclick="return window.print();" type="button" value="<?= Yii::t('Transactions', 'Print') ?>">
+                    <!--<input class="rounded-buttons print" name="exportType" type="submit" value="<?= Yii::t('Transactions', 'Print') ?>">-->
                 </div>
 <!--                <div class="col-lg-4 col-md-4 col-sm-4 relative">-->
 <!--                    <input class="rounded-buttons mail-violet" data-toggle="dropdown" type="button" value="E-Mail">-->
