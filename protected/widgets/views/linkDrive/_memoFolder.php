@@ -21,7 +21,7 @@
         </div>
         <div class="account-data pull-left name-block" onclick="WLinkDrive.openFolder(this, '<?= $model->id ?>')">
             <div class="account-name drive-search-text"><?= $model->name ?></div>
-            <div class="account-info"><?= count($model->files_children) ?> <?= Yii::t('Drive', 'files') ?></div>
+            <div class="account-info"><?= count($model->memos_children) ?> <?= Yii::t('Drive', 'memos') ?></div>
         </div>
         <div class="account-data pull-left descr-block" style="min-height: 40px" onclick="WLinkDrive.openFolder(this, '<?= $model->id ?>')">
             <div class="one_str drive-search-text"><?= $model->description ?></div>
@@ -40,7 +40,7 @@
     <ul class="pay-list list-unstyled file-list" style="display: none;">
         <li><div><span class="title"><?= Yii::t('Drive', 'Type') ?>:</span> <?= Yii::t('Drive', 'File') ?></div></li>
         <li><div><span class="title"><?= Yii::t('Drive', 'Directory') ?>:</span> /<?= $model->getDirectories() ?></div></li>
-        <li><div><span class="title"><?= Yii::t('Drive', 'Files') ?>:</span> <?= count($model->files_children) ?></div></li>
+        <li><div><span class="title"><?= Yii::t('Drive', 'Memos') ?>:</span> <?= count($model->memos_children) ?></div></li>
         <li><div><span class="title"><?= Yii::t('Drive', 'Created at') ?>:</span> <?= SiteService::timeToDate($model->created_at, true) ?></div></li>
     </ul>
 </li>

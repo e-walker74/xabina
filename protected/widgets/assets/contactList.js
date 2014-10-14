@@ -182,7 +182,7 @@ jQuery.fn.searchContactButtonByName = function (options, callback) {
                 }
             }
 
-            if ($(this).text().toLowerCase().indexOf(text.toLowerCase()) + 1 == 0) {
+            if ($(this).find('.bg-color').text().toLowerCase().indexOf(text.toLowerCase()) + 1 == 0) {
                 $(this).hide()
             }
         })

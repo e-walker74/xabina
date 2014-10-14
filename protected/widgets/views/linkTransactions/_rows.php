@@ -40,11 +40,11 @@
             <?php endif; ?>
         </td>
         <td width="7%" style="overflow: visible!important">
-            <!--                                        --><?php //if($trans->info->details_of_payment): ?>
+            <?php if($trans->info->details_of_payment): ?>
             <div class="transaction-buttons-cont book">
                 <a href="#" class="book_button trans-but open"></a>
             </div>
-            <!--                                        --><?php //endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
 

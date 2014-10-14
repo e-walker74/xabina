@@ -28,6 +28,7 @@
                 <div class="error-message"><?= Yii::t('Drive', 'memo_is_empty') ?></div>
             </div>
             <div>
+                <input type="hidden" name="folder_id" value=""/>
                 <input type="hidden" name="memo_id" value=""/>
                 <input type="hidden" name="transaction_id" value=""/>
                 <input onclick="return WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Submit') ?>">

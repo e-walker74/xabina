@@ -12,12 +12,12 @@
 <?php foreach($files as $file): ?>
     <?php if($file->document_type == 'folder'): ?>
         <?php $i++; ?>
-        <?php $this->render('linkDrive/_folder', array('model' => $file)); ?>
-    <?php else: ?>
-        <?php $fs = $this->getFiles($entity, $entityId); ?>
-        <?php if(isset($fs[$file->id])) continue; ?>
+        <?php $this->render('linkDrive/_memoFolder', array('model' => $file)); ?>
+    <?php elseif($file->document_type == 'memo'): ?>
+        <?php $memos = $this->getMemos($entity, $entityId); ?>
+        <?php if(isset($memos[$file->id])) continue; ?>
         <?php $i++; ?>
-        <?php $this->render('linkDrive/_file', array('model' => $file)); ?>
+        <?php $this->render('linkDrive/_memo', array('model' => $file)); ?>
     <?php endif;?>
 <?php endforeach; ?>
 <?php if($i == 0): ?>

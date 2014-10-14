@@ -152,12 +152,13 @@ class WLinkDrive extends QWidget
             ->currentUser()
             ->findAll(
                 array(
-                    'condition' => 'deleted = 0 AND name = "" AND document_type = "memo"',
-                    'order' => $order
+                    'condition' => 'deleted = 0 AND parent_id = :folder AND (document_type = "memo" OR document_type = "folder")',
+                    'order' => $order,
+                    'params' => array(':folder' => $folder),
                 )
             );
 
-        return $this->render('linkDrive/_filesGrid', array(
+        return $this->render('linkDrive/_memosGrid', array(
                 'files' => $files,
                 'folder' => $folder,
                 'entity' => $entity,

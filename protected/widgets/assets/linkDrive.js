@@ -29,17 +29,22 @@ WLinkDrive = {
             WLinkDrive.bindSearch()
 
             $('#' + WLinkDrive._memoPopupId).on('show.bs.modal', function (e) {
-                WLinkDrive.openFolder('', '', $('#' + WLinkDrive._memoPopupId + ' .modal-body'))
+                if($('#' + WLinkDrive._memoPopupId).hasClass('no-load')){
+                    $('#' + WLinkDrive._memoPopupId).removeClass('no-load')
+                } else {
+                    WLinkDrive.openFolder('', 0, $('#' + WLinkDrive._memoPopupId + ' .modal-body'))
+                }
             })
 
             $('#' + WLinkDrive._filesPopupId).on('show.bs.modal', function (e) {
-                WLinkDrive.openFolder('', '', $('#' + WLinkDrive._filesPopupId + ' .modal-body'))
+                WLinkDrive.openFolder('', 0, $('#' + WLinkDrive._filesPopupId + ' .modal-body'))
             })
             $('#' + WLinkDrive._newMemoPopupId).on('show.bs.modal', function (e) {
                 $('#' + WLinkDrive._newMemoPopupId).find('.redactor_editor').html('')
                 $('#' + WLinkDrive._newMemoPopupId).find('textarea').val('')
                 $('#' + WLinkDrive._newMemoPopupId).find('input[name=memo_id]').val('')
                 $('#' + WLinkDrive._newMemoPopupId).find('input[name=transaction_id]').val('')
+                $('#' + WLinkDrive._newMemoPopupId).find('input[name=folder_id]').val('')
             })
 
         })
@@ -52,6 +57,7 @@ WLinkDrive = {
         }
         var memo_id = block.find('input[name=memo_id]').val()
         var transaction_id = block.find('input[name=transaction_id]').val()
+        var folder_id = block.find('input[name=folder_id]').val()
         $.ajax({
             url: url,
             data: block.find('form').serialize(),
@@ -69,9 +75,10 @@ WLinkDrive = {
                         $(data.html).insertAfter($('.before-memo'))
                         successNotify('', data.message, $('.before-memo').prev())
                     } else {
+                        $('#linkNewMemoModal').addClass('no-load')
+                        $('#linkNewMemoModal').modal('show')
                         $('#linkNewMemoModal').find('.drive-file-row').remove()
                         $(data.html).insertAfter($('#linkNewMemoModal .add-new-folder'))
-                        $('#linkNewMemoModal').modal('show')
                     }
                     resetCheckeBox()
                 } else {
@@ -176,6 +183,7 @@ WLinkDrive = {
         return false;
     },
     createFolder: function (li, input) {
+        var modal = $(li).closest('.modal')
         var val = $(input).val()
         if (val.length > 0) {
             backgroundBlack()
@@ -189,8 +197,8 @@ WLinkDrive = {
                     if (response.success) {
                         resetPage()
                         successNotify('Drive', response.message, $('.file-directions'))
-                        $('.drive-file-row').remove()
-                        $(response.html).insertAfter($('.file-directions li:first'))
+                        modal.find('.drive-file-row').remove()
+                        $(response.html).insertAfter(modal.find('.file-directions li:first'))
                         resetCheckeBox()
                     } else {
                         errorNotify('Drive', response.message, $('.file-directions'))
@@ -243,10 +251,10 @@ WLinkDrive = {
         var modal = body.closest('.modal')
         if (folder) {
             var data = {folder: folder, entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
-        } else if(body){
-            var data = {folder: 0, type: modal.attr('data-type'), entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
         } else if (this._folder != 0) {
             var data = {folder: this._folder, up: true, entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
+        } else if(body){
+            var data = {folder: 0, type: modal.attr('data-type'), entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
         }
         $.ajax({
             url: body.attr('data-folder-url'),
@@ -273,7 +281,17 @@ WLinkDrive = {
     search: function (block, value) {
         if (value) {
             block.find('li.drive-file-row').hide()
-            block.find(".drive-search-text:contains('" + value + "')").closest('li.drive-file-row').show();
+
+            var rows = block.find(".drive-search-text")
+
+            rows.each(function () {
+                if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                    $(this).closest('li.drive-file-row').show()
+                }
+            })
+
+//            block.find(".drive-search-text")
+//            block.find(".drive-search-text:contains('" + value + "')").closest('li.drive-file-row').show();
         } else {
             block.find('li.drive-file-row').show()
         }
@@ -337,6 +355,10 @@ WLinkDrive = {
             tr.find('.modal-galka-checkbox').addClass('active');
             tr.find('.modal-galka-checkbox input').attr('checked', true);
         }
+    },
+    addNewMemoToFolder: function(){
+        $('#' + WLinkDrive._newMemoPopupId).modal('show')
+        $('#' + WLinkDrive._newMemoPopupId).find('input[name=folder_id]').val(WLinkDrive._folder)
     }
 }
 

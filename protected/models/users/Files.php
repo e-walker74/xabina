@@ -84,7 +84,8 @@ class Users_Files extends ActiveRecord
             'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
             'personal_document' => array(self::HAS_ONE, 'Users_Personal_Documents', 'file_id'),
             'parent' => array(self::BELONGS_TO, 'Users_Files', 'parent_id'),
-            'childs' => array(self::HAS_MANY, 'Users_Files', 'parent_id'),
+            'memos_children' => array(self::HAS_MANY, 'Users_Files', 'parent_id', 'condition' => 'memos_children.document_type = "memo"'),
+            'files_children' => array(self::HAS_MANY, 'Users_Files', 'parent_id', 'condition' => 'files_children.ext != ""'),
         );
     }
 
@@ -93,7 +94,7 @@ class Users_Files extends ActiveRecord
         if (!$parent) {
             $parent = $this;
         }
-        if ($parent->document_type == 'folder') {
+        if ($parent->document_type == 'folder' && $this->id != $parent->id) {
             $folder = $parent->name . '/' . $folder;
         }
 

@@ -54,7 +54,7 @@
                         <a class="ico <?=$cssClass?>" href="#"></a>
                     <?php endif ?>
                 </div>
-                <div class="account-data pull-left" style="width: 70%;height: 40px;" onclick="clickCheckboxContacts(this)">
+                <div class="account-data pull-left" style="width: 70%" onclick="clickCheckboxContacts(this)">
                     <div class="account-name"><?= $contact->fullname ?></div>
                     <div class="account-info"><?= $contact->getNameWithCompany() ?></div>
                 </div>

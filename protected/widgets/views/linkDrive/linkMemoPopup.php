@@ -17,7 +17,7 @@
             </button>
             <h3 id="myModalLabel"><?= Yii::t('Linking', 'Linked Memo') ?></h3>
         </div>
-        <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
+        <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder', array('type' => 'memo')) ?>">
             <div class="xabina-form-container" >
                 <div class="change_dialog_block">
                     <div class="select-custom account-select">
@@ -45,14 +45,14 @@
                     <?= Yii::t('Drive', 'File') ?> <span class="tooltip-icon" title="<?= Yii::t('Drive', 'file') ?>"></span>
                 </div>
                 <div class="form-block file-dir-link">
-<!--                    <a href="#" class="file-dir-but" onclick="return WLinkDrive.openFolder(this)"><img style="height: 30px;" src="/css/layout/account/img/up_arrow_img.png" alt=""></a>-->
-<!--                    <a href="#" class="file-dir-but" onclick="return WLinkDrive.createFolderButton(this)"><img style="height: 30px;" src="/css/layout/account/img/folder_add_img.png" alt=""></a>-->
+                    <a href="#" class="file-dir-but" onclick="return WLinkDrive.openFolder(this)"><img style="height: 30px;" src="/css/layout/account/img/up_arrow_img.png" alt=""></a>
+                    <a href="#" class="file-dir-but" onclick="return WLinkDrive.createFolderButton(this)"><img style="height: 30px;" src="/css/layout/account/img/folder_add_img.png" alt=""></a>
                     <div class="relative pull-left">
                         <input class="add-input  search-input-drive" type="text">
                         <span class="clear-input-but-for-all" id="clear-keyword"></span>
                     </div>
 					<span class="drdn-cont pull-right file-dial">
-						<a href="#" class="rounded-buttons pull-right add-new new_file_but" onclick="$('#editCommentModal').modal('show');" data-dismiss="modal"><?= Yii::t('Drive', 'ADD NEW MEMO') ?></a>
+						<a href="#" class="rounded-buttons pull-right add-new new_file_but" onclick="WLinkDrive.addNewMemoToFolder()" data-dismiss="modal"><?= Yii::t('Drive', 'ADD NEW MEMO') ?></a>
 					</span>
                     <div class="clearfix"></div>
                 </div>
@@ -68,7 +68,32 @@
                 <div class="account-search-results-cont with-alphabet ">
                     <div class="letter-block">
                         <ul class="search-results-list list-unstyled file-directions" >
-                            <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder') ?>">
+                            <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder', array('type' => 'memo', 'entity' => $entity, 'entity_id' => $entity_id)) ?>">
+                                <div class="bg-color">
+                                    <div class="cont_check_block">
+                                        <label >
+                                            <!--                            <input type="checkbox">-->
+                                        </label>
+                                    </div>
+                                    <div class="account-photo pull-left">
+                                        <img style="height: 30px;" src="/css/layout/account/img/folder_img.png" alt="">
+                                    </div>
+                                    <div class="account-data pull-left name-block">
+                                        <input type="text" class="add-input" value="">
+                                    </div>
+                                    <div class="account-data pull-left descr-block">
+                                        <!--                        <div title="Send to Admin" class="one_str">Send to Admin</div>-->
+                                    </div>
+                                    <div class="account-data pull-left created-block">
+                                        <!--                        <div class="one_str small-text">03.03.2014</div>-->
+                                    </div>
+                                    <div class="account-data pull-left size-block">
+                                        <!--                        <div class="one_str small-text">9 001 Kb</div>-->
+                                    </div>
+                                    <div class="transaction-buttons-cont book">
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
                             </li>
 <!--                            --><?php //$this->renderMemoGridInPopup($folder) ?>
                         </ul>

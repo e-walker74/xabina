@@ -29,7 +29,12 @@ WLinkTransactions = {
     search: function (block, value) {
         if (value) {
             block.find('tr.wcategory-row').hide()
-            block.find(".drive-search-text:contains('" + value + "')").closest('tr.wcategory-row').show();
+            var rows = block.find(".drive-search-text")
+            rows.each(function () {
+                if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                    $(this).closest('tr.wcategory-row').show()
+                }
+            })
         } else {
             block.find('tr.wcategory-row').show()
         }

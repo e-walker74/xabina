@@ -189,7 +189,7 @@ class FileController extends Controller
             // заставляем браузер показать окно сохранения файла
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=' . basename($file));
+            header('Content-Disposition: attachment; filename=' . $model->user_file_name . '.' . $model->ext);
             header('Content-Transfer-Encoding: binary');
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
@@ -310,6 +310,7 @@ class FileController extends Controller
         $entityId = Yii::request()->getParam('entity_id', '', 'int');
         $text = Yii::request()->getParam('text', '', 'string');
         $transaction_id = Yii::request()->getParam('transaction_id', '', 'int');
+        $folder_id = Yii::request()->getParam('folder_id', '', 'int');
 
         $model = Users_Files::model()->currentUser()->find('document_type = "memo" AND id = :id', array(':id' => $memo_id));
 
@@ -319,6 +320,7 @@ class FileController extends Controller
             $model->model_id = $entityId;
             $model->user_id = Yii::user()->getCurrentId();
             $model->document = $entity;
+            $model->parent_id = $folder_id;
             $model->document_type = 'memo';
         }
         $model->scenario = 'memo';
@@ -330,7 +332,7 @@ class FileController extends Controller
                 echo CJSON::encode(array(
                     'success' => true,
                     'message' => Yii::t('Drive', 'memo_was_successfully_added'),
-                    'html' => Widget::get('WLinkDrive')->renderMemoGridInPopup(0, true, $entity, $entityId),
+                    'html' => Widget::get('WLinkDrive')->renderMemoGridInPopup($folder_id, true, $entity, $entityId),
                 ));
             } elseif($transaction_id) {
                 echo CJSON::encode(array(
@@ -536,6 +538,7 @@ class FileController extends Controller
     {
         $parentId = Yii::request()->getParam('parent', 0, 'int');
         $name = Yii::request()->getParam('name', '', 'string');
+        $type = Yii::request()->getParam('type', '', 'string');
 
         $name = stripslashes($name);
 
@@ -552,11 +555,17 @@ class FileController extends Controller
         }
 
         if ($folder->save()) {
-
-            $html = Widget::create(
-                'WLinkDrive', 'WLinkDrive',
-                array()
-            )->renderFilesGridInPopup($parentId, true);
+            if($type == 'memo'){
+                $html = Widget::create(
+                    'WLinkDrive', 'WLinkDrive',
+                    array()
+                )->renderMemoGridInPopup($parentId, true);
+            } else {
+                $html = Widget::create(
+                    'WLinkDrive', 'WLinkDrive',
+                    array()
+                )->renderFilesGridInPopup($parentId, true);
+            }
 
             echo CJSON::encode(array(
                 'success' => true,
