@@ -9,13 +9,14 @@
  * @var Users_Files[] $files
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-type="files" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
+    <script>WLinkDrive._filesPopupId = "<?= $htmlID ?>"</script>
 <div class="xabina-modal">
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
         <img src="/css/layout/account/img/close.png">
     </button>
-    <h3 id="myModalLabel">Linked Files</h3>
+    <h3 id="myModalLabel"><?= Yii::t('Files', 'Linked Files') ?></h3>
 </div>
 <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
 <div class="xabina-form-container" >
@@ -50,7 +51,7 @@
         <a href="#" class="file-dir-but" onclick="return WLinkDrive.openFolder(this)"><img style="height: 30px;" src="/css/layout/account/img/up_arrow_img.png" alt=""></a>
         <a href="#" class="file-dir-but" onclick="return WLinkDrive.createFolderButton(this)"><img style="height: 30px;" src="/css/layout/account/img/folder_add_img.png" alt=""></a>
         <div class="relative pull-left" style="width: 61%" >
-            <input class="add-input pull-left search-input-drive" type="text" >
+            <input class="add-input pull-left search-input-drive file-search-inp" type="text" >
             <span class="clear-input-but-for-all" id="clear-keyword"></span>
         </div>
 					<span class="drdn-cont pull-right file-dial">
@@ -100,7 +101,7 @@
     <div class="clearfix"></div>
 </div>
 <form action="<?= Yii::app()->createUrl('/file/link', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
-<div class="account-search-results-cont with-alphabet ">
+<div class="account-search-results-cont with-alphabet file-popup-table">
     <div class="letter-block">
         <ul class="search-results-list list-unstyled file-directions" >
             <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder') ?>">
@@ -130,7 +131,7 @@
                     <div class="clearfix"></div>
                 </div>
             </li>
-            <?php $this->renderFilesGridInPopup($folder) ?>
+<!--            --><?php //$this->renderFilesGridInPopup($folder) ?>
         </ul>
     </div>
 </div>

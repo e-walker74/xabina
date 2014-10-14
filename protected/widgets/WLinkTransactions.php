@@ -25,23 +25,10 @@ class WLinkTransactions extends QWidget
 
     public function renderPopup($entity, $entity_id, $htmlID = 'addTranModal', $return = false)
     {
-
-        $transactions = Transactions::model()->with(array('account', 'info', 'account.currency'))->together()->findAll(
-            array(
-                'condition' => 'account.user_id = :uid',
-                'order' => 't.id desc',
-                'limit' => 50,
-                'params' => array(
-                    ':uid' => Yii::user()->getCurrentId()
-                ),
-            )
-        );
-
         $this->render('linkTransactions/popup', array(
                 'entity' => $entity,
                 'entity_id' => $entity_id,
                 'htmlID' => $htmlID,
-                'transactions' => $transactions,
             ),
             $return
         );
@@ -83,5 +70,20 @@ class WLinkTransactions extends QWidget
         $model = $this->getTransactions($transaction_id, 'transactions');
 
         return $this->render('linkTransactions/transactionsTrans', array('transaction_id' => $transaction_id, 'model' => $model), $return);
+    }
+
+    public function renderTransactionsRows($entity, $entity_id, $return = false){
+        $transactions = Transactions::model()->with(array('account', 'info', 'account.currency'))->together()->findAll(
+            array(
+                'condition' => 'account.user_id = :uid',
+                'order' => 't.id desc',
+                'limit' => 50,
+                'params' => array(
+                    ':uid' => Yii::user()->getCurrentId()
+                ),
+            )
+        );
+
+        return $this->render('linkTransactions/_rows', array('entity' => $entity, 'entity_id' => $entity_id, 'transactions' => $transactions), $return);
     }
 } 

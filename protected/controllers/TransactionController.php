@@ -22,7 +22,7 @@ class TransactionController extends Controller
     {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('link','list'),
+                'actions' => array('link','list','getpopupgrid'),
                 'users' => array('*')
             ),
             array('allow', // allow readers only access to the view file
@@ -114,6 +114,16 @@ class TransactionController extends Controller
         echo CJSON::encode(array(
             'success' => true,
             'html' => $this->renderPartial('list', array('transactions' => $transactions), true)
+        ));
+    }
+
+    public function actionGetPopupGrid(){
+        $entity = Yii::request()->getParam('entity');
+        $entity_id = Yii::request()->getParam('entity_id', '', 'int');
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'html' => Widget::get('WLinkTransactions')->renderTransactionsRows($entity, $entity_id, true)
         ));
     }
 }

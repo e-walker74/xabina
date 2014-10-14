@@ -134,11 +134,13 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 format-cell">
 <!--                                <a class="button csv" href="#"></a> &mdash; csv-->
-                                <input type="submit" class="button csv" name="exportType" value="csv" style="color: transparent;"/> &mdash; csv
+                                <input type="submit" class="button csv" name="exportType" value="csv" style="color: transparent;"/>
+                                <a href="javaScript:void(0)" onclick="$(this).prev().click()">&mdash; csv</a>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 format-cell">
                                 <!--                                <a class="button pdf" href="#"></a> &mdash; pdf-->
-                                <input type="submit" class="button pdf" name="exportType" value="pdf" style="color: transparent;"/> &mdash; pdf
+                                <input type="submit" class="button pdf" name="exportType" value="pdf" style="color: transparent;"/>
+                                <a href="javaScript:void(0)" onclick="$(this).prev().click()">&mdash; pdf</a>
                             </div>
                         </div>
                         <div class="row">

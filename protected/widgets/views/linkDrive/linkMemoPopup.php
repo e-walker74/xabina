@@ -8,7 +8,8 @@
  * Time: 14:54
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-type="memo" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
+    <script>WLinkDrive._memoPopupId = "<?= $htmlID ?>"</script>
     <div class="xabina-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -57,8 +58,10 @@
                 </div>
             </div>
             <div class="file_top_menu" data-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
-                <div class="top_menu_name pull-left" style="width: 82%" data-sort="asc" data-sort-param="user_file_name" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Name') ?></span></div>
+                <div class="top_menu_name pull-left" data-sort="asc" data-sort-param="description" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Name') ?></span></div>
+                <div class="top_menu_desc pull-left" data-sort="asc" data-sort-param="description" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Description') ?></span></div>
                 <div class="top_menu_create pull-left" data-sort="asc" data-sort-param="created_at" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Created') ?></span></div>
+                <div class="top_menu_size pull-left" data-sort="asc" data-sort-param="file_size" onclick="WLinkDrive.sort(this)"><span><?= Yii::t('Drive', 'Size') ?></span></div>
                 <div class="clearfix"></div>
             </div>
             <form action="<?= Yii::app()->createUrl('/file/linkMemo', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
@@ -67,7 +70,7 @@
                         <ul class="search-results-list list-unstyled file-directions" >
                             <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder') ?>">
                             </li>
-                            <?php $this->renderMemoGridInPopup($folder) ?>
+<!--                            --><?php //$this->renderMemoGridInPopup($folder) ?>
                         </ul>
                     </div>
                 </div>

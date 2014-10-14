@@ -56,6 +56,8 @@ XTags = {
                         successNotify('', data.message, $('.tags_ul'))
                         $('.drop_main_block textarea').focus()
                         $('.drop_main_block textarea').val('')
+                        $('#tags-add-dropdown').hide()
+                        $('#tags-add-dropdown').closest('.drdn-cont').removeClass('open')
                     } else {
                         errorNotify('', data.message, $('.tags_ul'))
                     }

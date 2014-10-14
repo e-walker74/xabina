@@ -23,16 +23,24 @@
         <?php if($file->document_type == 'folder'): ?>
             <img width="26" src="/css/layout/account/img/folder_img.png" />
         <?php else: ?>
+        <a href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->name)) ?>">
             <img src="/css/images/message-file.png" />
+        </a>
         <?php endif; ?>
     </td>
     <td class="title">
+        <?php if($file->document_type != 'folder'): ?>
+        <a href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->name)) ?>">
+        <?php endif; ?>
         <div class="account-data pull-left">
             <div class="file_link_name"><?= $file->user_file_name ?></div>
         </div>
+        <?php if($file->document_type != 'folder'): ?>
+            </a>
+        <?php endif; ?>
     </td>
     <td class="edit">
-        <?= Widget::get('WCrossLink')->changeCategory($file->cross_id, $file->cross_category) ?>
+        <?= Widget::get('WCrossLink')->changeCategory($file->cross_id, $file->cross_category, 'cross_' . $file->tableName()) ?>
     </td>
     <td class="comment">
         <?= Widget::get('WCrossLink')->changeComment($file->cross_id, $file->cross_comment) ?>

@@ -56,6 +56,7 @@ class ContactController extends Controller
                     'updateTab',
                     'link',
                     'fastCreate',
+                    'getwidgetgrid',
                 ),
                 'roles' => array('client')
             ),
@@ -698,6 +699,15 @@ class ContactController extends Controller
             }
 
         }
+    }
 
+    public function actionGetWidgetGrid(){
+        $entity = Yii::request()->getParam('entity');
+        $entity_id = Yii::request()->getParam('entity_id', '', 'int');
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'html' => Widget::get('ContactListWidget')->renderLinkContacts(true, $entity, $entity_id)
+        ));
     }
 }

@@ -27,7 +27,7 @@
             </div>
         </td>
         <td class="edit">
-            <?= Widget::get('WCrossLink')->changeCategory($model->cross_id, $model->cross_category) ?>
+            <?= Widget::get('WCrossLink')->changeCategory($model->cross_id, $model->cross_category, 'cross_' . $model->tableName()) ?>
         </td>
         <td class="comment">
             <?= Widget::get('WCrossLink')->changeComment($model->cross_id, $model->cross_comment) ?>

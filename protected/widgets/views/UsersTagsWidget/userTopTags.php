@@ -54,7 +54,7 @@
 
 <script>
     XTags.addTags('<?= Yii::app()->createUrl('/ajax/addtag', array(
-                            'entity' => $this->_entity,
-                        'id' => $this->_entity_id
-                    )) ?>')
+        'entity' => $this->_entity,
+        'id' => $this->_entity_id
+    )) ?>')
 </script>

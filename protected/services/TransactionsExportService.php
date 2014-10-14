@@ -38,7 +38,7 @@ class TransactionsExportService
 			</div>');
         $mpdf->WriteHTML($html, 2); /*формируем pdf*/
 
-        $mpdf->Output($fileName, 'I');
+        $mpdf->Output($fileName, 'D');
     }
 
     /**
@@ -59,7 +59,7 @@ class TransactionsExportService
                     </div>');
         $mpdf->WriteHTML($html, 2); /*формируем pdf*/
 
-        $mpdf->Output($fileName, 'I');
+        $mpdf->Output($fileName, 'D');
     }
 
     /**

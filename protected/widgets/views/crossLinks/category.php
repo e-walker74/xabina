@@ -20,7 +20,15 @@
                 <?= CHtml::dropDownList(
                     'cross_category',
                     $cat_id,
-                    CHtml::listData($this->getCategories(), 'id', 'value') + array('other' => Yii::t('Front', 'Other')),
+                    Html::listDataWithFilter(
+                        $this->getCategories(),
+                        'id',
+                        function($data){
+                            return htmlspecialchars_decode($data->value);
+                        },
+                        'data_type',
+                        $cross_type
+                    ) + array('other' => Yii::t('Front', 'Other')),
                     array(
                         'class' => 'select-invisible select-category'
                     )
@@ -28,8 +36,9 @@
             </span>
             <span class="other" style="display: none;">
                 <span class="clear-input-content">
-                    <input type="text"/>
+                    <input type="text" name="category"/>
                 <span class="clear-but"></span>
+                <input type="hidden" name="cross_type" value="<?= $cross_type ?>"/>
             </span>
             </span>
         </div>

@@ -23,8 +23,8 @@ class WLinkCategory extends QWidget
         }
     }
 
-    public function getCategories($entityId, $entity){
-
+    public function getCategories($entityId, $entity)
+    {
         if ($this->_categories !== false) {
             return $this->_categories;
         }
@@ -47,11 +47,11 @@ class WLinkCategory extends QWidget
             )
         );
 
-        if(!$model){
+        if (!$model) {
             $this->_categories = $model;
         }
 
-        foreach($model as $m){
+        foreach ($model as $m) {
             $this->_categories[$m->id] = $m;
         }
 
@@ -86,10 +86,10 @@ class WLinkCategory extends QWidget
         );
     }
 
-    public function renderCategoriesGridInPopup($return = false)
+    public function renderCategoriesGridInPopup($return = false, $params = array())
     {
         $categories = Categories::model()->currentUser()->findAll();
-        return $this->render('linkCategory/_categoriesGrid', array('model' => $categories), $return);
+        return $this->render('linkCategory/_categoriesGrid', $params + array('model' => $categories), $return);
     }
 
 } 

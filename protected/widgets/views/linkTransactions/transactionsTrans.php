@@ -40,7 +40,7 @@
             </a>
         </td>
         <td class="edit">
-            <?= Widget::get('WCrossLink')->changeCategory($trans->cross_id, $trans->cross_category) ?>
+            <?= Widget::get('WCrossLink')->changeCategory($trans->cross_id, $trans->cross_category, 'cross_' . $trans->tableName()) ?>
         </td>
         <td class="comment">
             <?= Widget::get('WCrossLink')->changeComment($trans->cross_id, $trans->cross_comment) ?>

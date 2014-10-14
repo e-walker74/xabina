@@ -10,6 +10,7 @@
  */ ?>
 
 <div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <form action="" method="POST">
     <div class="xabina-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/css/layout/account/img/close.png"></button>
@@ -22,13 +23,15 @@
                 </div>
             </div>
             <div class="memo_edit">
-                <textarea class="redactor"></textarea>
+                <textarea name="text" class="redactor"></textarea>
                 <div class="error-message"><?= Yii::t('Drive', 'memo_is_empty') ?></div>
             </div>
             <div>
                 <input type="hidden" name="memo_id" value=""/>
-                <input onclick="WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Submit') ?>">
+                <input type="hidden" name="transaction_id" value=""/>
+                <input onclick="return WLinkDrive.addNewMemo('<?= $htmlID ?>', '<?= Yii::app()->createUrl('/file/addMemo', array('entity' => 'transactions', 'entity_id' => $entity_id)) ?>')" class="rounded-buttons marg-right-15 submit pull-left" type="submit" value="<?= Yii::t('Drive', 'Submit') ?>">
             </div>
         </div>
     </div>
+    </form>
 </div>

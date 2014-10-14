@@ -4,6 +4,8 @@
 
 WLinkDrive = {
     _folder: 0,
+    _memoPopupId: '',
+    _filesPopupId: '',
     init: function () {
         WLinkDrive.bindAfterReady()
         WLinkDrive.bindUnlinkFile()
@@ -15,20 +17,24 @@ WLinkDrive = {
                 plugins: ['fontcolor', 'fontsize'],
                 buttons: ['formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'table', 'link', 'alignment', 'horizontalrule']
             });
-//            $('.modal-galka-checkbox').click(function () {
-//                if ($(this).find('input').prop('checked')) {
-//                    $(this).addClass('active');
-//                } else {
-//                    $(this).removeClass('active');
-//                }
-//                event.stopPropagation();
-//            });
-            $('.book_button').on('click', function () {
-                $(this).toggleClass('open');
-                $(this).parents('li').find('.pay-list').slideToggle();
-                return false;
-            });
+            $('body').on('dblclick', '#' + WLinkDrive._filesPopupId + ' li, #' + WLinkDrive._memoPopupId + ' li',
+            function(e){
+                var modal = $(this).closest('.modal')
+                modal.find('input[type=checkbox]').attr('checked', false)
+                $(this).find('input[type=checkbox]').attr('checked', true)
+                $(this).closest('form').find('input[type=submit]').click()
+                e.stopPropagation()
+            })
             WLinkDrive.bindSearch()
+
+            $('#' + WLinkDrive._memoPopupId).on('show.bs.modal', function (e) {
+                WLinkDrive.openFolder('', '', $('#' + WLinkDrive._memoPopupId + ' .modal-body'))
+            })
+
+            $('#' + WLinkDrive._filesPopupId).on('show.bs.modal', function (e) {
+                WLinkDrive.openFolder('', '', $('#' + WLinkDrive._filesPopupId + ' .modal-body'))
+            })
+
         })
     },
     addNewMemo: function (blockId, url) {
@@ -38,33 +44,45 @@ WLinkDrive = {
             return false;
         }
         var memo_id = block.find('input[name=memo_id]').val()
+        var transaction_id = block.find('input[name=transaction_id]').val()
         $.ajax({
             url: url,
-            data: {text: block.find('textarea.redactor').val(), memo_id: memo_id},
+            data: block.find('form').serialize(),
             dataType: 'JSON',
-            method: 'POST',
+            type: 'POST',
             success: function (data) {
                 if (data.success) {
                     successNotify('', data.message, $('.before-memo').prev())
                     block.find('textarea').focus()
                     $('.redactor_editor').html('')
                     block.modal('hide')
-                    $('#linkNewMemoModal').find('.drive-file-row').remove()
-                    $(data.html).insertAfter($('#linkNewMemoModal .add-new-folder'))
-                    $('#linkNewMemoModal').modal('show')
+                    block.find('input[name=memo_id]').val('')
+                    if(memo_id){
+                        $('.drive_memo').remove()
+                        $(data.html).insertAfter($('.before-memo'))
+                        successNotify('', data.message, $('.before-memo').prev())
+                    } else {
+                        $('#linkNewMemoModal').find('.drive-file-row').remove()
+                        $(data.html).insertAfter($('#linkNewMemoModal .add-new-folder'))
+                        $('#linkNewMemoModal').modal('show')
+                    }
                     resetCheckeBox()
                 } else {
                     errorNotify('', data.message, $('.before-memo').prev())
                 }
             }
         })
+
+        return false;
     },
-    editMemo: function(link, blockId, memo_id){
+    editMemo: function(link, blockId, transaction_id){
         $('#'+blockId).modal('show');
         var html = $(link).find('.full_text').html()
         $('#'+blockId + ' .redactor_editor').html(html)
         $('#'+blockId + ' textarea').val(html)
         $('#'+blockId).find('input[name=memo_id]').val($(link).attr('data-memo-id'))
+        $('#'+blockId).find('input[name=transaction_id]').val(transaction_id)
+        $('#'+blockId).find('input.rounded-buttons.submit').addClass('edit-submit')
 
     },
     bindUnlinkFile: function () {
@@ -166,7 +184,6 @@ WLinkDrive = {
                         successNotify('Drive', response.message, $('.file-directions'))
                         $('.drive-file-row').remove()
                         $(response.html).insertAfter($('.file-directions li:first'))
-                        WLinkDrive.bindAfterReady()
                         resetCheckeBox()
                     } else {
                         errorNotify('Drive', response.message, $('.file-directions'))
@@ -203,7 +220,6 @@ WLinkDrive = {
                     successNotify('Drive', response.message, $('.file-directions'))
                     $('.drive-file-row').remove()
                     $(response.html).insertAfter($('.file-directions li:first'))
-                    WLinkDrive.bindAfterReady()
                     resetCheckeBox()
                 } else {
                     errorNotify('Drive', response.message, $('.file-directions'))
@@ -213,14 +229,20 @@ WLinkDrive = {
         form.ajaxSubmit(options);
         return false;
     },
-    openFolder: function (link, folder) {
+    openFolder: function (link, folder, body) {
+        if(!body){
+            body = $(link).closest('.modal-body')
+        }
+        var modal = body.closest('.modal')
         if (folder) {
-            var data = {folder: folder}
+            var data = {folder: folder, entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
+        } else if(body){
+            var data = {folder: 0, type: modal.attr('data-type'), entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
         } else if (this._folder != 0) {
-            var data = {folder: this._folder, up: true}
+            var data = {folder: this._folder, up: true, entity: modal.attr('data-entity'), entity_id: modal.attr('data-entity-id')}
         }
         $.ajax({
-            url: $(link).closest('.modal-body').attr('data-folder-url'),
+            url: body.attr('data-folder-url'),
             data: data,
             dataType: 'JSON',
             type: 'POST',
@@ -228,12 +250,11 @@ WLinkDrive = {
                 dellBackgroundBlack()
                 if (response.success) {
                     resetPage()
-                    $('.drive-file-row').remove()
-                    $(response.html).insertAfter($('.file-directions li:first'))
-                    WLinkDrive.bindAfterReady()
+                    modal.find('.drive-file-row').remove()
+                    $(response.html).insertAfter(modal.find('.file-directions li:first'))
                     WLinkDrive._folder = response.folder
                     resetCheckeBox()
-                    WLinkDrive.search($(link).closest('.modal-body').find('.search-results-list'), $(link).closest('.modal-body').find('.search-input-drive').val())
+                    WLinkDrive.search(modal.find('.search-results-list'), modal.find('.search-input-drive').val())
 
                 } else {
                     errorNotify('Drive', response.message, $('.file-directions'))
@@ -259,14 +280,19 @@ WLinkDrive = {
         })
     },
     sort: function (link) {
+        var modal = $(link).closest('.modal')
         var url = $(link).closest('.file_top_menu').attr('data-url')
+        var type = modal.attr('data-type')
         $.ajax({
             url: url,
             data: {
                 sort: $(link).attr('data-sort'),
                 param: $(link).attr('data-sort-param'),
                 folder: this._folder,
-                sorting: true
+                sorting: true,
+                type: type,
+                entity: modal.attr('data-entity'),
+                entity_id: modal.attr('data-entity-id')
             },
             dataType: 'JSON',
             type: 'POST',
@@ -282,10 +308,9 @@ WLinkDrive = {
                     }
 
                     resetPage()
-                    $('.drive-file-row').remove()
-                    $(response.html).insertAfter($('.file-directions li:first'))
+                    modal.find('.drive-file-row').remove()
+                    $(response.html).insertAfter(modal.find('.file-directions li:first'))
                     resetCheckeBox()
-                    WLinkDrive.bindAfterReady()
                     WLinkDrive._folder = response.folder
 
                     WLinkDrive.search($(link).closest('.modal-body').find('.search-results-list'), $(link).closest('.modal-body').find('.search-input-drive').val())

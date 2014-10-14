@@ -7,7 +7,9 @@
  * Date: 30.09.14
  * Time: 22:05
  */ ?>
+<?php $categories = $this->getCategories($entity_id, $entity); ?>
 <?php foreach($model as $category): ?>
+    <?php if(isset($categories[$category->id])) continue; ?>
     <tr class="wcategory-row">
         <td class="new-checkbox-td">
             <label class="modal-galka-checkbox">

@@ -47,9 +47,12 @@ class WLinkDrive extends QWidget
             )
         );
 
-        $this->_memos = $model;
+        $this->_memos = array();
+        foreach($model as $m){
+            $this->_memos[$m->id] = $m;
+        }
 
-        return $model;
+        return $this->_memos;
     }
 
     public function renderTransactionMemo($transactionId, $return = false)
@@ -135,7 +138,7 @@ class WLinkDrive extends QWidget
         );
     }
 
-    public function renderMemoGridInPopup($folder = 0, $return = false){
+    public function renderMemoGridInPopup($folder = 0, $return = false, $entity = false, $entityId = false){
 
         if(Yii::request()->getParam('sorting', '')){
             $sort = Yii::request()->getParam('sort', 'asc', 'list', array('asc', 'desc'));
@@ -157,6 +160,8 @@ class WLinkDrive extends QWidget
         return $this->render('linkDrive/_filesGrid', array(
                 'files' => $files,
                 'folder' => $folder,
+                'entity' => $entity,
+                'entityId' => $entityId,
             ),
             $return
         );
@@ -174,7 +179,7 @@ class WLinkDrive extends QWidget
         );
     }
 
-    public function renderFilesGridInPopup($folder = 0, $return = false){
+    public function renderFilesGridInPopup($folder = 0, $return = false, $entity = false, $entityId = false){
 
         if(Yii::request()->getParam('sorting', '')){
             $sort = Yii::request()->getParam('sort', 'asc', 'list', array('asc', 'desc'));
@@ -197,6 +202,8 @@ class WLinkDrive extends QWidget
         return $this->render('linkDrive/_filesGrid', array(
                 'files' => $files,
                 'folder' => $folder,
+                'entity' => $entity,
+                'entityId' => $entityId,
             ),
             $return
         );

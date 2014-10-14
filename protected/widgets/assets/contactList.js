@@ -287,6 +287,22 @@ jQuery.fn.searchContactButtonByName = function (options, callback) {
         }
         return false;
     })
+
+    alphabetEach()
+
+    $('.alphabet li a').click(function () {
+        var selector = '.letter_' + $(this).html()
+        if ($(this).html() == "#") {
+            selector = '.letter_else'
+        }
+        if ($(selector).length != 0) {
+            $('.alphabet li').removeClass('active')
+            $(this).parent().addClass('active')
+            var obj = $(selector)
+            $(this).closest('.scroll-cont').find('.scroll-block').scrollTo(obj, 600, {margin: true});
+        }
+        return false;
+    })
 }
 
 jQuery.fn.popUpSearchContact = function (options, callback) {

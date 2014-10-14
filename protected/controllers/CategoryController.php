@@ -35,6 +35,18 @@ class CategoryController extends Controller
         );
     }
 
+    public function actionGetCategoriesPopupGrid(){
+
+        $entity = Yii::request()->getParam('entity', '');
+        $entityId = Yii::request()->getParam('entity_id', '', 'int');
+
+        echo CJSON::encode(array(
+            'success' => true,
+            'html' => Widget::get('WLinkCategory')
+                    ->renderCategoriesGridInPopup(true, array('entity' => $entity, 'entity_id' => $entityId)),
+        ));
+    }
+
     public function actionCreate()
     {
         $entity = Yii::request()->getParam('entity', '');
@@ -48,18 +60,18 @@ class CategoryController extends Controller
         $model->user_id = Yii::user()->getCurrentId();
         if ($model->save()) {
 
-            $crossLink = new CrossLinks();
-            $crossLink->user_id = Yii::user()->getCurrentId();
-            $crossLink->entity_name = $entity;
-            $crossLink->entity_id = $entityId;
-            $crossLink->link_table_name = $model->tableName();
-            $crossLink->link_table_id = $model->id;
-            $crossLink->save();
+//            $crossLink = new CrossLinks();
+//            $crossLink->user_id = Yii::user()->getCurrentId();
+//            $crossLink->entity_name = $entity;
+//            $crossLink->entity_id = $entityId;
+//            $crossLink->link_table_name = $model->tableName();
+//            $crossLink->link_table_id = $model->id;
+//            $crossLink->save();
 
             echo CJSON::encode(array(
                 'success' => true,
                 'message' => Yii::t('Category', 'category_was_successfully_save'),
-                'html' => Widget::get('WLinkCategory')->renderCategoriesGridInPopup(true),
+                'html' => Widget::get('WLinkCategory')->renderCategoriesGridInPopup(true, array('entity' => $entity, 'entity_id' => $entityId)),
             ));
         } else {
             echo CJSON::encode(array(

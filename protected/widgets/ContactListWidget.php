@@ -115,13 +115,13 @@ class ContactListWidget extends QWidget
         $this->render('contactsList/seachContactByName', array('model' => $model), $return);
     }
 
-    public function renderLinkContacts($return = false)
+    public function renderLinkContacts($return = false, $entity = false, $entity_id = false)
     {
         $this->_criteria->order = 'fullname asc';
         $this->_criteria->together = true;
         $this->_criteria->with = 'data';
         $model = Users_Contacts::model()->currentUser()->findAll($this->_criteria);
-        return $this->render('contactsList/linkContacts', array('model' => $model), $return);
+        return $this->render('contactsList/linkContacts', array('model' => $model, 'entity' => $entity, 'entity_id' => $entity_id), $return);
     }
 
     public function renderPupUpSearch($return = false)

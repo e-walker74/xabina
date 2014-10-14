@@ -8,7 +8,8 @@
  * Time: 23:11
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-update-url="<?= Yii::app()->createUrl('/contact/getwidgetgrid') ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
+    <script>WLinkContact._popupId = "<?= $htmlID ?>"</script>
     <div class="xabina-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/css/layout/account/img/close.png"></button>
@@ -42,7 +43,8 @@
                 'entity_id' => $entity_id,
             )) ?>">
                 <div class="contacts-list">
-                    <?php Widget::get('ContactListWidget')->renderLinkContacts() ?>
+                    <?php Widget::get('ContactListWidget'); ?>
+<!--                    --><?php //Widget::get('ContactListWidget')->renderLinkContacts(false, $entity, $entity_id) ?>
                 </div>
 
                 <div class="submit_block">

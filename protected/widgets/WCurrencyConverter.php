@@ -33,13 +33,17 @@ class WCurrencyConverter extends QWidget
     {
         Yii::app()->clientScript->registerScript('currencyConverterWidget', '
             $("document").ready(function(){
-                var block = $(".currency-converter-widget")
-                block.find(".currencies-values").hide()
-                block.find(".currencies-values:first").show()
-                block.on("change", "select", function(){
-                    block.find(".currencies-values").hide()
-                    block.find(".currency_conversion_rates_for_" + $(this).val()).show()
+                var currency_conv_block = $(".currency-converter-widget")
+                currency_conv_block.find(".currencies-values").hide()
+                currency_conv_block.find(".currencies-values:first").show()
+                currency_conv_block.on("change", "select", function(){
+                    currency_conv_block.find(".currencies-values").hide()
+                    currency_conv_block.find(".currency_conversion_rates_for_" + $(this).val()).show()
                 })
+
+                currency_conv_block.find("select").change(function(){
+                    $(this).closest(".drdn-cont").addClass("open");
+                });
             })
         ', CClientScript::POS_END);
     }

@@ -28,9 +28,10 @@ class WCrossLink  extends QWidget
             return $this->_categories;
         }
         $categories = Users_Categories::model()->with('cross')->together()->findAll(
-            '(t.user_id is NULL OR t.user_id = :uid) AND t.data_type = "cross_links" AND cross.id is NOT NULL',
+            '(cross.id is NOT NULL AND t.user_id = :uid) OR t.user_id is NULL',
             array(':uid' => Yii::user()->id)
         );
+
         if(!$categories){
             $this->_categories = array();
         }
@@ -40,7 +41,7 @@ class WCrossLink  extends QWidget
         return $this->_categories;
     }
 
-    public function changeCategory($id, $category){
+    public function changeCategory($id, $category, $cross_type = 'cross_links'){
         $categories = $this->getCategories();
         if(isset($categories[$category])){
             $cat = $categories[$category]->value;
@@ -48,7 +49,7 @@ class WCrossLink  extends QWidget
             $cat = Yii::t('Cross', 'Category');
         }
 
-        $this->render('crossLinks/category', array('cat' => $cat, 'cat_id' => $category, 'cross_id' => $id));
+        $this->render('crossLinks/category', array('cat' => $cat, 'cat_id' => $category, 'cross_id' => $id, 'cross_type' => $cross_type));
     }
 
     public function changeComment($id, $comment = false){

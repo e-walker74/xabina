@@ -31,7 +31,7 @@
         <div class="account-data pull-left size-block" onclick="WLinkDrive.clickCheckbox(this)">
             <div class="one_str small-text"><?= FileService::fromBytes($model->file_size) ?></div>
         </div>
-        <div class="transaction-buttons-cont book" onclick="WLinkDrive.clickCheckbox(this)">
+        <div class="transaction-buttons-cont book">
             <a href="#" class="book_button"></a>
         </div>
         <div class="clearfix"></div>

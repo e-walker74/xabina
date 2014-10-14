@@ -24,6 +24,6 @@
 <div class="scroll-cont">
     <?php $this->render('contactsList/alphabet') ?>
     <div class="account-search-results-cont with-alphabet scroll-block">
-        <?php $this->render('contactsList/linkContactListUl', array('model' => $model)) ?>
+        <?php $this->render('contactsList/linkContactListUl', array('model' => $model, 'entity' => $entity, 'entity_id' => $entity_id)) ?>
     </div>
 </div>

@@ -22,7 +22,7 @@
                         <a class="close-dropdown"></a>
                     </div>
                     <div class="casual_text">
-                        <?= $comment ?>
+                        <pre><?= $comment ?></pre>
                     </div>
                 </div>
                 <div class="content-dropdown without-info" <?php if($comment): ?>style="display: none"<?php endif; ?>>

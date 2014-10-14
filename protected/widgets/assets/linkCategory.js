@@ -4,6 +4,7 @@
 
 WLinkCategory = {
     _folder: 0,
+    _popupBlockId: '',
     init: function () {
         WLinkCategory.bindAfterReady()
         WLinkCategory.bindCheckbox()
@@ -11,6 +12,18 @@ WLinkCategory = {
     bindAfterReady: function () {
         jQuery(document).ready(function () {
             WLinkCategory.bindSearch()
+            $('#' + WLinkCategory._popupBlockId).on('show.bs.modal', function (e) {
+                WLinkCategory.updatePopupGrid()
+            })
+
+            $('body').on('dblclick', '#' + WLinkCategory._popupBlockId + ' tr',
+            function(e){
+                var modal = $(this).closest('.modal')
+                modal.find('input[type=checkbox]').attr('checked', false)
+                $(this).find('input[type=checkbox]').attr('checked', true)
+                $(this).closest('form').find('input[type=submit]').click()
+                e.stopPropagation()
+            })
         })
     },
     bindCheckbox: function () {
@@ -24,6 +37,29 @@ WLinkCategory = {
                 event.stopPropagation();
             });
         })
+    },
+    updatePopupGrid: function(){
+        var block = $('#'+WLinkCategory._popupBlockId)
+        if(block.length == 0){
+            alert('WLinkCategory need the PopupBlockId');
+        }
+        $.ajax({
+            url: block.attr('data-grid-url'),
+            data: {entity: block.attr('data-entity'), entity_id: block.attr('data-entity-id')},
+            dataType: 'JSON',
+            type: 'POST',
+            success: function (response) {
+                if (response.success) {
+                    resetPage()
+                    $('#'+WLinkCategory._popupBlockId+' .wcategory-row').remove()
+                    $(response.html).insertAfter($('#'+WLinkCategory._popupBlockId+' .wcategory-table tr:first'))
+                } else {
+                    errorNotify('Drive', response.message, $('.file-directions'))
+                }
+            }
+        })
+
+
     },
     showCreateCategoryRow: function (link) {
         var parent = $(link).closest('.modal-body')
@@ -81,6 +117,7 @@ WLinkCategory = {
         }
     },
     bindSearch: function () {
+        $('.clear-input-but-for-all').hide()
         $('.search-input-category').keyup(function (event) {
             WLinkCategory.search($(this).closest('.modal-body').find('.wcategory-table'), this.value)
         })
@@ -107,6 +144,7 @@ WLinkCategory = {
                     $(data.html).insertAfter($('.before-categories'))
                     successNotify('', data.message, $('.before-categories').prev())
                     button.closest('.modal').modal('hide')
+                    form.find('input[type=checkbox]:checked').closest('tr').remove()
                     resetPage()
                     resetCheckeBox()
                 } else {
@@ -115,6 +153,9 @@ WLinkCategory = {
             }
         })
         return false;
+    },
+    updatePopUpCategoriesGrid: function(){
+
     }
 }
 

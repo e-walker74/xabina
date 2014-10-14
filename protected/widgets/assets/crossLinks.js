@@ -23,6 +23,10 @@ CrossLinks = {
                 if($(this).val() == 'other'){
                     $(this).closest('.select').hide().next().show()
                 }
+            }).on('hide.bs.dropdown', '.comment.drdn-cont', function(){
+                if($(this).find('a.transaction_comment').hasClass('active')){
+                    CrossLinks.closeCommentArea($(this))
+                }
             })
         })
     },
@@ -45,11 +49,12 @@ CrossLinks = {
         var saveButton = $(link)
         var categoryBlock = saveButton.closest('.category-block')
         var selectedOption = categoryBlock.find('select option:selected')
-        var new_category = categoryBlock.find('.other input')
+        var new_category = categoryBlock.find('.other input[name="category"]')
         var value = selectedOption.val()
         if(new_category.val().length > 0){
             value = new_category.val()
         }
+        var cross_type = categoryBlock.find('.other input[name="cross_type"]')
 
         if(new_category.val().length == 0 && selectedOption.val() == 'other'){
             errorNotify('Error', 'You don`t select category')
@@ -58,7 +63,7 @@ CrossLinks = {
 
         $.ajax({
             url: saveButton.attr('data-url'),
-            data: {cross_category: value},
+            data: {cross_category: value, cross_type: cross_type.val()},
             dataType: 'JSON',
             type: 'POST',
             success: function (data) {
@@ -94,10 +99,7 @@ CrossLinks = {
             type: 'POST',
             success: function (data) {
                 if (data.success) {
-                    categoryBlock.find('.with-info .casual_text').html(comment)
-                    categoryBlock.find('.without-info').hide()
-                    categoryBlock.find('.with-info').show()
-                    categoryBlock.find('.transaction_comment').addClass('active')
+                    CrossLinks.closeCommentArea(categoryBlock, comment)
                 } else {
                     errorNotify('', data.message, $('.before-files').prev())
                 }
@@ -111,6 +113,14 @@ CrossLinks = {
         categoryBlock.find('.without-info').show()
         categoryBlock.find('.with-info').hide()
         return false;
+    },
+    closeCommentArea: function(categoryBlock, comment){
+        if(comment){
+            categoryBlock.find('.with-info .casual_text pre').html(comment)
+        }
+        categoryBlock.find('.without-info').hide()
+        categoryBlock.find('.with-info').show()
+        categoryBlock.find('.transaction_comment').addClass('active')
     }
 }
 

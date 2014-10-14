@@ -38,7 +38,7 @@ class CrossLinks extends ActiveRecord
 			array('entity_id, link_table_id, category_id', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>11),
 			array('entity_name, link_table_name, comment', 'length', 'max'=>255),
-            array('comment', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+            //array('comment', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, entity_name, entity_id, link_table_name, link_table_id, category_id, comment', 'safe', 'on'=>'search'),

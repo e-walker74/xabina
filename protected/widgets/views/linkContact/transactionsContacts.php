@@ -48,7 +48,7 @@
             </a>
         </td>
         <td class="edit">
-            <?= Widget::get('WCrossLink')->changeCategory($contact->cross_id, $contact->cross_category) ?>
+            <?= Widget::get('WCrossLink')->changeCategory($contact->cross_id, $contact->cross_category, 'cross_' . $contact->tableName()) ?>
         </td>
         <td class="comment">
             <?= Widget::get('WCrossLink')->changeComment($contact->cross_id, $contact->cross_comment) ?>

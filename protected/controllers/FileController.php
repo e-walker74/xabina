@@ -9,7 +9,7 @@ class FileController extends Controller
     public function filters()
     {
         return array(
-            'accessControl',
+//            'accessControl',
         );
     }
 
@@ -174,13 +174,7 @@ class FileController extends Controller
 
     public function actionGet($id, $name)
     {
-        $model = Users_Files::model()->find(
-            'user_id = :user_id AND id = :id',
-            array(
-                ':user_id' => Yii::app()->user->id,
-                ':id' => $id
-            )
-        );
+        $model = Users_Files::model()->currentUser()->findByPk($id);
 
         if (!$model) {
             throw new CHttpException(404, Yii::t('Admin', 'Page not found'));
@@ -313,10 +307,11 @@ class FileController extends Controller
         $memo_id = Yii::request()->getParam('memo_id', '', 'int');
         $entityId = Yii::request()->getParam('entity_id', '', 'int');
         $text = Yii::request()->getParam('text', '', 'string');
+        $transaction_id = Yii::request()->getParam('transaction_id', '', 'int');
 
         $model = Users_Files::model()->currentUser()->find('document_type = "memo" AND id = :id', array(':id' => $memo_id));
 
-        if(!$model){
+        if (!$model) {
             $model = new Users_Files();
             $model->form = $entity;
             $model->model_id = $entityId;
@@ -326,17 +321,28 @@ class FileController extends Controller
         }
         $model->scenario = 'memo';
         $model->description = $text;
+        $model->file_size = mb_strlen($model->description);
 
         if ($model->save()) {
-            if(!$memo_id){
-
+            if (!$memo_id) {
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'message' => Yii::t('Drive', 'memo_was_successfully_added'),
+                    'html' => Widget::get('WLinkDrive')->renderMemoGridInPopup(0, true, $entity, $entityId),
+                ));
+            } elseif($transaction_id) {
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'message' => Yii::t('Drive', 'memo_was_successfully_updated'),
+                    'html' => Widget::get('WLinkDrive')->renderTransactionMemo($transaction_id, true),
+                ));
+            } else {
+                echo CJSON::encode(array(
+                    'success' => true,
+                    'message' => Yii::t('Drive', 'memo_was_successfully_updated'),
+                ));
             }
 
-            echo CJSON::encode(array(
-                'success' => true,
-                'message' => Yii::t('Drive', 'memo_was_successfully_added'),
-                'html' => Widget::get('WLinkDrive')->renderMemoGridInPopup(0, true),
-            ));
         } else {
             echo CJSON::encode(array(
                 'success' => false,
@@ -496,7 +502,7 @@ class FileController extends Controller
             $file->description = Yii::app()->request->getParam('description');
             $file->user_file_name = $uploader->getUserFileName();
             $file->file_size = $result['size'];
-            if($folderObject){
+            if ($folderObject) {
                 $file->parent_id = $folderObject->id;
             }
             if (!$file->save()) {
@@ -562,20 +568,30 @@ class FileController extends Controller
     {
         $folderId = Yii::request()->getParam('folder', 0, 'int');
         $up = Yii::request()->getParam('up', 0, 'boolean');
+        $type = Yii::request()->getParam('type', 'files', 'list', array('memo', 'files'));
+        $entity = Yii::request()->getParam('entity', '');
+        $entityId = Yii::request()->getParam('entity_id', '');
 
         $folder = Users_Files::model()->currentUser()->findByPk($folderId);
-        if($up){
-            if(!$folder->parent){
+        if ($up) {
+            if (!$folder->parent) {
                 $folderId = 0;
             } else {
                 $folderId = $folder->parent->id;
             }
         }
 
-        $html = Widget::create(
-            'WLinkDrive', 'WLinkDrive',
-            array()
-        )->renderFilesGridInPopup($folderId, true);
+        if($type == 'memo'){
+            $html = Widget::create(
+                'WLinkDrive', 'WLinkDrive',
+                array()
+            )->renderMemoGridInPopup($folderId, true, $entity, $entityId);
+        } else {
+            $html = Widget::create(
+                'WLinkDrive', 'WLinkDrive',
+                array()
+            )->renderFilesGridInPopup($folderId, true, $entity, $entityId);
+        }
 
         echo CJSON::encode(array(
             'success' => true,

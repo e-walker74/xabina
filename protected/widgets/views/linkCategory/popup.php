@@ -8,7 +8,8 @@
  * Time: 15:45
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?= $htmlID ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-grid-url="<?= Yii::app()->createUrl('/category/GetCategoriesPopupGrid') ?>">
+    <script>WLinkCategory._popupBlockId = "<?= $htmlID ?>"</script>
     <div class="xabina-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/css/layout/account/img/close.png"></button>
@@ -60,19 +61,19 @@
                         <td class="new-checkbox-td"></td>
                         <td class="name_td" style="overflow: visible!important;">
                             <div class="form-lbl margin-left">
-                                Cчет <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                                <?= Yii::t('Categories', 'Bill'); ?> <span class="tooltip-icon" title="<?= Yii::t('Categories', 'bill_tooltip'); ?>"></span>
                             </div>
                             <div class="margin-left">
-                                <input type="text" class="add-input short-input" value="" />
+                                <input type="text" class="add-input short-input numeric" maxlength="4" value="" />
                                 <div class="error-message"><?= Yii::t('Category', 'name_can_not_be_blank') ?></div>
                             </div>
                         </td>
                         <td class="value_td">
                             <div class="form-lbl">
-                                Description <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
+                                <?= Yii::t('Categories', 'Description'); ?> <span class="tooltip-icon" title="<?= Yii::t('Categories', 'category_description_tooltip'); ?>"></span>
                             </div>
                             <div>
-                                <input type="text"  class="add-input long-input" value="" />
+                                <input type="text"  class="add-input long-input" maxlength="75" value="" />
                             </div>
                         </td>
                         <td class="button_td" style="overflow: visible!important;">
@@ -82,7 +83,7 @@
                             </div>
                         </td>
                     </tr>
-                    <?php $this->renderCategoriesGridInPopup() ?>
+<!--                    --><?php //$this->renderCategoriesGridInPopup(false, array('entity' => $entity, 'entity_id' => $entity_id)) ?>
                 </table>
             </div>
             <div class="submit_block">

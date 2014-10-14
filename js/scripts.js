@@ -636,9 +636,27 @@ var resetCheckeBox = function(){
     $('.modal-galka-checkbox').removeClass('active').find('input').attr('checked', false)
 }
 
-
+var bindCancelSearchButton = function(){
+    $('.clear-input-but-for-all').prev().on('keyup', function(){
+        if(this.value.length != 0){
+            $(this).next().show()
+        } else {
+            $(this).next().hide()
+        }
+    })
+}
 
 $(document).ready(function () {
+
+    var scroll_top = 0;
+
+    $(window).scroll(function(){
+        if($("body").hasClass("modal-open"))
+        {
+            $(window).scrollTop(scroll_top);
+        }
+        scroll_top = $(window).scrollTop();
+    });
 
     $('.table-arrow').on('click', function(){
         $(this).toggleClass('open');
@@ -647,6 +665,22 @@ $(document).ready(function () {
         else
             $(this).html('Show More <span></span>');
         $('.hide-tr').toggle(0);
+        return false;
+    });
+
+    bindCancelSearchButton()
+
+    $('body').on('click', 'ul.list-unstyled .book_button', function (e) {
+        $(this).toggleClass('open');
+        $(this).closest('li').find('.pay-list').slideToggle('slow');
+        e.stopPropagation()
+        return false;
+    });
+
+    $('body').on('click', 'tr.wcategory-row .book_button', function (e) {
+        $(this).toggleClass('open');
+        $(this).closest('tr').next().slideToggle('slow');
+        e.stopPropagation()
         return false;
     });
 

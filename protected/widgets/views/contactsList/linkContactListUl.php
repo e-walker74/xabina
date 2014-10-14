@@ -1,5 +1,14 @@
+<?php
+/**
+ * @var Users_Contacts[] $model
+ */
+?>
+
+<?php $contactsList = Widget::get('WLinkContact')->getContacts($entity_id, $entity); ?>
+
 <?php $letter = ''; ?>
 <?php foreach($model as $contact): ?>
+    <?php if(isset($contactsList[$contact->id])) continue; ?>
 	<?php
 		$firstLet = mb_strtoupper(substr($contact->fullname, 0, 1));
         if(is_numeric($firstLet)){
@@ -55,9 +64,74 @@
                 <div class="clearfix" ></div>
             </div>
             <ul class="pay-list list-unstyled" style="display: none;">
-                <li><div><span class="title">E-mail:</span> anet@xabina.com</div></li>
-                <li><div><span class="title">E-mail:</span> anet@xabina.com</div></li>
-                <li><div><span class="title">E-mail:</span> anet@xabina.com</div></li>
+                <?php if($contact->first_name || $contact->last_name): ?>
+                <li>
+                    <div>
+                        <span class="title"><?= Yii::t('Front', 'First Name / Last Name') ?>:</span>
+                        <?= $contact->first_name ?> <?= $contact->last_name ?>
+                    </div>
+                </li>
+                <?php endif; ?>
+                <?php if($contact->company): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'Company') ?>:</span>
+                            <?= $contact->company ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if($contact->xabina_id): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'Xabina ID') ?>:</span>
+                            <?= $contact->xabina_id ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if($account = $contact->getDataByType('account', true)): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'Account Number') ?>:</span>
+                            <?= $account->account_number ?> (<?php if(isset(Users_Contacts_Data_Account::$contacts_account_types[$account->account_type])): ?>
+                                <?= Yii::t('Front', Users_Contacts_Data_Account::$contacts_account_types[$account->account_type]) ?>
+                            <?php else: ?>
+                                <?= Yii::t('Front', $account->account_type) ?>
+                            <?php endif; ?>)
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if($contact->xabina_id): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'E-Mail') ?>:</span>
+                            <?= $contact->xabina_id ?>@xabina.com
+                        </div>
+                    </li>
+                <?php elseif($email = $contact->getDataByType('email', true)): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'E-Mail') ?>:</span>
+                            <?= $email->email ?>
+                            <?= ($email->getDbModel()->category) ? '(' . $email->getDbModel()->category->value . ')' : '' ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if($phone = $contact->getDataByType('phone', true)): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'Phone') ?>:</span>
+                            <?= chunk_split($phone->phone, 3) ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
+                <?php if($address = $contact->getDataByType('address', true)): ?>
+                    <li>
+                        <div>
+                            <span class="title"><?= Yii::t('Front', 'Address') ?>:</span>
+                            <?= $address->getAddressHtml() ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
             </ul>
 		</li>
 <?php endforeach; ?>

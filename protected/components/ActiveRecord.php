@@ -23,7 +23,7 @@ abstract class ActiveRecord extends CActiveRecord
     {
         foreach ($this->attributes as $key => $value) {
             if ($value) {
-                $this->$key = strip_tags($value);
+                $this->$key = strip_tags($value, '<p><a><span><ul><li><ol><h1><h2><h3><h5><h4><h6><strike><b><strong><em><del>');
             }
         }
         return parent::beforeValidate();

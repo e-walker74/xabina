@@ -20,7 +20,7 @@
     <tr class="linked_tr drive_memo">
         <td class="icon_td"><img src="/css/images/one_memo.png"></td>
         <td class="title">
-            <a href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal')">
+            <a href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal', <?= $memo->model_id ?>)">
                 <div class="account-data pull-left">
                     <div class="full_text" style="display: none;">
                         <p><?= $memo->description ?></p>
@@ -33,7 +33,7 @@
             </a>
         </td>
         <td class="edit">
-            <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category) ?>
+            <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category, 'cross_' . $memo->tableName()) ?>
         </td>
         <td class="comment">
             <?= Widget::get('WCrossLink')->changeComment($memo->cross_id, $memo->cross_comment) ?>

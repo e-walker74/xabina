@@ -144,19 +144,19 @@
                                                                     <div class="content-dropdown">
                                                                         <div class="drop_main_block">
                                                                             <ul class="drop_link_ul">
-                                                                                <li onclick="$('#linkNewMemoModal').modal('show');"
+                                                                                <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#linkNewMemoModal').modal('show');"
                                                                                     class="memo">Link memo
                                                                                 </li>
-                                                                                <li onclick="$('#addBuhModal').modal('show');"
+                                                                                <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addBuhModal').modal('show');"
                                                                                     class="category">Link Category
                                                                                 </li>
-                                                                                <li onclick="$('#addLinkModal').modal('show');"
+                                                                                <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addLinkModal').modal('show');"
                                                                                     class="contact">Link Contact
                                                                                 </li>
-                                                                                <li onclick="$('#addTranModal').modal('show');"
+                                                                                <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addTranModal').modal('show');"
                                                                                     class="transaction">Link Transaction
                                                                                 </li>
-                                                                                <li onclick="$('#addNewFileModal').modal('show');"
+                                                                                <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addNewFileModal').modal('show');"
                                                                                     class="files">Link files
                                                                                 </li>
                                                                             </ul>

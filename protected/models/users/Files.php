@@ -64,9 +64,9 @@ class Users_Files extends ActiveRecord
             array('user_id', 'required'),
             array('user_id, parent_id, file_size', 'numerical', 'integerOnly' => true),
             array('name, form, document_type, document', 'length', 'max' => 30, 'message' => Yii::t('Front', 'Entry is to long')),
-            array('user_file_name, description', 'length', 'max' => 255, 'tooLong' => Yii::t('Front', 'The comment is too long. It should be no longer than 250 symbols.')),
+            array('user_file_name', 'length', 'max' => 255, 'tooLong' => Yii::t('Front', 'The comment is too long. It should be no longer than 250 symbols.')),
             array('ext', 'length', 'max' => 11),
-            array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+//            array('description', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('user_id, name, ext, user_file_name, type', 'safe', 'on' => 'search'),

@@ -9,7 +9,8 @@
  * @var Transactions[] $transactions
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-update-url="<?= Yii::app()->createUrl('/transaction/getpopupgrid') ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
+    <script>WLinkTransactions._popupId = "<?= $htmlID ?>"</script>
     <div class="xabina-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/css/layout/account/img/close.png"></button>
@@ -54,52 +55,10 @@
                 'entity' => $entity,
                 'entity_id' => $entity_id,
             )) ?>">
-            <div>
+            <div class="tran-popup-tab">
                 <div class="transaction-table-overflow linked-transaction">
                         <table class="table new-tran-tab">
-                            <?php foreach($transactions as $trans): ?>
-                                <tr class="wcategory-row">
-                                    <td width="6%">
-                                        <label class="modal-galka-checkbox">
-                                            <input name="transactions[]" value="<?= $trans->id ?>" type="checkbox"/>
-                                        </label>
-                                    </td>
-                                    <td width="17%" onclick="CrossLinks.clickCheckbox(this)"><?= date('d.m.Y', $trans->execution_time) ?></td>
-                                    <td width="25%" class="drive-search-text" onclick="CrossLinks.clickCheckbox(this)">
-                                        <strong class="holder"><?= $trans->info->sender ?></strong><br>
-                                        <span class="account"><?= $trans->info->sender_description ?></span>
-                                    </td>
-                                    <td width="25%" class="drive-search-text" onclick="CrossLinks.clickCheckbox(this)">
-                                        <strong class="holder"><?= $trans->info->recipient ?></strong><br>
-                                        <span class="account"> <?= $trans->info->recipient_description ?></span>
-                                    </td>
-                                    <td width="20%" class="drive-search-text" class="text-right" onclick="CrossLinks.clickCheckbox(this)">
-                                        <?php if($trans->amount > 0): ?>
-                                            <span class="sum-inc">+<?= number_format($trans->amount, 2, ".", " ") ?></span> <?= $trans->account->currency->title ?>
-                                        <?php elseif($subAccount->balance < 0): ?>
-                                            <span class="sum-inc">-<?= number_format($trans->amount, 2, ".", " ") ?></span> <?= $trans->account->currency->title ?>
-                                        <?php else: ?>
-                                            0 <?= $trans->account->currency->title ?>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td width="7%" style="overflow: visible!important">
-                                        <?php if($trans->info->details_of_payment): ?>
-                                            <div class="transaction-buttons-cont book">
-                                                <a href="#" class="book_button trans-but open"></a>
-                                            </div>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                                <?php if($trans->info->details_of_payment): ?>
-                                    <tr class="note-tr wcategory-row" style="display: table-row;">
-                                        <td colspan="6">
-                                            <div class="note-cont">
-                                                <?= $trans->info->details_of_payment ?>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                            <?php $this->renderTransactionsRows($entity, $entity_id, false); ?>
                         </table>
                 </div>
             </div>

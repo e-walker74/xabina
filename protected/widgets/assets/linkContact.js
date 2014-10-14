@@ -4,18 +4,29 @@
 
 WLinkContact = {
     _folder: 0,
+    _popupId: '',
     init: function () {
         WLinkContact.bindAfterReady()
     },
     bindAfterReady: function () {
         jQuery(document).ready(function () {
             jQuery.fn.searchContactButtonByName({searchLineSelector: '.search-input-contacts', parentSelector: '.scroll-cont'})
-            $('.clear-input-but-for-all').click(function(){
-                $(this).prev().val('').focus().keyup()
-            })
             $('.modal-galka-radiobutton').on('click', function(){
                 $('.modal-galka-radiobutton').removeClass('active').find('input').attr('checked', false)
                 $(this).addClass('active').find('input').attr('checked', true)
+            })
+
+            $('#' + WLinkContact._popupId).on('show.bs.modal', function (e) {
+                WLinkContact.updateContacts()
+            })
+
+            $('body').on('dblclick', '#' + WLinkContact._popupId + ' li',
+            function(e){
+                var modal = $(this).closest('.modal')
+                modal.find('input[type=checkbox]').attr('checked', false)
+                $(this).find('input[type=checkbox]').attr('checked', true)
+                $(this).closest('form').find('input[type=submit]').click()
+                e.stopPropagation()
             })
         })
     },
@@ -65,6 +76,32 @@ WLinkContact = {
                     jQuery.fn.searchContactButtonByName({searchLineSelector: '.search-input-contacts', parentSelector: '.scroll-cont'})
                 } else {
                     errorNotify('', data.message, $('.before-contacts').prev())
+                }
+            }
+        })
+        return false;
+    },
+    updateContacts: function(){
+        var modal = $('#' + WLinkContact._popupId)
+        $.ajax({
+            url: modal.attr('data-update-url'),
+            data: {
+                entity: modal.attr('data-entity'),
+                entity_id: modal.attr('data-entity-id')
+            },
+            dataType: 'JSON',
+            type: 'POST',
+            success: function (data) {
+                if (data.success) {
+                    modal.find('.contacts-list').html(data.html)
+                    jQuery.fn.searchContactButtonByName({searchLineSelector: '.search-input-contacts', parentSelector: '.scroll-cont'})
+                    bindCancelSearchButton()
+                    $('.clear-input-but-for-all').hide()
+                    $('.clear-input-but-for-all').click(function(){
+                        $(this).prev().val('').focus().keyup()
+                    })
+                } else {
+                    errorNotify('', data.message, $('.before-transactions').prev())
                 }
             }
         })

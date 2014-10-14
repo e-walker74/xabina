@@ -261,17 +261,17 @@ class AjaxController extends Controller
     {
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_category = Yii::request()->getParam('cross_category');
-
+        $cross_type = Yii::request()->getParam('cross_type');
 
 
         if(!$cross_id){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
-        if($cross_category && !is_numeric($cross_category)){
+        if($cross_category && !is_numeric($cross_category) && $cross_type){
             $category = new Users_Categories();
             $category->user_id = Yii::user()->getCurrentId();
-            $category->data_type = 'cross_links';
+            $category->data_type = $cross_type;
             $category->value = $cross_category;
             $category->save();
             $cross_category_id = $category->id;

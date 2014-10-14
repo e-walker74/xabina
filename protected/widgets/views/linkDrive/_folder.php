@@ -30,10 +30,10 @@
             <div class="one_str small-text"><?= date('d.m.Y', $model->created_at) ?></div>
         </div>
         <div class="account-data pull-left size-block" onclick="WLinkDrive.openFolder(this, '<?= $model->id ?>')">
-<!--            <div class="one_str small-text">9 001 Kb</div>-->
+            <div class="one_str small-text"></div>
         </div>
-        <div class="transaction-buttons-cont book" onclick="WLinkDrive.openFolder(this, '<?= $model->id ?>')">
-<!--            <a href="#" class="book_button"></a>-->
+        <div class="transaction-buttons-cont book">
+            <a href="#" class="book_button"></a>
         </div>
         <div class="clearfix"></div>
     </div>
