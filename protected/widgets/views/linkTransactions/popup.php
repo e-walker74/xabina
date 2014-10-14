@@ -55,7 +55,7 @@
                 'entity' => $entity,
                 'entity_id' => $entity_id,
             )) ?>">
-            <div class="tran-popup-tab">
+            <div class="tran-popup-tab transactions-table-height">
                 <div class="transaction-table-overflow linked-transaction">
                         <table class="table new-tran-tab">
                             <?php $this->renderTransactionsRows($entity, $entity_id, false); ?>
