@@ -203,6 +203,8 @@ class FileController extends Controller
                 fclose($fd);
             }
             exit;
+        } else {
+            throw new CHttpException(404, Yii::t('File', 'File not found'));
         }
     }
 
