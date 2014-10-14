@@ -6,6 +6,7 @@ WLinkDrive = {
     _folder: 0,
     _memoPopupId: '',
     _filesPopupId: '',
+    _newMemoPopupId: '',
     init: function () {
         WLinkDrive.bindAfterReady()
         WLinkDrive.bindUnlinkFile()
@@ -33,6 +34,12 @@ WLinkDrive = {
 
             $('#' + WLinkDrive._filesPopupId).on('show.bs.modal', function (e) {
                 WLinkDrive.openFolder('', '', $('#' + WLinkDrive._filesPopupId + ' .modal-body'))
+            })
+            $('#' + WLinkDrive._newMemoPopupId).on('show.bs.modal', function (e) {
+                $('#' + WLinkDrive._newMemoPopupId).find('.redactor_editor').html('')
+                $('#' + WLinkDrive._newMemoPopupId).find('textarea').val('')
+                $('#' + WLinkDrive._newMemoPopupId).find('input[name=memo_id]').val('')
+                $('#' + WLinkDrive._newMemoPopupId).find('input[name=transaction_id]').val('')
             })
 
         })

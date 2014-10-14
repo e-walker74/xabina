@@ -10,6 +10,7 @@
  */ ?>
 
 <div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <script>WLinkDrive._newMemoPopupId = "<?= $htmlID ?>"</script>
     <form action="" method="POST">
     <div class="xabina-modal">
         <div class="modal-header">
