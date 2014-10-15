@@ -106,7 +106,7 @@
         <ul class="search-results-list list-unstyled file-directions" >
             <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
                 <div class="bg-color">
-                    <div class="cont_check_block">
+                    <div class="cont_check_block" style="width: 20px;">
                         <label >
 <!--                            <input type="checkbox">-->
                         </label>

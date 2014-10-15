@@ -599,9 +599,9 @@ var bindDeleteConfirmationEvent = function(){
         event.stopPropagation();
     });
 
-    /*$('.close-dropdown').click(function(){
+    $('.close-dropdown').click(function(){
         $(this).parents('.dropdown-menu').prev().dropdown('toggle');
-    });*/
+    });
 }
 
 var bindHoverCurrencyConverter = function(){

@@ -63,6 +63,17 @@
                 </div>
                 <div class="clearfix" ></div>
             </div>
+            <?php if(
+                $contact->first_name ||
+                $contact->last_name ||
+                $contact->company ||
+                $contact->xabina_id ||
+                $contact->getDataByType('account', true) ||
+                $contact->getDataByType('email', true) ||
+                $contact->getDataByType('address', true) ||
+                $contact->getDataByType('phone', true)
+
+            ): ?>
             <ul class="pay-list list-unstyled" style="display: none;">
                 <?php if($contact->first_name || $contact->last_name): ?>
                 <li>
@@ -133,6 +144,7 @@
                     </li>
                 <?php endif; ?>
             </ul>
+            <?php endif; ?>
 		</li>
 <?php endforeach; ?>
 <?php if(!empty($model)): ?>

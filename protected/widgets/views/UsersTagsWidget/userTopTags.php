@@ -39,7 +39,7 @@
                     <?= Yii::t('Front', 'Tags') ?>
                     <a class="save-dropdown"></a>
                     <a onclick="$('#tags-add-dropdown').hide();"
-                       class="close-dropdown"></a>
+                       class="close-dropdown-without-action"></a>
                 </div>
                 <div class="drop_bg_block">
                     <?= Yii::t('Front', 'new_tags_description_area') ?>
