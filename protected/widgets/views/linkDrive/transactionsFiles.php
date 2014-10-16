@@ -40,7 +40,7 @@
         <?php endif; ?>
     </td>
     <td class="edit">
-        <?= Widget::get('WCrossLink')->changeCategory($file->cross_id, $file->cross_category, 'cross_' . $file->tableName()) ?>
+        <?= Widget::get('WCrossLink')->changeCategory($file->cross_id, $file->cross_category, 'cross_users_files') ?>
     </td>
     <td class="comment">
         <?= Widget::get('WCrossLink')->changeComment($file->cross_id, $file->cross_comment) ?>

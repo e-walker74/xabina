@@ -33,7 +33,7 @@
             </a>
         </td>
         <td class="edit">
-            <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category, 'cross_' . $memo->tableName()) ?>
+            <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category, 'cross_users_memo') ?>
         </td>
         <td class="comment">
             <?= Widget::get('WCrossLink')->changeComment($memo->cross_id, $memo->cross_comment) ?>
