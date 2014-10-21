@@ -63,7 +63,7 @@
         </td>
         <td class="delete">
             <div class="attach_del_block"><a
-                    data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $memo->id, 'entity' => $memo->form, 'entity_id' => $memo->model_id, 'cross_type' => $memo->tableName())) ?>"
+                    data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $memo->id, 'entity' => $memo->form, 'entity_id' => $memo->model_id, 'cross_type' => 'users_files_memo')) ?>"
                     class="del_a"></a></div>
         </td>
     </tr>
