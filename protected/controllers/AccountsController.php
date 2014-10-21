@@ -27,27 +27,28 @@ class AccountsController extends Controller
             ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(
-					'index',
-					'cardbalance',
-					'transaction',
-					'uploadattachemnt',
-					'getattach',
-					'transactionsonpdf',
-					'transactionsonpdfp',
-					'transactionsondoc',
-					'transactionsonxls',
-					'transactionsoncsv',
-					'getpdf',
-					'addnotetotransaction',
-					'deletenote',
-					'updatecategory',
-					'payments',
+                    'index',
+                    'cardbalance',
+                    'transaction',
+                    'uploadattachemnt',
+                    'getattach',
+                    'transactionsonpdf',
+                    'transactionsonpdfp',
+                    'transactionsondoc',
+                    'transactionsonxls',
+                    'transactionsoncsv',
+                    'getpdf',
+                    'addnotetotransaction',
+                    'deletenote',
+                    'updatecategory',
+                    'payments',
                     'addcategory',
                     'opennewaccount',
                     'create',
                     'getnewaccountstypes',
                     'makeprimary',
                     'management',
+                    'list',
                 ),
                 'roles' => array('client')
             ),
@@ -71,7 +72,7 @@ class AccountsController extends Controller
         $accounts = Accounts::model();
         $accounts->user_id = Yii::app()->user->id;
 
-        if(Yii::request()->isAjaxRequest){
+        if (Yii::request()->isAjaxRequest) {
             echo CJSON::encode(array(
                 'success' => true,
                 'html' => $this->renderPartial('_accountsTable', array('accounts' => $accounts), true)
@@ -336,13 +337,14 @@ class AccountsController extends Controller
         Yii::app()->end();
     }
 
-    public function actionTransactionsOnPdfP(){
+    public function actionTransactionsOnPdfP()
+    {
         $this->actionTransactionsOnPdf('_pdfp');
     }
 
     public function actionTransactionsOnPdf($pattern = '_pdf')
     {
-         $model = new Form_Search();
+        $model = new Form_Search();
         if (isset($_GET['Form_Search'])) {
             $model->attributes = $_GET['Form_Search'];
             $key = md5(serialize($model->attributes));
@@ -605,12 +607,12 @@ class AccountsController extends Controller
             'basic' => true,
         ));
 
-        if(Yii::request()->getParam('ajax')){
+        if (Yii::request()->getParam('ajax')) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
 
-        if(isset($_POST['Accounts'])){
+        if (isset($_POST['Accounts'])) {
             $model->name = $_POST['Accounts']['name'];
             $model->save();
             $this->redirect(array('/accounts/management', 'url' => $model->number));
@@ -630,6 +632,31 @@ class AccountsController extends Controller
         );
 
         $this->render('management', array('model' => $model, 'accounts' => $accounts));
+    }
+
+    public function actionList()
+    {
+        $onWindow = Yii::request()->getParam('w', 0, 'int');
+        if($onWindow){
+            $this->layout = 'justContent';
+        }
+
+        Yii::app()->clientScript->registerScriptFile('/js/accounts.js', CClientScript::POS_END);
+
+        $this->breadcrumbs[Yii::t('Front', 'Accounts')] = '';
+
+        $accounts = Accounts::model();
+        $accounts->user_id = Yii::app()->user->id;
+
+        if (Yii::request()->isAjaxRequest) {
+            echo CJSON::encode(array(
+                'success' => true,
+                'html' => $this->renderPartial('_accountsTable', array('accounts' => $accounts), true)
+            ));
+            Yii::app()->end();
+        }
+
+        $this->render('index', array('accounts' => $accounts));
     }
 
 }

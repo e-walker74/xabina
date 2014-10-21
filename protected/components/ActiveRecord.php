@@ -16,6 +16,9 @@ abstract class ActiveRecord extends CActiveRecord
 
     public function getOldAttribute($name)
     {
+        if(!isset($this->_oldAttributes[$name])){
+            return false;
+        }
         return $this->_oldAttributes[$name];
     }
 
@@ -27,6 +30,11 @@ abstract class ActiveRecord extends CActiveRecord
             }
         }
         return parent::beforeValidate();
+    }
+
+    public function afterFind(){
+        $this->setOldAttributes($this->attributes);
+        return parent::afterFind();
     }
 
     public function beforeSave()

@@ -71,28 +71,47 @@ class UsersTagsWidget extends QWidget
         );
     }
 
-    public function getCurrentUserTags()
+    public function getCurrentUserTags($entity = false)
     {
-        $tags = Users_Tags::model()->findAllBySql('SELECT ut.*, count(ut.id) as ctags FROM users_tags ut
+
+        if($entity){
+            $where = "
+                cl.link_table_name = \"users_tags\" AND cl.entity_name = \"{$entity}\"
+            ";
+        } else {
+            $where = '
+                (cl.user_id = :uid AND ut.user_id = :uid AND cl.link_table_name = "users_tags")
+                OR (ut.user_id is null)
+            ';
+        }
+
+        $sql = "SELECT ut.*, count(ut.id) as ctags FROM users_tags ut
             LEFT OUTER JOIN cross_links cl ON (cl.link_table_id = ut.id)
-            WHERE (cl.user_id = :uid AND ut.user_id = :uid AND cl.link_table_name = "users_tags") OR (ut.user_id is null)
+            WHERE
+              {$where}
             GROUP BY ut.id
             ORDER BY ctags DESC, ut.id ASC
-            LIMIT 15',
+            LIMIT 10";
+
+        $tags = Users_Tags::model()->findAllBySql($sql,
             array(':uid' => Yii::user()->getCurrentId(), ':table_name' => $this->tags_table)
         );
 		
         return $tags;
     }
 
-    public function renderUserTopTags($return = false)
+    public function renderUserTopTags($return = false, $other = true, $entity = false)
     {
         if(!$return){
             $this->registerScript();
         }
-        $tags = $this->getCurrentUserTags();
+        $tags = $this->getCurrentUserTags($entity);
 
-        return $this->render('UsersTagsWidget/userTopTags', array('tags' => $tags), $return);
+        if(!$tags){
+            return '';
+        }
+
+        return $this->render('UsersTagsWidget/userTopTags', array('tags' => $tags, 'other' => $other, 'entity' => $entity), $return);
     }
 
     public function registerScript()

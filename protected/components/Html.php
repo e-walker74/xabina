@@ -10,9 +10,9 @@
 
 class Html extends CHtml {
     public static function link($text, $url=array(), $htmlOptions=array()){
-//        if(!YII_DEBUG && !Yii::user()->checkAccessByUrl($url[0])){
-//            return '';
-//        }
+        if(!YII_DEBUG && !Yii::user()->checkAccessByUrl($url[0])){
+            return '';
+        }
         return parent::link($text, $url, $htmlOptions);
     }
 

@@ -9,7 +9,7 @@ defined('YII_DEBUG') or define('YII_DEBUG',true);
 
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
-require_once(dirname(__FILE__).'../../framework/YiiBase.php');
+require_once(dirname(__FILE__).'/../../../framework/YiiBase.php');
 
 require_once '../Yii.php';
 

@@ -9,7 +9,7 @@
  * @var Users_Files[] $files
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-type="files" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
+<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-type="files" data-backdrop="static" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
     <script>WLinkDrive._filesPopupId = "<?= $htmlID ?>"</script>
 <div class="xabina-modal">
 <div class="modal-header">

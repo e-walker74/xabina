@@ -13,6 +13,7 @@
  * @property string     $name
  * @property string     $sub_type
  * @property integer    $balance
+ * @property integer    $multi_balance
  *
  * The followings are the available model relations:
  * @property Users      $user
@@ -20,9 +21,8 @@
  */
 class Accounts extends ActiveRecord
 {
-
+    const STATUS_APPROVED = -1;
     const STATUS_PENDING = 0;
-    const STATUS_APPROVED = 1;
     const STATUS_REJECTED = 2;
     const STATUS_LOCKED = 3;
     const STATUS_CLOSED = 4;
@@ -39,7 +39,7 @@ class Accounts extends ActiveRecord
     public $terms;
     public $fees;
     public $new_name;
-    public $sub_type;
+//    public $sub_type;
 
     public static $sub_types = array(
         'personal' => 'personal',
@@ -74,13 +74,14 @@ class Accounts extends ActiveRecord
                     ':currency_id' => $this->currency_id
                 )
             )),
+            array('multi_balance', 'numerical'),
             array('new_name', 'validateNewName'),
             array('sub_type', 'in', 'range' => self::getAccountSubTypesForUser()),
             array('name, new_name', 'length', 'max' => 25, 'min' => 3),
             array('currency_id', 'length', 'max' => 3),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, number, user_id, status, type_id, currency_id', 'safe', 'on' => 'search'),
+            array('number, status, sub_type, multi_balance', 'safe', 'on' => 'search'),
             array('id, number, user_id, status, type_id, currency_id', 'safe', 'on' => 'save'),
             array('id, number, user_id, status, type_id, currency_id, holderEmail', 'safe', 'on' => 'adminSearch'),
         );
@@ -99,6 +100,23 @@ class Accounts extends ActiveRecord
             'currency' => array(self::BELONGS_TO, 'Currencies', 'currency_id'),
             'transactions' => array(self::HAS_MANY, 'Transactions', 'account_id', 'order' => 'created_at desc'),
             'multi_accounts' => array(self::HAS_MANY, 'Accounts', array('number' => 'number'), 'condition' => 'basic = 0'),
+            'cross_tags' => array(self::HAS_MANY, 'CrossLinks', 'entity_id', 'condition' => 'cross_tags.link_table_name = "users_tags" AND cross_tags.entity_name = "accounts"'),
+            'tags' => array(self::HAS_MANY, 'Users_Tags', array('link_table_id' => 'id'), 'through'=>'cross_tags'),
+        );
+    }
+
+    public function afterSave(){
+        if($this->getOldAttribute('balance') != $this->balance){
+            $this->updateGroupBalance();
+        }
+        return parent::afterSave();
+    }
+
+    public function updateGroupBalance(){
+        Accounts::model()->currentUser()->updateAll(
+            array('multi_balance' => $this->getGroupBalance()),
+            'number = :n AND basic = 1',
+            array(':n' => $this->number)
         );
     }
 
@@ -195,16 +213,27 @@ class Accounts extends ActiveRecord
 
         $criteria = new CDbCriteria;
         $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('user.email', $this->holderEmail, true);
+//        $criteria->compare('user.email', $this->holderEmail, true);
         $criteria->compare('basic', true);
         $criteria->with = array('user');
-        $criteria->order = 'is_master desc';
+        if(!isset($_GET['Accounts_sort'])){
+            $criteria->order = 'number asc';
+        }
+
+        if(isset($_GET['sort'])){
+            $params = explode('.', $_GET['sort']);
+            if(!isset($params[1]) || !($params[1] == 'desc' || $params[1] == 'asc')){
+                throw new CHttpException(404, 'Page not found');
+            }
+            $searchFields = array('number', 'name', 'multi_balance', 'status');
+            if(!in_array($params[0], $searchFields)){
+                throw new CHttpException(404, 'Page not found');
+            }
+            $criteria->order = 't.' . $params[0] . ' ' . $params[1];
+        }
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-            'sort' => array(
-                'defaultOrder' => 'balance desc',
-            ),
             'pagination' => false,
         ));
     }

@@ -529,4 +529,10 @@ class WebUser extends CWebUser
             return $value;
         }
     }
+
+    public function checkAccessByUrl($operation, $params = array(), $allowCaching = true)
+    {
+        $operation = str_replace('/', '.', trim($operation, '/'));
+        return parent::checkAccess($operation, $params, $allowCaching);
+    }
 }

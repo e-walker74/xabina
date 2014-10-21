@@ -103,8 +103,8 @@
         </td>
         <td style="overflow: visible!important" class="currency-td">
             <div class="relative">
-                          <span class="dropdown_button  currency_dropdown">EUR<span class="currency_drdn_arr"></span>
-                          </span>
+                  <span class="dropdown_button  currency_dropdown">EUR<span class="currency_drdn_arr"></span>
+                  </span>
             </div>
         </td>
         <td colspan="2"></td>

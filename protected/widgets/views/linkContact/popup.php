@@ -8,7 +8,7 @@
  * Time: 23:11
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-update-url="<?= Yii::app()->createUrl('/contact/getwidgetgrid') ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
+<div class="modal fade" data-backdrop="static" id="<?= $htmlID ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-update-url="<?= Yii::app()->createUrl('/contact/getwidgetgrid') ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>">
     <script>WLinkContact._popupId = "<?= $htmlID ?>"</script>
     <div class="xabina-modal">
         <div class="modal-header">

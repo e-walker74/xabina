@@ -124,7 +124,9 @@
         <div class="clearfix"></div>
     </td>
     <td>
-        <?php Widget::get('UsersTagsWidget')->renderUserTopTags(); ?>
+        <div class="new_tran_but">
+            <?php Widget::get('UsersTagsWidget')->renderUserTopTags(); ?>
+        </div>
         <div class="clearfix"></div>
     </td>
 </tr>
