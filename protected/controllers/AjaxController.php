@@ -4,7 +4,7 @@
  * Class AjaxController
  * For all common ajax requests
  */
-class AjaxController extends Controller
+class AjaxController extends CController
 {
 
     public $layout = '';
@@ -261,13 +261,12 @@ class AjaxController extends Controller
     {
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_category = Yii::request()->getParam('cross_category');
-        $cross_type = Yii::request()->getParam('cross_type');
-
-
+        $cross_type = Yii::request()->getParam('cross_type');	
+		
         if(!$cross_id){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
-
+		
         if($cross_category && !is_numeric($cross_category) && $cross_type){
             $category = new Users_Categories();
             $category->user_id = Yii::user()->getCurrentId();
@@ -276,7 +275,13 @@ class AjaxController extends Controller
             $category->save();
             $cross_category_id = $category->id;
         } elseif($cross_category) {
-            $category = Users_Categories::model()->currentUser()->findByPk($cross_category);
+            $category = Users_Categories::model()->find(
+				'id = :id AND (user_id IS NULL OR user_id = :uid)',
+				array(
+					':id' => $cross_category,
+					':uid' => Yii::user()->id,
+				)
+			);
             $cross_category_id = $cross_category;
         } else {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
