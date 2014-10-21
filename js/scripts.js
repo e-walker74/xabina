@@ -559,15 +559,15 @@ $(function () {
         });
     }
 
-    $(document).on('click', '.checkbox-custom label', function (e) {
-        if ($(this).find('input[type="checkbox"]').prop('checked')) {
-            $(this).addClass('checked');
-            e.stopPropagation();
-        } else {
-            $(this).removeClass('checked');
-            e.stopPropagation();
-        }
-    });
+//    $(document).on('click', '.checkbox-custom label', function (e) {
+//        if ($(this).find('input[type="checkbox"]').prop('checked')) {
+//            $(this).addClass('checked');
+//            e.stopPropagation();
+//        } else {
+//            $(this).removeClass('checked');
+//            e.stopPropagation();
+//        }
+//    });
 
 });
 
@@ -600,7 +600,8 @@ var bindDeleteConfirmationEvent = function(){
     });
 
     $('.close-dropdown').click(function(){
-        $(this).parents('.dropdown-menu').prev().dropdown('toggle');
+//        $(this).parents('.dropdown-menu').prev().dropdown('toggle');
+        $('.close-dropdown').closest('.drdn-cont').removeClass('open')
     });
 }
 
@@ -1722,7 +1723,7 @@ $(function () {
     });
 
     $('.checkbox-custom').on('click', 'label', function(e){
-        if($(this).find('input').prop('checked')){
+        if($(this).find('input[type=checkbox]').prop('checked')){
             $(this).addClass('checked');
             e.stopPropagation();
         }else{
@@ -1730,6 +1731,8 @@ $(function () {
             e.stopPropagation();
         }
     });
+
+    $('input[type=checkbox]:checked').parent().addClass('checked').addClass('active')
 
     if($( ".escape-dialog").length)
     $( ".escape-dialog" ).dialog({

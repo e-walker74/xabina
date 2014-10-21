@@ -613,6 +613,10 @@ class AccountsController extends Controller
         if(isset($_POST['Accounts'])){
             $model->name = $_POST['Accounts']['name'];
             $model->save();
+            Yii::app()->session['flash_notify'] = array(
+                'title' => Yii::t('Accounts', 'Accounts'),
+                'message' => Yii::t('Accounts', 'Account name was changed'),
+            );
             $this->redirect(array('/accounts/management', 'url' => $model->number));
         }
 

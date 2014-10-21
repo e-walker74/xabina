@@ -261,18 +261,29 @@ class AjaxController extends CController
     {
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_category = Yii::request()->getParam('cross_category');
-        $cross_type = Yii::request()->getParam('cross_type');	
+        $cross_type = Yii::request()->getParam('cross_type');
+        $new_category = Yii::request()->getParam('new_category', false, 'boolean');
 		
         if(!$cross_id){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
-		
-        if($cross_category && !is_numeric($cross_category) && $cross_type){
-            $category = new Users_Categories();
-            $category->user_id = Yii::user()->getCurrentId();
-            $category->data_type = $cross_type;
-            $category->value = $cross_category;
-            $category->save();
+
+        if($cross_category && $new_category && $cross_type){
+            $category = Users_Categories::model()->find(
+                'value = :val AND (user_id IS NULL OR user_id = :uid)',
+                array(
+                    ':val' => $cross_category,
+                    ':uid' => Yii::user()->id,
+                )
+            );
+            if(!$category){
+                $category = new Users_Categories();
+                $category->user_id = Yii::user()->getCurrentId();
+                $category->data_type = $cross_type;
+                $category->value = $cross_category;
+                $category->save();
+            }
+
             $cross_category_id = $category->id;
         } elseif($cross_category) {
             $category = Users_Categories::model()->find(
@@ -303,7 +314,7 @@ class AjaxController extends CController
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_comment = Yii::request()->getParam('cross_comment');
 
-        if(!$cross_id || !is_numeric($cross_id) || !$cross_comment){
+        if(!$cross_id || !is_numeric($cross_id)){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
