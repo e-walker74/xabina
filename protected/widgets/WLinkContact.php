@@ -45,7 +45,8 @@ class WLinkContact extends QWidget
             INNER JOIN cross_links cl ON (uf.id = cl.link_table_id AND cl.link_table_name = 'users_contacts')
             WHERE uf.user_id = :user_id
             AND cl.entity_id = :entity_id
-            AND cl.entity_name = :entity",
+            AND cl.entity_name = :entity
+            ORDER BY cl.id desc",
             array(
                 ':user_id' => Yii::user()->getCurrentId(),
                 ':entity_id' => $entityId,

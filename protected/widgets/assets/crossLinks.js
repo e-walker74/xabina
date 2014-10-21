@@ -25,7 +25,7 @@ CrossLinks = {
                 }
             }).on('hide.bs.dropdown', '.comment.drdn-cont', function(){
                 if($(this).find('a.transaction_comment').hasClass('active')){
-                    CrossLinks.closeCommentArea($(this))
+                    CrossLinks.closeCommentArea($(this), $(this).parent().find('textarea').val())
                 }
             })
         })
@@ -114,9 +114,9 @@ CrossLinks = {
         return false;
     },
     closeCommentArea: function(categoryBlock, comment){
-        if(!comment){
-            comment = categoryBlock.find('.casual_text pre').html()
-        }
+//        if(!comment){
+//            comment = categoryBlock.find('.casual_text pre').html()
+//        }
         if(comment.length){
             categoryBlock.find('.with-info .casual_text pre').html(comment)
             categoryBlock.find('.without-info').hide()

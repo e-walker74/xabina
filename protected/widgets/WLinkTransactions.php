@@ -46,7 +46,8 @@ class WLinkTransactions extends QWidget
             INNER JOIN accounts ac ON(tr.account_id = ac.id)
             WHERE ac.user_id = :user_id
             AND cl.entity_id = :entity_id
-            AND cl.entity_name = :entity",
+            AND cl.entity_name = :entity
+            ORDER BY cl.id desc",
             array(
                 ':user_id' => Yii::user()->getCurrentId(),
                 ':entity_id' => $entityId,

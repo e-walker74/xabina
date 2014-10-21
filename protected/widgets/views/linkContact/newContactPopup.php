@@ -8,7 +8,7 @@
  * Time: 14:11
  */ ?>
 
-<div class="modal fade" id="createContactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="createContactModal"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="xabina-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/css/layout/account/img/close.png"></button>
@@ -21,8 +21,8 @@
                     <?= Yii::t('Contacts', 'Contacts') ?> <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span>
                 </div>
                 <div class="form-block">
-                    <input class="add-input pull-left gray_bg" type="text">
-                    <a href="transfer_overview.html" class="rounded-buttons pull-right gray-add-new"><?= Yii::t('Contacts', 'ADD NEW') ?></a>
+                    <input class="add-input pull-left gray_bg" type="text" disabled="disabled">
+                    <a href="javaScript:void(0)" class="rounded-buttons pull-right gray-add-new"><?= Yii::t('Contacts', 'ADD NEW') ?></a>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <td class="name_td_two">Платежное имя <span class="tooltip-icon" title="Add Your first name using latin alphabet"></span></td>
                         <td class="value_td_big" colspan="2"><input type="text" class="add-input long-input" value="Ivan Ivanov" /></td>
                     </tr>-->
-                    <tr class="form-tr xabina-form-container">
+                    <tr class="form-tr xabina-form-container" onclick="WLinkContact.checkRadio(this)">
                         <td class="new-checkbox-td">
                             <label class="modal-galka-radiobutton"><input name="Users_Contacts[type]" value="personal" type="radio"/></label>
                         </td>
@@ -45,7 +45,7 @@
                         <td class="value_td_small">
                             <input name="Users_Contacts[last_name]"  type="text" class="add-input long-input" value="" placeholder="<?= Yii::t('Contacts', 'Enter lastname') ?>" /></td>
                     </tr>
-                    <tr class="form-tr xabina-form-container">
+                    <tr class="form-tr xabina-form-container" onclick="WLinkContact.checkRadio(this)">
                         <td class="new-checkbox-td">
                             <label class="modal-galka-radiobutton"><input name="Users_Contacts[type]" value="company" type="radio"/></label>
                         </td>

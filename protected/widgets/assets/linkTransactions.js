@@ -64,6 +64,8 @@ WLinkTransactions = {
                 if (data.success) {
                     $('.transaction-transactions-row').remove()
                     $(data.html).insertAfter($('.before-transactions'))
+                    $('.linked_tr').show()
+                    $('.drop_links').addClass('active')
                     successNotify('', data.message, $('.before-transactions').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()

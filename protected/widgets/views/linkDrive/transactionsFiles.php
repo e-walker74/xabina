@@ -31,6 +31,8 @@
     <td class="title">
         <?php if($file->document_type != 'folder'): ?>
         <a href="<?= Yii::app()->createUrl('/file/get', array('id' => $file->id, 'name' => $file->name)) ?>">
+        <?php else: ?>
+            <a href="javaScript:void(0)" onclick="$('#addNewFileModal').addClass('no-load'); $('#addNewFileModal').modal('show'); WLinkDrive.openFolder('', <?= $file->id ?>, $('#addNewFileModal').find('.modal-body'));">
         <?php endif; ?>
         <div class="account-data pull-left">
             <div class="account-name"><?= $file->user_file_name ?></div>
@@ -42,9 +44,7 @@
                 <?php endif; ?>
             </div>
         </div>
-        <?php if($file->document_type != 'folder'): ?>
-            </a>
-        <?php endif; ?>
+        </a>
     </td>
     <td class="edit">
         <?= Widget::get('WCrossLink')->changeCategory($file->cross_id, $file->cross_category, 'cross_users_files') ?>

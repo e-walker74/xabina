@@ -132,7 +132,7 @@
 <td colspan="3" class="nopadding_td" style="border-style: hidden;">
 <table class="link_table">
 <tr class="link_tr">
-    <td class="icon_td"><a href="#" class="drop_links"></a></td>
+    <td class="icon_td"><a href="#" class="drop_links active"></a></td>
     <td class="title"><span class="bolder_link"><?= Yii::t('Transactions', 'Linking') ?></span></td>
     <td colspan="3">
 															<span class="drdn-cont pull-right">

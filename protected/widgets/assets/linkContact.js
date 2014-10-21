@@ -49,6 +49,8 @@ WLinkContact = {
                     $(data.html).insertAfter($('.before-contacts'))
                     successNotify('', data.message, $('.before-contacts').prev())
                     button.closest('.modal').modal('hide')
+                    $('.linked_tr').show()
+                    $('.drop_links').addClass('active')
                     resetCheckeBox()
                     resetPage()
                 } else {
@@ -106,6 +108,11 @@ WLinkContact = {
             }
         })
         return false;
+    },
+    checkRadio: function(row){
+        $(row).closest('table').find('input[type=radio]').attr('checked', false).closest('label').removeClass('active')
+        $(row).find('.modal-galka-radiobutton').addClass('active').find('input').attr('checked', true)
+
     }
 }
 

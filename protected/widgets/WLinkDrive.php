@@ -38,12 +38,12 @@ class WLinkDrive extends QWidget
             AND cl.entity_id = :entity_id
             AND cl.entity_name = :entity
             AND cl.link_table_name = :link_name
-            AND uf.model_id != ''",
+            ORDER BY cl.id desc",
             array(
                 ':user_id' => Yii::user()->getCurrentId(),
                 ':entity_id' => $entityId,
                 ':entity' => $entity,
-                ':link_name' => 'users_files',
+                ':link_name' => 'users_files_memo',
             )
         );
 
@@ -96,7 +96,8 @@ class WLinkDrive extends QWidget
             AND uf.document_type != 'memo'
             AND uf.name != ''
             AND cl.entity_id = :entity_id
-            AND cl.entity_name = :entity",
+            AND cl.entity_name = :entity
+            ORDER BY cl.id desc",
             array(
                 ':user_id' => Yii::user()->getCurrentId(),
                 ':entity_id' => $entityId,
@@ -145,7 +146,7 @@ class WLinkDrive extends QWidget
             $param = Yii::request()->getParam('param', 'user_file_name', 'list', array('user_file_name', 'description', 'created_at', 'file_size'));
             $order = $param . ' ' . $sort;
         } else {
-            $order = 'id desc';
+            $order = 'document_type asc, id desc';
         }
 
         $files = Users_Files::model()

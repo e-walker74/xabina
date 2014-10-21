@@ -432,7 +432,7 @@ class FileController extends Controller
                 $cross->entity_id = $entity_id;
                 $cross->entity_name = $entity;
                 $cross->link_table_id = $file;
-                $cross->link_table_name = 'users_files';
+                $cross->link_table_name = 'users_files_memo';
                 $cross->user_id = Yii::user()->getCurrentId();
                 $cross->save();
             } catch (CException $e) {
@@ -445,6 +445,7 @@ class FileController extends Controller
 //                Yii::app()->end();
             }
         }
+
 
         $html = Widget::create(
             'WLinkDrive', 'WLinkDrive',
