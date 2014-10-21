@@ -151,8 +151,8 @@ class WLinkDrive extends QWidget
 
         $files = Users_Files::model()
             ->currentUser()
-            ->with(array('memos_children'))
-            ->together()
+//            ->with(array('memos_children'))
+//            ->together()
             ->findAll(
                 array(
                     'condition' => 't.deleted = 0 AND t.parent_id = :folder AND (t.document_type = "memo" OR t.document_type = "folder")',
@@ -195,8 +195,8 @@ class WLinkDrive extends QWidget
 
         $files = Users_Files::model()
             ->currentUser()
-            ->with(array('files_children'))
-            ->together()
+//            ->with(array('files_children'))
+//            ->together()
             ->findAll(
                 array(
                     'condition' => 't.deleted = 0 AND t.name != "" AND t.document_type != "memo" AND t.parent_id = :folder',
