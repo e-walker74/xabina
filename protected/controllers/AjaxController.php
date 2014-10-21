@@ -269,11 +269,13 @@ class AjaxController extends CController
         }
 
         if($cross_category && $new_category && $cross_type){
+
             $category = Users_Categories::model()->find(
-                'value = :val AND (user_id IS NULL OR user_id = :uid)',
+                'value = :val AND (user_id IS NULL OR user_id = :uid) AND data_type = :type',
                 array(
                     ':val' => $cross_category,
                     ':uid' => Yii::user()->id,
+                    ':type' => $cross_type,
                 )
             );
             if(!$category){
@@ -287,8 +289,9 @@ class AjaxController extends CController
             $cross_category_id = $category->id;
         } elseif($cross_category) {
             $category = Users_Categories::model()->find(
-				'id = :id AND (user_id IS NULL OR user_id = :uid)',
+				'id = :id AND (user_id IS NULL OR user_id = :uid) AND data_type = :type',
 				array(
+                    ':type' => $cross_type,
 					':id' => $cross_category,
 					':uid' => Yii::user()->id,
 				)

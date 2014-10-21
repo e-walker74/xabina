@@ -51,10 +51,10 @@ CrossLinks = {
         var selectedOption = categoryBlock.find('select option:selected')
         var new_category = categoryBlock.find('.other input[name="category"]')
         var value = selectedOption.val()
-        var new_category_flag = false
+        var new_category_flag = 0
         if(new_category.val().length > 0){
             value = new_category.val()
-            new_category_flag = true
+            new_category_flag = 1
         }
         var cross_type = categoryBlock.find('.other input[name="cross_type"]')
 

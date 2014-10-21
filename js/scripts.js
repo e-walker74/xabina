@@ -600,9 +600,11 @@ var bindDeleteConfirmationEvent = function(){
     });
 
     $('.close-dropdown').click(function(){
-//        $(this).parents('.dropdown-menu').prev().dropdown('toggle');
-        $('.close-dropdown').closest('.drdn-cont').removeClass('open')
+        $(this).closest('.drdn-cont').removeClass('open');
+        $(this).closest('.dropdown-menu').hide();
     });
+
+    $('.valute-drdn').hover(function(){$(this).find('.valute-dr').attr("style","");});
 }
 
 var bindHoverCurrencyConverter = function(){
