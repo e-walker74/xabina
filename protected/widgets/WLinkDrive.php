@@ -146,7 +146,7 @@ class WLinkDrive extends QWidget
             $param = Yii::request()->getParam('param', 'user_file_name', 'list', array('user_file_name', 'description', 'created_at', 'file_size'));
             $order = $param . ' ' . $sort;
         } else {
-            $order = 'document_type asc, id desc';
+            $order = 't.document_type asc, t.id desc';
         }
 
         $files = Users_Files::model()
@@ -155,7 +155,7 @@ class WLinkDrive extends QWidget
             ->together()
             ->findAll(
                 array(
-                    'condition' => 'deleted = 0 AND parent_id = :folder AND (document_type = "memo" OR document_type = "folder")',
+                    'condition' => 't.deleted = 0 AND t.parent_id = :folder AND (t.document_type = "memo" OR t.document_type = "folder")',
                     'order' => $order,
                     'params' => array(':folder' => $folder),
                 )
@@ -190,7 +190,7 @@ class WLinkDrive extends QWidget
             $param = Yii::request()->getParam('param', 'user_file_name', 'list', array('user_file_name', 'description', 'created_at', 'file_size'));
             $order = $param . ' ' . $sort;
         } else {
-            $order = 'document_type desc, id desc';
+            $order = 't.document_type desc, t.id desc';
         }
 
         $files = Users_Files::model()
@@ -199,7 +199,7 @@ class WLinkDrive extends QWidget
             ->together()
             ->findAll(
                 array(
-                    'condition' => 'deleted = 0 AND name != "" AND document_type != "memo" AND parent_id = :folder',
+                    'condition' => 't.deleted = 0 AND t.name != "" AND t.document_type != "memo" AND t.parent_id = :folder',
                     'params' => array(':folder' => $folder),
                     'order' => $order
                 )
