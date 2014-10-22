@@ -37,7 +37,7 @@
             <?php endif; ?>
                 <div class="account-data pull-left">
                     <div class="full_text" style="display: none;">
-                        <p><?= $memo->description ?></p>
+                        <?= $memo->description ?>
                     </div>
                     <div class="account-name">
                         <?php if($memo->document_type == 'folder'): ?>

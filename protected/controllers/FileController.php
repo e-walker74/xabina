@@ -308,7 +308,7 @@ class FileController extends Controller
         $entity = Yii::request()->getParam('entity', '');
         $memo_id = Yii::request()->getParam('memo_id', '', 'int');
         $entityId = Yii::request()->getParam('entity_id', '', 'int');
-        $text = Yii::request()->getParam('text', '', 'string');
+        $text = trim(Yii::request()->getParam('text', '', 'string'));
         $transaction_id = Yii::request()->getParam('transaction_id', '', 'int');
         $folder_id = Yii::request()->getParam('folder_id', '', 'int');
 

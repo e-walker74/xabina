@@ -55,14 +55,19 @@ WLinkDrive = {
         })
     },
     addNewMemo: function (blockId, url) {
+		
         var block = $('#' + blockId)
         if (block.find('textarea.redactor').val() == "") {
             block.find('.memo_edit .error-message').slideDown().delay(3000).slideUp()
             return false;
         }
+		
+		block.find('form').find('textarea').val( block.find('form').find('.redactor_editor').html() )
+		
         var memo_id = block.find('input[name=memo_id]').val()
         var transaction_id = block.find('input[name=transaction_id]').val()
         var folder_id = block.find('input[name=folder_id]').val()
+		
         $.ajax({
             url: url,
             data: block.find('form').serialize(),

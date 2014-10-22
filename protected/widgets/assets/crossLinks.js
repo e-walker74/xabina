@@ -40,10 +40,21 @@ CrossLinks = {
             tr.find('.modal-galka-checkbox input').attr('checked', true);
         }
     },
-    closeCategoryInput: function(el){
-        $(el).closest('.other').hide().prev().show().find('select option:first').attr('selected', true)
-        setAllSelectedValues()
-        $(el).closest('.other').find('input[name="category"]').val('')
+    closeCategoryInput: function(el, id){
+		if($(el).closest('.other').find('input[name="category"]').val().length > 0){
+			if(id){
+				var val = $(el).closest('.other').find('input[name="category"]').val()
+				$(el).closest('.other').hide().prev().show().find('select').prepend('<option value="' + id + '">' + val + '</option>');
+				$(el).closest('.other').hide().prev().show().find('select option[value="' + id + '"]').attr('selected', true)
+			} else {
+				$(el).closest('.other').hide().prev().show().find('select option:first').attr('selected', true)
+			}
+			setAllSelectedValues()
+			$(el).closest('.other').find('input[name="category"]').val('')
+		} else {
+			
+		}
+        
     },
     changeCategory: function(link){
         var saveButton = $(link)
@@ -72,7 +83,7 @@ CrossLinks = {
                 if (data.success) {
                     categoryBlock.find('.change_dropdown').html(data.value)
                     successNotify('', data.message, categoryBlock)
-                    CrossLinks.closeCategoryInput(new_category)
+                    CrossLinks.closeCategoryInput(new_category, data.id)
                     CrossLinks.closeCategories()
 
                 } else {

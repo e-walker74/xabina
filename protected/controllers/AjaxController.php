@@ -200,7 +200,7 @@ class AjaxController extends CController
                 }
 
                 $utag = Users_Tags::model()->findByAttributes(array(
-//                    'user_id' => Yii::user()->getCurrentId(),
+                    'user_id' => Yii::user()->getCurrentId(),
                     'title' => $tag,
                 ));
                 if (!$utag) {
@@ -210,7 +210,7 @@ class AjaxController extends CController
                     $utag->save();
                 }
 
-                try {
+                //try {
                     $cross = new CrossLinks();
                     $cross->entity_id = $id;
                     $cross->entity_name = $entity;
@@ -218,7 +218,7 @@ class AjaxController extends CController
                     $cross->link_table_name = $utag->tableName();
                     $cross->user_id = Yii::user()->getCurrentId();
                     $cross->save();
-                } catch (CException $e) {
+                /*} catch (CException $e) {
                     echo CJSON::encode(
                         array(
                             'success' => false,
@@ -226,10 +226,10 @@ class AjaxController extends CController
                         )
                     );
                     Yii::app()->end();
-                }
+                }*/
             }
         } elseif ($tag_id) {
-            try {
+            //try {
                 $cross = new CrossLinks();
                 $cross->entity_id = $id;
                 $cross->entity_name = $entity;
@@ -237,7 +237,7 @@ class AjaxController extends CController
                 $cross->link_table_name = 'users_tags';
                 $cross->user_id = Yii::user()->getCurrentId();
                 $cross->save();
-            } catch (CException $e) {
+            /*} catch (CException $e) {
                 echo CJSON::encode(
                     array(
                         'success' => false,
@@ -245,7 +245,7 @@ class AjaxController extends CController
                     )
                 );
                 Yii::app()->end();
-            }
+            }*/
         }
 
         echo CJSON::encode(
@@ -309,7 +309,7 @@ class AjaxController extends CController
         $cross->category_id = $cross_category_id;
         $cross->save();
 
-        echo CJSON::encode(array('success' => true, 'value' => $category->value, 'message' => Yii::t('Cross', 'Category was saved')));
+        echo CJSON::encode(array('success' => true, 'id' => $cross->category_id, 'value' => $category->value, 'message' => Yii::t('Cross', 'Category was saved')));
     }
 
     public function actionCrossComment()
