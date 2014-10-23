@@ -37,7 +37,12 @@ WLinkDrive = {
             })
 
             $('#' + WLinkDrive._filesPopupId).on('show.bs.modal', function (e) {
-                WLinkDrive.openFolder('', 0, $('#' + WLinkDrive._filesPopupId + ' .modal-body'))
+                if($('#' + WLinkDrive._filesPopupId).hasClass('no-load')){
+                    $('#' + WLinkDrive._filesPopupId).removeClass('no-load')
+                } else {
+                    WLinkDrive.openFolder('', 0, $('#' + WLinkDrive._filesPopupId + ' .modal-body'))
+                }
+
             })
             $('#' + WLinkDrive._newMemoPopupId).on('show.bs.modal', function (e) {
                 $('#' + WLinkDrive._newMemoPopupId).find('.redactor_editor').html('')
@@ -50,14 +55,19 @@ WLinkDrive = {
         })
     },
     addNewMemo: function (blockId, url) {
+		
         var block = $('#' + blockId)
         if (block.find('textarea.redactor').val() == "") {
             block.find('.memo_edit .error-message').slideDown().delay(3000).slideUp()
             return false;
         }
+		
+		block.find('form').find('textarea').val( block.find('form').find('.redactor_editor').html() )
+		
         var memo_id = block.find('input[name=memo_id]').val()
         var transaction_id = block.find('input[name=transaction_id]').val()
         var folder_id = block.find('input[name=folder_id]').val()
+		
         $.ajax({
             url: url,
             data: block.find('form').serialize(),
@@ -73,6 +83,8 @@ WLinkDrive = {
                     if(memo_id){
                         $('.drive_memo').remove()
                         $(data.html).insertAfter($('.before-memo'))
+                        $('.linked_tr').show()
+                        $('.drop_links').addClass('active')
                         successNotify('', data.message, $('.before-memo').prev())
                     } else {
                         $('#linkNewMemoModal').addClass('no-load')
@@ -129,6 +141,8 @@ WLinkDrive = {
                 if (data.success) {
                     $('.drive_files').remove()
                     $(data.html).insertAfter($('.before-files'))
+                    $('.linked_tr').show()
+                    $('.drop_links').addClass('active')
                     successNotify('', data.message, $('.before-files').prev())
                     button.closest('.modal').modal('hide')
                     resetPage()
@@ -159,6 +173,8 @@ WLinkDrive = {
                     $(data.html).insertAfter($('.before-memo'))
                     successNotify('', data.message, $('.before-memo').prev())
                     button.closest('.modal').modal('hide')
+                    $('.linked_tr').show()
+                    $('.drop_links').addClass('active')
                     resetPage()
                     resetCheckeBox()
                 } else {

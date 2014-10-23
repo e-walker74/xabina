@@ -39,13 +39,14 @@ class WLinkContact extends QWidget
         if ($this->_contacts !== false) {
             return $this->_contacts;
         }
-        $model = Users_Contacts::model()->currentUser()->with('user')->findAllBySql(
+        $model = Users_Contacts::model()->withOutData()->currentUser()->with('user')->findAllBySql(
             "SELECT uf.*, cl.entity_id as model_id, cl.entity_name as form, cl.id as cross_id, cl.category_id as cross_category,
                 cl.comment as cross_comment FROM users_contacts uf
             INNER JOIN cross_links cl ON (uf.id = cl.link_table_id AND cl.link_table_name = 'users_contacts')
             WHERE uf.user_id = :user_id
             AND cl.entity_id = :entity_id
-            AND cl.entity_name = :entity",
+            AND cl.entity_name = :entity
+            ORDER BY cl.id desc",
             array(
                 ':user_id' => Yii::user()->getCurrentId(),
                 ':entity_id' => $entityId,

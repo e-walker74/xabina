@@ -141,7 +141,17 @@ class AccountsController extends Controller
         $this->breadcrumbs[Yii::t('Front', 'Balance')] = array('/accounts/cardbalance');
         $this->breadcrumbs[Yii::t('Front', 'Transaction details')] = '';
 
-        $trans = Transactions::model()->with('account')->findByAttributes(array('url' => $id));
+        $trans = Transactions::model()
+            ->with(array(
+                'account',
+                'info',
+                'contact',
+                'contact.data',
+                'account',
+                'account.currency',
+            ))
+            ->together()
+            ->findByAttributes(array('url' => $id));
 
         if (!$trans) {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -615,6 +625,10 @@ class AccountsController extends Controller
         if (isset($_POST['Accounts'])) {
             $model->name = $_POST['Accounts']['name'];
             $model->save();
+            Yii::app()->session['flash_notify'] = array(
+                'title' => Yii::t('Accounts', 'Accounts'),
+                'message' => Yii::t('Accounts', 'Account name was changed'),
+            );
             $this->redirect(array('/accounts/management', 'url' => $model->number));
         }
 

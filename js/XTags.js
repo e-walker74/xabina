@@ -15,6 +15,7 @@ XTags = {
                     success: function(data){
                         if(data.success){
                             successNotify('', data.message, link)
+                            $('#tags-select-dropdown li[data-tag='+link.attr('data-tag')+']').show()
                             link.closest('li').remove()
                         }
                     },

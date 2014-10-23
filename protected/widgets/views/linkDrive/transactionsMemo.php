@@ -18,19 +18,42 @@
 </tr>
 <?php foreach ($model as $memo): ?>
     <tr class="linked_tr drive_memo">
-        <td class="icon_td"><img src="/css/images/one_memo.png"></td>
+        <td class="icon_td">
+            <?php if($memo->document_type == 'folder'): ?>
+                <a href="javaScript:void(0)" onclick="$('#linkNewMemoModal').addClass('no-load'); $('#linkNewMemoModal').modal('show'); WLinkDrive.openFolder('', <?= $memo->id ?>, $('#linkNewMemoModal').find('.modal-body'));">
+                    <img width="26" src="/css/layout/account/img/folder_img.png" />
+                </a>
+            <?php else: ?>
+                <a href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal', <?= $memo->model_id ?>)">
+                    <img src="/css/images/one_memo.png">
+                </a>
+            <?php endif; ?>
+        </td>
         <td class="title">
-            <a href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal', <?= $memo->model_id ?>)">
+            <?php if($memo->document_type != 'folder'): ?>
+                <div style="cursor:pointer;" href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal', <?= $memo->model_id ?>)">
+            <?php else: ?>
+                <div style="cursor:pointer;" href="javaScript:void(0)" onclick="$('#linkNewMemoModal').addClass('no-load'); $('#linkNewMemoModal').modal('show'); WLinkDrive.openFolder('', <?= $memo->id ?>, $('#linkNewMemoModal').find('.modal-body'));">
+            <?php endif; ?>
                 <div class="account-data pull-left">
                     <div class="full_text" style="display: none;">
-                        <p><?= $memo->description ?></p>
+                        <?= $memo->description ?>
                     </div>
-                    <div class="account-name"><?= $memo->getShortDescription() ?></div>
+                    <div class="account-name">
+                        <?php if($memo->document_type == 'folder'): ?>
+                            <?= $memo->user_file_name ?>
+                        <?php else: ?>
+                            <?= $memo->getShortDescription() ?></div>
+                        <?php endif; ?>
                     <div class="account-info">
-                        <?= $memo->user->fullName ?>
+                        <?php if($memo->document_type == 'folder'): ?>
+                            <?= count($memo->memos_children) ?> <?= Yii::t('Transactions', 'memos'); ?>
+                        <?php else: ?>
+                            <?= $memo->user->fullName ?>
+                        <?php endif; ?>
                     </div>
                 </div>
-            </a>
+            </div>
         </td>
         <td class="edit">
             <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category, 'cross_users_memo') ?>
@@ -40,7 +63,7 @@
         </td>
         <td class="delete">
             <div class="attach_del_block"><a
-                    data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $memo->id, 'entity' => $memo->form, 'entity_id' => $memo->model_id, 'cross_type' => $memo->tableName())) ?>"
+                    data-url="<?= Yii::app()->createUrl('/ajax/removetag', array('id' => $memo->id, 'entity' => $memo->form, 'entity_id' => $memo->model_id, 'cross_type' => 'users_files_memo')) ?>"
                     class="del_a"></a></div>
         </td>
     </tr>

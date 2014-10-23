@@ -12,6 +12,7 @@
 <?php $model = $this->getTransactions($entity_id, $entity); ?>
 <?php foreach ($transactions as $trans): ?>
     <?php if (isset($model[$trans->id])) continue; ?>
+    <?php if ($trans->id == $entity_id) continue; ?>
     <tr class="wcategory-row">
         <td width="6%">
             <label class="modal-galka-checkbox">

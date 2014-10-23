@@ -460,9 +460,9 @@ class WebUser extends CWebUser
 
     public function getRbac()
     {
-//        if ($this->getState('__rbac') == NULL) {
+        if ($this->getState('__rbac') == NULL) {
             $this->initRback(); //TODO put rbac to cache, and drop cache on update
-//        }
+        }
 
         return $this->getState('__rbac');
     }

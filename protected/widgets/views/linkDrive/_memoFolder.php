@@ -38,7 +38,7 @@
         <div class="clearfix"></div>
     </div>
     <ul class="pay-list list-unstyled file-list" style="display: none;">
-        <li><div><span class="title"><?= Yii::t('Drive', 'Type') ?>:</span> <?= Yii::t('Drive', 'File') ?></div></li>
+        <li><div><span class="title"><?= Yii::t('Drive', 'Type') ?>:</span> <?= Yii::t('Drive', 'Folder') ?></div></li>
         <li><div><span class="title"><?= Yii::t('Drive', 'Directory') ?>:</span> /<?= $model->getDirectories() ?></div></li>
         <li><div><span class="title"><?= Yii::t('Drive', 'Memos') ?>:</span> <?= count($model->memos_children) ?></div></li>
         <li><div><span class="title"><?= Yii::t('Drive', 'Created at') ?>:</span> <?= SiteService::timeToDate($model->created_at, true) ?></div></li>

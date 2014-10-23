@@ -9,7 +9,7 @@
  * @var WLinkDrive $this
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="<?= $htmlID ?>" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <script>WLinkDrive._newMemoPopupId = "<?= $htmlID ?>"</script>
     <form action="" method="POST">
     <div class="xabina-modal">

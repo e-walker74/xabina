@@ -100,12 +100,12 @@
                                     <li>
                                         <?php if($model->getGroupBalance() > 0): ?>
                                             <a href="#">
-                                                <span class="sum sum-inc ">+<?= number_format($model->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $model->currency->title ?></span>
+                                                <span class="sum sum-inc ">+<?= number_format($model->getGroupBalance(), 2, ".", " ") ?></span><span class="currency"><?= $model->currency->title ?></span></a>
                                         <?php elseif($model->getGroupBalance() < 0): ?>
                                             <a href="#">
-                                                <span class="sum sum-dec "><?= number_format($model->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $model->currency->title ?></span>
+                                                <span class="sum sum-dec "><?= number_format($model->getGroupBalance(), 2, ".", " ") ?></span><span class="currency"><?= $model->currency->title ?></span></a>
                                         <?php else: ?>
-                                            <a href="#">0</a> <span class="currency"><?= $model->currency->title ?></span>
+                                            <a href="#">0<span class="currency"><?= $model->currency->title ?></span></a>
                                         <?php endif; ?>
                                         <?php Widget::create(
                                             'WCurrencyConverter',
@@ -118,10 +118,10 @@
                                         <li class="font-size-12">
                                             <?php if($subAccount->balance > 0): ?>
                                                 <a href="#">
-                                                    <span class="sum sum-inc ">+<?= number_format($subAccount->balance, 2, ".", " ") ?></span></a><span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                                    <span class="sum sum-inc ">+<?= number_format($subAccount->balance, 2, ".", " ") ?></span><span class="currency grey"><?= $subAccount->currency->title ?></span></a>&nbsp;
                                             <?php elseif($subAccount->balance < 0): ?>
                                                 <a href="#">
-                                                    <span class="sum sum-dec "><?= number_format($subAccount->balance, 2, ".", " ") ?></span></a><span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                                    <span class="sum sum-dec "><?= number_format($subAccount->balance, 2, ".", " ") ?></span><span class="currency grey"><?= $subAccount->currency->title ?></span></a>&nbsp;
                                             <?php endif; ?>
                                             <?php Widget::create(
                                                 'WCurrencyConverter',

@@ -9,9 +9,8 @@
  */
 ?>
 
-
 <span class="drdn-cont">
-    <a class="button tags_but" data-toggle="dropdown"></a>
+    <a class="button hashtag" data-toggle="dropdown"></a>
     <div id="tags-select-dropdown"
          class="dropdown-menu no-close tags-select-dropdown list-actions-dropdown list-unstyled act-list"
          role="menu">
@@ -26,7 +25,7 @@
                 <?php if($other): ?>
                 <div class="bot_block">
                     <span
-                        onclick="$('.button.tags_but').click();$('#tags-add-dropdown').show();"
+                        onclick="$('.button.hashtag').click();$('#tags-add-dropdown').show();"
                         class="bot_other"><?= Yii::t('Front', 'Other') ?></span>
                 </div>
                 <?php endif; ?>

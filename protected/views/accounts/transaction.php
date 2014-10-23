@@ -134,12 +134,12 @@
 <td colspan="3" class="nopadding_td" style="border-style: hidden;">
 <table class="link_table">
 <tr class="link_tr">
-    <td class="icon_td"><a href="#" class="drop_links"></a></td>
-    <td class="title"><span class="bolder_link">Linking</span></td>
+    <td class="icon_td"><a href="#" class="drop_links active"></a></td>
+    <td class="title"><span class="bolder_link"><?= Yii::t('Transactions', 'Linking') ?></span></td>
     <td colspan="3">
 															<span class="drdn-cont pull-right">
 																<a class="rounded-buttons linkbut pull-right"
-                                                                   data-toggle="dropdown">LINK AN ITEM</a>
+                                                                   data-toggle="dropdown"><?= Yii::t('Transactions', 'LINK AN ITEM') ?></a>
 																<div
                                                                     class="dropdown-menu no-close link-select-dropdown list-actions-dropdown list-unstyled act-list"
                                                                     role="menu">
@@ -147,19 +147,19 @@
                                                                         <div class="drop_main_block">
                                                                             <ul class="drop_link_ul">
                                                                                 <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#linkNewMemoModal').modal('show');"
-                                                                                    class="memo">Link memo
+                                                                                    class="memo"><?= Yii::t('Transactions', 'Link memo') ?>
                                                                                 </li>
                                                                                 <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addBuhModal').modal('show');"
-                                                                                    class="category">Link Category
+                                                                                    class="category"><?= Yii::t('Transactions', 'Link Category') ?>
                                                                                 </li>
                                                                                 <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addLinkModal').modal('show');"
-                                                                                    class="contact">Link Contact
+                                                                                    class="contact"><?= Yii::t('Transactions', 'Link Contact') ?>
                                                                                 </li>
                                                                                 <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addTranModal').modal('show');"
-                                                                                    class="transaction">Link Transaction
+                                                                                    class="transaction"><?= Yii::t('Transactions', 'Link Transaction') ?>
                                                                                 </li>
                                                                                 <li onclick="$(this).closest('.drdn-cont').removeClass('open'); $('#addNewFileModal').modal('show');"
-                                                                                    class="files">Link files
+                                                                                    class="files"><?= Yii::t('Transactions', 'Link files') ?>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>

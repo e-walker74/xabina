@@ -92,19 +92,19 @@ class AccountService
     {
         switch($status){
             case Accounts::STATUS_APPROVED:
-                return '<img src="/css/images/statuses-ico-ok.png" alt="">';
+                return '<img src="/css/images/statuses-ico-ok.png" class="tooltip-icon" data-original-title="'.Yii::t('Front', 'Approved').'" alt="">';
                 break;
             case Accounts::STATUS_PENDING:
-                return '<img src="/css/images/statuses-ico-pen.png" alt="">';
+                return '<img src="/css/images/statuses-ico-pen.png" class="tooltip-icon" data-original-title="'.Yii::t('Front', 'Pending').'" alt="">';
                 break;
             case Accounts::STATUS_REJECTED:
-                return '<img src="/css/images/statuses-ico-rej.png" alt="">';
+                return '<img src="/css/images/statuses-ico-rej.png" class="tooltip-icon" data-original-title="'.Yii::t('Front', 'Rejected').'" alt="">';
                 break;
             case Accounts::STATUS_LOCKED:
-                return '<img src="/css/images/statuses-ico-loc.png" alt="">';
+                return '<img src="/css/images/statuses-ico-loc.png" class="tooltip-icon" data-original-title="'.Yii::t('Front', 'Locked').'" alt="">';
                 break;
             case Accounts::STATUS_CLOSED:
-                return '<img src="/css/images/statuses-ico-clo.png" alt="">';
+                return '<img src="/css/images/statuses-ico-clo.png" class="tooltip-icon" data-original-title="'.Yii::t('Front', 'Closed').'" alt="">';
                 break;
         }
         return '';

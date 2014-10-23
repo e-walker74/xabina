@@ -24,6 +24,7 @@ class Users_Contacts extends ActiveRecord
 {
 
     const AVATAR_PATH = '/images/contacts/';
+    private $_withData = true;
 
     public $model_id;
     public $form;
@@ -197,17 +198,24 @@ class Users_Contacts extends ActiveRecord
         return array();
     }
 
+    public function withOutData(){
+        $this->_withData = false;
+        return $this;
+    }
+
     public function afterFind()
     {
-        foreach ($this->getRelated('data') as $data) {
-            if ($data->once) {
-                $this->_contacts_data[$data->data_type] = $data->value;
-                $this->_contacts_data_masters[$data->data_type] = $data->value;
-            } else {
-                $dataModel = $data->getParamsModel();
-                $this->_contacts_data[$data->data_type][] = $dataModel;
-                if ($dataModel->getDbModel()->is_primary) {
-                    $this->_contacts_data_masters[$data->data_type] = $dataModel;
+        if($this->_withData){
+            foreach ($this->getRelated('data') as $data) {
+                if ($data->once) {
+                    $this->_contacts_data[$data->data_type] = $data->value;
+                    $this->_contacts_data_masters[$data->data_type] = $data->value;
+                } else {
+                    $dataModel = $data->getParamsModel();
+                    $this->_contacts_data[$data->data_type][] = $dataModel;
+                    if ($dataModel->getDbModel()->is_primary) {
+                        $this->_contacts_data_masters[$data->data_type] = $dataModel;
+                    }
                 }
             }
         }

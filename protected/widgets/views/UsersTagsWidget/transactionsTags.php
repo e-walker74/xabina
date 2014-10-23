@@ -15,7 +15,7 @@
         <?php foreach($tags as $tag): ?>
             <li>
                 <span><?= $tag->title ?></span>
-                <a data-url="<?= Yii::app()->createUrl('/ajax/removeTag', array(
+                <a data-tag="<?= $tag->id ?>" data-url="<?= Yii::app()->createUrl('/ajax/removeTag', array(
                     'entity' => $this->_entity,
                     'entity_id' => $this->_entity_id,
                     'id' => $tag->id,

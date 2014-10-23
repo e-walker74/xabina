@@ -4,7 +4,7 @@
  * Class AjaxController
  * For all common ajax requests
  */
-class AjaxController extends Controller
+class AjaxController extends CController
 {
 
     public $layout = '';
@@ -200,7 +200,7 @@ class AjaxController extends Controller
                 }
 
                 $utag = Users_Tags::model()->findByAttributes(array(
-//                    'user_id' => Yii::user()->getCurrentId(),
+                    'user_id' => Yii::user()->getCurrentId(),
                     'title' => $tag,
                 ));
                 if (!$utag) {
@@ -210,7 +210,7 @@ class AjaxController extends Controller
                     $utag->save();
                 }
 
-                try {
+                //try {
                     $cross = new CrossLinks();
                     $cross->entity_id = $id;
                     $cross->entity_name = $entity;
@@ -218,7 +218,7 @@ class AjaxController extends Controller
                     $cross->link_table_name = $utag->tableName();
                     $cross->user_id = Yii::user()->getCurrentId();
                     $cross->save();
-                } catch (CException $e) {
+                /*} catch (CException $e) {
                     echo CJSON::encode(
                         array(
                             'success' => false,
@@ -226,10 +226,10 @@ class AjaxController extends Controller
                         )
                     );
                     Yii::app()->end();
-                }
+                }*/
             }
         } elseif ($tag_id) {
-            try {
+            //try {
                 $cross = new CrossLinks();
                 $cross->entity_id = $id;
                 $cross->entity_name = $entity;
@@ -237,7 +237,7 @@ class AjaxController extends Controller
                 $cross->link_table_name = 'users_tags';
                 $cross->user_id = Yii::user()->getCurrentId();
                 $cross->save();
-            } catch (CException $e) {
+            /*} catch (CException $e) {
                 echo CJSON::encode(
                     array(
                         'success' => false,
@@ -245,7 +245,7 @@ class AjaxController extends Controller
                     )
                 );
                 Yii::app()->end();
-            }
+            }*/
         }
 
         echo CJSON::encode(
@@ -262,21 +262,40 @@ class AjaxController extends Controller
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_category = Yii::request()->getParam('cross_category');
         $cross_type = Yii::request()->getParam('cross_type');
-
-
+        $new_category = Yii::request()->getParam('new_category', false, 'boolean');
+		
         if(!$cross_id){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 
-        if($cross_category && !is_numeric($cross_category) && $cross_type){
-            $category = new Users_Categories();
-            $category->user_id = Yii::user()->getCurrentId();
-            $category->data_type = $cross_type;
-            $category->value = $cross_category;
-            $category->save();
+        if($cross_category && $new_category && $cross_type){
+
+            $category = Users_Categories::model()->find(
+                'value = :val AND (user_id IS NULL OR user_id = :uid) AND data_type = :type',
+                array(
+                    ':val' => $cross_category,
+                    ':uid' => Yii::user()->id,
+                    ':type' => $cross_type,
+                )
+            );
+            if(!$category){
+                $category = new Users_Categories();
+                $category->user_id = Yii::user()->getCurrentId();
+                $category->data_type = $cross_type;
+                $category->value = $cross_category;
+                $category->save();
+            }
+
             $cross_category_id = $category->id;
         } elseif($cross_category) {
-            $category = Users_Categories::model()->currentUser()->findByPk($cross_category);
+            $category = Users_Categories::model()->find(
+				'id = :id AND (user_id IS NULL OR user_id = :uid) AND data_type = :type',
+				array(
+                    ':type' => $cross_type,
+					':id' => $cross_category,
+					':uid' => Yii::user()->id,
+				)
+			);
             $cross_category_id = $cross_category;
         } else {
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
@@ -290,7 +309,7 @@ class AjaxController extends Controller
         $cross->category_id = $cross_category_id;
         $cross->save();
 
-        echo CJSON::encode(array('success' => true, 'value' => $category->value, 'message' => Yii::t('Cross', 'Category was saved')));
+        echo CJSON::encode(array('success' => true, 'id' => $cross->category_id, 'value' => $category->value, 'message' => Yii::t('Cross', 'Category was saved')));
     }
 
     public function actionCrossComment()
@@ -298,7 +317,7 @@ class AjaxController extends Controller
         $cross_id = Yii::request()->getParam('cross_id', 0, 'int');
         $cross_comment = Yii::request()->getParam('cross_comment');
 
-        if(!$cross_id || !is_numeric($cross_id) || !$cross_comment){
+        if(!$cross_id || !is_numeric($cross_id)){
             throw new CHttpException(404, Yii::t('Front', 'Page not found'));
         }
 

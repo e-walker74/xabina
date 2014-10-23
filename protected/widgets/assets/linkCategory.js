@@ -147,6 +147,8 @@ WLinkCategory = {
                 if (data.success) {
                     $('.transaction-category').remove()
                     $(data.html).insertAfter($('.before-categories'))
+                    $('.linked_tr').show()
+                    $('.drop_links').addClass('active')
                     successNotify('', data.message, $('.before-categories').prev())
                     button.closest('.modal').modal('hide')
                     form.find('input[type=checkbox]:checked').closest('tr').remove()

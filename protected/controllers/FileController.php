@@ -308,7 +308,7 @@ class FileController extends Controller
         $entity = Yii::request()->getParam('entity', '');
         $memo_id = Yii::request()->getParam('memo_id', '', 'int');
         $entityId = Yii::request()->getParam('entity_id', '', 'int');
-        $text = Yii::request()->getParam('text', '', 'string');
+        $text = trim(Yii::request()->getParam('text', '', 'string'));
         $transaction_id = Yii::request()->getParam('transaction_id', '', 'int');
         $folder_id = Yii::request()->getParam('folder_id', '', 'int');
 
@@ -432,7 +432,7 @@ class FileController extends Controller
                 $cross->entity_id = $entity_id;
                 $cross->entity_name = $entity;
                 $cross->link_table_id = $file;
-                $cross->link_table_name = 'users_files';
+                $cross->link_table_name = 'users_files_memo';
                 $cross->user_id = Yii::user()->getCurrentId();
                 $cross->save();
             } catch (CException $e) {
@@ -445,6 +445,7 @@ class FileController extends Controller
 //                Yii::app()->end();
             }
         }
+
 
         $html = Widget::create(
             'WLinkDrive', 'WLinkDrive',

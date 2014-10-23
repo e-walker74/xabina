@@ -8,7 +8,7 @@
  * Time: 15:45
  */ ?>
 
-<div class="modal fade" id="<?= $htmlID ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-grid-url="<?= Yii::app()->createUrl('/category/GetCategoriesPopupGrid') ?>">
+<div class="modal fade" id="<?= $htmlID ?>" data-entity="<?= $entity ?>" data-entity-id="<?= $entity_id ?>" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true" data-grid-url="<?= Yii::app()->createUrl('/category/GetCategoriesPopupGrid') ?>">
     <script>WLinkCategory._popupBlockId = "<?= $htmlID ?>"</script>
     <div class="xabina-modal">
         <div class="modal-header">

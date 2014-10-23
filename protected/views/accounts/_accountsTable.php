@@ -36,24 +36,24 @@
                     <li>
                         <?php if($account->getGroupBalance() > 0): ?>
                             <a href="#">
-                            <span class="sum sum-inc ">+<?= number_format($account->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $account->currency->title ?></span>
+                            <span class="sum sum-inc ">+<?= number_format($account->getGroupBalance(), 2, ".", " ") ?></span><span class="currency"><?= $account->currency->title ?></span></a>
                         <?php elseif($account->getGroupBalance() < 0): ?>
                             <a href="#">
-                            <span class="sum sum-dec "><?= number_format($account->getGroupBalance(), 2, ".", " ") ?></span></a><span class="currency"><?= $account->currency->title ?></span>
+                            <span class="sum sum-dec "><?= number_format($account->getGroupBalance(), 2, ".", " ") ?></span><span class="currency"><?= $account->currency->title ?></span></a>
                         <?php else: ?>
-                            <a href="#">0</a> <span class="currency"><?= $account->currency->title ?></span>
+                            <a href="#"><span>0</span><span class="currency"><?= $account->currency->title ?></span></a>
                         <?php endif; ?>
                     </li>
                     <?php foreach($account->getSubAccounts() as $subAccount): ?>
                         <li class="font-size-12">
                             <?php if($subAccount->balance > 0): ?>
                                 <a href="#">
-                                    <span class="sum sum-inc ">+<?= number_format($subAccount->balance, 2, ".", " ") ?></span></a><span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                    <span class="sum sum-inc ">+<?= number_format($subAccount->balance, 2, ".", " ") ?></span> <span class="currency grey"><?= $subAccount->currency->title ?></span></a>&nbsp;
                             <?php elseif($subAccount->balance < 0): ?>
                                 <a href="#">
-                                    <span class="sum sum-dec "><?= number_format($subAccount->balance, 2, ".", " ") ?></span></a><span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                    <span class="sum sum-dec "><?= number_format($subAccount->balance, 2, ".", " ") ?></span> <span class="currency grey"><?= $subAccount->currency->title ?></span></a>&nbsp;
                             <?php else: ?>
-                                <a href="#">0</a> <span class="currency grey"><?= $subAccount->currency->title ?></span>&nbsp;
+                                <a href="#">0<span class="currency grey"><?= $subAccount->currency->title ?></span></a> &nbsp;
                             <?php endif; ?>
                         </li>
                     <?php endforeach; ?>
