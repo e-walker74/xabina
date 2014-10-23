@@ -171,10 +171,9 @@ Accounts = {
         return false;
     },
     filterRows: function () {
-        var list = $('ul.accounts-list')
-        var rowsData = list.find('.row-filter-data')
-
-        $('.filter-content .filter-value').on('change', function () {
+        $('body').on('change', '.filter-content .filter-value', function () {
+            var list = $('ul.accounts-list')
+            var rowsData = list.find('.row-filter-data')
             list.find('li').show()
             $('.filter-content .filter-value').each(function () {
                 var filterValue = $(this).val()
@@ -249,6 +248,9 @@ Accounts = {
                 success: function (response) {
                     if (response.success) {
                         $('#accounts-list').html(response.html)
+                        $('.filter-content .filter-value option').attr('selected', false)
+                        $('.filter-content .filter-value option:first').attr('selected', true)
+                        setAllSelectedValues()
                     }
                 }
             }

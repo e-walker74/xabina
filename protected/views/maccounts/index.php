@@ -36,7 +36,7 @@
         'class' => 'rounded-buttons add-new pull-right'
     )) ?>
 </div>
-<div class="module-breadcrumbs-panel">
+<div class="module-breadcrumbs-panel" style="height: 25px">
     <?php
     $this->widget('XBreadcrumbsForModule', array(
         'links'=>$this->breadcrumbs

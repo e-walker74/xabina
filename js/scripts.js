@@ -1737,7 +1737,7 @@ $(function () {
         return false;
     });
 
-    $('.checkbox-custom').on('click', 'label', function(e){
+    $('body').on('click', '.checkbox-custom label', function(e){
         if($(this).find('input[type=checkbox]').prop('checked')){
             $(this).addClass('checked');
             e.stopPropagation();
