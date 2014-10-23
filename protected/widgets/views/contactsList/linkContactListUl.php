@@ -25,7 +25,7 @@
 	<?php if($firstLet != $letter): ?>
 		<div class="letter-block">
 			<div class="letter-header letter_<?= ($firstLet == "#") ? 'else' : $firstLet ?>"><?= $firstLet ?></div>
-			<ul class="contact-list list-unstyled">
+			<ul class="contact-list list-unstyled noselect">
 	<?php endif; ?>
 	<?php $letter = $firstLet; ?>
 		<li class="one-contact categories type_<?= $contact->type ?> category_<?= implode(' category_', CHtml::listData($contact->categories, 'id', 'id')) ?>" data-id="<?= $contact->id ?>" data-url="<?= Yii::app()->createUrl('/contact/view', array('url' => $contact->url)) ?>">

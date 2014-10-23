@@ -53,7 +53,7 @@
             </div>
             <form action="<?= Yii::app()->createUrl('/category/link', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
             <div class="messages-list-table-overflow bush_modal">
-                <table class="table messages-list-table wcategory-table">
+                <table class="table messages-list-table wcategory-table noselect">
                     <tr class="add-tr xabina-form-container add-new-category-row" style="display: none;" data-url="<?= Yii::app()->createUrl('/category/create', array(
                         'entity' => $entity,
                         'entity_id' => $entity_id

@@ -20,7 +20,6 @@
 </div>
 <div class="modal-body" data-folder-url="<?= Yii::app()->createUrl('/file/openFolder') ?>">
 <div class="xabina-form-container" >
-    <div class="change_dialog_block">
         <div class="change_dialog_block">
             <div class="select-custom account-select">
                 <span class="select-custom-label" rel="addNewFileModal"></span>
@@ -43,7 +42,6 @@
                 </select>
             </div>
         </div>
-    </div>
     <div class="form-lbl">
         <?= Yii::t('Drive', 'File') ?> <span class="tooltip-icon" title="<?= Yii::t('Drive', 'file') ?>"></span>
     </div>
@@ -103,7 +101,7 @@
 <form action="<?= Yii::app()->createUrl('/file/link', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
 <div class="account-search-results-cont with-alphabet file-popup-table">
     <div class="letter-block">
-        <ul class="search-results-list list-unstyled file-directions" >
+        <ul class="search-results-list list-unstyled file-directions noselect" >
             <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
                 <div class="bg-color">
                     <div class="cont_check_block" style="width: 20px;">

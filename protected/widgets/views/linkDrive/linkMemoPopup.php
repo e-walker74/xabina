@@ -65,9 +65,9 @@
                 <div class="clearfix"></div>
             </div>
             <form action="<?= Yii::app()->createUrl('/file/linkMemo', array('entity' => $entity, 'entity_id' => $entity_id)) ?>">
-                <div class="account-search-results-cont with-alphabet ">
+                <div class="account-search-results-cont with-alphabet file-popup-table">
                     <div class="letter-block">
-                        <ul class="search-results-list list-unstyled file-directions" >
+                        <ul class="search-results-list list-unstyled file-directions noselect" >
                             <li style="display: none" class="add-new-folder" data-url="<?= Yii::app()->createUrl('/file/createFolder', array('type' => 'memo', 'entity' => $entity, 'entity_id' => $entity_id)) ?>">
                                 <div class="bg-color">
                                     <div class="cont_check_block" style="width: 20px;">
