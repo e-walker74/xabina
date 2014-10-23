@@ -9,7 +9,7 @@
  */
 ?>
 
-<span class="drdn-cont">
+<span class="drdn-cont transaction-buttons-cont">
     <a class="button hashtag" data-toggle="dropdown"></a>
     <div id="tags-select-dropdown"
          class="dropdown-menu no-close tags-select-dropdown list-actions-dropdown list-unstyled act-list"
