@@ -58,9 +58,21 @@
                     <div class="account-name"><?= $contact->fullname ?></div>
                     <div class="account-info"><?= $contact->getNameWithCompany() ?></div>
                 </div>
+                <?php if(
+                $contact->first_name ||
+                $contact->last_name ||
+                $contact->company ||
+                $contact->xabina_id ||
+                $contact->getDataByType('account', true) ||
+                $contact->getDataByType('email', true) ||
+                $contact->getDataByType('address', true) ||
+                $contact->getDataByType('phone', true)
+
+                ): ?>
                 <div class="transaction-buttons-cont book">
                     <a href="#" class="book_button"></a>
                 </div>
+                <?php endif; ?>
                 <div class="clearfix" ></div>
             </div>
             <?php if(
@@ -74,6 +86,7 @@
                 $contact->getDataByType('phone', true)
 
             ): ?>
+
             <ul class="pay-list list-unstyled" style="display: none;">
                 <?php if($contact->first_name || $contact->last_name): ?>
                 <li>
