@@ -106,9 +106,9 @@ class Accounts extends ActiveRecord
     }
 
     public function afterSave(){
-        if($this->getOldAttribute('balance') != $this->balance){
+        //if($this->getOldAttribute('balance') != $this->balance){
             $this->updateGroupBalance();
-        }
+        //}
         return parent::afterSave();
     }
 
