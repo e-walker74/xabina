@@ -17,8 +17,8 @@ WLinkDrive = {
             $('.redactor').redactor({
                 plugins: ['fontcolor', 'fontsize'],
                 buttons: ['formatting', 'bold', 'italic', 'deleted', 'unorderedlist', 'orderedlist', 'table', 'link', 'alignment', 'horizontalrule'],
-                maxHeight: 245,
-                minHeight: 245
+                maxHeight: 287,
+                minHeight: 287
             });
             $('body').on('dblclick', '#' + WLinkDrive._filesPopupId + ' li, #' + WLinkDrive._memoPopupId + ' li',
             function(e){
