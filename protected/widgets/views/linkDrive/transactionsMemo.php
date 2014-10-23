@@ -31,9 +31,9 @@
         </td>
         <td class="title">
             <?php if($memo->document_type != 'folder'): ?>
-                <a href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal', <?= $memo->model_id ?>)">
+                <div style="cursor:pointer;" href="javaScript:void(0)" data-memo-id="<?= $memo->id ?>" onclick="WLinkDrive.editMemo(this, 'editCommentModal', <?= $memo->model_id ?>)">
             <?php else: ?>
-                <a href="javaScript:void(0)" onclick="$('#linkNewMemoModal').addClass('no-load'); $('#linkNewMemoModal').modal('show'); WLinkDrive.openFolder('', <?= $memo->id ?>, $('#linkNewMemoModal').find('.modal-body'));">
+                <div style="cursor:pointer;" href="javaScript:void(0)" onclick="$('#linkNewMemoModal').addClass('no-load'); $('#linkNewMemoModal').modal('show'); WLinkDrive.openFolder('', <?= $memo->id ?>, $('#linkNewMemoModal').find('.modal-body'));">
             <?php endif; ?>
                 <div class="account-data pull-left">
                     <div class="full_text" style="display: none;">
@@ -53,7 +53,7 @@
                         <?php endif; ?>
                     </div>
                 </div>
-            </a>
+            </div>
         </td>
         <td class="edit">
             <?= Widget::get('WCrossLink')->changeCategory($memo->cross_id, $memo->cross_category, 'cross_users_memo') ?>
