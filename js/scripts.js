@@ -601,7 +601,10 @@ var bindDeleteConfirmationEvent = function(){
 
     $('.close-dropdown').click(function(){
         $(this).closest('.drdn-cont').removeClass('open');
-        $(this).closest('.dropdown-menu').hide();
+		var menu = $(this).closest('.dropdown-menu')
+		if(menu.hasClass('valute-dr')){
+			$(this).closest('.dropdown-menu').hide();
+		}
     });
 
     $('.valute-drdn').hover(function(){$(this).find('.valute-dr').attr("style","");});
@@ -675,7 +678,7 @@ $(document).ready(function () {
 
     $('body').on('click', 'ul.list-unstyled .book_button', function (e) {
         $(this).toggleClass('open');
-        $(this).closest('li').find('.pay-list').slideToggle('slow');
+        $(this).closest('li').find('.pay-list').slideToggle();
 
         var obj = $(this).closest('li')
         $('.account-search-results-cont').scrollTo(obj, 600, {margin: true});
@@ -686,7 +689,7 @@ $(document).ready(function () {
 
     $('body').on('click', 'tr.wcategory-row .book_button', function (e) {
         $(this).toggleClass('open');
-        $(this).closest('tr').next().slideToggle('slow');
+        $(this).closest('tr').next().slideToggle();
 
         var obj = $(this).closest('tr')
         $('.messages-list-table-overflow').scrollTo(obj, 600, {margin: true});
@@ -1057,10 +1060,14 @@ $(document).ready(function () {
     $(".change_modal_select").change(function(){
         if($("option:selected", this).val()!=$(this).parent().find('.select-custom-label').attr("rel"))
         {
-            $('#'+$(this).parent().find('.select-custom-label').attr("rel")).modal('hide');
-            $('#'+$("option:selected", this).val()).modal('show');
-            $(this).find("[value='"+$(this).parent().find('.select-custom-label').attr("rel")+"']").attr("selected", "selected");
-            $(this).change();
+			var element = this
+			var showModal = function(){
+				$('#'+$("option:selected", element).val()).modal('show');
+				$(element).find("[value='"+$(element).parent().find('.select-custom-label').attr("rel")+"']").attr("selected", "selected");
+				$(this).change();
+			}
+            $('#'+$(this).parent().find('.select-custom-label').attr("rel")).modal('hide')
+			setTimeout(showModal, 400)
         }
     });
 

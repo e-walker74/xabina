@@ -375,8 +375,11 @@ WLinkDrive = {
         }
     },
     addNewMemoToFolder: function(){
-        $('#' + WLinkDrive._newMemoPopupId).modal('show')
-        $('#' + WLinkDrive._newMemoPopupId).find('input[name=folder_id]').val(WLinkDrive._folder)
+		var showModalNewMemo = function(){
+			$('#' + WLinkDrive._newMemoPopupId).modal('show')
+			$('#' + WLinkDrive._newMemoPopupId).find('input[name=folder_id]').val(WLinkDrive._folder)
+		}
+		setTimeout(showModalNewMemo, 400)
     }
 }
 

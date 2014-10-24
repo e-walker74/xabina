@@ -17,7 +17,7 @@
             <input class="add-input pull-left search-input-contacts" type="text">
             <span class="clear-input-but-for-all" id="clear-keyword"></span>
         </div>
-        <a href="javaScript:void(0)" onclick="$('#createContactModal').modal('show')" data-dismiss="modal" class="rounded-buttons pull-right add-new"><?= Yii::t('Contact', 'ADD NEW') ?></a>
+        <a href="javaScript:void(0)" onclick="WLinkContact.addNewContactModal()" data-dismiss="modal" class="rounded-buttons pull-right add-new"><?= Yii::t('Contact', 'ADD NEW') ?></a>
         <div class="clearfix"></div>
     </div>
 </div>

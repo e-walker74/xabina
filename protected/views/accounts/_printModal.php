@@ -8,7 +8,7 @@
  * Time: 1:53
  * @var Transactions $model
  */ ?>
-<div class="modal fade" id="downloadFileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="downloadFileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog xabina-modal">
         <form action="<?= Yii::app()->createUrl('/accounts/transaction', array('id' => $model->url)) ?>">
         <div class="modal-header">

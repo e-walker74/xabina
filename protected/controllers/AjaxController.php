@@ -210,7 +210,7 @@ class AjaxController extends CController
                     $utag->save();
                 }
 
-                //try {
+                try {
                     $cross = new CrossLinks();
                     $cross->entity_id = $id;
                     $cross->entity_name = $entity;
@@ -218,18 +218,18 @@ class AjaxController extends CController
                     $cross->link_table_name = $utag->tableName();
                     $cross->user_id = Yii::user()->getCurrentId();
                     $cross->save();
-                /*} catch (CException $e) {
-                    echo CJSON::encode(
+                } catch (CException $e) {
+                    /*echo CJSON::encode(
                         array(
                             'success' => false,
                             'message' => Yii::t('Tags', '{tag}_tag_was_added', array('{tag}' => $utag->title))
                         )
-                    );
-                    Yii::app()->end();
-                }*/
+                    );*/
+                    //Yii::app()->end();
+                }
             }
         } elseif ($tag_id) {
-            //try {
+            try {
                 $cross = new CrossLinks();
                 $cross->entity_id = $id;
                 $cross->entity_name = $entity;
@@ -237,15 +237,15 @@ class AjaxController extends CController
                 $cross->link_table_name = 'users_tags';
                 $cross->user_id = Yii::user()->getCurrentId();
                 $cross->save();
-            /*} catch (CException $e) {
-                echo CJSON::encode(
+            } catch (CException $e) {
+                /*echo CJSON::encode(
                     array(
                         'success' => false,
                         'message' => Yii::t('Tags', 'this_tag_was_added')
                     )
                 );
-                Yii::app()->end();
-            }*/
+                Yii::app()->end();*/
+            }
         }
 
         echo CJSON::encode(

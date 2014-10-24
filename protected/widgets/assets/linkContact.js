@@ -113,7 +113,14 @@ WLinkContact = {
         $(row).closest('table').find('input[type=radio]').attr('checked', false).closest('label').removeClass('active')
         $(row).find('.modal-galka-radiobutton').addClass('active').find('input').attr('checked', true)
 
-    }
+    },
+	addNewContactModal: function(){
+		var showModalNewMemo = function(){
+			$('#createContactModal').modal('show')
+		}
+		setTimeout(showModalNewMemo, 400)
+		
+	}
 }
 
 WLinkContact.init()

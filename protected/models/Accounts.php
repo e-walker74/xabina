@@ -113,7 +113,7 @@ class Accounts extends ActiveRecord
     }
 
     public function updateGroupBalance(){
-        Accounts::model()->currentUser()->updateAll(
+        Accounts::model()->updateAll(
             array('multi_balance' => $this->getGroupBalance()),
             'number = :n AND basic = 1',
             array(':n' => $this->number)
