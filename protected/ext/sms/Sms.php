@@ -29,9 +29,6 @@ class SMS extends CComponent
 	}
 	
 	public function send(){
-		if(YII_DEBUG){
-			return 1;
-		}
 		$MessageBird = new \MessageBird\Client($this->password);
 
         $Message = new \MessageBird\Objects\Message();

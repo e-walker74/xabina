@@ -148,17 +148,15 @@ class SiteController extends Controller {
 		}
 
 		$model = new Form_Smslogin('login');
-		if(!empty($_GET['login'])){
-			$model->userId = $_GET['login'];
+		if(isset($_POST['Form_Smslogin'])){
+			$model->userId = $_POST['Form_Smslogin']['userId'];
 		}
 
 		if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'sms-login') {
 			echo CActiveForm::validate($model);
             Yii::app()->end();
         }
-		
-		if(isset($_POST['Form_Smslogin'])){
-			$model->userId = $_POST['Form_Smslogin']['userId'];
+	if(isset($_POST['Form_Smslogin'])){
             $user = Users::model()->findByAttributes(array("login"=>$model->userId));
 
             $i = Yii::app()->cache->get('sms_auth_trying_user_'.$model->userId);
